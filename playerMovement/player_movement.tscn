@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://c7ti17oj2ofyn"]
+
+[node name="PlayerMovement" type="Node2D"]
+
+[node name="Label" type="Label" parent="."]
+offset_left = 304.0
+offset_top = 229.0
+offset_right = 436.0
+offset_bottom = 252.0
+text = "PlayerMovement"
