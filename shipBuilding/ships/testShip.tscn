@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://shipBuilding/ship.gd" id="1_y1wcj"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/piloting_1.tscn" id="2_4ums6"]
+[ext_resource type="Script" path="res://shipBuilding/room.gd" id="3_h0j6g"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/reactor_4.tscn" id="4_4awtp"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/engines_2.tscn" id="5_mjv5e"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/turret_3.tscn" id="6_qa208"]
+
+[node name="Ship" type="RigidBody2D"]
+input_pickable = true
+gravity_scale = 0.0
+sleeping = true
+script = ExtResource("1_y1wcj")
+
+[node name="Piloting_1" type="CollisionPolygon2D" parent="." instance=ExtResource("2_4ums6")]
+position = Vector2(-78, -157.5)
+polygon = PackedVector2Array(0, -45.1, 39.1, -22.55, 39.1, 22.55, 0, 45.1, -39.1, 22.55, -39.1, -22.55)
+script = ExtResource("3_h0j6g")
+
+[node name="Shields_0" type="CollisionPolygon2D" parent="." instance=ExtResource("4_4awtp")]
+position = Vector2(-156, -22.5)
+rotation = 1.0471976
+polygon = PackedVector2Array(39.1, -157.55, 39.1, -112.54232, 78.1, -90.05, 78.1, -44.950005, 39.1, -22.457672, 39.1, 22.550003, 0, 45.1, -39.1, 22.550003, -39.1, -22.457672, -78.1, -44.950005, -78.1, -90.05, -39.1, -112.54232, -39.1, -157.55, 0, -180.1)
+script = ExtResource("3_h0j6g")
+
+[node name="Piloting" type="CollisionPolygon2D" parent="." instance=ExtResource("5_mjv5e")]
+position = Vector2(-117, 45)
+polygon = PackedVector2Array(117.1, -22.550003, 117.1, 22.550003, 78, 45.1, 39, 22.607674, 0, 45.1, -39.1, 22.550003, -39.1, -22.550003, 0, -45.1, 39, -22.607674, 78, -45.1)
+script = ExtResource("3_h0j6g")
+
+[node name="Turret_3" type="CollisionPolygon2D" parent="." instance=ExtResource("6_qa208")]
+position = Vector2(0, -22.5)
+rotation = 1.0471976
+polygon = PackedVector2Array(78.1, -90.05, 78.1, -44.950005, 39.1, -22.457672, 39.1, 22.550003, 0, 45.1, -39.1, 22.550003, -39.1, -22.457672, -78.1, -44.950005, -78.1, -90.05, -39, -112.6, 0, -90.10767, 39, -112.6)
+script = ExtResource("3_h0j6g")
