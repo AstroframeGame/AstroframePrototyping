@@ -7,7 +7,7 @@
 
 [node name="GameManager" type="Node" parent="."]
 script = ExtResource("1_n4d7h")
-scene_paths = Array[String](["uid://c7ti17oj2ofyn", "uid://bkibqvfep8px0"])
+scene_paths = Array[String](["uid://c7ti17oj2ofyn", "uid://bkibqvfep8px0", "uid://c752nipt4tmop"])
 
 [node name="UI" type="Node" parent="."]
 
@@ -26,6 +26,7 @@ layout_mode = 2
 [node name="Loading" type="CanvasLayer" parent="UI"]
 
 [node name="ColorRect" type="ColorRect" parent="UI/Loading"]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

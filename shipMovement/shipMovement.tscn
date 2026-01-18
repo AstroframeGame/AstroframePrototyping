@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://c752nipt4tmop"]
+
+[ext_resource type="PackedScene" path="res://shipBuilding/ships/testShip.tscn" id="1_hqjgw"]
+[ext_resource type="PackedScene" uid="uid://dcpfkpex6ovaa" path="res://playerMovement/player_system.tscn" id="2_g0kr4"]
+
+[node name="ShipMovement" type="Node2D"]
+
+[node name="Name" type="Label" parent="."]
+offset_left = 243.0
+offset_top = -178.0
+offset_right = 375.0
+offset_bottom = -155.0
+text = "ShipMovement"
+
+[node name="Instructions" type="Label" parent="."]
+offset_left = 165.0
+offset_top = -144.0
+offset_right = 517.0
+offset_bottom = -43.0
+text = "Use the player to enter the ship,
+Go to piloting room, press E to sit down
+Now use W and S to move forward
+Use A and D to rotate"
+
+[node name="Todo" type="Label" parent="."]
+offset_left = 106.0
+offset_top = -8.0
+offset_right = 546.0
+offset_bottom = 223.0
+text = "To add
+- how should movement work? change what I have
+- is this intended feeling?
+- how do weapons work with this?
+- add some goals in this scene to see if movement is right"
+
+[node name="Ship" parent="." instance=ExtResource("1_hqjgw")]
+
+[node name="PlayerSystem" parent="." instance=ExtResource("2_g0kr4")]
