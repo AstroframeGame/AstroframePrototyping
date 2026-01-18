@@ -19,6 +19,16 @@ offset_bottom = 201.0
 text = "Use WASD to move on ground, 
 Use WASD and SPACE to thrust when in space"
 
+[node name="Todo" type="Label" parent="."]
+offset_left = 97.0
+offset_top = 224.0
+offset_right = 531.0
+offset_bottom = 455.0
+text = "To add
+- check how the movement feels
+- add grappling hook on click?
+- add dynamic camera controller to view ship"
+
 [node name="Asteroids" type="Node2D" parent="."]
 
 [node name="Asteroid" type="StaticBody2D" parent="Asteroids"]

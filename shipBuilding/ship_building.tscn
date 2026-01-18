@@ -15,18 +15,34 @@ tile_size = Vector2i(78, 90)
 [node name="ShipBuilding" type="Node2D"]
 
 [node name="Name" type="Label" parent="."]
-offset_left = 203.0
-offset_top = 118.0
-offset_right = 335.0
-offset_bottom = 141.0
+offset_left = -271.0
+offset_top = -225.0
+offset_right = -139.0
+offset_bottom = -202.0
 text = "ShipBuilding"
 
 [node name="Instructions" type="Label" parent="."]
-offset_left = 125.0
-offset_top = 152.0
-offset_right = 477.0
-offset_bottom = 201.0
-text = "This is a ship level editor"
+offset_left = -349.0
+offset_top = -191.0
+offset_right = 363.0
+offset_bottom = -142.0
+text = "This is a ship level editor. Use the dropdown, right click to place, left to cycle, scroll to rotate."
+
+[node name="Todo" type="Label" parent="."]
+offset_left = -290.0
+offset_top = -74.0
+offset_right = 62.0
+offset_bottom = -25.0
+text = "To add
+- Save/Load to Json functionality
+- save to godot scene?
+- this should be used to create the ships internally
+- redo the controls
+- evaluate if the current way the events are working well
+- setup the power system
+- swap dots with circles?
+- add an editor camera controller
+- create more rooms"
 
 [node name="UI" type="CanvasLayer" parent="."]
 
