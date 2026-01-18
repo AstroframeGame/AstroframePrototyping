@@ -1,10 +1,72 @@
-[gd_scene format=3 uid="uid://c7ti17oj2ofyn"]
+[gd_scene load_steps=2 format=3 uid="uid://c7ti17oj2ofyn"]
+
+[ext_resource type="PackedScene" uid="uid://dcpfkpex6ovaa" path="res://playerMovement/player_system.tscn" id="1_8kxqu"]
 
 [node name="PlayerMovement" type="Node2D"]
 
-[node name="Label" type="Label" parent="."]
-offset_left = 304.0
-offset_top = 229.0
-offset_right = 436.0
-offset_bottom = 252.0
+[node name="Name" type="Label" parent="."]
+offset_left = 203.0
+offset_top = 118.0
+offset_right = 335.0
+offset_bottom = 141.0
 text = "PlayerMovement"
+
+[node name="Instructions" type="Label" parent="."]
+offset_left = 125.0
+offset_top = 152.0
+offset_right = 477.0
+offset_bottom = 201.0
+text = "Use WASD to move on ground, 
+Use WASD and SPACE to thrust when in space"
+
+[node name="Asteroids" type="Node2D" parent="."]
+
+[node name="Asteroid" type="StaticBody2D" parent="Asteroids"]
+
+[node name="Ground" type="Polygon2D" parent="Asteroids/Asteroid"]
+color = Color(0.4677382, 0.46773827, 0.4677382, 1)
+polygon = PackedVector2Array(-212.47482, -179.44968, 39.64998, -69.749756, 40.77373, 172.7803, -193.70065, 249.55513, -410.84897, 163.92459, -423.29895, -16.599958)
+uv = PackedVector2Array(-144, -50.799995, 27.200012, 33.999992, -25.626099, 208.0552, -305.75037, 199.75525)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Asteroids/Asteroid"]
+visible = false
+polygon = PackedVector2Array(-212.47482, -179.44968, 39.64998, -69.749756, 40.77373, 172.7803, -193.70065, 249.55513, -410.84897, 163.92459, -423.29895, -16.599958)
+
+[node name="Asteroid2" type="StaticBody2D" parent="Asteroids"]
+position = Vector2(990, 50)
+
+[node name="Ground" type="Polygon2D" parent="Asteroids/Asteroid2"]
+color = Color(0.4677382, 0.46773827, 0.4677382, 1)
+polygon = PackedVector2Array(-212.47482, -179.44968, 39.64998, -69.749756, 40.77373, 172.7803, -193.70065, 249.55513, -410.84897, 163.92459, -423.29895, -16.599958)
+uv = PackedVector2Array(-144, -50.799995, 27.200012, 33.999992, -25.626099, 208.0552, -305.75037, 199.75525)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Asteroids/Asteroid2"]
+visible = false
+polygon = PackedVector2Array(-212.47482, -179.44968, 39.64998, -69.749756, 40.77373, 172.7803, -193.70065, 249.55513, -410.84897, 163.92459, -423.29895, -16.599958)
+
+[node name="Asteroid3" type="StaticBody2D" parent="Asteroids"]
+position = Vector2(320, 656)
+
+[node name="Ground" type="Polygon2D" parent="Asteroids/Asteroid3"]
+color = Color(0.4677382, 0.46773827, 0.4677382, 1)
+polygon = PackedVector2Array(-212.47482, -179.44968, 39.64998, -69.749756, 40.77373, 172.7803, -193.70065, 249.55513, -410.84897, 163.92459, -423.29895, -16.599958)
+uv = PackedVector2Array(-144, -50.799995, 27.200012, 33.999992, -25.626099, 208.0552, -305.75037, 199.75525)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Asteroids/Asteroid3"]
+visible = false
+polygon = PackedVector2Array(-212.47482, -179.44968, 39.64998, -69.749756, 40.77373, 172.7803, -193.70065, 249.55513, -410.84897, 163.92459, -423.29895, -16.599958)
+
+[node name="Asteroid4" type="StaticBody2D" parent="Asteroids"]
+position = Vector2(1211, 636)
+
+[node name="Ground" type="Polygon2D" parent="Asteroids/Asteroid4"]
+color = Color(0.4677382, 0.46773827, 0.4677382, 1)
+polygon = PackedVector2Array(-212.47482, -179.44968, 39.64998, -69.749756, 40.77373, 172.7803, -193.70065, 249.55513, -410.84897, 163.92459, -423.29895, -16.599958)
+uv = PackedVector2Array(-144, -50.799995, 27.200012, 33.999992, -25.626099, 208.0552, -305.75037, 199.75525)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Asteroids/Asteroid4"]
+visible = false
+polygon = PackedVector2Array(-212.47482, -179.44968, 39.64998, -69.749756, 40.77373, 172.7803, -193.70065, 249.55513, -410.84897, 163.92459, -423.29895, -16.599958)
+
+[node name="PlayerSystem" parent="." instance=ExtResource("1_8kxqu")]
+position = Vector2(311, 248)

@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://dcpfkpex6ovaa"]
+
+[ext_resource type="Script" uid="uid://b8g4jci7uq4ut" path="res://playerMovement/player_camera.gd" id="1_hk7lp"]
+[ext_resource type="Script" uid="uid://bvtrly1u1q4h7" path="res://playerMovement/player.gd" id="2_0p3lp"]
+[ext_resource type="Texture2D" uid="uid://idculymd1355" path="res://playerMovement/person.png" id="3_h3ory"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qi68c"]
+
+[node name="PlayerSystem" type="Node2D"]
+
+[node name="PlayerUI" type="CanvasLayer" parent="."]
+
+[node name="HealthBar?" type="Node" parent="PlayerUI"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("1_hk7lp")
+
+[node name="Player" type="CharacterBody2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("2_0p3lp")
+
+[node name="Person" type="Sprite2D" parent="Player"]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_h3ory")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2(0, 16)
+shape = SubResource("CircleShape2D_qi68c")
+
+[node name="GroundCheck" type="Area2D" parent="Player"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/GroundCheck"]
+position = Vector2(0, 16)
+shape = SubResource("CircleShape2D_qi68c")
