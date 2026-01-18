@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://ci700nfmrtxsd"]
+
+[node name="ShipAi" type="Node2D"]
+
+[node name="Name" type="Label" parent="."]
+offset_left = 203.0
+offset_top = 118.0
+offset_right = 335.0
+offset_bottom = 141.0
+text = "ShipAI"
+
+[node name="Instructions" type="Label" parent="."]
+offset_left = 125.0
+offset_top = 152.0
+offset_right = 477.0
+offset_bottom = 201.0
+text = "Test out pathfinding and avoidance
+make the enemy ship pull up alongside your ship and shoot at it."
+
+[node name="Todo" type="Label" parent="."]
+offset_left = 168.0
+offset_top = 222.0
+offset_right = 602.0
+offset_bottom = 453.0
+text = "To add
+- add combat
+- add dummy for AI to shoot at
+- make the ai kinda smart"

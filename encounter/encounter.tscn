@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://bu4afq3jf34w3"]
+
+[node name="Encounter" type="Node2D"]
+
+[node name="Name" type="Label" parent="."]
+offset_left = 203.0
+offset_top = 118.0
+offset_right = 335.0
+offset_bottom = 141.0
+text = "Encounter"
+
+[node name="Instructions" type="Label" parent="."]
+offset_left = 125.0
+offset_top = 152.0
+offset_right = 477.0
+offset_bottom = 201.0
+text = "This should be an example of what a scripted event looks like.
+Later we will procedurally generate these."
+
+[node name="Todo" type="Label" parent="."]
+offset_left = 168.0
+offset_top = 222.0
+offset_right = 602.0
+offset_bottom = 453.0
+text = "To add
+- jumping between sectors
+- win state?"

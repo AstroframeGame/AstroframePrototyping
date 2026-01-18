@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://dthcyp01ao5y8"]
+
+[node name="PlayerCombat" type="Node2D"]
+
+[node name="Name" type="Label" parent="."]
+offset_left = 203.0
+offset_top = 118.0
+offset_right = 335.0
+offset_bottom = 141.0
+text = "PlayerCombat"
+
+[node name="Instructions" type="Label" parent="."]
+offset_left = 125.0
+offset_top = 152.0
+offset_right = 477.0
+offset_bottom = 201.0
+text = "Click on the screen to shoot laser gun.
+Hold to charge up (?) and aim
+Attack the dummy"
+
+[node name="Todo" type="Label" parent="."]
+offset_left = 172.0
+offset_top = 244.0
+offset_right = 606.0
+offset_bottom = 475.0
+text = "To add
+- add combat
+- add dummy
+- add enemies with ai"
