@@ -10,7 +10,10 @@ const HEX_HEIGHT = 90 #190.0
 # this method is not necessary, but is a callback from when building with a callback
 # to the grid that is on the hex editor. feel free to remove.
 func initialize(_grid: TileMapLayer) -> void:
-	set_shape() # could be done in ready
+	pass
+	
+func _ready() -> void:
+	set_shape() # needs to be called or else collider won't work
 
 # this calculates the polygon of the room for collisions and clicking
 func set_shape():

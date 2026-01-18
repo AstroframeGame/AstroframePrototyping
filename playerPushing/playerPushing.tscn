@@ -1,0 +1,51 @@
+[gd_scene load_steps=5 format=3 uid="uid://bi6bllil67sau"]
+
+[ext_resource type="PackedScene" uid="uid://dcpfkpex6ovaa" path="res://playerMovement/player_system.tscn" id="1_4u17b"]
+[ext_resource type="PackedScene" uid="uid://b5524e4xq4onx" path="res://shipBuilding/ships/testShip.tscn" id="2_8wwce"]
+[ext_resource type="Script" uid="uid://bsurseo1hgudf" path="res://shipBuilding/ship.gd" id="3_8wwce"]
+[ext_resource type="PackedScene" uid="uid://dffynorp3oc0l" path="res://shipBuilding/rooms/shields_3.tscn" id="3_jww6g"]
+
+[node name="PlayerPushing" type="Node2D"]
+
+[node name="Name" type="Label" parent="."]
+offset_left = 203.0
+offset_top = 118.0
+offset_right = 335.0
+offset_bottom = 141.0
+text = "PlayerPushing"
+
+[node name="Instructions" type="Label" parent="."]
+offset_left = 125.0
+offset_top = 152.0
+offset_right = 477.0
+offset_bottom = 201.0
+text = "Fly up to a piece. press E to hold on to the room.
+once holding, fly around to push the piece. 
+Physics should make this harder."
+
+[node name="Todo" type="Label" parent="."]
+offset_left = 96.0
+offset_top = 238.0
+offset_right = 530.0
+offset_bottom = 469.0
+text = "To add
+-  does grappling work with this?
+- do pieces click onto the ship?
+- how does rotation work?
+- another option might be clicking and holding lets you drag the piece.
+then you can rotate
+- Is there a way for the player to break down a piece into scrap?"
+
+[node name="FlyingPiece" type="RigidBody2D" parent="."]
+input_pickable = true
+gravity_scale = 0.0
+script = ExtResource("3_8wwce")
+
+[node name="Shields_0" parent="FlyingPiece" instance=ExtResource("3_jww6g")]
+position = Vector2(635, 281)
+
+[node name="Ship" parent="." instance=ExtResource("2_8wwce")]
+position = Vector2(0, 263)
+
+[node name="PlayerSystem" parent="." instance=ExtResource("1_4u17b")]
+position = Vector2(311, 248)
