@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=3 uid="uid://daycij2kxk7dj"]
+
+[ext_resource type="Script" uid="uid://vo6mtf68wgee" path="res://shipBuilding/room.gd" id="1_2nlyl"]
+[ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="2_wpi73"]
+[ext_resource type="Texture2D" uid="uid://c8r5gppak03nj" path="res://shipBuilding/icons/chair.png" id="3_68sbr"]
+[ext_resource type="Texture2D" uid="uid://b425bkjas46w0" path="res://shipBuilding/icons/circle.png" id="3_abk7f"]
+[ext_resource type="Texture2D" uid="uid://h7n0dwcqcea8" path="res://shipBuilding/icons/turret.png" id="5_vs31f"]
+
+[node name="Turret_3" type="CollisionPolygon2D"]
+polygon = PackedVector2Array(0, 0, 0, 0, 0, 0)
+script = ExtResource("1_2nlyl")
+
+[node name="Hex" type="Sprite2D" parent="."]
+modulate = Color(1, 0.7438333, 0.71000004, 1)
+position = Vector2(39, -67.5)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_wpi73")
+
+[node name="Circle" type="Sprite2D" parent="Hex"]
+modulate = Color(0.21950102, 0.21950102, 0.21950102, 1)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_68sbr")
+
+[node name="Hex2" type="Sprite2D" parent="."]
+modulate = Color(1, 0.7438333, 0.71000004, 1)
+position = Vector2(-39, -67.5)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_wpi73")
+
+[node name="Circle" type="Sprite2D" parent="Hex2"]
+modulate = Color(0.21950102, 0.21950102, 0.21950102, 1)
+scale = Vector2(0.235, 0.235)
+texture = ExtResource("3_abk7f")
+
+[node name="Hex3" type="Sprite2D" parent="."]
+modulate = Color(1, 0.7438333, 0.71000004, 1)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_wpi73")
+
+[node name="Circle" type="Sprite2D" parent="Hex3"]
+modulate = Color(0.21950102, 0.21950102, 0.21950102, 1)
+scale = Vector2(0.235, 0.235)
+texture = ExtResource("5_vs31f")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -26.0
+offset_top = -55.0
+offset_right = 29.0
+offset_bottom = -32.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Turret"

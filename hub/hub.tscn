@@ -7,7 +7,7 @@
 
 [node name="GameManager" type="Node" parent="."]
 script = ExtResource("1_n4d7h")
-scene_paths = Array[String](["uid://c7ti17oj2ofyn"])
+scene_paths = Array[String](["uid://c7ti17oj2ofyn", "uid://bkibqvfep8px0"])
 
 [node name="UI" type="Node" parent="."]
 
