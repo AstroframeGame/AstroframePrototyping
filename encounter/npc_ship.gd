@@ -1,10 +1,5 @@
 extends Ship
 
-signal attack
-
-var event_triggered: bool = false
-var player_in_sector: bool = false
-
 func _ready() -> void:
 	# TEMP: hardcoding stats for now
 	shields = 5
@@ -15,13 +10,14 @@ func _ready() -> void:
 		sector_a.body_entered.connect(_on_sector_entered.bind(sector_a))
 	if sector_b:
 		sector_b.body_entered.connect(_on_sector_entered.bind(sector_b))
-	
-func trigger_event() -> void:
-	event_triggered = true
-	print("EVENT TRIGGERED: player has warped near npc ship!")
-	
-	# TEMP: basic combat event
-	attack.emit("weapons", 5)
+		
+# this NPC will attack any ship that enters its sector
+func sector_entered(body: Ship) -> void:
+	trigger_event(body)
 
-func reset_event() -> void:
-	event_triggered = false
+func trigger_event(body: Ship) -> void:
+	print("[%s]: EVENT TRIGGERED: %s has warped near %s!" % 
+		[self.name.to_upper(), body.name, self.name])
+
+	# TEMP: basic combat event
+	launch_attack(body, "engines", 2)

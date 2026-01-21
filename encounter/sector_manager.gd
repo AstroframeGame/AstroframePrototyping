@@ -14,8 +14,8 @@ func _ready() -> void:
 
 func _on_sector_a_entered(body: Node2D) -> void:
 	if body == player_ship:
-		print("player entered sector A")
+		print("[INFO] player entered sector A")
 
 func _on_sector_b_entered(body: Node2D) -> void:
 	if body == player_ship:
-		print("player entered sector B")
+		print("[INFO] player entered sector B")

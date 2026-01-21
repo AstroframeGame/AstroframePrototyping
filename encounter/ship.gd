@@ -21,7 +21,30 @@ func check_proximity(shipA: Ship, shipB: Ship) -> float:
 		return -1
 	
 	return shipA.global_position.distance_to(shipB.global_position)
+	
+func sector_entered(_body: Ship) -> void:
+	pass
 
-func _on_sector_entered(body: Node2D, sector: Area2D) -> void:
+func _on_sector_entered(body: Ship, sector: Area2D) -> void:
 	if body == self:
 		current_sector = sector
+	else:
+		if(sector == current_sector):
+			print("[%s]: %s entered %s's current sector" % 
+				[self.name.to_upper(), body.name, self.name])
+				
+			self.sector_entered(body)
+
+# attack another ship
+func launch_attack(body: Ship, system: String, strength: int) -> void:
+	print("[%s]: attacking %s's %s system" % 
+		[self.name.to_upper(), body.name, system])
+		
+	body.system_damage(system, strength)
+
+# get attacked
+func system_damage(system: String, strength: int) -> void:
+	print("[%s]: %s system attacked (-%d)" % 
+		[self.name.to_upper()], system, strength)
+		
+	self[system] -= strength
