@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="2_csdgu"]
 [ext_resource type="Texture2D" uid="uid://b425bkjas46w0" path="res://shipBuilding/icons/circle.png" id="3_5bstv"]
 
-[node name="Shields_0" type="CollisionPolygon2D"]
+[node name="Shields_3" type="CollisionPolygon2D"]
 polygon = PackedVector2Array(0, 0, 0, 0, 0, 0)
 script = ExtResource("1_5bstv")
 
