@@ -14,7 +14,7 @@ var base_pixel_offsets: Array[Vector2] = []
 var current_pixel_offsets: Array[Vector2] = []
 var current_rotation: int = 0
 var current_mode: Mode = Mode.VIEW
-
+var undo : UndoRedo = UndoRedo.new()
 
 func _ready() -> void:
 	mode_dropdown.item_selected.connect(_on_option_button_item_selected)
