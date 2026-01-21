@@ -76,6 +76,7 @@ script = ExtResource("2_4nkm3")
 sector_a = NodePath("../SectorA")
 sector_b = NodePath("../SectorB")
 npc_ship = NodePath("../NPC ship")
+metadata/_custom_type_script = "uid://cwa2pwhkhehpi"
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="Player ship"]
 position = Vector2(-16.725, 18.224998)
@@ -90,9 +91,13 @@ shape = SubResource("CapsuleShape2D_twjq8")
 [node name="Camera2D" type="Camera2D" parent="Player ship"]
 position = Vector2(0, 4)
 
-[node name="NPC ship" type="Area2D" parent="."]
-position = Vector2(929, 481)
+[node name="NPC ship" type="CharacterBody2D" parent="." node_paths=PackedStringArray("sector_a", "sector_b", "player_ship")]
+position = Vector2(1039, 396)
 script = ExtResource("3_h33q7")
+sector_a = NodePath("../SectorA")
+sector_b = NodePath("../SectorB")
+player_ship = NodePath("../Player ship")
+metadata/_custom_type_script = "uid://cwa2pwhkhehpi"
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="NPC ship"]
 position = Vector2(-1, 2)

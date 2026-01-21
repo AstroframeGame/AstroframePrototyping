@@ -1,29 +1,27 @@
-extends Area2D
+extends Ship
 
-signal player_nearby
+signal attack
 
 var event_triggered: bool = false
 var player_in_sector: bool = false
 
 func _ready() -> void:
-	body_entered.connect(_on_body_entered)
-	body_exited.connect(_on_body_exited)
-
-func _on_body_entered(body: Node2D) -> void:
-	if body.name == "Player ship":
-		player_in_sector = true
-		trigger_event()
-
-func _on_body_exited(body: Node2D) -> void:
-	if body.name == "Player ship":
-		player_in_sector = false
-
+	# TEMP: hardcoding stats for now
+	shields = 5
+	weapons = 8
+	engines = 2
+	
+	if sector_a:
+		sector_a.body_entered.connect(_on_sector_entered.bind(sector_a))
+	if sector_b:
+		sector_b.body_entered.connect(_on_sector_entered.bind(sector_b))
+	
 func trigger_event() -> void:
 	event_triggered = true
-	player_nearby.emit()
 	print("EVENT TRIGGERED: player has warped near npc ship!")
 	
-	# TODO: event logic here
+	# TEMP: basic combat event
+	attack.emit("weapons", 5)
 
 func reset_event() -> void:
 	event_triggered = false
