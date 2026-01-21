@@ -1,27 +1,104 @@
-[gd_scene format=3 uid="uid://bu4afq3jf34w3"]
+[gd_scene load_steps=9 format=3 uid="uid://bu4afq3jf34w3"]
+
+[ext_resource type="Script" uid="uid://4gkdjixe8mwp" path="res://encounter/sector_manager.gd" id="1_twjq8"]
+[ext_resource type="Script" uid="uid://yw768yro7rvu" path="res://encounter/player_ship.gd" id="2_4nkm3"]
+[ext_resource type="Script" uid="uid://dgrb8reljfmtp" path="res://encounter/npc_ship.gd" id="3_h33q7"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_h33q7"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_7wjgu"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_twjq8"]
+radius = 20.0
+height = 40.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_sdpd5"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4nkm3"]
+radius = 20.0
+height = 40.0
 
 [node name="Encounter" type="Node2D"]
 
 [node name="Name" type="Label" parent="."]
-offset_left = 203.0
-offset_top = 118.0
-offset_right = 335.0
-offset_bottom = 141.0
+offset_left = 80.0
+offset_top = 262.0
+offset_right = 212.0
+offset_bottom = 285.0
 text = "Encounter"
+metadata/_edit_use_anchors_ = true
 
 [node name="Instructions" type="Label" parent="."]
-offset_left = 125.0
-offset_top = 152.0
-offset_right = 477.0
-offset_bottom = 201.0
+offset_left = 62.0
+offset_top = 301.0
+offset_right = 539.0
+offset_bottom = 350.0
 text = "This should be an example of what a scripted event looks like.
 Later we will procedurally generate these."
 
 [node name="Todo" type="Label" parent="."]
-offset_left = 168.0
-offset_top = 222.0
-offset_right = 602.0
-offset_bottom = 453.0
+offset_left = 57.0
+offset_top = 359.0
+offset_right = 491.0
+offset_bottom = 590.0
 text = "To add
 - jumping between sectors
 - win state?"
+
+[node name="SectorManager" type="Node2D" parent="." node_paths=PackedStringArray("sector_a", "sector_b", "npc_ship", "player_ship")]
+script = ExtResource("1_twjq8")
+sector_a = NodePath("../SectorA")
+sector_b = NodePath("../SectorB")
+npc_ship = NodePath("../NPC ship")
+player_ship = NodePath("../Player ship")
+
+[node name="SectorA" type="Area2D" parent="."]
+position = Vector2(305, 154)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="SectorA"]
+position = Vector2(15, -111.00001)
+scale = Vector2(2.0795455, 1.8958334)
+polygon = PackedVector2Array(3, 2, -46, 3, -79, 50, -46, 107, 6, 107, 31, 51)
+
+[node name="SectorB" type="Area2D" parent="."]
+position = Vector2(976, 480)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="SectorB"]
+z_index = -15
+position = Vector2(53, -135)
+scale = Vector2(2.3977273, 2.5267856)
+polygon = PackedVector2Array(2.165863, 2, -46.834137, 3, -79.83414, 50, -46.834137, 107, 5.165863, 107, 30.165863, 51)
+
+[node name="Player ship" type="CharacterBody2D" parent="." node_paths=PackedStringArray("sector_a", "sector_b", "npc_ship")]
+z_index = 9
+position = Vector2(273, 124)
+script = ExtResource("2_4nkm3")
+sector_a = NodePath("../SectorA")
+sector_b = NodePath("../SectorB")
+npc_ship = NodePath("../NPC ship")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Player ship"]
+position = Vector2(-16.725, 18.224998)
+scale = Vector2(60.550003, 65.549995)
+mesh = SubResource("BoxMesh_h33q7")
+texture = SubResource("PlaceholderTexture2D_7wjgu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player ship"]
+position = Vector2(-5, 1)
+shape = SubResource("CapsuleShape2D_twjq8")
+
+[node name="Camera2D" type="Camera2D" parent="Player ship"]
+position = Vector2(0, 4)
+
+[node name="NPC ship" type="Area2D" parent="."]
+position = Vector2(929, 481)
+script = ExtResource("3_h33q7")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="NPC ship"]
+position = Vector2(-1, 2)
+scale = Vector2(65, 65)
+mesh = SubResource("BoxMesh_sdpd5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NPC ship"]
+position = Vector2(0, 2)
+shape = SubResource("CapsuleShape2D_4nkm3")
