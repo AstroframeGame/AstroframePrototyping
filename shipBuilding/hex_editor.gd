@@ -19,6 +19,7 @@ func _ready() -> void:
 	mode_dropdown.item_selected.connect(_on_option_button_item_selected)
 	ship.room_clicked.connect(_on_ship_room_clicked)
 	_update_preview_shape()
+	undo.max_steps = 5
 	
 	for child in ship.get_children():
 		if child is Room:
@@ -38,11 +39,11 @@ func _process(_delta: float) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	
-	if event.is_action_pressed("editor_undo"):
-		undo.undo()
-		return
 	if event.is_action_pressed("editor_redo"):
 		undo.redo()
+		return
+	if event.is_action_pressed("editor_undo"):
+		undo.undo()
 		return
 		
 	if current_mode != Mode.ADD: return
@@ -129,15 +130,25 @@ func _attempt_place(center_cell: Vector2i) -> void:
 	var prefab = room_prefabs[current_index]
 	var room_instance = prefab.instantiate() as Room
 	
-	#place_room(center_cell, current_rotation, cells_to_occupy)
 	undo.create_action("Place Room")
-	var _call_a = Callable(self, "ready")
-	var call_do = Callable(self, "place_room")
-	var call_undo = Callable(self, "_attempt_destroy")
-	undo.add_do_method(call_do.bind(center_cell, current_rotation, room_instance))
+	undo.add_do_method(place_room.bind(center_cell, current_rotation, room_instance))
 	undo.add_do_reference(room_instance)
-	undo.add_undo_method(call_undo.bind(room_instance))
+	undo.add_undo_method(_unplace_room.bind(room_instance))
 	undo.commit_action()
+
+func _unplace_room(room: Room) -> void:
+	print_debug("Unplacing room (Undo)")
+	if not room: return
+	
+	var cells_to_remove = []
+	for cell in occupied_cells:
+		if occupied_cells[cell] == room:
+			cells_to_remove.append(cell)
+	
+	for cell in cells_to_remove:
+		occupied_cells.erase(cell)
+		
+	ship.remove_child(room)
 
 func place_room(center_cell : Vector2i, rotation_index : int, room_instance : Room):
 	print("Placing room")
