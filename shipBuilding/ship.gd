@@ -11,6 +11,7 @@ func _input_event(_viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
 		var owner_id = shape_owner_get_owner(shape_find_owner(shape_idx))
 		if owner_id and owner_id is Room:
+			print("Room ", owner_id, " was clicked")
 			room_clicked.emit(owner_id, event.button_index)
 
 func world_to_grid(world_pos: Vector2) -> Vector2i:
