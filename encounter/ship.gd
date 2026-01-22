@@ -53,3 +53,15 @@ func system_damage(system: String, strength: int) -> void:
 		self[system] = 0
 		print("[%s]: %s system destroyed!" %
 			[self.name.to_upper(), system])
+			
+# fix systems
+func system_repair(system: String, strength: int) -> void:
+	if self[system] < 10:
+		print("[%s]: %s system repaired (+%d) --> %d" % 
+			[self.name.to_upper(), system, strength, self[system]])
+	
+	self[system] += strength
+	if self[system] >= 10:
+		self[system] = 10
+		print("[%s]: %s system at full health!" %
+			[self.name.to_upper(), system])

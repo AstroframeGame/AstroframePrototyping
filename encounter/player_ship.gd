@@ -8,27 +8,13 @@ func _ready() -> void:
 	weapons = 6
 	engines = 8
 	
-	# attack buttons
-	var shields_interact = $Buttons/InteractShields
-	var engines_interact = $Buttons/InteractEngines
-	var weapons_interact = $Buttons/InteractWeapons
-	
-	# sloppy hardcoded to attack npc_ship
-	shields_interact.pressed.connect(launch_attack.bind(npc_ship, "shields", 2))
-	engines_interact.pressed.connect(launch_attack.bind(npc_ship, "engines", 2))
-	weapons_interact.pressed.connect(launch_attack.bind(npc_ship, "weapons", 2))
-	
-	print(npc_ship.shields)
-	if npc_ship.shields <= 0: shields_interact.hide()
-	if npc_ship.engines <= 0: engines_interact.hide()
-	if npc_ship.weapons <= 0: weapons_interact.hide()
-	
 	# init current_sector
 	if sector_a:
 		sector_a.body_entered.connect(_on_sector_entered.bind(sector_a))
 	if sector_b:
 		sector_b.body_entered.connect(_on_sector_entered.bind(sector_b))
-		
+
+
 func _input(event):
 	if event is InputEventKey and event.pressed:
 		# SPACE to warp
