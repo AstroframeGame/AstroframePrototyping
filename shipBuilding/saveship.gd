@@ -9,6 +9,15 @@ var save_path = "res://shipBuilding/ships/"
 func _ready() -> void:
 	# could have been done in editor, i just prefer code
 	$"../UI/SaveLoad/Savetscn".pressed.connect(save_tscn)
+	$"../UI/SaveLoad/Loadtscn".pressed.connect(load_tscn)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("editor_save"):
+		save_tscn()
+		return
+	if event.is_action_pressed("editor_open"):
+		load_tscn()
+		return
 
 func save_tscn():
 	var node = ship;
@@ -29,9 +38,15 @@ func save_tscn():
 			print("Error saving scene: ", error)
 
 func load_tscn():
-	var prefab = load("res://shipBuilding/ships/testShip.tscn")
+	var path = save_path + save_name.text + ".tscn"
+	if not ResourceLoader.exists(path):
+		print_debug("Failed to open tscn at "+ path)
+		return
+
+	var new_ship = load(path).instantiate()
+	ship.get_parent().add_child(new_ship)
+	new_ship.global_transform = ship.global_transform
 	
 	ship.queue_free()
-	ship = prefab.instantiate()
-	$"..".add_child(ship)
-	# idk i havent tested, make sure that this works correctly with $"../HexGrid" and the editor
+	ship = new_ship
+	$"../HexEditor".ship = new_ship

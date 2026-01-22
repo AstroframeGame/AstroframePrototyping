@@ -123,8 +123,6 @@ layout_mode = 2
 script = ExtResource("1_sx6es")
 
 [node name="Ship" type="RigidBody2D" parent="."]
-position = Vector2(99, -49)
-rotation = 1.3313521
 input_pickable = true
 gravity_scale = 0.0
 script = ExtResource("2_6qeab")
