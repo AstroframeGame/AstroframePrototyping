@@ -1,3 +1,4 @@
+class_name HexEditor
 extends Node
 
 enum Mode { VIEW, ADD, MOVE, DESTROY }

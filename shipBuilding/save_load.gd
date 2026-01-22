@@ -1,59 +1,34 @@
+class_name SaveLoad
 extends Node
 
-@onready var save_name: LineEdit = $"../UI/SaveLoad/SaveName"
-var save_path = "res://shipBuilding/ships/"
-@onready var ship: Ship = $"../Ship"
+# use this node as a library to save or load a ship
 
-const ship_prefab = preload("res://shipBuilding/prefabs/ship.tscn")
-
-func _ready() -> void:
-	# could have been done in editor, i just prefer code
-	$"../UI/SaveLoad/Savetscn".pressed.connect(save_tscn)
-	$"../UI/SaveLoad/Loadtscn".pressed.connect(load_tscn)
-	$"../UI/SaveLoad/Savejson".pressed.connect(save_json)
-	$"../UI/SaveLoad/Loadjson".pressed.connect(load_json)
-
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("editor_save"):
-		save_tscn()
-		return
-	if event.is_action_pressed("editor_open"):
-		load_tscn()
-		return
-
-func save_tscn():
-	var node = ship;
-	
+func save_tscn(ship : Node, save_path : String, save_name : String) -> void:
 	# this is important for prefabing.
-	for child in node.get_children(true):
-		child.owner = node
+	for child in ship.get_children(true):
+		child.owner = ship
 		
 	var packed_scene = PackedScene.new()
-	var result = packed_scene.pack(node)
+	var result = packed_scene.pack(ship)
 	
 	if result == OK:
-		var path = save_path + save_name.text + ".tscn"
+		var path = save_path + save_name + ".tscn"
 		var error = ResourceSaver.save(packed_scene, path)
 		if error == OK:
 			print("Scene saved successfully!")
 		else:
 			print("Error saving scene: ", error)
 
-func load_tscn():
-	var path = save_path + save_name.text + ".tscn"
+func load_tscn(save_path : String, save_name : String) -> Node:
+	var path = save_path + save_name + ".tscn"
 	if not ResourceLoader.exists(path):
 		print_debug("Failed to open tscn at "+ path)
 		return
 
-	var new_ship = load(path).instantiate()
-	ship.get_parent().add_child(new_ship)
-	new_ship.global_transform = ship.global_transform
-	
-	ship.queue_free()
-	ship = new_ship
-	$"../HexEditor".ship = new_ship
+	var ship = load(path).instantiate()
+	return ship
 
-func save_json() -> void:
+func save_json(ship : Node, save_path : String, save_name : String) -> void:
 	var data = {
 		"name": ship.name,
 		"rooms": []
@@ -80,7 +55,7 @@ func save_json() -> void:
 			data["rooms"].append(room_data)
 
 	var json_string = JSON.stringify(data, "\t")
-	var path = save_path + save_name.text + ".json"
+	var path = save_path + save_name + ".json"
 	
 	var file = FileAccess.open(path, FileAccess.WRITE)
 	if file:
@@ -90,8 +65,8 @@ func save_json() -> void:
 	else:
 		push_error("Failed to save file: " + path)
 
-func load_json() -> void:
-	var path = save_path + save_name.text + ".json"
+func load_json(save_path : String, save_name : String, parent_prefab : PackedScene) -> Node:
+	var path = save_path + save_name + ".json"
 	
 	if not FileAccess.file_exists(path):
 		push_error("File not found: " + path)
@@ -106,9 +81,7 @@ func load_json() -> void:
 		push_error("Failed to parse JSON from: " + path)
 		return
 	
-	var new_ship = ship_prefab.instantiate()
-	ship.get_parent().add_child(new_ship)
-	new_ship.global_transform = ship.global_transform
+	var ship = parent_prefab.instantiate()
 	
 	if data.has("name"):
 		ship.name = data["name"]
@@ -134,3 +107,4 @@ func load_json() -> void:
 				push_warning("Could not find room prefab: " + prefab_path)
 				
 	print("Loaded ship from: " + path)
+	return ship
