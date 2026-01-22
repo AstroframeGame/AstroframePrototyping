@@ -37,8 +37,16 @@ func _process(_delta: float) -> void:
 		preview_instance.visible = false
 
 func _unhandled_input(event: InputEvent) -> void:
+	
+	if event.is_action_pressed("editor_undo"):
+		undo.undo()
+		return
+	if event.is_action_pressed("editor_redo"):
+		undo.redo()
+		return
+		
 	if current_mode != Mode.ADD: return
-
+	
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			var cell = grid.local_to_map(grid.to_local(get_global_mouse_position()))
@@ -113,10 +121,26 @@ func _update_preview_visuals() -> void:
 
 func _attempt_place(center_cell: Vector2i) -> void:
 	if room_prefabs.is_empty(): return
-	var prefab = room_prefabs[current_index]
-	create_room(center_cell, current_rotation, prefab)
+	var cells_to_occupy = get_occupied_cells(center_cell, current_rotation)
+	for cell in cells_to_occupy:
+		if occupied_cells.has(cell):
+			return
 
-func create_room(center_cell : Vector2i, rotation_index : int, prefab : PackedScene):
+	var prefab = room_prefabs[current_index]
+	var room_instance = prefab.instantiate() as Room
+	
+	#place_room(center_cell, current_rotation, cells_to_occupy)
+	undo.create_action("Place Room")
+	var _call_a = Callable(self, "ready")
+	var call_do = Callable(self, "place_room")
+	var call_undo = Callable(self, "_attempt_destroy")
+	undo.add_do_method(call_do.bind(center_cell, current_rotation, room_instance))
+	undo.add_do_reference(room_instance)
+	undo.add_undo_method(call_undo.bind(room_instance))
+	undo.commit_action()
+
+func place_room(center_cell : Vector2i, rotation_index : int, room_instance : Room):
+	print("Placing room")
 	var cells_to_occupy = get_occupied_cells(center_cell, rotation_index)
 	for cell in cells_to_occupy:
 		if occupied_cells.has(cell):
@@ -125,7 +149,7 @@ func create_room(center_cell : Vector2i, rotation_index : int, prefab : PackedSc
 	
 	var center_world_pos = grid.map_to_local(center_cell)
 
-	var room_instance = prefab.instantiate() as Room
+	#var room_instance = prefab.instantiate() as Room
 	room_instance.initialize(grid)
 	ship.add_child(room_instance)
 	room_instance.position = center_world_pos
@@ -134,7 +158,8 @@ func create_room(center_cell : Vector2i, rotation_index : int, prefab : PackedSc
 	for cell in cells_to_occupy:
 		occupied_cells[cell] = room_instance
 
-func _attempt_destroy(room: Node) -> void:
+func _attempt_destroy(room: Room) -> void:
+	print("destroying room ", room)
 	if not room: return
 	
 	var cells_to_remove = []
