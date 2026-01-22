@@ -59,6 +59,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			_rotate_prefab(1)
 
+func room_prefab_selected(prefab : PackedScene):
+	pass
+
 func _cycle_prefab() -> void:
 	if room_prefabs.is_empty(): return
 	current_index = (current_index + 1) % room_prefabs.size()

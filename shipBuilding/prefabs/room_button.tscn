@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3 uid="uid://fdqa02uc4vk1"]
+
+[ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/RoundedSquare.png" id="1_o3le1"]
+
+[node name="BgButton" type="TextureButton"]
+self_modulate = Color(0, 0, 0, 0.25490198)
+offset_right = 192.0
+offset_bottom = 100.0
+texture_normal = ExtResource("1_o3le1")
+stretch_mode = 0
+
+[node name="RoomContainer" type="Node2D" parent="."]
+position = Vector2(47, 40)
+scale = Vector2(0.2, 0.2)
+
+[node name="Level" type="SpinBox" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 92.0
+offset_top = 55.0
+offset_right = 178.5625
+offset_bottom = 86.0
+prefix = "lvl"
+
+[node name="Name" type="Label" parent="."]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 29.0
+offset_right = 183.0
+offset_bottom = 52.0
+text = "Shields"
+horizontal_alignment = 1
