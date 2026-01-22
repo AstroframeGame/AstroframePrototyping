@@ -44,7 +44,12 @@ func launch_attack(body: Ship, system: String, strength: int) -> void:
 
 # get attacked
 func system_damage(system: String, strength: int) -> void:
-	print("[%s]: %s system attacked (-%d)" % 
-		[self.name.to_upper()], system, strength)
-		
+	if self[system] > 0:
+		print("[%s]: %s system attacked (-%d) --> %d" % 
+			[self.name.to_upper(), system, strength, self[system]])
+	
 	self[system] -= strength
+	if self[system] <= 0:
+		self[system] = 0
+		print("[%s]: %s system destroyed!" %
+			[self.name.to_upper(), system])

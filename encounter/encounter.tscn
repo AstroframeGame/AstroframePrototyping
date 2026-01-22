@@ -21,49 +21,56 @@ height = 40.0
 [node name="Encounter" type="Node2D"]
 
 [node name="Name" type="Label" parent="."]
-offset_left = 80.0
-offset_top = 262.0
-offset_right = 212.0
-offset_bottom = 285.0
+offset_left = -163.0
+offset_top = -128.0
+offset_right = -31.0
+offset_bottom = -105.0
 text = "Encounter"
-metadata/_edit_use_anchors_ = true
 
 [node name="Instructions" type="Label" parent="."]
-offset_left = 62.0
-offset_top = 301.0
-offset_right = 539.0
-offset_bottom = 350.0
+offset_left = -181.0
+offset_top = -89.0
+offset_right = 296.0
+offset_bottom = -40.0
 text = "This should be an example of what a scripted event looks like.
 Later we will procedurally generate these."
 
 [node name="Todo" type="Label" parent="."]
-offset_left = 57.0
-offset_top = 359.0
-offset_right = 491.0
-offset_bottom = 590.0
+offset_left = -186.0
+offset_top = -31.0
+offset_right = 248.0
+offset_bottom = 200.0
 text = "To add
 - jumping between sectors
-- win state?"
+- win state?
+- factions, relationships"
+
+[node name="Controls" type="Label" parent="."]
+offset_left = 577.0
+offset_top = 315.0
+offset_right = 737.0
+offset_bottom = 398.0
+text = "SPACE to warp"
 
 [node name="SectorManager" type="Node2D" parent="." node_paths=PackedStringArray("sector_a", "sector_b", "npc_ship", "player_ship")]
 script = ExtResource("1_twjq8")
-sector_a = NodePath("../SectorA")
-sector_b = NodePath("../SectorB")
+sector_a = NodePath("SectorA")
+sector_b = NodePath("SectorB")
 npc_ship = NodePath("../NPC ship")
 player_ship = NodePath("../Player ship")
 
-[node name="SectorA" type="Area2D" parent="."]
+[node name="SectorA" type="Area2D" parent="SectorManager"]
 position = Vector2(305, 154)
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="SectorA"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="SectorManager/SectorA"]
 position = Vector2(15, -111.00001)
 scale = Vector2(2.0795455, 1.8958334)
 polygon = PackedVector2Array(3, 2, -46, 3, -79, 50, -46, 107, 6, 107, 31, 51)
 
-[node name="SectorB" type="Area2D" parent="."]
+[node name="SectorB" type="Area2D" parent="SectorManager"]
 position = Vector2(976, 480)
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="SectorB"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="SectorManager/SectorB"]
 z_index = -15
 position = Vector2(53, -135)
 scale = Vector2(2.3977273, 2.5267856)
@@ -73,8 +80,8 @@ polygon = PackedVector2Array(2.165863, 2, -46.834137, 3, -79.83414, 50, -46.8341
 z_index = 9
 position = Vector2(273, 124)
 script = ExtResource("2_4nkm3")
-sector_a = NodePath("../SectorA")
-sector_b = NodePath("../SectorB")
+sector_a = NodePath("../SectorManager/SectorA")
+sector_b = NodePath("../SectorManager/SectorB")
 npc_ship = NodePath("../NPC ship")
 metadata/_custom_type_script = "uid://cwa2pwhkhehpi"
 
@@ -91,16 +98,39 @@ shape = SubResource("CapsuleShape2D_twjq8")
 [node name="Camera2D" type="Camera2D" parent="Player ship"]
 position = Vector2(0, 4)
 
+[node name="Buttons" type="Node" parent="Player ship"]
+
+[node name="InteractShields" type="Button" parent="Player ship/Buttons"]
+offset_left = 1133.0
+offset_top = 357.0
+offset_right = 1195.0
+offset_bottom = 388.0
+text = "shields"
+
+[node name="InteractEngines" type="Button" parent="Player ship/Buttons"]
+offset_left = 1132.0
+offset_top = 398.0
+offset_right = 1200.0
+offset_bottom = 429.0
+text = "engines"
+
+[node name="InteractWeapons" type="Button" parent="Player ship/Buttons"]
+offset_left = 1130.0
+offset_top = 436.0
+offset_right = 1208.0
+offset_bottom = 467.0
+text = "weapons"
+
 [node name="NPC ship" type="CharacterBody2D" parent="." node_paths=PackedStringArray("sector_a", "sector_b", "player_ship")]
 position = Vector2(1039, 396)
 script = ExtResource("3_h33q7")
-sector_a = NodePath("../SectorA")
-sector_b = NodePath("../SectorB")
+sector_a = NodePath("../SectorManager/SectorA")
+sector_b = NodePath("../SectorManager/SectorB")
 player_ship = NodePath("../Player ship")
 metadata/_custom_type_script = "uid://cwa2pwhkhehpi"
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="NPC ship"]
-position = Vector2(-1, 2)
+position = Vector2(1, 6)
 scale = Vector2(65, 65)
 mesh = SubResource("BoxMesh_sdpd5")
 
