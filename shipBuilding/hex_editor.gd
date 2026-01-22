@@ -3,7 +3,6 @@ extends TileMapLayer
 enum Mode { VIEW, ADD, MOVE, DESTROY }
 
 @onready var grid: TileMapLayer = $"."
-@export var room_prefabs: Array[PackedScene]
 @onready var ship: Ship = $"../Ship"
 @onready var mode_dropdown: OptionButton = $"../UI/ModeDropdown"
 
