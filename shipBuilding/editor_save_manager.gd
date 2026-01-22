@@ -47,3 +47,4 @@ func _replace_ship(new_ship: Node) -> void:
 	ship = new_ship
 	
 	hex_editor.ship = new_ship
+	hex_editor.ship.room_clicked.connect(hex_editor._on_ship_room_clicked)
