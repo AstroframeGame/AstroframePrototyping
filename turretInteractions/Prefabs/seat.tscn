@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=3 uid="uid://dtg3tqh28wihx"]
+
+[ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="1_xci8q"]
+[ext_resource type="Script" uid="uid://dpwt1wgy7ca84" path="res://turretInteractions/Scripts/seat.gd" id="2_0io8j"]
+[ext_resource type="Texture2D" uid="uid://c8r5gppak03nj" path="res://shipBuilding/icons/chair.png" id="2_n8s4k"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_woerx"]
+radius = 34.0147
+
+[node name="Seat" type="Sprite2D"]
+texture = ExtResource("1_xci8q")
+script = ExtResource("2_0io8j")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 1)
+scale = Vector2(0.17, 0.17)
+texture = ExtResource("2_n8s4k")
+
+[node name="Trigger Collider" type="Area2D" parent="."]
+input_pickable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Trigger Collider"]
+shape = SubResource("CircleShape2D_woerx")
+
+[node name="Sit Prompt" type="Label" parent="."]
+visible = false
+z_index = 999
+z_as_relative = false
+offset_left = -64.0
+offset_top = -123.0
+offset_right = 64.0
+offset_bottom = -100.0
+theme_override_colors/font_color = Color(1, 0.8901961, 0, 1)
+text = "[F] to Sit Down"
+uppercase = true
+
+[connection signal="area_shape_entered" from="Trigger Collider" to="." method="_on_trigger_collider_area_shape_entered"]
+[connection signal="area_shape_exited" from="Trigger Collider" to="." method="_on_trigger_collider_area_shape_exited"]

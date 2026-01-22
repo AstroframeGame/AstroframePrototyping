@@ -19,6 +19,11 @@ config/icon="res://icon.svg"
 
 window/stretch/mode="canvas_items"
 
+[global_group]
+
+player_ship=""
+player_controller=""
+
 [input]
 
 left={

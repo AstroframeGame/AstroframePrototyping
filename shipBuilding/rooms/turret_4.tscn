@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://bwv1fujhsc75n"]
+
+[ext_resource type="Script" uid="uid://vo6mtf68wgee" path="res://shipBuilding/room.gd" id="1_33auh"]
+[ext_resource type="PackedScene" uid="uid://88c51udovr1" path="res://turretInteractions/Prefabs/gun.tscn" id="2_na8wh"]
+[ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="3_6mm1y"]
+[ext_resource type="Texture2D" uid="uid://b425bkjas46w0" path="res://shipBuilding/icons/circle.png" id="4_0sr0w"]
+[ext_resource type="PackedScene" uid="uid://dtg3tqh28wihx" path="res://turretInteractions/Prefabs/seat.tscn" id="5_03rxl"]
+
+[node name="Turret_4" type="CollisionPolygon2D"]
+polygon = PackedVector2Array(0, 0, 0, 0, 0, 0)
+script = ExtResource("1_33auh")
+
+[node name="Gun" parent="." instance=ExtResource("2_na8wh")]
+scale = Vector2(0.5, 0.5)
+
+[node name="Hex2" type="Sprite2D" parent="."]
+modulate = Color(1, 0.7438333, 0.71000004, 1)
+position = Vector2(-39, -67.5)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_6mm1y")
+
+[node name="Circle" type="Sprite2D" parent="Hex2"]
+modulate = Color(0.21950102, 0.21950102, 0.21950102, 1)
+scale = Vector2(0.235, 0.235)
+texture = ExtResource("4_0sr0w")
+
+[node name="Seat" parent="." instance=ExtResource("5_03rxl")]
+modulate = Color(1, 0.74509805, 0.70980394, 1)
+position = Vector2(39, -67.5)
+scale = Vector2(0.5, 0.5)
+
+[node name="Label" type="Label" parent="."]
+offset_left = -26.0
+offset_top = -55.0
+offset_right = 29.0
+offset_bottom = -32.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Turret"
