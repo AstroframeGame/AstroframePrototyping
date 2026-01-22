@@ -151,7 +151,7 @@ func _unplace_room(room: Room) -> void:
 	ship.remove_child(room)
 
 func place_room(center_cell : Vector2i, rotation_index : int, room_instance : Room):
-	print("Placing room")
+	print_debug("Placing room")
 	var cells_to_occupy = get_occupied_cells(center_cell, rotation_index)
 	for cell in cells_to_occupy:
 		if occupied_cells.has(cell):
@@ -170,6 +170,19 @@ func place_room(center_cell : Vector2i, rotation_index : int, room_instance : Ro
 		occupied_cells[cell] = room_instance
 
 func _attempt_destroy(room: Room) -> void:
+	if not room: return
+	
+	var center_cell = grid.local_to_map(room.position)
+	var rot_index = int(round(room.rotation / (PI / 3.0)))
+
+	undo.create_action("Remove Room")
+	undo.add_do_method(_unplace_room.bind(room))
+	undo.add_undo_method(place_room.bind(center_cell, rot_index, room))
+	undo.add_undo_reference(room)
+	undo.commit_action()
+
+# unused. use unplace room
+func destroy(room: Room) -> void:
 	print("destroying room ", room)
 	if not room: return
 	
