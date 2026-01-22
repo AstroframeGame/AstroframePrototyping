@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://bkibqvfep8px0"]
+[gd_scene load_steps=7 format=3 uid="uid://bkibqvfep8px0"]
 
 [ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/RoundedSquare.png" id="1_idfod"]
 [ext_resource type="Script" uid="uid://bdw1f2ciyocp4" path="res://shipBuilding/hex_editor.gd" id="1_sx6es"]
 [ext_resource type="Script" uid="uid://duvfp0c112n5d" path="res://shipBuilding/room_picker.gd" id="2_8axvm"]
 [ext_resource type="PackedScene" uid="uid://b4ety2cv40p6l" path="res://shipBuilding/prefabs/ship.tscn" id="4_qoir8"]
+[ext_resource type="Script" uid="uid://dh4g6jyrhqp2w" path="res://shipBuilding/editor_cam.gd" id="5_ujx4f"]
 [ext_resource type="Script" uid="uid://su5njmd4c8e2" path="res://shipBuilding/saveship.gd" id="8_gbgp8"]
 
 [node name="ShipBuilding" type="Node2D"]
@@ -121,6 +122,7 @@ script = ExtResource("1_sx6es")
 [node name="Ship" parent="." instance=ExtResource("4_qoir8")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("5_ujx4f")
 
 [node name="SaveLoad" type="Node" parent="."]
 script = ExtResource("8_gbgp8")
