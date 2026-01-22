@@ -1,6 +1,6 @@
 extends Node
 
-@onready var save_name: LineEdit = $"../UI/SaveName"
+@onready var save_name: LineEdit = $"../UI/SaveLoad/SaveName"
 var save_path = "res://shipBuilding/ships/"
 
 
