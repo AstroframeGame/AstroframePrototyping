@@ -1,6 +1,8 @@
 class_name Ship
 extends RigidBody2D
 
+@onready var grid: TileMapLayer = $HexGrid
+
 signal room_clicked(room: Room, button_index: int)
 
 func _input_event(_viewport: Node, event: InputEvent, shape_idx: int) -> void:

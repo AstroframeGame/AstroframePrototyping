@@ -1,6 +1,5 @@
 extends Node
 
-
 var rooms_path = "res://shipBuilding/rooms/"
 var room_prefabs : Array[PackedScene] # autofills from the rooms folder.
 

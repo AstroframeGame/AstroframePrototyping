@@ -1,8 +1,9 @@
-extends TileMapLayer
+extends Node
 
 enum Mode { VIEW, ADD, MOVE, DESTROY }
 
-@onready var grid: TileMapLayer = $"."
+var grid: TileMapLayer :
+	get : return ship.grid
 @onready var ship: Ship = $"../Ship"
 @onready var mode_dropdown: OptionButton = $"../UI/ModeDropdown"
 
@@ -49,7 +50,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_LEFT:
-			var cell = grid.local_to_map(grid.to_local(get_global_mouse_position()))
+			var cell = grid.local_to_map(grid.to_local(grid.get_global_mouse_position()))
 			_attempt_place(cell)
 		#elif event.button_index == MOUSE_BUTTON_RIGHT:
 			#_cycle_prefab()
@@ -86,7 +87,6 @@ func _update_preview_shape() -> void:
 	
 	base_pixel_offsets.clear()
 
-	if room_prefabs.is_empty(): return
 	if not get_prefab(): return
 	
 	preview_instance = get_prefab().instantiate()
@@ -100,12 +100,12 @@ func _update_preview_shape() -> void:
 
 func get_occupied_cells(center_cell: Vector2i, rot_index: int) -> Array[Vector2i]:
 	var cells: Array[Vector2i] = []
-	var center_pos = grid.map_to_local(center_cell)
+	var center_pos = grid.to_global(grid.map_to_local(center_cell))
 	var angle = rot_index * PI / 3.0
 	
 	for base_offset in base_pixel_offsets:
 		var rotated_offset = base_offset.rotated(angle)
-		var target_cell = grid.local_to_map(center_pos + rotated_offset)
+		var target_cell = grid.local_to_map(grid.to_local(center_pos + rotated_offset))
 		cells.append(target_cell)
 		
 	return cells
@@ -113,8 +113,8 @@ func get_occupied_cells(center_cell: Vector2i, rot_index: int) -> Array[Vector2i
 func _update_preview_visuals() -> void:
 	if not preview_instance: return
 
-	var center_cell = grid.local_to_map(grid.to_local(get_global_mouse_position()))
-	preview_instance.position = grid.map_to_local(center_cell)
+	var center_cell = grid.local_to_map(grid.to_local(grid.get_global_mouse_position()))
+	preview_instance.position = grid.to_global(grid.map_to_local(center_cell))
 	
 	var cells_to_check = get_occupied_cells(center_cell, current_rotation)
 	var is_valid = true
@@ -130,7 +130,7 @@ func _update_preview_visuals() -> void:
 			child.modulate = color
 
 func _attempt_place(center_cell: Vector2i) -> void:
-	if room_prefabs.is_empty(): return
+	if not get_prefab(): return
 	var cells_to_occupy = get_occupied_cells(center_cell, current_rotation)
 	for cell in cells_to_occupy:
 		if occupied_cells.has(cell):
@@ -167,12 +167,12 @@ func place_room(center_cell : Vector2i, rotation_index : int, room_instance : Ro
 			print_debug("Warning, could not place room")
 			return
 	
-	var center_world_pos = grid.map_to_local(center_cell)
+	var center_world_pos = grid.to_global(grid.map_to_local(center_cell))
 
 	#var room_instance = prefab.instantiate() as Room
 	room_instance.initialize(grid)
 	ship.add_child(room_instance)
-	room_instance.position = center_world_pos
+	room_instance.global_position = center_world_pos
 	room_instance.rotation = rotation_index * PI / 3.0
 	
 	for cell in cells_to_occupy:
