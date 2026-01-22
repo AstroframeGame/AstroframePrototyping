@@ -35,11 +35,9 @@ func save_json() -> void:
 	save_load.save_json(ship, save_path, save_name.text)
 
 func load_json() -> void:
-	var new_ship = save_load.load_json(save_path, save_name.text, ship_prefab)
-	if not new_ship:
-		print("Load failed.")
-		return
+	var new_ship = ship_prefab.instantiate()
 	_replace_ship(new_ship)
+	save_load.load_json(save_path, save_name.text, new_ship)
 
 func _replace_ship(new_ship: Node) -> void:
 	ship.get_parent().add_child(new_ship)

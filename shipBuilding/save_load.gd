@@ -65,7 +65,8 @@ func save_json(ship : Node, save_path : String, save_name : String) -> void:
 	else:
 		push_error("Failed to save file: " + path)
 
-func load_json(save_path : String, save_name : String, parent_prefab : PackedScene) -> Node:
+# ship must be pre initialized. ship should be empty.
+func load_json(save_path : String, save_name : String, ship : Ship) -> Node:
 	var path = save_path + save_name + ".json"
 	
 	if not FileAccess.file_exists(path):
@@ -80,8 +81,6 @@ func load_json(save_path : String, save_name : String, parent_prefab : PackedSce
 	if data == null:
 		push_error("Failed to parse JSON from: " + path)
 		return
-	
-	var ship = parent_prefab.instantiate()
 	
 	if data.has("name"):
 		ship.name = data["name"]
