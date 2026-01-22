@@ -8,14 +8,14 @@ enum Mode { VIEW, ADD, MOVE, DESTROY }
 @onready var mode_dropdown: OptionButton = $"../UI/ModeDropdown"
 
 var occupied_cells: Dictionary = {}
-var current_index: int = 0
-var preview_instance: Node2D
+var preview_instance: Room
 var base_pixel_offsets: Array[Vector2] = []
 var current_rotation: int = 0
 var current_mode: Mode = Mode.VIEW
 var undo : UndoRedo = UndoRedo.new()
 
 func _ready() -> void:
+	$"../UI/RoomPicker".on_clicked.connect(room_prefab_selected)
 	mode_dropdown.item_selected.connect(_on_option_button_item_selected)
 	ship.room_clicked.connect(_on_ship_room_clicked)
 	_update_preview_shape()
@@ -52,20 +52,26 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			var cell = grid.local_to_map(grid.to_local(get_global_mouse_position()))
 			_attempt_place(cell)
-		elif event.button_index == MOUSE_BUTTON_RIGHT:
-			_cycle_prefab()
+		#elif event.button_index == MOUSE_BUTTON_RIGHT:
+			#_cycle_prefab()
 		elif event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			_rotate_prefab(-1)
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			_rotate_prefab(1)
 
-func room_prefab_selected(prefab : PackedScene):
-	pass
-
-func _cycle_prefab() -> void:
-	if room_prefabs.is_empty(): return
-	current_index = (current_index + 1) % room_prefabs.size()
+func room_prefab_selected(prefab_index : int):
+	_prefab_index = prefab_index
+	print("Selected ", get_prefab().resource_name)
+	current_mode = Mode.ADD
+	mode_dropdown.selected = Mode.ADD
 	_update_preview_shape()
+
+
+var _prefab_index : int = -1
+func get_prefab() -> PackedScene:
+	if _prefab_index < 0:
+		return null
+	return $"../UI/RoomPicker".room_prefabs[_prefab_index]
 
 func _rotate_prefab(direction: int) -> void:
 	current_rotation = (current_rotation + direction) % 6
@@ -82,8 +88,9 @@ func _update_preview_shape() -> void:
 	base_pixel_offsets.clear()
 
 	if room_prefabs.is_empty(): return
-
-	preview_instance = room_prefabs[current_index].instantiate()
+	if not get_prefab(): return
+	
+	preview_instance = get_prefab().instantiate()
 	add_child(preview_instance)
 	
 	for child in preview_instance.get_children():
@@ -130,7 +137,7 @@ func _attempt_place(center_cell: Vector2i) -> void:
 		if occupied_cells.has(cell):
 			return
 
-	var prefab = room_prefabs[current_index]
+	var prefab = get_prefab()
 	var room_instance = prefab.instantiate() as Room
 	
 	undo.create_action("Place Room")
@@ -202,13 +209,10 @@ func destroy(room: Room) -> void:
 func _attempt_move(room: Node) -> void:
 	if not room: return
 	
-	for i in range(room_prefabs.size()):
-		if room.scene_file_path == room_prefabs[i].resource_path:
-			current_index = i
-			break
+	_prefab_index = $"../UI/RoomPicker".get_room_index(room)
 			
 	_update_preview_shape()
-	_attempt_destroy(room)
+	_unplace_room(room)
 	current_mode = Mode.ADD
 	mode_dropdown.selected = Mode.ADD
 

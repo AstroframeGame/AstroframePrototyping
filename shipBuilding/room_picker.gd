@@ -13,6 +13,12 @@ func _ready() -> void:
 	load_rooms()
 	create_room_buttons()
 
+func get_room_index(room_instance : Room) -> int:
+	for i in range(room_prefabs.size()):
+		if room_instance.scene_file_path == room_prefabs[i].resource_path:
+			return i
+	return -1
+
 func load_rooms() -> void:
 	var dir = DirAccess.open(rooms_path)
 	if not dir:
