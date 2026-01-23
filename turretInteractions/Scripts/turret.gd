@@ -13,6 +13,5 @@ func handle_seat_input(event:InputEvent):
 		gun.shoot()
 	
 	if event is InputEventMouse:
-		var mouse_pos = event.global_position
-		
+		gun.gunSprite.look_at(get_global_mouse_position())
 		

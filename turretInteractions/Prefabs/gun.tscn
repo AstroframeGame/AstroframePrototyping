@@ -11,6 +11,7 @@ script = ExtResource("2_idakg")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 modulate = Color(0, 0, 0, 1)
+rotation = 2.6179938
 scale = Vector2(0.235, 0.235)
 texture = ExtResource("3_xr6jd")
 
