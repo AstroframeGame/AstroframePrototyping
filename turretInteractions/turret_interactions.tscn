@@ -1,12 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://drujdcxau6xfy"]
+[gd_scene load_steps=4 format=3 uid="uid://drujdcxau6xfy"]
 
-[ext_resource type="PackedScene" path="res://turretInteractions/Prefabs/gunShip.tscn" id="1_eralp"]
+[ext_resource type="PackedScene" uid="uid://c8wm28pcwpmto" path="res://turretInteractions/Prefabs/gun ship.tscn" id="1_eralp"]
 [ext_resource type="PackedScene" uid="uid://bw81yp258vvl6" path="res://turretInteractions/Prefabs/player_system_1.tscn" id="2_eralp"]
+[ext_resource type="PackedScene" uid="uid://devin6bdbcbay" path="res://turretInteractions/Prefabs/projectile.tscn" id="3_2q5u5"]
 
 [node name="TurretInteractions" type="Node2D"]
 
-[node name="Ship" parent="." groups=["player_ship"] instance=ExtResource("1_eralp")]
-position = Vector2(210, 270)
+[node name="Ship" parent="." instance=ExtResource("1_eralp")]
+position = Vector2(-155, -31)
+rotation = -1.1196536
 
 [node name="PlayerSystem_1" parent="." instance=ExtResource("2_eralp")]
-position = Vector2(-89, 256)
+position = Vector2(0, -22.5)
+
+[node name="Projectile" parent="." instance=ExtResource("3_2q5u5")]
+position = Vector2(-323, 100)
+
+[node name="Projectiles" type="Node2D" parent="."]

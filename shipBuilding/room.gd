@@ -6,7 +6,6 @@ extends CollisionPolygon2D
 const HEX_WIDTH = 78 #164.0
 const HEX_HEIGHT = 90 #190.0
 
-
 # this method is not necessary, but is a callback from when building with a callback
 # to the grid that is on the hex editor. feel free to remove.
 func initialize(_grid: TileMapLayer) -> void:

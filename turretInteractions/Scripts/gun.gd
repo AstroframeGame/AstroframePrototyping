@@ -1,11 +1,14 @@
-extends Node
+extends Sprite2D
 
+const PROJECTILE = preload("uid://devin6bdbcbay")
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+@onready var parentRoom : Room = get_parent()
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func shoot():
+	var proj : Projectile = PROJECTILE.instantiate()
+	proj.add_collision_exception_with(get_node("../../"))
+	proj.global_position = global_position
+	proj.rotation = get_node("../../").rotation - 1.5
+	get_node("../../../Projectiles").add_child(proj)
+	print("shooted") 
+	# why tf not instantiating

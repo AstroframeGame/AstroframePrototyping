@@ -1,10 +1,11 @@
 [gd_scene load_steps=3 format=3 uid="uid://cp183s3jkpdod"]
 
-[ext_resource type="Script" uid="uid://vo6mtf68wgee" path="res://shipBuilding/room.gd" id="1_1032q"]
+[ext_resource type="Script" uid="uid://c3klq6vqk45sm" path="res://turretInteractions/Scripts/piloting_2.gd" id="1_dtxgx"]
 [ext_resource type="PackedScene" uid="uid://dtg3tqh28wihx" path="res://turretInteractions/Prefabs/seat.tscn" id="2_dtxgx"]
 
 [node name="Piloting_2" type="CollisionPolygon2D"]
-script = ExtResource("1_1032q")
+polygon = PackedVector2Array(0, 0, 0, 0, 0, 0)
+script = ExtResource("1_dtxgx")
 
 [node name="Hex2" type="Polygon2D" parent="."]
 visible = false
