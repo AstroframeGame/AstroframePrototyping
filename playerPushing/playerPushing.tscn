@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bi6bllil67sau"]
+[gd_scene load_steps=6 format=3 uid="uid://bi6bllil67sau"]
 
 [ext_resource type="PackedScene" uid="uid://dcpfkpex6ovaa" path="res://playerMovement/player_system.tscn" id="1_4u17b"]
-[ext_resource type="PackedScene" uid="uid://b5524e4xq4onx" path="res://shipBuilding/ships/testShip.tscn" id="2_8wwce"]
+[ext_resource type="PackedScene" path="res://shipBuilding/ships/testShip.tscn" id="2_8wwce"]
+[ext_resource type="PackedScene" uid="uid://c2n7netp00xn6" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_jww6g"]
 [ext_resource type="Script" uid="uid://bsurseo1hgudf" path="res://shipBuilding/ship.gd" id="3_8wwce"]
 [ext_resource type="PackedScene" uid="uid://dffynorp3oc0l" path="res://shipBuilding/rooms/shields_3.tscn" id="3_jww6g"]
 
@@ -37,15 +38,17 @@ then you can rotate
 - Is there a way for the player to break down a piece into scrap?"
 
 [node name="FlyingPiece" type="RigidBody2D" parent="."]
+position = Vector2(646, 253)
 input_pickable = true
 gravity_scale = 0.0
 script = ExtResource("3_8wwce")
 
+[node name="HexGrid" parent="FlyingPiece" instance=ExtResource("2_jww6g")]
+
 [node name="Shields_0" parent="FlyingPiece" instance=ExtResource("3_jww6g")]
-position = Vector2(635, 281)
 
 [node name="Ship" parent="." instance=ExtResource("2_8wwce")]
-position = Vector2(0, 263)
+position = Vector2(-213, 241)
 
 [node name="PlayerSystem" parent="." instance=ExtResource("1_4u17b")]
 position = Vector2(311, 248)

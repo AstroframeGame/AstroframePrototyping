@@ -37,7 +37,6 @@ func set_shape():
 				islands.remove_at(i)
 			i -= 1
 		islands.append(p)
-	print(islands.size())
 	if not islands.is_empty():
 		polygon = islands[0]
 
