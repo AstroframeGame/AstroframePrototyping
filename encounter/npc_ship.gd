@@ -1,4 +1,4 @@
-extends Ship
+extends TestShip
 
 func _ready() -> void:
 	name = "aggro"
@@ -45,13 +45,13 @@ func _on_interact(event, type) -> void:
 			system_repair(type, 1)
 
 # this NPC will attack any ship that enters its sector
-func sector_entered(body: Ship) -> void:
+func sector_entered(body: TestShip) -> void:
 	print("[%s]: EVENT TRIGGERED: %s has warped near %s!" % 
 		[self.name.to_upper(), body.name, self.name])
 
 	trigger_event("attack", body)
 
-func trigger_event(type: String, body: Ship) -> void:
+func trigger_event(type: String, body: TestShip) -> void:
 	if type == "attack":
 		# TEMP: basic combat event
 		launch_attack(body, "engines", 2)

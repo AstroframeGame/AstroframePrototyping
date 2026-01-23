@@ -2,8 +2,8 @@ extends Node2D
 
 @export var sector_a: Area2D
 @export var sector_b: Area2D
-@export var npc_ship: Ship
-@export var player_ship: Ship
+@export var npc_ship: TestShip
+@export var player_ship: TestShip
 
 func _ready() -> void:
 	# sectors signals

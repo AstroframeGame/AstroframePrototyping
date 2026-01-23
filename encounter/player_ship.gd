@@ -1,4 +1,4 @@
-extends Ship
+extends TestShip
 
 func _ready() -> void:
 	name = "player"
