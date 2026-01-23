@@ -25,7 +25,7 @@ func _on_trigger_collider_area_shape_exited(_area_rid: RID, area: Area2D, _area_
 
 func _unhandled_input(event: InputEvent) -> void:
 	if player_in_area:
-		if event is InputEventKey and player_in_seat:
+		if player_in_seat:
 			seat_unhandled_input.emit(event)
 		
 		if event.is_action_pressed("interact"):

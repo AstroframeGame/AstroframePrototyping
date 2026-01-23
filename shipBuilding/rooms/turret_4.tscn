@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://bwv1fujhsc75n"]
 
-[ext_resource type="Script" uid="uid://vo6mtf68wgee" path="res://shipBuilding/room.gd" id="1_33auh"]
+[ext_resource type="Script" uid="uid://dl084kee34c5w" path="res://turretInteractions/Scripts/turret.gd" id="1_33auh"]
 [ext_resource type="PackedScene" uid="uid://88c51udovr1" path="res://turretInteractions/Prefabs/gun.tscn" id="2_na8wh"]
 [ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="3_6mm1y"]
 [ext_resource type="Texture2D" uid="uid://b425bkjas46w0" path="res://shipBuilding/icons/circle.png" id="4_0sr0w"]
