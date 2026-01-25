@@ -27,7 +27,7 @@ jobs:
         uses: Ayowel/butler-to-itch@v1.3.0
         with:
           butler_key: ${{ secrets.BUTLER_API_KEY }}
-          itch_user: montsgames
+          itch_user: sentientdragon5gamedev
           itch_game: astroframeprototype
           version: ${{ github.ref_name }}
           files: "${{ steps.export.outputs.archive_directory }}/astroframe-web.zip"
