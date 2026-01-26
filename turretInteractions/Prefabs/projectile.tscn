@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://devin6bdbcbay"]
+
+[ext_resource type="Script" uid="uid://cs7ryqp76e1cc" path="res://turretInteractions/Scripts/projectile.gd" id="1_b4oi4"]
+[ext_resource type="Texture2D" uid="uid://b425bkjas46w0" path="res://shipBuilding/icons/circle.png" id="2_vscos"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b4oi4"]
+radius = 9.0
+
+[node name="Projectile" type="RigidBody2D"]
+collision_layer = 2
+gravity_scale = 0.0
+contact_monitor = true
+max_contacts_reported = 1
+script = ExtResource("1_b4oi4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-1.0000004, 1.0000002)
+rotation = 1.5707964
+scale = Vector2(0.19499984, 0.29761732)
+texture = ExtResource("2_vscos")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_b4oi4")
+
+[node name="Lifetime" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Lifetime" to="." method="_on_lifetime_timeout"]

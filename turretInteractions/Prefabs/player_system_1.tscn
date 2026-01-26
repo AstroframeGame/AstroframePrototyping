@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://bw81yp258vvl6"]
+
+[ext_resource type="Script" uid="uid://duwi3eotdbnwc" path="res://turretInteractions/Scripts/player_camera_1.gd" id="1_b7t1x"]
+[ext_resource type="Script" uid="uid://bjkhr1mmv4ilu" path="res://turretInteractions/Scripts/player_1.gd" id="2_b7t1x"]
+[ext_resource type="Texture2D" uid="uid://idculymd1355" path="res://playerMovement/person.png" id="3_h3ory"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qi68c"]
+
+[node name="PlayerSystem_1" type="Node2D" unique_id=1799517964]
+
+[node name="PlayerUI" type="CanvasLayer" parent="." unique_id=1205971585]
+
+[node name="HealthBar?" type="Node" parent="PlayerUI" unique_id=1654291644]
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1196583936]
+script = ExtResource("1_b7t1x")
+
+[node name="Player" type="CharacterBody2D" parent="." unique_id=812066915 groups=["player_controller"]]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("2_b7t1x")
+
+[node name="Person" type="Sprite2D" parent="Player" unique_id=922145008]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_h3ory")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1837061904]
+position = Vector2(0, 16)
+shape = SubResource("CircleShape2D_qi68c")
+
+[node name="GroundCheck" type="Area2D" parent="Player" unique_id=678152006]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/GroundCheck" unique_id=827056769]
+position = Vector2(0, 16)
+shape = SubResource("CircleShape2D_qi68c")
