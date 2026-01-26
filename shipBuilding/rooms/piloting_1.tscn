@@ -14,11 +14,12 @@ polygon = PackedVector2Array(0, -90, 78, -45, 78, 45, 0, 90, -78, 45, -78, -45)
 
 [node name="SeatHex" parent="." unique_id=1095300556 instance=ExtResource("2_bq5al")]
 self_modulate = Color(0.7490196, 0.7254902, 0.5764706, 1)
+scale = Vector2(0.5, 0.5)
 
 [node name="Label" type="Label" parent="." unique_id=1590844293]
 offset_left = -30.0
-offset_top = -64.0
+offset_top = -36.0
 offset_right = 30.0
-offset_bottom = -41.0
+offset_bottom = -13.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Piloting"

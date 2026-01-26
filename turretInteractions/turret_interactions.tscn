@@ -1,10 +1,39 @@
 [gd_scene format=3 uid="uid://drujdcxau6xfy"]
 
 [ext_resource type="PackedScene" uid="uid://brca0u0xua4xv" path="res://turretInteractions/Prefabs/gunShip 1.tscn" id="1_2q5u5"]
+[ext_resource type="PackedScene" uid="uid://cftem25vj36a6" path="res://playerMovement/asteroids.tscn" id="1_cjkgp"]
 [ext_resource type="PackedScene" uid="uid://devin6bdbcbay" path="res://turretInteractions/Prefabs/projectile.tscn" id="3_2q5u5"]
 [ext_resource type="PackedScene" uid="uid://dcpfkpex6ovaa" path="res://playerMovement/player_system.tscn" id="3_cjkgp"]
 
 [node name="TurretInteractions" type="Node2D" unique_id=1383818248]
+
+[node name="Name" type="Label" parent="." unique_id=789630007]
+offset_left = 243.0
+offset_top = -178.0
+offset_right = 375.0
+offset_bottom = -155.0
+text = "Turret Interactions"
+
+[node name="Instructions" type="Label" parent="." unique_id=1831440335]
+offset_left = 165.0
+offset_top = -144.0
+offset_right = 517.0
+offset_bottom = -43.0
+text = "Use the player to enter the ship,
+Go to piloting room, press E to sit down
+Or sit at turret and shoot."
+
+[node name="Todo" type="Label" parent="." unique_id=67498364]
+offset_left = 106.0
+offset_top = -8.0
+offset_right = 546.0
+offset_bottom = 223.0
+text = "To add
+- piloting 2 should be removed, it is same as piloting 1
+- turret 4 should replace turret 3
+- projectiles should become a global group for references"
+
+[node name="Asteroids" parent="." unique_id=464769745 instance=ExtResource("1_cjkgp")]
 
 [node name="Ship" parent="." unique_id=674337843 instance=ExtResource("1_2q5u5")]
 position = Vector2(198, 87)
