@@ -1,33 +1,26 @@
-[gd_scene load_steps=3 format=3 uid="uid://cp183s3jkpdod"]
+[gd_scene format=3 uid="uid://cp183s3jkpdod"]
 
 [ext_resource type="Script" uid="uid://c3klq6vqk45sm" path="res://turretInteractions/Scripts/piloting_2.gd" id="1_dtxgx"]
 [ext_resource type="PackedScene" uid="uid://dtg3tqh28wihx" path="res://turretInteractions/Prefabs/seat.tscn" id="2_dtxgx"]
 
-[node name="Piloting_2" type="CollisionPolygon2D"]
+[node name="Piloting_2" type="CollisionPolygon2D" unique_id=1950889914]
 polygon = PackedVector2Array(0, 0, 0, 0, 0, 0)
 script = ExtResource("1_dtxgx")
 
-[node name="Hex2" type="Polygon2D" parent="."]
+[node name="Hex2" type="Polygon2D" parent="." unique_id=2142281425]
 visible = false
 scale = Vector2(0.5, 0.5)
 color = Color(0.7490196, 0.7254902, 0.5764706, 1)
 polygon = PackedVector2Array(0, -90, 78, -45, 78, 45, 0, 90, -78, 45, -78, -45)
 
-[node name="Seat" parent="." instance=ExtResource("2_dtxgx")]
+[node name="Seat" parent="." unique_id=170451593 instance=ExtResource("2_dtxgx")]
 modulate = Color(0.7490196, 0.7254902, 0.5764706, 1)
 scale = Vector2(0.5, 0.5)
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=281650833]
 offset_left = -28.0
 offset_top = -36.0
 offset_right = 32.0
 offset_bottom = -13.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Piloting"
-
-[node name="Area2D" type="Area2D" parent="."]
-visible = false
-scale = Vector2(0.5, 0.5)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
-polygon = PackedVector2Array(0, -90, 78, -45, 78, 45, 0, 90, -78, 45, -78, -45)
