@@ -1,64 +1,53 @@
-[gd_scene load_steps=13 format=3]
+[gd_scene format=3 uid="uid://brca0u0xua4xv"]
 
-[ext_resource type="Script" path="res://shipBuilding/ship.gd" id="1_3t6sg"]
-[ext_resource type="PackedScene" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_lrmhq"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/cannon.tscn" id="3_qe70q"]
-[ext_resource type="Script" path="res://turretInteractions/Scripts/cannon.gd" id="4_0nm2x"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/reactor_4.tscn" id="5_mnpv1"]
-[ext_resource type="Script" path="res://shipBuilding/room.gd" id="6_y07o8"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/turret_4.tscn" id="7_w3vo0"]
-[ext_resource type="Script" path="res://turretInteractions/Scripts/turret.gd" id="8_y04lw"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/engines_2.tscn" id="9_8fvhn"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/piloting_2.tscn" id="10_c0mmq"]
-[ext_resource type="Script" path="res://turretInteractions/Scripts/piloting_2.gd" id="11_ao5ps"]
+[ext_resource type="Script" uid="uid://bsurseo1hgudf" path="res://shipBuilding/ship.gd" id="1_3t6sg"]
+[ext_resource type="PackedScene" uid="uid://c2n7netp00xn6" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_lrmhq"]
+[ext_resource type="PackedScene" uid="uid://bmfrsjjfduwqn" path="res://shipBuilding/rooms/cannon.tscn" id="3_qe70q"]
+[ext_resource type="PackedScene" uid="uid://cplmkay6ecshy" path="res://shipBuilding/rooms/reactor_4.tscn" id="5_mnpv1"]
+[ext_resource type="PackedScene" uid="uid://bwv1fujhsc75n" path="res://shipBuilding/rooms/turret_4.tscn" id="7_w3vo0"]
+[ext_resource type="PackedScene" uid="uid://cebf4gqkt7jib" path="res://shipBuilding/rooms/engines_2.tscn" id="9_8fvhn"]
+[ext_resource type="PackedScene" uid="uid://cp183s3jkpdod" path="res://shipBuilding/rooms/piloting_2.tscn" id="10_c0mmq"]
 
 [sub_resource type="TileSet" id="TileSet_xsh4c"]
 tile_shape = 3
 tile_size = Vector2i(78, 90)
 
-[node name="Ship" type="RigidBody2D"]
+[node name="Ship" type="RigidBody2D" unique_id=10785879]
 input_pickable = true
 gravity_scale = 0.0
 sleeping = true
 script = ExtResource("1_3t6sg")
 
-[node name="HexGrid" type="TileMapLayer" parent="." instance=ExtResource("2_lrmhq")]
+[node name="HexGrid" parent="." unique_id=279528109 instance=ExtResource("2_lrmhq")]
 tile_set = SubResource("TileSet_xsh4c")
 
-[node name="Cannon" type="CollisionPolygon2D" parent="." instance=ExtResource("3_qe70q")]
+[node name="Cannon" parent="." unique_id=196366218 instance=ExtResource("3_qe70q")]
 position = Vector2(-78, -22.5)
 rotation = 2.0943952
 polygon = PackedVector2Array(0.099998474, -90.05, 0.099998474, -45.04232, 39.1, -22.550003, 39.1, 22.550003, 0, 45.1, -39.1, 22.550003, -39.1, -22.457672, -78.1, -44.950005, -78.1, -90.05, -39, -112.6)
-script = ExtResource("4_0nm2x")
 
-[node name="@CollisionPolygon2D@225" type="CollisionPolygon2D" parent="." instance=ExtResource("3_qe70q")]
+[node name="@CollisionPolygon2D@225" parent="." unique_id=1316251354 instance=ExtResource("3_qe70q")]
 position = Vector2(0, 112.5)
 rotation = 5.2359877
 polygon = PackedVector2Array(0.099998474, -90.05, 0.099998474, -45.04232, 39.1, -22.550003, 39.1, 22.550003, 0, 45.1, -39.1, 22.550003, -39.1, -22.457672, -78.1, -44.950005, -78.1, -90.05, -39, -112.6)
-script = ExtResource("4_0nm2x")
 
-[node name="Reactor_4" type="CollisionPolygon2D" parent="." instance=ExtResource("5_mnpv1")]
+[node name="Reactor_4" parent="." unique_id=966369907 instance=ExtResource("5_mnpv1")]
 position = Vector2(-156, 112.5)
 polygon = PackedVector2Array(39.1, -157.55, 39.1, -112.54232, 78.1, -90.05, 78.1, -44.950005, 39.1, -22.457672, 39.1, 22.550003, 0, 45.1, -39.1, 22.550003, -39.1, -22.457672, -78.1, -44.950005, -78.1, -90.05, -39.1, -112.54232, -39.1, -157.55, 0, -180.1)
-script = ExtResource("6_y07o8")
 
-[node name="@CollisionPolygon2D@226" type="CollisionPolygon2D" parent="." instance=ExtResource("5_mnpv1")]
+[node name="@CollisionPolygon2D@226" parent="." unique_id=253131071 instance=ExtResource("5_mnpv1")]
 position = Vector2(78, 112.5)
 polygon = PackedVector2Array(39.1, -157.55, 39.1, -112.54232, 78.1, -90.05, 78.1, -44.950005, 39.1, -22.457672, 39.1, 22.550003, 0, 45.1, -39.1, 22.550003, -39.1, -22.457672, -78.1, -44.950005, -78.1, -90.05, -39.1, -112.54232, -39.1, -157.55, 0, -180.1)
-script = ExtResource("6_y07o8")
 
-[node name="Turret_4" type="CollisionPolygon2D" parent="." instance=ExtResource("7_w3vo0")]
+[node name="Turret_4" parent="." unique_id=1527289362 instance=ExtResource("7_w3vo0")]
 position = Vector2(-39, -90)
 rotation = 5.2359877
 polygon = PackedVector2Array(78.1, -90.05, 78.1, -44.950005, 39.1, -22.457672, 39.1, 22.550003, 0, 45.1, -39.1, 22.550003, -39.1, -22.457672, -78.1, -44.950005, -78.1, -90.05, -39, -112.6, 0, -90.10767, 39, -112.6)
-script = ExtResource("8_y04lw")
 
-[node name="Engines_2" type="CollisionPolygon2D" parent="." instance=ExtResource("9_8fvhn")]
+[node name="Engines_2" parent="." unique_id=1188539787 instance=ExtResource("9_8fvhn")]
 position = Vector2(-39, 180)
 polygon = PackedVector2Array(117.1, -22.550003, 117.1, 22.550003, 78, 45.1, 39, 22.607674, 0, 45.1, -39.1, 22.550003, -39.1, -22.550003, 0, -45.1, 39, -22.607674, 78, -45.1)
-script = ExtResource("6_y07o8")
 
-[node name="Piloting_2" type="CollisionPolygon2D" parent="." instance=ExtResource("10_c0mmq")]
+[node name="Piloting_2" parent="." unique_id=655176134 instance=ExtResource("10_c0mmq")]
 position = Vector2(-39, 45)
 polygon = PackedVector2Array(0, -45.1, 39.1, -22.55, 39.1, 22.55, 0, 45.1, -39.1, 22.55, -39.1, -22.55)
-script = ExtResource("11_ao5ps")

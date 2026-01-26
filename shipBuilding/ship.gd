@@ -4,9 +4,9 @@ extends RigidBody2D
 signal room_clicked(room: Room, button_index: int)
 
 @onready var grid: TileMapLayer = $HexGrid
-
 var occupied_cells: Dictionary = {}
 
+# check if a room is clicked
 func _input_event(_viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
 		var owner_id = shape_owner_get_owner(shape_find_owner(shape_idx))
@@ -14,9 +14,13 @@ func _input_event(_viewport: Node, event: InputEvent, shape_idx: int) -> void:
 			print("Room ", owner_id, " was clicked")
 			room_clicked.emit(owner_id, event.button_index)
 
+func move_ship(direction : Vector2):
+	pass
+
+#region Grid and Cell functions
 func world_to_grid(world_pos: Vector2) -> Vector2i:
 	return grid.local_to_map(to_local(world_pos))
-
+	
 func grid_to_world(cell: Vector2i) -> Vector2:
 	return to_global(grid.map_to_local(cell))
 
@@ -37,7 +41,9 @@ func get_cells_for_room(room: Node, center_cell: Vector2i, rot_index: int) -> Ar
 			var target_cell = grid.local_to_map(grid.to_local(to_global(center_local + rotated_offset)))
 			cells.append(target_cell)
 	return cells
+#endregion
 
+#region Add and Remove Room
 func add_room(room: Room, cell: Vector2i, rot_index: int) -> void:
 	if room.get_parent() != self:
 		add_child(room)
@@ -60,6 +66,7 @@ func remove_room(room: Room) -> void:
 		occupied_cells.erase(k)
 	
 	remove_child(room)
+#endregion
 
 func update_colliders():
 	pass

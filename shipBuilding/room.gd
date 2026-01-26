@@ -2,6 +2,10 @@ class_name Room
 extends CollisionPolygon2D
 # a collision polygon will need a body as the parent. all rooms must be parented to the Ship (body)
 
+var ship : Ship:
+	get:
+		return get_parent() as Ship
+
 # feels like a bad place for the global info which is also stored in the HexGrid tilemap layer
 const HEX_WIDTH = 78 #164.0
 const HEX_HEIGHT = 90 #190.0
