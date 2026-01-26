@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://qteo7ksf47a4"]
 
 [ext_resource type="Script" uid="uid://vo6mtf68wgee" path="res://shipBuilding/room.gd" id="1_1032q"]
-[ext_resource type="PackedScene" uid="uid://dtg3tqh28wihx" path="res://turretInteractions/Prefabs/seat_hex.tscn" id="2_bq5al"]
+[ext_resource type="PackedScene" uid="uid://dtg3tqh28wihx" path="res://shipBuilding/hexes/seat_hex.tscn" id="2_bq5al"]
 
 [node name="Piloting_1" type="CollisionPolygon2D" unique_id=966141484]
 script = ExtResource("1_1032q")

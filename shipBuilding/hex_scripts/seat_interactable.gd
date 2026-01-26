@@ -1,4 +1,4 @@
-class_name seat_interactable
+class_name SeatInteractable
 extends Area2D
 
 '''
@@ -15,7 +15,7 @@ func interact(player : Player) -> void:
 	if not room is Room:
 		print_debug("Warning : tried to interact with a seat with no asociated room. Discarding input.")
 		return
-	if player.seat == room:
-		player.seat = null
+	if player.seat_room == room:
+		player.seat_room = null
 	else:
-		player.seat = room
+		player.seat_room = room

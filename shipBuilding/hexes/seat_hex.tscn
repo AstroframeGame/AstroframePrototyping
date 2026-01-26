@@ -1,25 +1,25 @@
 [gd_scene format=3 uid="uid://dtg3tqh28wihx"]
 
-[ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="1_xci8q"]
-[ext_resource type="Texture2D" uid="uid://c8r5gppak03nj" path="res://shipBuilding/icons/chair.png" id="2_n8s4k"]
-[ext_resource type="Script" uid="uid://dpwt1wgy7ca84" path="res://turretInteractions/Scripts/seat_interactable.gd" id="3_n8s4k"]
+[ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="1_0p63v"]
+[ext_resource type="Texture2D" uid="uid://c8r5gppak03nj" path="res://shipBuilding/icons/chair.png" id="2_r1seh"]
+[ext_resource type="Script" uid="uid://dpwt1wgy7ca84" path="res://shipBuilding/hex_scripts/seat_interactable.gd" id="3_oti5s"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_woerx"]
 radius = 34.0147
 
 [node name="SeatHex" type="Sprite2D" unique_id=1095300556]
-texture = ExtResource("1_xci8q")
+texture = ExtResource("1_0p63v")
 
 [node name="SeatSprite" type="Sprite2D" parent="." unique_id=1314824806]
 modulate = Color(0, 0, 0, 1)
 scale = Vector2(0.17, 0.17)
-texture = ExtResource("2_n8s4k")
+texture = ExtResource("2_r1seh")
 
 [node name="SeatInteractable" type="Area2D" parent="." unique_id=1518965603]
 collision_layer = 4
 collision_mask = 0
 input_pickable = false
-script = ExtResource("3_n8s4k")
+script = ExtResource("3_oti5s")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SeatInteractable" unique_id=748179849]
 shape = SubResource("CircleShape2D_woerx")

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cp183s3jkpdod"]
 
-[ext_resource type="Script" uid="uid://c3klq6vqk45sm" path="res://turretInteractions/Scripts/piloting_2.gd" id="1_dtxgx"]
-[ext_resource type="PackedScene" uid="uid://dtg3tqh28wihx" path="res://turretInteractions/Prefabs/seat_hex.tscn" id="2_dtxgx"]
+[ext_resource type="Script" uid="uid://d2cv6pxd82txj" path="res://shipBuilding/room_scripts/piloting.gd" id="1_dtxgx"]
+[ext_resource type="PackedScene" uid="uid://dtg3tqh28wihx" path="res://shipBuilding/hexes/seat_hex.tscn" id="2_dtxgx"]
 
 [node name="Piloting_2" type="CollisionPolygon2D" unique_id=1950889914]
 polygon = PackedVector2Array(0, 0, 0, 0, 0, 0)
@@ -23,4 +23,4 @@ offset_top = -36.0
 offset_right = 32.0
 offset_bottom = -13.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Piloting"
+text = "Piloting 2 (remove)"

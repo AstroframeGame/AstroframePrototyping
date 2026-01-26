@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://drujdcxau6xfy"]
 
 [ext_resource type="PackedScene" uid="uid://brca0u0xua4xv" path="res://turretInteractions/Prefabs/gunShip 1.tscn" id="1_2q5u5"]
-[ext_resource type="PackedScene" uid="uid://bw81yp258vvl6" path="res://turretInteractions/Prefabs/player_system_1.tscn" id="2_eralp"]
 [ext_resource type="PackedScene" uid="uid://devin6bdbcbay" path="res://turretInteractions/Prefabs/projectile.tscn" id="3_2q5u5"]
+[ext_resource type="PackedScene" uid="uid://dcpfkpex6ovaa" path="res://playerMovement/player_system.tscn" id="3_cjkgp"]
 
 [node name="TurretInteractions" type="Node2D" unique_id=1383818248]
 
@@ -15,5 +15,4 @@ position = Vector2(-323, 100)
 
 [node name="Projectiles" type="Node2D" parent="." unique_id=1054381458]
 
-[node name="PlayerSystem_1" parent="." unique_id=557003106 instance=ExtResource("2_eralp")]
-position = Vector2(0, -22.5)
+[node name="PlayerSystem" parent="." unique_id=809182662 instance=ExtResource("3_cjkgp")]
