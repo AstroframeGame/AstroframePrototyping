@@ -22,17 +22,16 @@ func load_rooms() -> void:
 	var dir = DirAccess.open(rooms_path)
 	if not dir:
 		push_error("Failed to access directory: " + rooms_path)
-	
+		
 	dir.list_dir_begin()
 	var file_name = dir.get_next()
+	
 	while file_name != "":
-		if !dir.current_is_dir() and (file_name.ends_with(".tscn") or file_name.ends_with(".scn")):
-			var full_path = rooms_path.path_join(file_name)
-			var scene = load(full_path)
-			if scene is PackedScene:
-				room_prefabs.append(scene)
+		if not dir.current_is_dir():
+			var final_name = file_name.trim_suffix(".remap")
+			if final_name.ends_with(".tscn") or final_name.ends_with(".scn"):
+				room_prefabs.append(load(rooms_path.path_join(final_name)))
 		file_name = dir.get_next()
-	dir.list_dir_end()
 
 func create_room_buttons() -> void:
 	for i in room_prefabs.size():
