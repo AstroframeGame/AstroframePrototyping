@@ -1,38 +1,25 @@
-[gd_scene load_steps=4 format=3 uid="uid://qteo7ksf47a4"]
+[gd_scene format=3 uid="uid://qteo7ksf47a4"]
 
-[ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="1_0tyag"]
 [ext_resource type="Script" uid="uid://vo6mtf68wgee" path="res://shipBuilding/room.gd" id="1_1032q"]
-[ext_resource type="Texture2D" uid="uid://c8r5gppak03nj" path="res://shipBuilding/icons/chair.png" id="1_j2nft"]
+[ext_resource type="PackedScene" uid="uid://dtg3tqh28wihx" path="res://shipBuilding/hexes/seat_hex.tscn" id="2_bq5al"]
 
-[node name="Piloting_1" type="CollisionPolygon2D"]
+[node name="Piloting_1" type="CollisionPolygon2D" unique_id=966141484]
 script = ExtResource("1_1032q")
 
-[node name="Hex2" type="Polygon2D" parent="."]
+[node name="Hex2" type="Polygon2D" parent="." unique_id=656342627]
 visible = false
 scale = Vector2(0.5, 0.5)
 color = Color(0.7490196, 0.7254902, 0.5764706, 1)
 polygon = PackedVector2Array(0, -90, 78, -45, 78, 45, 0, 90, -78, 45, -78, -45)
 
-[node name="Hex" type="Sprite2D" parent="."]
-modulate = Color(0.75, 0.727, 0.5775, 1)
+[node name="SeatHex" parent="." unique_id=1095300556 instance=ExtResource("2_bq5al")]
+self_modulate = Color(0.7490196, 0.7254902, 0.5764706, 1)
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("1_0tyag")
 
-[node name="Circle" type="Sprite2D" parent="Hex"]
-modulate = Color(0.21950102, 0.21950102, 0.21950102, 1)
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("1_j2nft")
-
-[node name="Area2D" type="Area2D" parent="Hex"]
-visible = false
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hex/Area2D"]
-polygon = PackedVector2Array(0, -90, 78, -45, 78, 45, 0, 90, -78, 45, -78, -45)
-
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=1590844293]
 offset_left = -30.0
-offset_top = -35.0
+offset_top = -36.0
 offset_right = 30.0
-offset_bottom = -12.0
+offset_bottom = -13.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Piloting"

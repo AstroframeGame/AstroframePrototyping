@@ -1,59 +1,58 @@
-[gd_scene load_steps=11 format=3 uid="uid://bkibqvfep8px0"]
+[gd_scene format=3 uid="uid://bkibqvfep8px0"]
 
-[ext_resource type="Script" uid="uid://bdw1f2ciyocp4" path="res://shipBuilding/hex_editor.gd" id="1_sx6es"]
-[ext_resource type="Script" uid="uid://bsurseo1hgudf" path="res://shipBuilding/ship.gd" id="2_6qeab"]
-[ext_resource type="PackedScene" uid="uid://qteo7ksf47a4" path="res://shipBuilding/rooms/piloting_1.tscn" id="2_q4pwh"]
-[ext_resource type="PackedScene" uid="uid://cebf4gqkt7jib" path="res://shipBuilding/rooms/engines_2.tscn" id="3_gbgp8"]
-[ext_resource type="PackedScene" uid="uid://daycij2kxk7dj" path="res://shipBuilding/rooms/turret_3.tscn" id="4_3b1i6"]
-[ext_resource type="PackedScene" uid="uid://dffynorp3oc0l" path="res://shipBuilding/rooms/shields_3.tscn" id="5_q8ivf"]
-[ext_resource type="PackedScene" uid="uid://cplmkay6ecshy" path="res://shipBuilding/rooms/reactor_4.tscn" id="6_idfod"]
-[ext_resource type="PackedScene" uid="uid://dir8uoqft75m0" path="res://shipBuilding/rooms/airlock_1.tscn" id="7_3b1i6"]
-[ext_resource type="Script" uid="uid://su5njmd4c8e2" path="res://shipBuilding/saveship.gd" id="8_gbgp8"]
+[ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/RoundedSquare.png" id="1_idfod"]
+[ext_resource type="Script" uid="uid://bdw1f2ciyocp4" path="res://shipBuilding/level_editor/hex_editor.gd" id="1_sx6es"]
+[ext_resource type="Script" uid="uid://duvfp0c112n5d" path="res://shipBuilding/level_editor/room_picker.gd" id="2_8axvm"]
+[ext_resource type="PackedScene" uid="uid://b4ety2cv40p6l" path="res://shipBuilding/prefabs/ship.tscn" id="4_qoir8"]
+[ext_resource type="Script" uid="uid://dh4g6jyrhqp2w" path="res://shipBuilding/level_editor/editor_cam.gd" id="5_ujx4f"]
+[ext_resource type="Script" uid="uid://qknmsuin5gwv" path="res://shipBuilding/save_load.gd" id="7_q4pwh"]
+[ext_resource type="Script" uid="uid://su5njmd4c8e2" path="res://shipBuilding/level_editor/editor_save_manager.gd" id="8_gbgp8"]
 
-[sub_resource type="TileSet" id="TileSet_xsh4c"]
-tile_shape = 3
-tile_size = Vector2i(78, 90)
+[node name="ShipBuilding" type="Node2D" unique_id=1332591370]
 
-[node name="ShipBuilding" type="Node2D"]
-
-[node name="Name" type="Label" parent="."]
+[node name="Name" type="Label" parent="." unique_id=1348804384]
 offset_left = -271.0
 offset_top = -225.0
 offset_right = -139.0
 offset_bottom = -202.0
 text = "ShipBuilding"
 
-[node name="Instructions" type="Label" parent="."]
+[node name="Instructions" type="Label" parent="." unique_id=1952220908]
 offset_left = -349.0
 offset_top = -191.0
 offset_right = 363.0
 offset_bottom = -142.0
 text = "This is a ship level editor. Use the dropdown, right click to place, left to cycle, scroll to rotate."
 
-[node name="Todo" type="Label" parent="."]
+[node name="Todo" type="Label" parent="." unique_id=968046550]
 offset_left = -290.0
 offset_top = -74.0
 offset_right = 62.0
 offset_bottom = -25.0
 text = "To add
-- Save/Load to Json functionality
-- Save to tscn DONE :)
-- load from tscn and multi editor
-- this should be used to create the ships internally
-- redo the controls
-- evaluate if the current way the events are working well
 - setup the power system
 - swap dots with circles?
-- add an editor camera controller
-- create more rooms"
+- create more rooms
+Done
+- Save/Load to Json functionality
+- Save to tscn
+- load from tscn
+- redo the controls
+- ship hex grid restructured
+- simple cam controller added
+Cancelled
+- multi editor"
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="." unique_id=1182429860]
 
-[node name="ModeDropdown" type="OptionButton" parent="UI"]
-offset_left = 378.0
-offset_top = 1.0
-offset_right = 471.0
-offset_bottom = 32.0
+[node name="ModeDropdown" type="OptionButton" parent="UI" unique_id=687998760]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -46.5
+offset_right = 46.5
+offset_bottom = 31.0
+grow_horizontal = 2
 selected = 0
 item_count = 4
 popup/item_0/text = "View"
@@ -65,48 +64,71 @@ popup/item_2/id = 2
 popup/item_3/text = "Destroy"
 popup/item_3/id = 3
 
-[node name="SaveLoad" type="VBoxContainer" parent="UI"]
-offset_left = 660.0
-offset_top = 4.0
-offset_right = 769.0
-offset_bottom = 140.0
+[node name="SaveLoad" type="VBoxContainer" parent="UI" unique_id=551900175]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -150.0
+offset_bottom = 171.0
+grow_horizontal = 0
 
-[node name="Savetscn" type="Button" parent="UI/SaveLoad"]
-layout_mode = 2
-text = "Save to TSCN"
-
-[node name="Savejson" type="Button" parent="UI/SaveLoad"]
-layout_mode = 2
-text = "Save to JSON"
-
-[node name="Loadtscn" type="Button" parent="UI/SaveLoad"]
-layout_mode = 2
-text = "Load TSCN"
-
-[node name="Loadjson" type="Button" parent="UI/SaveLoad"]
-layout_mode = 2
-text = "Load JSON"
-
-[node name="SaveName" type="LineEdit" parent="UI"]
+[node name="SaveName" type="LineEdit" parent="UI/SaveLoad" unique_id=1508354069]
 custom_minimum_size = Vector2(150, 0)
-offset_left = 799.0
-offset_top = 35.0
-offset_right = 867.5625
-offset_bottom = 66.0
+layout_mode = 2
 text = "shipName"
 placeholder_text = "Ship Name"
 
-[node name="HexGrid" type="TileMapLayer" parent="."]
-tile_set = SubResource("TileSet_xsh4c")
+[node name="Savetscn" type="Button" parent="UI/SaveLoad" unique_id=396110949]
+layout_mode = 2
+text = "Save to TSCN"
+
+[node name="Savejson" type="Button" parent="UI/SaveLoad" unique_id=1587268666]
+layout_mode = 2
+text = "Save to JSON"
+
+[node name="Loadtscn" type="Button" parent="UI/SaveLoad" unique_id=92137461]
+layout_mode = 2
+text = "Load TSCN"
+
+[node name="Loadjson" type="Button" parent="UI/SaveLoad" unique_id=1840473777]
+layout_mode = 2
+text = "Load JSON"
+
+[node name="RoomPicker" type="NinePatchRect" parent="UI" unique_id=1913782451]
+self_modulate = Color(0.16078432, 0.16078432, 0.16078432, 0.36862746)
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_top = 100.0
+offset_right = 221.0
+grow_vertical = 2
+texture = ExtResource("1_idfod")
+patch_margin_left = 50
+patch_margin_top = 50
+patch_margin_right = 50
+patch_margin_bottom = 50
+script = ExtResource("2_8axvm")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="UI/RoomPicker" unique_id=158398648]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/RoomPicker/ScrollContainer" unique_id=1348412978]
+layout_mode = 2
+
+[node name="HexEditor" type="Node" parent="." unique_id=1998897616]
 script = ExtResource("1_sx6es")
-room_prefabs = Array[PackedScene]([ExtResource("2_q4pwh"), ExtResource("3_gbgp8"), ExtResource("4_3b1i6"), ExtResource("5_q8ivf"), ExtResource("6_idfod"), ExtResource("7_3b1i6")])
 
-[node name="Ship" type="RigidBody2D" parent="."]
-input_pickable = true
-gravity_scale = 0.0
-script = ExtResource("2_6qeab")
+[node name="Ship" parent="." unique_id=1784127879 instance=ExtResource("4_qoir8")]
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1895263314]
+script = ExtResource("5_ujx4f")
 
-[node name="SaveLoad" type="Node" parent="."]
+[node name="SaveManager" type="Node" parent="." unique_id=73548537]
 script = ExtResource("8_gbgp8")
+
+[node name="SaveLoad" type="Node" parent="." unique_id=424133726]
+script = ExtResource("7_q4pwh")

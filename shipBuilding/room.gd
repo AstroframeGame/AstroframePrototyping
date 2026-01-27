@@ -2,10 +2,13 @@ class_name Room
 extends CollisionPolygon2D
 # a collision polygon will need a body as the parent. all rooms must be parented to the Ship (body)
 
+var ship : Ship:
+	get:
+		return get_parent() as Ship
+
 # feels like a bad place for the global info which is also stored in the HexGrid tilemap layer
 const HEX_WIDTH = 78 #164.0
 const HEX_HEIGHT = 90 #190.0
-
 
 # this method is not necessary, but is a callback from when building with a callback
 # to the grid that is on the hex editor. feel free to remove.
@@ -37,7 +40,6 @@ func set_shape():
 				islands.remove_at(i)
 			i -= 1
 		islands.append(p)
-	print(islands.size())
 	if not islands.is_empty():
 		polygon = islands[0]
 

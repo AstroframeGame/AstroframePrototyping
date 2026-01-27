@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://88c51udovr1"]
+
+[ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="1_jjod8"]
+[ext_resource type="Script" uid="uid://ctti6jygujj6i" path="res://shipBuilding/hex_scripts/gun.gd" id="2_jn67f"]
+[ext_resource type="Texture2D" uid="uid://h7n0dwcqcea8" path="res://shipBuilding/icons/turret.png" id="3_xan1q"]
+
+[node name="GunHex" type="Sprite2D" unique_id=884138192]
+modulate = Color(1, 0.74509805, 0.70980394, 1)
+texture = ExtResource("1_jjod8")
+script = ExtResource("2_jn67f")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=879061294]
+modulate = Color(0, 0, 0, 1)
+rotation = 2.6179938
+scale = Vector2(0.235, 0.235)
+texture = ExtResource("3_xan1q")
+
+[node name="Timer" type="Timer" parent="." unique_id=1871114995]
