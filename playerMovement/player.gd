@@ -14,22 +14,33 @@ the player is over ground, hence whether to use air movement or ground movement
 @export var walk_speed = 200
 @export var thrust_accel = 400
 
-signal pass_unhandled_input(event : InputEvent)
-var seat_room : Room = null
+var _seat : SeatInteractable = null
+var seat : SeatInteractable :
+	get:
+		return _seat
+	set(value):
+		_seat = value
 
 @onready var ground_check: Area2D = $GroundCheck
 @onready var interact_check: Area2D = $InteractCheck
+@onready var global_world : Node2D = $"../.."
 
 var grounded : bool:
 	get:
 		ground_check = $GroundCheck
 		return ground_check.has_overlapping_bodies()
 
+func _ready() -> void:
+	ground_check.body_entered.connect(on_ground)
+	ground_check.body_exited.connect(on_unground)
+
 func _physics_process(_delta):
-	if seat_room:
+	var direction = Input.get_vector("left", "right", "up", "down")
+	if seat:
+		if seat.has_method("move_ship"):
+			seat.move_ship(direction, _delta)
 		return
 	
-	var direction = Input.get_vector("left", "right", "up", "down")
 	if grounded:
 		velocity = direction * walk_speed
 	else:
@@ -45,6 +56,7 @@ func interact():
 	var interactable = get_interactable()
 	if interactable:
 		interactable.interact(self)
+		print_debug("Player interacted with ", interactable)
 			
 func get_interactable() -> Node2D:
 	for area in interact_check.get_overlapping_areas():
@@ -64,5 +76,21 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact"):
 		interact()
 		return
-	if seat_room and seat_room.has_method("handle_input"):
-		seat_room.handle_input(event)
+	#print(seat , seat and seat.room.has_method("handle_input"))
+	if seat and seat.room.has_method("handle_input"):
+		seat.room.handle_input(event)
+
+func on_ground(body : Node2D):
+	print(body)
+	#if body is Ship:
+		#on_ship_enter(body)
+func on_unground(body : Node2D):
+	print("exot", body)
+	#if body is Ship:
+		#on_ship_exit(body)
+		#pass
+
+func on_ship_enter(ship : Ship):
+	get_parent().call_deferred("reparent", ship, true)
+func on_ship_exit(_ship : Ship):
+	get_parent().call_deferred("reparent", global_world, true)

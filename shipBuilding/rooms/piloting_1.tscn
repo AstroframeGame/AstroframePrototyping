@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://qteo7ksf47a4"]
 
-[ext_resource type="Script" uid="uid://vo6mtf68wgee" path="res://shipBuilding/room.gd" id="1_1032q"]
+[ext_resource type="Script" uid="uid://d2cv6pxd82txj" path="res://shipBuilding/room_scripts/piloting.gd" id="1_bq5al"]
 [ext_resource type="PackedScene" uid="uid://dtg3tqh28wihx" path="res://shipBuilding/hexes/seat_hex.tscn" id="2_bq5al"]
 
 [node name="Piloting_1" type="CollisionPolygon2D" unique_id=966141484]
-script = ExtResource("1_1032q")
+script = ExtResource("1_bq5al")
 
 [node name="Hex2" type="Polygon2D" parent="." unique_id=656342627]
 visible = false
@@ -23,3 +23,5 @@ offset_right = 30.0
 offset_bottom = -13.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Piloting"
+
+[editable path="SeatHex"]

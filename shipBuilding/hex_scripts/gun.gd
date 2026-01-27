@@ -11,4 +11,5 @@ func shoot():
 	proj.add_collision_exception_with(get_node("../../")) # room.ship ?
 	proj.global_position = global_position # should this be changed to barrel position?
 	proj.rotation = gunSprite.global_rotation
-	get_node("../../../Projectiles").add_child(proj) # should this be switched to a global group reference?
+	print_debug("SHOT A BULLET")
+	#get_node("../../../Projectiles").add_child(proj) # should this be switched to a global group reference?

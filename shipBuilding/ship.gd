@@ -6,6 +6,9 @@ signal room_clicked(room: Room, button_index: int)
 @onready var grid: TileMapLayer = $HexGrid
 var occupied_cells: Dictionary = {}
 
+func _ready() -> void:
+	pass
+
 # check if a room is clicked
 func _input_event(_viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
@@ -14,8 +17,55 @@ func _input_event(_viewport: Node, event: InputEvent, shape_idx: int) -> void:
 			print("Room ", owner_id, " was clicked")
 			room_clicked.emit(owner_id, event.button_index)
 
-func move_ship(direction : Vector2):
+#region Piloting
+func get_engines() -> Engines:
+	for r in get_children():
+		if r is Engines:
+			return r
+	return null
+func get_piloting() -> Piloting:
+	for r in get_children():
+		if r is Piloting:
+			return r
+	return null
+
+# both of these functions are passed upwards from the piloting room
+func move_ship(direction : Vector2, _delta : float):
+	var engines :Engines = get_engines()
+	if not engines:
+		return
+		
+	if Input.is_action_pressed("brake"):
+		linear_velocity -= linear_velocity.normalized() * engines.standard_thrust * _delta
+	else:
+		linear_velocity += direction * engines.standard_thrust * _delta
+
+func handle_input(event : InputEvent):
+	#print_debug("input ship", event)
 	pass
+
+func calc_mass():
+	var room_mass = 1
+	mass = 0
+	for r in get_children():
+		if r is Room:
+			mass += room_mass
+	#center_of_mass = pos
+func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
+	var piloting : Piloting = get_piloting()
+	if piloting and piloting.seat.controlled_by:
+		rotate_ship(state)
+
+func rotate_ship(state: PhysicsDirectBodyState2D):
+	var engines :Engines = get_engines()
+	if not engines:
+		return
+	
+	var look_dir = get_global_mouse_position() - global_position
+	var target_angle = look_dir.angle() + PI/2
+	var angle_delta = wrapf(target_angle - global_rotation, -PI, PI)
+	state.angular_velocity = angle_delta * engines.rotational_thrust
+#endregion
 
 #region Grid and Cell functions
 func world_to_grid(world_pos: Vector2) -> Vector2i:

@@ -6,6 +6,10 @@ var ship : Ship:
 	get:
 		return get_parent() as Ship
 
+# not sure how durability is going to work, but probably once a room takes enough damage, it becomes
+# inoperable or breaks
+@export var durability = 40
+
 # feels like a bad place for the global info which is also stored in the HexGrid tilemap layer
 const HEX_WIDTH = 78 #164.0
 const HEX_HEIGHT = 90 #190.0
