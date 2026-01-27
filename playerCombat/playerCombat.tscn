@@ -1,15 +1,19 @@
 [gd_scene format=3 uid="uid://dthcyp01ao5y8"]
 
-[node name="PlayerCombat" type="Node2D"]
+[ext_resource type="PackedScene" uid="uid://dcpfkpex6ovaa" path="res://playerMovement/player_system.tscn" id="1_h7h2y"]
+[ext_resource type="PackedScene" uid="uid://cftem25vj36a6" path="res://playerMovement/asteroids.tscn" id="2_pmt8r"]
+[ext_resource type="PackedScene" uid="uid://cj60mf812rw82" path="res://playerCombat/enemyController.tscn" id="3_22lf3"]
 
-[node name="Name" type="Label" parent="."]
+[node name="PlayerCombat" type="Node2D" unique_id=330630042]
+
+[node name="Name" type="Label" parent="." unique_id=585604434]
 offset_left = 203.0
 offset_top = 118.0
 offset_right = 335.0
 offset_bottom = 141.0
 text = "PlayerCombat"
 
-[node name="Instructions" type="Label" parent="."]
+[node name="Instructions" type="Label" parent="." unique_id=2110030094]
 offset_left = 125.0
 offset_top = 152.0
 offset_right = 477.0
@@ -18,7 +22,7 @@ text = "Click on the screen to shoot laser gun.
 Hold to charge up (?) and aim
 Attack the dummy"
 
-[node name="Todo" type="Label" parent="."]
+[node name="Todo" type="Label" parent="." unique_id=751392245]
 offset_left = 172.0
 offset_top = 244.0
 offset_right = 606.0
@@ -27,3 +31,10 @@ text = "To add
 - add combat
 - add dummy
 - add enemies with ai"
+
+[node name="PlayerSystem" parent="." unique_id=809182662 instance=ExtResource("1_h7h2y")]
+position = Vector2(311, 248)
+
+[node name="Asteroids" parent="." unique_id=464769745 instance=ExtResource("2_pmt8r")]
+
+[node name="CharacterBody2D" parent="." unique_id=1204676728 instance=ExtResource("3_22lf3")]

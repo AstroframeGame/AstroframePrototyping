@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://cj60mf812rw82"]
+
+[ext_resource type="Texture2D" uid="uid://dddvu1266fgfj" path="res://playerCombat/enemy.png" id="1_tqlqu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1i7g1"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=1204676728]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1767517127]
+texture = ExtResource("1_tqlqu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1242387571]
+position = Vector2(0, 150)
+scale = Vector2(10, 10)
+shape = SubResource("CircleShape2D_1i7g1")
