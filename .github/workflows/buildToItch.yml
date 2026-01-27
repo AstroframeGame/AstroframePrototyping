@@ -29,5 +29,5 @@ jobs:
           butler_key: ${{ secrets.BUTLER_API_KEY }}
           itch_user: sentientdragon5gamedev
           itch_game: astroframeprototype
-          version: ${{ github.ref_name }} + v.1.0.${{ github.run_number }}
+          version: "${{ github.ref_name }} + v.1.0.${{ github.run_number }}"
           files: "${{ steps.export.outputs.archive_directory }}/astroframe-web.zip"
