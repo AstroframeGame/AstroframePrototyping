@@ -13,10 +13,6 @@ func handle_input(event:InputEvent):
 		return
 	ship.handle_input(event)
 
-# this method is searched by name from the player
-func move_ship(direction : Vector2, delta):
-	ship.move_ship(direction, delta)
-
 func shoot_all_cannons():
 	for child in ship.get_children():
 		if child is Cannon:

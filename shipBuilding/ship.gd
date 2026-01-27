@@ -7,6 +7,7 @@ signal room_clicked(room: Room, button_index: int)
 var occupied_cells: Dictionary = {}
 
 func _ready() -> void:
+	calc_center_of_mass()
 	pass
 
 # check if a room is clicked
@@ -29,42 +30,56 @@ func get_piloting() -> Piloting:
 			return r
 	return null
 
-# both of these functions are passed upwards from the piloting room
-func move_ship(direction : Vector2, _delta : float):
-	var engines :Engines = get_engines()
-	if not engines:
-		return
-		
-	if Input.is_action_pressed("brake"):
-		linear_velocity -= linear_velocity.normalized() * engines.standard_thrust * _delta
-	else:
-		linear_velocity += direction * engines.standard_thrust * _delta
-
 func handle_input(event : InputEvent):
 	#print_debug("input ship", event)
 	pass
 
-func calc_mass():
-	var room_mass = 1
-	mass = 0
-	for r in get_children():
-		if r is Room:
-			mass += room_mass
-	#center_of_mass = pos
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
-	var piloting : Piloting = get_piloting()
-	if piloting and piloting.seat.controlled_by:
-		rotate_ship(state)
+	#var piloting : Piloting = get_piloting()
+	#if piloting and piloting.seat.controlled_by:
+	rotate_ship(state)
+	move_ship(state)
 
-func rotate_ship(state: PhysicsDirectBodyState2D):
+func move_ship(state: PhysicsDirectBodyState2D):
 	var engines :Engines = get_engines()
 	if not engines:
 		return
-	
-	var look_dir = get_global_mouse_position() - global_position
+	var direction = Input.get_vector("left", "right", "up", "down")
+	var delta = get_process_delta_time()
+	if Input.is_action_pressed("brake"):
+		state.linear_velocity -= state.linear_velocity.normalized() * engines.standard_thrust * delta
+	else:
+		state.linear_velocity += direction * engines.standard_thrust * delta
+	print(state.linear_velocity, direction)
+
+func rotate_ship(state: PhysicsDirectBodyState2D):
+	var engines :Engines = get_engines()
+	var piloting : Piloting = get_piloting()
+	if not engines or not piloting:
+		return
+	var center = piloting.global_position
+	var look_dir = get_global_mouse_position() - center
 	var target_angle = look_dir.angle() + PI/2
 	var angle_delta = wrapf(target_angle - global_rotation, -PI, PI)
 	state.angular_velocity = angle_delta * engines.rotational_thrust
+	
+func calc_center_of_mass():
+	var hex_mass = 2.0
+	var total_mass = 0.0
+	var weighted_position_sum = Vector2.ZERO
+	
+	for child in get_children():
+		if child is Room:
+			for hex in child.get_children():
+				if hex is Sprite2D:
+					var hex_local_pos = child.to_local(hex.global_position)
+					weighted_position_sum += hex_local_pos * hex_mass
+					total_mass += hex_mass
+	if total_mass == 0:
+		return
+	mass = total_mass
+	#center_of_mass_mode = RigidBody2D.CENTER_OF_MASS_MODE_CUSTOM
+	#center_of_mass = weighted_position_sum / total_mass
 #endregion
 
 #region Grid and Cell functions

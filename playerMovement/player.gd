@@ -37,8 +37,6 @@ func _ready() -> void:
 func _physics_process(_delta):
 	var direction = Input.get_vector("left", "right", "up", "down")
 	if seat:
-		if seat.has_method("move_ship"):
-			seat.move_ship(direction, _delta)
 		return
 	
 	if grounded:

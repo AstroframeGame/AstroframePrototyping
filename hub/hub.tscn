@@ -1,31 +1,32 @@
-[gd_scene load_steps=3 format=3 uid="uid://c57plc2whtank"]
+[gd_scene format=3 uid="uid://c57plc2whtank"]
 
 [ext_resource type="Script" uid="uid://cbty45dswb5nj" path="res://hub/game_manager.gd" id="1_n4d7h"]
 [ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/RoundedSquare.png" id="2_1wrr7"]
+[ext_resource type="Script" uid="uid://cti2v7b51m68r" path="res://hub/fps_label.gd" id="3_6ebxt"]
 
-[node name="Hub" type="Node2D"]
+[node name="Hub" type="Node2D" unique_id=2058136417]
 
-[node name="GameManager" type="Node" parent="."]
+[node name="GameManager" type="Node" parent="." unique_id=1643740730]
 script = ExtResource("1_n4d7h")
 scene_paths = Array[String](["uid://c7ti17oj2ofyn", "uid://bkibqvfep8px0", "uid://c752nipt4tmop", "uid://bi6bllil67sau", "uid://dthcyp01ao5y8", "uid://ci700nfmrtxsd", "uid://bu4afq3jf34w3", "uid://drujdcxau6xfy"])
 
-[node name="UI" type="Node" parent="."]
+[node name="UI" type="Node" parent="." unique_id=1145349593]
 
-[node name="SceneList" type="CanvasLayer" parent="UI"]
+[node name="SceneList" type="CanvasLayer" parent="UI" unique_id=1954068811]
 
-[node name="ScrollContainer" type="ScrollContainer" parent="UI/SceneList"]
+[node name="ScrollContainer" type="ScrollContainer" parent="UI/SceneList" unique_id=1549920906]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="SceneList" type="VBoxContainer" parent="UI/SceneList/ScrollContainer"]
+[node name="SceneList" type="VBoxContainer" parent="UI/SceneList/ScrollContainer" unique_id=1849215895]
 layout_mode = 2
 
-[node name="Loading" type="CanvasLayer" parent="UI"]
+[node name="Loading" type="CanvasLayer" parent="UI" unique_id=1754381519]
 
-[node name="ColorRect" type="ColorRect" parent="UI/Loading"]
+[node name="ColorRect" type="ColorRect" parent="UI/Loading" unique_id=1638234797]
 visible = false
 anchors_preset = 15
 anchor_right = 1.0
@@ -34,7 +35,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="LoadProgress" type="TextureProgressBar" parent="UI/Loading"]
+[node name="LoadProgress" type="TextureProgressBar" parent="UI/Loading" unique_id=1104289562]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -54,11 +55,23 @@ stretch_margin_right = 50
 stretch_margin_bottom = 50
 texture_progress = ExtResource("2_1wrr7")
 
-[node name="InGame" type="CanvasLayer" parent="UI"]
+[node name="InGame" type="CanvasLayer" parent="UI" unique_id=1739083757]
 
-[node name="Button" type="Button" parent="UI/InGame"]
+[node name="Button" type="Button" parent="UI/InGame" unique_id=1653782239]
 offset_right = 8.0
 offset_bottom = 8.0
 text = "Back to Menu"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1820677988]
+
+[node name="fps" type="Label" parent="CanvasLayer" unique_id=1807193106]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 23.0
+grow_horizontal = 0
+text = "fps"
+script = ExtResource("3_6ebxt")
 
 [connection signal="pressed" from="UI/InGame/Button" to="GameManager" method="quit_to_list"]

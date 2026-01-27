@@ -22,3 +22,4 @@ func interact(player : Player) -> void:
 	else:
 		player.seat = self
 		controlled_by = player
+		player.global_position = global_position
