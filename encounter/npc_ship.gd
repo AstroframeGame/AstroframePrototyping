@@ -122,14 +122,23 @@ func handle_faction_interaction(system: String, interaction_type: String) -> voi
 					launch_attack(player_ship, "shields", 2)
 				
 	elif interaction_type == "repair":
-		# TODO
+		# TODO nuance
 		match system:
 			"shields":
 				system_repair("shields", 1)
+				if player_ship:
+					print("[FACTION] returning the favor!")
+					player_ship.system_repair("shields", 3)
 			"weapons":
 				system_repair("weapons", 1)
+				if player_ship:
+					print("[FACTION] returning the favor!")
+					player_ship.system_repair("weapons", 3)
 			"engines":
 				system_repair("engines", 1)
+				if player_ship:
+					print("[FACTION] returning the favor!")
+					player_ship.system_repair("engines", 3)
 
 # CIVILIAN SHIP INTERACTIONS
 func handle_civilian_interaction(system: String, interaction_type: String) -> void:
@@ -154,13 +163,16 @@ func handle_civilian_interaction(system: String, interaction_type: String) -> vo
 					
 				
 	elif interaction_type == "repair":
+		# TODO nuance
 		match system:
 			"shields":
 				system_repair("shields", 1)
+				print("[CIVILIAN] thanks!")
 			"weapons":
-				system_repair("weapons", 1)
+				print("[CIVILIAN] no weapons here!")
 			"engines":
 				system_repair("engines", 1)
+				print("[CIVILIAN] wow tysm!")
 
 # SCIENCE SHIP INTERACTIONS
 func handle_science_interaction(system: String, interaction_type: String) -> void:
@@ -188,13 +200,23 @@ func handle_science_interaction(system: String, interaction_type: String) -> voi
 					print("[SCIENCE] emergency jump protocol activated!")
 					
 	elif interaction_type == "repair":
+		# TODO nuance
 		match system:
 			"shields":
 				system_repair("shields", 1)
+				if player_ship:
+					print("[SCIENCE] returning the favor!")
+					player_ship.system_repair("shields", 1)
 			"weapons":
 				system_repair("weapons", 1)
+				if player_ship:
+					print("[SCIENCE] wow, thanks!")
+					player_ship.system_repair("shields", 2)
 			"engines":
 				system_repair("engines", 1)
+				if player_ship:
+					print("[SCIENCE] cool, tysm!")
+					player_ship.system_repair("shields", 1)
 
 # CRIMINAL SHIP INTERACTIONS
 func handle_criminal_interaction(system: String, interaction_type: String) -> void:

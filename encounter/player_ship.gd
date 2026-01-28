@@ -31,7 +31,7 @@ func setup_labels():
 	
 	var weapons_label = Label.new()
 	weapons_label.name = "weapons"
-	weapons_label.text = "weapos {%d}" % self.weapons
+	weapons_label.text = "weapons {%d}" % self.weapons
 	label_box.add_child(weapons_label)
 	
 	var engines_label = Label.new()
