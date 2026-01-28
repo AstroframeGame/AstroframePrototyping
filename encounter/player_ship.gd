@@ -25,14 +25,14 @@ func warp_to_other_sector() -> void:
 	if current_sector == sector_a and sector_b:
 		# warp to sector B
 		global_position = sector_b.global_position + Vector2(randf_range(-5, 5), randf_range(-5, 5))
-		print("[PLAYER]: warped to sector B")
+		#print("[PLAYER]: warped to sector B")
 	elif current_sector == sector_b and sector_a:
 		# warp to sector A
 		global_position = sector_a.global_position + Vector2(randf_range(-5, 5), randf_range(-5, 5))
-		print("[PLAYER]: warped to sector A")
+		#print("[PLAYER]: warped to sector A")
 	else:
 		print("[PLAYER]: not in valid sector to warp from", current_sector)
 		
 	if current_sector == sector_a or current_sector == sector_b:
 		var npc_proximity: float = check_proximity(self, npc_ship)
-		print("[PLAYER]: npc %.1f away" % npc_proximity)
+		#print("[PLAYER]: npc %.1f away" % npc_proximity)
