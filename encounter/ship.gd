@@ -53,7 +53,9 @@ func system_damage(system: String, strength: int) -> void:
 		self[system] = 0
 		print("[%s]: %s system destroyed!" %
 			[self.name.to_upper(), system])
-			
+
+	update_label(system)
+
 # fix systems
 func system_repair(system: String, strength: int) -> void:
 	if self[system] < 10:
@@ -65,3 +67,8 @@ func system_repair(system: String, strength: int) -> void:
 		self[system] = 10
 		print("[%s]: %s system at full health!" %
 			[self.name.to_upper(), system])
+		
+	update_label(system)
+
+func update_label(args):
+	pass

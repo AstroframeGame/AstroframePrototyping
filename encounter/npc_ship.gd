@@ -1,5 +1,7 @@
 extends TestShip
 
+var buttons_box
+
 func _ready() -> void:
 	# TEMP: hardcoding stats for now
 	var ship_type = get_meta("ship_type", "UNKNOWN")
@@ -46,21 +48,24 @@ func update_type_label():
 
 # crappy button interaction just for demo purposes
 func _set_up_buttons() -> void:
-	var buttons_box = BoxContainer.new()
+	buttons_box = BoxContainer.new()
 	buttons_box.vertical = true
 	add_child(buttons_box)
 	
 	var shields_interact = Button.new()
+	shields_interact.name = "shields"
 	shields_interact.text = "shields {%d}" % shields
 	shields_interact.gui_input.connect(_on_interact.bind("shields", shields_interact))
 	buttons_box.add_child(shields_interact)
 	
 	var weapons_interact = Button.new()
+	weapons_interact.name = "weapons"
 	weapons_interact.text = "weapons {%d}" % weapons
 	weapons_interact.gui_input.connect(_on_interact.bind("weapons",weapons_interact))
 	buttons_box.add_child(weapons_interact)
 	
 	var engines_interact = Button.new()
+	engines_interact.name = "engines"
 	engines_interact.text = "engines {%d}" % engines
 	engines_interact.gui_input.connect(_on_interact.bind("engines", engines_interact))
 	buttons_box.add_child(engines_interact)
@@ -91,9 +96,6 @@ func _on_interact(event, system: String, button: Button) -> void:
 			_:
 				handle_default_interaction(system, interaction_type)
 		
-		# update system health on button text
-		button.text = "%s {%d}" % [system, self[system]]
-
 # FACTION SHIP INTERACTIONS
 # TODO: relationship bits
 func handle_faction_interaction(system: String, interaction_type: String) -> void:
@@ -267,3 +269,9 @@ func get_encounter_info() -> Dictionary:
 		"location_type": location_type,
 		"ship_type": ship_type
 	}
+	
+func update_label(name: String):
+	if(buttons_box.get_node(name)):
+		buttons_box.get_node(name).text = "%s {%d}" % [name, self[name]]
+	else:
+		print("[PLAYER][ERROR]: \"%s\" not found" % name)
