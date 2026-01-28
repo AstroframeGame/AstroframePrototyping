@@ -3,9 +3,6 @@ extends Room
 
 @onready var seat: SeatInteractable = $SeatHex/SeatInteractable
 
-func _ready() -> void:
-	super._ready()
-
 # this method is searched by name from the player
 func handle_input(event:InputEvent):
 	if event.is_action_pressed("ship_fire"):

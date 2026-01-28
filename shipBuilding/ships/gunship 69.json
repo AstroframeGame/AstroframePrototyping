@@ -1,0 +1,50 @@
+{
+	"name": "@RigidBody2D@45",
+	"rooms": [
+		{
+			"grid_pos": [
+				-1,
+				0
+			],
+			"id": "piloting_1",
+			"name": "Piloting_1",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				-2,
+				-1
+			],
+			"id": "cannon",
+			"name": "Cannon",
+			"rot_index": 2
+		},
+		{
+			"grid_pos": [
+				0,
+				2
+			],
+			"id": "reactor_4",
+			"name": "Reactor_4",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				-2,
+				2
+			],
+			"id": "turret_3",
+			"name": "Turret_4",
+			"rot_index": 1
+		},
+		{
+			"grid_pos": [
+				-2,
+				3
+			],
+			"id": "engines_2",
+			"name": "Engines_2",
+			"rot_index": 0
+		}
+	]
+}
