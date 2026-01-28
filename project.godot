@@ -27,6 +27,7 @@ window/stretch/mode="canvas_items"
 
 player_ship=""
 player_controller=""
+projectiles=""
 
 [input]
 

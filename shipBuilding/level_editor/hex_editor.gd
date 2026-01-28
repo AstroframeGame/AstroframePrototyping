@@ -110,7 +110,7 @@ func _on_room_prefab_selected(index: int) -> void:
 	
 	var prefab = _get_prefab()
 	if prefab:
-		preview_instance = prefab.instantiate()
+		preview_instance = prefab.instantiate() as Room
 		add_child(preview_instance)
 		_rotate_preview(0)
 

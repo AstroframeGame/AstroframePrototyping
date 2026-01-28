@@ -1,29 +1,29 @@
 [gd_scene format=3 uid="uid://bmfrsjjfduwqn"]
 
 [ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="1_8q2aj"]
-[ext_resource type="Script" uid="uid://cwoq3gu0md6vm" path="res://turretInteractions/Scripts/cannon.gd" id="1_khiwb"]
+[ext_resource type="Script" uid="uid://cwoq3gu0md6vm" path="res://shipBuilding/room_scripts/cannon.gd" id="1_khiwb"]
 [ext_resource type="Texture2D" uid="uid://b425bkjas46w0" path="res://shipBuilding/icons/circle.png" id="2_khiwb"]
 [ext_resource type="PackedScene" uid="uid://88c51udovr1" path="res://shipBuilding/hexes/gun_hex.tscn" id="3_kgjcn"]
 
-[node name="Cannon" type="CollisionPolygon2D"]
+[node name="Cannon" type="CollisionPolygon2D" unique_id=943426048]
 polygon = PackedVector2Array(0, 0, 0, 0, 0, 0)
 script = ExtResource("1_khiwb")
 
-[node name="Hex2" type="Sprite2D" parent="."]
+[node name="Hex2" type="Sprite2D" parent="." unique_id=1859878250]
 modulate = Color(1, 0.7438333, 0.71000004, 1)
 position = Vector2(-39, -67.5)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_8q2aj")
 
-[node name="Circle" type="Sprite2D" parent="Hex2"]
+[node name="Circle" type="Sprite2D" parent="Hex2" unique_id=1575902230]
 modulate = Color(0.21950102, 0.21950102, 0.21950102, 1)
 scale = Vector2(0.235, 0.235)
 texture = ExtResource("2_khiwb")
 
-[node name="Gun" parent="." instance=ExtResource("3_kgjcn")]
+[node name="Gun" parent="." unique_id=1051518933 instance=ExtResource("3_kgjcn")]
 scale = Vector2(0.5, 0.5)
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=504615090]
 offset_left = -68.0
 offset_top = -66.0
 offset_right = -8.0

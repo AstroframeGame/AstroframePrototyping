@@ -1,46 +1,46 @@
-[gd_scene load_steps=4 format=3 uid="uid://dffynorp3oc0l"]
+[gd_scene format=3 uid="uid://dffynorp3oc0l"]
 
 [ext_resource type="Script" uid="uid://vo6mtf68wgee" path="res://shipBuilding/room.gd" id="1_5bstv"]
 [ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="2_csdgu"]
 [ext_resource type="Texture2D" uid="uid://b425bkjas46w0" path="res://shipBuilding/icons/circle.png" id="3_5bstv"]
 
-[node name="Shields_3" type="CollisionPolygon2D"]
+[node name="Shields_3" type="CollisionPolygon2D" unique_id=163631415]
 polygon = PackedVector2Array(0, 0, 0, 0, 0, 0)
 script = ExtResource("1_5bstv")
 
-[node name="Hex" type="Sprite2D" parent="."]
+[node name="Hex" type="Sprite2D" parent="." unique_id=1734649999]
 modulate = Color(0.71000004, 0.78733325, 1, 1)
 position = Vector2(39, -67.5)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_csdgu")
 
-[node name="Circle" type="Sprite2D" parent="Hex"]
+[node name="Circle" type="Sprite2D" parent="Hex" unique_id=1873546103]
 modulate = Color(0.21950102, 0.21950102, 0.21950102, 1)
 scale = Vector2(0.235, 0.235)
 texture = ExtResource("3_5bstv")
 
-[node name="Hex2" type="Sprite2D" parent="."]
+[node name="Hex2" type="Sprite2D" parent="." unique_id=1814113541]
 modulate = Color(0.71000004, 0.78733325, 1, 1)
 position = Vector2(-39, -67.5)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_csdgu")
 
-[node name="Circle" type="Sprite2D" parent="Hex2"]
+[node name="Circle" type="Sprite2D" parent="Hex2" unique_id=1110409572]
 modulate = Color(0.21950102, 0.21950102, 0.21950102, 1)
 scale = Vector2(0.235, 0.235)
 texture = ExtResource("3_5bstv")
 
-[node name="Hex3" type="Sprite2D" parent="."]
+[node name="Hex3" type="Sprite2D" parent="." unique_id=1814035564]
 modulate = Color(0.71000004, 0.78733325, 1, 1)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_csdgu")
 
-[node name="Circle" type="Sprite2D" parent="Hex3"]
+[node name="Circle" type="Sprite2D" parent="Hex3" unique_id=1046106202]
 modulate = Color(0.21950102, 0.21950102, 0.21950102, 1)
 scale = Vector2(0.235, 0.235)
 texture = ExtResource("3_5bstv")
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=69374832]
 offset_left = -26.0
 offset_top = -55.0
 offset_right = 29.0

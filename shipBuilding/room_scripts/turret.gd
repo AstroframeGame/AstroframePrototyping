@@ -3,9 +3,6 @@ extends Room
 
 @onready var gun : Sprite2D = $Gun
 
-func _ready() -> void:
-	super._ready()
-
 func handle_input(event:InputEvent):
 	# mouse guided system
 	if event.is_action("ship_fire"):

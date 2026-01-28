@@ -1,56 +1,57 @@
-[gd_scene load_steps=4 format=3 uid="uid://cplmkay6ecshy"]
+[gd_scene format=3 uid="uid://cplmkay6ecshy"]
 
 [ext_resource type="Script" uid="uid://vo6mtf68wgee" path="res://shipBuilding/room.gd" id="1_akdpe"]
 [ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="2_jyoqp"]
 [ext_resource type="Texture2D" uid="uid://cjtj7xo6f6waa" path="res://shipBuilding/icons/torus.png" id="3_ek4vi"]
 
-[node name="Reactor_4" type="CollisionPolygon2D"]
+[node name="Reactor_4" type="CollisionPolygon2D" unique_id=92830547 node_paths=PackedStringArray("hexes")]
 script = ExtResource("1_akdpe")
+hexes = [NodePath("Hex"), NodePath("Hex2"), NodePath("Hex3"), NodePath("Hex4")]
 
-[node name="Hex" type="Sprite2D" parent="."]
+[node name="Hex" type="Sprite2D" parent="." unique_id=993408652]
 modulate = Color(0.5775, 0.75, 0.6235, 1)
 position = Vector2(39, -67.5)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_jyoqp")
 
-[node name="Torus" type="Sprite2D" parent="Hex"]
+[node name="Torus" type="Sprite2D" parent="Hex" unique_id=12715066]
 modulate = Color(0.21950102, 0.21950102, 0.21950102, 1)
 scale = Vector2(0.065, 0.065)
 texture = ExtResource("3_ek4vi")
 
-[node name="Hex2" type="Sprite2D" parent="."]
+[node name="Hex2" type="Sprite2D" parent="." unique_id=2029646114]
 modulate = Color(0.5775, 0.75, 0.6235, 1)
 position = Vector2(-39, -67.5)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_jyoqp")
 
-[node name="Torus" type="Sprite2D" parent="Hex2"]
+[node name="Torus" type="Sprite2D" parent="Hex2" unique_id=1152935628]
 modulate = Color(0.21950102, 0.21950102, 0.21950102, 1)
 scale = Vector2(0.065, 0.065)
 texture = ExtResource("3_ek4vi")
 
-[node name="Hex3" type="Sprite2D" parent="."]
+[node name="Hex3" type="Sprite2D" parent="." unique_id=595814416]
 modulate = Color(0.5775, 0.75, 0.6235, 1)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_jyoqp")
 
-[node name="Torus" type="Sprite2D" parent="Hex3"]
+[node name="Torus" type="Sprite2D" parent="Hex3" unique_id=784755330]
 modulate = Color(0.21950102, 0.21950102, 0.21950102, 1)
 scale = Vector2(0.065, 0.065)
 texture = ExtResource("3_ek4vi")
 
-[node name="Hex4" type="Sprite2D" parent="."]
+[node name="Hex4" type="Sprite2D" parent="." unique_id=877627486]
 modulate = Color(0.5775, 0.75, 0.6235, 1)
 position = Vector2(0, -135)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_jyoqp")
 
-[node name="Torus" type="Sprite2D" parent="Hex4"]
+[node name="Torus" type="Sprite2D" parent="Hex4" unique_id=1684848119]
 modulate = Color(0.21950102, 0.21950102, 0.21950102, 1)
 scale = Vector2(0.065, 0.065)
 texture = ExtResource("3_ek4vi")
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=1896788520]
 offset_left = -30.0
 offset_top = -105.0
 offset_right = 30.0
