@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dtg3tqh28wihx" path="res://shipBuilding/hexes/seat_hex.tscn" id="2_bq5al"]
 
 [node name="Piloting_1" type="CollisionPolygon2D" unique_id=966141484]
+polygon = PackedVector2Array(0, 0, 0, 0, 0, 0)
 script = ExtResource("1_bq5al")
 
 [node name="Hex2" type="Polygon2D" parent="." unique_id=656342627]

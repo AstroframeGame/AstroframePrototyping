@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://8j8lbkqti4qs" path="res://shipBuilding/hexes/output_hex.tscn" id="2_ykp41"]
 
 [node name="Reactor_4" type="CollisionPolygon2D" unique_id=920192434]
+polygon = PackedVector2Array(0, 0, 0, 0, 0, 0)
 script = ExtResource("1_akdpe")
 
 [node name="OutputHex" parent="." unique_id=918919785 instance=ExtResource("2_ykp41")]
