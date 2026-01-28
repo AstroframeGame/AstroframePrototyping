@@ -37,4 +37,5 @@ position = Vector2(311, 248)
 
 [node name="Asteroids" parent="." unique_id=464769745 instance=ExtResource("2_pmt8r")]
 
-[node name="CharacterBody2D" parent="." unique_id=1204676728 instance=ExtResource("3_22lf3")]
+[node name="Enemy" parent="." unique_id=1204676728 instance=ExtResource("3_22lf3")]
+position = Vector2(187, 32)

@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://buwckbg6p6wda"]
+
+[ext_resource type="Texture2D" uid="uid://cng8ndpn67v7p" path="res://playerCombat/sci-fi_gun.png" id="1_inw71"]
+[ext_resource type="Script" uid="uid://4knbbehw5qw5" path="res://playerCombat/gun.gd" id="2_a2onp"]
+
+[node name="Gun" type="Sprite2D" unique_id=1166717209]
+texture = ExtResource("1_inw71")
+offset = Vector2(263, 0)
+script = ExtResource("2_a2onp")
+
+[node name="Marker2D" type="Marker2D" parent="." unique_id=596309340]
+position = Vector2(502, -21)

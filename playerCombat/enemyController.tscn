@@ -7,9 +7,10 @@
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=1204676728]
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1767517127]
+scale = Vector2(0.099, 0.1)
 texture = ExtResource("1_tqlqu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1242387571]
-position = Vector2(0, 150)
-scale = Vector2(10, 10)
+position = Vector2(0, 12)
+scale = Vector2(1.25, 1.25)
 shape = SubResource("CircleShape2D_1i7g1")

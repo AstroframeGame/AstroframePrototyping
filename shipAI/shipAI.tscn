@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://ci700nfmrtxsd"]
 
 [ext_resource type="PackedScene" path="res://shipBuilding/ships/test5.tscn" id="1_rcyo3"]
+[ext_resource type="PackedScene" path="res://shipBuilding/ships/simpleEnemy.tscn" id="2_lcjf2"]
 
 [node name="ShipAi" type="Node2D" unique_id=566827006]
 
@@ -31,3 +32,6 @@ text = "To add
 
 [node name="Ship" parent="." unique_id=1296519386 instance=ExtResource("1_rcyo3")]
 position = Vector2(459, 532)
+
+[node name="Ship2" parent="." unique_id=1784127879 instance=ExtResource("2_lcjf2")]
+position = Vector2(1079, 49)
