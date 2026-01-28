@@ -91,6 +91,28 @@ func get_cells_for_room(room: Node, center_cell: Vector2i, rot_index: int) -> Ar
 			var target_cell = grid.local_to_map(grid.to_local(to_global(center_local + rotated_offset)))
 			cells.append(target_cell)
 	return cells
+	
+func neighborhood_coords(cell: Vector2i) -> Array[Vector2i]:
+	return [
+		Vector2i(cell.x,cell.y-1), Vector2i(cell.x+1,cell.y-1), 
+		Vector2i(cell.x-1,cell.y), Vector2i(cell.x+1,cell.y),
+		Vector2i(cell.x,cell.y+1), Vector2i(cell.x+1,cell.y+1),
+	]
+
+func find_neightbors(room: Room) -> Array[Room]:
+	# coords of a cell's neighbors : neighborCoords
+	# { (x,y-1), (x+1,y-1), (x-1,y), (x+1,y), (x,y+1), (x+1,y+1), }
+	var neighbors : Array[Room] = []
+	for cell in get_cells_for_room(room, room.grid_pos, room.rot_index):
+		for coord in neighborhood_coords(cell):
+			if is_area_free([coord]):
+				print("find_neighbors found empty neighbor")
+				continue
+			var _room = occupied_cells[coord]
+			if not _room in neighbors:
+				neighbors.append(_room)
+		#neighbors.erase(self)
+	return neighbors
 #endregion
 
 #region Add and Remove Room
