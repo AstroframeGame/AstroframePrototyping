@@ -29,6 +29,11 @@ func get_piloting() -> Piloting:
 		if r is Piloting:
 			return r
 	return null
+func get_pilot() -> Player:
+	var piloting :Piloting = get_piloting()
+	if piloting:
+		return piloting.seat.controlled_by
+	return null
 
 func handle_input(event : InputEvent):
 	#print_debug("input ship", event)
@@ -42,7 +47,11 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 
 func move_ship(state: PhysicsDirectBodyState2D):
 	var engines :Engines = get_engines()
+	var pilot : Player = get_pilot()
 	if not engines:
+		return
+	if not pilot:
+		state.linear_velocity = Vector2.ZERO
 		return
 	var direction = Input.get_vector("left", "right", "up", "down")
 	var delta = get_process_delta_time()
@@ -50,12 +59,15 @@ func move_ship(state: PhysicsDirectBodyState2D):
 		state.linear_velocity -= state.linear_velocity.normalized() * engines.standard_thrust * delta
 	else:
 		state.linear_velocity += direction * engines.standard_thrust * delta
-	print(state.linear_velocity, direction)
 
 func rotate_ship(state: PhysicsDirectBodyState2D):
 	var engines :Engines = get_engines()
 	var piloting : Piloting = get_piloting()
+	var pilot : Player = get_pilot()
 	if not engines or not piloting:
+		return
+	if not pilot:
+		state.angular_velocity = 0
 		return
 	var center = piloting.global_position
 	var look_dir = get_global_mouse_position() - center

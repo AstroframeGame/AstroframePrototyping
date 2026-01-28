@@ -10,15 +10,17 @@
 [ext_resource type="Script" path="res://shipBuilding/room_scripts/piloting.gd" id="8_rcvor"]
 [ext_resource type="PackedScene" path="res://shipBuilding/rooms/turret_3.tscn" id="9_gyy2c"]
 [ext_resource type="Script" path="res://shipBuilding/room_scripts/turret.gd" id="10_ecgwr"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/airlock_1.tscn" id="11_0xfp3"]
+[ext_resource type="Script" path="res://shipBuilding/room.gd" id="12_44pdh"]
 
 [sub_resource type="TileSet" id="TileSet_xsh4c"]
 tile_shape = 3
 tile_size = Vector2i(78, 90)
 
-[node name="Ship" type="RigidBody2D" unique_id=1784127879]
+[node name="@RigidBody2D@51" type="RigidBody2D" unique_id=1784127879]
 input_pickable = true
+mass = 16.0
 gravity_scale = 0.0
-sleeping = true
 script = ExtResource("1_20sfu")
 
 [node name="HexGrid" type="TileMapLayer" parent="." unique_id=1726279931 instance=ExtResource("2_d42o2")]
@@ -45,3 +47,8 @@ position = Vector2(234, -22.5)
 rotation = 4.1887903
 polygon = PackedVector2Array(78.1, -90.05, 78.1, -44.950005, 39.1, -22.457672, 39.1, 22.550003, 0, 45.1, -39.1, 22.550003, -39.1, -22.457672, -78.1, -44.950005, -78.1, -90.05, -39, -112.6, 0, -90.10767, 39, -112.6)
 script = ExtResource("10_ecgwr")
+
+[node name="Airlock_1" type="CollisionPolygon2D" parent="." unique_id=1584786148 instance=ExtResource("11_0xfp3")]
+position = Vector2(0, -22.5)
+polygon = PackedVector2Array(0, -45.1, 39.1, -22.55, 39.1, 22.55, 0, 45.1, -39.1, 22.55, -39.1, -22.55)
+script = ExtResource("12_44pdh")

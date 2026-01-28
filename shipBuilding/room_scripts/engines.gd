@@ -4,6 +4,6 @@ extends Room
 # just for forward
 @export var boost_thrust = 12
 # for back, and sides
-@export var standard_thrust = 400
+@export var standard_thrust = 100
 # for rotation
-@export var rotational_thrust = 1
+@export var rotational_thrust = 0.5

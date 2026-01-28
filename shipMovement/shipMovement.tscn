@@ -29,11 +29,12 @@ offset_left = 106.0
 offset_top = -8.0
 offset_right = 546.0
 offset_bottom = 223.0
-text = "To add
-- how should movement work? change what I have
-- is this intended feeling?
-- how do weapons work with this?
-- add some goals in this scene to see if movement is right"
+text = "Done
+- Ship moves and rotates (not well)
+Todo
+- fix parenting
+- fix stutter
+- how will player be able to interact with power if their mouse is looking around?"
 
 [node name="Asteroids" parent="." unique_id=464769745 instance=ExtResource("1_g0kr4")]
 
@@ -42,5 +43,8 @@ position = Vector2(591, -258)
 
 [node name="Ship2" parent="." unique_id=1784127879 instance=ExtResource("4_5mvu2")]
 position = Vector2(-35, -214)
+mass = 1.0
+sleeping = true
 
 [node name="PlayerSystem" parent="." unique_id=1087077812 instance=ExtResource("2_g0kr4")]
+position = Vector2(84, -200)

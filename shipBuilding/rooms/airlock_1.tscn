@@ -1,24 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://dir8uoqft75m0"]
+[gd_scene format=3 uid="uid://dir8uoqft75m0"]
 
-[ext_resource type="Script" uid="uid://vo6mtf68wgee" path="res://shipBuilding/room.gd" id="1_r60ym"]
-[ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="2_fyg8x"]
-[ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/RoundedSquare.png" id="3_r60ym"]
+[ext_resource type="Script" uid="uid://c173g2mdo5jh1" path="res://shipBuilding/room_scripts/airlock.gd" id="1_r60ym"]
+[ext_resource type="PackedScene" uid="uid://clyn58uoj7ooi" path="res://shipBuilding/hexes/door_hex.tscn" id="2_eprgn"]
 
-[node name="Airlock_1" type="CollisionPolygon2D"]
+[node name="Airlock_1" type="CollisionPolygon2D" unique_id=948172483]
 polygon = PackedVector2Array(0, 0, 0, 0, 0, 0)
 script = ExtResource("1_r60ym")
 
-[node name="Hex3" type="Sprite2D" parent="."]
-modulate = Color(0.8617512, 0.7560671, 0.84178495, 1)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("2_fyg8x")
+[node name="DoorHex" parent="." unique_id=1390897145 instance=ExtResource("2_eprgn")]
 
-[node name="Circle" type="Sprite2D" parent="Hex3"]
-modulate = Color(0.21950102, 0.21950102, 0.21950102, 1)
-scale = Vector2(0.475, 0.475)
-texture = ExtResource("3_r60ym")
-
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=1223719285]
 offset_left = -27.0
 offset_top = -31.0
 offset_right = 28.0
