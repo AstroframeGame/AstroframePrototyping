@@ -8,10 +8,8 @@ const PROJECTILE = preload("uid://devin6bdbcbay") # funny uid lol
 
 func shoot():
 	var proj : Projectile = PROJECTILE.instantiate()
-	proj.initialize(gunSprite, room.ship.linear_velocity)
+	proj.initialize(gunSprite, room.ship.linear_velocity, Vector2.from_angle(gunSprite.global_rotation))
 	proj.add_collision_exception_with(room.ship)
-	# also ignore any players or things inisde ship?
-	#proj.global_position = global_position # should this be changed to barrel position?
-	#proj.rotation = gunSprite.global_rotation # moved to initialize
+	
 	var world = room.ship.get_parent()
-	world.get_node("Projectiles").add_child(proj) # not most elegent way
+	world.get_node("Projectiles").add_child(proj)
