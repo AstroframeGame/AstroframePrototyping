@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cftem25vj36a6" path="res://playerMovement/asteroids.tscn" id="1_g0kr4"]
 [ext_resource type="PackedScene" uid="uid://v5d1nbgycb44" path="res://shipBuilding/ships/testShip.tscn" id="1_hqjgw"]
 [ext_resource type="PackedScene" uid="uid://dcpfkpex6ovaa" path="res://playerMovement/player_system.tscn" id="2_g0kr4"]
-[ext_resource type="PackedScene" path="res://shipBuilding/ships/ship9.tscn" id="4_5mvu2"]
+[ext_resource type="PackedScene" uid="uid://cwwhq8ijq2wyl" path="res://shipBuilding/ships/ship9.tscn" id="4_5mvu2"]
 
 [node name="ShipMovement" type="Node2D" unique_id=115844452]
 
@@ -48,3 +48,5 @@ sleeping = true
 
 [node name="PlayerSystem" parent="." unique_id=1087077812 instance=ExtResource("2_g0kr4")]
 position = Vector2(84, -200)
+
+[node name="Projectiles" type="Node2D" parent="." unique_id=2065170757]

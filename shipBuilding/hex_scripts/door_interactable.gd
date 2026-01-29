@@ -14,6 +14,6 @@ func interact(player : Player) -> void:
 	if not room is Room:
 		print_debug("Warning : tried to interact with a door with no asociated room. Discarding input.")
 		return
-	print(room.has_method("on_door_interact"))
+	print("has door interact  ", room.name, room.has_method("on_door_interact"))
 	if room.has_method("on_door_interact"):
 		room.on_door_interact(player)
