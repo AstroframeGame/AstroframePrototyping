@@ -2,7 +2,7 @@ extends Sprite2D
 #Following Guide: https://www.youtube.com/watch?v=FcNQII-d5Pg
 
 @onready var marker_2d: Marker2D = $Marker2D
-const bullet = preload("res://playerCombat/bullet.tscn")
+const bullet = preload("res://turretInteractions/Prefabs/projectile.tscn")
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass
