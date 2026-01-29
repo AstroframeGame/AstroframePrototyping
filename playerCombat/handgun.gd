@@ -17,9 +17,9 @@ func _process(delta: float) -> void:
 
 func shootBullet() -> void:
 	var new_bullet : Projectile = bullet.instantiate()
-	new_bullet.initialize(gunSprite, player.velocity)
 	new_bullet.position = marker_2d.global_position
 	new_bullet.target_position = (get_global_mouse_position() - marker_2d.global_position).normalized()
+	new_bullet.initialize(gunSprite, player.velocity, new_bullet.target_position)
 
 	# also ignore any players or things inisde ship?
 	#proj.global_position = global_position # should this be changed to barrel position?
