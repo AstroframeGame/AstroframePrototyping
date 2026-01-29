@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://dmgvcp6y668bi"]
+
+[ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="1_3btjd"]
+[ext_resource type="Texture2D" uid="uid://cjtj7xo6f6waa" path="res://shipBuilding/icons/torus.png" id="2_hajiv"]
+
+[node name="InputHex" type="Sprite2D" unique_id=56559507]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_3btjd")
+
+[node name="Torus" type="Sprite2D" parent="." unique_id=1576327734]
+modulate = Color(0.21950102, 0.21950102, 0.21950102, 1)
+scale = Vector2(0.065, 0.065)
+texture = ExtResource("2_hajiv")

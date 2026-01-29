@@ -6,6 +6,18 @@ var ship : Ship:
 	get:
 		return get_parent() as Ship
 
+var rot_index : int:
+	get:
+		return int(round(rotation / (PI / 3.0)))
+		
+var grid_pos : Vector2i:
+	get:
+		return ship.world_to_grid(global_position)
+
+# not sure how durability is going to work, but probably once a room takes enough damage, it becomes
+# inoperable or breaks
+@export var durability = 40
+
 # feels like a bad place for the global info which is also stored in the HexGrid tilemap layer
 const HEX_WIDTH = 78 #164.0
 const HEX_HEIGHT = 90 #190.0
@@ -13,7 +25,7 @@ const HEX_HEIGHT = 90 #190.0
 # this method is not necessary, but is a callback from when building with a callback
 # to the grid that is on the hex editor. feel free to remove.
 func initialize(_grid: TileMapLayer) -> void:
-	pass
+	print(ship.find_neightbors(self))
 	
 func _ready() -> void:
 	set_shape() # needs to be called or else collider won't work
