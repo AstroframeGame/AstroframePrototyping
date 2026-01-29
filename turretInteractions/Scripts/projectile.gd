@@ -4,10 +4,10 @@ extends RigidBody2D
 @export var damage : float = 10
 @export var speed : float = 100
 
-func initialize(parent : Node2D, parent_velocity : Vector2):
+func initialize(parent : Node2D, parent_velocity : Vector2, direction : Vector2):
 	global_position = parent.global_position
 	global_rotation = parent.global_rotation
-	linear_velocity = Vector2.from_angle(rotation) * speed + parent_velocity
+	linear_velocity = direction * speed + parent_velocity
 
 func _ready() -> void:
 	#linear_velocity = Vector2.from_angle(rotation) * speed
