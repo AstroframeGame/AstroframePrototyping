@@ -79,16 +79,20 @@ func _unhandled_input(event: InputEvent) -> void:
 		seat.room.handle_input(event)
 
 func on_ground(body : Node2D):
-	print(body)
+	#print(body)
+	pass
 	#if body is Ship:
 		#on_ship_enter(body)
 func on_unground(body : Node2D):
-	print("exot", body)
+	#print("exot", body)
+	pass
 	#if body is Ship:
 		#on_ship_exit(body)
 		#pass
 
 func on_ship_enter(ship : Ship):
 	get_parent().call_deferred("reparent", ship, true)
+	print("parent to ship")
 func on_ship_exit(_ship : Ship):
 	get_parent().call_deferred("reparent", global_world, true)
+	print("parent to wordl")
