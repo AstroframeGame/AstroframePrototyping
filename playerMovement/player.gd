@@ -90,9 +90,15 @@ func on_unground(body : Node2D):
 		#on_ship_exit(body)
 		#pass
 
+var ship_in : Ship:
+	get :
+		if get_parent().get_parent() is Ship:
+			return get_parent().get_parent()
+		return null
+		
 func on_ship_enter(ship : Ship):
 	get_parent().call_deferred("reparent", ship, true)
 	print("parent to ship")
-func on_ship_exit(_ship : Ship):
+func on_ship_exit():
 	get_parent().call_deferred("reparent", global_world, true)
 	print("parent to wordl")
