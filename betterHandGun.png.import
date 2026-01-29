@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dwthutgkgvo0r"
-path="res://.godot/imported/energy_bullet.png-1f9a1a66e19166469827cfba90ffea0d.ctex"
+uid="uid://i4ixke7pgeh2"
+path="res://.godot/imported/betterHandGun.png-139c3103c80fd65f19c878619dbaeea9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://playerCombat/energy_bullet.png"
-dest_files=["res://.godot/imported/energy_bullet.png-1f9a1a66e19166469827cfba90ffea0d.ctex"]
+source_file="res://betterHandGun.png"
+dest_files=["res://.godot/imported/betterHandGun.png-139c3103c80fd65f19c878619dbaeea9.ctex"]
 
 [params]
 

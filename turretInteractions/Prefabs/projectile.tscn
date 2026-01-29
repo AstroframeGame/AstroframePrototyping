@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://b425bkjas46w0" path="res://shipBuilding/icons/circle.png" id="2_vscos"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b4oi4"]
-radius = 9.0
+radius = 8.0
 
 [node name="Projectile" type="RigidBody2D" unique_id=1608008233 groups=["projectiles"]]
 collision_layer = 2
@@ -14,10 +14,9 @@ max_contacts_reported = 1
 script = ExtResource("1_b4oi4")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1533851786]
-position = Vector2(-1.0000004, 1.0000002)
-rotation = 1.5707964
-scale = Vector2(0.19499984, 0.29761732)
+scale = Vector2(0.3, 0.18)
 texture = ExtResource("2_vscos")
+offset = Vector2(5, 3)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1962021637]
 rotation = 1.5707964

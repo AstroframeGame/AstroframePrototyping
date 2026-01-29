@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://mlbe2gg3pvg1"]
 
-[ext_resource type="Texture2D" uid="uid://dwthutgkgvo0r" path="res://playerCombat/energy_bullet.png" id="1_188mn"]
+[ext_resource type="Texture2D" uid="uid://dwthutgkgvo0r" path="res://turretInteractions/energy_bullet.png" id="1_188mn"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pk71y"]
 
