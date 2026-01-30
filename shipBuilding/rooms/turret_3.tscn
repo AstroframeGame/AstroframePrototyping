@@ -5,7 +5,10 @@
 [ext_resource type="PackedScene" uid="uid://dmgvcp6y668bi" path="res://shipBuilding/hexes/input_hex.tscn" id="3_bucqc"]
 [ext_resource type="PackedScene" uid="uid://dtg3tqh28wihx" path="res://shipBuilding/hexes/seat_hex.tscn" id="5_xg7mo"]
 
-[node name="Turret_4" type="CollisionPolygon2D" unique_id=1864384847]
+[sub_resource type="CircleShape2D" id="CircleShape2D_bucqc"]
+radius = 613.11743
+
+[node name="Turret_3" type="CollisionPolygon2D" unique_id=1864384847]
 polygon = PackedVector2Array(0, 0, 0, 0, 0, 0)
 script = ExtResource("1_wiatt")
 
@@ -28,3 +31,11 @@ offset_right = 29.0
 offset_bottom = -32.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Turret"
+
+[node name="DetectionRange" type="Area2D" parent="." unique_id=280376039]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRange" unique_id=233078241]
+shape = SubResource("CircleShape2D_bucqc")
+
+[connection signal="body_entered" from="DetectionRange" to="." method="_on_detection_range_body_entered"]
+[connection signal="body_exited" from="DetectionRange" to="." method="_on_detection_range_body_exited"]

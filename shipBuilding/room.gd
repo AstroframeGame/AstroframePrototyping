@@ -2,6 +2,11 @@ class_name Room
 extends CollisionPolygon2D
 # a collision polygon will need a body as the parent. all rooms must be parented to the Ship (body)
 
+# x: power supplied, y: full power cap
+var power : Dictionary = {"supplied":0, "max":0}
+#export for debugging
+@export var augments : Array[Augment]
+
 var ship : Ship:
 	get:
 		return get_parent() as Ship
@@ -24,11 +29,12 @@ const HEX_HEIGHT = 90 #190.0
 
 # this method is not necessary, but is a callback from when building with a callback
 # to the grid that is on the hex editor. feel free to remove.
-func initialize(_grid: TileMapLayer) -> void:
-	print(ship.find_neightbors(self))
+func initialize(_grid:TileMapLayer) -> void:
+	pass
 	
 func _ready() -> void:
 	set_shape() # needs to be called or else collider won't work
+	print(ship.find_neighbors(self))
 
 # this calculates the polygon of the room for collisions and clicking
 func set_shape():
