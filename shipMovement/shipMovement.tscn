@@ -46,7 +46,14 @@ position = Vector2(-35, -214)
 mass = 1.0
 sleeping = true
 
+[node name="Sprite" parent="Ship2/Cannon/Gun" parent_id_path=PackedInt32Array(1784127879, 170986718, 783557809) index="0" unique_id=879061294]
+rotation = 4.6927843
+
 [node name="PlayerSystem" parent="." unique_id=1087077812 instance=ExtResource("2_g0kr4")]
 position = Vector2(84, -200)
 
 [node name="Projectiles" type="Node2D" parent="." unique_id=2065170757]
+
+[editable path="Ship2"]
+[editable path="Ship2/Cannon"]
+[editable path="Ship2/Cannon/Gun"]
