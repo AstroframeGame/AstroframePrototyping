@@ -6,7 +6,7 @@
 [node name="handgun" type="Sprite2D" unique_id=1166717209]
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("1_q2iuy")
-offset = Vector2(200, 0)
+offset = Vector2(275, 0)
 script = ExtResource("2_d3ixh")
 
 [node name="Marker2D" type="Marker2D" parent="." unique_id=596309340]

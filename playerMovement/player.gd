@@ -58,6 +58,9 @@ func _physics_process(_delta):
 		
 	move_and_slide()
 
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("player_shoot"):
+		get_node("handgun").shootBullet()
 # currently interacts with the first overlapping interactable area, but this can be changed to nearest, last, all, ect.
 func interact():
 	var interactable = get_interactable()

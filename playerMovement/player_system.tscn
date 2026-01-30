@@ -4,7 +4,6 @@
 [ext_resource type="Script" uid="uid://bvtrly1u1q4h7" path="res://playerMovement/player.gd" id="2_0p3lp"]
 [ext_resource type="Texture2D" uid="uid://idculymd1355" path="res://playerMovement/person.png" id="3_h3ory"]
 [ext_resource type="PackedScene" uid="uid://oar1of8mix7f" path="res://playerCombat/Handgun.tscn" id="4_0p3lp"]
-[ext_resource type="Texture2D" uid="uid://c5tld5k1ocjf" path="res://playerCombat/betterHandGun.png" id="5_h3ory"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qi68c"]
 
@@ -49,4 +48,3 @@ position = Vector2(0, 16)
 shape = SubResource("CircleShape2D_qi68c")
 
 [node name="handgun" parent="Player" unique_id=1166717209 instance=ExtResource("4_0p3lp")]
-texture = ExtResource("5_h3ory")
