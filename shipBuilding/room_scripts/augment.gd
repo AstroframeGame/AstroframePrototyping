@@ -1,6 +1,7 @@
 class_name Augment
 extends Room
 
+# define an instance of the room type that the augment should target
 var target_rooms : Array[Room]
 
 func initialize(grid:TileMapLayer) -> void:
@@ -10,5 +11,21 @@ func _ready() -> void:
 	super._ready()
 
 # func to fill out target_rooms
+func find_target_rooms(augment_type: Variant, target_type: Variant):
+	for neighbor in ship.find_neighbors(self):
+		var check_next = false
+		if target_rooms.size() == 0 and is_instance_of(neighbor, target_type):
+			# check that target.augments isnt at the limit for this particular augmentt
+			for augment in neighbor.augments:
+				if is_instance_of(augment, augment_type):
+					check_next = true
+					#print("found target with augment of this type")
+					break
+			if check_next:
+				continue
+			# pair the turret to self
+			#print("augment paired to turret")
+			target_rooms.append(neighbor)
+			neighbor.augments.append(self)
 # func to pair target_rooms
 # func to decouple them
