@@ -3,9 +3,6 @@ extends Augment
 
 var enemy_target : Ship
 
-func initialize(grid:TileMapLayer) -> void:
-	super.initialize(grid)
-
 func _ready()->void:
 	super._ready()
 	# for loading ship in new scene
@@ -14,4 +11,4 @@ func _ready()->void:
 
 func _process(_delta: float) -> void:
 	if enemy_target and target_rooms.size()>0:
-		target_rooms[0].face_toward(enemy_target)
+		target_rooms[0].gun.gunSprite.look_at(enemy_target.global_position)

@@ -30,7 +30,7 @@ const HEX_HEIGHT = 90 #190.0
 # this method is not necessary, but is a callback from when building with a callback
 # to the grid that is on the hex editor. feel free to remove.
 func initialize(_grid:TileMapLayer) -> void:
-	print(ship.find_neighbors(self))
+	#print(ship.find_neighbors(self))
 	pass
 	
 func _ready() -> void:
@@ -77,3 +77,9 @@ func _get_hex_poly() -> PackedVector2Array:
 		Vector2(-w_half, h_quarter),
 		Vector2(-w_half, -h_quarter)
 	])
+
+func augment_in_list(_type:Variant)->int:
+	for augment in augments:
+		if is_instance_of(augment, _type):
+			return augments.find(augment)
+	return -1
