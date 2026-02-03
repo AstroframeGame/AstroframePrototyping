@@ -2,7 +2,13 @@
 
 [ext_resource type="Script" uid="uid://cbty45dswb5nj" path="res://hub/game_manager.gd" id="1_n4d7h"]
 [ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/RoundedSquare.png" id="2_1wrr7"]
+[ext_resource type="FontFile" uid="uid://bo3yd376velrb" path="res://hub/fonts/Skateblade-Regular.otf" id="2_clbpi"]
 [ext_resource type="Script" uid="uid://cti2v7b51m68r" path="res://hub/fps_label.gd" id="3_6ebxt"]
+[ext_resource type="Texture2D" uid="uid://hhdnr107ugtj" path="res://hub/icon/AstroFrameIcon.svg" id="5_21dlm"]
+
+[sub_resource type="Theme" id="Theme_21dlm"]
+default_font = ExtResource("2_clbpi")
+default_font_size = 72
 
 [node name="Hub" type="Node2D" unique_id=2058136417]
 
@@ -23,6 +29,14 @@ grow_vertical = 2
 
 [node name="SceneList" type="VBoxContainer" parent="UI/SceneList/ScrollContainer" unique_id=1849215895]
 layout_mode = 2
+
+[node name="Titile" type="Label" parent="UI/SceneList" unique_id=1864329945]
+offset_left = 333.0
+offset_top = 42.0
+offset_right = 823.0
+offset_bottom = 115.0
+theme = SubResource("Theme_21dlm")
+text = "AstroFrame"
 
 [node name="Loading" type="CanvasLayer" parent="UI" unique_id=1754381519]
 
@@ -74,5 +88,10 @@ offset_bottom = 23.0
 grow_horizontal = 0
 text = "fps"
 script = ExtResource("3_6ebxt")
+
+[node name="Astroframe" type="Sprite2D" parent="." unique_id=1122495930]
+position = Vector2(588, 198)
+scale = Vector2(0.195, 0.195)
+texture = ExtResource("5_21dlm")
 
 [connection signal="pressed" from="UI/InGame/Button" to="GameManager" method="quit_to_list"]
