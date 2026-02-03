@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://dcpfkpex6ovaa"]
 
+[ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/RoundedSquare.png" id="1_0p3lp"]
 [ext_resource type="Script" uid="uid://b8g4jci7uq4ut" path="res://playerMovement/player_camera.gd" id="1_hk7lp"]
 [ext_resource type="Script" uid="uid://bvtrly1u1q4h7" path="res://playerMovement/player.gd" id="2_0p3lp"]
 [ext_resource type="Texture2D" uid="uid://idculymd1355" path="res://playerMovement/person.png" id="3_h3ory"]
@@ -10,7 +11,57 @@
 
 [node name="PlayerUI" type="CanvasLayer" parent="." unique_id=1049682532]
 
-[node name="HealthBar?" type="Node" parent="PlayerUI" unique_id=2113311031]
+[node name="Health" type="TextureProgressBar" parent="PlayerUI" unique_id=1090152251]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -176.5
+offset_top = -40.0
+offset_right = 176.5
+grow_horizontal = 2
+grow_vertical = 0
+value = 66.0
+nine_patch_stretch = true
+stretch_margin_left = 20
+stretch_margin_top = 20
+stretch_margin_right = 20
+stretch_margin_bottom = 20
+texture_under = ExtResource("1_0p3lp")
+texture_progress = ExtResource("1_0p3lp")
+tint_under = Color(0.51, 0.51, 0.51, 1)
+tint_progress = Color(0.5137255, 0.74509805, 0.4862745, 1)
+
+[node name="Objectives" type="NinePatchRect" parent="PlayerUI" unique_id=575546727]
+self_modulate = Color(0, 0, 0, 0.23137255)
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -194.0
+offset_bottom = 152.0
+grow_horizontal = 0
+texture = ExtResource("1_0p3lp")
+patch_margin_left = 20
+patch_margin_top = 20
+patch_margin_right = 20
+patch_margin_bottom = 20
+
+[node name="Label" type="Label" parent="PlayerUI/Objectives" unique_id=51751683]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 11.0
+offset_right = 102.0
+offset_bottom = 34.0
+text = "Objectives"
+
+[node name="Label2" type="Label" parent="PlayerUI/Objectives" unique_id=282384385]
+layout_mode = 0
+offset_left = 23.0
+offset_top = 37.0
+offset_right = 104.0
+offset_bottom = 60.0
+text = "Defeat bandits"
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1873286781]
 ignore_rotation = false

@@ -18,7 +18,7 @@ var ship_zoom = 0.5
 
 func _physics_process(delta: float) -> void:
 	if seat:
-		var ship_offset = Vector2(0,200)
+		var ship_offset = Vector2(0,-500)
 		var pos = player.ship.get_piloting().global_position + ship_offset.rotated(player.ship.global_rotation)
 		global_position = global_position.lerp(pos, pos_smooth * delta)
 		global_rotation = lerp_angle(global_rotation, player.ship.global_rotation, rot_smooth * delta)
