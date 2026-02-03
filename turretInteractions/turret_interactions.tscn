@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://drujdcxau6xfy"]
 
-[ext_resource type="PackedScene" uid="uid://cftem25vj36a6" path="res://playerMovement/asteroids.tscn" id="1_cjkgp"]
-[ext_resource type="PackedScene" uid="uid://ylr6diedi1h" path="res://shipBuilding/ships/aimAugShip.tscn" id="2_ic617"]
+[ext_resource type="PackedScene" path="res://playerMovement/asteroids.tscn" id="1_cjkgp"]
 [ext_resource type="PackedScene" uid="uid://devin6bdbcbay" path="res://turretInteractions/Prefabs/projectile.tscn" id="3_2q5u5"]
 [ext_resource type="PackedScene" uid="uid://dcpfkpex6ovaa" path="res://playerMovement/player_system.tscn" id="3_cjkgp"]
 [ext_resource type="PackedScene" path="res://shipBuilding/ships/gunship 69.tscn" id="4_cjkgp"]
@@ -36,9 +35,6 @@ text = "To add
 
 [node name="Gunship 69" parent="." unique_id=1784127879 instance=ExtResource("4_cjkgp")]
 position = Vector2(293, 190)
-
-[node name="AimAugmentTest" parent="." unique_id=1132252074 instance=ExtResource("2_ic617")]
-position = Vector2(172, -869)
 
 [node name="Asteroids" parent="." unique_id=464769745 instance=ExtResource("1_cjkgp")]
 

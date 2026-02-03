@@ -2,11 +2,6 @@ class_name Room
 extends CollisionPolygon2D
 # a collision polygon will need a body as the parent. all rooms must be parented to the Ship (body)
 
-# x: power supplied, y: full power cap
-var power : Dictionary = {"supplied":0, "max":0}
-#export for debugging
-@export var augments : Array[Augment]
-
 var ship : Ship:
 	get:
 		return get_parent() as Ship
@@ -22,6 +17,8 @@ var grid_pos : Vector2i:
 # not sure how durability is going to work, but probably once a room takes enough damage, it becomes
 # inoperable or breaks
 @export var durability = 40
+#export for debugging
+@export var augments : Array[Augment]
 
 # feels like a bad place for the global info which is also stored in the HexGrid tilemap layer
 const HEX_WIDTH = 78 #164.0
@@ -78,8 +75,15 @@ func _get_hex_poly() -> PackedVector2Array:
 		Vector2(-w_half, -h_quarter)
 	])
 
+
 func augment_in_list(_type:Variant)->int:
 	for augment in augments:
+		# needs better solution but how many times is someone
+		# going to keep the base but repeatedly redo/undo
+		# an augment ¯\_(ツ)_/¯
+		if augment == null:
+			continue
 		if is_instance_of(augment, _type):
 			return augments.find(augment)
 	return -1
+	
