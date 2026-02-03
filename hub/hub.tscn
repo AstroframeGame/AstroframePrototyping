@@ -62,9 +62,10 @@ offset_right = 8.0
 offset_bottom = 8.0
 text = "Back to Menu"
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1820677988]
+[node name="Profiling" type="CanvasLayer" parent="." unique_id=1820677988]
+visible = false
 
-[node name="fps" type="Label" parent="CanvasLayer" unique_id=1807193106]
+[node name="fps" type="Label" parent="Profiling" unique_id=1807193106]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0

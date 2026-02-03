@@ -8,7 +8,8 @@ const PROJECTILE = preload("uid://devin6bdbcbay") # funny uid lol
 
 func shoot():
 	var proj : Projectile = PROJECTILE.instantiate()
-	proj.add_collision_exception_with(get_node("../../")) # room.ship ?
-	proj.global_position = global_position # should this be changed to barrel position?
-	proj.rotation = gunSprite.global_rotation
-	get_node("../../../Projectiles").add_child(proj) # should this be switched to a global group reference?
+	proj.initialize(gunSprite, room.ship.linear_velocity, Vector2.from_angle(gunSprite.global_rotation))
+	proj.add_collision_exception_with(room.ship)
+	
+	var world = room.ship.get_parent()
+	world.get_node("Projectiles").add_child(proj)

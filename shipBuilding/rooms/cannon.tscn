@@ -8,17 +8,17 @@
 polygon = PackedVector2Array(0, 0, 0, 0, 0, 0)
 script = ExtResource("1_khiwb")
 
-[node name="Gun" parent="." unique_id=783557809 instance=ExtResource("3_kgjcn")]
-self_modulate = Color(1, 0.74509805, 0.70980394, 1)
-
-[node name="InputHex2" parent="." unique_id=56559507 instance=ExtResource("2_8q2aj")]
+[node name="InputHex" parent="." unique_id=56559507 instance=ExtResource("2_8q2aj")]
 self_modulate = Color(1, 0.74509805, 0.70980394, 1)
 position = Vector2(78, 0)
 
+[node name="Gun" parent="." unique_id=783557809 instance=ExtResource("3_kgjcn")]
+self_modulate = Color(1, 0.74509805, 0.70980394, 1)
+
 [node name="Label" type="Label" parent="." unique_id=1178931816]
-offset_left = 11.0
-offset_top = -35.0
-offset_right = 71.0
-offset_bottom = -12.0
+offset_left = 28.0
+offset_top = -30.0
+offset_right = 88.0
+offset_bottom = -7.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Cannon"

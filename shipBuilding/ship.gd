@@ -38,7 +38,7 @@ func get_pilot() -> Player:
 		return piloting.seat.controlled_by
 	return null
 
-func handle_input(event : InputEvent):
+func handle_input(_event : InputEvent):
 	#print_debug("input ship", event)
 	pass
 
@@ -81,20 +81,15 @@ func rotate_ship(state: PhysicsDirectBodyState2D):
 func calc_center_of_mass():
 	var hex_mass = 2.0
 	var total_mass = 0.0
-	var weighted_position_sum = Vector2.ZERO
 	
 	for child in get_children():
 		if child is Room:
 			for hex in child.get_children():
 				if hex is Sprite2D:
-					var hex_local_pos = child.to_local(hex.global_position)
-					weighted_position_sum += hex_local_pos * hex_mass
 					total_mass += hex_mass
 	if total_mass == 0:
 		return
 	mass = total_mass
-	#center_of_mass_mode = RigidBody2D.CENTER_OF_MASS_MODE_CUSTOM
-	#center_of_mass = weighted_position_sum / total_mass
 #endregion
 
 #region Grid and Cell functions

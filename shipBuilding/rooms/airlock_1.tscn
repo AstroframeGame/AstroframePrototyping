@@ -16,3 +16,5 @@ offset_right = 28.0
 offset_bottom = -8.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Airlock"
+
+[editable path="DoorHex"]
