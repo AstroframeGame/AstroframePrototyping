@@ -13,6 +13,8 @@
 [node name="HealthBar?" type="Node" parent="PlayerUI" unique_id=2113311031]
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1873286781]
+ignore_rotation = false
+editor_draw_limits = true
 script = ExtResource("1_hk7lp")
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=1871139357]

@@ -58,7 +58,7 @@ func move_ship(state: PhysicsDirectBodyState2D):
 	if Input.is_action_pressed("brake"):
 		state.linear_velocity -= state.linear_velocity.normalized() * engines.standard_thrust * delta
 	else:
-		state.linear_velocity += direction * engines.standard_thrust * delta
+		state.linear_velocity += direction.rotated(global_rotation) * engines.standard_thrust * delta
 
 func rotate_ship(state: PhysicsDirectBodyState2D):
 	var engines :Engines = get_engines()
