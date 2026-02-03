@@ -6,6 +6,10 @@ signal room_clicked(room: Room, button_index: int)
 @onready var grid: TileMapLayer = $HexGrid
 var occupied_cells: Dictionary = {}
 
+func _ready() -> void:
+	calc_center_of_mass()
+	pass
+
 # check if a room is clicked
 func _input_event(_viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
@@ -14,8 +18,76 @@ func _input_event(_viewport: Node, event: InputEvent, shape_idx: int) -> void:
 			print("Room ", owner_id, " was clicked")
 			room_clicked.emit(owner_id, event.button_index)
 
-func move_ship(direction : Vector2):
+#region Piloting
+func get_engines() -> Engines:
+	for r in get_children():
+		if r is Engines:
+			return r
+	return null
+func get_piloting() -> Piloting:
+	for r in get_children():
+		if r is Piloting:
+			return r
+	return null
+func get_pilot() -> Player:
+	var piloting :Piloting = get_piloting()
+	if piloting:
+		return piloting.seat.controlled_by
+	return null
+
+func handle_input(_event : InputEvent):
+	#print_debug("input ship", event)
 	pass
+
+func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
+	#var piloting : Piloting = get_piloting()
+	#if piloting and piloting.seat.controlled_by:
+	rotate_ship(state)
+	move_ship(state)
+
+func move_ship(state: PhysicsDirectBodyState2D):
+	var engines :Engines = get_engines()
+	var pilot : Player = get_pilot()
+	if not engines:
+		return
+	if not pilot:
+		state.linear_velocity = Vector2.ZERO
+		return
+	var direction = Input.get_vector("left", "right", "up", "down")
+	var delta = get_process_delta_time()
+	if Input.is_action_pressed("brake"):
+		state.linear_velocity -= state.linear_velocity.normalized() * engines.standard_thrust * delta
+	else:
+		state.linear_velocity += direction * engines.standard_thrust * delta
+
+func rotate_ship(state: PhysicsDirectBodyState2D):
+	var engines :Engines = get_engines()
+	var piloting : Piloting = get_piloting()
+	var pilot : Player = get_pilot()
+	if not engines or not piloting:
+		return
+	if not pilot:
+		state.angular_velocity = 0
+		return
+	var center = piloting.global_position
+	var look_dir = get_global_mouse_position() - center
+	var target_angle = look_dir.angle() + PI/2
+	var angle_delta = wrapf(target_angle - global_rotation, -PI, PI)
+	state.angular_velocity = angle_delta * engines.rotational_thrust
+	
+func calc_center_of_mass():
+	var hex_mass = 2.0
+	var total_mass = 0.0
+	
+	for child in get_children():
+		if child is Room:
+			for hex in child.get_children():
+				if hex is Sprite2D:
+					total_mass += hex_mass
+	if total_mass == 0:
+		return
+	mass = total_mass
+#endregion
 
 #region Grid and Cell functions
 func world_to_grid(world_pos: Vector2) -> Vector2i:
@@ -41,6 +113,28 @@ func get_cells_for_room(room: Node, center_cell: Vector2i, rot_index: int) -> Ar
 			var target_cell = grid.local_to_map(grid.to_local(to_global(center_local + rotated_offset)))
 			cells.append(target_cell)
 	return cells
+	
+func neighborhood_coords(cell: Vector2i) -> Array[Vector2i]:
+	return [
+		Vector2i(cell.x,cell.y-1), Vector2i(cell.x+1,cell.y-1), 
+		Vector2i(cell.x-1,cell.y), Vector2i(cell.x+1,cell.y),
+		Vector2i(cell.x,cell.y+1), Vector2i(cell.x+1,cell.y+1),
+	]
+
+func find_neightbors(room: Room) -> Array[Room]:
+	# coords of a cell's neighbors : neighborCoords
+	# { (x,y-1), (x+1,y-1), (x-1,y), (x+1,y), (x,y+1), (x+1,y+1), }
+	var neighbors : Array[Room] = []
+	for cell in get_cells_for_room(room, room.grid_pos, room.rot_index):
+		for coord in neighborhood_coords(cell):
+			if is_area_free([coord]):
+				print("find_neighbors found empty neighbor")
+				continue
+			var _room = occupied_cells[coord]
+			if not _room in neighbors:
+				neighbors.append(_room)
+		#neighbors.erase(self)
+	return neighbors
 #endregion
 
 #region Add and Remove Room

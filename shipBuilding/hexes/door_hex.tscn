@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://clyn58uoj7ooi"]
+
+[ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="1_w3q7q"]
+[ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/RoundedSquare.png" id="2_o4g5q"]
+[ext_resource type="Script" uid="uid://yhqr8wwlrcpr" path="res://shipBuilding/hex_scripts/door_interactable.gd" id="3_hulgd"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_e5vo3"]
+radius = 34.0147
+
+[node name="DoorHex" type="Sprite2D" unique_id=1390897145]
+modulate = Color(0.8617512, 0.7560671, 0.84178495, 1)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_w3q7q")
+
+[node name="Box" type="Sprite2D" parent="." unique_id=2020933968]
+modulate = Color(0.21950102, 0.21950102, 0.21950102, 1)
+scale = Vector2(0.475, 0.475)
+texture = ExtResource("2_o4g5q")
+
+[node name="DoorInteractable" type="Area2D" parent="." unique_id=1512550952]
+collision_layer = 4
+collision_mask = 0
+input_pickable = false
+script = ExtResource("3_hulgd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DoorInteractable" unique_id=1454017986]
+shape = SubResource("CircleShape2D_e5vo3")
