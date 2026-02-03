@@ -17,7 +17,11 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 config/name="AstroframePrototyping"
 run/main_scene="uid://c57plc2whtank"
 config/features=PackedStringArray("4.6", "Forward Plus")
-config/icon="uid://hhdnr107ugtj"
+config/icon="res://icon.svg"
+
+[autoload]
+
+EncounterData="*uid://bmomxnt30a2ku"
 
 [display]
 
