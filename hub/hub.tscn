@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cbty45dswb5nj" path="res://hub/game_manager.gd" id="1_n4d7h"]
 [ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/RoundedSquare.png" id="2_1wrr7"]
-[ext_resource type="Script" uid="uid://cti2v7b51m68r" path="res://hub/fps_label.gd" id="3_6ebxt"]
+[ext_resource type="Script" path="res://hub/fps_label.gd" id="3_6ebxt"]
 
 [node name="Hub" type="Node2D" unique_id=2058136417]
 

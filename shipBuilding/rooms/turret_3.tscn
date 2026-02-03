@@ -36,6 +36,7 @@ text = "Turret"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRange" unique_id=233078241]
 shape = SubResource("CircleShape2D_bucqc")
+debug_color = Color(0.81960785, 0.35686275, 0.5058824, 0)
 
 [connection signal="body_entered" from="DetectionRange" to="." method="_on_detection_range_body_entered"]
 [connection signal="body_exited" from="DetectionRange" to="." method="_on_detection_range_body_exited"]

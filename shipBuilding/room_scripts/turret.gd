@@ -1,6 +1,21 @@
 class_name Turret
 extends Room
 
+'''
+fog of war:
+    1) multiple turrets (A* & B*) on board
+        a) Do turrets share vision? EX: A* has a enemy in range 
+           but no augment. B* does. So does B* lock onto A*'s 
+           target? 
+           perks: good single target damage but no wave clear 
+           can hide some turrets and have some more exposed as 
+           ones act as "scouts"
+        b) Turrets' vision is independent
+           perks: multi targetting, need to group turrets for good
+		   single target dmg output, needs better ship movement
+		c) both? let players switch between the two modes   
+'''
+	
 @onready var gun : Sprite2D = $Gun
 var targets_in_range : Array[Ship] = []
 
@@ -36,3 +51,19 @@ func _on_detection_range_body_entered(body: Node2D) -> void:
 func _on_detection_range_body_exited(body: Node2D) -> void:
 	if body is Ship:
 		targets_in_range.erase(body as Ship)
+		
+	var aim_aug = augment_in_list(Aim_Augment)
+	if aim_aug == -1:
+		return
+	
+	if body == augments[aim_aug].enemy_target:
+		if targets_in_range.size() > 0:
+			augments[aim_aug].enemy_target = closest_target()
+
+func closest_target()->Ship:
+	var closest = targets_in_range[0]
+	for target in targets_in_range:
+		var distance = target.global_position.distance_to(global_position)
+		if distance < closest.global_position.distance_to(global_position):
+			closest = target
+	return closest
