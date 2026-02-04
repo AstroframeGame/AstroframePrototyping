@@ -4,7 +4,6 @@ extends Augment
 var enemy_target : Ship
 
 func _ready()->void:
-	super._ready()
 	# for loading ship in new scene
 	if ship:
 		find_target_rooms(Aim_Augment, Turret)

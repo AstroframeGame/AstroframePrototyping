@@ -3,8 +3,7 @@
 [ext_resource type="Script" uid="uid://crgm77ga0tu4f" path="res://shipBuilding/room_scripts/aim_augment.gd" id="1_jqip6"]
 [ext_resource type="PackedScene" uid="uid://dmgvcp6y668bi" path="res://shipBuilding/hexes/input_hex.tscn" id="2_xlycq"]
 
-[node name="Aim_Augment_2" type="CollisionPolygon2D" unique_id=1368396417]
-polygon = PackedVector2Array(0, 0, 0, 0, 0, 0)
+[node name="Aim_Augment_2" type="Node2D" unique_id=1056768738]
 script = ExtResource("1_jqip6")
 
 [node name="InputHex" parent="." unique_id=56559507 instance=ExtResource("2_xlycq")]

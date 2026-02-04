@@ -19,15 +19,15 @@ fog of war:
 @onready var gun : Sprite2D = $Gun
 var targets_in_range : Array[Ship] = []
 
-func initialize(grid:TileMapLayer) -> void:
-	super.initialize(grid)
+func _ready() -> void:
 	# pair to a nearby aim augment if available
-	for neighbor in ship.find_neighbors(self):
-		if neighbor is Aim_Augment:
-			if neighbor.target_rooms.size() == 0:
-				#print("turret paired to augment")
-				neighbor.target_rooms.append(self as Turret)
-				augments.append(neighbor as Aim_Augment)
+	if ship:
+		for neighbor in ship.find_neighbors(self):
+			if neighbor is Aim_Augment:
+				if neighbor.target_rooms.size() == 0:
+					#print("turret paired to augment")
+					neighbor.target_rooms.append(self as Turret)
+					augments.append(neighbor as Aim_Augment)
 
 func handle_input(event:InputEvent):
 	# mouse guided system

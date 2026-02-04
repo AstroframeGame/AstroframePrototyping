@@ -8,8 +8,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_bucqc"]
 radius = 613.11743
 
-[node name="Turret_3" type="CollisionPolygon2D" unique_id=1864384847]
-polygon = PackedVector2Array(0, 0, 0, 0, 0, 0)
+[node name="Turret_3" type="Node2D" unique_id=1336280051]
 script = ExtResource("1_wiatt")
 
 [node name="Gun" parent="." unique_id=406052502 instance=ExtResource("2_x6sbh")]
