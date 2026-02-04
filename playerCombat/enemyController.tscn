@@ -1,16 +1,20 @@
 [gd_scene format=3 uid="uid://cj60mf812rw82"]
 
+[ext_resource type="Script" uid="uid://xwvb5rfi17fl" path="res://playerCombat/enemy_controller.gd" id="1_1i7g1"]
 [ext_resource type="Texture2D" uid="uid://dddvu1266fgfj" path="res://playerCombat/enemy.png" id="1_tqlqu"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_1i7g1"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1i7g1"]
+radius = 9.665
+height = 37.0
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=1204676728]
+script = ExtResource("1_1i7g1")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1767517127]
 scale = Vector2(0.099, 0.1)
 texture = ExtResource("1_tqlqu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1242387571]
-position = Vector2(0, 12)
+position = Vector2(0, 9.536743e-07)
 scale = Vector2(1.25, 1.25)
-shape = SubResource("CircleShape2D_1i7g1")
+shape = SubResource("CapsuleShape2D_1i7g1")

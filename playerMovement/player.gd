@@ -34,6 +34,8 @@ var grounded : bool:
 	get:
 		ground_check = $GroundCheck
 		return ground_check.has_overlapping_bodies()
+		
+var health = 100
 
 func _ready() -> void:
 	ground_check.body_entered.connect(on_ground)
@@ -129,3 +131,7 @@ func grapple():
 	grapple_visual.visible = true
 	grapple_visual.set_point_position(0, Vector2.ZERO)
 	grapple_visual.set_point_position(1, to_local(grapple_position))
+
+func takeDamage(damage : int):
+	health -= damage
+	print("Damage Taken! Player now at %s health" % health)

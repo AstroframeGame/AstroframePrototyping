@@ -3,6 +3,7 @@
 [node name="Asteroids" type="Node2D" unique_id=464769745]
 
 [node name="Asteroid" type="StaticBody2D" parent="." unique_id=1634458089]
+collision_layer = 32
 
 [node name="Ground" type="Polygon2D" parent="Asteroid" unique_id=193700796]
 color = Color(0.4677382, 0.46773827, 0.4677382, 1)

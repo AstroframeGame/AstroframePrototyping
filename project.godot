@@ -108,3 +108,5 @@ player_shoot={
 2d_physics/layer_1="Ships"
 2d_physics/layer_2="Characters"
 2d_physics/layer_3="Interactables"
+2d_physics/layer_5="Projectiles"
+2d_physics/layer_6="Environment"
