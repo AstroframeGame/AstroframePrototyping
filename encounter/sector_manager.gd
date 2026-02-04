@@ -42,12 +42,12 @@ func _on_sector_b_entered(body: Node2D) -> void:
 							return
 							
 				# player must have completed required encounters
-				#if(reqs && reqs.has("encounters")):
-					#for enc in reqs.encounters:
-						## TODO: encounters should be recorded in world state, not player statee
-						#if(!player_ship.state.items.has(enc)):
-							#print("player does has not completed %s" % enc)
-							#return
+				if(reqs && reqs.has("encounters")):
+					for enc in reqs.encounters:
+						if(!player_ship.state.completed_encounters.has(enc)):
+							print("player has not completed %s" % enc)
+							return
 				
 				# requirements checks passed --> start encounter!
 				print("[SECTOR MANAGER]: Starting encounter %s" % key)
+				player_ship.state.completed_encounters.push_back(key)
