@@ -23,7 +23,7 @@ func _ready():
 	
 	# signals
 	location_dropdown.item_selected.connect(_on_location_selected)
-	item_dropdown.item_selected.connect(_on_item_selected)
+	item_dropdown.multi_selected.connect(_on_multi_selected)
 	confirm_button.pressed.connect(_on_confirm_pressed)
 	
 	# default to first vals
@@ -37,10 +37,11 @@ func _on_location_selected(index):
 	update_result()
 
 # TODO: check that this is actually updating player state
-func _on_item_selected(index):
-	var item = item_dropdown.get_item_text(index)
-	player.state.items.push(item)
-	update_result()
+func _on_multi_selected():
+	var selected_indices = item_dropdown.get_selected_items()
+
+	for i in selected_indices:
+		player.state.items.push_back(item_dropdown.get_item_text(i))
 
 func update_result():
 	if selected_location == "":
@@ -49,6 +50,7 @@ func update_result():
 	
 	
 func _on_confirm_pressed():
+	_on_multi_selected() # get items
 	if selected_location == "":
 		print("[SELECTOR] select location")
 		return
