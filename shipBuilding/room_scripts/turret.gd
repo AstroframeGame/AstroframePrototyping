@@ -5,12 +5,12 @@ extends Room
 fog of war:
     1) multiple turrets (A* & B*) on board
         a) Do turrets share vision? EX: A* has a enemy in range 
-           but no augment. B* does. So does B* lock onto A*'s 
-           target? 
-           perks: good single target damage but no wave clear 
-           can hide some turrets and have some more exposed as 
-           ones act as "scouts"
-        b) Turrets' vision is independent
+		   but no augment. B* does. So does B* lock onto A*'s 
+		   target? 
+		   perks: good single target damage but no wave clear 
+		   can hide some turrets and have some more exposed as 
+		   ones act as "scouts"
+		b) Turrets' vision is independent
            perks: multi targetting, need to group turrets for good
 		   single target dmg output, needs better ship movement
 		c) both? let players switch between the two modes   
