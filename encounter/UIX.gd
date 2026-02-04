@@ -41,7 +41,8 @@ func _on_multi_selected():
 	var selected_indices = item_dropdown.get_selected_items()
 
 	for i in selected_indices:
-		player.state.items.push_back(item_dropdown.get_item_text(i))
+		var item = item_dropdown.get_item_text(i)
+		player.state.push_to("inventory", item)
 
 func update_result():
 	if selected_location == "":
