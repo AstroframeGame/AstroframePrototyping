@@ -57,6 +57,7 @@ position = Vector2(16, -39)
 
 [node name="Projectiles" type="Node2D" parent="." unique_id=2065170757]
 
+[editable path="Ship"]
 [editable path="Ship2"]
 [editable path="Ship2/Cannon"]
 [editable path="Ship2/Cannon/Gun"]

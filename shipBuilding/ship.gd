@@ -125,6 +125,7 @@ func find_neightbors(room: Room) -> Array[Room]:
 	# coords of a cell's neighbors : neighborCoords
 	# { (x,y-1), (x+1,y-1), (x-1,y), (x+1,y), (x,y+1), (x+1,y+1), }
 	var neighbors : Array[Room] = []
+	grid = get_node("HexGrid")
 	for cell in get_cells_for_room(room, room.grid_pos, room.rot_index):
 		for coord in neighborhood_coords(cell):
 			if is_area_free([coord]):
@@ -144,7 +145,6 @@ func add_room(room: Room, cell: Vector2i, rot_index: int) -> void:
 	
 	room.global_position = grid_to_world(cell)
 	room.rotation = rot_index * PI / 3.0
-	room.initialize(grid)
 	
 	var cells = get_cells_for_room(room, cell, rot_index)
 	for c in cells:

@@ -69,8 +69,8 @@ editor_draw_limits = true
 script = ExtResource("1_hk7lp")
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=1871139357]
-collision_layer = 32
-collision_mask = 32
+collision_layer = 0
+collision_mask = 0
 script = ExtResource("2_0p3lp")
 interior_layer = 2
 interior_mask = 3

@@ -131,6 +131,7 @@ func on_ship_enter(ship : Ship):
 	print("parent to ship")
 	collision_layer = interior_layer
 	collision_mask = interior_mask
+
 func on_ship_exit():
 	get_parent().call_deferred("reparent", global_world, true)
 	print("parent to wordl")
