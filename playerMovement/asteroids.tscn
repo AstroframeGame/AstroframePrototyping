@@ -3,7 +3,7 @@
 [node name="Asteroids" type="Node2D" unique_id=464769745]
 
 [node name="Asteroid" type="StaticBody2D" parent="." unique_id=1634458089]
-collision_layer = 64
+collision_layer = 256
 collision_mask = 0
 
 [node name="Ground" type="Polygon2D" parent="Asteroid" unique_id=193700796]
@@ -17,7 +17,7 @@ polygon = PackedVector2Array(-212.47482, -179.44968, 39.64998, -69.749756, 40.77
 
 [node name="Asteroid2" type="StaticBody2D" parent="." unique_id=2072018591]
 position = Vector2(990, 50)
-collision_layer = 64
+collision_layer = 256
 collision_mask = 0
 
 [node name="Ground" type="Polygon2D" parent="Asteroid2" unique_id=738670908]
@@ -31,7 +31,7 @@ polygon = PackedVector2Array(-212.47482, -179.44968, 39.64998, -69.749756, 40.77
 
 [node name="Asteroid3" type="StaticBody2D" parent="." unique_id=735594560]
 position = Vector2(320, 656)
-collision_layer = 64
+collision_layer = 256
 collision_mask = 0
 
 [node name="Ground" type="Polygon2D" parent="Asteroid3" unique_id=2066395040]
@@ -45,7 +45,7 @@ polygon = PackedVector2Array(-212.47482, -179.44968, 39.64998, -69.749756, 40.77
 
 [node name="Asteroid4" type="StaticBody2D" parent="." unique_id=1713720389]
 position = Vector2(1211, 636)
-collision_layer = 64
+collision_layer = 256
 collision_mask = 0
 
 [node name="Ground" type="Polygon2D" parent="Asteroid4" unique_id=1573401581]

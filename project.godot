@@ -152,4 +152,5 @@ rotate_left={
 2d_physics/layer_4="Mouse"
 2d_physics/layer_5="Projectiles"
 2d_physics/layer_6="CharactersExterior"
-2d_physics/layer_7="Enviroment"
+2d_physics/layer_9="Enviroment"
+2d_physics/layer_13="EnviromentObstacle"
