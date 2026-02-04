@@ -72,6 +72,10 @@ script = ExtResource("1_hk7lp")
 collision_layer = 32
 collision_mask = 32
 script = ExtResource("2_0p3lp")
+interior_layer = 2
+interior_mask = 3
+exterior_layer = 32
+exterior_mask = 32
 
 [node name="Grapple" type="Line2D" parent="Player" unique_id=115981033]
 points = PackedVector2Array(0, 0, 0, 0)
