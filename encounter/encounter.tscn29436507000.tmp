@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://c0gtg58u3r8qv" path="res://encounter/control.gd" id="1_sdpd5"]
 [ext_resource type="Script" uid="uid://4gkdjixe8mwp" path="res://encounter/sector_manager.gd" id="1_twjq8"]
-[ext_resource type="Script" uid="uid://yw768yro7rvu" path="res://encounter/classes/player_ship.gd" id="2_4nkm3"]
-[ext_resource type="Script" uid="uid://dgrb8reljfmtp" path="res://encounter/classes/npc_ship.gd" id="3_h33q7"]
+[ext_resource type="Script" uid="uid://yw768yro7rvu" path="res://encounter/player_ship.gd" id="2_4nkm3"]
+[ext_resource type="Script" uid="uid://dgrb8reljfmtp" path="res://encounter/npc_ship.gd" id="3_h33q7"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_sdpd5"]
 
@@ -53,7 +53,7 @@ offset_right = 737.0
 offset_bottom = 398.0
 text = "SPACE to warp"
 
-[node name="EncounterSelector" type="Control" parent="." unique_id=525699141 node_paths=PackedStringArray("sector_b", "player", "npc_ship")]
+[node name="EncounterSelector" type="Control" parent="." unique_id=525699141 node_paths=PackedStringArray("sector_b", "npc_ship")]
 layout_mode = 3
 anchors_preset = 0
 offset_left = -21.0
@@ -62,7 +62,6 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_sdpd5")
 sector_b = NodePath("../SectorManager/SectorB")
-player = NodePath("../Player ship")
 npc_ship = NodePath("../NPC ship")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="EncounterSelector" unique_id=1230210940]
@@ -82,6 +81,13 @@ text = "Location: "
 [node name="LocationDropdown" type="OptionButton" parent="EncounterSelector/VBoxContainer/LocationContainer" unique_id=1473551288]
 layout_mode = 2
 
+[node name="ResultLabel" type="Label" parent="EncounterSelector/VBoxContainer" unique_id=947395178]
+layout_mode = 2
+
+[node name="ConfirmButton" type="Button" parent="EncounterSelector/VBoxContainer" unique_id=400342167]
+layout_mode = 2
+text = "Confirm"
+
 [node name="ItemContainer" type="VBoxContainer" parent="EncounterSelector/VBoxContainer" unique_id=529479159]
 layout_mode = 2
 
@@ -89,18 +95,8 @@ layout_mode = 2
 layout_mode = 2
 text = "Items:"
 
-[node name="ItemDropdown" type="ItemList" parent="EncounterSelector/VBoxContainer/ItemContainer" unique_id=1037414252]
+[node name="ItemDropdown" type="OptionButton" parent="EncounterSelector/VBoxContainer/ItemContainer" unique_id=100698423]
 layout_mode = 2
-select_mode = 1
-auto_width = true
-auto_height = true
-
-[node name="ResultLabel" type="Label" parent="EncounterSelector/VBoxContainer" unique_id=947395178]
-layout_mode = 2
-
-[node name="ConfirmButton" type="Button" parent="EncounterSelector/VBoxContainer" unique_id=400342167]
-layout_mode = 2
-text = "Confirm"
 
 [node name="SectorManager" type="Node2D" parent="." unique_id=56591053 node_paths=PackedStringArray("sector_a", "sector_b", "npc_ship", "player_ship")]
 script = ExtResource("1_twjq8")

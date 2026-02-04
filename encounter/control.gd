@@ -1,10 +1,11 @@
 extends Control
 
 @export var sector_b: Area2D
+@export var player: TestShip
 @export var npc_ship: TestShip
 
 @onready var location_dropdown = $VBoxContainer/LocationContainer/LocationDropdown
-@onready var ship_dropdown = $VBoxContainer/ShipContainer/ShipDropdown
+@onready var item_dropdown = $VBoxContainer/ItemContainer/ItemDropdown
 @onready var result_label = $VBoxContainer/ResultLabel
 @onready var confirm_button = $VBoxContainer/ConfirmButton
 
@@ -13,21 +14,21 @@ var selected_ship_type = ""
 
 func _ready():
 	# location dropdown
-	for loc in EncounterData.locations.keys():
+	var locations = EncounterData.encounter_dictionary.keys()
+	for loc in locations:
 		location_dropdown.add_item(loc)
-	
-	# ship type dropdown
-	for ship in EncounterData.ship_types.keys():
-		ship_dropdown.add_item(ship)
+		
+	# item dropdown
+	for item in EncounterData.item_keys:
+		item_dropdown.add_item(item)
 	
 	# signals
 	location_dropdown.item_selected.connect(_on_location_selected)
-	ship_dropdown.item_selected.connect(_on_ship_selected)
+	item_dropdown.item_selected.connect(_on_item_selected)
 	confirm_button.pressed.connect(_on_confirm_pressed)
 	
 	# default to first vals
 	_on_location_selected(0);
-	_on_ship_selected(0);
 	
 	# prevent sticky focus
 	confirm_button.focus_mode = Control.FOCUS_NONE
@@ -36,8 +37,10 @@ func _on_location_selected(index):
 	selected_location = location_dropdown.get_item_text(index)
 	update_result()
 
-func _on_ship_selected(index):
-	selected_ship_type = ship_dropdown.get_item_text(index)
+# TODO: check that this is actually updating player state
+func _on_item_selected(index):
+	var item = item_dropdown.get_item_text(index)
+	player.state.items.push(item)
 	update_result()
 
 func update_result():

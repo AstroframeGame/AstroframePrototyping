@@ -1,0 +1,106 @@
+{
+  "ALPHA_START_LOC": {
+	"A_3_RESCUE": {
+	  "requirements": {
+		"encounters": [
+		  "A_0_SOS",
+		  "A_1_PIRATES",
+          "A_2_ENEMY"
+		],
+		"items": [
+		  "#OLD_MAP",
+          "MID_RANGE_SENSOR"
+		]
+	  },
+	  "rewards": [
+        "#WARP_DRIVE"
+	  ]
+	}
+  },
+  "AXUU_SPACE": {
+	"A_1_PIRATES": {
+	  "requirements": {
+		"encounters": [
+          "A_0_SOS"
+		]
+	  },
+	  "rewards": [
+		"RUSTY_GRAPPLING_HOOK",
+        "PIRATE_FAVOR"
+	  ]
+	},
+	"A_2_ENEMY": {
+	  "requirements": {
+		"encounters": [
+		  "A_0_SOS",
+          "A_1_PIRATES"
+		]
+	  }
+	}
+  },
+  "HOME": {
+	"0_INTRO": {
+	  "rewards": [
+        "#OLD_MAP"
+	  ]
+	}
+  },
+  "HOME_SATELLITE": {
+	"1_SENSOR": {
+	  "requirements": {
+		"encounters": [
+          "0_INTRO"
+		]
+	  },
+	  "rewards": [
+        "MID_RANGE_SENSOR"
+	  ]
+	}
+  },
+  "MAP": {
+	"A_0_SOS": {
+	  "requirements": {
+		"encounters": [
+          "1_SENSOR"
+		],
+		"items": [
+		  "#OLD_MAP",
+          "MID_RANGE_SENSOR"
+		]
+	  }
+	},
+	"B_0_SOS": {
+	  "requirements": {
+		"encounters": [
+          "1_SENSOR"
+		],
+		"items": [
+		  "#OLD_MAP",
+          "MID_RANGE_SENSOR"
+		]
+	  }
+	},
+	"C_0_SOS": {
+	  "requirements": {
+		"encounters": [
+          "1_SENSOR"
+		],
+		"items": [
+		  "#OLD_MAP",
+          "MID_RANGE_SENSOR"
+		]
+	  }
+	},
+	"D_0_SOS": {
+	  "requirements": {
+		"encounters": [
+          "1_SENSOR"
+		],
+		"items": [
+		  "#OLD_MAP",
+          "MID_RANGE_SENSOR"
+		]
+	  }
+	}
+  }
+}
