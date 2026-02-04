@@ -112,10 +112,13 @@ var ship_in : Ship:
 		
 func on_ship_enter(ship : Ship):
 	get_parent().call_deferred("reparent", ship, true)
+	global_rotation = ship.global_rotation
 	print("parent to ship")
 func on_ship_exit():
 	get_parent().call_deferred("reparent", global_world, true)
 	print("parent to wordl")
+	global_rotation = 0
+
 
 func grapple():
 	if grapple_position != null:
