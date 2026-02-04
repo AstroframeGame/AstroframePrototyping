@@ -16,6 +16,5 @@ var grid_pos : Vector2i:
 # inoperable or breaks
 @export var durability = 40
 
-
 func _ready() -> void:
-	print(ship.find_neightbors(self))
+	pass

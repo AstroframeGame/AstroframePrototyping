@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://c7qsafet54eoj"]
+[gd_scene format=3 uid="uid://cwwhq8ijq2wyl"]
 
 [ext_resource type="Script" uid="uid://bsurseo1hgudf" path="res://shipBuilding/ship.gd" id="1_20sfu"]
 [ext_resource type="PackedScene" uid="uid://c2n7netp00xn6" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_d42o2"]
@@ -12,7 +12,7 @@
 tile_shape = 3
 tile_size = Vector2i(78, 90)
 
-[node name="_RigidBody2D_51" type="RigidBody2D" unique_id=1784127879]
+[node name="Ship9" type="RigidBody2D" unique_id=1784127879]
 collision_layer = 3
 input_pickable = true
 mass = 18.0
@@ -45,4 +45,5 @@ polygon = PackedVector2Array(156.1, -112.55, 156.1, -67.61659, 195.00107, -45.13
 [node name="Ground" type="Area2D" parent="." unique_id=464651434]
 
 [node name="Solid" type="CollisionPolygon2D" parent="Ground" unique_id=1016487203]
+visible = false
 polygon = PackedVector2Array(156.1, -112.55, 156.1, -67.61659, 195.00107, -45.13276, 233.97888, -67.6366, 273.05774, -45.049995, 273.07886, 0.08660126, 234.10107, 22.590424, 234.12215, 67.61159, 195.06439, 90.16158, 156.02107, 67.59552, 117, 90.1, 78, 67.60767, 39, 90.1, -0.099998474, 67.55, -0.099998474, 22.54232, -39.1, 0.05000305, -39.1, -45.050003, -0.099998474, -67.54232, -0.099998474, -112.55, 39, -135.1, 78, -112.60767, 117, -135.1)

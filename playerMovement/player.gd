@@ -119,15 +119,9 @@ func on_unground(_body : Node2D):
 		#on_ship_exit(body)
 		#pass
 
-var ship_in : Ship:
-	get :
-		if get_parent().get_parent() is Ship:
-			return get_parent().get_parent()
-		return null
-		
-func on_ship_enter(ship : Ship):
-	get_parent().call_deferred("reparent", ship, true)
-	global_rotation = ship.global_rotation
+func on_ship_enter(new_ship : Ship):
+	get_parent().call_deferred("reparent", new_ship, true)
+	global_rotation = new_ship.global_rotation
 	print("parent to ship")
 	collision_layer = interior_layer
 	collision_mask = interior_mask

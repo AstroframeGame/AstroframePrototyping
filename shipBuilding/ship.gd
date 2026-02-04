@@ -7,16 +7,20 @@ signal room_clicked(room: Room, button_index: int)
 var occupied_cells: Dictionary = {}
 
 func _ready() -> void:
+	refresh_occupied_cells()
 	calc_center_of_mass()
 	update_colliders()
+	var ground : Area2D = $Ground
+	ground.input_event.connect(ground_input_event)
 
-# check if a room is clicked
-func _input_event(_viewport: Node, event: InputEvent, shape_idx: int) -> void:
+func ground_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
-		var owner_id = shape_owner_get_owner(shape_find_owner(shape_idx))
-		if owner_id and owner_id is Room:
-			print("Room ", owner_id, " was clicked")
-			room_clicked.emit(owner_id, event.button_index)
+		var cell = world_to_grid(get_global_mouse_position())
+		print("A", cell)
+		if occupied_cells.has(cell):
+			var room = occupied_cells[cell]
+			print("Room ", room, " was clicked")
+			room_clicked.emit(room, event.button_index)
 
 #region Piloting
 func get_engines() -> Engines:
@@ -40,8 +44,6 @@ func handle_input(_event : InputEvent):
 	pass
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
-	#var piloting : Piloting = get_piloting()
-	#if piloting and piloting.seat.controlled_by:
 	rotate_ship(state)
 	move_ship(state)
 
@@ -139,6 +141,16 @@ func find_neightbors(room: Room) -> Array[Room]:
 #endregion
 
 #region Add and Remove Room
+func refresh_occupied_cells():
+	occupied_cells.clear()
+	for child in get_children():
+		if child is Room:
+			var cell = world_to_grid(child.global_position)
+			var rot = child.rot_index 
+			var cells = get_cells_for_room(child, cell, rot)
+			for c in cells:
+				occupied_cells[c] = child
+
 func add_room(room: Room, cell: Vector2i, rot_index: int) -> void:
 	if room.get_parent() != self:
 		add_child(room)
@@ -162,7 +174,7 @@ func remove_room(room: Room) -> void:
 	remove_child(room)
 #endregion
 
-
+#region Collisions
 func update_colliders() -> void:
 	var islands: Array[PackedVector2Array] = []
 	var base_hex = _get_hex_poly()
@@ -237,3 +249,4 @@ func _get_hex_poly() -> PackedVector2Array:
 		Vector2(-w_half, h_quarter),
 		Vector2(-w_half, -h_quarter)
 	])
+#endregion
