@@ -65,6 +65,6 @@ func warp_to_other_sector() -> void:
 	else:
 		print("[PLAYER]: not in valid sector to warp from", current_sector)
 		
-	if current_sector == sector_a or current_sector == sector_b:
-		var npc_proximity: float = check_proximity(self, npc_ship)
+	#if current_sector == sector_a or current_sector == sector_b:
+		#var npc_proximity: float = check_proximity(self, npc_ship)
 		#print("[PLAYER]: npc %.1f away" % npc_proximity)

@@ -37,20 +37,20 @@ text = "This should be an example of what a scripted event looks like.
 Later we will procedurally generate these."
 
 [node name="Todo" type="Label" parent="." unique_id=656205597]
-offset_left = -301.0
-offset_top = -108.0
-offset_right = 133.0
-offset_bottom = 123.0
+offset_left = -307.0
+offset_top = -102.0
+offset_right = 127.0
+offset_bottom = 129.0
 text = "To add
 - jumping between sectors
 - win state?
 - factions, relationships"
 
 [node name="Controls" type="Label" parent="." unique_id=1110694306]
-offset_left = 577.0
-offset_top = 315.0
-offset_right = 737.0
-offset_bottom = 398.0
+offset_left = -293.0
+offset_top = 422.0
+offset_right = -133.0
+offset_bottom = 505.0
 text = "SPACE to warp"
 
 [node name="EncounterSelector" type="Control" parent="." unique_id=525699141 node_paths=PackedStringArray("sector_b", "player", "npc_ship")]
@@ -67,17 +67,17 @@ npc_ship = NodePath("../NPC ship")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="EncounterSelector" unique_id=1230210940]
 layout_mode = 0
-offset_left = -67.0
+offset_left = -178.0
 offset_top = 46.0
-offset_right = 50.0
-offset_bottom = 158.0
+offset_right = -5.0
+offset_bottom = 170.0
 
 [node name="LocationContainer" type="HBoxContainer" parent="EncounterSelector/VBoxContainer" unique_id=1239855403]
 layout_mode = 2
 
 [node name="Label" type="Label" parent="EncounterSelector/VBoxContainer/LocationContainer" unique_id=2133180282]
 layout_mode = 2
-text = "Location: "
+text = "Warp to location: "
 
 [node name="LocationDropdown" type="OptionButton" parent="EncounterSelector/VBoxContainer/LocationContainer" unique_id=1473551288]
 layout_mode = 2
@@ -126,11 +126,12 @@ position = Vector2(53, -135)
 scale = Vector2(2.3977273, 2.5267856)
 polygon = PackedVector2Array(2.165863, 2, -46.834137, 3, -79.83414, 50, -46.834137, 107, 5.165863, 107, 30.165863, 51)
 
-[node name="NPC ship" type="CharacterBody2D" parent="." unique_id=1282886032 node_paths=PackedStringArray("sector_a", "sector_b", "player_ship")]
+[node name="NPC ship" type="CharacterBody2D" parent="." unique_id=1282886032 node_paths=PackedStringArray("sector_a", "sector_b", "npc_ship", "player_ship")]
 position = Vector2(1039, 396)
 script = ExtResource("3_h33q7")
 sector_a = NodePath("../SectorManager/SectorA")
 sector_b = NodePath("../SectorManager/SectorB")
+npc_ship = NodePath(".")
 player_ship = NodePath("../Player ship")
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="NPC ship" unique_id=523428886]
@@ -142,13 +143,14 @@ mesh = SubResource("BoxMesh_sdpd5")
 position = Vector2(0, 2)
 shape = SubResource("CapsuleShape2D_4nkm3")
 
-[node name="Player ship" type="CharacterBody2D" parent="." unique_id=1756046401 node_paths=PackedStringArray("sector_a", "sector_b", "npc_ship")]
+[node name="Player ship" type="CharacterBody2D" parent="." unique_id=1756046401 node_paths=PackedStringArray("sector_a", "sector_b", "npc_ship", "player_ship")]
 z_index = 9
 position = Vector2(273, 124)
 script = ExtResource("2_4nkm3")
 sector_a = NodePath("../SectorManager/SectorA")
 sector_b = NodePath("../SectorManager/SectorB")
 npc_ship = NodePath("../NPC ship")
+player_ship = NodePath(".")
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="Player ship" unique_id=113986344]
 position = Vector2(-16.725, 18.224998)
