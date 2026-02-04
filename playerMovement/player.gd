@@ -13,6 +13,7 @@ the player is over ground, hence whether to use air movement or ground movement
 
 @export var walk_speed = 200
 @export var thrust_accel = 400
+@export var rotate_speed = 10
 
 var _seat : SeatInteractable = null
 var seat : SeatInteractable :
@@ -20,6 +21,12 @@ var seat : SeatInteractable :
 		return _seat
 	set(value):
 		_seat = value
+var ship : Ship:
+	get:
+		var gp = get_parent().get_parent()
+		if gp is Ship:
+			return gp
+		return null
 
 @onready var ground_check: Area2D = $GroundCheck
 @onready var interact_check: Area2D = $InteractCheck
@@ -39,12 +46,13 @@ func _ready() -> void:
 	ground_check.body_entered.connect(on_ground)
 	ground_check.body_exited.connect(on_unground)
 
-func _physics_process(_delta):
+func _physics_process(delta):
 	var direction = Input.get_vector("left", "right", "up", "down")
-	direction = direction.normalized()
+	direction = direction.normalized().rotated(global_rotation)
 	grapple()
 	if seat:
 		return
+	rotate(Input.get_axis("rotate_left","rotate_right") * rotate_speed * delta)
 	
 	if grappling:
 		velocity = (grapple_position - global_position).normalized() * grapple_speed
@@ -52,9 +60,9 @@ func _physics_process(_delta):
 		velocity = direction * walk_speed
 	else:
 		if Input.is_action_pressed("brake"):
-			velocity -= velocity.normalized() * thrust_accel * _delta
+			velocity -= velocity.normalized() * thrust_accel * delta
 		else:
-			velocity += direction * thrust_accel * _delta
+			velocity += direction * thrust_accel * delta
 		
 	move_and_slide()
 

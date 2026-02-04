@@ -23,3 +23,4 @@ func interact(player : Player) -> void:
 		player.seat = self
 		controlled_by = player
 		player.global_position = global_position
+		player.global_rotation = global_rotation # hack, may remove

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cdcmsogtsal6o"
-path="res://.godot/imported/circle.png-ef2d9d14a953d494f449e3d23a9b8a7a.ctex"
+uid="uid://bva3dm7d0f0lm"
+path="res://.godot/imported/circle_big.png-838f626dc810c06ba9602ff2dd4cc1bd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://shipBuilding/icons/circle.png"
-dest_files=["res://.godot/imported/circle.png-ef2d9d14a953d494f449e3d23a9b8a7a.ctex"]
+source_file="res://shipBuilding/icons/circle_big.png"
+dest_files=["res://.godot/imported/circle_big.png-838f626dc810c06ba9602ff2dd4cc1bd.ctex"]
 
 [params]
 
