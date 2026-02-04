@@ -32,6 +32,7 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Turret"
 
 [node name="DetectionRange" type="Area2D" parent="." unique_id=280376039]
+collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRange" unique_id=233078241]
 shape = SubResource("CircleShape2D_bucqc")
