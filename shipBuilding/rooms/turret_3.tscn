@@ -5,8 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dmgvcp6y668bi" path="res://shipBuilding/hexes/input_hex.tscn" id="3_bucqc"]
 [ext_resource type="PackedScene" uid="uid://dtg3tqh28wihx" path="res://shipBuilding/hexes/seat_hex.tscn" id="5_xg7mo"]
 
-[node name="Turret_4" type="CollisionPolygon2D" unique_id=1864384847]
-polygon = PackedVector2Array(0, 0, 0, 0, 0, 0)
+[node name="Turret_4" type="Node2D" unique_id=2131084338]
 script = ExtResource("1_wiatt")
 
 [node name="Gun" parent="." unique_id=406052502 instance=ExtResource("2_x6sbh")]

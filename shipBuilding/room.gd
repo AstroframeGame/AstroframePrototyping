@@ -1,5 +1,5 @@
 class_name Room
-extends CollisionPolygon2D
+extends Node2D
 # a collision polygon will need a body as the parent. all rooms must be parented to the Ship (body)
 
 var ship : Ship:
@@ -28,32 +28,21 @@ func initialize(_grid: TileMapLayer) -> void:
 	print(ship.find_neightbors(self))
 	
 func _ready() -> void:
-	set_shape() # needs to be called or else collider won't work
+	#set_shape() # needs to be called or else collider won't work
+	#create_colliders()
+	pass
 
-# this calculates the polygon of the room for collisions and clicking
-func set_shape():
-	var polys: Array[PackedVector2Array] = []
-	var base_hex = _get_hex_poly()
-	
-	for child in get_children():
-		if not child is Sprite2D: continue
-		var poly = base_hex.duplicate()
-		for i in range(poly.size()):
-			poly[i] += child.position
-		polys.append(poly)
-
-	var islands: Array[PackedVector2Array] = []
-	for p in polys:
-		var i = islands.size() - 1
-		while i >= 0:
-			var result = Geometry2D.merge_polygons(islands[i], p)
-			if result.size() == 1:
-				p = result[0]
-				islands.remove_at(i)
-			i -= 1
-		islands.append(p)
-	if not islands.is_empty():
-		polygon = islands[0]
+func create_colliders():
+	var poly = _get_hex_poly()
+	for i in range(6):
+		var to_i = i % 6
+		var wall : CollisionShape2D = CollisionShape2D.new()
+		var seg = SegmentShape2D.new()
+		seg.a = poly[i]
+		seg.b = poly[to_i]
+		wall.debug_color = Color(0.847, 0.0, 0.451, 0.42)
+		wall.shape = seg
+		add_sibling.call_deferred(wall)
 
 # this calculates the mathmatical polygon based off the Hex width and height set here.
 func _get_hex_poly() -> PackedVector2Array:

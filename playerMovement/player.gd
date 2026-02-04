@@ -40,11 +40,13 @@ var grappling : bool = false
 var grounded : bool:
 	get:
 		ground_check = $GroundCheck
-		return ground_check.has_overlapping_bodies()
+		return ground_check.has_overlapping_bodies() or ground_check.has_overlapping_areas()
 
 func _ready() -> void:
 	ground_check.body_entered.connect(on_ground)
 	ground_check.body_exited.connect(on_unground)
+	ground_check.area_entered.connect(on_ground)
+	ground_check.area_exited.connect(on_unground)
 
 func _physics_process(delta):
 	var direction = Input.get_vector("left", "right", "up", "down")

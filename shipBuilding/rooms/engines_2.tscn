@@ -3,8 +3,7 @@
 [ext_resource type="Script" uid="uid://byqsdjgqvjiln" path="res://shipBuilding/room_scripts/engines.gd" id="1_w1q65"]
 [ext_resource type="PackedScene" uid="uid://dmgvcp6y668bi" path="res://shipBuilding/hexes/input_hex.tscn" id="2_rosf4"]
 
-[node name="Engines_2" type="CollisionPolygon2D" unique_id=120470860]
-polygon = PackedVector2Array(0, 0, 0, 0, 0, 0)
+[node name="Engines_2" type="Node2D" unique_id=1685651061]
 script = ExtResource("1_w1q65")
 
 [node name="Polygon2D" type="Polygon2D" parent="." unique_id=1303079574]

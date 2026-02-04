@@ -69,8 +69,8 @@ editor_draw_limits = true
 script = ExtResource("1_hk7lp")
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=1871139357]
-collision_layer = 2
-collision_mask = 2
+collision_layer = 32
+collision_mask = 32
 script = ExtResource("2_0p3lp")
 
 [node name="Grapple" type="Line2D" parent="Player" unique_id=115981033]
@@ -86,6 +86,8 @@ position = Vector2(0, 16)
 shape = SubResource("CircleShape2D_qi68c")
 
 [node name="GroundCheck" type="Area2D" parent="Player" unique_id=301297836]
+collision_layer = 2
+collision_mask = 65
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/GroundCheck" unique_id=1287426176]
 position = Vector2(0, 16)
