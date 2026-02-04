@@ -15,6 +15,11 @@ the player is over ground, hence whether to use air movement or ground movement
 @export var thrust_accel = 400
 @export var rotate_speed = 10
 
+@export_flags_2d_physics var interior_layer
+@export_flags_2d_physics var interior_mask
+@export_flags_2d_physics var exterior_layer
+@export_flags_2d_physics var exterior_mask
+
 var _seat : SeatInteractable = null
 var seat : SeatInteractable :
 	get:
@@ -40,11 +45,18 @@ var grappling : bool = false
 var grounded : bool:
 	get:
 		ground_check = $GroundCheck
-		return ground_check.has_overlapping_bodies()
+		return ground_check.has_overlapping_bodies() or ground_check.has_overlapping_areas()
 
 func _ready() -> void:
 	ground_check.body_entered.connect(on_ground)
 	ground_check.body_exited.connect(on_unground)
+	ground_check.area_entered.connect(on_ground)
+	ground_check.area_exited.connect(on_unground)
+	
+	if ship:
+		on_ship_enter(ship)
+	else:
+		on_ship_exit()
 
 func _physics_process(delta):
 	var direction = Input.get_vector("left", "right", "up", "down")
@@ -117,10 +129,15 @@ func on_ship_enter(ship : Ship):
 	get_parent().call_deferred("reparent", ship, true)
 	global_rotation = ship.global_rotation
 	print("parent to ship")
+	collision_layer = interior_layer
+	collision_mask = interior_mask
+
 func on_ship_exit():
 	get_parent().call_deferred("reparent", global_world, true)
 	print("parent to wordl")
 	global_rotation = 0
+	collision_layer = exterior_layer
+	collision_mask = exterior_mask
 
 
 func grapple():

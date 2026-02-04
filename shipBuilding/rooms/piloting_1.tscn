@@ -3,8 +3,7 @@
 [ext_resource type="Script" uid="uid://d2cv6pxd82txj" path="res://shipBuilding/room_scripts/piloting.gd" id="1_bq5al"]
 [ext_resource type="PackedScene" uid="uid://dtg3tqh28wihx" path="res://shipBuilding/hexes/seat_hex.tscn" id="2_bq5al"]
 
-[node name="Piloting_1" type="CollisionPolygon2D" unique_id=966141484]
-polygon = PackedVector2Array(0, 0, 0, 0, 0, 0)
+[node name="Piloting_1" type="Node2D" unique_id=150588005]
 script = ExtResource("1_bq5al")
 
 [node name="Hex2" type="Polygon2D" parent="." unique_id=656342627]

@@ -12,6 +12,7 @@ func _ready() -> void:
 	for room in get_children():
 		if room is Room:
 			add_room(room, world_to_grid(room.global_position), room.rot_index)
+	update_colliders()
 
 # check if a room is clicked
 func _input_event(_viewport: Node, event: InputEvent, shape_idx: int) -> void:
@@ -127,6 +128,7 @@ func neighborhood_coords(cell: Vector2i) -> Array[Vector2i]:
 
 func find_neighbors(room: Room) -> Array[Room]:
 	var neighbors : Array[Room] = []
+	grid = get_node("HexGrid")
 	for cell in get_cells_for_room(room, room.grid_pos, room.rot_index):
 		for coord in neighborhood_coords(cell):
 			if is_area_free([coord]):
@@ -147,7 +149,6 @@ func add_room(room: Room, cell: Vector2i, rot_index: int) -> void:
 	
 	room.global_position = grid_to_world(cell)
 	room.rotation = rot_index * PI / 3.0
-	room.initialize(grid)
 	
 	var cells = get_cells_for_room(room, cell, rot_index)
 	for c in cells:
@@ -165,5 +166,78 @@ func remove_room(room: Room) -> void:
 	remove_child(room)
 #endregion
 
-func update_colliders():
-	pass
+
+func update_colliders() -> void:
+	var islands: Array[PackedVector2Array] = []
+	var base_hex = _get_hex_poly()
+	
+	for child in get_children():
+		if child is Room:
+			var room = child
+			var room_transform = room.transform
+			
+			for room_child in room.get_children():
+				if room_child is Sprite2D:
+					var poly = base_hex.duplicate()
+					var sprite_pos = room_child.position
+					
+					for i in range(poly.size()):
+						var point_in_room = sprite_pos + poly[i]
+						poly[i] = room_transform * point_in_room
+					
+					var current_poly = poly
+					var i = islands.size() - 1
+					while i >= 0:
+						var result = Geometry2D.merge_polygons(islands[i], current_poly)
+						if result.size() == 1:
+							current_poly = result[0]
+							islands.remove_at(i)
+						i -= 1
+					islands.append(current_poly)
+
+	var edge = get_node_or_null("Edge")
+	if not edge:
+		edge = CollisionPolygon2D.new()
+		edge.name = "Edge"
+		edge.build_mode = CollisionPolygon2D.BUILD_SEGMENTS
+		add_child(edge)
+		print("Fallback: ", name, " creating edge")
+	var area = get_node_or_null("Ground")
+	if not area:
+		area = Area2D.new()
+		area.name = "Ground"
+		add_child(area)
+		print("Fallback: ", name, " creating area")
+	var solid = get_node_or_null("Ground/Solid")
+	if not solid:
+		solid = CollisionPolygon2D.new()
+		solid.name = "Solid"
+		edge.build_mode = CollisionPolygon2D.BUILD_SOLIDS
+		area.add_child.call_deferred(solid)
+		print("Fallback: ", name, " creating solid")
+	
+	if islands.size() > 0:
+		edge.polygon = islands[0]
+		solid.polygon = islands[0]
+	else:
+		edge.polygon = PackedVector2Array()
+		solid.polygon = PackedVector2Array()
+
+const HEX_WIDTH = 78
+const HEX_HEIGHT = 90
+
+func _get_hex_poly() -> PackedVector2Array:
+	var w = HEX_WIDTH
+	var h = HEX_HEIGHT
+	var w_half = (w * 0.5) + 0.1
+	var h_half = (h * 0.5) + 0.1
+	var h_quarter = (h * 0.25) + 0.05
+	
+	return PackedVector2Array([
+		Vector2(0, -h_half),
+		Vector2(w_half, -h_quarter),
+		Vector2(w_half, h_quarter),
+		Vector2(0, h_half),
+		Vector2(-w_half, h_quarter),
+		Vector2(-w_half, -h_quarter)
+	])
