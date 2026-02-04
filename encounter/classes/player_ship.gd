@@ -4,6 +4,7 @@ var label_box
 
 func _ready() -> void:
 	name = "player"
+	state = State.new()
 	
 	# TEMP: hardcoding stats for now
 	shields = 9
