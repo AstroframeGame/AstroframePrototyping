@@ -1,10 +1,11 @@
 extends TestShip
 
 var label_box
+var state: PlayerState
 
 func _ready() -> void:
 	name = "player"
-	state = State.new()
+	state = PlayerState.new()
 	
 	# TEMP: hardcoding stats for now
 	shields = 9

@@ -5,7 +5,11 @@ extends Node2D
 @export var npc_ship: TestShip
 @export var player_ship: TestShip
 
+var encounter_manager: Encounter
+
 func _ready() -> void:
+	encounter_manager = Encounter.new()
+	
 	# sectors signals
 	if sector_a:
 		sector_a.body_entered.connect(_on_sector_a_entered)
@@ -23,31 +27,9 @@ func _on_sector_b_entered(body: Node2D) -> void:
 		var loc = sector_b.get_meta("location_key")
 		if(!loc): return
 		
-		var loc_encounters = EncounterData.encounter_dictionary[loc]
-		if(loc_encounters):
-			# check player state for encounter availability
-			for key in loc_encounters:
-				var encounter = loc_encounters[key]
-				
-				var reqs 
-				if(encounter.has("requirements")):
-					reqs = encounter.requirements
-				
-				# player must have required items
-				if(reqs && reqs.has("items")):
-					for item in reqs.items:
-						print(player_ship.state)
-						if(!player_ship.state.items.has(item)):
-							print("player does not have %s" % item)
-							return
-							
-				# player must have completed required encounters
-				if(reqs && reqs.has("encounters")):
-					for enc in reqs.encounters:
-						if(!player_ship.state.completed_encounters.has(enc)):
-							print("player has not completed %s" % enc)
-							return
-				
-				# requirements checks passed --> start encounter!
-				print("[SECTOR MANAGER]: Starting encounter %s" % key)
-				player_ship.state.completed_encounters.push_back(key)
+		# move to new location (assuming no nested locations for now)
+		var from = ""
+		if(player_ship.state.location.size() > 0):
+			from = player_ship.state.location[0]
+		player_ship.state.move(loc, from)
+		encounter_manager.try_spawn(loc, player_ship.state)

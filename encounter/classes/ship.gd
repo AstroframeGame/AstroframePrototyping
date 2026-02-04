@@ -8,9 +8,6 @@ class_name TestShip
 
 var current_sector: Area2D = null
 
-# state
-var state: State
-
 # systems
 var shields: int
 var engines: int
