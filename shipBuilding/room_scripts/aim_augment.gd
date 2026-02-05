@@ -12,3 +12,4 @@ func _ready()->void:
 func _process(_delta: float) -> void:
 	if enemy_target and target_rooms.size()>0:
 		target_rooms[0].gun.gunSprite.look_at(enemy_target.global_position)
+		target_rooms[0].gun.shoot()
