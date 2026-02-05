@@ -81,6 +81,23 @@ offset_right = 8.0
 offset_bottom = 8.0
 text = "Back to Menu"
 
+[node name="Paused" type="CanvasLayer" parent="UI" unique_id=731175255]
+visible = false
+
+[node name="Settings" type="CanvasLayer" parent="UI" unique_id=1141852874]
+visible = false
+
+[node name="SettingsMenu" type="Control" parent="UI/Settings" unique_id=941363827]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GameOver" type="CanvasLayer" parent="UI" unique_id=1769148514]
+visible = false
+
 [node name="Profiling" type="CanvasLayer" parent="." unique_id=1820677988]
 visible = false
 

@@ -1,7 +1,7 @@
 class_name Turret
 extends Room
 	
-@onready var gun : Sprite2D = $Gun
+@onready var gun : GunHex = $Gun
 var targets_in_range : Array[Ship] = []
 
 func _ready() -> void:
@@ -9,14 +9,29 @@ func _ready() -> void:
 	if ship:
 		pair_augments(Aim_Augment)
 
+# THIS SHOULD BE IN THE INPUT SINGLETON
+var mouse_controller = "mouse"
+func _input(event)-> void:
+	if event is InputEventMouseMotion:
+		if event.relative.length() > 1:
+			mouse_controller = "mouse"
+	var look_dir_controller = Input.get_vector("ship_look_left","ship_look_right", "ship_look_down", "ship_look_up")
+	if look_dir_controller.length() > 0.1:
+		mouse_controller = "controller"
+
 func handle_input(event:InputEvent):
 	# mouse guided system
 	if event.is_action("ship_fire"):
 		gun.shoot()
-	
-	if event is InputEventMouseMotion:
+		
+	if event is InputEventMouseMotion and mouse_controller == "mouse":
 		#_look_at_target_interpolated(gun.gunSprite, 5 * get_process_delta_time())
 		gun.gunSprite.look_at(get_global_mouse_position())
+	if mouse_controller == "controller":
+		var d = Input.get_vector("ship_look_left","ship_look_right", "ship_look_down", "ship_look_up")
+		d.x = -1 * d.x
+		d = d.rotated(global_rotation)
+		gun.gunSprite.rotation = atan2(d.y, d.x)
 		
 func _on_detection_range_body_entered(body: Node2D) -> void:
 	if not body is Ship or body == ship:

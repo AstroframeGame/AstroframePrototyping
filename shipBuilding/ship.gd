@@ -3,16 +3,18 @@ extends RigidBody2D
 
 signal room_clicked(room: Room, button_index: int)
 
-@onready var grid: TileMapLayer = $HexGrid
+const HEX_GRID_PREFAB = preload("res://shipBuilding/prefabs/hex_grid.tscn")
+@onready var grid: TileMapLayer # set in update colliders
 var occupied_cells: Dictionary = {} # only calculated in ship_building
 
 func _ready() -> void:
-	refresh_occupied_cells()
+	update_colliders()
 	calc_center_of_mass()
 	update_occupied_cells()
-	update_colliders()
 	var ground : Area2D = $Ground
 	ground.input_event.connect(ground_input_event)
+	
+	print($Edge.build_mode)
 
 func ground_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
@@ -63,6 +65,16 @@ func move_ship(state: PhysicsDirectBodyState2D):
 	else:
 		state.linear_velocity += direction.rotated(global_rotation) * engines.standard_thrust * delta
 
+# THIS SHOULD BE IN THE INPUT SINGLETON
+var mouse_controller = "mouse"
+func _input(event)-> void:
+	if event is InputEventMouseMotion:
+		if event.relative.length() > 1:
+			mouse_controller = "mouse"
+	var look_dir_controller = Input.get_vector("ship_look_left","ship_look_right", "ship_look_down", "ship_look_up")
+	if look_dir_controller.length() > 0.1:
+		mouse_controller = "controller"
+
 func rotate_ship(state: PhysicsDirectBodyState2D):
 	var engines :Engines = get_engines()
 	var piloting : Piloting = get_piloting()
@@ -76,6 +88,8 @@ func rotate_ship(state: PhysicsDirectBodyState2D):
 	var look_dir = get_global_mouse_position() - center
 	var target_angle = look_dir.angle() + PI/2
 	var angle_delta = wrapf(target_angle - global_rotation, -PI, PI)
+	if mouse_controller == "controller":
+		angle_delta = Input.get_axis("ship_look_left","ship_look_right")
 	state.angular_velocity = angle_delta * engines.rotational_thrust
 	
 func calc_center_of_mass():
@@ -147,15 +161,6 @@ func find_neighbors(room: Room) -> Array[Room]:
 #endregion
 
 #region Add and Remove Room
-func refresh_occupied_cells():
-	occupied_cells.clear()
-	for child in get_children():
-		if child is Room:
-			var cell = world_to_grid(child.global_position)
-			var rot = child.rot_index 
-			var cells = get_cells_for_room(child, cell, rot)
-			for c in cells:
-				occupied_cells[c] = child
 
 func add_room(room: Room, cell: Vector2i, rot_index: int) -> void:
 	if room.get_parent() != self:
@@ -208,25 +213,30 @@ func update_colliders() -> void:
 							islands.remove_at(i)
 						i -= 1
 					islands.append(current_poly)
-
+	
+	grid = get_node_or_null("HexGrid")
+	if not grid:
+		grid = HEX_GRID_PREFAB.instantiate()
+		add_child(grid)
+	
 	var edge = get_node_or_null("Edge")
 	if not edge:
 		edge = CollisionPolygon2D.new()
+		add_child(edge)
 		edge.name = "Edge"
 		edge.build_mode = CollisionPolygon2D.BUILD_SEGMENTS
-		add_child(edge)
 		print("Fallback: ", name, " creating edge")
 	var area = get_node_or_null("Ground")
 	if not area:
 		area = Area2D.new()
-		area.name = "Ground"
 		add_child(area)
+		area.name = "Ground"
 		print("Fallback: ", name, " creating area")
 	var solid = get_node_or_null("Ground/Solid")
 	if not solid:
 		solid = CollisionPolygon2D.new()
 		solid.name = "Solid"
-		edge.build_mode = CollisionPolygon2D.BUILD_SOLIDS
+		solid.build_mode = CollisionPolygon2D.BUILD_SOLIDS
 		area.add_child.call_deferred(solid)
 		print("Fallback: ", name, " creating solid")
 	
