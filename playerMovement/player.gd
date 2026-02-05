@@ -41,6 +41,7 @@ var ship : Ship:
 var grapple_position : Vector2
 var grappling : bool = false
 @export var grapple_speed = 400
+var health = 100
 
 var grounded : bool:
 	get:

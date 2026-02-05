@@ -35,11 +35,11 @@ func shootBullet() -> void:
 		return
 		
 	var bullet_spread = deg_to_rad(46.0) * (1.0 - accuracy)
-	
 	var new_bullet : Projectile = bullet.instantiate()
 	new_bullet.initialize(gunSprite, player.velocity, bulletSpeed, Vector2.from_angle(gunSprite.global_rotation + randf_range(-bullet_spread, bullet_spread)), marker_2d.global_position, damage)
-	new_bullet.add_collision_exception_with(gunSprite)
-	new_bullet.add_collision_exception_with(player)
+	new_bullet.collision_mask = player.collision_mask
+	#new_bullet.add_collision_exception_with(gunSprite)
+	#new_bullet.add_collision_exception_with(player)
 	
 	time_since_shot = 0
 	accuracy = min(accuracy + (0.05), accur_high)
