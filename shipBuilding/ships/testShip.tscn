@@ -13,6 +13,7 @@ tile_shape = 3
 tile_size = Vector2i(78, 90)
 
 [node name="_RigidBody2D_161" type="RigidBody2D" unique_id=296890057]
+collision_mask = 257
 input_pickable = true
 gravity_scale = 0.0
 sleeping = true
