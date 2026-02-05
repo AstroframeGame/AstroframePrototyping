@@ -1,13 +1,14 @@
 [gd_scene format=3 uid="uid://devin6bdbcbay"]
 
 [ext_resource type="Script" uid="uid://cs7ryqp76e1cc" path="res://turretInteractions/Scripts/projectile.gd" id="1_b4oi4"]
-[ext_resource type="Texture2D" uid="uid://b425bkjas46w0" path="res://shipBuilding/icons/circle.png" id="2_vscos"]
+[ext_resource type="Texture2D" uid="uid://cdcmsogtsal6o" path="res://shipBuilding/icons/circle.png" id="2_vscos"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b4oi4"]
 radius = 9.0
 
 [node name="Projectile" type="RigidBody2D" unique_id=1608008233 groups=["projectiles"]]
-collision_layer = 2
+collision_layer = 16
+collision_mask = 4129
 gravity_scale = 0.0
 contact_monitor = true
 max_contacts_reported = 1

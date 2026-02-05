@@ -3,8 +3,7 @@
 [ext_resource type="Script" uid="uid://vo6mtf68wgee" path="res://shipBuilding/room.gd" id="1_rw5c6"]
 [ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="2_cyhtv"]
 
-[node name="Hull_1" type="CollisionPolygon2D" unique_id=1413932245]
-polygon = PackedVector2Array(0, 0, 0, 0, 0, 0)
+[node name="Hull_1" type="Node2D" unique_id=284853880]
 script = ExtResource("1_rw5c6")
 
 [node name="Hex3" type="Sprite2D" parent="." unique_id=1929021540]

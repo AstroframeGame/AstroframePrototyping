@@ -1,7 +1,11 @@
 [gd_scene format=3 uid="uid://8j8lbkqti4qs"]
 
 [ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="1_k1opf"]
-[ext_resource type="Texture2D" uid="uid://b425bkjas46w0" path="res://shipBuilding/icons/circle.png" id="2_ps41y"]
+[ext_resource type="Texture2D" uid="uid://cdcmsogtsal6o" path="res://shipBuilding/icons/circle.png" id="2_ps41y"]
+[ext_resource type="Script" uid="uid://b8gx8dl8myt6v" path="res://shipBuilding/hex_scripts/output_hex.gd" id="3_ps41y"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bd20s"]
+radius = 78.0
 
 [node name="OutputHex" type="Sprite2D" unique_id=918919785]
 scale = Vector2(0.5, 0.5)
@@ -11,3 +15,16 @@ texture = ExtResource("1_k1opf")
 modulate = Color(0.21950102, 0.21950102, 0.21950102, 1)
 scale = Vector2(0.235, 0.235)
 texture = ExtResource("2_ps41y")
+
+[node name="ClickArea" type="Area2D" parent="." unique_id=1933246098]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("3_ps41y")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ClickArea" unique_id=1504972621]
+shape = SubResource("CircleShape2D_bd20s")
+debug_color = Color(0.80322397, 0.007534195, 0.99999994, 0.41960785)
+
+[node name="PowerLine" type="Line2D" parent="ClickArea" unique_id=1277844702]
+points = PackedVector2Array(0, 0, 0, 0)
+default_color = Color(0.7156081, 0.87879455, 0.67834294, 1)
