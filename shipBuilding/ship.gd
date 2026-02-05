@@ -7,7 +7,6 @@ signal room_clicked(room: Room, button_index: int)
 var occupied_cells: Dictionary = {} # only calculated in ship_building
 
 func _ready() -> void:
-	refresh_occupied_cells()
 	calc_center_of_mass()
 	update_occupied_cells()
 	update_colliders()
@@ -147,15 +146,6 @@ func find_neighbors(room: Room) -> Array[Room]:
 #endregion
 
 #region Add and Remove Room
-func refresh_occupied_cells():
-	occupied_cells.clear()
-	for child in get_children():
-		if child is Room:
-			var cell = world_to_grid(child.global_position)
-			var rot = child.rot_index 
-			var cells = get_cells_for_room(child, cell, rot)
-			for c in cells:
-				occupied_cells[c] = child
 
 func add_room(room: Room, cell: Vector2i, rot_index: int) -> void:
 	if room.get_parent() != self:
