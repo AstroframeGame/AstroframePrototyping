@@ -5,7 +5,7 @@ extends Room
 
 func handle_input(event:InputEvent):
 	# mouse guided system
-	if event.is_action("ship_fire"):
+	if event.is_action_pressed("ship_fire"):
 		gun.shoot()
 	
 	if event is InputEventMouse:

@@ -10,7 +10,7 @@ const bullet = preload("res://turretInteractions/Prefabs/projectile.tscn")
 
 var accuracy = 0.6
 var accur_low = 0.6
-var accur_high = 1
+var accur_high = 1.0
 var time_since_shot = 0
 
 var damage = 5
@@ -50,5 +50,5 @@ func shootBullet() -> void:
 	
 		
 	var world = player.global_world
-	assert(world.get_node("Projectiles") != null)
-	world.get_node("Projectiles").add_child(new_bullet) # not most elegent way
+	if world.get_node("Projectiles") != null:
+		world.get_node("Projectiles").add_child(new_bullet) # not most elegent way

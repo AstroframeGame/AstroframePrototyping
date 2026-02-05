@@ -5,11 +5,13 @@ const PROJECTILE = preload("uid://devin6bdbcbay") # funny uid lol
 
 @onready var room : Room = $".."
 @onready var gunSprite : Sprite2D = $Sprite
+@onready var marker_2d: Marker2D = $Sprite/Marker2D
+
 var damage = 20
 var projectileSpeed = 200
 func shoot():
 	var proj : Projectile = PROJECTILE.instantiate()
-	proj.initialize(gunSprite, room.ship.linear_velocity, projectileSpeed, Vector2.from_angle(gunSprite.global_rotation), damage)
+	proj.initialize(gunSprite, room.ship.linear_velocity, projectileSpeed, Vector2.from_angle(gunSprite.global_rotation), marker_2d.global_position, damage)
 	proj.add_collision_exception_with(room.ship)
 	
 	var world = room.ship.get_parent()
