@@ -1,42 +1,37 @@
 class_name Turret
 extends Room
-
-'''
-fog of war:
-    1) multiple turrets (A* & B*) on board
-        a) Do turrets share vision? EX: A* has a enemy in range 
-		   but no augment. B* does. So does B* lock onto A*'s 
-		   target? 
-		   perks: good single target damage but no wave clear 
-		   can hide some turrets and have some more exposed as 
-		   ones act as "scouts"
-		b) Turrets' vision is independent
-           perks: multi targetting, need to group turrets for good
-		   single target dmg output, needs better ship movement
-		c) both? let players switch between the two modes   
-'''
 	
-@onready var gun : Sprite2D = $Gun
+@onready var gun : GunHex = $Gun
 var targets_in_range : Array[Ship] = []
 
 func _ready() -> void:
 	# pair to a nearby aim augment if available
 	if ship:
-		for neighbor in ship.find_neighbors(self):
-			if neighbor is Aim_Augment:
-				if neighbor.target_rooms.size() == 0:
-					#print("turret paired to augment")
-					neighbor.target_rooms.append(self as Turret)
-					augments.append(neighbor as Aim_Augment)
+		pair_augments(Aim_Augment)
+
+# THIS SHOULD BE IN THE INPUT SINGLETON
+var mouse_controller = "mouse"
+func _input(event)-> void:
+	if event is InputEventMouseMotion:
+		if event.relative.length() > 1:
+			mouse_controller = "mouse"
+	var look_dir_controller = Input.get_vector("ship_look_left","ship_look_right", "ship_look_down", "ship_look_up")
+	if look_dir_controller.length() > 0.1:
+		mouse_controller = "controller"
 
 func handle_input(event:InputEvent):
 	# mouse guided system
 	if event.is_action("ship_fire"):
 		gun.shoot()
-	
-	if event is InputEventMouseMotion:
+		
+	if event is InputEventMouseMotion and mouse_controller == "mouse":
 		#_look_at_target_interpolated(gun.gunSprite, 5 * get_process_delta_time())
 		gun.gunSprite.look_at(get_global_mouse_position())
+	if mouse_controller == "controller":
+		var d = Input.get_vector("ship_look_left","ship_look_right", "ship_look_down", "ship_look_up")
+		d.x = -1 * d.x
+		d = d.rotated(global_rotation)
+		gun.gunSprite.rotation = atan2(d.y, d.x)
 		
 func _on_detection_range_body_entered(body: Node2D) -> void:
 	if not body is Ship or body == ship:
@@ -44,7 +39,6 @@ func _on_detection_range_body_entered(body: Node2D) -> void:
 	var aim_aug = augment_in_list(Aim_Augment)
 	if aim_aug == -1 or augments[aim_aug].enemy_target:
 		return
-	print("aim_augment found target")
 	augments[aim_aug].enemy_target = body
 	targets_in_range.append(body as Ship)
 
