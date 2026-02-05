@@ -11,6 +11,5 @@ func find_target_rooms(augment_type: Variant, target_type: Variant):
 			# check that target.augments isnt at the limit for this particular augmentt
 			if neighbor.augment_in_list(augment_type) > -1:
 				continue
-			print("augment paired to turret")
 			target_rooms.append(neighbor)
 			neighbor.augments.append(self)

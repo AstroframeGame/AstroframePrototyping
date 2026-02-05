@@ -24,7 +24,6 @@ func _on_detection_range_body_entered(body: Node2D) -> void:
 	var aim_aug = augment_in_list(Aim_Augment)
 	if aim_aug == -1 or augments[aim_aug].enemy_target:
 		return
-	print("aim_augment found target")
 	augments[aim_aug].enemy_target = body
 	targets_in_range.append(body as Ship)
 
