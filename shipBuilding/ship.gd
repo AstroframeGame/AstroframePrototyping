@@ -8,10 +8,7 @@ var occupied_cells: Dictionary = {} # only calculated in ship_building
 
 func _ready() -> void:
 	calc_center_of_mass()
-	# update occupied_cells
-	for room in get_children():
-		if room is Room:
-			add_room(room, world_to_grid(room.global_position), room.rot_index)
+	update_occupied_cells()
 	update_colliders()
 
 # check if a room is clicked
@@ -94,11 +91,16 @@ func calc_center_of_mass():
 #endregion
 
 #region Grid and Cell functions
+func update_occupied_cells()->void:
+	for room in get_children():
+		if room is Room:
+			add_room(room, room.grid_pos, room.rot_index)
+
 func world_to_grid(world_pos: Vector2) -> Vector2i:
 	return $HexGrid.local_to_map(to_local(world_pos))
 	
 func grid_to_world(cell: Vector2i) -> Vector2:
-	return to_global(grid.map_to_local(cell))
+	return to_global($HexGrid.map_to_local(cell))
 
 func is_area_free(cells: Array[Vector2i]) -> bool:
 	for cell in cells:

@@ -2,7 +2,7 @@ class_name Augment
 extends Room
 
 # define an instance of the room type that the augment should target
-var target_rooms : Array[Room]
+@export var target_rooms : Array[Room]
 
 # func to fill out target_rooms
 func find_target_rooms(augment_type: Variant, target_type: Variant):
@@ -11,6 +11,6 @@ func find_target_rooms(augment_type: Variant, target_type: Variant):
 			# check that target.augments isnt at the limit for this particular augmentt
 			if neighbor.augment_in_list(augment_type) > -1:
 				continue
-			#print("augment paired to turret")
+			print("augment paired to turret")
 			target_rooms.append(neighbor)
 			neighbor.augments.append(self)

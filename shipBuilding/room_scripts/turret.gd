@@ -1,20 +1,5 @@
 class_name Turret
 extends Room
-
-'''
-fog of war:
-    1) multiple turrets (A* & B*) on board
-        a) Do turrets share vision? EX: A* has a enemy in range 
-		   but no augment. B* does. So does B* lock onto A*'s 
-		   target? 
-		   perks: good single target damage but no wave clear 
-		   can hide some turrets and have some more exposed as 
-		   ones act as "scouts"
-		b) Turrets' vision is independent
-           perks: multi targetting, need to group turrets for good
-		   single target dmg output, needs better ship movement
-		c) both? let players switch between the two modes   
-'''
 	
 @onready var gun : Sprite2D = $Gun
 var targets_in_range : Array[Ship] = []
@@ -22,12 +7,7 @@ var targets_in_range : Array[Ship] = []
 func _ready() -> void:
 	# pair to a nearby aim augment if available
 	if ship:
-		for neighbor in ship.find_neighbors(self):
-			if neighbor is Aim_Augment:
-				if neighbor.target_rooms.size() == 0:
-					#print("turret paired to augment")
-					neighbor.target_rooms.append(self as Turret)
-					augments.append(neighbor as Aim_Augment)
+		pair_augments(Aim_Augment)
 
 func handle_input(event:InputEvent):
 	# mouse guided system

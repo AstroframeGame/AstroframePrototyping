@@ -18,15 +18,31 @@ var grid_pos : Vector2i:
 #export for debugging
 @export var augments : Array[Augment]
 
-
-func augment_in_list(_type:Variant)->int:
+## return index of augment in Augments Array
+func augment_in_list(type:Variant)->int:
 	for augment in augments:
 		# needs better solution but how many times is someone
 		# going to keep the base but repeatedly redo/undo
 		# an augment ¯\_(ツ)_/¯
 		if augment == null:
 			continue
-		if is_instance_of(augment, _type):
+		if is_instance_of(augment, type):
 			return augments.find(augment)
 	return -1
 	
+func at_augment_limit(type:Variant, limit:int)->bool:
+	var count = 0
+	for augment in augments:
+		if augment == null:
+			continue
+		if is_instance_of(augment, type):
+			count += 1
+	return count == limit
+
+func pair_augments(augment_type:Variant)->void:
+	ship.update_occupied_cells()
+	for neighbor in ship.find_neighbors(self):
+		if is_instance_of(neighbor, augment_type):
+			if not neighbor.at_augment_limit(augment_type, 1): # temp
+				neighbor.target_rooms.append(self)
+				augments.append(neighbor)

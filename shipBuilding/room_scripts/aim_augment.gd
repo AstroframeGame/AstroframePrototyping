@@ -6,6 +6,7 @@ var enemy_target : Ship
 func _ready()->void:
 	# for loading ship in new scene
 	if ship:
+		ship.update_occupied_cells()
 		find_target_rooms(Aim_Augment, Turret)
 
 func _process(_delta: float) -> void:
