@@ -4,11 +4,15 @@ extends RigidBody2D
 signal room_clicked(room: Room, button_index: int)
 
 @onready var grid: TileMapLayer = $HexGrid
-var occupied_cells: Dictionary = {}
+var occupied_cells: Dictionary = {} # only calculated in ship_building
 
 func _ready() -> void:
 	refresh_occupied_cells()
 	calc_center_of_mass()
+	# update occupied_cells
+	for room in get_children():
+		if room is Room:
+			add_room(room, world_to_grid(room.global_position), room.rot_index)
 	update_colliders()
 	var ground : Area2D = $Ground
 	ground.input_event.connect(ground_input_event)
@@ -93,7 +97,7 @@ func calc_center_of_mass():
 
 #region Grid and Cell functions
 func world_to_grid(world_pos: Vector2) -> Vector2i:
-	return grid.local_to_map(to_local(world_pos))
+	return $HexGrid.local_to_map(to_local(world_pos))
 	
 func grid_to_world(cell: Vector2i) -> Vector2:
 	return to_global(grid.map_to_local(cell))
@@ -106,37 +110,37 @@ func is_area_free(cells: Array[Vector2i]) -> bool:
 
 func get_cells_for_room(room: Node, center_cell: Vector2i, rot_index: int) -> Array[Vector2i]:
 	var cells: Array[Vector2i] = []
-	var center_local = grid.map_to_local(center_cell)
+	var center_local = $HexGrid.map_to_local(center_cell)
 	var angle = rot_index * PI / 3.0
 	
 	for child in room.get_children():
 		if child is Sprite2D:
 			var rotated_offset = child.position.rotated(angle)
-			var target_cell = grid.local_to_map(grid.to_local(to_global(center_local + rotated_offset)))
+			var target_cell = $HexGrid.local_to_map($HexGrid.to_local(to_global(center_local + rotated_offset)))
 			cells.append(target_cell)
 	return cells
 	
 func neighborhood_coords(cell: Vector2i) -> Array[Vector2i]:
 	return [
-		Vector2i(cell.x,cell.y-1), Vector2i(cell.x+1,cell.y-1), 
-		Vector2i(cell.x-1,cell.y), Vector2i(cell.x+1,cell.y),
-		Vector2i(cell.x,cell.y+1), Vector2i(cell.x+1,cell.y+1),
+		Vector2i(cell.x-1,cell.y-1), Vector2i(cell.x,cell.y+1), 
+		Vector2i(cell.x,cell.y-1), Vector2i(cell.x-1,cell.y+1),
+		Vector2i(cell.x+1,cell.y), Vector2i(cell.x-1,cell.y),
 	]
+	# (-,-), (0,-), (+,0), (0,+), (-,+), (-,0)
 
-func find_neightbors(room: Room) -> Array[Room]:
-	# coords of a cell's neighbors : neighborCoords
-	# { (x,y-1), (x+1,y-1), (x-1,y), (x+1,y), (x,y+1), (x+1,y+1), }
+func find_neighbors(room: Room) -> Array[Room]:
 	var neighbors : Array[Room] = []
 	grid = get_node("HexGrid")
 	for cell in get_cells_for_room(room, room.grid_pos, room.rot_index):
 		for coord in neighborhood_coords(cell):
 			if is_area_free([coord]):
-				print("find_neighbors found empty neighbor")
+				#print("find_neighbors found empty neighbor")
 				continue
 			var _room = occupied_cells[coord]
 			if not _room in neighbors:
 				neighbors.append(_room)
 		#neighbors.erase(self)
+	#print(neighbors)
 	return neighbors
 #endregion
 
