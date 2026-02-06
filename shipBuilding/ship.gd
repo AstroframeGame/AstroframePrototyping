@@ -272,10 +272,9 @@ func get_avalible_power_out() -> Array[PowerOutHex]:
 	var out : Array[PowerOutHex] = []
 	for r in get_children():
 		if r is Room:
-			out.append_array(r.get_out_hexes())
-	for h in out:
-		if h.is_powering:
-			out.erase(h)
+			for h in r.get_out_hexes():
+				if not h.is_powering:
+					out.append(h)
 	print(out)
 	return out
 
