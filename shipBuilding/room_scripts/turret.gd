@@ -20,6 +20,8 @@ func _input(event)-> void:
 		mouse_controller = "controller"
 
 func handle_input(event:InputEvent):
+	if not power_level > 0:
+		return
 	# mouse guided system
 	if event.is_action("ship_fire"):
 		gun.shoot()

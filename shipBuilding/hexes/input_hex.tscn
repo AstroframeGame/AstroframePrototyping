@@ -12,16 +12,16 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_3btjd")
 
 [node name="Torus" type="Sprite2D" parent="." unique_id=1576327734]
-modulate = Color(0.21950102, 0.21950102, 0.21950102, 1)
+self_modulate = Color(0.21960784, 0.21960784, 0.21960784, 1)
 scale = Vector2(0.065, 0.065)
 texture = ExtResource("2_hajiv")
 
-[node name="ClickArea" type="Area2D" parent="." unique_id=1345779495]
+[node name="InClickArea" type="Area2D" parent="." unique_id=1345779495]
 z_index = 100
 collision_layer = 8
 collision_mask = 0
 script = ExtResource("3_hajiv")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ClickArea" unique_id=1907011775]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InClickArea" unique_id=1907011775]
 shape = SubResource("CircleShape2D_3btjd")
 debug_color = Color(0.80322397, 0.007534195, 0.99999994, 0.41960785)

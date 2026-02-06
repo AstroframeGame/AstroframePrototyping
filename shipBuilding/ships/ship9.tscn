@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://c7qsafet54eoj"]
+[gd_scene format=3 uid="uid://co62fms7u2wp"]
 
 [ext_resource type="Script" uid="uid://bsurseo1hgudf" path="res://shipBuilding/ship.gd" id="1_20sfu"]
 [ext_resource type="PackedScene" uid="uid://c2n7netp00xn6" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_d42o2"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://qteo7ksf47a4" path="res://shipBuilding/rooms/piloting_1.tscn" id="7_e3eyp"]
 [ext_resource type="PackedScene" uid="uid://daycij2kxk7dj" path="res://shipBuilding/rooms/turret_3.tscn" id="9_gyy2c"]
 [ext_resource type="PackedScene" uid="uid://dir8uoqft75m0" path="res://shipBuilding/rooms/airlock_1.tscn" id="11_0xfp3"]
+[ext_resource type="PackedScene" uid="uid://c80teck1ccmdv" path="res://shipBuilding/rooms/reactor_2.tscn" id="13_ecgwr"]
 
 [sub_resource type="TileSet" id="TileSet_xsh4c"]
 tile_shape = 3
@@ -38,6 +39,10 @@ position = Vector2(0, -22.5)
 [node name="Cannon" parent="." unique_id=170986718 instance=ExtResource("3_0xfp3")]
 position = Vector2(39, -90)
 
+[node name="Reactor_2" parent="." unique_id=542255097 instance=ExtResource("13_ecgwr")]
+position = Vector2(-39, 45)
+rotation = -2.094395
+
 [node name="Edge" type="CollisionPolygon2D" parent="." unique_id=1748812336]
 build_mode = 1
 polygon = PackedVector2Array(156.1, -112.55, 156.1, -67.61659, 195.00107, -45.13276, 233.97888, -67.6366, 273.05774, -45.049995, 273.07886, 0.08660126, 234.10107, 22.590424, 234.12215, 67.61159, 195.06439, 90.16158, 156.02107, 67.59552, 117, 90.1, 78, 67.60767, 39, 90.1, -0.099998474, 67.55, -0.099998474, 22.54232, -39.1, 0.05000305, -39.1, -45.050003, -0.099998474, -67.54232, -0.099998474, -112.55, 39, -135.1, 78, -112.60767, 117, -135.1)
@@ -47,3 +52,11 @@ polygon = PackedVector2Array(156.1, -112.55, 156.1, -67.61659, 195.00107, -45.13
 [node name="Solid" type="CollisionPolygon2D" parent="Ground" unique_id=1016487203]
 visible = false
 polygon = PackedVector2Array(156.1, -112.55, 156.1, -67.61659, 195.00107, -45.13276, 233.97888, -67.6366, 273.05774, -45.049995, 273.07886, 0.08660126, 234.10107, 22.590424, 234.12215, 67.61159, 195.06439, 90.16158, 156.02107, 67.59552, 117, 90.1, 78, 67.60767, 39, 90.1, -0.099998474, 67.55, -0.099998474, 22.54232, -39.1, 0.05000305, -39.1, -45.050003, -0.099998474, -67.54232, -0.099998474, -112.55, 39, -135.1, 78, -112.60767, 117, -135.1)
+
+[editable path="Engines_2"]
+[editable path="Engines_2/InputHex"]
+[editable path="Cannon"]
+[editable path="Cannon/InputHex"]
+[editable path="Reactor_2"]
+[editable path="Reactor_2/OutputHex"]
+[editable path="Reactor_2/OutputHex3"]
