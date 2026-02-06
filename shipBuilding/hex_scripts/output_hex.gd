@@ -2,10 +2,20 @@ extends Area2D
 class_name PowerOutHex
 
 @onready var room : Room = $"../.."
-@onready var power_line: Line2D = $PowerLine
+#@onready var power_line: Line2D = $PowerLine
 @onready var icon: Sprite2D = $"../Dot"
 
 var selecting = false
+
+signal on_clicked(power_hex)
+
+func _ready() -> void:
+	on_clicked.connect(room.ship.toggle_power)
+	update_state(is_powering)
+
+var is_powering : bool:
+	get:
+		return room.ship.power_links.has(self)
 
 func update_state(powered : bool):
 	# grey  383838
@@ -16,12 +26,5 @@ func update_state(powered : bool):
 func _input_event(_viewport: Viewport, _event: InputEvent, _shape_idx: int) -> void:
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		print(name, "clicked")
-		selecting = !selecting
-
-func _process(_delta: float) -> void:
-	if not selecting:
-		return
-	power_line.set_point_position(1,to_local(get_global_mouse_position()))
-
-
-# debug why its below others even tho z is high
+		on_clicked.emit(self)
+		

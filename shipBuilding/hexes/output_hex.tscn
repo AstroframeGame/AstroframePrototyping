@@ -12,7 +12,7 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_k1opf")
 
 [node name="Dot" type="Sprite2D" parent="." unique_id=1337296878]
-self_modulate = Color(0.27656284, 0.55268526, 0.3340239, 1)
+self_modulate = Color(0.21960784, 0.21960784, 0.21960784, 1)
 scale = Vector2(0.235, 0.235)
 texture = ExtResource("2_ps41y")
 
@@ -26,5 +26,6 @@ shape = SubResource("CircleShape2D_bd20s")
 debug_color = Color(0.80322397, 0.007534195, 0.99999994, 0.41960785)
 
 [node name="PowerLine" type="Line2D" parent="OutClickArea" unique_id=1277844702]
+visible = false
 points = PackedVector2Array(0, 0, 0, 0)
 default_color = Color(0.7156081, 0.87879455, 0.67834294, 1)

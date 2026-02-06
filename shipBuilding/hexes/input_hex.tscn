@@ -12,7 +12,7 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_3btjd")
 
 [node name="Torus" type="Sprite2D" parent="." unique_id=1576327734]
-modulate = Color(0.21950102, 0.21950102, 0.21950102, 1)
+self_modulate = Color(0.21960784, 0.21960784, 0.21960784, 1)
 scale = Vector2(0.065, 0.065)
 texture = ExtResource("2_hajiv")
 

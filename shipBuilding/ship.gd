@@ -273,36 +273,60 @@ func get_avalible_power_out() -> Array[PowerOutHex]:
 	for r in get_children():
 		if r is Room:
 			out.append_array(r.get_out_hexes())
+	for h in out:
+		if h.is_powering:
+			out.erase(h)
+	print(out)
 	return out
 
 func toggle_power(power_hex):
-	if power_hex is PowerOutHex:
+	if power_hex is PowerOutHex && power_hex.is_powering:
 		pass # turn off power
+		remove_power_link_out(power_hex)
+		print("remove_power_out")
 	if power_hex is PowerInHex:
-		if is_powered(power_hex):
+		if power_hex.is_powered:
 			pass # turn off power
+			remove_power_link_in(power_hex)
+			print("remove_power_in")
 		else:
 			pass # turn on power
+			set_next_avalible_power_out(power_hex)
+			print("power_next")
 
-func is_powered(power_in:PowerInHex):
-	return power_links.find_key(power_in) != null
+func set_next_avalible_power_out(power_in : PowerInHex) -> bool:
+	var power_outs = get_avalible_power_out()
+	print("POWERING ", power_outs.size(), " left")
+	if power_outs.size() > 0:
+		var power_out = power_outs[0]
+		add_power_link(power_out, power_in)
+		return true
+	return false
 
 func add_power_link(power_out : PowerOutHex, power_in : PowerInHex):
+	if power_out.is_powering or power_in.is_powered:
+		print("met check ", power_out.is_powering , " ", power_in.is_powered)
+		return false
 	power_links[power_out] = power_in
 	power_out.update_state(true)
 	power_in.update_state(true)
+	return true
 
-func remove_power_link_out(power_in : PowerInHex):
+func remove_power_link_in(power_in : PowerInHex):
 	var power_out = power_links.find_key(power_in)
 	if power_out != null:
 		power_links.erase(power_out)
 		power_out.update_state(false)
 		power_in.update_state(false)
+		return true
+	return false
 
-func remove_power_link_in(power_out : PowerOutHex):
-	if power_out != null:
+func remove_power_link_out(power_out : PowerOutHex):
+	if power_out != null && power_links.has(power_out):
 		var power_in = power_links[power_out]
 		power_links.erase(power_out)
 		power_out.update_state(false)
 		power_in.update_state(false)
+		return true
+	return false
 #endregion
