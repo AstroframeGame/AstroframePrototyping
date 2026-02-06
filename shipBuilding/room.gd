@@ -12,6 +12,14 @@ var grid_pos : Vector2i:
 	get:
 		return ship.world_to_grid(global_position)
 
+func get_out_hexes() -> Array[PowerOutHex]:
+	var out : Array[PowerOutHex] = []
+	for h in get_children():
+		for c in h.get_children():
+			if c is PowerOutHex:
+				out.append(c)
+	return out
+
 # not sure how durability is going to work, but probably once a room takes enough damage, it becomes
 # inoperable or breaks
 @export var durability = 40

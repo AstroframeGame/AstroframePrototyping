@@ -5,7 +5,9 @@ signal room_clicked(room: Room, button_index: int)
 
 const HEX_GRID_PREFAB = preload("res://shipBuilding/prefabs/hex_grid.tscn")
 @onready var grid: TileMapLayer # set in update colliders
-var occupied_cells: Dictionary = {} # only calculated in ship_building
+var occupied_cells: Dictionary[Vector2i, Room] = {} # only calculated in ship_building
+
+@export var power_links : Dictionary[PowerOutHex, PowerInHex]
 
 func _ready() -> void:
 	update_colliders()
@@ -13,13 +15,10 @@ func _ready() -> void:
 	update_occupied_cells()
 	var ground : Area2D = $Ground
 	ground.input_event.connect(ground_input_event)
-	
-	print($Edge.build_mode)
 
 func ground_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
 		var cell = world_to_grid(get_global_mouse_position())
-		print("A", cell)
 		if occupied_cells.has(cell):
 			var room = occupied_cells[cell]
 			print("Room ", room, " was clicked")
@@ -265,4 +264,45 @@ func _get_hex_poly() -> PackedVector2Array:
 		Vector2(-w_half, h_quarter),
 		Vector2(-w_half, -h_quarter)
 	])
+#endregion
+
+
+#region Power
+func get_avalible_power_out() -> Array[PowerOutHex]:
+	var out : Array[PowerOutHex] = []
+	for r in get_children():
+		if r is Room:
+			out.append_array(r.get_out_hexes())
+	return out
+
+func toggle_power(power_hex):
+	if power_hex is PowerOutHex:
+		pass # turn off power
+	if power_hex is PowerInHex:
+		if is_powered(power_hex):
+			pass # turn off power
+		else:
+			pass # turn on power
+
+func is_powered(power_in:PowerInHex):
+	return power_links.find_key(power_in) != null
+
+func add_power_link(power_out : PowerOutHex, power_in : PowerInHex):
+	power_links[power_out] = power_in
+	power_out.update_state(true)
+	power_in.update_state(true)
+
+func remove_power_link_out(power_in : PowerInHex):
+	var power_out = power_links.find_key(power_in)
+	if power_out != null:
+		power_links.erase(power_out)
+		power_out.update_state(false)
+		power_in.update_state(false)
+
+func remove_power_link_in(power_out : PowerOutHex):
+	if power_out != null:
+		var power_in = power_links[power_out]
+		power_links.erase(power_out)
+		power_out.update_state(false)
+		power_in.update_state(false)
 #endregion
