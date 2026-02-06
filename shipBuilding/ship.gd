@@ -267,7 +267,6 @@ func _get_hex_poly() -> PackedVector2Array:
 	])
 #endregion
 
-
 #region Power
 func get_avalible_power_out() -> Array[PowerOutHex]:
 	var out : Array[PowerOutHex] = []
@@ -282,22 +281,18 @@ func get_avalible_power_out() -> Array[PowerOutHex]:
 
 func toggle_power(power_hex):
 	if power_hex is PowerOutHex && power_hex.is_powering:
-		pass # turn off power
+		# turn off power
 		remove_power_link_out(power_hex)
-		print("remove_power_out")
 	if power_hex is PowerInHex:
 		if power_hex.is_powered:
-			pass # turn off power
+			# turn off power
 			remove_power_link_in(power_hex)
-			print("remove_power_in")
 		else:
-			pass # turn on power
+			# turn on power
 			set_next_avalible_power_out(power_hex)
-			print("power_next")
 
 func set_next_avalible_power_out(power_in : PowerInHex) -> bool:
 	var power_outs = get_avalible_power_out()
-	print("POWERING ", power_outs.size(), " left")
 	if power_outs.size() > 0:
 		var power_out = power_outs[0]
 		add_power_link(power_out, power_in)
@@ -306,7 +301,6 @@ func set_next_avalible_power_out(power_in : PowerInHex) -> bool:
 
 func add_power_link(power_out : PowerOutHex, power_in : PowerInHex):
 	if power_out.is_powering or power_in.is_powered:
-		print("met check ", power_out.is_powering , " ", power_in.is_powered)
 		return false
 	power_links[power_out] = power_in
 	power_out.update_state(true)
