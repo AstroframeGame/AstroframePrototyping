@@ -23,6 +23,10 @@ config/icon="uid://hhdnr107ugtj"
 
 window/stretch/mode="canvas_items"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/trail_2d/plugin.cfg")
+
 [global_group]
 
 player_ship=""

@@ -2,11 +2,30 @@
 
 [ext_resource type="Script" uid="uid://byqsdjgqvjiln" path="res://shipBuilding/room_scripts/engines.gd" id="1_w1q65"]
 [ext_resource type="PackedScene" uid="uid://dmgvcp6y668bi" path="res://shipBuilding/hexes/input_hex.tscn" id="2_rosf4"]
+[ext_resource type="Script" uid="uid://cxaq4li7q471e" path="res://addons/trail_2d/trail_2d.gd" id="2_w1q65"]
+
+[sub_resource type="Curve" id="Curve_w1q65"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
 
 [node name="Engines_2" type="Node2D" unique_id=1685651061]
 script = ExtResource("1_w1q65")
 
-[node name="Polygon2D" type="Polygon2D" parent="." unique_id=1303079574]
+[node name="Trail2D" type="Line2D" parent="." unique_id=900554177]
+position = Vector2(1, 48)
+width_curve = SubResource("Curve_w1q65")
+default_color = Color(1.5911336, 2.5294402, 2.6529999, 1)
+script = ExtResource("2_w1q65")
+metadata/_custom_type_script = "uid://cxaq4li7q471e"
+
+[node name="Trail2D2" type="Line2D" parent="." unique_id=748199960]
+position = Vector2(78, 44)
+width_curve = SubResource("Curve_w1q65")
+default_color = Color(1.5911336, 2.5294402, 2.6529999, 1)
+script = ExtResource("2_w1q65")
+metadata/_custom_type_script = "uid://cxaq4li7q471e"
+
+[node name="Engine" type="Polygon2D" parent="." unique_id=1303079574]
 position = Vector2(-14, -2)
 color = Color(0.20511743, 0.20511743, 0.20511743, 1)
 polygon = PackedVector2Array(-14, 2, -7, 53, 39, 53, 45, 4, 58, 4, 70, 53, 118, 53, 124, 2, 116, -18, -6, -14)

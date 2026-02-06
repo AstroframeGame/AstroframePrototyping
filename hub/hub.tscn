@@ -10,6 +10,10 @@
 default_font = ExtResource("2_clbpi")
 default_font_size = 72
 
+[sub_resource type="Environment" id="Environment_21dlm"]
+glow_enabled = true
+glow_bloom = 0.5
+
 [node name="Hub" type="Node2D" unique_id=2058136417]
 
 [node name="GameManager" type="Node" parent="." unique_id=1643740730]
@@ -110,5 +114,8 @@ offset_bottom = 23.0
 grow_horizontal = 0
 text = "fps"
 script = ExtResource("3_6ebxt")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1798994774]
+environment = SubResource("Environment_21dlm")
 
 [connection signal="pressed" from="UI/InGame/Button" to="GameManager" method="quit_to_list"]
