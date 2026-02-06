@@ -7,3 +7,12 @@ extends Room
 @export var standard_thrust = 100
 # for rotation
 @export var rotational_thrust = 0.5
+
+func get_boost_thrust() -> float:
+	return boost_thrust * power_level
+	
+func get_thrust() -> float:
+	return standard_thrust * power_level
+
+func get_rotational_thrust() -> float:
+	return rotational_thrust * power_level

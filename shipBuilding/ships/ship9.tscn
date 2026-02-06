@@ -13,16 +13,12 @@
 tile_shape = 3
 tile_size = Vector2i(78, 90)
 
-[node name="Ship9" type="RigidBody2D" unique_id=1784127879 node_paths=PackedStringArray("power_links")]
+[node name="Ship9" type="RigidBody2D" unique_id=1784127879]
 collision_layer = 3
 input_pickable = true
 mass = 18.0
 gravity_scale = 0.0
 script = ExtResource("1_20sfu")
-power_links = {
-NodePath("Reactor_2/OutputHex/ClickArea"): NodePath("Engines_2/InputHex/ClickArea"),
-NodePath("Reactor_2/OutputHex3/ClickArea"): NodePath("Cannon/InputHex/ClickArea")
-}
 
 [node name="HexGrid" parent="." unique_id=1726279931 instance=ExtResource("2_d42o2")]
 tile_set = SubResource("TileSet_xsh4c")

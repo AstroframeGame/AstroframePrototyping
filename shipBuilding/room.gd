@@ -12,13 +12,29 @@ var grid_pos : Vector2i:
 	get:
 		return ship.world_to_grid(global_position)
 
+var power_level : int:
+	get:
+		var in_hexes = 0
+		for h in get_in_hexes():
+			if h.is_powered:
+				in_hexes += 1
+		return in_hexes
+
+func get_in_hexes() -> Array[PowerInHex]:
+	var hexes : Array[PowerInHex] = []
+	for h in get_children():
+		for c in h.get_children():
+			if c is PowerInHex:
+				hexes.append(c)
+	return hexes
+
 func get_out_hexes() -> Array[PowerOutHex]:
-	var out : Array[PowerOutHex] = []
+	var hexes : Array[PowerOutHex] = []
 	for h in get_children():
 		for c in h.get_children():
 			if c is PowerOutHex:
-				out.append(c)
-	return out
+				hexes.append(c)
+	return hexes
 
 # not sure how durability is going to work, but probably once a room takes enough damage, it becomes
 # inoperable or breaks

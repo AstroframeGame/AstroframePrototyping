@@ -60,9 +60,9 @@ func move_ship(state: PhysicsDirectBodyState2D):
 	var direction = Input.get_vector("left", "right", "up", "down")
 	var delta = get_process_delta_time()
 	if Input.is_action_pressed("brake"):
-		state.linear_velocity -= state.linear_velocity.normalized() * engines.standard_thrust * delta
+		state.linear_velocity -= state.linear_velocity.normalized() * engines.get_thrust() * delta
 	else:
-		state.linear_velocity += direction.rotated(global_rotation) * engines.standard_thrust * delta
+		state.linear_velocity += direction.rotated(global_rotation) * engines.get_thrust() * delta
 
 # THIS SHOULD BE IN THE INPUT SINGLETON
 var mouse_controller = "mouse"
@@ -85,11 +85,12 @@ func rotate_ship(state: PhysicsDirectBodyState2D):
 		return
 	var center = piloting.global_position
 	var look_dir = get_global_mouse_position() - center
+	# add a deadzone?
 	var target_angle = look_dir.angle() + PI/2
 	var angle_delta = wrapf(target_angle - global_rotation, -PI, PI)
 	if mouse_controller == "controller":
 		angle_delta = Input.get_axis("ship_look_left","ship_look_right")
-	state.angular_velocity = angle_delta * engines.rotational_thrust
+	state.angular_velocity = angle_delta * engines.get_rotational_thrust()
 	
 func calc_center_of_mass():
 	var hex_mass = 2.0
