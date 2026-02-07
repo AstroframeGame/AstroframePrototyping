@@ -12,6 +12,7 @@
 [node name="PlayerUI" type="CanvasLayer" parent="." unique_id=1049682532]
 
 [node name="Health" type="TextureProgressBar" parent="PlayerUI" unique_id=1090152251]
+visible = false
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0

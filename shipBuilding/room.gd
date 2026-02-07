@@ -12,6 +12,8 @@ var grid_pos : Vector2i:
 	get:
 		return ship.world_to_grid(global_position)
 
+signal on_power_level_change(room : Room)
+
 var power_level : int:
 	get:
 		var in_hexes = 0
