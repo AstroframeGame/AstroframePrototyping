@@ -2,8 +2,23 @@
 
 [ext_resource type="PackedScene" uid="uid://dcpfkpex6ovaa" path="res://playerMovement/player_system.tscn" id="1_rcyo3"]
 [ext_resource type="PackedScene" uid="uid://bvba8kphvl2d0" path="res://shipBuilding/ships/Auto_Gunner.tscn" id="2_lcjf2"]
+[ext_resource type="PackedScene" uid="uid://faukavu4hxon" path="res://shipBuilding/ships/Bucaneer.tscn" id="2_wwh42"]
+[ext_resource type="Texture2D" uid="uid://qpea6dcya76s" path="res://icon.svg" id="4_amrid"]
+[ext_resource type="PackedScene" uid="uid://dbqiuuatltea8" path="res://shipBuilding/ships/Bumble_Bee.tscn" id="5_jrc0m"]
 
 [node name="ShipAi" type="Node2D" unique_id=2125256018]
+
+[node name="Background" type="Node2D" parent="." unique_id=739083620]
+
+[node name="Parallax2D" type="Parallax2D" parent="Background" unique_id=1701181093]
+repeat_size = Vector2(300, 300)
+repeat_times = 100
+
+[node name="Sprite2D" type="Sprite2D" parent="Background/Parallax2D" unique_id=432486449]
+self_modulate = Color(0, 0, 0, 1)
+position = Vector2(-78, 78)
+scale = Vector2(2.21875, 2.21875)
+texture = ExtResource("4_amrid")
 
 [node name="Name" type="Label" parent="." unique_id=36467604]
 offset_left = 203.0
@@ -30,8 +45,14 @@ text = "To add
 - add dummy for AI to shoot at
 - make the ai kinda smart"
 
-[node name="_RigidBody2D_48" parent="." unique_id=1784127879 instance=ExtResource("2_lcjf2")]
+[node name="Auto_Gunner" parent="." unique_id=1784127879 groups=["player_ship"] instance=ExtResource("2_lcjf2")]
 position = Vector2(351, 326)
+
+[node name="BumbleBee" parent="." unique_id=1937706760 instance=ExtResource("5_jrc0m")]
+position = Vector2(2414, 608)
+
+[node name="Bucanner" parent="." unique_id=328197204 instance=ExtResource("2_wwh42")]
+position = Vector2(-641, 274)
 
 [node name="PlayerSystem" parent="." unique_id=809182662 instance=ExtResource("1_rcyo3")]
 position = Vector2(44, 512)

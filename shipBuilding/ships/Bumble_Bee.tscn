@@ -1,45 +1,70 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://dbqiuuatltea8"]
 
-[ext_resource type="Script" path="res://shipBuilding/ship.gd" id="1_owk5p"]
-[ext_resource type="PackedScene" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_eet18"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/piloting_1.tscn" id="3_eoy00"]
-[ext_resource type="Script" path="res://shipBuilding/room_scripts/piloting.gd" id="4_tg1gq"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/reactor_4.tscn" id="5_565a3"]
-[ext_resource type="Script" path="res://shipBuilding/room.gd" id="6_xwyds"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/engines_2.tscn" id="7_mw0o3"]
-[ext_resource type="Script" path="res://shipBuilding/room_scripts/engines.gd" id="8_pmmdv"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/cannon.tscn" id="9_cddt3"]
-[ext_resource type="Script" path="res://shipBuilding/room_scripts/cannon.gd" id="10_hn63t"]
+[ext_resource type="PackedScene" uid="uid://c2n7netp00xn6" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_eet18"]
+[ext_resource type="PackedScene" uid="uid://qteo7ksf47a4" path="res://shipBuilding/rooms/piloting_1.tscn" id="3_eoy00"]
+[ext_resource type="PackedScene" uid="uid://cplmkay6ecshy" path="res://shipBuilding/rooms/reactor_4.tscn" id="5_565a3"]
+[ext_resource type="PackedScene" uid="uid://cebf4gqkt7jib" path="res://shipBuilding/rooms/engines_2.tscn" id="7_mw0o3"]
+[ext_resource type="Script" uid="uid://dcajyqv0dixk3" path="res://shipAI/bumbleBee/bumble_bee.gd" id="8_138m7"]
+[ext_resource type="PackedScene" uid="uid://bmfrsjjfduwqn" path="res://shipBuilding/rooms/cannon.tscn" id="9_cddt3"]
+[ext_resource type="PackedScene" uid="uid://dir8uoqft75m0" path="res://shipBuilding/rooms/airlock_1.tscn" id="11_w5428"]
 
 [sub_resource type="TileSet" id="TileSet_xsh4c"]
 tile_shape = 3
 tile_size = Vector2i(78, 90)
 
-[node name="Ship" type="RigidBody2D" unique_id=1784127879]
-input_pickable = true
-gravity_scale = 0.0
-script = ExtResource("1_owk5p")
+[sub_resource type="CircleShape2D" id="CircleShape2D_sce72"]
+radius = 1843.0988
 
-[node name="HexGrid" type="TileMapLayer" parent="." unique_id=1277847278 instance=ExtResource("2_eet18")]
+[node name="BumbleBee" type="RigidBody2D" unique_id=1784127879]
+input_pickable = true
+mass = 18.0
+gravity_scale = 0.0
+script = ExtResource("8_138m7")
+
+[node name="HexGrid" parent="." unique_id=1277847278 instance=ExtResource("2_eet18")]
 tile_set = SubResource("TileSet_xsh4c")
 
-[node name="Piloting_1" type="CollisionPolygon2D" parent="." unique_id=966141484 instance=ExtResource("3_eoy00")]
+[node name="Piloting_1" parent="." unique_id=966141484 instance=ExtResource("3_eoy00")]
 position = Vector2(0, -22.5)
-polygon = PackedVector2Array(0, -45.1, 39.1, -22.55, 39.1, 22.55, 0, 45.1, -39.1, 22.55, -39.1, -22.55)
-script = ExtResource("4_tg1gq")
 
-[node name="Reactor_4" type="CollisionPolygon2D" parent="." unique_id=920192434 instance=ExtResource("5_565a3")]
+[node name="Reactor_4" parent="." unique_id=920192434 instance=ExtResource("5_565a3")]
 position = Vector2(78, 112.5)
-polygon = PackedVector2Array(39.1, -157.55, 39.1, -112.54232, 78.1, -90.05, 78.1, -44.950005, 39.1, -22.457672, 39.1, 22.550003, 0, 45.1, -39.1, 22.550003, -39.1, -22.457672, -78.1, -44.950005, -78.1, -90.05, -39.1, -112.54232, -39.1, -157.55, 0, -180.1)
-script = ExtResource("6_xwyds")
 
-[node name="Engines_2" type="CollisionPolygon2D" parent="." unique_id=120470860 instance=ExtResource("7_mw0o3")]
+[node name="Engines_2" parent="." unique_id=120470860 instance=ExtResource("7_mw0o3")]
 position = Vector2(-39, 180)
-polygon = PackedVector2Array(117.1, -22.550003, 117.1, 22.550003, 78, 45.1, 39, 22.607674, 0, 45.1, -39.1, 22.550003, -39.1, -22.550003, 0, -45.1, 39, -22.607674, 78, -45.1)
-script = ExtResource("8_pmmdv")
+standard_thrust = 150
 
-[node name="Cannon" type="CollisionPolygon2D" parent="." unique_id=170986718 instance=ExtResource("9_cddt3")]
+[node name="Cannon" parent="." unique_id=170986718 instance=ExtResource("9_cddt3")]
 position = Vector2(-78, 112.5)
 rotation = 5.2359877
-polygon = PackedVector2Array(117.1, -22.550003, 117.1, 22.550003, 78, 45.1, 39, 22.607674, 0, 45.1, -39.1, 22.550003, -39.1, -22.550003, 0, -45.1, 39, -22.607674, 78, -45.1)
-script = ExtResource("10_hn63t")
+
+[node name="Edge" type="CollisionPolygon2D" parent="." unique_id=502091524]
+build_mode = 1
+polygon = PackedVector2Array(117.1, -45.050003, 117.1, -0.04232025, 156.1, 22.449997, 156.1, 67.55, 117.1, 90.04232, 117.1, 135.05, 78.1, 157.54233, 78.1, 202.55, 39, 225.1, 0, 202.60767, -39, 225.1, -78.1, 202.55, -78.1, 157.45, -39, 134.9, 0, 157.39232, 38.9, 134.95767, 38.9, 90.04232, -0.064338684, 67.570564, -39.021133, 90.08661, -78.07887, 67.536606, -78.057755, 22.400017, -39.1, -0.11656952, -39.1, -45.050003, 0, -67.6, 38.999992, -45.107674, 78, -67.600006)
+
+[node name="Ground" type="Area2D" parent="." unique_id=1537886015]
+
+[node name="Solid" type="CollisionPolygon2D" parent="Ground" unique_id=71361955]
+polygon = PackedVector2Array(117.1, -45.050003, 117.1, -0.04232025, 156.1, 22.449997, 156.1, 67.55, 117.1, 90.04232, 117.1, 135.05, 78.1, 157.54233, 78.1, 202.55, 39, 225.1, 0, 202.60767, -39, 225.1, -78.1, 202.55, -78.1, 157.45, -39, 134.9, 0, 157.39232, 38.9, 134.95767, 38.9, 90.04232, -0.064338684, 67.570564, -39.021133, 90.08661, -78.07887, 67.536606, -78.057755, 22.400017, -39.1, -0.11656952, -39.1, -45.050003, 0, -67.6, 38.999992, -45.107674, 78, -67.600006)
+
+[node name="Airlock_1" parent="." unique_id=2084884563 instance=ExtResource("11_w5428")]
+position = Vector2(0, 112.5)
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="." unique_id=608351631]
+vertices = PackedVector2Array(0, -68, 38, -45, 79, -67, 118, -46, 116, -1, 156, 22, 156, 67, 119, 86, 116, 135, 79, 157, 79, 204, 38, 225, -1, 202, -39, 225, -78, 203, -79, 158, -118, 135, -117, 90, -81, 66, -79, 17, -40, -3, -38, -45)
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1456668201]
+
+[node name="DetectionRange" type="Area2D" parent="." unique_id=45195923]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRange" unique_id=1597323429]
+shape = SubResource("CircleShape2D_sce72")
+debug_color = Color(0.827473, 0.16812393, 1.92523e-07, 0)
+
+[node name="DetectionTimer" type="Timer" parent="." unique_id=1529407353]
+wait_time = 2.5
+one_shot = true
+
+[connection signal="body_entered" from="DetectionRange" to="." method="_on_detection_range_body_entered"]
+[connection signal="body_exited" from="DetectionRange" to="." method="_on_detection_range_body_exited"]

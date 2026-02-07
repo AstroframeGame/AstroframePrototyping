@@ -14,12 +14,12 @@ func _ready() -> void:
 	var ground : Area2D = $Ground
 	ground.input_event.connect(ground_input_event)
 	
-	print($Edge.build_mode)
+	#print($Edge.build_mode)
 
 func ground_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
 		var cell = world_to_grid(get_global_mouse_position())
-		print("A", cell)
+		#print("A", cell)
 		if occupied_cells.has(cell):
 			var room = occupied_cells[cell]
 			print("Room ", room, " was clicked")
