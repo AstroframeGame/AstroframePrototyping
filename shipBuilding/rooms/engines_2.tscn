@@ -27,7 +27,7 @@ metadata/_custom_type_script = "uid://cxaq4li7q471e"
 
 [node name="Engine" type="Polygon2D" parent="." unique_id=1303079574]
 position = Vector2(-14, -2)
-color = Color(0.20511743, 0.20511743, 0.20511743, 1)
+color = Color(0.4228827, 0.42288283, 0.42288265, 1)
 polygon = PackedVector2Array(-14, 2, -7, 53, 39, 53, 45, 4, 58, 4, 70, 53, 118, 53, 124, 2, 116, -18, -6, -14)
 
 [node name="InputHex" parent="." unique_id=56559507 instance=ExtResource("2_rosf4")]

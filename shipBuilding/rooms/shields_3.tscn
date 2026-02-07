@@ -27,5 +27,4 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Shields"
 
 [node name="Shield" parent="." unique_id=386750233 instance=ExtResource("3_43tt2")]
-visible = false
 position = Vector2(0, -45)

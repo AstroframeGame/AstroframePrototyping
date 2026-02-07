@@ -304,6 +304,7 @@ func add_power_link(power_out : PowerOutHex, power_in : PowerInHex):
 	power_links[power_out] = power_in
 	power_out.update_state(true)
 	power_in.update_state(true)
+	power_in.room.on_power_level_change.emit(power_in)
 	return true
 
 func remove_power_link_in(power_in : PowerInHex):
@@ -312,6 +313,7 @@ func remove_power_link_in(power_in : PowerInHex):
 		power_links.erase(power_out)
 		power_out.update_state(false)
 		power_in.update_state(false)
+		power_in.room.on_power_level_change.emit(power_in)
 		return true
 	return false
 
@@ -321,6 +323,7 @@ func remove_power_link_out(power_out : PowerOutHex):
 		power_links.erase(power_out)
 		power_out.update_state(false)
 		power_in.update_state(false)
+		power_in.room.on_power_level_change.emit(power_in)
 		return true
 	return false
 #endregion
