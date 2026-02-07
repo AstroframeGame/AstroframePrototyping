@@ -13,7 +13,8 @@ default_font_size = 72
 [sub_resource type="Environment" id="Environment_21dlm"]
 background_mode = 3
 glow_enabled = true
-glow_bloom = 0.67
+glow_strength = 0.59
+glow_bloom = 0.27
 
 [node name="Hub" type="Node2D" unique_id=2058136417]
 

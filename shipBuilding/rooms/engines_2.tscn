@@ -17,6 +17,7 @@ points = PackedVector2Array(0, 0, 0, 64.045)
 width_curve = SubResource("Curve_w1q65")
 default_color = Color(0, 0.9598983, 1.5662694, 1)
 script = ExtResource("2_w1q65")
+length = 20.0
 metadata/_custom_type_script = "uid://cxaq4li7q471e"
 
 [node name="Trail2D2" type="Line2D" parent="." unique_id=748199960]
@@ -25,6 +26,7 @@ points = PackedVector2Array(0, 0, 0, 64.045)
 width_curve = SubResource("Curve_w1q65")
 default_color = Color(0, 0.96, 1.566, 1)
 script = ExtResource("2_w1q65")
+length = 20.0
 metadata/_custom_type_script = "uid://cxaq4li7q471e"
 
 [node name="Engine" type="Polygon2D" parent="." unique_id=1303079574]
