@@ -2,17 +2,19 @@
 
 [ext_resource type="Script" uid="uid://cbty45dswb5nj" path="res://hub/game_manager.gd" id="1_n4d7h"]
 [ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/RoundedSquare.png" id="2_1wrr7"]
-[ext_resource type="FontFile" uid="uid://bo3yd376velrb" path="res://hub/fonts/Skateblade-Regular.otf" id="2_clbpi"]
+[ext_resource type="FontFile" uid="uid://bvhs72w1tp2uu" path="res://hub/fonts/Ethnocentric-Regular.otf" id="2_21dlm"]
 [ext_resource type="Script" uid="uid://cti2v7b51m68r" path="res://hub/fps_label.gd" id="3_6ebxt"]
 [ext_resource type="Texture2D" uid="uid://hhdnr107ugtj" path="res://hub/icon/AstroFrameIcon.svg" id="5_21dlm"]
 
 [sub_resource type="Theme" id="Theme_21dlm"]
-default_font = ExtResource("2_clbpi")
+default_font = ExtResource("2_21dlm")
 default_font_size = 72
 
 [sub_resource type="Environment" id="Environment_21dlm"]
+background_mode = 3
 glow_enabled = true
-glow_bloom = 0.5
+glow_strength = 0.59
+glow_bloom = 0.27
 
 [node name="Hub" type="Node2D" unique_id=2058136417]
 
@@ -35,15 +37,16 @@ grow_vertical = 2
 layout_mode = 2
 
 [node name="Titile" type="Label" parent="UI/SceneList" unique_id=1864329945]
-offset_left = 333.0
-offset_top = 42.0
-offset_right = 823.0
-offset_bottom = 115.0
+offset_left = 403.0
+offset_top = 109.0
+offset_right = 1115.0
+offset_bottom = 248.0
 theme = SubResource("Theme_21dlm")
-text = "AstroFrame"
+text = "Astro
+Frame"
 
 [node name="Astroframe" type="Sprite2D" parent="UI/SceneList" unique_id=1122495930]
-position = Vector2(588, 198)
+position = Vector2(559, 502)
 scale = Vector2(0.195, 0.195)
 texture = ExtResource("5_21dlm")
 

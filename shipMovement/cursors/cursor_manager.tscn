@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://xw0evujqrmw7"]
+
+[ext_resource type="Script" uid="uid://csw11jb8ee5on" path="res://shipMovement/cursors/cursor_manager.gd" id="1_04hkl"]
+
+[node name="CursorManager" type="Node" unique_id=1602106533]
+script = ExtResource("1_04hkl")

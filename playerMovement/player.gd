@@ -26,6 +26,10 @@ var seat : SeatInteractable :
 		return _seat
 	set(value):
 		_seat = value
+		if value:
+			CursorManager.set_cursor_aim()# this should be tied to its own event? maybe this is fine
+		else:
+			CursorManager.reset_cursor()
 var ship : Ship:
 	get:
 		var gp = get_parent().get_parent()
