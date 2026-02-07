@@ -3,8 +3,9 @@ extends Room
 
 # just for forward
 @export var boost_thrust = 12
+@export var forward_multiplier = 4
 # for back, and sides
-@export var standard_thrust = 100
+@export var standard_thrust = 20
 # for rotation
 @export var rotational_thrust = 0.2
 

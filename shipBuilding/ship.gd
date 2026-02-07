@@ -61,13 +61,17 @@ func move_ship(state: PhysicsDirectBodyState2D):
 	CursorManager.set_cursor_aim()# this should be tied to its own event
 	var direction = Input.get_vector("left", "right", "up", "down")
 	var delta = get_process_delta_time()
+	
+	var goal_vel :Vector2 = Vector2.ZERO # default goal, for braking or auto braking
+	
 	if Input.is_action_pressed("brake"):
-		state.linear_velocity -= state.linear_velocity.normalized() * engines.get_thrust() * delta
-	elif direction.length() > 0.1:
-		state.linear_velocity += direction.rotated(global_rotation) * engines.get_thrust() * delta
-	else:
-		# slow down (auto braking)
-		state.linear_velocity -= state.linear_velocity.normalized() * engines.get_thrust() * delta
+		pass
+	elif direction.length() > 0.1: # directional input given
+		if direction.y > 0:
+			direction.y *= engines.forward_multiplier
+		goal_vel = state.linear_velocity + direction.rotated(global_rotation)
+		goal_vel = goal_vel.normalized() * min(goal_vel.length(), engines.get_max_speed()) # clamp speed
+	state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * delta)
 
 # THIS SHOULD BE IN THE INPUT SINGLETON
 var mouse_controller = "mouse"
@@ -89,18 +93,19 @@ func rotate_ship(state: PhysicsDirectBodyState2D):
 	if not pilot:
 		state.angular_velocity = 0
 		return
-	var center = piloting.global_position
-	var look_dir = get_global_mouse_position() - center
+	var center = get_viewport_rect().get_center()
+	var look_dir = get_viewport().get_mouse_position() - center
 	if look_dir.abs().x < 30:
 		look_dir = Vector2.ZERO
 	else:
-		look_dir.x -= flight_deadzone * sign(look_dir.x)
+		look_dir.x -= flight_deadzone * sign(look_dir.x) 
 	# JITTER
-	var target_angle = look_dir.angle() + PI/2
-	var angle_delta = wrapf(target_angle - global_rotation, -PI, PI)
+	#var target_angle = look_dir.angle() + PI/2
+	#var angle_delta = wrapf(target_angle - global_rotation, -PI, PI)
+	var rot_amount = look_dir.x * 0.01
 	if mouse_controller == "controller":
-		angle_delta = Input.get_axis("ship_look_left","ship_look_right")
-	state.angular_velocity = angle_delta * engines.get_rotational_thrust()
+		rot_amount = Input.get_axis("ship_look_left","ship_look_right")
+	state.angular_velocity = rot_amount * engines.get_rotational_thrust()
 	
 func calc_center_of_mass():
 	var hex_mass = 2.0
