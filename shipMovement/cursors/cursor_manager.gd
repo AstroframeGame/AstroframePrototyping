@@ -16,7 +16,8 @@ func _ready() -> void:
 	reset_cursor()
 
 func set_cursor_aim():
-	Input.set_custom_mouse_cursor(AIM)
+	Input.set_custom_mouse_cursor(AIM,Input.CURSOR_ARROW, Vector2(32,32))
 	
 func reset_cursor():
-	Input.set_custom_mouse_cursor(POINTER)
+	Input.set_custom_mouse_cursor(POINTER,Input.CURSOR_ARROW, Vector2(2,2))
+	

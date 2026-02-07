@@ -56,9 +56,7 @@ func move_ship(state: PhysicsDirectBodyState2D):
 		return
 	if not pilot:
 		state.linear_velocity = Vector2.ZERO
-		CursorManager.reset_cursor() # this should be tied to its own event
 		return
-	CursorManager.set_cursor_aim()# this should be tied to its own event
 	var direction = Input.get_vector("left", "right", "up", "down")
 	var delta = get_process_delta_time()
 	
