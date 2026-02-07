@@ -23,6 +23,7 @@ config/icon="uid://hhdnr107ugtj"
 
 CursorManager="*uid://xw0evujqrmw7"
 ScreenshotManager="*uid://crx4ktvfwjrs5"
+InGameConsole="*uid://bu0k62p1icydm"
 
 [display]
 
