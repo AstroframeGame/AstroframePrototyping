@@ -56,13 +56,18 @@ func move_ship(state: PhysicsDirectBodyState2D):
 		return
 	if not pilot:
 		state.linear_velocity = Vector2.ZERO
+		CursorManager.reset_cursor() # this should be tied to its own event
 		return
+	CursorManager.set_cursor_aim()# this should be tied to its own event
 	var direction = Input.get_vector("left", "right", "up", "down")
 	var delta = get_process_delta_time()
 	if Input.is_action_pressed("brake"):
 		state.linear_velocity -= state.linear_velocity.normalized() * engines.get_thrust() * delta
-	else:
+	elif direction.length() > 0.1:
 		state.linear_velocity += direction.rotated(global_rotation) * engines.get_thrust() * delta
+	else:
+		# slow down (auto braking)
+		state.linear_velocity -= state.linear_velocity.normalized() * engines.get_thrust() * delta
 
 # THIS SHOULD BE IN THE INPUT SINGLETON
 var mouse_controller = "mouse"
@@ -74,6 +79,7 @@ func _input(event)-> void:
 	if look_dir_controller.length() > 0.1:
 		mouse_controller = "controller"
 
+const flight_deadzone = 30 #px
 func rotate_ship(state: PhysicsDirectBodyState2D):
 	var engines :Engines = get_engines()
 	var piloting : Piloting = get_piloting()
@@ -85,7 +91,11 @@ func rotate_ship(state: PhysicsDirectBodyState2D):
 		return
 	var center = piloting.global_position
 	var look_dir = get_global_mouse_position() - center
-	# add a deadzone?
+	if look_dir.abs().x < 30:
+		look_dir = Vector2.ZERO
+	else:
+		look_dir.x -= flight_deadzone * sign(look_dir.x)
+	# JITTER
 	var target_angle = look_dir.angle() + PI/2
 	var angle_delta = wrapf(target_angle - global_rotation, -PI, PI)
 	if mouse_controller == "controller":
