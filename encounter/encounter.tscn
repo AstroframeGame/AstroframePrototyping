@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bu4afq3jf34w3"]
 
 [ext_resource type="Script" uid="uid://c0gtg58u3r8qv" path="res://encounter/UIX.gd" id="1_sdpd5"]
-[ext_resource type="Script" uid="uid://4gkdjixe8mwp" path="res://encounter/sector_manager.gd" id="1_twjq8"]
+[ext_resource type="Script" uid="uid://4gkdjixe8mwp" path="res://encounter/demo.gd" id="1_twjq8"]
 [ext_resource type="Script" uid="uid://yw768yro7rvu" path="res://encounter/classes/player_ship.gd" id="2_4nkm3"]
 [ext_resource type="Script" uid="uid://dgrb8reljfmtp" path="res://encounter/classes/npc_ship.gd" id="3_h33q7"]
 

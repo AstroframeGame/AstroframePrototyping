@@ -5,10 +5,10 @@ extends Node2D
 @export var npc_ship: TestShip
 @export var player_ship: TestShip
 
-var encounter_manager: Encounter
+var encounter_manager: EncounterManager
 
 func _ready() -> void:
-	encounter_manager = Encounter.new()
+	encounter_manager = EncounterManager.new()
 	
 	# sectors signals
 	if sector_a:
@@ -31,5 +31,5 @@ func _on_sector_b_entered(body: Node2D) -> void:
 		var from = ""
 		if(player_ship.state.location.size() > 0):
 			from = player_ship.state.location[0]
-		player_ship.state.move(loc, from)
+		player_ship.state.change_location(loc, from)
 		encounter_manager.try_spawn(loc, player_ship.state)

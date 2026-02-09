@@ -1,33 +1,36 @@
 class_name PlayerState
 
 var inventory: Dictionary = {} # inventory
-var completed_encounters: Dictionary = {} # progression tracking
+var completed_encounters: Array[String] = [] # progression tracking
+var active_quests: Array[String] = []
 var location: Array[String] = [] # holds tags from map position
 
-func push_to(dictionary_name: String, item: String) -> void:
-	var dictionary = self.get(dictionary_name)
-	if(dictionary == null):
-		print("[STATE]: Error! Dictionary '%s' does not exist." % dictionary_name)
-		return
+### INVENTORY EDITS ###
+func inventory_add(item: String) -> void:
+	var inventory_slot = inventory.get(item)
+	if(inventory_slot == null):
+		inventory[item] = 0
 	
-	var entry = dictionary.get(item)
-	if(entry == null):
-		dictionary[item] = 0
+	inventory[item] += 1 
 	
-	dictionary[item] += 1 # blegghhh
-	# TODO: might want to make a custom dictionary for state stuff
-	# dictionary items could be lists or counts
-	# some items should be unique, others can repreated (count increase)
-	
-func erase_from(dictionary_name: String, item: String) -> void:
-	var dictionary = self.get(dictionary_name)
-	if(!dictionary):
-		print("[STATE]: Error! Dictionary '%s' does not exist." % dictionary_name)
-		return
-	if(dictionary.get(item)):
-		dictionary.erase(item)	
+func inventory_erase(item: String, amount: int = -1) -> void:
+	if(inventory.get(item)):
+		if(amount == -1): inventory.erase(item)
+		else:
+			# should be checking that this slot has enough to remove amount
+			# TBD: do this here or before call??
+			inventory[item] -= amount
 
-func move(to: String = "", from: String = ""):
+func inventory_clear() -> void:
+	for slot in inventory:
+		inventory.erase(slot)
+
+### ENCOUNTER EDITS ###
+func complete_encounter(key: String):
+	completed_encounters.push_back(key);
+
+### LOCATION EDITS ###
+func change_location(to: String = "", from: String = ""):
 	var msg: String = ""
 	
 	if(to.length() > 0):
