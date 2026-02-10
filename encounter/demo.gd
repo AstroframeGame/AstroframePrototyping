@@ -32,4 +32,4 @@ func _on_sector_b_entered(body: Node2D) -> void:
 		if(player_ship.state.location.size() > 0):
 			from = player_ship.state.location[0]
 		player_ship.state.change_location(loc, from)
-		encounter_manager.try_spawn(loc, player_ship.state)
+		encounter_manager.try_spawn(loc, player_ship)

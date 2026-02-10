@@ -1,0 +1,37 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://shipBuilding/ship.gd" id="1_sipyr"]
+[ext_resource type="PackedScene" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_cfku3"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/turret_3.tscn" id="3_ptyvr"]
+[ext_resource type="Script" path="res://shipBuilding/room_scripts/turret.gd" id="4_g116n"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/engines_2.tscn" id="5_vpm82"]
+[ext_resource type="Script" path="res://shipBuilding/room_scripts/engines.gd" id="6_wh0fw"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/piloting_1.tscn" id="7_rfjbt"]
+[ext_resource type="Script" path="res://shipBuilding/room_scripts/piloting.gd" id="8_1v5sl"]
+
+[sub_resource type="TileSet" id="TileSet_xsh4c"]
+tile_shape = 3
+tile_size = Vector2i(78, 90)
+
+[node name="Ship" type="RigidBody2D" unique_id=1784127879]
+input_pickable = true
+gravity_scale = 0.0
+script = ExtResource("1_sipyr")
+
+[node name="HexGrid" type="TileMapLayer" parent="." unique_id=42794448 instance=ExtResource("2_cfku3")]
+tile_set = SubResource("TileSet_xsh4c")
+
+[node name="Turret_4" type="CollisionPolygon2D" parent="." unique_id=1864384847 instance=ExtResource("3_ptyvr")]
+position = Vector2(312, 112.5)
+polygon = PackedVector2Array(78.1, -90.05, 78.1, -44.950005, 39.1, -22.457672, 39.1, 22.550003, 0, 45.1, -39.1, 22.550003, -39.1, -22.457672, -78.1, -44.950005, -78.1, -90.05, -39, -112.6, 0, -90.10767, 39, -112.6)
+script = ExtResource("4_g116n")
+
+[node name="@CollisionPolygon2D@46" type="CollisionPolygon2D" parent="." unique_id=1133201390 instance=ExtResource("5_vpm82")]
+position = Vector2(273, 180)
+polygon = PackedVector2Array(117.1, -22.550003, 117.1, 22.550003, 78, 45.1, 39, 22.607674, 0, 45.1, -39.1, 22.550003, -39.1, -22.550003, 0, -45.1, 39, -22.607674, 78, -45.1)
+script = ExtResource("6_wh0fw")
+
+[node name="Piloting_1" type="CollisionPolygon2D" parent="." unique_id=966141484 instance=ExtResource("7_rfjbt")]
+position = Vector2(312, -22.5)
+polygon = PackedVector2Array(0, -45.1, 39.1, -22.55, 39.1, 22.55, 0, 45.1, -39.1, 22.55, -39.1, -22.55)
+script = ExtResource("8_1v5sl")

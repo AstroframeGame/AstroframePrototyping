@@ -22,6 +22,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 EncounterData="*uid://bmomxnt30a2ku"
+GlobalSignal="*uid://3yr71xbgeomw"
 
 [display]
 

@@ -36,7 +36,6 @@ func _on_location_selected(index):
 	selected_location = location_dropdown.get_item_text(index)
 	update_result()
 
-# TODO: check that this is actually updating player state
 func _on_multi_selected():
 	var selected_indices = item_dropdown.get_selected_items()
 
