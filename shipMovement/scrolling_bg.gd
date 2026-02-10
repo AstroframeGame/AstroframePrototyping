@@ -5,3 +5,4 @@ func _process(_delta):
 	if cam:
 		material.set_shader_parameter("camera_offset", cam.global_position)
 		material.set_shader_parameter("camera_zoom", cam.zoom.x)
+		material.set_shader_parameter("camera_rotation", cam.global_rotation)

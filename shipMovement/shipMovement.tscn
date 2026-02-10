@@ -14,6 +14,7 @@ shader = ExtResource("1_uh1le")
 shader_parameter/grid_texture = ExtResource("2_rj20w")
 shader_parameter/camera_offset = Vector2(0, 0)
 shader_parameter/camera_zoom = 1.0
+shader_parameter/camera_rotation = 0.0
 shader_parameter/texture_scale = Vector2(0.001, 0.001)
 
 [node name="ShipMovement" type="Node2D" unique_id=115844452]
