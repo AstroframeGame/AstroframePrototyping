@@ -41,6 +41,13 @@ text = "To add
 - win state?
 - factions, relationships"
 
+[node name="Controls" type="Label" parent="." unique_id=1110694306]
+offset_left = -293.0
+offset_top = 422.0
+offset_right = -133.0
+offset_bottom = 505.0
+text = "SPACE to warp"
+
 [node name="DemoManager" type="Node2D" parent="." unique_id=56591053 node_paths=PackedStringArray("sector_a", "sector_b", "npc_ship", "player")]
 script = ExtResource("2_cfqrh")
 sector_a = NodePath("SectorA")

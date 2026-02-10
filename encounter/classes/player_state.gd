@@ -1,3 +1,4 @@
+extends Node2D
 class_name PlayerState
 
 var inventory: Dictionary = {} # inventory
@@ -21,13 +22,17 @@ func inventory_erase(item: String, amount: int = -1) -> void:
 			# TBD: do this here or before call??
 			inventory[item] -= amount
 
-func inventory_clear() -> void:
+func clear_inventory() -> void:
 	for slot in inventory:
 		inventory.erase(slot)
 
 ### ENCOUNTER EDITS ###
 func complete_encounter(key: String):
 	completed_encounters.push_back(key);
+	
+func clear_encounters() -> void:
+	for enc in completed_encounters:
+		completed_encounters.erase(enc)
 
 ### LOCATION EDITS ###
 func change_location(to: String = "", from: String = ""):

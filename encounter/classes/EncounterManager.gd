@@ -7,33 +7,33 @@ var encounter_scene = preload("res://encounter/Encounter.tscn")
 # when player enters/exits a new location, trigger a search
 # prioritize narrative arc
 # then, check for non-narrative encounters (TBD -- lore building, PCG encounters)
-func try_spawn(loc, player):
-	var player_state = player.state
+func try_spawn(loc, player, state):
+	var player_state = state
 	var loc_encounters = EncounterData.encounter_dictionary[loc]
 	if(loc_encounters):
 		# check player state for encounter availability
 		for key in loc_encounters:
 			var encounter = loc_encounters[key]
 			
-			var reqs 
+			var reqs
 			if(encounter.has("requirements")):
 				reqs = encounter.requirements
 			
 			var can_spawn = true
 			# player must have completed required encounters
-			if(reqs && reqs.has("encounters")):
-				for enc in reqs.encounters:
-					if(!player_state.completed_encounters.has(enc)):
-						print("[ENCOUNTER MANAGER]: player has not completed %s" % enc)
-						can_spawn = false
-			
-			# player must have required items
-			if(reqs && reqs.has("items")):
-				for item in reqs.items:
-					print(player_state)
-					if(!player_state.inventory.has(item)):
-						print("[ENCOUNTER MANAGER]: player does not have %s" % item)
-						can_spawn = false
+			#if(reqs && reqs.has("encounters")):
+				#for enc in reqs.encounters:
+					#if(!player_state.completed_encounters.has(enc)):
+						#print("[ENCOUNTER MANAGER]: player has not completed %s" % enc)
+						#can_spawn = false
+			#
+			## player must have required items
+			#if(reqs && reqs.has("items")):
+				#for item in reqs.items:
+					#print(player_state)
+					#if(!player_state.inventory.has(item)):
+						#print("[ENCOUNTER MANAGER]: player does not have %s" % item)
+						#can_spawn = false
 			
 			if !can_spawn: return
 			
@@ -48,7 +48,6 @@ func try_spawn(loc, player):
 
 func start_encounter(encounter_data: Dictionary, player):
 	var encounter = encounter_scene.instantiate()
-	encounter.global_position = player.global_position
 	add_child(encounter)
 	
 	# pass the encounter data to scene
