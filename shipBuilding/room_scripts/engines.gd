@@ -9,7 +9,7 @@ extends Room
 # for rotation
 @export var rotational_thrust = 0.2
 
-@export var max_speed = 100
+@export var max_speed = 1000
 
 func get_boost_thrust() -> float:
 	return boost_thrust * power_level
