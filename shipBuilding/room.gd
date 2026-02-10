@@ -22,6 +22,14 @@ var power_level : int:
 				in_hexes += 1
 		return in_hexes
 
+func get_unpowered_in_hexes() -> Array[PowerInHex]:
+	var hexes : Array[PowerInHex] = []
+	for h in get_children():
+		for c in h.get_children():
+			if c is PowerInHex and not c.is_powered:
+				hexes.append(c)
+	return hexes
+
 func get_in_hexes() -> Array[PowerInHex]:
 	var hexes : Array[PowerInHex] = []
 	for h in get_children():

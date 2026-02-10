@@ -44,6 +44,8 @@ func get_pilot() -> Player:
 func handle_input(_event : InputEvent):
 	#print_debug("input ship", event)
 	pass
+	
+	power_hotkeys(_event)
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	rotate_ship(state)
@@ -301,9 +303,9 @@ func toggle_power(power_hex):
 			remove_power_link_in(power_hex)
 		else:
 			# turn on power
-			set_next_avalible_power_out(power_hex)
+			add_power_link_next(power_hex)
 
-func set_next_avalible_power_out(power_in : PowerInHex) -> bool:
+func add_power_link_next(power_in : PowerInHex) -> bool:
 	var power_outs = get_avalible_power_out()
 	if power_outs.size() > 0:
 		var power_out = power_outs[0]
@@ -339,4 +341,42 @@ func remove_power_link_out(power_out : PowerOutHex):
 		power_in.room.on_power_level_change.emit(power_in)
 		return true
 	return false
+
+func add_power_room(room : Room, subtract : bool = false):
+	if not room:
+		return
+	var hexes = room.get_in_hexes()
+	if not subtract:
+		for h in hexes:
+			if h.is_powered:
+				remove_power_link_in(h)
+				return
+	else:
+		for h in hexes:
+			if not h.is_powered:
+				add_power_link_next(h)
+				return
+	
+func power_hotkeys(event : InputEvent):
+	var add = true
+	if Input.is_action_pressed("ship_power_depower"):
+		add = false
+	
+	if Input.is_action_just_pressed("ship_power_shields"):
+		var r = get_room_class("Shields")
+		add_power_room(r, add)
+	if Input.is_action_just_pressed("ship_power_engines"):
+		var r = get_room_class("Engines")
+		add_power_room(r, add)
+	if Input.is_action_just_pressed("ship_power_sensors"):
+		var r = get_room_class("Sensors")
+		add_power_room(r, add)
+	
+# use the class name as a string
+func get_room_class(class_type : String):
+	for r in get_children():
+		if r.get_script():
+			if r.get_script().get_global_name() == class_type:
+				return r
+	return null
 #endregion

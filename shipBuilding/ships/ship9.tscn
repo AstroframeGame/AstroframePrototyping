@@ -32,9 +32,11 @@ position = Vector2(78, -22.5)
 [node name="Turret_4" parent="." unique_id=1864384847 instance=ExtResource("9_gyy2c")]
 position = Vector2(234, -22.5)
 rotation = 4.1887903
+durability = null
 
 [node name="Airlock_1" parent="." unique_id=1584786148 instance=ExtResource("11_0xfp3")]
 position = Vector2(0, -22.5)
+durability = null
 
 [node name="Cannon" parent="." unique_id=170986718 instance=ExtResource("3_0xfp3")]
 position = Vector2(39, -90)
@@ -42,6 +44,7 @@ position = Vector2(39, -90)
 [node name="Reactor_2" parent="." unique_id=542255097 instance=ExtResource("13_ecgwr")]
 position = Vector2(-39, 45)
 rotation = -2.094395
+durability = null
 
 [node name="Edge" type="CollisionPolygon2D" parent="." unique_id=1748812336]
 build_mode = 1
