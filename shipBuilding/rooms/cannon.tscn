@@ -4,8 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dmgvcp6y668bi" path="res://shipBuilding/hexes/input_hex.tscn" id="2_8q2aj"]
 [ext_resource type="PackedScene" uid="uid://88c51udovr1" path="res://shipBuilding/hexes/gun_hex.tscn" id="3_kgjcn"]
 
-[node name="Cannon" type="CollisionPolygon2D" unique_id=170986718]
-polygon = PackedVector2Array(0, 0, 0, 0, 0, 0)
+[node name="Cannon" type="Node2D" unique_id=195129740]
 script = ExtResource("1_khiwb")
 
 [node name="InputHex" parent="." unique_id=56559507 instance=ExtResource("2_8q2aj")]

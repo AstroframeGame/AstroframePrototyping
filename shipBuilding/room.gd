@@ -1,6 +1,5 @@
 class_name Room
-extends CollisionPolygon2D
-# a collision polygon will need a body as the parent. all rooms must be parented to the Ship (body)
+extends Node2D
 
 var ship : Ship:
 	get:
@@ -9,65 +8,66 @@ var ship : Ship:
 var rot_index : int:
 	get:
 		return int(round(rotation / (PI / 3.0)))
-		
 var grid_pos : Vector2i:
 	get:
 		return ship.world_to_grid(global_position)
 
+signal on_power_level_change(room : Room)
+
+var power_level : int:
+	get:
+		var in_hexes = 0
+		for h in get_in_hexes():
+			if h.is_powered:
+				in_hexes += 1
+		return in_hexes
+
+func get_in_hexes() -> Array[PowerInHex]:
+	var hexes : Array[PowerInHex] = []
+	for h in get_children():
+		for c in h.get_children():
+			if c is PowerInHex:
+				hexes.append(c)
+	return hexes
+
+func get_out_hexes() -> Array[PowerOutHex]:
+	var hexes : Array[PowerOutHex] = []
+	for h in get_children():
+		for c in h.get_children():
+			if c is PowerOutHex:
+				hexes.append(c)
+	return hexes
+
 # not sure how durability is going to work, but probably once a room takes enough damage, it becomes
 # inoperable or breaks
 @export var durability = 40
+#export for debugging
+@export var augments : Array[Augment]
 
-# feels like a bad place for the global info which is also stored in the HexGrid tilemap layer
-const HEX_WIDTH = 78 #164.0
-const HEX_HEIGHT = 90 #190.0
+## return index of augment in Augments Array
+func augment_in_list(type:Variant)->int:
+	for augment in augments:
+		# needs better solution but how many times is someone
+		# going to keep the base but repeatedly redo/undo
+		# an augment ¯\_(ツ)_/¯
+		if augment == null:
+			continue
+		if is_instance_of(augment, type):
+			return augments.find(augment)
+	return -1
+func at_augment_limit(type:Variant, limit:int)->bool:
+	var count = 0
+	for augment in augments:
+		if augment == null:
+			continue
+		if is_instance_of(augment, type):
+			count += 1
+	return count == limit
 
-# this method is not necessary, but is a callback from when building with a callback
-# to the grid that is on the hex editor. feel free to remove.
-func initialize(_grid: TileMapLayer) -> void:
-	print(ship.find_neightbors(self))
-	
-func _ready() -> void:
-	set_shape() # needs to be called or else collider won't work
-
-# this calculates the polygon of the room for collisions and clicking
-func set_shape():
-	var polys: Array[PackedVector2Array] = []
-	var base_hex = _get_hex_poly()
-	
-	for child in get_children():
-		if not child is Sprite2D: continue
-		var poly = base_hex.duplicate()
-		for i in range(poly.size()):
-			poly[i] += child.position
-		polys.append(poly)
-
-	var islands: Array[PackedVector2Array] = []
-	for p in polys:
-		var i = islands.size() - 1
-		while i >= 0:
-			var result = Geometry2D.merge_polygons(islands[i], p)
-			if result.size() == 1:
-				p = result[0]
-				islands.remove_at(i)
-			i -= 1
-		islands.append(p)
-	if not islands.is_empty():
-		polygon = islands[0]
-
-# this calculates the mathmatical polygon based off the Hex width and height set here.
-func _get_hex_poly() -> PackedVector2Array:
-	var w = HEX_WIDTH
-	var h = HEX_HEIGHT
-	var w_half = (w * 0.5) + 0.1
-	var h_half = (h * 0.5) + 0.1
-	var h_quarter = (h * 0.25) + 0.05
-	
-	return PackedVector2Array([
-		Vector2(0, -h_half),
-		Vector2(w_half, -h_quarter),
-		Vector2(w_half, h_quarter),
-		Vector2(0, h_half),
-		Vector2(-w_half, h_quarter),
-		Vector2(-w_half, -h_quarter)
-	])
+func pair_augments(augment_type:Variant)->void:
+	ship.update_occupied_cells()
+	for neighbor in ship.find_neighbors(self):
+		if is_instance_of(neighbor, augment_type):
+			if not neighbor.at_augment_limit(augment_type, 1): # temp
+				neighbor.target_rooms.append(self)
+				augments.append(neighbor)

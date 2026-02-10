@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://q2xbgli7wqkw"]
+
+[ext_resource type="Script" uid="uid://crgm77ga0tu4f" path="res://shipBuilding/room_scripts/aim_augment.gd" id="1_jqip6"]
+[ext_resource type="PackedScene" uid="uid://dmgvcp6y668bi" path="res://shipBuilding/hexes/input_hex.tscn" id="2_xlycq"]
+
+[node name="Aim_Augment_2" type="Node2D" unique_id=1056768738]
+script = ExtResource("1_jqip6")
+
+[node name="InputHex" parent="." unique_id=56559507 instance=ExtResource("2_xlycq")]
+self_modulate = Color(1, 0.74509805, 0.70980394, 1)
+
+[node name="InputHex2" parent="." unique_id=825535142 instance=ExtResource("2_xlycq")]
+self_modulate = Color(1, 0.74509805, 0.70980394, 1)
+position = Vector2(78, 0)
+
+[node name="Label" type="Label" parent="." unique_id=1474880523]
+offset_left = 3.0
+offset_top = -28.0
+offset_right = 75.0
+offset_bottom = -5.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Auto-aim"

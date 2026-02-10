@@ -13,4 +13,4 @@ func handle_input(event:InputEvent):
 func shoot_all_cannons():
 	for child in ship.get_children():
 		if child is Cannon:
-			child.gun.shoot()
+			child.shoot()

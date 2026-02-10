@@ -1,4 +1,8 @@
 class_name Cannon
 extends Room
 
-@onready var gun : Sprite2D = $Gun
+@onready var gun : GunHex = $Gun
+
+func shoot():
+	if power_level > 0:
+		gun.shoot()

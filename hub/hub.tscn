@@ -2,13 +2,19 @@
 
 [ext_resource type="Script" uid="uid://cbty45dswb5nj" path="res://hub/game_manager.gd" id="1_n4d7h"]
 [ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/RoundedSquare.png" id="2_1wrr7"]
-[ext_resource type="FontFile" uid="uid://bo3yd376velrb" path="res://hub/fonts/Skateblade-Regular.otf" id="2_clbpi"]
+[ext_resource type="FontFile" uid="uid://bvhs72w1tp2uu" path="res://hub/fonts/Ethnocentric-Regular.otf" id="2_21dlm"]
 [ext_resource type="Script" uid="uid://cti2v7b51m68r" path="res://hub/fps_label.gd" id="3_6ebxt"]
 [ext_resource type="Texture2D" uid="uid://hhdnr107ugtj" path="res://hub/icon/AstroFrameIcon.svg" id="5_21dlm"]
 
 [sub_resource type="Theme" id="Theme_21dlm"]
-default_font = ExtResource("2_clbpi")
+default_font = ExtResource("2_21dlm")
 default_font_size = 72
+
+[sub_resource type="Environment" id="Environment_21dlm"]
+background_mode = 3
+glow_enabled = true
+glow_strength = 0.59
+glow_bloom = 0.27
 
 [node name="Hub" type="Node2D" unique_id=2058136417]
 
@@ -20,6 +26,14 @@ scene_paths = Array[String](["uid://c7ti17oj2ofyn", "uid://bkibqvfep8px0", "uid:
 
 [node name="SceneList" type="CanvasLayer" parent="UI" unique_id=1954068811]
 
+[node name="ColorRect" type="ColorRect" parent="UI/SceneList" unique_id=324439580]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.14333999, 0.14333999, 0.14333999, 1)
+
 [node name="ScrollContainer" type="ScrollContainer" parent="UI/SceneList" unique_id=1549920906]
 anchors_preset = 15
 anchor_right = 1.0
@@ -30,13 +44,28 @@ grow_vertical = 2
 [node name="SceneList" type="VBoxContainer" parent="UI/SceneList/ScrollContainer" unique_id=1849215895]
 layout_mode = 2
 
+[node name="Label" type="Label" parent="UI/SceneList/ScrollContainer/SceneList" unique_id=1943376250]
+layout_mode = 2
+text = "Test Scenes"
+
 [node name="Titile" type="Label" parent="UI/SceneList" unique_id=1864329945]
-offset_left = 333.0
-offset_top = 42.0
-offset_right = 823.0
-offset_bottom = 115.0
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -188.0
+offset_top = 92.0
+offset_right = 189.0
+offset_bottom = 231.0
+grow_horizontal = 2
 theme = SubResource("Theme_21dlm")
-text = "AstroFrame"
+text = "Astro
+Frame"
+horizontal_alignment = 1
+
+[node name="Astroframe" type="Sprite2D" parent="UI/SceneList" unique_id=1122495930]
+position = Vector2(559, 502)
+scale = Vector2(0.195, 0.195)
+texture = ExtResource("5_21dlm")
 
 [node name="Loading" type="CanvasLayer" parent="UI" unique_id=1754381519]
 
@@ -56,17 +85,17 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -150.0
-offset_top = -50.0
+offset_top = -20.0
 offset_right = 150.0
-offset_bottom = 50.0
+offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 value = 100.0
 nine_patch_stretch = true
-stretch_margin_left = 50
-stretch_margin_top = 50
-stretch_margin_right = 50
-stretch_margin_bottom = 50
+stretch_margin_left = 20
+stretch_margin_top = 20
+stretch_margin_right = 20
+stretch_margin_bottom = 20
 texture_progress = ExtResource("2_1wrr7")
 
 [node name="InGame" type="CanvasLayer" parent="UI" unique_id=1739083757]
@@ -75,6 +104,23 @@ texture_progress = ExtResource("2_1wrr7")
 offset_right = 8.0
 offset_bottom = 8.0
 text = "Back to Menu"
+
+[node name="Paused" type="CanvasLayer" parent="UI" unique_id=731175255]
+visible = false
+
+[node name="Settings" type="CanvasLayer" parent="UI" unique_id=1141852874]
+visible = false
+
+[node name="SettingsMenu" type="Control" parent="UI/Settings" unique_id=941363827]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GameOver" type="CanvasLayer" parent="UI" unique_id=1769148514]
+visible = false
 
 [node name="Profiling" type="CanvasLayer" parent="." unique_id=1820677988]
 visible = false
@@ -89,9 +135,7 @@ grow_horizontal = 0
 text = "fps"
 script = ExtResource("3_6ebxt")
 
-[node name="Astroframe" type="Sprite2D" parent="." unique_id=1122495930]
-position = Vector2(588, 198)
-scale = Vector2(0.195, 0.195)
-texture = ExtResource("5_21dlm")
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1798994774]
+environment = SubResource("Environment_21dlm")
 
 [connection signal="pressed" from="UI/InGame/Button" to="GameManager" method="quit_to_list"]

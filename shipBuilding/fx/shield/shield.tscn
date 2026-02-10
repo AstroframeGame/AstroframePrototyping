@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://ddufh33lvtb2a"]
+
+[ext_resource type="Shader" uid="uid://2mixg6rsyvsx" path="res://shipBuilding/fx/shield/shield.gdshader" id="1_x5pi7"]
+[ext_resource type="Texture2D" uid="uid://bva3dm7d0f0lm" path="res://shipBuilding/icons/circle_big.png" id="2_x5pi7"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xi3rp"]
+shader = ExtResource("1_x5pi7")
+shader_parameter/glow_color = Color(0.39, 0.701, 1.827, 1)
+shader_parameter/intensity = 10.0
+shader_parameter/amount = 1.0
+
+[node name="Shield" type="Sprite2D" unique_id=386750233]
+material = SubResource("ShaderMaterial_xi3rp")
+texture = ExtResource("2_x5pi7")
+
+[node name="Creates collider as child of ship" type="Node" parent="." unique_id=401004221]

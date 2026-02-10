@@ -13,6 +13,12 @@ the player is over ground, hence whether to use air movement or ground movement
 
 @export var walk_speed = 200
 @export var thrust_accel = 400
+@export var rotate_speed = 10
+
+@export_flags_2d_physics var interior_layer
+@export_flags_2d_physics var interior_mask
+@export_flags_2d_physics var exterior_layer
+@export_flags_2d_physics var exterior_mask
 
 var _seat : SeatInteractable = null
 var seat : SeatInteractable :
@@ -20,6 +26,16 @@ var seat : SeatInteractable :
 		return _seat
 	set(value):
 		_seat = value
+		if value:
+			CursorManager.set_cursor_aim()# this should be tied to its own event? maybe this is fine
+		else:
+			CursorManager.reset_cursor()
+var ship : Ship:
+	get:
+		var gp = get_parent().get_parent()
+		if gp is Ship:
+			return gp
+		return null
 
 @onready var ground_check: Area2D = $GroundCheck
 @onready var interact_check: Area2D = $InteractCheck
@@ -33,18 +49,26 @@ var grappling : bool = false
 var grounded : bool:
 	get:
 		ground_check = $GroundCheck
-		return ground_check.has_overlapping_bodies()
+		return ground_check.has_overlapping_bodies() or ground_check.has_overlapping_areas()
 
 func _ready() -> void:
 	ground_check.body_entered.connect(on_ground)
 	ground_check.body_exited.connect(on_unground)
+	ground_check.area_entered.connect(on_ground)
+	ground_check.area_exited.connect(on_unground)
+	
+	if ship:
+		on_ship_enter(ship)
+	else:
+		on_ship_exit()
 
-func _physics_process(_delta):
+func _physics_process(delta):
 	var direction = Input.get_vector("left", "right", "up", "down")
-	direction = direction.normalized()
+	direction = direction.normalized().rotated(global_rotation)
 	grapple()
 	if seat:
 		return
+	rotate(Input.get_axis("rotate_left","rotate_right") * rotate_speed * delta)
 	
 	if grappling:
 		velocity = (grapple_position - global_position).normalized() * grapple_speed
@@ -52,9 +76,9 @@ func _physics_process(_delta):
 		velocity = direction * walk_speed
 	else:
 		if Input.is_action_pressed("brake"):
-			velocity -= velocity.normalized() * thrust_accel * _delta
+			velocity -= velocity.normalized() * thrust_accel * delta
 		else:
-			velocity += direction * thrust_accel * _delta
+			velocity += direction * thrust_accel * delta
 		
 	move_and_slide()
 
@@ -99,20 +123,19 @@ func on_unground(_body : Node2D):
 		#on_ship_exit(body)
 		#pass
 
-var ship_in : Ship:
-	get :
-		if get_parent().get_parent() is Ship:
-			return get_parent().get_parent()
-		return null
-		
-func on_ship_enter(ship : Ship):
-	get_parent().call_deferred("reparent", ship, true)
-	global_rotation = ship.global_rotation
+func on_ship_enter(new_ship : Ship):
+	get_parent().call_deferred("reparent", new_ship, true)
+	global_rotation = new_ship.global_rotation
 	print("parent to ship")
+	collision_layer = interior_layer
+	collision_mask = interior_mask
+
 func on_ship_exit():
 	get_parent().call_deferred("reparent", global_world, true)
 	print("parent to wordl")
 	global_rotation = 0
+	collision_layer = exterior_layer
+	collision_mask = exterior_mask
 
 
 func grapple():

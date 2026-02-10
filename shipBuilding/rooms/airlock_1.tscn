@@ -3,8 +3,7 @@
 [ext_resource type="Script" uid="uid://c173g2mdo5jh1" path="res://shipBuilding/room_scripts/airlock.gd" id="1_r60ym"]
 [ext_resource type="PackedScene" uid="uid://clyn58uoj7ooi" path="res://shipBuilding/hexes/door_hex.tscn" id="2_eprgn"]
 
-[node name="Airlock_1" type="CollisionPolygon2D" unique_id=948172483]
-polygon = PackedVector2Array(0, 0, 0, 0, 0, 0)
+[node name="Airlock_1" type="Node2D" unique_id=2084884563]
 script = ExtResource("1_r60ym")
 
 [node name="DoorHex" parent="." unique_id=1390897145 instance=ExtResource("2_eprgn")]
