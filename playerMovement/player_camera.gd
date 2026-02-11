@@ -14,7 +14,7 @@ var seat : SeatInteractable :
 var player_zoom = 1.0
 var ship_zoom = 0.9
 var ship_flight_zoom = 0.5
-var ship_flight_offset = Vector2(0,-500)
+var ship_flight_offset = Vector2(0,-0.6)
 
 @export var rot_smooth = 5.0
 
@@ -26,7 +26,9 @@ func _physics_process(delta: float) -> void:
 		global_rotation = lerp_angle(global_rotation, player.ship.global_rotation, rot_smooth * delta)
 		zoom_goal = ship_zoom
 	elif seat and seat.room is Piloting:
-		var pos = player.ship.get_piloting().global_position + ship_flight_offset.rotated(player.ship.global_rotation)
+		var offset_px = get_viewport_rect().size * ship_flight_offset
+		offset_px += Vector2(0,seat.room.ship.get_bounds_rect().size.y/2)
+		var pos = player.ship.get_piloting().global_position + offset_px.rotated(player.ship.global_rotation)
 		global_position = global_position.lerp(pos, pos_smooth * delta)
 		global_rotation = lerp_angle(global_rotation, player.ship.global_rotation, rot_smooth * delta)
 		zoom_goal = ship_flight_zoom
