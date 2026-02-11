@@ -5,7 +5,9 @@ signal room_clicked(room: Room, button_index: int)
 
 const HEX_GRID_PREFAB = preload("res://shipBuilding/prefabs/hex_grid.tscn")
 @onready var grid: TileMapLayer # set in update colliders
-var occupied_cells: Dictionary = {} # only calculated in ship_building
+var occupied_cells: Dictionary[Vector2i, Room] = {} # only calculated in ship_building
+
+@export var power_links : Dictionary[PowerOutHex, PowerInHex]
 
 func _ready() -> void:
 	update_colliders()
@@ -13,13 +15,12 @@ func _ready() -> void:
 	update_occupied_cells()
 	var ground : Area2D = $Ground
 	ground.input_event.connect(ground_input_event)
-	
-	#print($Edge.build_mode)
+	print($Edge.build_mode)
 
 func ground_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
 		var cell = world_to_grid(get_global_mouse_position())
-		#print("A", cell)
+		print("A", cell)
 		if occupied_cells.has(cell):
 			var room = occupied_cells[cell]
 			print("Room ", room, " was clicked")
@@ -66,10 +67,18 @@ func move_ship(state: PhysicsDirectBodyState2D):
 		return
 	var direction = Input.get_vector("left", "right", "up", "down")
 	var delta = get_process_delta_time()
-	if Input.is_action_pressed("brake"):
-		state.linear_velocity -= state.linear_velocity.normalized() * engines.standard_thrust * delta
+	
+	var goal_vel :Vector2 = Vector2.ZERO # default goal, for braking or auto braking
+	
+	if direction.length() > 0.1 or Input.is_action_pressed("brake"): # directional input given
+		if direction.y > 0:
+			direction.y *= engines.forward_multiplier
+		goal_vel = state.linear_velocity + direction.rotated(global_rotation)
+		goal_vel = goal_vel.normalized() * min(goal_vel.length(), engines.get_max_speed()) # clamp speed
+		state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * delta)
 	else:
-		state.linear_velocity += direction.rotated(global_rotation) * engines.standard_thrust * delta
+		state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * engines.drag_multiplier * delta)
+		
 
 # THIS SHOULD BE IN THE INPUT SINGLETON
 var mouse_controller = "mouse"
@@ -81,6 +90,7 @@ func _input(event)-> void:
 	if look_dir_controller.length() > 0.1:
 		mouse_controller = "controller"
 
+const flight_deadzone = 30 #px
 func rotate_ship(state: PhysicsDirectBodyState2D):
 	var engines :Engines = get_engines()
 	var piloting : Piloting = get_piloting()
@@ -90,13 +100,19 @@ func rotate_ship(state: PhysicsDirectBodyState2D):
 	if not pilot:
 		state.angular_velocity = 0
 		return
-	var center = piloting.global_position
-	var look_dir = get_global_mouse_position() - center
-	var target_angle = look_dir.angle() + PI/2
-	var angle_delta = wrapf(target_angle - global_rotation, -PI, PI)
+	var center = get_viewport_rect().get_center()
+	var look_dir = get_viewport().get_mouse_position() - center
+	if look_dir.abs().x < 30:
+		look_dir = Vector2.ZERO
+	else:
+		look_dir.x -= flight_deadzone * sign(look_dir.x) 
+	# JITTER
+	#var target_angle = look_dir.angle() + PI/2
+	#var angle_delta = wrapf(target_angle - global_rotation, -PI, PI)
+	var rot_amount = look_dir.x * 0.01
 	if mouse_controller == "controller":
-		angle_delta = Input.get_axis("ship_look_left","ship_look_right")
-	state.angular_velocity = angle_delta * engines.rotational_thrust
+		rot_amount = Input.get_axis("ship_look_left","ship_look_right")
+	state.angular_velocity = rot_amount * engines.get_rotational_thrust()
 	
 func calc_center_of_mass():
 	var hex_mass = 2.0
@@ -110,6 +126,39 @@ func calc_center_of_mass():
 	if total_mass == 0:
 		return
 	mass = total_mass
+
+func get_bounds_rect() -> Rect2:
+	var combined_rect = Rect2()
+	for c in get_children():
+		if c is CollisionPolygon2D:
+			var global_child_rect = c.global_transform * polygon_rect(c)
+			if combined_rect == Rect2():
+				combined_rect = global_child_rect
+			else:
+				combined_rect = combined_rect.merge(global_child_rect)
+	return combined_rect * global_transform.inverse()
+
+func polygon_rect(c : CollisionPolygon2D):
+	var points = c.polygon
+	if points.size() > 0:
+		var min_x = points[0].x
+		var min_y = points[0].y
+		var max_x = points[0].x
+		var max_y = points[0].y
+		
+		for p in points:
+			min_x = min(min_x, p.x)
+			min_y = min(min_y, p.y)
+			max_x = max(max_x, p.x)
+			max_y = max(max_y, p.y)
+		
+		var size = Vector2(max_x - min_x, max_y - min_y)
+		var rect = Rect2(Vector2(min_x, min_y), size)
+		
+		#rect.position += c.global_position
+		return rect
+	return Rect2(0,0,0,0)
+
 #endregion
 
 #region Grid and Cell functions
@@ -271,4 +320,65 @@ func _get_hex_poly() -> PackedVector2Array:
 		Vector2(-w_half, h_quarter),
 		Vector2(-w_half, -h_quarter)
 	])
+#endregion
+
+#region Power
+func get_avalible_power_out() -> Array[PowerOutHex]:
+	var out : Array[PowerOutHex] = []
+	for r in get_children():
+		if r is Room:
+			for h in r.get_out_hexes():
+				if not h.is_powering:
+					out.append(h)
+	print(out)
+	return out
+
+func toggle_power(power_hex):
+	if power_hex is PowerOutHex && power_hex.is_powering:
+		# turn off power
+		remove_power_link_out(power_hex)
+	if power_hex is PowerInHex:
+		if power_hex.is_powered:
+			# turn off power
+			remove_power_link_in(power_hex)
+		else:
+			# turn on power
+			set_next_avalible_power_out(power_hex)
+
+func set_next_avalible_power_out(power_in : PowerInHex) -> bool:
+	var power_outs = get_avalible_power_out()
+	if power_outs.size() > 0:
+		var power_out = power_outs[0]
+		add_power_link(power_out, power_in)
+		return true
+	return false
+
+func add_power_link(power_out : PowerOutHex, power_in : PowerInHex):
+	if power_out.is_powering or power_in.is_powered:
+		return false
+	power_links[power_out] = power_in
+	power_out.update_state(true)
+	power_in.update_state(true)
+	power_in.room.on_power_level_change.emit(power_in)
+	return true
+
+func remove_power_link_in(power_in : PowerInHex):
+	var power_out = power_links.find_key(power_in)
+	if power_out != null:
+		power_links.erase(power_out)
+		power_out.update_state(false)
+		power_in.update_state(false)
+		power_in.room.on_power_level_change.emit(power_in)
+		return true
+	return false
+
+func remove_power_link_out(power_out : PowerOutHex):
+	if power_out != null && power_links.has(power_out):
+		var power_in = power_links[power_out]
+		power_links.erase(power_out)
+		power_out.update_state(false)
+		power_in.update_state(false)
+		power_in.room.on_power_level_change.emit(power_in)
+		return true
+	return false
 #endregion

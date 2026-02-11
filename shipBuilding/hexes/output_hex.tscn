@@ -12,19 +12,20 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_k1opf")
 
 [node name="Dot" type="Sprite2D" parent="." unique_id=1337296878]
-modulate = Color(0.21950102, 0.21950102, 0.21950102, 1)
+self_modulate = Color(0.21960784, 0.21960784, 0.21960784, 1)
 scale = Vector2(0.235, 0.235)
 texture = ExtResource("2_ps41y")
 
-[node name="ClickArea" type="Area2D" parent="." unique_id=1933246098]
+[node name="OutClickArea" type="Area2D" parent="." unique_id=1933246098]
 collision_layer = 8
 collision_mask = 0
 script = ExtResource("3_ps41y")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ClickArea" unique_id=1504972621]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OutClickArea" unique_id=1504972621]
 shape = SubResource("CircleShape2D_bd20s")
 debug_color = Color(0.80322397, 0.007534195, 0.99999994, 0.41960785)
 
-[node name="PowerLine" type="Line2D" parent="ClickArea" unique_id=1277844702]
+[node name="PowerLine" type="Line2D" parent="OutClickArea" unique_id=1277844702]
+visible = false
 points = PackedVector2Array(0, 0, 0, 0)
 default_color = Color(0.7156081, 0.87879455, 0.67834294, 1)
