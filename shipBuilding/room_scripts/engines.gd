@@ -11,6 +11,9 @@ extends Room
 
 @export var max_speed = 1000
 
+func _ready() -> void:
+	on_power_level_change.connect(on_power_changed)
+
 func get_boost_thrust() -> float:
 	return boost_thrust * power_level
 	
@@ -22,3 +25,7 @@ func get_rotational_thrust() -> float:
 
 func get_max_speed() -> float:
 	return max_speed
+
+func on_power_changed(room):
+	$Trail2D.visible = power_level > 0
+	$Trail2D2.visible = power_level > 0
