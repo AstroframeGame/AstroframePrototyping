@@ -83,7 +83,7 @@ func interact():
 	var interactable = get_interactable()
 	if interactable:
 		interactable.interact(self)
-		print_debug("Player interacted with ", interactable)
+		#print_debug("Player interacted with ", interactable)
 			
 func get_interactable() -> Node2D:
 	for area in interact_check.get_overlapping_areas():

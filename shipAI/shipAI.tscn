@@ -4,9 +4,18 @@
 [ext_resource type="PackedScene" uid="uid://bvba8kphvl2d0" path="res://shipBuilding/ships/Auto_Gunner.tscn" id="2_lcjf2"]
 [ext_resource type="PackedScene" uid="uid://faukavu4hxon" path="res://shipBuilding/ships/Bucaneer.tscn" id="2_wwh42"]
 [ext_resource type="Texture2D" uid="uid://qpea6dcya76s" path="res://icon.svg" id="4_amrid"]
-[ext_resource type="PackedScene" uid="uid://dbqiuuatltea8" path="res://shipBuilding/ships/Bumble_Bee.tscn" id="5_jrc0m"]
+[ext_resource type="PackedScene" uid="uid://de0ciq2o0qti" path="res://shipBuilding/ships/Bumble_Bee.tscn" id="5_jrc0m"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_jrc0m"]
+vertices = PackedVector2Array(15042.953, 15250.023, -15286, 15315.969, -15286, -15079, 14910.039, -15079)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-15296, -15089, 14920, -15089, 15053, 15260, -15296, 15326)])
 
 [node name="ShipAi" type="Node2D" unique_id=2125256018]
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=35004953]
+visible = false
+navigation_polygon = SubResource("NavigationPolygon_jrc0m")
 
 [node name="Background" type="Node2D" parent="." unique_id=739083620]
 
@@ -49,7 +58,7 @@ text = "To add
 position = Vector2(351, 326)
 
 [node name="BumbleBee" parent="." unique_id=1937706760 instance=ExtResource("5_jrc0m")]
-position = Vector2(2414, 608)
+position = Vector2(2411, 261)
 
 [node name="Bucanner" parent="." unique_id=328197204 instance=ExtResource("2_wwh42")]
 position = Vector2(-641, 274)
