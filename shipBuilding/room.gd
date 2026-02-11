@@ -12,6 +12,7 @@ var grid_pos : Vector2i:
 	get:
 		return ship.world_to_grid(global_position)
 
+@warning_ignore("unused_signal") # used in ship
 signal on_power_level_change(room : Room)
 
 var power_level : int:

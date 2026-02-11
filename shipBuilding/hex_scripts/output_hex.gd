@@ -9,14 +9,20 @@ var selecting = false
 
 signal on_clicked(power_hex)
 
+
 func _ready() -> void:
-	on_clicked.connect(room.ship.toggle_power)
+	#if room and room.ship:
+		#on_clicked.connect(room.ship.toggle_power)
+	#else:
+		#print_debug("Out hex has no room or ship.")
 	update_state(is_powering)
 
 var is_powering : bool:
 	get:
-		return room.ship.power_links.has(self)
-
+		if room and room.ship:
+			return room.ship.power_links.has(self)
+		return false
+		
 func update_state(powered : bool):
 	# grey  383838
 	# red   942532

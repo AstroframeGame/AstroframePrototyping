@@ -62,14 +62,15 @@ func move_ship(state: PhysicsDirectBodyState2D):
 	
 	var goal_vel :Vector2 = Vector2.ZERO # default goal, for braking or auto braking
 	
-	if Input.is_action_pressed("brake"):
-		pass
-	elif direction.length() > 0.1: # directional input given
+	if direction.length() > 0.1 or Input.is_action_pressed("brake"): # directional input given
 		if direction.y > 0:
 			direction.y *= engines.forward_multiplier
 		goal_vel = state.linear_velocity + direction.rotated(global_rotation)
 		goal_vel = goal_vel.normalized() * min(goal_vel.length(), engines.get_max_speed()) # clamp speed
-	state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * delta)
+		state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * delta)
+	else:
+		state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * engines.drag_multiplier * delta)
+		
 
 # THIS SHOULD BE IN THE INPUT SINGLETON
 var mouse_controller = "mouse"
@@ -117,6 +118,39 @@ func calc_center_of_mass():
 	if total_mass == 0:
 		return
 	mass = total_mass
+
+func get_bounds_rect() -> Rect2:
+	var combined_rect = Rect2()
+	for c in get_children():
+		if c is CollisionPolygon2D:
+			var global_child_rect = c.global_transform * polygon_rect(c)
+			if combined_rect == Rect2():
+				combined_rect = global_child_rect
+			else:
+				combined_rect = combined_rect.merge(global_child_rect)
+	return combined_rect * global_transform.inverse()
+
+func polygon_rect(c : CollisionPolygon2D):
+	var points = c.polygon
+	if points.size() > 0:
+		var min_x = points[0].x
+		var min_y = points[0].y
+		var max_x = points[0].x
+		var max_y = points[0].y
+		
+		for p in points:
+			min_x = min(min_x, p.x)
+			min_y = min(min_y, p.y)
+			max_x = max(max_x, p.x)
+			max_y = max(max_y, p.y)
+		
+		var size = Vector2(max_x - min_x, max_y - min_y)
+		var rect = Rect2(Vector2(min_x, min_y), size)
+		
+		#rect.position += c.global_position
+		return rect
+	return Rect2(0,0,0,0)
+
 #endregion
 
 #region Grid and Cell functions

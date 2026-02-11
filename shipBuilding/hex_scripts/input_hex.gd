@@ -7,12 +7,17 @@ class_name PowerInHex
 signal on_clicked(power_hex)
 
 func _ready() -> void:
-	on_clicked.connect(room.ship.toggle_power)
+	if room and room.ship:
+		on_clicked.connect(room.ship.toggle_power)
+	else:
+		print_debug("Input hex has no room or ship.")
 	update_state(is_powered)
 
 var is_powered : bool:
 	get:
-		return room.ship.power_links.find_key(self) != null
+		if room and room.ship:
+			return room.ship.power_links.find_key(self) != null
+		return false
 
 func update_state(powered : bool):
 	icon.self_modulate = Color("8effa8ff") if powered else Color("ec0083ff")
