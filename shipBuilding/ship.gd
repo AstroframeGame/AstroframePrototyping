@@ -62,14 +62,15 @@ func move_ship(state: PhysicsDirectBodyState2D):
 	
 	var goal_vel :Vector2 = Vector2.ZERO # default goal, for braking or auto braking
 	
-	if Input.is_action_pressed("brake"):
-		pass
-	elif direction.length() > 0.1: # directional input given
+	if direction.length() > 0.1 or Input.is_action_pressed("brake"): # directional input given
 		if direction.y > 0:
 			direction.y *= engines.forward_multiplier
 		goal_vel = state.linear_velocity + direction.rotated(global_rotation)
 		goal_vel = goal_vel.normalized() * min(goal_vel.length(), engines.get_max_speed()) # clamp speed
-	state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * delta)
+		state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * delta)
+	else:
+		state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * engines.drag_multiplier * delta)
+		
 
 # THIS SHOULD BE IN THE INPUT SINGLETON
 var mouse_controller = "mouse"

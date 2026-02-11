@@ -3,13 +3,14 @@ extends Room
 
 # just for forward
 @export var boost_thrust = 12
-@export var forward_multiplier = 4
+@export var forward_multiplier = 2
 # for back, and sides
-@export var standard_thrust = 20
+@export var standard_thrust = 60
+@export var drag_multiplier = 0.01
 # for rotation
 @export var rotational_thrust = 0.2
 
-@export var max_speed = 1000
+@export var max_speed = 10000
 
 func _ready() -> void:
 	on_power_level_change.connect(on_power_changed)
@@ -26,6 +27,6 @@ func get_rotational_thrust() -> float:
 func get_max_speed() -> float:
 	return max_speed
 
-func on_power_changed(room):
+func on_power_changed(_room):
 	$Trail2D.visible = power_level > 0
 	$Trail2D2.visible = power_level > 0
