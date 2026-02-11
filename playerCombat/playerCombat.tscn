@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://dcpfkpex6ovaa" path="res://playerMovement/player_system.tscn" id="1_h7h2y"]
 [ext_resource type="PackedScene" uid="uid://cftem25vj36a6" path="res://playerMovement/asteroids.tscn" id="2_pmt8r"]
-[ext_resource type="PackedScene" uid="uid://cj60mf812rw82" path="res://playerCombat/enemyController.tscn" id="3_22lf3"]
+[ext_resource type="PackedScene" path="res://playerCombat/enemyController.tscn" id="3_22lf3"]
 
 [node name="PlayerCombat" type="Node2D" unique_id=330630042]
 
@@ -36,6 +36,8 @@ text = "To add
 
 [node name="Enemy" parent="." unique_id=1204676728 instance=ExtResource("3_22lf3")]
 position = Vector2(187, 32)
+collision_layer = 32
+collision_mask = 32
 
 [node name="PlayerSystem" parent="." unique_id=809182662 instance=ExtResource("1_h7h2y")]
 position = Vector2(311, 248)

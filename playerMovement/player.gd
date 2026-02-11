@@ -49,6 +49,8 @@ var grounded : bool:
 		return ground_check.has_overlapping_bodies() or ground_check.has_overlapping_areas()
 		var health = 100
 
+@onready var handgun: PlayerGun = $handgun
+
 func _ready() -> void:
 	ground_check.body_entered.connect(on_ground)
 	ground_check.body_exited.connect(on_unground)
@@ -65,6 +67,7 @@ func _physics_process(delta):
 	direction = direction.normalized().rotated(global_rotation)
 	grapple()
 	if seat:
+		handgun.holster()
 		return
 	rotate(Input.get_axis("rotate_left","rotate_right") * rotate_speed * delta)
 	
@@ -82,7 +85,14 @@ func _physics_process(delta):
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("player_shoot"):
-		get_node("handgun").shootBullet()
+		handgun.shoot_bullet()
+	if event.is_action_pressed("holster_handgun"):
+		if seat:
+			return
+		if handgun.get_holster():
+			handgun.unholster()
+			return
+		handgun.holster()
 # currently interacts with the first overlapping interactable area, but this can be changed to nearest, last, all, ect.
 func interact():
 	var interactable = get_interactable()
