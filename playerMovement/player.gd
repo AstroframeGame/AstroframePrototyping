@@ -45,11 +45,15 @@ var ship : Ship:
 var grapple_position : Vector2
 var grappling : bool = false
 @export var grapple_speed = 400
+var health = 100
 
 var grounded : bool:
 	get:
 		ground_check = $GroundCheck
 		return ground_check.has_overlapping_bodies() or ground_check.has_overlapping_areas()
+		var health = 100
+
+@onready var handgun: PlayerGun = $handgun
 
 func _ready() -> void:
 	ground_check.body_entered.connect(on_ground)
@@ -67,6 +71,7 @@ func _physics_process(delta):
 	direction = direction.normalized().rotated(global_rotation)
 	grapple()
 	if seat:
+		handgun.holster()
 		return
 	rotate(Input.get_axis("rotate_left","rotate_right") * rotate_speed * delta)
 	
@@ -82,6 +87,16 @@ func _physics_process(delta):
 		
 	move_and_slide()
 
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("player_shoot"):
+		handgun.shoot_bullet()
+	if event.is_action_pressed("holster_handgun"):
+		if seat:
+			return
+		if handgun.get_holster():
+			handgun.unholster()
+			return
+		handgun.holster()
 # currently interacts with the first overlapping interactable area, but this can be changed to nearest, last, all, ect.
 func interact():
 	var interactable = get_interactable()
@@ -152,3 +167,7 @@ func grapple():
 	grapple_visual.visible = true
 	grapple_visual.set_point_position(0, Vector2.ZERO)
 	grapple_visual.set_point_position(1, to_local(grapple_position))
+
+func takeDamage(damage : int):
+	health -= damage
+	print("Damage Taken! Player now at %s health" % health)

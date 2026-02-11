@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://oar1of8mix7f"]
+
+[ext_resource type="Texture2D" uid="uid://c5tld5k1ocjf" path="res://playerCombat/betterHandGun.png" id="1_q2iuy"]
+[ext_resource type="Script" uid="uid://4knbbehw5qw5" path="res://playerCombat/handgun.gd" id="2_d3ixh"]
+
+[node name="handgun" type="Sprite2D" unique_id=1166717209]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_q2iuy")
+offset = Vector2(275, 0)
+script = ExtResource("2_d3ixh")
+
+[node name="Marker2D" type="Marker2D" parent="." unique_id=596309340]
+position = Vector2(350, -35)
