@@ -9,7 +9,8 @@ then start fleeing while shooting
 '''
 
 @onready var detection_timer : Timer = $DetectionTimer
-@onready var combat_range : float
+## position relative to target when "latching"
+@export var latching_position : Vector2
 
 var engines : Engines
 var piloting : Piloting
@@ -32,34 +33,42 @@ func _physics_process(delta: float) -> void:
 	update_state()
 
 func update_state() -> void:
-	# change state
 	if target == null:
 		current_state = State.IDLE
 	else:
-		current_state = State.APPROACHING
+		if nav_agent.is_target_reached():
+			# grab position relative to target -> latching_position
+			if current_state != State.LATCHING:
+				latching_position = target.to_local(global_position)
+			current_state = State.LATCHING
+		else:
+			nav_agent.target_position = target.global_position
+			current_state = State.APPROACHING
 		# if hp too low || if room is lost then flee TODO
 		
 	# react to state
 	match current_state:
 		State.IDLE:
 			print("bee idling")
-			pass
 		State.APPROACHING:
 			print("bee approaching")
-			nav_agent.target_position = target.global_position
 			if not nav_agent.is_navigation_finished():
 				var look_dir = nav_agent.get_next_path_position() - piloting.global_position
-				#var look_dir = target.global_position - global_position
 				var target_angle = look_dir.angle() + PI/2
 				var angle_delta = wrapf(target_angle - global_rotation, -PI, PI)
 				angular_velocity = angle_delta * engines.rotational_thrust
 				linear_velocity -= transform.y * engines.standard_thrust
-			else:
-				current_state = State.LATCHING
 		State.LATCHING:
 			print("bee latching")
-			# stop moving & lock position relative to player
-			# rotate 180
+			# stop moving & lock position relative to player 
+			global_position = target.to_global(latching_position)
+			# point ass to player
+				# get position relative to self opposite of player
+			var look_dir = -(piloting.global_position - target.global_position)
+			#var target_angle = look_dir.angle() + PI/2
+			rotation = look_dir.angle() + PI/2 + PI
+				# ship.rotate_ship toward it
+				
 			# repeatedly shoot back cannon $Cannon.gun.shoot()
 		State.FLEEING:
 			print("bee fleeing")
@@ -76,3 +85,4 @@ func _on_detection_range_body_exited(body: Node2D) -> void:
 
 func ship_detected():
 	target = get_tree().get_first_node_in_group("player_ship")
+	
