@@ -15,7 +15,10 @@ max_contacts_reported = 1
 script = ExtResource("1_b4oi4")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1533851786]
-scale = Vector2(0.3, 0.18)
+self_modulate = Color(0.6584923, 2.9862885, 3.0019996, 1)
+position = Vector2(-1.0000004, 1.0000002)
+rotation = 1.5707964
+scale = Vector2(0.19499984, 0.29761732)
 texture = ExtResource("2_vscos")
 offset = Vector2(5, 3)
 

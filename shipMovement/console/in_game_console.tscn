@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://bu0k62p1icydm"]
+
+[ext_resource type="Script" uid="uid://c82fjpwywtme" path="res://shipMovement/console/in_game_console.gd" id="1_eqd6s"]
+
+[node name="InGameConsole" type="CanvasLayer" unique_id=1531972617]
+script = ExtResource("1_eqd6s")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1157561471]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 2
