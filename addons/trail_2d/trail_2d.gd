@@ -11,7 +11,8 @@ var offset : Vector2 = Vector2.ZERO
 
 func _ready() -> void:
 	offset = position
-	top_level = true
+	points = []
+	#top_level = true
 
 func _physics_process(_delta: float) -> void:
 	global_position = Vector2.ZERO
