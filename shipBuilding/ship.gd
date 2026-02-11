@@ -41,6 +41,12 @@ func get_pilot() -> Player:
 	if piloting:
 		return piloting.seat.controlled_by
 	return null
+func get_cannons() -> Array[Cannon]:
+	var cannons : Array[Cannon]
+	for r in get_children():
+		if r is Cannon:
+			cannons.append(r)
+	return cannons
 
 func handle_input(_event : InputEvent):
 	#print_debug("input ship", event)

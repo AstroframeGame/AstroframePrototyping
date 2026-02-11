@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://qteo7ksf47a4" path="res://shipBuilding/rooms/piloting_1.tscn" id="3_eoy00"]
 [ext_resource type="PackedScene" uid="uid://cplmkay6ecshy" path="res://shipBuilding/rooms/reactor_4.tscn" id="5_565a3"]
 [ext_resource type="PackedScene" uid="uid://cebf4gqkt7jib" path="res://shipBuilding/rooms/engines_2.tscn" id="7_mw0o3"]
-[ext_resource type="Script" uid="uid://dcajyqv0dixk3" path="res://shipAI/bumbleBee/bumble_bee.gd" id="8_138m7"]
+[ext_resource type="Script" uid="uid://dcajyqv0dixk3" path="res://shipAI/scripts/bumble_bee.gd" id="8_138m7"]
 [ext_resource type="PackedScene" uid="uid://bmfrsjjfduwqn" path="res://shipBuilding/rooms/cannon.tscn" id="9_cddt3"]
 [ext_resource type="PackedScene" uid="uid://dir8uoqft75m0" path="res://shipBuilding/rooms/airlock_1.tscn" id="11_w5428"]
 
