@@ -72,7 +72,12 @@ func end():
 	visible = false
 
 func _input(_event: InputEvent) -> void:
+	if visible == false:
+		return
 	if Input.is_action_just_pressed("dialouge_next"):
 		proceed()
 	#elif Input.is_action_just_pressed("dialouge_negative"):
 		#pass
+
+func _ready() -> void:
+	visible = false

@@ -1,4 +1,5 @@
 extends Node
+class_name GameManager
 
 @export_file("*.tscn") var scene_paths: Array[String]
 @export var loading_screen_scene: PackedScene
@@ -51,4 +52,4 @@ func quit_to_list():
 	$"../UI/SceneList".visible = true
 	$"../UI/InGame".visible = false
 
-@onready var dialouge_runner: DialougeRunner = $"../UI/InGame/DialougeRunner"
+@onready var dialogue_runner: DialougeRunner = $"../UI/InGame/DialogueRunner"

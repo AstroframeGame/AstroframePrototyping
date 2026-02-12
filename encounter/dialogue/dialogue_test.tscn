@@ -1,9 +1,13 @@
 [gd_scene format=3 uid="uid://chtt78xbee5cw"]
 
 [ext_resource type="PackedScene" uid="uid://df01kfwope6hn" path="res://encounter/dialogue/dialogue_runner.tscn" id="1_nmhl2"]
+[ext_resource type="Script" uid="uid://bebwododdxssu" path="res://encounter/dialogue/dialouge_trigger.gd" id="2_cdscr"]
 
 [node name="DialogueTest" type="Node2D" unique_id=771673409]
 
 [node name="DialougeUI" type="CanvasLayer" parent="." unique_id=1461105431]
 
 [node name="DialogueRunner" parent="DialougeUI" unique_id=314417777 instance=ExtResource("1_nmhl2")]
+
+[node name="DialogueTrigger" type="Node" parent="." unique_id=1466295359]
+script = ExtResource("2_cdscr")
