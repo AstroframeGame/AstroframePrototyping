@@ -80,4 +80,5 @@ func _input(_event: InputEvent) -> void:
 		#pass
 
 func _ready() -> void:
+	$Timer.timeout.connect(_on_timer_timeout)
 	visible = false

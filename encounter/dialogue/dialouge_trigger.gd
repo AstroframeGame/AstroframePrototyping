@@ -6,9 +6,6 @@ class_name DialogueTrigger
 	["Maera","Ok!"]
 ]
 
-func _ready() -> void:
-	start_dialogue()
-
 func start_dialogue()->void:
 	print(get_tree().root.get_node("Hub").get_node("GameManager"))
 	var gm : GameManager = get_tree().root.get_node("Hub").get_node("GameManager")

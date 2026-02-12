@@ -10,9 +10,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_20mt6")
 
 [node name="Timer" type="Timer" parent="." unique_id=995197706]
+wait_time = 0.009999999999999998
 
 [node name="Background" type="NinePatchRect" parent="." unique_id=1753600896]
 self_modulate = Color(0.2382622, 0.2382622, 0.23826218, 1)
