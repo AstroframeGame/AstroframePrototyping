@@ -3,6 +3,7 @@ extends RigidBody2D
 
 @export var damage : float = 10
 @export var speed : float = 1000
+var owner_ship : Ship
 
 func initialize(parent : Node2D, parent_velocity : Vector2, projectileSpeed : float, direction : Vector2, spawnPoint : Vector2 = parent.global_position, projectileDamage : int = damage):
 	global_position = spawnPoint
@@ -17,8 +18,8 @@ func _ready() -> void:
 	pass
 
 func _on_body_entered(body: Node) -> void:
-	if body.has_method("takeDamage"):
-		body.takeDamage(damage)
+	if body.has_method("take_damage"):
+		body.take_damage(damage)
 	queue_free()
 
 func _on_lifetime_timeout() -> void:

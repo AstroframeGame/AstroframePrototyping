@@ -169,6 +169,6 @@ func grapple():
 	grapple_visual.set_point_position(0, Vector2.ZERO)
 	grapple_visual.set_point_position(1, to_local(grapple_position))
 
-func takeDamage(damage : int):
+func take_damage(damage : int):
 	health -= damage
 	print("Damage Taken! Player now at %s health" % health)

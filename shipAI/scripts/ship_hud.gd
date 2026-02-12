@@ -19,5 +19,5 @@ func toggle_hud(is_inside : bool):
 func update_hp_bar():
 	healthbar.value = ship.hit_points
 	health_label.text = str(ship.hit_points)
-		
+
 	

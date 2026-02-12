@@ -41,5 +41,5 @@ offset_left = 140.0
 offset_top = 8.0
 offset_right = 180.0
 offset_bottom = 31.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0.23921569, 1, 1)
 text = "100"

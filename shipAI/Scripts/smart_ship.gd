@@ -72,7 +72,8 @@ func latch_on():
 	_look_dir = -(piloting.global_position - target.global_position)
 	rotation = _look_dir.angle() + PI/2 + PI
 	for cannon in get_cannons():
-		cannon.gun.shoot()
+		cannon.gun.shoot(5)
 
 func flee():
 	print("bee fleeing")
+	linear_velocity -= transform.y * engines.standard_thrust * 3

@@ -30,6 +30,9 @@ func update_state() -> void:
 		else:
 			nav_agent.target_position = target.get_piloting().global_position
 			current_state = State.APPROACHING
+			
+	if hit_points < max_hit_points/2:
+		current_state = State.FLEEING
 
 func _on_detection_range_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player_ship"):

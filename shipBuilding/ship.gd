@@ -402,4 +402,9 @@ func take_damage(amount:int):
 	hit_points -= amount
 	hud.update_hp_bar()
 
+func _process(delta: float) -> void:
+	if hit_points < 0:
+		print("ship died?")
+		queue_free()
+
 #endregion
