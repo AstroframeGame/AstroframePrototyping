@@ -23,6 +23,8 @@ glow_bloom = 0.27
 script = ExtResource("1_n4d7h")
 scene_paths = Array[String](["uid://c7ti17oj2ofyn", "uid://bkibqvfep8px0", "uid://c752nipt4tmop", "uid://bi6bllil67sau", "uid://dthcyp01ao5y8", "uid://ci700nfmrtxsd", "uid://bu4afq3jf34w3", "uid://drujdcxau6xfy", "uid://chtt78xbee5cw"])
 
+[node name="MultiplayerManager" type="Node" parent="." unique_id=506980756]
+
 [node name="UI" type="Node" parent="." unique_id=1145349593]
 
 [node name="SceneList" type="CanvasLayer" parent="UI" unique_id=1954068811]
