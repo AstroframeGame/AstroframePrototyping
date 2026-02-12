@@ -21,9 +21,13 @@ func update_state() -> void:
 		current_state = State.IDLE
 	else:
 		if nav_agent.is_target_reached():
-			if current_state != State.LATCHING:
+			if current_state == State.APPROACHING:
 				_latching_position = target.to_local(piloting.global_position)
-			current_state = State.LATCHING
+				current_state = State.ALIGNING
+			elif current_state == State.ALIGNING:
+				var look_dir = -(piloting.global_position - target.global_position)
+				if abs(look_dir.angle() - rotation) <= PI/2:
+					current_state = State.LATCHING
 		else:
 			nav_agent.target_position = target.get_piloting().global_position
 			current_state = State.APPROACHING

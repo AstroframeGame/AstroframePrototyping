@@ -1,7 +1,7 @@
 class_name Smart_Ship
 extends Ship
 
-enum State {IDLE, APPROACHING, FLEEING, LATCHING, FLANKING, CIRCLING}
+enum State {IDLE, APPROACHING, ALIGNING, FLEEING, LATCHING, FLANKING, CIRCLING}
 @export var current_state : State
 @export var target : Ship
 @export var engine_thrust : float
@@ -35,6 +35,8 @@ func process_state():
 			sit_idle()
 		State.APPROACHING:
 			approach_target()
+		State.ALIGNING:
+			align()
 		State.LATCHING:
 			latch_on()
 		State.FLEEING:
@@ -51,6 +53,16 @@ func approach_target():
 	angular_velocity = angle_delta * engines.rotational_thrust
 	linear_velocity -= transform.y * engines.standard_thrust
 
+func align():
+	print("bee aligning")
+	global_position = target.to_global(_latching_position)
+	var look_dir = -(piloting.global_position - target.global_position)
+	var target_angle = look_dir.angle() + PI/2 + PI
+	var _angle_delta = wrapf(target_angle - global_rotation, -PI, PI)
+	var angle_delta = wrapf(target_angle - rotation, -PI, PI)
+	var _delta = get_process_delta_time()
+	angular_velocity = angle_delta * engines.rotational_thrust * 7
+	
 func latch_on():
 	print("bee latching")
 	global_position = target.to_global(_latching_position)

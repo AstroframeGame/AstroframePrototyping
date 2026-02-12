@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://b73cwex16od7d"]
+[gd_scene format=3 uid="uid://c1m2qv7m4ri8f"]
 
 [ext_resource type="PackedScene" uid="uid://c2n7netp00xn6" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_nokxi"]
 [ext_resource type="PackedScene" uid="uid://qteo7ksf47a4" path="res://shipBuilding/rooms/piloting_1.tscn" id="3_jc7yg"]
@@ -15,7 +15,7 @@ tile_size = Vector2i(78, 90)
 [sub_resource type="CircleShape2D" id="CircleShape2D_u0ucr"]
 radius = 1843.0988
 
-[node name="_RigidBody2D_53" type="RigidBody2D" unique_id=1784127879]
+[node name="BumbleBee" type="RigidBody2D" unique_id=1784127879]
 input_pickable = true
 mass = 18.0
 gravity_scale = 0.0
@@ -45,7 +45,7 @@ rotation = 3.1415927
 position = Vector2(-78, -22.5)
 rotation = 4.1887903
 
-[node name="@Node2D@53" parent="." unique_id=29602967 instance=ExtResource("9_gd744")]
+[node name="Reactor_2(1)" parent="." unique_id=29602967 instance=ExtResource("9_gd744")]
 position = Vector2(117, -90)
 rotation = 2.0943952
 
@@ -72,3 +72,6 @@ one_shot = true
 
 [node name="Airlock_1" parent="." unique_id=2084884563 instance=ExtResource("11_ovcta")]
 position = Vector2(0, -157.5)
+
+[connection signal="body_entered" from="DetectionRange" to="." method="_on_detection_range_body_entered"]
+[connection signal="body_exited" from="DetectionRange" to="." method="_on_detection_range_body_exited"]
