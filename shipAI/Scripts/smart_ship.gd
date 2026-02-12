@@ -42,32 +42,35 @@ func process_state():
 		State.FLEEING:
 			flee()
 
+var _look_dir : Vector2
+var _target_angle : float
+var _angle_delta : float
+
 func sit_idle():
 	print("bee idling")
 
 func approach_target():
 	print("bee approaching")
-	var look_dir = nav_agent.get_next_path_position() - piloting.global_position
-	var target_angle = look_dir.angle() + PI/2
-	var angle_delta = wrapf(target_angle - global_rotation, -PI, PI)
-	angular_velocity = angle_delta * engines.rotational_thrust
+	_look_dir = nav_agent.get_next_path_position() - piloting.global_position
+	_target_angle = _look_dir.angle() + PI/2
+	_angle_delta = wrapf(_target_angle - global_rotation, -PI, PI)
+	angular_velocity = _angle_delta * engines.rotational_thrust
 	linear_velocity -= transform.y * engines.standard_thrust
 
 func align():
 	print("bee aligning")
 	global_position = target.to_global(_latching_position)
-	var look_dir = -(piloting.global_position - target.global_position)
-	var target_angle = look_dir.angle() + PI/2 + PI
-	var _angle_delta = wrapf(target_angle - global_rotation, -PI, PI)
-	var angle_delta = wrapf(target_angle - rotation, -PI, PI)
+	_look_dir = -(piloting.global_position - target.global_position)
+	_target_angle = _look_dir.angle() + PI/2 + PI
+	_angle_delta = wrapf(_target_angle - rotation, -PI, PI)
 	var _delta = get_process_delta_time()
-	angular_velocity = angle_delta * engines.rotational_thrust * 7
+	angular_velocity = _angle_delta * engines.rotational_thrust * 7
 	
 func latch_on():
 	print("bee latching")
 	global_position = target.to_global(_latching_position)
-	var look_dir = -(piloting.global_position - target.global_position)
-	rotation = look_dir.angle() + PI/2 + PI
+	_look_dir = -(piloting.global_position - target.global_position)
+	rotation = _look_dir.angle() + PI/2 + PI
 	for cannon in get_cannons():
 		cannon.gun.shoot()
 
