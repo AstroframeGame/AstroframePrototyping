@@ -1,5 +1,5 @@
 class_name MenuManager
-extends Control
+extends Node
 
 # the current open menu
 @export var open : NodePath
@@ -28,8 +28,8 @@ func load_scene(scene_path):
 	while progress[0] < 0.99:
 		await get_tree().process_frame
 		ResourceLoader.load_threaded_get_status(scene_path, progress)
-		$"Loading/VBoxContainer/Progress".text = str(round(progress[0] * 100)) + "%"
-		$Loading/VBoxContainer/TextureProgressBar.value = progress[0] * 100
+		#$"Loading/VBoxContainer/Progress".text = str(round(progress[0] * 100)) + "%"
+		$Loading/LoadProgress.value = progress[0] * 100
 	
 	var packed_scene = ResourceLoader.load_threaded_get(scene_path)
 	return packed_scene
