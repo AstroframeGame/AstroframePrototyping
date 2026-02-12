@@ -24,4 +24,4 @@ func shoot():
 	proj.add_collision_exception_with(room.ship)
 	
 	var world = room.ship.get_parent()
-	world.get_node("Projectiles").add_child(proj)
+	#world.get_node("Projectiles").add_child(proj)

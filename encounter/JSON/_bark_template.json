@@ -1,0 +1,11 @@
+{
+	"bark_key": {
+		"neutral": [
+			"bark", "woof"
+		],
+		"temperature": [
+			"neutral is default. probably not all barks will need temperature control, but they might change with relationships.",
+            "use a backslash \\ to indicate breaks \\ where our dialogue system requires click to reveal the rest of the statement."
+		]
+	}
+}
