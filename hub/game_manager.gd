@@ -50,3 +50,5 @@ func quit_to_list():
 	current_scene.queue_free()
 	$"../UI/SceneList".visible = true
 	$"../UI/InGame".visible = false
+
+@onready var dialouge_runner: DialougeRunner = $"../UI/InGame/DialougeRunner"

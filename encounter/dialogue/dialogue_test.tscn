@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://chtt78xbee5cw"]
+
+[ext_resource type="PackedScene" uid="uid://df01kfwope6hn" path="res://encounter/dialogue/dialogue_runner.tscn" id="1_nmhl2"]
+
+[node name="DialogueTest" type="Node2D" unique_id=771673409]
+
+[node name="DialougeUI" type="CanvasLayer" parent="." unique_id=1461105431]
+
+[node name="DialogueRunner" parent="DialougeUI" unique_id=314417777 instance=ExtResource("1_nmhl2")]
