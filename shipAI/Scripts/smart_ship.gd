@@ -50,7 +50,7 @@ func approach_target():
 	var angle_delta = wrapf(target_angle - global_rotation, -PI, PI)
 	angular_velocity = angle_delta * engines.rotational_thrust
 	linear_velocity -= transform.y * engines.standard_thrust
-	
+
 func latch_on():
 	print("bee latching")
 	global_position = target.to_global(_latching_position)

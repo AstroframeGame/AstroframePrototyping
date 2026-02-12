@@ -2,6 +2,7 @@ class_name Ship
 extends RigidBody2D
 
 signal room_clicked(room: Room, button_index: int)
+signal on_airlock_interaction(is_inside : bool)
 
 const HEX_GRID_PREFAB = preload("res://shipBuilding/prefabs/hex_grid.tscn")
 @onready var grid: TileMapLayer # set in update colliders
@@ -9,13 +10,28 @@ var occupied_cells: Dictionary[Vector2i, Room] = {} # only calculated in ship_bu
 
 @export var power_links : Dictionary[PowerOutHex, PowerInHex]
 
+@export var max_hit_points : int = 0
+@export var hit_points : int = 0
+@export var healthbar : TextureProgressBar = null
+
 func _ready() -> void:
 	update_colliders()
 	calc_center_of_mass()
 	update_occupied_cells()
 	var ground : Area2D = $Ground
 	ground.input_event.connect(ground_input_event)
-	print($Edge.build_mode)
+	print($Edge.build_mode) 
+	
+	for child in get_children():
+		if child is Room:
+			max_hit_points += child.durability
+	
+	healthbar = get_node_or_null("CanvasLayer/HPBar")
+	if healthbar != null:
+		hit_points = max_hit_points
+		healthbar.max_value = max_hit_points
+		update_hp_bar()
+	on_airlock_interaction.connect(toggle_hp_bar,1)
 
 func ground_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
@@ -381,4 +397,16 @@ func remove_power_link_out(power_out : PowerOutHex):
 		power_in.room.on_power_level_change.emit(power_in)
 		return true
 	return false
+#endregion
+
+#region HEALTH
+func toggle_hp_bar(is_inside : bool):
+	healthbar.visible = is_inside
+	
+func update_hp_bar():
+	healthbar.value = hit_points
+	
+func take_damage(amount:int):
+	pass
+
 #endregion

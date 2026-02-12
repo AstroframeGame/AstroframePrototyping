@@ -53,6 +53,7 @@ var grounded : bool:
 		return ground_check.has_overlapping_bodies() or ground_check.has_overlapping_areas()
 		var health = 100
 
+
 @onready var handgun: PlayerGun = $handgun
 
 func _ready() -> void:
@@ -60,6 +61,7 @@ func _ready() -> void:
 	ground_check.body_exited.connect(on_unground)
 	ground_check.area_entered.connect(on_ground)
 	ground_check.area_exited.connect(on_unground)
+	
 	
 	if ship:
 		on_ship_enter(ship)
@@ -151,7 +153,6 @@ func on_ship_exit():
 	global_rotation = 0
 	collision_layer = exterior_layer
 	collision_mask = exterior_mask
-
 
 func grapple():
 	if grapple_position != null:

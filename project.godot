@@ -25,12 +25,6 @@ CursorManager="*uid://xw0evujqrmw7"
 ScreenshotManager="*uid://crx4ktvfwjrs5"
 InGameConsole="*uid://bu0k62p1icydm"
 
-[autoload]
-
-CursorManager="*uid://xw0evujqrmw7"
-ScreenshotManager="*uid://crx4ktvfwjrs5"
-InGameConsole="*uid://bu0k62p1icydm"
-
 [display]
 
 window/stretch/mode="canvas_items"

@@ -1,15 +1,29 @@
 [gd_scene format=3 uid="uid://ci700nfmrtxsd"]
 
 [ext_resource type="PackedScene" uid="uid://dcpfkpex6ovaa" path="res://playerMovement/player_system.tscn" id="1_rcyo3"]
-[ext_resource type="PackedScene" uid="uid://bvba8kphvl2d0" path="res://shipBuilding/ships/auto_gunner.tscn" id="2_lcjf2"]
-[ext_resource type="PackedScene" uid="uid://faukavu4hxon" path="res://shipBuilding/ships/bucaneer.tscn" id="2_wwh42"]
-[ext_resource type="Texture2D" uid="uid://qpea6dcya76s" path="res://icon.svg" id="4_amrid"]
+[ext_resource type="Shader" path="res://shipMovement/space_bg.gdshader" id="1_vrncs"]
+[ext_resource type="Texture2D" uid="uid://blw3cf71ki3n1" path="res://encounter/grid_black_1024x1024.png" id="2_nhcgg"]
+[ext_resource type="Script" path="res://shipMovement/scrolling_bg.gd" id="3_8rdp5"]
+[ext_resource type="PackedScene" uid="uid://pm5hyxwcnw50" path="res://shipBuilding/ships/player_ship.tscn" id="4_nhcgg"]
 [ext_resource type="PackedScene" uid="uid://de0ciq2o0qti" path="res://shipBuilding/ships/bumble_bee.tscn" id="5_jrc0m"]
+[ext_resource type="FontFile" uid="uid://bvhs72w1tp2uu" path="res://hub/fonts/Ethnocentric-Regular.otf" id="7_8rdp5"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_jrc0m"]
 vertices = PackedVector2Array(15042.953, 15250.023, -15286, 15315.969, -15286, -15079, 14910.039, -15079)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-15296, -15089, 14920, -15089, 15053, 15260, -15296, 15326)])
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vo3si"]
+shader = ExtResource("1_vrncs")
+shader_parameter/grid_texture = ExtResource("2_nhcgg")
+shader_parameter/camera_offset = Vector2(0, 0)
+shader_parameter/camera_zoom = 1.0
+shader_parameter/camera_rotation = 0.0
+shader_parameter/texture_scale = Vector2(0.001, 0.001)
+
+[sub_resource type="Theme" id="Theme_vo3si"]
+default_font = ExtResource("7_8rdp5")
+default_font_size = 72
 
 [node name="ShipAi" type="Node2D" unique_id=2125256018]
 
@@ -17,57 +31,41 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(-15296, -15089, 14920, 
 visible = false
 navigation_polygon = SubResource("NavigationPolygon_jrc0m")
 
-[node name="Background" type="Node2D" parent="." unique_id=739083620]
+[node name="Background" type="CanvasLayer" parent="." unique_id=1843354278]
+layer = -2
 
-[node name="Parallax2D" type="Parallax2D" parent="Background" unique_id=1701181093]
-repeat_size = Vector2(300, 300)
-repeat_times = 100
+[node name="GridBackground" type="ColorRect" parent="Background" unique_id=1745291707]
+material = SubResource("ShaderMaterial_vo3si")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_8rdp5")
 
-[node name="Sprite2D" type="Sprite2D" parent="Background/Parallax2D" unique_id=432486449]
-self_modulate = Color(0, 0, 0, 1)
-position = Vector2(-78, 78)
-scale = Vector2(2.21875, 2.21875)
-texture = ExtResource("4_amrid")
-
-[node name="Name" type="Label" parent="." unique_id=36467604]
-visible = false
-offset_left = 203.0
-offset_top = 118.0
-offset_right = 335.0
-offset_bottom = 141.0
-text = "ShipAI"
-
-[node name="Instructions" type="Label" parent="." unique_id=735212792]
-visible = false
-offset_left = 125.0
-offset_top = 152.0
-offset_right = 477.0
-offset_bottom = 201.0
-text = "Test out pathfinding and avoidance
-make the enemy ship pull up alongside your ship and shoot at it."
-
-[node name="Todo" type="Label" parent="." unique_id=433151768]
-visible = false
-offset_left = 168.0
-offset_top = 222.0
-offset_right = 602.0
-offset_bottom = 453.0
-text = "To add
-- add combat
-- add dummy for AI to shoot at
-- make the ai kinda smart"
-
-[node name="Auto_Gunner" parent="." unique_id=1784127879 groups=["player_ship"] instance=ExtResource("2_lcjf2")]
-position = Vector2(351, 326)
+[node name="PlayerShip" parent="." unique_id=1784127879 instance=ExtResource("4_nhcgg")]
+position = Vector2(358, 356)
 
 [node name="BumbleBee" parent="." unique_id=1937706760 instance=ExtResource("5_jrc0m")]
 position = Vector2(2411, 261)
-
-[node name="Bucanner" parent="." unique_id=328197204 instance=ExtResource("2_wwh42")]
-visible = false
-position = Vector2(-641, 274)
 
 [node name="PlayerSystem" parent="." unique_id=809182662 instance=ExtResource("1_rcyo3")]
 position = Vector2(44, 512)
 
 [node name="Projectiles" type="Node2D" parent="." unique_id=1484753651]
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=797339890]
+
+[node name="SceneName" type="Label" parent="HUD" unique_id=1911240410]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -559.0
+offset_top = 589.0
+offset_right = -182.0
+offset_bottom = 657.0
+grow_horizontal = 2
+scale = Vector2(0.60738903, 0.632619)
+theme = SubResource("Theme_vo3si")
+text = "Ship AI"
+horizontal_alignment = 1
