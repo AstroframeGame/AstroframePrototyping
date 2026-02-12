@@ -38,6 +38,7 @@ enabled=PackedStringArray("res://addons/trail_2d/plugin.cfg")
 player_ship=""
 player_controller=""
 projectiles=""
+enemy_ship=""
 
 [input]
 

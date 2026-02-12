@@ -16,7 +16,7 @@ tile_size = Vector2i(78, 90)
 [sub_resource type="CircleShape2D" id="CircleShape2D_u0ucr"]
 radius = 1843.0988
 
-[node name="BumbleBee" type="RigidBody2D" unique_id=1784127879]
+[node name="BumbleBee" type="RigidBody2D" unique_id=1784127879 groups=["enemy_ship"]]
 input_pickable = true
 mass = 18.0
 gravity_scale = 0.0
