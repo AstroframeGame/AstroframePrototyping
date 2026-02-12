@@ -30,7 +30,8 @@ func update_state() -> void:
 		else:
 			nav_agent.target_position = target.get_piloting().global_position
 			current_state = State.APPROACHING
-			
+
+	@warning_ignore("integer_division")
 	if hit_points < max_hit_points/2:
 		current_state = State.FLEEING
 

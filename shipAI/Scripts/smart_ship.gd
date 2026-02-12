@@ -54,7 +54,7 @@ func approach_target():
 	_look_dir = nav_agent.get_next_path_position() - piloting.global_position
 	_target_angle = _look_dir.angle() + PI/2
 	_angle_delta = wrapf(_target_angle - global_rotation, -PI, PI)
-	angular_velocity = _angle_delta * engines.rotational_thrust
+	angular_velocity = _angle_delta * engines.rotational_thrust * PI
 	linear_velocity -= transform.y * engines.standard_thrust
 
 func align():
@@ -64,7 +64,7 @@ func align():
 	_target_angle = _look_dir.angle() + PI/2 + PI
 	_angle_delta = wrapf(_target_angle - rotation, -PI, PI)
 	var _delta = get_process_delta_time()
-	angular_velocity = _angle_delta * engines.rotational_thrust * 7
+	angular_velocity = _angle_delta * engines.rotational_thrust * _delta * 1000
 	
 func latch_on():
 	print("bee latching")

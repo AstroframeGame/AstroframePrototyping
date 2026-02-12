@@ -2,7 +2,7 @@ class_name PlayerGun
 extends Sprite2D
 
 @onready var player: Player = $".."
-@onready var asteroids: Node2D = $"../../../Asteroids"
+@onready var asteroids: Node2D = get_node_or_null("../../../Asteroids")
 @onready var marker_2d: Marker2D = $Marker2D
 @onready var gunSprite : Sprite2D = $"."
 

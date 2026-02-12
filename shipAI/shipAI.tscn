@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://blw3cf71ki3n1" path="res://encounter/grid_black_1024x1024.png" id="2_nhcgg"]
 [ext_resource type="Script" path="res://shipMovement/scrolling_bg.gd" id="3_8rdp5"]
 [ext_resource type="PackedScene" uid="uid://pm5hyxwcnw50" path="res://shipBuilding/ships/player_ship.tscn" id="4_nhcgg"]
-[ext_resource type="PackedScene" uid="uid://bj0lv4j2a1hpe" path="res://shipBuilding/ships/bumble_bee.tscn" id="5_jrc0m"]
+[ext_resource type="PackedScene" uid="uid://bj0lv4j2a1hpe" path="res://shipBuilding/ships/Bumble_Bee.tscn" id="5_jrc0m"]
 [ext_resource type="FontFile" uid="uid://bvhs72w1tp2uu" path="res://hub/fonts/Ethnocentric-Regular.otf" id="7_8rdp5"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_jrc0m"]
