@@ -1,9 +1,10 @@
-[gd_scene format=3 uid="uid://c1m2qv7m4ri8f"]
+[gd_scene format=3 uid="uid://bj0lv4j2a1hpe"]
 
 [ext_resource type="PackedScene" uid="uid://c2n7netp00xn6" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_nokxi"]
 [ext_resource type="PackedScene" uid="uid://qteo7ksf47a4" path="res://shipBuilding/rooms/piloting_1.tscn" id="3_jc7yg"]
 [ext_resource type="PackedScene" uid="uid://cebf4gqkt7jib" path="res://shipBuilding/rooms/engines_2.tscn" id="5_1vm3r"]
 [ext_resource type="PackedScene" uid="uid://bmfrsjjfduwqn" path="res://shipBuilding/rooms/cannon.tscn" id="7_ovcta"]
+[ext_resource type="PackedScene" uid="uid://daae3tloj435m" path="res://shipAI/prefabs/hud.tscn" id="8_2j0ef"]
 [ext_resource type="Script" uid="uid://dcajyqv0dixk3" path="res://shipAI/scripts/bumble_bee.gd" id="8_138m7"]
 [ext_resource type="PackedScene" uid="uid://c80teck1ccmdv" path="res://shipBuilding/rooms/reactor_2.tscn" id="9_gd744"]
 [ext_resource type="PackedScene" uid="uid://dir8uoqft75m0" path="res://shipBuilding/rooms/airlock_1.tscn" id="11_ovcta"]
@@ -20,9 +21,9 @@ input_pickable = true
 mass = 18.0
 gravity_scale = 0.0
 script = ExtResource("8_138m7")
-max_hit_points = 200
 
 [node name="HexGrid" parent="." unique_id=1277847278 instance=ExtResource("2_nokxi")]
+visible = false
 tile_set = SubResource("TileSet_xsh4c")
 
 [node name="Edge" type="CollisionPolygon2D" parent="." unique_id=1492879019]
@@ -49,6 +50,9 @@ rotation = 4.1887903
 position = Vector2(117, -90)
 rotation = 2.0943952
 
+[node name="Airlock_1" parent="." unique_id=2084884563 instance=ExtResource("11_ovcta")]
+position = Vector2(0, -157.5)
+
 [node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="." unique_id=745567976]
 visible = false
 vertices = PackedVector2Array(39, 91, 78, 67, 157, -67, 157, -114, 118, -135, 0, -203, -117, -134, -157, -113, -157, -67, -78, 68, -37, 89)
@@ -70,8 +74,7 @@ debug_color = Color(0.827473, 0.16812393, 1.92523e-07, 0)
 wait_time = 2.5
 one_shot = true
 
-[node name="Airlock_1" parent="." unique_id=2084884563 instance=ExtResource("11_ovcta")]
-position = Vector2(0, -157.5)
+[node name="HUD" parent="." unique_id=532014552 instance=ExtResource("8_2j0ef")]
 
 [connection signal="body_entered" from="DetectionRange" to="." method="_on_detection_range_body_entered"]
 [connection signal="body_exited" from="DetectionRange" to="." method="_on_detection_range_body_exited"]

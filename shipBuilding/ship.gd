@@ -12,7 +12,8 @@ var occupied_cells: Dictionary[Vector2i, Room] = {} # only calculated in ship_bu
 
 @export var max_hit_points : int = 0
 @export var hit_points : int = 0
-@export var healthbar : TextureProgressBar = null
+
+@export var hud : CanvasLayer = null
 
 func _ready() -> void:
 	update_colliders()
@@ -25,13 +26,10 @@ func _ready() -> void:
 	for child in get_children():
 		if child is Room:
 			max_hit_points += child.durability
-	
-	healthbar = get_node_or_null("CanvasLayer/HPBar")
-	if healthbar != null:
-		hit_points = max_hit_points
-		healthbar.max_value = max_hit_points
-		update_hp_bar()
-	on_airlock_interaction.connect(toggle_hp_bar,1)
+	hit_points = max_hit_points
+	hud = get_node_or_null("HUD")
+	if hud:
+		hud.initialize()
 
 func ground_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
@@ -399,17 +397,9 @@ func remove_power_link_out(power_out : PowerOutHex):
 	return false
 #endregion
 
-#region HEALTH
-func toggle_hp_bar(is_inside : bool):
-	if healthbar != null:
-		healthbar.visible = is_inside
-	
-func update_hp_bar():
-	if healthbar != null:
-		healthbar.value = hit_points
-	
+#region Health	
 func take_damage(amount:int):
 	hit_points -= amount
-	update_hp_bar()
+	hud.update_hp_bar()
 
 #endregion

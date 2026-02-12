@@ -57,3 +57,9 @@ position = Vector2(-78, 112.5)
 vertices = PackedVector2Array(41, -134, 77, -112, 77, -69, 117, -45, 118, -1, 156, 21, 155, 68, 196, 90, 195, 138, 156, 159, 158, 202, 115, 227, 76, 200, 39, 224, -1, 202, -39, 226, -79, 202, -79, 156, -116, 135, -118, 88, -77, 65, -81, 22, -39, -1, -39, -47, 0, -70, -2, -113)
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=84435214]
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=1282259777]
+
+[node name="HPBar" type="TextureProgressBar" parent="HUD" unique_id=868864036]
+offset_right = 40.0
+offset_bottom = 40.0
