@@ -14,9 +14,11 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
-config/name="AstroframePrototyping"
+config/name="AstroFramePrototyping"
 run/main_scene="uid://c57plc2whtank"
+config/quit_on_go_back=false
 config/features=PackedStringArray("4.6", "Forward Plus")
+boot_splash/show_image=false
 config/icon="uid://w2speowsgqcy"
 
 [autoload]
