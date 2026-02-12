@@ -49,12 +49,14 @@ polygon = PackedVector2Array(78.100006, -112.549995, 78.09999, -67.54232, 117.09
 [node name="Ground" type="Area2D" parent="." unique_id=1690821881]
 
 [node name="Solid" type="CollisionPolygon2D" parent="Ground" unique_id=1155512632]
+visible = false
 polygon = PackedVector2Array(78.100006, -112.549995, 78.09999, -67.54232, 117.09999, -45.049995, 117.09999, -0.04232788, 156.1, 22.450005, 156.09999, 67.45767, 195.09999, 89.95001, 195.09999, 135.05002, 156.09998, 157.54233, 156.09998, 202.55, 116.999985, 225.1, 77.99999, 202.60767, 39, 225.1, 0, 202.60767, -39, 225.1, -78.1, 202.55, -78.1, 157.54233, -117.1, 135.05, -117.1, 89.95, -78.05777, 67.43332, -78.07886, 22.363419, -39.100006, -0.14102173, -39.100006, -45.05001, -0.099998474, -67.54233, -0.099998474, -112.55, 39.000008, -135.1)
 
 [node name="Airlock_1" parent="." unique_id=2084884563 instance=ExtResource("8_bjjiu")]
 position = Vector2(-78, 112.5)
 
 [node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="." unique_id=1567892142]
+visible = false
 vertices = PackedVector2Array(41, -134, 77, -112, 77, -69, 117, -45, 118, -1, 156, 21, 155, 68, 196, 90, 195, 138, 156, 159, 158, 202, 115, 227, 76, 200, 39, 224, -1, 202, -39, 226, -79, 202, -79, 156, -116, 135, -118, 88, -77, 65, -81, 22, -39, -1, -39, -47, 0, -70, -2, -113)
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=84435214]

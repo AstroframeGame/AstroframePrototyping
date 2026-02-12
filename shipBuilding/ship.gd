@@ -401,12 +401,15 @@ func remove_power_link_out(power_out : PowerOutHex):
 
 #region HEALTH
 func toggle_hp_bar(is_inside : bool):
-	healthbar.visible = is_inside
+	if healthbar != null:
+		healthbar.visible = is_inside
 	
 func update_hp_bar():
-	healthbar.value = hit_points
+	if healthbar != null:
+		healthbar.value = hit_points
 	
 func take_damage(amount:int):
-	pass
+	hit_points -= amount
+	update_hp_bar()
 
 #endregion
