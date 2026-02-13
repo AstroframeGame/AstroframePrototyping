@@ -7,7 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://pm5hyxwcnw50" path="res://shipBuilding/ships/player_ship.tscn" id="4_nhcgg"]
 [ext_resource type="PackedScene" uid="uid://2nt2e6ndfr3n" path="res://shipBuilding/ships/Bumble_Bee.tscn" id="5_jrc0m"]
 [ext_resource type="FontFile" uid="uid://bvhs72w1tp2uu" path="res://hub/fonts/Ethnocentric-Regular.otf" id="7_8rdp5"]
-[ext_resource type="Script" uid="uid://bir7joeacemsr" path="res://shipAI/fight_manager.gd" id="8_nhcgg"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_jrc0m"]
 vertices = PackedVector2Array(15042.953, 15250.023, -15286, 15315.969, -15286, -15079, 14910.039, -15079)
@@ -70,6 +69,3 @@ scale = Vector2(0.60738903, 0.632619)
 theme = SubResource("Theme_vo3si")
 text = "Ship AI"
 horizontal_alignment = 1
-
-[node name="FightManager" type="Node" parent="." unique_id=553053713]
-script = ExtResource("8_nhcgg")
