@@ -51,6 +51,7 @@ var grounded : bool:
 	get:
 		ground_check = $GroundCheck
 		return ground_check.has_overlapping_bodies() or ground_check.has_overlapping_areas()
+		var health = 100
 
 
 @onready var handgun: PlayerGun = $handgun
