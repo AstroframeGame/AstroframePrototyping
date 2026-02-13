@@ -4,7 +4,7 @@ extends Camera2D
 Track the camera to the player or ship
 '''
 
-@onready var player: Player = $"../Player"
+var player: PlayerCharacter # set when instantiated by multiplayer manager, this should be set in ready instead
 var seat : SeatInteractable :
 	get:
 		return player.seat
@@ -17,6 +17,10 @@ var ship_flight_zoom = 0.5
 var ship_flight_offset = Vector2(0,-0.6)
 
 @export var rot_smooth = 5.0
+
+func _ready() -> void:
+	var multiplayer_manager : MultiplayerManager = get_parent().get_parent()
+	player = multiplayer_manager.my_player
 
 func _physics_process(delta: float) -> void:
 	var zoom_goal = player_zoom

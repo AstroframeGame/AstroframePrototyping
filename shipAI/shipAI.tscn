@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ci700nfmrtxsd"]
 
-[ext_resource type="PackedScene" path="res://shipBuilding/ships/test5.tscn" id="1_rcyo3"]
+[ext_resource type="PackedScene" uid="uid://dhojxouve5qs7" path="res://shipBuilding/ships/test5.tscn" id="1_rcyo3"]
 [ext_resource type="PackedScene" path="res://shipBuilding/ships/simpleEnemy.tscn" id="2_lcjf2"]
 
 [node name="ShipAi" type="Node2D" unique_id=566827006]

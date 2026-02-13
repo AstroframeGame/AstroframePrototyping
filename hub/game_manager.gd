@@ -1,10 +1,15 @@
 extends Node
 class_name GameManager
 
+@onready var multiplayer_manager: MultiplayerManager = $"../MultiplayerManager"
+
 @onready var load_progress: TextureProgressBar = $"../UI/Loading/LoadProgress"
 
-var current_scene : Node
+var current_scene : Node2D
 @onready var menus : MenuManager = $"../UI"
+
+signal game_start(world : Node2D)
+signal game_quit()
 
 func _ready() -> void:
 	menus.open_menu("Main")
@@ -14,8 +19,10 @@ func load_scene(path : String)->void:
 	menus.open_menu("Game")
 	current_scene = packed_scene.instantiate()
 	add_child(current_scene)
+	game_start.emit(current_scene)
 
 func quit_to_list():
+	game_quit.emit()
 	current_scene.queue_free()
 	menus.open_menu("Main")
 

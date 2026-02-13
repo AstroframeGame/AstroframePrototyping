@@ -1,4 +1,4 @@
-class_name Player
+class_name PlayerCharacter
 extends CharacterBody2D
 
 '''
@@ -30,16 +30,11 @@ var seat : SeatInteractable :
 			CursorManager.set_cursor_aim()# this should be tied to its own event? maybe this is fine
 		else:
 			CursorManager.reset_cursor()
-var ship : Ship:
-	get:
-		var gp = get_parent().get_parent()
-		if gp is Ship:
-			return gp
-		return null
+var ship : Ship
 
 @onready var ground_check: Area2D = $GroundCheck
 @onready var interact_check: Area2D = $InteractCheck
-@onready var global_world : Node2D = $"../.."
+@onready var multiplayer_manager : MultiplayerManager = $".."
 @onready var grapple_visual: Line2D = $"Grapple"
 
 var grapple_position : Vector2
@@ -83,7 +78,8 @@ func _physics_process(delta):
 			velocity -= velocity.normalized() * thrust_accel * delta
 		else:
 			velocity += direction * thrust_accel * delta
-		
+	
+	# Add velocity of the ship if the player is on the ship. use the grounding to detect the current ship.
 	move_and_slide()
 
 func _input(event: InputEvent) -> void:
@@ -138,16 +134,14 @@ func on_unground(_body : Node2D):
 		#pass
 
 func on_ship_enter(new_ship : Ship):
-	get_parent().call_deferred("reparent", new_ship, true)
 	global_rotation = new_ship.global_rotation
 	print("parent to ship")
 	collision_layer = interior_layer
 	collision_mask = interior_mask
 
 func on_ship_exit():
-	get_parent().call_deferred("reparent", global_world, true)
 	print("parent to wordl")
-	global_rotation = 0
+	#global_rotation = 0
 	collision_layer = exterior_layer
 	collision_mask = exterior_mask
 

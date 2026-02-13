@@ -1,8 +1,7 @@
 class_name PlayerGun
 extends Sprite2D
 
-@onready var player: Player = $".."
-@onready var asteroids: Node2D = $"../../../Asteroids" # @Alejandro, this may not always exist. pls fix
+@onready var player: PlayerCharacter = $".."
 @onready var marker_2d: Marker2D = $Marker2D
 @onready var gunSprite : Sprite2D = $"."
 
@@ -46,9 +45,9 @@ func shoot_bullet() -> void:
 	time_since_shot = 0
 	accuracy = min(accuracy + (0.05), accur_high)
 	
-	var world = player.global_world
-	if world.get_node("Projectiles") != null: # @Alejandro, this may not always exist. pls fix
-		world.get_node("Projectiles").add_child(new_bullet)
+	var projectiles = player.multiplayer_manager.get_node("Projectiles")
+	if projectiles != null:
+		projectiles.add_child(new_bullet)
 		
 func holster() -> void:
 	visible = false
