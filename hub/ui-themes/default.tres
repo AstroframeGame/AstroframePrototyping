@@ -1,6 +1,6 @@
 [gd_resource type="Theme" format=3 uid="uid://f1k0rdfg3btk"]
 
-[ext_resource type="FontFile" uid="uid://dmctfsuxeyu7" path="res://hub/fonts/SpaceGrotesk-Regular.ttf" id="1_obiu4"]
+[ext_resource type="FontFile" uid="uid://bsbk5ddij3uhb" path="res://hub/fonts/Roboto-Regular.ttf" id="1_obiu4"]
 
 [resource]
 default_font = ExtResource("1_obiu4")

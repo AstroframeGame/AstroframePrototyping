@@ -1,12 +1,11 @@
 [gd_scene format=3 uid="uid://c57plc2whtank"]
 
 [ext_resource type="Script" uid="uid://cbty45dswb5nj" path="res://hub/game_manager.gd" id="1_n4d7h"]
-[ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/RoundedSquare.png" id="2_1wrr7"]
+[ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/ui_textures/RoundedSquare.png" id="2_1wrr7"]
 [ext_resource type="Script" uid="uid://c74xdls6fgqs3" path="res://hub/multiplayer_manager.gd" id="2_2qbsn"]
 [ext_resource type="Script" uid="uid://io2qs57g5xic" path="res://hub/menu_manager.gd" id="2_nm8ur"]
-[ext_resource type="Script" path="res://hub/scene_list.gd" id="3_1x5tx"]
+[ext_resource type="Script" uid="uid://y07ne4p2xbui" path="res://hub/scene_list.gd" id="3_1x5tx"]
 [ext_resource type="Script" uid="uid://cti2v7b51m68r" path="res://hub/fps_label.gd" id="3_6ebxt"]
-[ext_resource type="Texture2D" uid="uid://w2speowsgqcy" path="res://hub/icon/icon.png" id="3_21dlm"]
 [ext_resource type="PackedScene" uid="uid://df01kfwope6hn" path="res://encounter/dialogue/dialogue_runner.tscn" id="5_g3elb"]
 [ext_resource type="Theme" uid="uid://2b3w3cdm6v0b" path="res://hub/ui-themes/title.tres" id="5_h3v4x"]
 [ext_resource type="Theme" uid="uid://dj12nct3i1b1i" path="res://hub/ui-themes/header.tres" id="5_h8dj6"]
@@ -14,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://bg7uxubeu3w86" path="res://hub/menu_icons/icons8-github-64.png" id="8_1v0ca"]
 [ext_resource type="Script" uid="uid://lijk0e4kv030" path="res://hub/web_link.gd" id="8_awsf7"]
 [ext_resource type="Texture2D" uid="uid://glx4q4luv7hn" path="res://hub/menu_icons/icons8-folder-64.png" id="10_h3v4x"]
+[ext_resource type="Theme" uid="uid://d0o0krm245a4q" path="res://hub/ui-themes/unstyled.tres" id="13_h8dj6"]
 
 [sub_resource type="Environment" id="Environment_21dlm"]
 background_mode = 3
@@ -49,15 +49,16 @@ color = Color(0.14333999, 0.14333999, 0.14333999, 1)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 31.0
-offset_top = 61.0
-offset_right = -854.0
-offset_bottom = -48.0
+offset_left = 43.0
+offset_top = 92.0
+offset_right = -842.0
+offset_bottom = -103.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="SceneList" type="VBoxContainer" parent="UI/Main/ScrollContainer" unique_id=1849215895]
 layout_mode = 2
+size_flags_horizontal = 4
 script = ExtResource("3_1x5tx")
 scene_paths = Array[String](["uid://c7ti17oj2ofyn", "uid://bkibqvfep8px0", "uid://c752nipt4tmop", "uid://bi6bllil67sau", "uid://dthcyp01ao5y8", "uid://ci700nfmrtxsd", "uid://bu4afq3jf34w3", "uid://drujdcxau6xfy", "uid://chtt78xbee5cw"])
 
@@ -80,11 +81,6 @@ theme = ExtResource("5_h3v4x")
 text = "Astro
 Frame"
 horizontal_alignment = 1
-
-[node name="Astroframe" type="Sprite2D" parent="UI/Main" unique_id=1122495930]
-position = Vector2(559, 502)
-scale = Vector2(0.195, 0.195)
-texture = ExtResource("3_21dlm")
 
 [node name="Socials" type="HBoxContainer" parent="UI/Main" unique_id=177424652]
 anchors_preset = 3
@@ -114,7 +110,33 @@ texture_normal = ExtResource("8_1v0ca")
 layout_mode = 2
 texture_normal = ExtResource("7_2a2hx")
 
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Main" unique_id=569964284]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -22.5
+offset_top = -20.0
+offset_right = 22.5
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Singleplayer" type="Button" parent="UI/Main/VBoxContainer" unique_id=1258526734]
+layout_mode = 2
+text = "Singleplayer"
+
+[node name="Options" type="Button" parent="UI/Main/VBoxContainer" unique_id=884632170]
+layout_mode = 2
+text = "Options"
+
+[node name="Quit" type="Button" parent="UI/Main/VBoxContainer" unique_id=1337628528]
+layout_mode = 2
+text = "Quit"
+
 [node name="Loading" type="CanvasLayer" parent="UI" unique_id=1754381519]
+visible = false
 
 [node name="ColorRect" type="ColorRect" parent="UI/Loading" unique_id=1638234797]
 visible = false
@@ -172,6 +194,8 @@ grow_vertical = 2
 [node name="GameOver" type="CanvasLayer" parent="UI" unique_id=1769148514]
 visible = false
 
+[node name="Options" type="CanvasLayer" parent="UI" unique_id=1322932418]
+
 [node name="Profiling" type="CanvasLayer" parent="." unique_id=1820677988]
 visible = false
 
@@ -182,6 +206,7 @@ anchor_right = 1.0
 offset_left = -40.0
 offset_bottom = 23.0
 grow_horizontal = 0
+theme = ExtResource("13_h8dj6")
 text = "fps"
 script = ExtResource("3_6ebxt")
 

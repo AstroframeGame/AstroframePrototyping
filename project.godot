@@ -41,6 +41,10 @@ player_ship=""
 player_controller=""
 projectiles=""
 
+[gui]
+
+theme/custom="uid://f1k0rdfg3btk"
+
 [input]
 
 left={
