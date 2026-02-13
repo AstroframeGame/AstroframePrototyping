@@ -5,16 +5,18 @@ class_name Grapple
 @export var grapple_speed = 400
 
 var grapple_position : Vector2
-var min_grapple_dist = 20
+var min_grapple_dist = 5
 
 func wants_grapple():
 	if player.seat:
 		return false
-	if Input.is_action_pressed("grapple") and not at_destination:
+	if Input.is_action_pressed("grapple"):
 		return true
 	return false
 
 func velocity(delta : float):
+	if at_destination:
+		return Vector2.ZERO
 	return direction() * grapple_speed * delta
 
 func direction():
