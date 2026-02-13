@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://bo3yd376velrb"
-path="res://.godot/imported/Skateblade-Regular.otf-2ef9ca897f04469be7cfd169448fd15c.fontdata"
+uid="uid://dmctfsuxeyu7"
+path="res://.godot/imported/SpaceGrotesk-Regular.ttf-af51268d2354ce023d14b120c7469f21.fontdata"
 
 [deps]
 
-source_file="res://hub/fonts/Skateblade-Regular.otf"
-dest_files=["res://.godot/imported/Skateblade-Regular.otf-2ef9ca897f04469be7cfd169448fd15c.fontdata"]
+source_file="res://hub/fonts/SpaceGrotesk-Regular.ttf"
+dest_files=["res://.godot/imported/SpaceGrotesk-Regular.ttf-af51268d2354ce023d14b120c7469f21.fontdata"]
 
 [params]
 
