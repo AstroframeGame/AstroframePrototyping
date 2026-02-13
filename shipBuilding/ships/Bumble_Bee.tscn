@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://cebf4gqkt7jib" path="res://shipBuilding/rooms/engines_2.tscn" id="5_1vm3r"]
 [ext_resource type="PackedScene" uid="uid://bmfrsjjfduwqn" path="res://shipBuilding/rooms/cannon.tscn" id="7_ovcta"]
 [ext_resource type="PackedScene" uid="uid://daae3tloj435m" path="res://shipAI/prefabs/hud.tscn" id="8_2j0ef"]
-[ext_resource type="Script" uid="uid://dcajyqv0dixk3" path="res://shipAI/scripts/bumble_bee.gd" id="8_138m7"]
+[ext_resource type="Script" uid="uid://dcajyqv0dixk3" path="res://shipAI/Scripts/bumble_bee.gd" id="8_138m7"]
 [ext_resource type="PackedScene" uid="uid://c80teck1ccmdv" path="res://shipBuilding/rooms/reactor_2.tscn" id="9_gd744"]
 [ext_resource type="PackedScene" uid="uid://dir8uoqft75m0" path="res://shipBuilding/rooms/airlock_1.tscn" id="11_ovcta"]
 
@@ -16,7 +16,7 @@ tile_size = Vector2i(78, 90)
 [sub_resource type="CircleShape2D" id="CircleShape2D_u0ucr"]
 radius = 1843.0988
 
-[node name="BumbleBee" type="RigidBody2D" unique_id=1784127879 groups=["enemy_ship"]]
+[node name="BumbleBee" type="RigidBody2D" unique_id=1784127879 groups=["pirate_ship"]]
 input_pickable = true
 mass = 18.0
 gravity_scale = 0.0

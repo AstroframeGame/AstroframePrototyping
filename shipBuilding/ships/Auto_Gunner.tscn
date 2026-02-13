@@ -13,7 +13,7 @@
 tile_shape = 3
 tile_size = Vector2i(78, 90)
 
-[node name="AutoGunner" type="RigidBody2D" unique_id=1784127879]
+[node name="AutoGunner" type="RigidBody2D" unique_id=1784127879 groups=["pirate_ship"]]
 input_pickable = true
 mass = 26.0
 gravity_scale = 0.0
