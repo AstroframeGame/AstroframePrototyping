@@ -83,6 +83,34 @@ position = Vector2(559, 502)
 scale = Vector2(0.195, 0.195)
 texture = ExtResource("3_21dlm")
 
+[node name="Socials" type="HBoxContainer" parent="UI/Main" unique_id=177424652]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -130.0
+offset_top = -57.0
+offset_right = 70.0
+offset_bottom = 7.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(0.5, 0.5)
+alignment = 2
+script = ExtResource("8_awsf7")
+
+[node name="Ships" type="TextureButton" parent="UI/Main/Socials" unique_id=1234582611]
+layout_mode = 2
+texture_normal = ExtResource("10_h3v4x")
+
+[node name="Github" type="TextureButton" parent="UI/Main/Socials" unique_id=1405696366]
+layout_mode = 2
+texture_normal = ExtResource("8_1v0ca")
+
+[node name="Discord" type="TextureButton" parent="UI/Main/Socials" unique_id=762169865]
+layout_mode = 2
+texture_normal = ExtResource("7_2a2hx")
+
 [node name="Loading" type="CanvasLayer" parent="UI" unique_id=1754381519]
 
 [node name="ColorRect" type="ColorRect" parent="UI/Loading" unique_id=1638234797]
@@ -157,4 +185,7 @@ script = ExtResource("3_6ebxt")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1798994774]
 environment = SubResource("Environment_21dlm")
 
+[connection signal="pressed" from="UI/Main/Socials/Ships" to="UI/Main/Socials" method="ships_folder"]
+[connection signal="pressed" from="UI/Main/Socials/Github" to="UI/Main/Socials" method="github"]
+[connection signal="pressed" from="UI/Main/Socials/Discord" to="UI/Main/Socials" method="discord"]
 [connection signal="pressed" from="UI/Game/Button" to="GameManager" method="quit_to_list"]
