@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bvtrly1u1q4h7" path="res://playerMovement/player.gd" id="1_r0exs"]
 [ext_resource type="Texture2D" uid="uid://idculymd1355" path="res://playerMovement/person.png" id="2_3pww0"]
+[ext_resource type="Script" uid="uid://bh8epk5lqpukf" path="res://playerMovement/grapple.gd" id="2_me87i"]
 [ext_resource type="PackedScene" uid="uid://oar1of8mix7f" path="res://playerCombat/Handgun.tscn" id="3_me87i"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qi68c"]
@@ -19,6 +20,7 @@ exterior_mask = 4128
 [node name="Grapple" type="Line2D" parent="." unique_id=520657595]
 points = PackedVector2Array(0, 0, 0, 0)
 default_color = Color(0, 0, 0, 1)
+script = ExtResource("2_me87i")
 
 [node name="Person" type="Sprite2D" parent="." unique_id=386810011]
 scale = Vector2(0.1, 0.1)

@@ -38,11 +38,9 @@ var prev_ship_transform : Transform2D
 @onready var ground_check: Area2D = $GroundCheck
 @onready var interact_check: Area2D = $InteractCheck
 @onready var multiplayer_manager : MultiplayerManager = $".."
-@onready var grapple_visual: Line2D = $"Grapple"
 
-var grapple_position : Vector2
-var grappling : bool = false
-@export var grapple_speed = 400
+@onready var grapple: Grapple = $Grapple
+
 var health = 100
 
 var grounded : bool:
@@ -85,13 +83,11 @@ func _physics_process(delta):
 	
 	var direction = Input.get_vector("left", "right", "up", "down")
 	direction = direction.normalized().rotated(global_rotation)
-	grapple()
 	if seat:
 		velocity = Vector2.ZERO # ship vel added later
 		handgun.holster()
-	elif grappling:
-		# check grapple dist
-		velocity = (grapple_position - global_position).normalized() * grapple_speed
+	elif grapple.wants_grapple():
+		velocity = grapple.velocity(delta)
 	elif grounded:
 		# remove rotation?
 		#rotate(Input.get_axis("rotate_left","rotate_right") * rotate_speed * delta)
@@ -168,22 +164,6 @@ func on_ship_exit():
 	print("parent to wordl")
 	collision_layer = exterior_layer
 	collision_mask = exterior_mask
-
-
-func grapple():
-	if grapple_position != null:
-		var grapple_dist : float = (grapple_position - global_position).length()
-		grappling = not seat and Input.is_action_pressed("grapple") and grapple_dist > 10
-	
-	if Input.is_action_just_pressed("grapple"):
-		grapple_position = get_global_mouse_position()
-	if not grappling:
-		grapple_visual.visible = false
-		return
-	
-	grapple_visual.visible = true
-	grapple_visual.set_point_position(0, Vector2.ZERO)
-	grapple_visual.set_point_position(1, to_local(grapple_position))
 
 func takeDamage(damage : int):
 	health -= damage
