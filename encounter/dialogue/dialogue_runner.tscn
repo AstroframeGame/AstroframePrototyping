@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://df01kfwope6hn"]
+
+[ext_resource type="Script" uid="uid://bvxhdv6cof60u" path="res://encounter/dialogue/dialogue_runner.gd" id="1_20mt6"]
+[ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/RoundedSquare.png" id="2_enw8j"]
+
+[node name="DialogueRunner" type="Control" unique_id=314417777]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_20mt6")
+
+[node name="Timer" type="Timer" parent="." unique_id=995197706]
+wait_time = 0.00999999999999999
+
+[node name="Background" type="NinePatchRect" parent="." unique_id=1753600896]
+self_modulate = Color(0.2382622, 0.2382622, 0.23826218, 1)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -157.0
+offset_right = 581.0
+grow_vertical = 0
+texture = ExtResource("2_enw8j")
+patch_margin_left = 20
+patch_margin_top = 20
+patch_margin_right = 20
+patch_margin_bottom = 20
+
+[node name="NameLabel" type="RichTextLabel" parent="Background" unique_id=1072052103]
+layout_mode = 0
+offset_left = 17.0
+offset_top = 18.0
+offset_right = 322.0
+offset_bottom = 45.0
+text = "Name"
+
+[node name="TextLabel" type="RichTextLabel" parent="Background" unique_id=1664233647]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.036000002
+anchor_top = 0.39100003
+anchor_right = 0.952
+anchor_bottom = 0.822
+text = "Text"

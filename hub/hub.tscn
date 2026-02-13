@@ -3,8 +3,11 @@
 [ext_resource type="Script" uid="uid://cbty45dswb5nj" path="res://hub/game_manager.gd" id="1_n4d7h"]
 [ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/RoundedSquare.png" id="2_1wrr7"]
 [ext_resource type="FontFile" uid="uid://bvhs72w1tp2uu" path="res://hub/fonts/Ethnocentric-Regular.otf" id="2_21dlm"]
+[ext_resource type="Script" uid="uid://io2qs57g5xic" path="res://hub/menu_manager.gd" id="2_nm8ur"]
+[ext_resource type="Script" uid="uid://y07ne4p2xbui" path="res://hub/scene_list.gd" id="3_1x5tx"]
 [ext_resource type="Script" uid="uid://cti2v7b51m68r" path="res://hub/fps_label.gd" id="3_6ebxt"]
 [ext_resource type="Texture2D" uid="uid://w2speowsgqcy" path="res://hub/icon/icon.png" id="3_21dlm"]
+[ext_resource type="PackedScene" uid="uid://df01kfwope6hn" path="res://encounter/dialogue/dialogue_runner.tscn" id="5_g3elb"]
 
 [sub_resource type="Theme" id="Theme_21dlm"]
 default_font = ExtResource("2_21dlm")
@@ -20,13 +23,16 @@ glow_bloom = 0.27
 
 [node name="GameManager" type="Node" parent="." unique_id=1643740730]
 script = ExtResource("1_n4d7h")
-scene_paths = Array[String](["uid://c7ti17oj2ofyn", "uid://bkibqvfep8px0", "uid://c752nipt4tmop", "uid://bi6bllil67sau", "uid://dthcyp01ao5y8", "uid://ci700nfmrtxsd", "uid://bu4afq3jf34w3", "uid://drujdcxau6xfy"])
+
+[node name="MultiplayerManager" type="Node" parent="." unique_id=506980756]
 
 [node name="UI" type="Node" parent="." unique_id=1145349593]
+script = ExtResource("2_nm8ur")
+open = NodePath("Main")
 
-[node name="SceneList" type="CanvasLayer" parent="UI" unique_id=1954068811]
+[node name="Main" type="CanvasLayer" parent="UI" unique_id=1954068811]
 
-[node name="ColorRect" type="ColorRect" parent="UI/SceneList" unique_id=324439580]
+[node name="ColorRect" type="ColorRect" parent="UI/Main" unique_id=324439580]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -34,21 +40,27 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.14333999, 0.14333999, 0.14333999, 1)
 
-[node name="ScrollContainer" type="ScrollContainer" parent="UI/SceneList" unique_id=1549920906]
+[node name="ScrollContainer" type="ScrollContainer" parent="UI/Main" unique_id=1549920906]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 31.0
+offset_top = 61.0
+offset_right = -854.0
+offset_bottom = -48.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="SceneList" type="VBoxContainer" parent="UI/SceneList/ScrollContainer" unique_id=1849215895]
+[node name="SceneList" type="VBoxContainer" parent="UI/Main/ScrollContainer" unique_id=1849215895]
 layout_mode = 2
+script = ExtResource("3_1x5tx")
+scene_paths = Array[String](["uid://c7ti17oj2ofyn", "uid://bkibqvfep8px0", "uid://c752nipt4tmop", "uid://bi6bllil67sau", "uid://dthcyp01ao5y8", "uid://ci700nfmrtxsd", "uid://bu4afq3jf34w3", "uid://drujdcxau6xfy", "uid://chtt78xbee5cw"])
 
-[node name="Label" type="Label" parent="UI/SceneList/ScrollContainer/SceneList" unique_id=1943376250]
+[node name="Label" type="Label" parent="UI/Main/ScrollContainer/SceneList" unique_id=1943376250]
 layout_mode = 2
 text = "Test Scenes"
 
-[node name="Titile" type="Label" parent="UI/SceneList" unique_id=1864329945]
+[node name="Titile" type="Label" parent="UI/Main" unique_id=1864329945]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -62,7 +74,7 @@ text = "Astro
 Frame"
 horizontal_alignment = 1
 
-[node name="Astroframe" type="Sprite2D" parent="UI/SceneList" unique_id=1122495930]
+[node name="Astroframe" type="Sprite2D" parent="UI/Main" unique_id=1122495930]
 position = Vector2(559, 502)
 scale = Vector2(0.195, 0.195)
 texture = ExtResource("3_21dlm")
@@ -98,12 +110,15 @@ stretch_margin_right = 20
 stretch_margin_bottom = 20
 texture_progress = ExtResource("2_1wrr7")
 
-[node name="InGame" type="CanvasLayer" parent="UI" unique_id=1739083757]
+[node name="Game" type="CanvasLayer" parent="UI" unique_id=1739083757]
+visible = false
 
-[node name="Button" type="Button" parent="UI/InGame" unique_id=1653782239]
+[node name="Button" type="Button" parent="UI/Game" unique_id=1653782239]
 offset_right = 8.0
 offset_bottom = 8.0
 text = "Back to Menu"
+
+[node name="DialogueRunner" parent="UI/Game" unique_id=314417777 instance=ExtResource("5_g3elb")]
 
 [node name="Paused" type="CanvasLayer" parent="UI" unique_id=731175255]
 visible = false
@@ -137,4 +152,4 @@ script = ExtResource("3_6ebxt")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1798994774]
 environment = SubResource("Environment_21dlm")
 
-[connection signal="pressed" from="UI/InGame/Button" to="GameManager" method="quit_to_list"]
+[connection signal="pressed" from="UI/Game/Button" to="GameManager" method="quit_to_list"]
