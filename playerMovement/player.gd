@@ -30,7 +30,10 @@ var seat : SeatInteractable :
 			CursorManager.set_cursor_aim()# this should be tied to its own event? maybe this is fine
 		else:
 			CursorManager.reset_cursor()
+
 var ship : Ship
+# for fake parenting
+var prev_ship_transform : Transform2D
 
 @onready var ground_check: Area2D = $GroundCheck
 @onready var interact_check: Area2D = $InteractCheck
@@ -60,18 +63,38 @@ func _ready() -> void:
 	else:
 		on_ship_exit()
 
+func calc_ship_velocity(delta : float) -> Vector2:
+	var ship_velocity = Vector2.ZERO
+	if is_instance_valid(ship):
+		var ship_diff = ship.global_transform.origin - prev_ship_transform.origin
+		var ship_rot_diff = ship.global_rotation - prev_ship_transform.get_rotation()
+		if prev_ship_transform != Transform2D():
+			var linear_vel = ship_diff / delta
+			var radius_vec = global_position - ship.global_position
+			var angular_vel = ship_rot_diff / delta
+			var tangential_vel = Vector2(-radius_vec.y, radius_vec.x) * angular_vel
+			
+			ship_velocity = linear_vel + tangential_vel
+			rotate(ship_rot_diff)
+			print("rot by ", ship_rot_diff)
+		prev_ship_transform = ship.global_transform
+	return ship_velocity
+
 func _physics_process(delta):
+	var ship_velocity = calc_ship_velocity(delta)
+	
 	var direction = Input.get_vector("left", "right", "up", "down")
 	direction = direction.normalized().rotated(global_rotation)
 	grapple()
 	if seat:
+		velocity = Vector2.ZERO # ship vel added later
 		handgun.holster()
-		return
-	rotate(Input.get_axis("rotate_left","rotate_right") * rotate_speed * delta)
-	
-	if grappling:
+	elif grappling:
+		# check grapple dist
 		velocity = (grapple_position - global_position).normalized() * grapple_speed
 	elif grounded:
+		# remove rotation?
+		#rotate(Input.get_axis("rotate_left","rotate_right") * rotate_speed * delta)
 		velocity = direction * walk_speed
 	else:
 		if Input.is_action_pressed("brake"):
@@ -79,7 +102,7 @@ func _physics_process(delta):
 		else:
 			velocity += direction * thrust_accel * delta
 	
-	# Add velocity of the ship if the player is on the ship. use the grounding to detect the current ship.
+	velocity += ship_velocity	
 	move_and_slide()
 
 func _input(event: InputEvent) -> void:
@@ -117,7 +140,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact"):
 		interact()
 		return
-	#print(seat , seat and seat.room.has_method("handle_input"))
 	if seat and seat.room.has_method("handle_input"):
 		seat.room.handle_input(event)
 
@@ -134,14 +156,16 @@ func on_unground(_body : Node2D):
 		#pass
 
 func on_ship_enter(new_ship : Ship):
-	global_rotation = new_ship.global_rotation
+	ship = new_ship
+	prev_ship_transform = ship.global_transform
 	print("parent to ship")
 	collision_layer = interior_layer
 	collision_mask = interior_mask
 
 func on_ship_exit():
+	ship = null
+	prev_ship_transform = Transform2D()
 	print("parent to wordl")
-	#global_rotation = 0
 	collision_layer = exterior_layer
 	collision_mask = exterior_mask
 

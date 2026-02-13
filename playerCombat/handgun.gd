@@ -16,11 +16,10 @@ var damage = 5
 var bullet_speed = 500 # @Alejandro can you add types to all variables, so that they match the projectile init() parameters
 
 var holstered = false
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _ready() -> void:
+	holster()
+
 func _process(delta: float) -> void:
 	if (!holstered):
 		look_at(get_global_mouse_position())
