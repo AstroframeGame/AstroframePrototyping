@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://daae3tloj435m"]
 
-[ext_resource type="Script" uid="uid://bwvp5wfog61cs" path="res://shipAI/scripts/ship_hud.gd" id="1_3rtup"]
+[ext_resource type="Script" uid="uid://bwvp5wfog61cs" path="res://shipAI/Scripts/ship_hud.gd" id="1_3rtup"]
 [ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/RoundedSquare.png" id="2_b4o85"]
 
 [node name="HUD" type="CanvasLayer" unique_id=532014552]
@@ -13,6 +13,7 @@ offset_top = 18.0
 offset_right = 467.0
 offset_bottom = 58.0
 scale = Vector2(7.4810667, 1)
+mouse_filter = 2
 
 [node name="HPBar" type="TextureProgressBar" parent="." unique_id=1156022866]
 anchors_preset = 8
@@ -26,6 +27,7 @@ offset_right = 150.0
 offset_bottom = -266.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 value = 100.0
 nine_patch_stretch = true
 stretch_margin_left = 20

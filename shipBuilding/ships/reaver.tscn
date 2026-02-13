@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://qteo7ksf47a4" path="res://shipBuilding/rooms/piloting_1.tscn" id="3_hiogk"]
 [ext_resource type="PackedScene" uid="uid://daycij2kxk7dj" path="res://shipBuilding/rooms/turret_3.tscn" id="5_lyf8c"]
 [ext_resource type="PackedScene" uid="uid://q2xbgli7wqkw" path="res://shipBuilding/rooms/aim_augment_2.tscn" id="7_xn0y2"]
+[ext_resource type="PackedScene" uid="uid://daae3tloj435m" path="res://shipAI/prefabs/hud.tscn" id="9_iiqed"]
 [ext_resource type="PackedScene" uid="uid://cplmkay6ecshy" path="res://shipBuilding/rooms/reactor_4.tscn" id="9_k0ekl"]
 [ext_resource type="PackedScene" uid="uid://cebf4gqkt7jib" path="res://shipBuilding/rooms/engines_2.tscn" id="11_f5o24"]
 [ext_resource type="PackedScene" uid="uid://dir8uoqft75m0" path="res://shipBuilding/rooms/airlock_1.tscn" id="13_364er"]
@@ -13,7 +14,7 @@
 tile_shape = 3
 tile_size = Vector2i(78, 90)
 
-[node name="AutoGunner" type="RigidBody2D" unique_id=1784127879]
+[node name="Reaver" type="RigidBody2D" unique_id=1784127879 groups=["pirate_ship"]]
 input_pickable = true
 mass = 26.0
 gravity_scale = 0.0
@@ -58,8 +59,4 @@ vertices = PackedVector2Array(41, -134, 77, -112, 77, -69, 117, -45, 118, -1, 15
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=84435214]
 
-[node name="HUD" type="CanvasLayer" parent="." unique_id=1282259777]
-
-[node name="HPBar" type="TextureProgressBar" parent="HUD" unique_id=868864036]
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="HUD" parent="." unique_id=532014552 instance=ExtResource("9_iiqed")]

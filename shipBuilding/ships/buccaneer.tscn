@@ -1,12 +1,13 @@
 [gd_scene format=3 uid="uid://faukavu4hxon"]
 
-[ext_resource type="Script" uid="uid://cd7q0b3e1v6go" path="res://shipAI/scripts/bucaneer.gd" id="1_r3ic2"]
-[ext_resource type="PackedScene" uid="uid://c2n7netp00xn6" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_pkyf1"]
-[ext_resource type="PackedScene" uid="uid://qteo7ksf47a4" path="res://shipBuilding/rooms/piloting_1.tscn" id="3_s8mlj"]
-[ext_resource type="PackedScene" uid="uid://bmfrsjjfduwqn" path="res://shipBuilding/rooms/cannon.tscn" id="5_proxj"]
-[ext_resource type="PackedScene" uid="uid://cplmkay6ecshy" path="res://shipBuilding/rooms/reactor_4.tscn" id="7_e3xp2"]
-[ext_resource type="PackedScene" uid="uid://cebf4gqkt7jib" path="res://shipBuilding/rooms/engines_2.tscn" id="9_tuvma"]
-[ext_resource type="PackedScene" uid="uid://dir8uoqft75m0" path="res://shipBuilding/rooms/airlock_1.tscn" id="11_s8mlj"]
+[ext_resource type="Script" uid="uid://cd7q0b3e1v6go" path="res://shipAI/Scripts/bucaneer.gd" id="1_k5nlm"]
+[ext_resource type="PackedScene" uid="uid://c2n7netp00xn6" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_420g7"]
+[ext_resource type="PackedScene" uid="uid://qteo7ksf47a4" path="res://shipBuilding/rooms/piloting_1.tscn" id="3_rnnfc"]
+[ext_resource type="PackedScene" uid="uid://bmfrsjjfduwqn" path="res://shipBuilding/rooms/cannon.tscn" id="4_e6thw"]
+[ext_resource type="PackedScene" uid="uid://cplmkay6ecshy" path="res://shipBuilding/rooms/reactor_4.tscn" id="5_h83km"]
+[ext_resource type="PackedScene" uid="uid://cebf4gqkt7jib" path="res://shipBuilding/rooms/engines_2.tscn" id="6_spdlx"]
+[ext_resource type="PackedScene" uid="uid://dir8uoqft75m0" path="res://shipBuilding/rooms/airlock_1.tscn" id="7_meqnn"]
+[ext_resource type="PackedScene" uid="uid://daae3tloj435m" path="res://shipAI/prefabs/hud.tscn" id="8_420g7"]
 
 [sub_resource type="TileSet" id="TileSet_xsh4c"]
 tile_shape = 3
@@ -15,30 +16,30 @@ tile_size = Vector2i(78, 90)
 [sub_resource type="CircleShape2D" id="CircleShape2D_pkrgn"]
 radius = 1843.0988
 
-[node name="Bucaneer" type="RigidBody2D" unique_id=1784127879]
+[node name="Buccaneer" type="RigidBody2D" unique_id=1784127879 groups=["pirate_ship"]]
 input_pickable = true
 mass = 22.0
 gravity_scale = 0.0
-script = ExtResource("1_r3ic2")
+script = ExtResource("1_k5nlm")
 
-[node name="HexGrid" parent="." unique_id=1277847278 instance=ExtResource("2_pkyf1")]
+[node name="HexGrid" parent="." unique_id=1277847278 instance=ExtResource("2_420g7")]
 tile_set = SubResource("TileSet_xsh4c")
 
-[node name="Piloting_1" parent="." unique_id=966141484 instance=ExtResource("3_s8mlj")]
+[node name="Piloting_1" parent="." unique_id=966141484 instance=ExtResource("3_rnnfc")]
 position = Vector2(39, 45)
 
-[node name="Cannon" parent="." unique_id=170986718 instance=ExtResource("5_proxj")]
+[node name="Cannon" parent="." unique_id=170986718 instance=ExtResource("4_e6thw")]
 position = Vector2(78, -22.5)
 rotation = 3.1415927
 
-[node name="@CollisionPolygon2D@53" parent="." unique_id=1454649419 instance=ExtResource("5_proxj")]
+[node name="@CollisionPolygon2D@53" parent="." unique_id=1454649419 instance=ExtResource("4_e6thw")]
 position = Vector2(78, 112.5)
 rotation = 3.1415927
 
-[node name="Reactor_4" parent="." unique_id=920192434 instance=ExtResource("7_e3xp2")]
+[node name="Reactor_4" parent="." unique_id=920192434 instance=ExtResource("5_h83km")]
 position = Vector2(-78, 112.5)
 
-[node name="Engines_2" parent="." unique_id=120470860 instance=ExtResource("9_tuvma")]
+[node name="Engines_2" parent="." unique_id=120470860 instance=ExtResource("6_spdlx")]
 position = Vector2(-39, 180)
 
 [node name="Edge" type="CollisionPolygon2D" parent="." unique_id=1000707440]
@@ -50,7 +51,7 @@ polygon = PackedVector2Array(39.000008, -45.107674, 78.00001, -67.6, 117.100006,
 [node name="Solid" type="CollisionPolygon2D" parent="Ground" unique_id=1638999231]
 polygon = PackedVector2Array(39.000008, -45.107674, 78.00001, -67.6, 117.100006, -45.049995, 117.09999, 0.05000305, 78.1, 22.54232, 78.1, 67.457664, 117.100006, 89.950005, 117.09999, 135.05, 78.1, 157.54233, 78.1, 202.55, 39, 225.1, 0, 202.60767, -39, 225.1, -78.1, 202.55, -78.1, 157.54233, -117.1, 135.05, -117.1, 90.04232, -156.1, 67.55, -156.1, 22.449997, -117.1, -0.04232025, -117.1, -45.050003, -78, -67.600006, -39, -45.107674, 7.6293945e-06, -67.600006)
 
-[node name="Airlock_1" parent="." unique_id=2084884563 instance=ExtResource("11_s8mlj")]
+[node name="Airlock_1" parent="." unique_id=2084884563 instance=ExtResource("7_meqnn")]
 position = Vector2(117, 45)
 
 [node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="." unique_id=1304921086]
@@ -72,3 +73,5 @@ debug_color = Color(0.827473, 0.16812393, 1.92523e-07, 0)
 [node name="DetectionTimer" type="Timer" parent="." unique_id=57873225]
 wait_time = 2.5
 one_shot = true
+
+[node name="HUD" parent="." unique_id=532014552 instance=ExtResource("8_420g7")]

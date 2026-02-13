@@ -15,7 +15,6 @@ tile_shape = 3
 tile_size = Vector2i(78, 90)
 
 [node name="PlayerShip" type="RigidBody2D" unique_id=1784127879 groups=["player_ship"]]
-input_pickable = true
 mass = 26.0
 gravity_scale = 0.0
 script = ExtResource("1_qxsmk")
@@ -50,6 +49,7 @@ build_mode = 1
 polygon = PackedVector2Array(78.100006, -112.549995, 78.09999, -67.54232, 117.09999, -45.049995, 117.09999, -0.04232788, 156.1, 22.450005, 156.09999, 67.45767, 195.09999, 89.95001, 195.09999, 135.05002, 156.09998, 157.54233, 156.09998, 202.55, 116.999985, 225.1, 77.99999, 202.60767, 39, 225.1, 0, 202.60767, -39, 225.1, -78.1, 202.55, -78.1, 157.54233, -117.1, 135.05, -117.1, 89.95, -78.05777, 67.43332, -78.07886, 22.363419, -39.100006, -0.14102173, -39.100006, -45.05001, -0.099998474, -67.54233, -0.099998474, -112.55, 39.000008, -135.1)
 
 [node name="Ground" type="Area2D" parent="." unique_id=1690821881]
+input_pickable = false
 
 [node name="Solid" type="CollisionPolygon2D" parent="Ground" unique_id=1155512632]
 visible = false

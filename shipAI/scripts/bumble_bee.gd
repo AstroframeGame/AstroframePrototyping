@@ -1,11 +1,6 @@
 class_name Bumble_Bee
 extends Smart_Ship
 
-''' TODO:
-* create signal for when a room is at least half destroyed
-* State=FLEE when that happens
-'''
-
 func _ready() -> void:
 	super()
 
