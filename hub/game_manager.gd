@@ -21,9 +21,22 @@ func load_scene(path : String)->void:
 	add_child(current_scene)
 	game_start.emit(current_scene)
 
+func start_game():
+	pass
+
+func new_game():
+	pass
+
+func load_game():
+	pass
+
 func quit_to_list():
 	game_quit.emit()
-	current_scene.queue_free()
+	if current_scene:
+		current_scene.queue_free()
 	menus.open_menu("Main")
+
+func quit_application():
+	get_tree().quit()
 
 @onready var dialogue_runner: DialougeRunner = $"../UI/Game/DialogueRunner"

@@ -131,6 +131,10 @@ text = "Singleplayer"
 layout_mode = 2
 text = "Options"
 
+[node name="Credits" type="Button" parent="UI/Main/VBoxContainer" unique_id=1767168070]
+layout_mode = 2
+text = "Credits"
+
 [node name="Quit" type="Button" parent="UI/Main/VBoxContainer" unique_id=1337628528]
 layout_mode = 2
 text = "Quit"
@@ -170,7 +174,7 @@ texture_progress = ExtResource("2_1wrr7")
 [node name="Game" type="CanvasLayer" parent="UI" unique_id=1739083757]
 visible = false
 
-[node name="Button" type="Button" parent="UI/Game" unique_id=1653782239]
+[node name="Exit" type="Button" parent="UI/Game" unique_id=1653782239]
 offset_right = 8.0
 offset_bottom = 8.0
 text = "Back to Menu"
@@ -180,21 +184,22 @@ text = "Back to Menu"
 [node name="Paused" type="CanvasLayer" parent="UI" unique_id=731175255]
 visible = false
 
-[node name="Settings" type="CanvasLayer" parent="UI" unique_id=1141852874]
-visible = false
-
-[node name="SettingsMenu" type="Control" parent="UI/Settings" unique_id=941363827]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
 [node name="GameOver" type="CanvasLayer" parent="UI" unique_id=1769148514]
 visible = false
 
+[node name="Credits" type="CanvasLayer" parent="UI" unique_id=2010810909]
+
+[node name="Back" type="Button" parent="UI/Credits" unique_id=1238051811]
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Back"
+
 [node name="Options" type="CanvasLayer" parent="UI" unique_id=1322932418]
+
+[node name="Back" type="Button" parent="UI/Options" unique_id=1581757141]
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Back"
 
 [node name="Profiling" type="CanvasLayer" parent="." unique_id=1820677988]
 visible = false
@@ -216,4 +221,9 @@ environment = SubResource("Environment_21dlm")
 [connection signal="pressed" from="UI/Main/Socials/Ships" to="UI/Main/Socials" method="ships_folder"]
 [connection signal="pressed" from="UI/Main/Socials/Github" to="UI/Main/Socials" method="github"]
 [connection signal="pressed" from="UI/Main/Socials/Discord" to="UI/Main/Socials" method="discord"]
-[connection signal="pressed" from="UI/Game/Button" to="GameManager" method="quit_to_list"]
+[connection signal="pressed" from="UI/Main/VBoxContainer/Options" to="UI" method="open_menu" binds= [&"Options"]]
+[connection signal="pressed" from="UI/Main/VBoxContainer/Credits" to="UI" method="open_menu" binds= [&"Credits"]]
+[connection signal="pressed" from="UI/Main/VBoxContainer/Quit" to="GameManager" method="quit_application"]
+[connection signal="pressed" from="UI/Game/Exit" to="GameManager" method="quit_to_list"]
+[connection signal="pressed" from="UI/Credits/Back" to="UI" method="menu_back"]
+[connection signal="pressed" from="UI/Options/Back" to="UI" method="menu_back"]
