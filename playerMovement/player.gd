@@ -34,6 +34,7 @@ var seat : SeatInteractable :
 # for fake parenting
 # separated from ship
 var ground_body : RigidBody2D
+var prev_ground_body_transform : Transform2D
 
 var ship : Ship
 
@@ -65,7 +66,7 @@ func _ready() -> void:
 
 
 func _physics_process(delta):
-	var ground_velocity = calc_ground_body_velocity(delta)
+	apply_ground_body_transform()
 	
 	var direction = Input.get_vector("left", "right", "up", "down")
 	direction = direction.normalized().rotated(global_rotation)
@@ -84,7 +85,6 @@ func _physics_process(delta):
 		else:
 			velocity += direction * thrust_accel * delta
 	
-	velocity += ground_velocity	
 	move_and_slide()
 
 func _input(event: InputEvent) -> void:
@@ -129,6 +129,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func on_ground(_body : Node2D):
 	if _body is RigidBody2D:
 		ground_body = _body
+		prev_ground_body_transform = ground_body.global_transform
 
 func on_unground(_body : Node2D):
 	if _body == ground_body:
@@ -148,17 +149,12 @@ func on_ship_exit():
 	collision_layer = exterior_layer
 	collision_mask = exterior_mask
 
-
-func calc_ground_body_velocity(delta : float) -> Vector2:
-	if not is_instance_valid(ground_body):
-		return Vector2.ZERO
-	
-	var radius_vec = global_position - ground_body.global_position
-	var angular_vel = ground_body.angular_velocity
-	var tangential_vel = Vector2(-radius_vec.y, radius_vec.x) * angular_vel
-	
-	rotate(angular_vel * delta)
-	return ground_body.linear_velocity + tangential_vel
+func apply_ground_body_transform():
+	if is_instance_valid(ground_body):
+		var current_transform = ground_body.global_transform
+		var diff = current_transform * prev_ground_body_transform.affine_inverse()
+		global_transform = diff * global_transform
+		prev_ground_body_transform = current_transform
 #endregion
 
 func takeDamage(damage : int):
