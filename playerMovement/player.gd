@@ -34,7 +34,6 @@ var seat : SeatInteractable :
 # for fake parenting
 # separated from ship
 var ground_body : RigidBody2D
-var prev_ground_body_transform : Transform2D
 
 var ship : Ship
 
@@ -125,18 +124,15 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if seat and seat.room.has_method("handle_input"):
 		seat.room.handle_input(event)
-
 #region grounding
 # called when ground check intersects with rb
 func on_ground(_body : Node2D):
 	if _body is RigidBody2D:
 		ground_body = _body
-		prev_ground_body_transform = ground_body.global_transform
 
 func on_unground(_body : Node2D):
 	if _body == ground_body:
 		ground_body = null
-		prev_ground_body_transform = Transform2D()
 
 # called when enter airlock
 func on_ship_enter(new_ship : Ship):
@@ -154,20 +150,15 @@ func on_ship_exit():
 
 
 func calc_ground_body_velocity(delta : float) -> Vector2:
-	var ground_velocity = Vector2.ZERO
-	if is_instance_valid(ground_body):
-		var ground_diff = ground_body.global_transform.origin - prev_ground_body_transform.origin
-		var ground_rot_diff = ground_body.global_rotation - prev_ground_body_transform.get_rotation()
-		if prev_ground_body_transform != Transform2D():
-			var linear_vel = ground_diff / delta
-			var radius_vec = global_position - ground_body.global_position
-			var angular_vel = ground_rot_diff / delta
-			var tangential_vel = Vector2(-radius_vec.y, radius_vec.x) * angular_vel
-			
-			ground_velocity = linear_vel + tangential_vel
-			rotate(ground_rot_diff)
-		prev_ground_body_transform = ground_body.global_transform
-	return ground_velocity
+	if not is_instance_valid(ground_body):
+		return Vector2.ZERO
+	
+	var radius_vec = global_position - ground_body.global_position
+	var angular_vel = ground_body.angular_velocity
+	var tangential_vel = Vector2(-radius_vec.y, radius_vec.x) * angular_vel
+	
+	rotate(angular_vel * delta)
+	return ground_body.linear_velocity + tangential_vel
 #endregion
 
 func takeDamage(damage : int):
