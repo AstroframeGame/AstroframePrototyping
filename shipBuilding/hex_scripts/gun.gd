@@ -23,5 +23,5 @@ func shoot():
 	proj.initialize(gunSprite, room.ship.linear_velocity, projectileSpeed, Vector2.from_angle(gunSprite.global_rotation), marker_2d.global_position, damage)
 	proj.add_collision_exception_with(room.ship)
 	
-	var world = room.ship.get_parent()
-	world.get_node("Projectiles").add_child(proj)
+	# get multiplayer manager instead
+	ProjectileManager.add_child(proj)

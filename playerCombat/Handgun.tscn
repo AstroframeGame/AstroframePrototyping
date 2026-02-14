@@ -10,4 +10,4 @@ offset = Vector2(275, 0)
 script = ExtResource("2_d3ixh")
 
 [node name="Marker2D" type="Marker2D" parent="." unique_id=596309340]
-position = Vector2(350, -35)
+position = Vector2(430, -40)

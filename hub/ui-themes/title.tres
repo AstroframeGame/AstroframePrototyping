@@ -1,0 +1,7 @@
+[gd_resource type="Theme" format=3 uid="uid://2b3w3cdm6v0b"]
+
+[ext_resource type="FontFile" uid="uid://bvhs72w1tp2uu" path="res://hub/fonts/Ethnocentric-Regular.otf" id="1_pf8v3"]
+
+[resource]
+default_font = ExtResource("1_pf8v3")
+default_font_size = 72

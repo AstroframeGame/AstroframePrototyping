@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://d37m1h0nl2dsh"]
 
-[ext_resource type="Script" uid="uid://bqilmv7d358ci" path="res://shipBuilding/level_editor/load_ship.gd" id="1_e8svg"]
+[ext_resource type="Script" path="res://shipBuilding/level_editor/load_ship.gd" id="1_e8svg"]
 [ext_resource type="Script" uid="uid://qknmsuin5gwv" path="res://shipBuilding/save_load.gd" id="2_e0hwh"]
 
 [node name="LoadShip" type="VBoxContainer" unique_id=975251339]

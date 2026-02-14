@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://bo3yd376velrb"
-path="res://.godot/imported/Skateblade-Regular.otf-2ef9ca897f04469be7cfd169448fd15c.fontdata"
+uid="uid://bsbk5ddij3uhb"
+path="res://.godot/imported/Roboto-Regular.ttf-6e9af37311501807a43262e029dedec1.fontdata"
 
 [deps]
 
-source_file="res://hub/fonts/Skateblade-Regular.otf"
-dest_files=["res://.godot/imported/Skateblade-Regular.otf-2ef9ca897f04469be7cfd169448fd15c.fontdata"]
+source_file="res://hub/fonts/Roboto-Regular.ttf"
+dest_files=["res://.godot/imported/Roboto-Regular.ttf-6e9af37311501807a43262e029dedec1.fontdata"]
 
 [params]
 

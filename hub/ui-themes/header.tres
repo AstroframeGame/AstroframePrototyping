@@ -1,0 +1,7 @@
+[gd_resource type="Theme" format=3 uid="uid://dj12nct3i1b1i"]
+
+[ext_resource type="FontFile" uid="uid://rwf3mxx52eio" path="res://hub/fonts/Anta-Regular.ttf" id="1_cx6hx"]
+
+[resource]
+default_font = ExtResource("1_cx6hx")
+default_font_size = 24

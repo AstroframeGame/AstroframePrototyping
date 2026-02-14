@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://d1vm8u2ei3vye"]
+
+[ext_resource type="Script" uid="uid://d1i7rq6tes8rq" path="res://turretInteractions/projectile_manager.gd" id="1_4ll4a"]
+
+[node name="ProjectileManager" type="Node2D" unique_id=232468860]
+script = ExtResource("1_4ll4a")

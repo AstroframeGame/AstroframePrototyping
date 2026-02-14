@@ -1,4 +1,4 @@
-class_name Player
+class_name PlayerCharacter
 extends CharacterBody2D
 
 '''
@@ -30,21 +30,20 @@ var seat : SeatInteractable :
 			CursorManager.set_cursor_aim()# this should be tied to its own event? maybe this is fine
 		else:
 			CursorManager.reset_cursor()
-var ship : Ship:
-	get:
-		var gp = get_parent().get_parent()
-		if gp is Ship:
-			return gp
-		return null
+
+# for fake parenting
+# separated from ship
+var ground_body : RigidBody2D
+var prev_ground_body_transform : Transform2D
+
+var ship : Ship
 
 @onready var ground_check: Area2D = $GroundCheck
 @onready var interact_check: Area2D = $InteractCheck
-@onready var global_world : Node2D = $"../.."
-@onready var grapple_visual: Line2D = $"Grapple"
+@onready var multiplayer_manager : MultiplayerManager = $".."
 
-var grapple_position : Vector2
-var grappling : bool = false
-@export var grapple_speed = 400
+@onready var grapple: Grapple = $Grapple
+
 var health = 100
 
 var grounded : bool:
@@ -65,25 +64,27 @@ func _ready() -> void:
 	else:
 		on_ship_exit()
 
+
 func _physics_process(delta):
+	apply_ground_body_transform()
+	
 	var direction = Input.get_vector("left", "right", "up", "down")
 	direction = direction.normalized().rotated(global_rotation)
-	grapple()
 	if seat:
+		velocity = Vector2.ZERO # ship vel added later
 		handgun.holster()
-		return
-	rotate(Input.get_axis("rotate_left","rotate_right") * rotate_speed * delta)
-	
-	if grappling:
-		velocity = (grapple_position - global_position).normalized() * grapple_speed
+	elif grapple.wants_grapple():
+		velocity = grapple.velocity(delta)
 	elif grounded:
+		# remove rotation?
+		#rotate(Input.get_axis("rotate_left","rotate_right") * rotate_speed * delta)
 		velocity = direction * walk_speed
 	else:
 		if Input.is_action_pressed("brake"):
 			velocity -= velocity.normalized() * thrust_accel * delta
 		else:
 			velocity += direction * thrust_accel * delta
-		
+	
 	move_and_slide()
 
 func _input(event: InputEvent) -> void:
@@ -121,51 +122,40 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact"):
 		interact()
 		return
-	#print(seat , seat and seat.room.has_method("handle_input"))
 	if seat and seat.room.has_method("handle_input"):
 		seat.room.handle_input(event)
-
+#region grounding
+# called when ground check intersects with rb
 func on_ground(_body : Node2D):
-	#print(body)
-	pass
-	#if body is Ship:
-		#on_ship_enter(body)
-func on_unground(_body : Node2D):
-	#print("exot", body)
-	pass
-	#if body is Ship:
-		#on_ship_exit(body)
-		#pass
+	if _body is RigidBody2D:
+		ground_body = _body
+		prev_ground_body_transform = ground_body.global_transform
 
+func on_unground(_body : Node2D):
+	if _body == ground_body:
+		ground_body = null
+
+# called when enter airlock
 func on_ship_enter(new_ship : Ship):
-	get_parent().call_deferred("reparent", new_ship, true)
-	global_rotation = new_ship.global_rotation
-	print("parent to ship")
+	on_ground(new_ship)
+	ship = new_ship
+	print(name + " parent to ship")
 	collision_layer = interior_layer
 	collision_mask = interior_mask
 
 func on_ship_exit():
-	get_parent().call_deferred("reparent", global_world, true)
-	print("parent to wordl")
-	global_rotation = 0
+	# unground will be called when stops intersecting
+	print(name + " parent to wordl")
 	collision_layer = exterior_layer
 	collision_mask = exterior_mask
 
-
-func grapple():
-	if grapple_position != null:
-		var grapple_dist : float = (grapple_position - global_position).length()
-		grappling = not seat and Input.is_action_pressed("grapple") and grapple_dist > 10
-	
-	if Input.is_action_just_pressed("grapple"):
-		grapple_position = get_global_mouse_position()
-	if not grappling:
-		grapple_visual.visible = false
-		return
-	
-	grapple_visual.visible = true
-	grapple_visual.set_point_position(0, Vector2.ZERO)
-	grapple_visual.set_point_position(1, to_local(grapple_position))
+func apply_ground_body_transform():
+	if is_instance_valid(ground_body):
+		var current_transform = ground_body.global_transform
+		var diff = current_transform * prev_ground_body_transform.affine_inverse()
+		global_transform = diff * global_transform
+		prev_ground_body_transform = current_transform
+#endregion
 
 func takeDamage(damage : int):
 	health -= damage
