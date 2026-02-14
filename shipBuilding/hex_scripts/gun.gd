@@ -24,5 +24,4 @@ func shoot():
 	proj.add_collision_exception_with(room.ship)
 	
 	# get multiplayer manager instead
-	var world = room.ship.get_parent()
-	world.get_node("Projectiles").add_child(proj)
+	ProjectileManager.add_child(proj)

@@ -44,9 +44,7 @@ func shoot_bullet() -> void:
 	time_since_shot = 0
 	accuracy = min(accuracy + (0.05), accur_high)
 	
-	var projectiles = player.multiplayer_manager.get_node("Projectiles")
-	if projectiles != null:
-		projectiles.add_child(new_bullet)
+	ProjectileManager.add_child(new_bullet)
 		
 func holster() -> void:
 	visible = false

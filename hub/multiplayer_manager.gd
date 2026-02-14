@@ -13,7 +13,7 @@ var my_player_system : Node2D
 func _ready() -> void:
 	game_manager.game_start.connect(create_player)
 	game_manager.game_quit.connect(remove_my_player)
-	game_manager.game_quit.connect(clear_projectiles)
+	game_manager.game_quit.connect(ProjectileManager.clear)
 
 func create_player(_world):
 	# if player is multiplayer authority
@@ -27,8 +27,3 @@ func remove_my_player():
 		my_player_system.call_deferred("queue_free")
 	if my_player:
 		my_player.call_deferred("queue_free")
-
-@onready var projectiles: Node2D = $Projectiles
-func clear_projectiles():
-	for p in projectiles.get_children():
-		p.call_deferred("queue_free")

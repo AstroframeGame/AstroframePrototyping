@@ -1,6 +1,6 @@
 extends CanvasLayer
-@onready var v_box: VBoxContainer = $VBoxContainer
 
+@onready var v_box: VBoxContainer = $VBoxContainer
 
 func log_message(text: String):
 	print(text)
