@@ -31,9 +31,12 @@ var seat : SeatInteractable :
 		else:
 			CursorManager.reset_cursor()
 
-var ship : Ship
 # for fake parenting
-var prev_ship_transform : Transform2D
+# separated from ship
+var ground_body : RigidBody2D
+var prev_ground_body_transform : Transform2D
+
+var ship : Ship
 
 @onready var ground_check: Area2D = $GroundCheck
 @onready var interact_check: Area2D = $InteractCheck
@@ -61,25 +64,9 @@ func _ready() -> void:
 	else:
 		on_ship_exit()
 
-func calc_ship_velocity(delta : float) -> Vector2:
-	var ship_velocity = Vector2.ZERO
-	if is_instance_valid(ship):
-		var ship_diff = ship.global_transform.origin - prev_ship_transform.origin
-		var ship_rot_diff = ship.global_rotation - prev_ship_transform.get_rotation()
-		if prev_ship_transform != Transform2D():
-			var linear_vel = ship_diff / delta
-			var radius_vec = global_position - ship.global_position
-			var angular_vel = ship_rot_diff / delta
-			var tangential_vel = Vector2(-radius_vec.y, radius_vec.x) * angular_vel
-			
-			ship_velocity = linear_vel + tangential_vel
-			rotate(ship_rot_diff)
-			print("rot by ", ship_rot_diff)
-		prev_ship_transform = ship.global_transform
-	return ship_velocity
 
 func _physics_process(delta):
-	var ship_velocity = calc_ship_velocity(delta)
+	var ground_velocity = calc_ground_body_velocity(delta)
 	
 	var direction = Input.get_vector("left", "right", "up", "down")
 	direction = direction.normalized().rotated(global_rotation)
@@ -98,7 +85,7 @@ func _physics_process(delta):
 		else:
 			velocity += direction * thrust_accel * delta
 	
-	velocity += ship_velocity	
+	velocity += ground_velocity	
 	move_and_slide()
 
 func _input(event: InputEvent) -> void:
@@ -139,31 +126,49 @@ func _unhandled_input(event: InputEvent) -> void:
 	if seat and seat.room.has_method("handle_input"):
 		seat.room.handle_input(event)
 
+#region grounding
+# called when ground check intersects with rb
 func on_ground(_body : Node2D):
-	#print(body)
-	pass
-	#if body is Ship:
-		#on_ship_enter(body)
-func on_unground(_body : Node2D):
-	#print("exot", body)
-	pass
-	#if body is Ship:
-		#on_ship_exit(body)
-		#pass
+	if _body is RigidBody2D:
+		ground_body = _body
+		prev_ground_body_transform = ground_body.global_transform
 
+func on_unground(_body : Node2D):
+	if _body == ground_body:
+		ground_body = null
+		prev_ground_body_transform = Transform2D()
+
+# called when enter airlock
 func on_ship_enter(new_ship : Ship):
+	on_ground(new_ship)
 	ship = new_ship
-	prev_ship_transform = ship.global_transform
-	print("parent to ship")
+	print(name + " parent to ship")
 	collision_layer = interior_layer
 	collision_mask = interior_mask
 
 func on_ship_exit():
-	ship = null
-	prev_ship_transform = Transform2D()
-	print("parent to wordl")
+	# unground will be called when stops intersecting
+	print(name + " parent to wordl")
 	collision_layer = exterior_layer
 	collision_mask = exterior_mask
+
+
+func calc_ground_body_velocity(delta : float) -> Vector2:
+	var ground_velocity = Vector2.ZERO
+	if is_instance_valid(ground_body):
+		var ground_diff = ground_body.global_transform.origin - prev_ground_body_transform.origin
+		var ground_rot_diff = ground_body.global_rotation - prev_ground_body_transform.get_rotation()
+		if prev_ground_body_transform != Transform2D():
+			var linear_vel = ground_diff / delta
+			var radius_vec = global_position - ground_body.global_position
+			var angular_vel = ground_rot_diff / delta
+			var tangential_vel = Vector2(-radius_vec.y, radius_vec.x) * angular_vel
+			
+			ground_velocity = linear_vel + tangential_vel
+			rotate(ground_rot_diff)
+		prev_ground_body_transform = ground_body.global_transform
+	return ground_velocity
+#endregion
 
 func takeDamage(damage : int):
 	health -= damage

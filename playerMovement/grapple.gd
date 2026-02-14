@@ -32,8 +32,6 @@ var at_destination:
 		return grapple_vector.length() < min_grapple_dist
 
 func _process(_delta: float) -> void:
-	var grapple_vector = (grapple_position - global_position)
-	
 	if Input.is_action_just_pressed("grapple"):
 		grapple_position = get_global_mouse_position()
 	if not wants_grapple():
