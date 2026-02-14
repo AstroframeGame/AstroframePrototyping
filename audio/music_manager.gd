@@ -11,20 +11,52 @@ func play_menu():
 
 func play_gameplay():
 	if not ambient.playing:
-		ambient.volume_db = -80
-		tense.volume_db = -80
 		ambient.play()
 		tense.play()
+		ambient.volume_db = -80
+		tense.volume_db = -80
 	
 	_crossfade(ambient, [menu, tense])
 
+func change_level_music(new_ambient: AudioStream, new_tense: AudioStream, fade_time: float = 2.0):
+	if ambient.stream == new_ambient and tense.stream == new_tense:
+		return
+
+	if _tween: _tween.kill()
+	_tween = create_tween()
+	
+	_tween.parallel().tween_property(ambient, "volume_db", -80.0, fade_time)
+	_tween.parallel().tween_property(tense, "volume_db", -80.0, fade_time)
+	
+	_tween.tween_callback(func(): _swap_tracks(new_ambient, new_tense, fade_time))
+
+func _swap_tracks(new_ambient: AudioStream, new_tense: AudioStream, fade_time: float):
+	ambient.stop()
+	tense.stop()
+	
+	ambient.stream = new_ambient
+	tense.stream = new_tense
+	
+	ambient.play()
+	tense.play()
+	
+	ambient.volume_db = -80.0
+	tense.volume_db = -80.0
+	
+	if _tween: _tween.kill()
+	_tween = create_tween()
+	
+	_tween.tween_property(ambient, "volume_db", 0.0, fade_time)
+
 func set_tense_mode(is_tense: bool):
-	var tween = create_tween()
+	if _tween: _tween.kill()
+	_tween = create_tween()
+	
 	var a_vol = -80.0 if is_tense else 0.0
 	var t_vol = 0.0 if is_tense else -80.0
 	
-	tween.parallel().tween_property(ambient, "volume_db", a_vol, 1.0)
-	tween.parallel().tween_property(tense, "volume_db", t_vol, 1.0)
+	_tween.parallel().tween_property(ambient, "volume_db", a_vol, 1.0)
+	_tween.parallel().tween_property(tense, "volume_db", t_vol, 1.0)
 
 func _crossfade(to: AudioStreamPlayer, from: Array[AudioStreamPlayer]):
 	if _tween: _tween.kill()
