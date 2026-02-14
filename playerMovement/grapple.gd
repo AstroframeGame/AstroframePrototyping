@@ -3,6 +3,7 @@ class_name Grapple
 
 @onready var player: PlayerCharacter = $".."
 @export var grapple_speed = 400
+@export_flags_2d_physics var collision_mask = 257
 
 var attached_body : Node2D
 var attached_offset : Vector2
@@ -52,10 +53,17 @@ func _process(_delta: float) -> void:
 
 func fire_grapple():
 	var space_state = get_world_2d().direct_space_state
-	var query = PhysicsRayQueryParameters2D.create(global_position, get_global_mouse_position())
-	query.exclude = [player]
+	var mouse_pos = get_global_mouse_position()
 	
-	var result = space_state.intersect_ray(query)
+	var query = PhysicsPointQueryParameters2D.new()
+	query.position = mouse_pos
+	query.exclude = [player]
+	query.collision_mask = collision_mask
+	query.collide_with_areas = true
+	query.collide_with_bodies = true
+	
+	var result = space_state.intersect_point(query)
+	print(result)
 	if result:
-		attached_body = result.collider
-		attached_offset = attached_body.to_local(result.position)
+		attached_body = result[0].collider
+		attached_offset = attached_body.to_local(mouse_pos)
