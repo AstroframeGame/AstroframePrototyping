@@ -63,7 +63,6 @@ func fire_grapple():
 	query.collide_with_bodies = true
 	
 	var result = space_state.intersect_point(query)
-	print(result)
 	if result:
 		attached_body = result[0].collider
 		attached_offset = attached_body.to_local(mouse_pos)

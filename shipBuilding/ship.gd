@@ -322,7 +322,6 @@ func get_avalible_power_out() -> Array[PowerOutHex]:
 			for h in r.get_out_hexes():
 				if not h.is_powering:
 					out.append(h)
-	print(out)
 	return out
 
 func toggle_power(power_hex):

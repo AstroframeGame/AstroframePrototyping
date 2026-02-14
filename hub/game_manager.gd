@@ -19,6 +19,8 @@ func load_scene(path : String)->void:
 	menus.open_menu("Game")
 	current_scene = packed_scene.instantiate()
 	add_child(current_scene)
+	if current_scene.name == "ShipBuilding":
+		return # skip the player on building scene
 	game_start.emit(current_scene)
 
 func start_game():
