@@ -1,7 +1,7 @@
 class_name Projectile
 extends RigidBody2D
 
-@export var damage : float = 10
+@export var damage : int = 10
 @export var speed : float = 1000
 
 func initialize(parent : Node2D, parent_velocity : Vector2, projectileSpeed : float, direction : Vector2, spawnPoint : Vector2 = parent.global_position, projectileDamage : int = damage):
