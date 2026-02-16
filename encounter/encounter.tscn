@@ -6,13 +6,11 @@
 [ext_resource type="PackedScene" path="res://shipBuilding/ships/PIRATE_DESTROYER.tscn" id="2_sdpd5"]
 [ext_resource type="PackedScene" uid="uid://choyif0n5w2jj" path="res://encounter/debris_field.tscn" id="4_sdpd5"]
 [ext_resource type="PackedScene" path="res://shipBuilding/ships/player_ship.tscn" id="5_enxlt"]
-[ext_resource type="PackedScene" uid="uid://dcpfkpex6ovaa" path="res://playerMovement/player_system.tscn" id="5_r17ir"]
 
-[node name="Encounter" type="Node2D" unique_id=1039851009 node_paths=PackedStringArray("faction_ship", "pirate_destroyer", "player_system")]
+[node name="Encounter" type="Node2D" unique_id=1039851009 node_paths=PackedStringArray("faction_ship", "pirate_destroyer")]
 script = ExtResource("1_jrooq")
 faction_ship = NodePath("ships/FACTION_PATROL")
 pirate_destroyer = NodePath("ships/pirates/PIRATE_DESTROYER")
-player_system = NodePath("PlayerSystem")
 
 [node name="Name" type="Label" parent="." unique_id=181007723]
 offset_left = 203.0
@@ -147,8 +145,5 @@ power_links = {
 NodePath("Reactor_4/OutputHex/OutClickArea"): NodePath("Cannon/InputHex/InClickArea"),
 NodePath("Reactor_4/OutputHex2/OutClickArea"): NodePath("Shields_3/InputHex3/InClickArea")
 }
-
-[node name="PlayerSystem" parent="." unique_id=809182662 instance=ExtResource("5_r17ir")]
-position = Vector2(-2702, -705)
 
 [connection signal="trigger_dialogue" from="." to="." method="start_dialogue"]
