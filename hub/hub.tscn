@@ -1,17 +1,19 @@
 [gd_scene format=3 uid="uid://c57plc2whtank"]
 
 [ext_resource type="Script" uid="uid://cbty45dswb5nj" path="res://hub/game_manager.gd" id="1_n4d7h"]
-[ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/RoundedSquare.png" id="2_1wrr7"]
-[ext_resource type="FontFile" uid="uid://bvhs72w1tp2uu" path="res://hub/fonts/Ethnocentric-Regular.otf" id="2_21dlm"]
+[ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/ui_textures/RoundedSquare.png" id="2_1wrr7"]
+[ext_resource type="Script" uid="uid://c74xdls6fgqs3" path="res://hub/multiplayer_manager.gd" id="2_2qbsn"]
 [ext_resource type="Script" uid="uid://io2qs57g5xic" path="res://hub/menu_manager.gd" id="2_nm8ur"]
 [ext_resource type="Script" uid="uid://y07ne4p2xbui" path="res://hub/scene_list.gd" id="3_1x5tx"]
 [ext_resource type="Script" uid="uid://cti2v7b51m68r" path="res://hub/fps_label.gd" id="3_6ebxt"]
-[ext_resource type="Texture2D" uid="uid://w2speowsgqcy" path="res://hub/icon/icon.png" id="3_21dlm"]
 [ext_resource type="PackedScene" uid="uid://df01kfwope6hn" path="res://encounter/dialogue/dialogue_runner.tscn" id="5_g3elb"]
-
-[sub_resource type="Theme" id="Theme_21dlm"]
-default_font = ExtResource("2_21dlm")
-default_font_size = 72
+[ext_resource type="Theme" uid="uid://2b3w3cdm6v0b" path="res://hub/ui-themes/title.tres" id="5_h3v4x"]
+[ext_resource type="Theme" uid="uid://dj12nct3i1b1i" path="res://hub/ui-themes/header.tres" id="5_h8dj6"]
+[ext_resource type="Texture2D" uid="uid://coig43j1t7xss" path="res://hub/menu_icons/icons8-discord-64.png" id="7_2a2hx"]
+[ext_resource type="Texture2D" uid="uid://bg7uxubeu3w86" path="res://hub/menu_icons/icons8-github-64.png" id="8_1v0ca"]
+[ext_resource type="Script" uid="uid://lijk0e4kv030" path="res://hub/web_link.gd" id="8_awsf7"]
+[ext_resource type="Texture2D" uid="uid://glx4q4luv7hn" path="res://hub/menu_icons/icons8-folder-64.png" id="10_h3v4x"]
+[ext_resource type="Theme" uid="uid://d0o0krm245a4q" path="res://hub/ui-themes/unstyled.tres" id="13_h8dj6"]
 
 [sub_resource type="Environment" id="Environment_21dlm"]
 background_mode = 3
@@ -25,6 +27,9 @@ glow_bloom = 0.27
 script = ExtResource("1_n4d7h")
 
 [node name="MultiplayerManager" type="Node" parent="." unique_id=506980756]
+script = ExtResource("2_2qbsn")
+
+[node name="Projectiles" type="Node2D" parent="MultiplayerManager" unique_id=1321727925]
 
 [node name="UI" type="Node" parent="." unique_id=1145349593]
 script = ExtResource("2_nm8ur")
@@ -44,21 +49,24 @@ color = Color(0.14333999, 0.14333999, 0.14333999, 1)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 31.0
-offset_top = 61.0
-offset_right = -854.0
-offset_bottom = -48.0
+offset_left = 43.0
+offset_top = 92.0
+offset_right = -842.0
+offset_bottom = -103.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="SceneList" type="VBoxContainer" parent="UI/Main/ScrollContainer" unique_id=1849215895]
 layout_mode = 2
+size_flags_horizontal = 4
 script = ExtResource("3_1x5tx")
 scene_paths = Array[String](["uid://c7ti17oj2ofyn", "uid://bkibqvfep8px0", "uid://c752nipt4tmop", "uid://bi6bllil67sau", "uid://dthcyp01ao5y8", "uid://ci700nfmrtxsd", "uid://bu4afq3jf34w3", "uid://drujdcxau6xfy", "uid://chtt78xbee5cw"])
 
-[node name="Label" type="Label" parent="UI/Main/ScrollContainer/SceneList" unique_id=1943376250]
+[node name="Header" type="Label" parent="UI/Main/ScrollContainer/SceneList" unique_id=1943376250]
 layout_mode = 2
+theme = ExtResource("5_h8dj6")
 text = "Test Scenes"
+horizontal_alignment = 1
 
 [node name="Titile" type="Label" parent="UI/Main" unique_id=1864329945]
 anchors_preset = 5
@@ -69,17 +77,70 @@ offset_top = 92.0
 offset_right = 189.0
 offset_bottom = 231.0
 grow_horizontal = 2
-theme = SubResource("Theme_21dlm")
+theme = ExtResource("5_h3v4x")
 text = "Astro
 Frame"
 horizontal_alignment = 1
 
-[node name="Astroframe" type="Sprite2D" parent="UI/Main" unique_id=1122495930]
-position = Vector2(559, 502)
-scale = Vector2(0.195, 0.195)
-texture = ExtResource("3_21dlm")
+[node name="Socials" type="HBoxContainer" parent="UI/Main" unique_id=177424652]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -130.0
+offset_top = -57.0
+offset_right = 70.0
+offset_bottom = 7.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(0.5, 0.5)
+alignment = 2
+script = ExtResource("8_awsf7")
+
+[node name="Ships" type="TextureButton" parent="UI/Main/Socials" unique_id=1234582611]
+layout_mode = 2
+texture_normal = ExtResource("10_h3v4x")
+
+[node name="Github" type="TextureButton" parent="UI/Main/Socials" unique_id=1405696366]
+layout_mode = 2
+texture_normal = ExtResource("8_1v0ca")
+
+[node name="Discord" type="TextureButton" parent="UI/Main/Socials" unique_id=762169865]
+layout_mode = 2
+texture_normal = ExtResource("7_2a2hx")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Main" unique_id=569964284]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -22.5
+offset_top = -20.0
+offset_right = 22.5
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Singleplayer" type="Button" parent="UI/Main/VBoxContainer" unique_id=1258526734]
+layout_mode = 2
+text = "Singleplayer"
+
+[node name="Options" type="Button" parent="UI/Main/VBoxContainer" unique_id=884632170]
+layout_mode = 2
+text = "Options"
+
+[node name="Credits" type="Button" parent="UI/Main/VBoxContainer" unique_id=1767168070]
+layout_mode = 2
+text = "Credits"
+
+[node name="Quit" type="Button" parent="UI/Main/VBoxContainer" unique_id=1337628528]
+layout_mode = 2
+text = "Quit"
 
 [node name="Loading" type="CanvasLayer" parent="UI" unique_id=1754381519]
+visible = false
 
 [node name="ColorRect" type="ColorRect" parent="UI/Loading" unique_id=1638234797]
 visible = false
@@ -113,7 +174,7 @@ texture_progress = ExtResource("2_1wrr7")
 [node name="Game" type="CanvasLayer" parent="UI" unique_id=1739083757]
 visible = false
 
-[node name="Button" type="Button" parent="UI/Game" unique_id=1653782239]
+[node name="Exit" type="Button" parent="UI/Game" unique_id=1653782239]
 offset_right = 8.0
 offset_bottom = 8.0
 text = "Back to Menu"
@@ -123,19 +184,22 @@ text = "Back to Menu"
 [node name="Paused" type="CanvasLayer" parent="UI" unique_id=731175255]
 visible = false
 
-[node name="Settings" type="CanvasLayer" parent="UI" unique_id=1141852874]
-visible = false
-
-[node name="SettingsMenu" type="Control" parent="UI/Settings" unique_id=941363827]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
 [node name="GameOver" type="CanvasLayer" parent="UI" unique_id=1769148514]
 visible = false
+
+[node name="Credits" type="CanvasLayer" parent="UI" unique_id=2010810909]
+
+[node name="Back" type="Button" parent="UI/Credits" unique_id=1238051811]
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Back"
+
+[node name="Options" type="CanvasLayer" parent="UI" unique_id=1322932418]
+
+[node name="Back" type="Button" parent="UI/Options" unique_id=1581757141]
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Back"
 
 [node name="Profiling" type="CanvasLayer" parent="." unique_id=1820677988]
 visible = false
@@ -147,10 +211,19 @@ anchor_right = 1.0
 offset_left = -40.0
 offset_bottom = 23.0
 grow_horizontal = 0
+theme = ExtResource("13_h8dj6")
 text = "fps"
 script = ExtResource("3_6ebxt")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1798994774]
 environment = SubResource("Environment_21dlm")
 
-[connection signal="pressed" from="UI/Game/Button" to="GameManager" method="quit_to_list"]
+[connection signal="pressed" from="UI/Main/Socials/Ships" to="UI/Main/Socials" method="ships_folder"]
+[connection signal="pressed" from="UI/Main/Socials/Github" to="UI/Main/Socials" method="github"]
+[connection signal="pressed" from="UI/Main/Socials/Discord" to="UI/Main/Socials" method="discord"]
+[connection signal="pressed" from="UI/Main/VBoxContainer/Options" to="UI" method="open_menu" binds= [&"Options"]]
+[connection signal="pressed" from="UI/Main/VBoxContainer/Credits" to="UI" method="open_menu" binds= [&"Credits"]]
+[connection signal="pressed" from="UI/Main/VBoxContainer/Quit" to="GameManager" method="quit_application"]
+[connection signal="pressed" from="UI/Game/Exit" to="GameManager" method="quit_to_list"]
+[connection signal="pressed" from="UI/Credits/Back" to="UI" method="menu_back"]
+[connection signal="pressed" from="UI/Options/Back" to="UI" method="menu_back"]

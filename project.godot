@@ -27,8 +27,8 @@ CursorManager="*uid://xw0evujqrmw7"
 ScreenshotManager="*uid://crx4ktvfwjrs5"
 InGameConsole="*uid://bu0k62p1icydm"
 EncounterData="*uid://bmomxnt30a2ku"
-GlobalSignal="*uid://3yr71xbgeomw"
 BarkGetter="*uid://c8aguxek25t81"
+ProjectileManager="*uid://d1vm8u2ei3vye"
 
 [display]
 
@@ -43,6 +43,10 @@ enabled=PackedStringArray("res://addons/trail_2d/plugin.cfg")
 player_ship=""
 player_controller=""
 projectiles=""
+
+[gui]
+
+theme/custom="uid://f1k0rdfg3btk"
 
 [input]
 

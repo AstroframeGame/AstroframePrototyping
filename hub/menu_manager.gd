@@ -23,13 +23,31 @@ func load_scene(scene_path):
 	open_menu("Loading")
 	ResourceLoader.load_threaded_request(scene_path)
 	var progress = []
-	ResourceLoader.load_threaded_get_status(scene_path, progress)
+	var status = ResourceLoader.load_threaded_get_status(scene_path, progress)
 	
-	while progress[0] < 0.99:
+	while status != ResourceLoader.THREAD_LOAD_LOADED: 
 		await get_tree().process_frame
-		ResourceLoader.load_threaded_get_status(scene_path, progress)
+		status = ResourceLoader.load_threaded_get_status(scene_path, progress)
 		#$"Loading/VBoxContainer/Progress".text = str(round(progress[0] * 100)) + "%"
 		$Loading/LoadProgress.value = progress[0] * 100
 	
 	var packed_scene = ResourceLoader.load_threaded_get(scene_path)
 	return packed_scene
+
+func load_scene_in_bg(scene_path):
+	ResourceLoader.load_threaded_request(scene_path)
+	var progress = []
+	var status = ResourceLoader.load_threaded_get_status(scene_path, progress)
+	
+	while status != ResourceLoader.THREAD_LOAD_LOADED: 
+		await get_tree().process_frame
+		status = ResourceLoader.load_threaded_get_status(scene_path, progress)
+	
+	var packed_scene = ResourceLoader.load_threaded_get(scene_path)
+	return packed_scene
+
+# TODO
+# if playing, return to gameplay
+# if in main menu, back to main
+func menu_back():
+	open_menu("Main")
