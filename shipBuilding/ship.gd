@@ -297,6 +297,7 @@ func update_colliders() -> void:
 		edge = CollisionPolygon2D.new()
 		add_child(edge)
 		edge.name = "Edge"
+		edge.owner = self
 		edge.build_mode = CollisionPolygon2D.BUILD_SEGMENTS
 		print("Fallback: ", name, " creating edge")
 	var area = get_node_or_null("Ground")
@@ -304,14 +305,19 @@ func update_colliders() -> void:
 		area = Area2D.new()
 		add_child(area)
 		area.name = "Ground"
+		area.owner = self
 		print("Fallback: ", name, " creating area")
 	var solid = get_node_or_null("Ground/Solid")
 	if not solid:
 		solid = CollisionPolygon2D.new()
 		solid.name = "Solid"
 		solid.build_mode = CollisionPolygon2D.BUILD_SOLIDS
-		area.add_child.call_deferred(solid)
+		area.add_child(solid)
+		solid.owner = self
 		print("Fallback: ", name, " creating solid")
+	
+	move_child.call_deferred(edge, -1)
+	move_child.call_deferred(area, -1)
 	
 	if islands.size() > 0:
 		edge.polygon = islands[0]

@@ -1,66 +1,56 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://ckcu1maqciewr"]
 
-[ext_resource type="Script" path="res://shipBuilding/ship.gd" id="1_vpm82"]
-[ext_resource type="PackedScene" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_wh0fw"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/reactor_2.tscn" id="3_rfjbt"]
-[ext_resource type="Script" path="res://shipBuilding/room.gd" id="4_1v5sl"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/engines_2.tscn" id="5_0goar"]
-[ext_resource type="Script" path="res://shipBuilding/room_scripts/engines.gd" id="6_7tvqk"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/turret_3.tscn" id="7_2bncx"]
-[ext_resource type="Script" path="res://shipBuilding/room_scripts/turret.gd" id="8_xnr2h"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/piloting_1.tscn" id="9_uu40t"]
-[ext_resource type="Script" path="res://shipBuilding/room_scripts/piloting.gd" id="10_8ui05"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/airlock_1.tscn" id="11_4w8cr"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/cannon.tscn" id="11_rfjbt"]
-[ext_resource type="Script" path="res://shipBuilding/room_scripts/cannon.gd" id="12_1v5sl"]
-[ext_resource type="Script" path="res://shipBuilding/room_scripts/airlock.gd" id="12_l23my"]
+[ext_resource type="Script" uid="uid://bsurseo1hgudf" path="res://shipBuilding/ship.gd" id="1_vpm82"]
+[ext_resource type="PackedScene" uid="uid://c2n7netp00xn6" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_wh0fw"]
+[ext_resource type="PackedScene" uid="uid://c80teck1ccmdv" path="res://shipBuilding/rooms/reactor_2.tscn" id="3_rfjbt"]
+[ext_resource type="PackedScene" uid="uid://cebf4gqkt7jib" path="res://shipBuilding/rooms/engines_2.tscn" id="5_0goar"]
+[ext_resource type="PackedScene" uid="uid://daycij2kxk7dj" path="res://shipBuilding/rooms/turret_3.tscn" id="7_2bncx"]
+[ext_resource type="PackedScene" uid="uid://qteo7ksf47a4" path="res://shipBuilding/rooms/piloting_1.tscn" id="9_uu40t"]
+[ext_resource type="PackedScene" uid="uid://dir8uoqft75m0" path="res://shipBuilding/rooms/airlock_1.tscn" id="11_4w8cr"]
+[ext_resource type="PackedScene" uid="uid://bmfrsjjfduwqn" path="res://shipBuilding/rooms/cannon.tscn" id="11_rfjbt"]
 
 [sub_resource type="TileSet" id="TileSet_xsh4c"]
 tile_shape = 3
 tile_size = Vector2i(78, 90)
 
-[node name="Ship" type="RigidBody2D" unique_id=1784127879 node_paths=PackedStringArray("power_links")]
+[node name="_RigidBody2D_58" type="RigidBody2D" unique_id=1784127879 node_paths=PackedStringArray("power_links")]
 input_pickable = true
+mass = 22.0
 gravity_scale = 0.0
-sleeping = true
 script = ExtResource("1_vpm82")
 power_links = {
-NodePath(""): NodePath("Airlock_1/DoorHex/DoorInteractable"),
-null: null,
 null: null
 }
 
-[node name="HexGrid" type="TileMapLayer" parent="." unique_id=1277847278 instance=ExtResource("2_wh0fw")]
+[node name="HexGrid" parent="." unique_id=1277847278 instance=ExtResource("2_wh0fw")]
 tile_set = SubResource("TileSet_xsh4c")
+
+[node name="Engines_2" parent="." unique_id=1685651061 instance=ExtResource("5_0goar")]
+position = Vector2(117, 45)
+
+[node name="Reactor_2" parent="." unique_id=542255097 instance=ExtResource("3_rfjbt")]
+position = Vector2(117, -90)
+
+[node name="Turret_3" parent="." unique_id=1336280051 instance=ExtResource("7_2bncx")]
+position = Vector2(0, -22.5)
+rotation = 1.0471976
+
+[node name="Piloting_1" parent="." unique_id=150588005 instance=ExtResource("9_uu40t")]
+position = Vector2(156, -22.5)
+
+[node name="Cannon" parent="." unique_id=195129740 instance=ExtResource("11_rfjbt")]
+position = Vector2(312, -22.5)
+rotation = 3.1415927
+
+[node name="Airlock_1" parent="." unique_id=2084884563 instance=ExtResource("11_4w8cr")]
+position = Vector2(273, -90)
+rotation = 3.1415927
 
 [node name="Edge" type="CollisionPolygon2D" parent="." unique_id=1883965998]
 build_mode = 1
+polygon = PackedVector2Array(77.97893, -112.59552, 117, -135.1, 156, -112.60767, 195, -135.1, 234, -112.60767, 273, -135.1, 312.1, -112.549995, 312.1, -67.54232, 351.1, -45.049995, 351.1, 0.05000305, 312, 22.599998, 273, 0.107666016, 234.1, 22.542313, 234.1, 67.55, 195, 90.1, 156, 67.60767, 117, 90.1, 77.9, 67.55, 77.9, 22.616592, 38.998917, 0.1327591, 0.021125793, 22.636597, -39.057747, 0.049995422, -39.078873, -45.0866, -0.10108185, -67.59043, -0.122154236, -112.61159, 38.9356, -135.16159)
 
 [node name="Ground" type="Area2D" parent="." unique_id=1850709735]
 
-[node name="Engines_2" type="Node2D" parent="." unique_id=1685651061 instance=ExtResource("5_0goar")]
-position = Vector2(117, 45)
-script = ExtResource("6_7tvqk")
-
-[node name="Reactor_2" type="Node2D" parent="." unique_id=542255097 instance=ExtResource("3_rfjbt")]
-position = Vector2(117, -90)
-script = ExtResource("4_1v5sl")
-
-[node name="Turret_3" type="Node2D" parent="." unique_id=1336280051 instance=ExtResource("7_2bncx")]
-position = Vector2(0, -22.5)
-rotation = 1.0471976
-script = ExtResource("8_xnr2h")
-
-[node name="Piloting_1" type="Node2D" parent="." unique_id=150588005 instance=ExtResource("9_uu40t")]
-position = Vector2(156, -22.5)
-script = ExtResource("10_8ui05")
-
-[node name="Cannon" type="Node2D" parent="." unique_id=195129740 instance=ExtResource("11_rfjbt")]
-position = Vector2(312, -22.5)
-rotation = 3.1415927
-script = ExtResource("12_1v5sl")
-
-[node name="Airlock_1" type="Node2D" parent="." unique_id=2084884563 instance=ExtResource("11_4w8cr")]
-position = Vector2(273, -90)
-rotation = 3.1415927
-script = ExtResource("12_l23my")
+[node name="Solid" type="CollisionPolygon2D" parent="Ground" unique_id=1117958682]
+polygon = PackedVector2Array(77.97893, -112.59552, 117, -135.1, 156, -112.60767, 195, -135.1, 234, -112.60767, 273, -135.1, 312.1, -112.549995, 312.1, -67.54232, 351.1, -45.049995, 351.1, 0.05000305, 312, 22.599998, 273, 0.107666016, 234.1, 22.542313, 234.1, 67.55, 195, 90.1, 156, 67.60767, 117, 90.1, 77.9, 67.55, 77.9, 22.616592, 38.998917, 0.1327591, 0.021125793, 22.636597, -39.057747, 0.049995422, -39.078873, -45.0866, -0.10108185, -67.59043, -0.122154236, -112.61159, 38.9356, -135.16159)
