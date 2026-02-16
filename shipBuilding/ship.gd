@@ -327,10 +327,9 @@ func update_colliders() -> void:
 		solid.polygon = PackedVector2Array()
 	
 	
-	var ground : Area2D = $Ground
-	ground.input_pickable = true
-	if not ground.input_event.is_connected(ground_input_event):
-		ground.input_event.connect(ground_input_event)
+	area.input_pickable = true
+	if not area.input_event.is_connected(ground_input_event):
+		area.input_event.connect(ground_input_event)
 
 const HEX_WIDTH = 78
 const HEX_HEIGHT = 90
