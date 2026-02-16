@@ -2,11 +2,11 @@
 # global autoload for encounter data
 extends Node
 
-var encounter_dictionary = get_encounter_dictionary()
+var dictionary = get_encounter_dictionary()
 
 # can grab these arrays from Scripted Encounters > JSON Exports
 # https://docs.google.com/spreadsheets/d/1s3iz44CgmWNPqo6dqfTeVFWs66qc85rx3uyXpwCjm_w/edit?gid=1533284224#gid=1533284224
-var encounter_keys = [
+var keys = [
   "A_3_RESCUE",
   "A_1_PIRATES",
   "A_2_ENEMY",
@@ -26,7 +26,7 @@ var encounter_keys = [
   "D_1_",
   "D_2_"
 ]
-var item_keys = [
+var items = [
   "#OLD_MAP",
   "MID_RANGE_SENSOR",
   "#WARP_DRIVE",

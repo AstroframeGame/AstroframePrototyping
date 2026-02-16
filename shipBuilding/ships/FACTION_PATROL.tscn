@@ -1,0 +1,80 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://shipBuilding/ship.gd" id="1_h7bsq"]
+[ext_resource type="PackedScene" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_1ap7h"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/reactor_4.tscn" id="3_2jyci"]
+[ext_resource type="Script" path="res://shipBuilding/room.gd" id="4_tp7bo"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/engines_2.tscn" id="5_t4jdx"]
+[ext_resource type="Script" path="res://shipBuilding/room_scripts/engines.gd" id="6_cpmsa"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/turret_3.tscn" id="7_bwxlt"]
+[ext_resource type="Script" path="res://shipBuilding/room_scripts/turret.gd" id="8_jcf0r"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/aim_augment_2.tscn" id="9_askeo"]
+[ext_resource type="Script" path="res://shipBuilding/room_scripts/aim_augment.gd" id="10_xv61s"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/shields_3.tscn" id="11_6h42e"]
+[ext_resource type="Script" path="res://shipBuilding/room_scripts/shields.gd" id="12_skyyl"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/piloting_1.tscn" id="13_6t4mw"]
+[ext_resource type="Script" path="res://shipBuilding/room_scripts/piloting.gd" id="14_cesqj"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/airlock_1.tscn" id="15_tmtya"]
+[ext_resource type="Script" path="res://shipBuilding/room_scripts/airlock.gd" id="16_j3ojr"]
+
+[sub_resource type="TileSet" id="TileSet_xsh4c"]
+tile_shape = 3
+tile_size = Vector2i(78, 90)
+
+[node name="Ship" type="RigidBody2D" unique_id=1784127879 node_paths=PackedStringArray("power_links")]
+input_pickable = true
+gravity_scale = 0.0
+sleeping = true
+script = ExtResource("1_h7bsq")
+power_links = {
+NodePath("Engines_2/InputHex2/InClickArea"): NodePath(""),
+NodePath("Aim_Augment_2/InputHex2/InClickArea"): NodePath("Reactor_4/OutputHex4/OutClickArea"),
+NodePath("Reactor_4/OutputHex/OutClickArea"): NodePath("Shields_3/InputHex3/InClickArea"),
+null: null,
+null: null
+}
+
+[node name="HexGrid" type="TileMapLayer" parent="." unique_id=1277847278 instance=ExtResource("2_1ap7h")]
+tile_set = SubResource("TileSet_xsh4c")
+
+[node name="Edge" type="CollisionPolygon2D" parent="." unique_id=1883965998]
+build_mode = 1
+
+[node name="Ground" type="Area2D" parent="." unique_id=1850709735]
+
+[node name="Reactor_4" type="Node2D" parent="." unique_id=542255097 instance=ExtResource("3_2jyci")]
+position = Vector2(117, -90)
+rotation = 3.1415927
+script = ExtResource("4_tp7bo")
+
+[node name="Engines_2" type="Node2D" parent="." unique_id=1685651061 instance=ExtResource("5_t4jdx")]
+position = Vector2(78, 112.5)
+script = ExtResource("6_cpmsa")
+
+[node name="Turret_3" type="Node2D" parent="." unique_id=1336280051 node_paths=PackedStringArray("augments") instance=ExtResource("7_bwxlt")]
+position = Vector2(39, -90)
+script = ExtResource("8_jcf0r")
+augments = [NodePath("../Aim_Augment_2")]
+
+[node name="Aim_Augment_2" type="Node2D" parent="." unique_id=1056768738 node_paths=PackedStringArray("target_rooms") instance=ExtResource("9_askeo")]
+position = Vector2(117, -225)
+rotation = 1.0471976
+script = ExtResource("10_xv61s")
+target_rooms = [NodePath("../Turret_3")]
+
+[node name="@Node2D@65" type="Node2D" parent="." unique_id=651346244 instance=ExtResource("7_bwxlt")]
+position = Vector2(273, 45)
+rotation = 4.1887903
+script = ExtResource("8_jcf0r")
+
+[node name="Shields_3" type="Node2D" parent="." unique_id=1633765650 instance=ExtResource("11_6h42e")]
+position = Vector2(234, -22.5)
+script = ExtResource("12_skyyl")
+
+[node name="Piloting_1" type="Node2D" parent="." unique_id=150588005 instance=ExtResource("13_6t4mw")]
+position = Vector2(234, -157.5)
+script = ExtResource("14_cesqj")
+
+[node name="Airlock_1" type="Node2D" parent="." unique_id=2084884563 instance=ExtResource("15_tmtya")]
+position = Vector2(195, -225)
+script = ExtResource("16_j3ojr")
