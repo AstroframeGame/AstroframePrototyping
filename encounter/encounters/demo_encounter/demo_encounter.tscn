@@ -1,0 +1,141 @@
+[gd_scene format=3 uid="uid://b6vnbwkbboq7g"]
+
+[ext_resource type="Script" uid="uid://ci51s5x2ase5i" path="res://encounter/encounters/demo_encounter/demo_encounter.gd" id="1_oenlj"]
+[ext_resource type="PackedScene" path="res://shipBuilding/ships/FACTION_PATROL.tscn" id="2_5ilrx"]
+[ext_resource type="PackedScene" path="res://shipBuilding/ships/PIRATE_DESTROYER.tscn" id="3_wtupe"]
+[ext_resource type="PackedScene" path="res://shipBuilding/ships/PIRATE_FRIGATE.tscn" id="4_6r4h6"]
+[ext_resource type="PackedScene" uid="uid://choyif0n5w2jj" path="res://encounter/encounters/demo_encounter/debris_field.tscn" id="5_j4m6r"]
+[ext_resource type="PackedScene" path="res://shipBuilding/ships/player_ship.tscn" id="6_xkkl2"]
+
+[node name="demo_encounter" type="Node2D" unique_id=850323789]
+script = ExtResource("1_oenlj")
+
+[node name="Name" type="Label" parent="." unique_id=2135254409]
+offset_left = 203.0
+offset_top = 118.0
+offset_right = 335.0
+offset_bottom = 141.0
+text = "Encounter"
+
+[node name="Instructions" type="Label" parent="." unique_id=674095516]
+offset_left = 125.0
+offset_top = 152.0
+offset_right = 477.0
+offset_bottom = 201.0
+text = "This should be an example of what a scripted event looks like.
+Later we will procedurally generate these."
+
+[node name="Todo" type="Label" parent="." unique_id=528482355]
+offset_left = 168.0
+offset_top = 222.0
+offset_right = 602.0
+offset_bottom = 453.0
+text = "To add
+- jumping between sectors
+- win state?"
+
+[node name="ships" type="Node" parent="." unique_id=118378702]
+
+[node name="FACTION_PATROL" parent="ships" unique_id=1784127879 node_paths=PackedStringArray("power_links") instance=ExtResource("2_5ilrx")]
+position = Vector2(914, -2104)
+power_links = {
+NodePath(""): NodePath(""),
+null: null
+}
+
+[node name="pirates" type="Node" parent="ships" unique_id=961397819]
+
+[node name="PIRATE_DESTROYER" parent="ships/pirates" unique_id=672885674 node_paths=PackedStringArray("power_links") instance=ExtResource("3_wtupe")]
+position = Vector2(253, 1370)
+power_links = {
+NodePath(""): NodePath("")
+}
+
+[node name="PIRATE_FRIGATE" parent="ships/pirates" unique_id=596346317 node_paths=PackedStringArray("power_links") instance=ExtResource("4_6r4h6")]
+position = Vector2(-494, 1914)
+power_links = {
+NodePath(""): null,
+null: null
+}
+
+[node name="PIRATE_FRIGATE2" parent="ships/pirates" unique_id=585482569 node_paths=PackedStringArray("power_links") instance=ExtResource("4_6r4h6")]
+position = Vector2(216, 2209)
+power_links = {
+NodePath(""): null,
+null: null
+}
+
+[node name="PIRATE_FRIGATE3" parent="ships/pirates" unique_id=399402073 node_paths=PackedStringArray("power_links") instance=ExtResource("4_6r4h6")]
+position = Vector2(920, 1986)
+power_links = {
+NodePath(""): null,
+null: null
+}
+
+[node name="debris field" type="Node" parent="." unique_id=365006529]
+
+[node name="Debris" parent="debris field" unique_id=568316699 instance=ExtResource("5_j4m6r")]
+position = Vector2(-6, -193)
+
+[node name="Debris2" parent="debris field" unique_id=1380565816 instance=ExtResource("5_j4m6r")]
+position = Vector2(328, -806)
+rotation = 2.3998277
+
+[node name="Debris3" parent="debris field" unique_id=493810288 instance=ExtResource("5_j4m6r")]
+position = Vector2(1000.9999, -1399)
+rotation = -4.7822022
+
+[node name="Debris4" parent="debris field" unique_id=1595481168 instance=ExtResource("5_j4m6r")]
+position = Vector2(441, -451.99997)
+rotation = -0.6632251
+
+[node name="Debris5" parent="debris field" unique_id=1469980468 instance=ExtResource("5_j4m6r")]
+position = Vector2(-157, -118.00003)
+rotation = -3.4121187
+
+[node name="Debris6" parent="debris field" unique_id=1092366491 instance=ExtResource("5_j4m6r")]
+position = Vector2(1691, -447)
+rotation = 2.6965337
+
+[node name="Debris7" parent="debris field" unique_id=1097431048 instance=ExtResource("5_j4m6r")]
+position = Vector2(-573, 867)
+rotation = -1.9809487
+
+[node name="Debris8" parent="debris field" unique_id=1259458277 instance=ExtResource("5_j4m6r")]
+position = Vector2(-1394, 603)
+
+[node name="Debris9" parent="debris field" unique_id=551212849 instance=ExtResource("5_j4m6r")]
+position = Vector2(-710, -1000)
+rotation = 2.3998277
+
+[node name="Debris10" parent="debris field" unique_id=1648909515 instance=ExtResource("5_j4m6r")]
+position = Vector2(-1383.0001, -861)
+rotation = -4.7822022
+
+[node name="Debris11" parent="debris field" unique_id=1468259809 instance=ExtResource("5_j4m6r")]
+position = Vector2(-1942.9998, 85.99991)
+rotation = -0.6632251
+
+[node name="Debris12" parent="debris field" unique_id=1791045004 instance=ExtResource("5_j4m6r")]
+position = Vector2(1178, 597.99994)
+rotation = -3.4121187
+
+[node name="Debris13" parent="debris field" unique_id=342705079 instance=ExtResource("5_j4m6r")]
+position = Vector2(-693, 91)
+rotation = 2.6965337
+
+[node name="Debris14" parent="debris field" unique_id=1128969379 instance=ExtResource("5_j4m6r")]
+position = Vector2(-56, -1200)
+rotation = -1.9809487
+
+[node name="Debris15" parent="debris field" unique_id=1133615498 instance=ExtResource("5_j4m6r")]
+position = Vector2(1188, 209.99988)
+rotation = -0.92502457
+
+[node name="Ship" parent="." unique_id=1431510437 node_paths=PackedStringArray("power_links") instance=ExtResource("6_xkkl2")]
+position = Vector2(-2669, -538)
+power_links = {
+NodePath(""): NodePath("")
+}
+
+[connection signal="trigger_dialogue" from="." to="." method="start_dialogue"]

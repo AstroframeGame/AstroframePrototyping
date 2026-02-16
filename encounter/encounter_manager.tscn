@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://cawa4uqnnlqd"]
+
+[ext_resource type="Script" uid="uid://b86c7evw35fa2" path="res://encounter/managers/level_state_manager.gd" id="1_yyydr"]
+
+[node name="EncounterManager" type="Node2D" unique_id=818246174]
+script = ExtResource("1_yyydr")
+encounter_paths = Array[String](["uid://b6vnbwkbboq7g"])
