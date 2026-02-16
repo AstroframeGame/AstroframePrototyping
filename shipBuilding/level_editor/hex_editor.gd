@@ -5,7 +5,7 @@ enum Mode { VIEW, ADD, MOVE, DESTROY }
 
 @onready var ship: Ship = $"../Ship"
 @onready var mode_dropdown: OptionButton = $"../UI/ModeDropdown"
-@onready var room_picker: Node = $"../UI/RoomPicker"
+@onready var room_picker: Node = $"../UI/TabContainer/RoomPicker"
 
 var preview_instance: Room
 var current_rotation: int = 0

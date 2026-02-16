@@ -3,8 +3,8 @@ extends Node
 var ships_path = "res://shipBuilding/ships/"
 var ship_prefabs: Array[PackedScene]
 
-@onready var button_parent: VBoxContainer = $ScrollContainer/VBoxContainer
-@onready var save_manager: EditorSaveManager = $"../../SaveManager"
+@onready var button_parent: VBoxContainer = $VBoxContainer
+@onready var save_manager: EditorSaveManager = $"../../../SaveManager"
 
 signal on_clicked(prefab_index: int)
 

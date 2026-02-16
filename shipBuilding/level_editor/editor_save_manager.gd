@@ -1,7 +1,7 @@
 class_name EditorSaveManager
 extends Node
 
-@onready var save_name: LineEdit = $"../UI/SaveLoad/SaveName"
+@onready var save_name: LineEdit = $"../UI/Options/SaveName"
 @onready var ship: Ship = $"../Ship"
 @onready var save_load: SaveLoad = $"../SaveLoad"
 @onready var hex_editor: HexEditor = $"../HexEditor"
