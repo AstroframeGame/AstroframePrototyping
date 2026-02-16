@@ -1,0 +1,6 @@
+[gd_resource type="Theme" format=3 uid="uid://d0o0krm245a4q"]
+
+[ext_resource type="FontFile" uid="uid://crph4rn71o8id" path="res://hub/fonts/UbuntuMono-Regular.ttf" id="1_k0itf"]
+
+[resource]
+default_font = ExtResource("1_k0itf")

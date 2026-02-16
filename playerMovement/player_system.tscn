@@ -1,11 +1,9 @@
 [gd_scene format=3 uid="uid://dcpfkpex6ovaa"]
 
-[ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/RoundedSquare.png" id="1_0p3lp"]
+[ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/ui_textures/RoundedSquare.png" id="1_0p3lp"]
 [ext_resource type="Script" uid="uid://b8g4jci7uq4ut" path="res://playerMovement/player_camera.gd" id="1_hk7lp"]
-[ext_resource type="Script" uid="uid://bvtrly1u1q4h7" path="res://playerMovement/player.gd" id="2_0p3lp"]
-[ext_resource type="Texture2D" uid="uid://idculymd1355" path="res://playerMovement/person.png" id="3_h3ory"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_qi68c"]
+[ext_resource type="Theme" uid="uid://dj12nct3i1b1i" path="res://hub/ui-themes/header.tres" id="2_0p3lp"]
+[ext_resource type="Theme" uid="uid://f1k0rdfg3btk" path="res://hub/ui-themes/default.tres" id="3_h3ory"]
 
 [node name="PlayerSystem" type="Node2D" unique_id=809182662]
 
@@ -54,6 +52,7 @@ offset_left = 21.0
 offset_top = 11.0
 offset_right = 102.0
 offset_bottom = 34.0
+theme = ExtResource("2_0p3lp")
 text = "Objectives"
 
 [node name="Label2" type="Label" parent="PlayerUI/Objectives" unique_id=282384385]
@@ -62,46 +61,10 @@ offset_left = 23.0
 offset_top = 37.0
 offset_right = 104.0
 offset_bottom = 60.0
+theme = ExtResource("3_h3ory")
 text = "Defeat bandits"
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1873286781]
 ignore_rotation = false
 editor_draw_limits = true
 script = ExtResource("1_hk7lp")
-
-[node name="Player" type="CharacterBody2D" parent="." unique_id=1871139357]
-collision_layer = 0
-collision_mask = 0
-script = ExtResource("2_0p3lp")
-interior_layer = 2
-interior_mask = 3
-exterior_layer = 32
-exterior_mask = 4128
-
-[node name="Grapple" type="Line2D" parent="Player" unique_id=115981033]
-points = PackedVector2Array(0, 0, 0, 0)
-default_color = Color(0, 0, 0, 1)
-
-[node name="Person" type="Sprite2D" parent="Player" unique_id=208259555]
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("3_h3ory")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=666054407]
-position = Vector2(0, 16)
-shape = SubResource("CircleShape2D_qi68c")
-
-[node name="GroundCheck" type="Area2D" parent="Player" unique_id=301297836]
-collision_layer = 2
-collision_mask = 257
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/GroundCheck" unique_id=1287426176]
-position = Vector2(0, 16)
-shape = SubResource("CircleShape2D_qi68c")
-
-[node name="InteractCheck" type="Area2D" parent="Player" unique_id=406014977]
-collision_layer = 0
-collision_mask = 4
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/InteractCheck" unique_id=78024623]
-position = Vector2(0, 16)
-shape = SubResource("CircleShape2D_qi68c")

@@ -35,7 +35,7 @@ func get_piloting() -> Piloting:
 		if r is Piloting:
 			return r
 	return null
-func get_pilot() -> Player:
+func get_pilot() -> PlayerCharacter:
 	var piloting :Piloting = get_piloting()
 	if piloting:
 		return piloting.seat.controlled_by
@@ -51,7 +51,7 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 
 func move_ship(state: PhysicsDirectBodyState2D):
 	var engines :Engines = get_engines()
-	var pilot : Player = get_pilot()
+	var pilot : PlayerCharacter = get_pilot()
 	if not engines:
 		return
 	if not pilot:
@@ -86,7 +86,7 @@ const flight_deadzone = 30 #px
 func rotate_ship(state: PhysicsDirectBodyState2D):
 	var engines :Engines = get_engines()
 	var piloting : Piloting = get_piloting()
-	var pilot : Player = get_pilot()
+	var pilot : PlayerCharacter = get_pilot()
 	if not engines or not piloting:
 		return
 	if not pilot:
@@ -322,7 +322,6 @@ func get_avalible_power_out() -> Array[PowerOutHex]:
 			for h in r.get_out_hexes():
 				if not h.is_powering:
 					out.append(h)
-	print(out)
 	return out
 
 func toggle_power(power_hex):
