@@ -1,15 +1,10 @@
 [gd_scene format=3 uid="uid://dcpfkpex6ovaa"]
 
 [ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/ui_textures/RoundedSquare.png" id="1_0p3lp"]
-[ext_resource type="Script" uid="uid://b8g4jci7uq4ut" path="res://playerMovement/player_camera.gd" id="1_hk7lp"]
-[ext_resource type="Script" uid="uid://bvtrly1u1q4h7" path="res://playerMovement/player.gd" id="2_0p3lp"]
-[ext_resource type="Script" uid="uid://bmy54l1lxqu10" path="res://shipAI/Scripts/scanner_panel.gd" id="2_57v7p"]
-[ext_resource type="Texture2D" uid="uid://idculymd1355" path="res://playerMovement/person.png" id="3_h3ory"]
-[ext_resource type="PackedScene" uid="uid://oar1of8mix7f" path="res://playerCombat/Handgun.tscn" id="4_0p3lp"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_qi68c"]
-[ext_resource type="Theme" uid="uid://dj12nct3i1b1i" path="res://hub/ui-themes/header.tres" id="2_0p3lp"]
-[ext_resource type="Theme" uid="uid://f1k0rdfg3btk" path="res://hub/ui-themes/default.tres" id="3_h3ory"]
+[ext_resource type="Script" uid="uid://b8g4jci7uq4ut" path="res://playerMovement/player_camera.gd" id="2_camera"]
+[ext_resource type="Script" uid="uid://bmy54l1lxqu10" path="res://shipAI/Scripts/scanner_panel.gd" id="4_scanner"]
+[ext_resource type="Theme" uid="uid://dj12nct3i1b1i" path="res://hub/ui-themes/header.tres" id="7_header_theme"]
+[ext_resource type="Theme" uid="uid://f1k0rdfg3btk" path="res://hub/ui-themes/default.tres" id="8_default_theme"]
 
 [node name="PlayerSystem" type="Node2D" unique_id=809182662]
 
@@ -51,7 +46,7 @@ patch_margin_left = 20
 patch_margin_top = 20
 patch_margin_right = 20
 patch_margin_bottom = 20
-script = ExtResource("2_57v7p")
+script = ExtResource("4_scanner")
 
 [node name="Title" type="Label" parent="PlayerUI/ScannerPanel" unique_id=51751683]
 layout_mode = 0
@@ -59,8 +54,8 @@ offset_left = 21.0
 offset_top = 11.0
 offset_right = 102.0
 offset_bottom = 34.0
+theme = ExtResource("7_header_theme")
 text = "Objects Found"
-theme = ExtResource("2_0p3lp")
 
 [node name="Content" type="Label" parent="PlayerUI/ScannerPanel" unique_id=282384385]
 layout_mode = 0
@@ -68,10 +63,10 @@ offset_left = 23.0
 offset_top = 37.0
 offset_right = 104.0
 offset_bottom = 60.0
-theme = ExtResource("3_h3ory")
+theme = ExtResource("8_default_theme")
 text = "Defeat bandits"
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1873286781]
 ignore_rotation = false
 editor_draw_limits = true
-script = ExtResource("1_hk7lp")
+script = ExtResource("2_camera")

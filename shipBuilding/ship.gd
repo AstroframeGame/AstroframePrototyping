@@ -429,7 +429,7 @@ func _process(_delta: float) -> void:
 		if child.name == "PlayerSystem":
 			child.reparent(get_parent())
 			for node in child.get_children():
-				if node is Player:
+				if node is PlayerCharacter:
 					node.on_ship_exit()
 					break
 			break
