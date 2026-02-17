@@ -24,8 +24,8 @@ tile_size = Vector2i(78, 90)
 
 [node name="Ship" type="RigidBody2D" unique_id=1784127879 node_paths=PackedStringArray("power_links")]
 input_pickable = true
+mass = 40.0
 gravity_scale = 0.0
-sleeping = true
 script = ExtResource("1_n2ldv")
 power_links = {
 NodePath("Reactor_4/OutputHex2/OutClickArea"): NodePath("Engines_2/InputHex/InClickArea"),
@@ -35,11 +35,6 @@ NodePath("Reactor_4/OutputHex/OutClickArea"): NodePath("Shields_3/InputHex3/InCl
 
 [node name="HexGrid" type="TileMapLayer" parent="." unique_id=1277847278 instance=ExtResource("2_wwity")]
 tile_set = SubResource("TileSet_xsh4c")
-
-[node name="Edge" type="CollisionPolygon2D" parent="." unique_id=1883965998]
-build_mode = 1
-
-[node name="Ground" type="Area2D" parent="." unique_id=1850709735]
 
 [node name="Reactor_4" type="Node2D" parent="." unique_id=542255097 instance=ExtResource("3_kedgr")]
 position = Vector2(117, 45)
@@ -79,3 +74,12 @@ script = ExtResource("16_nfaj3")
 [node name="Hull_1" type="Node2D" parent="." unique_id=284853880 instance=ExtResource("17_x1xdn")]
 position = Vector2(-39, 180)
 script = ExtResource("4_8f6gn")
+
+[node name="Edge" type="CollisionPolygon2D" parent="." unique_id=1883965998]
+build_mode = 1
+polygon = PackedVector2Array(156.1, -112.55, 156.1, -67.54232, 195, -45.107674, 234, -67.6, 273.1, -45.050003, 273.1, 0.05000305, 234.1, 22.54232, 234.1, 67.35898, 273.12213, 89.88841, 273.10107, 134.90956, 312.07886, 157.4134, 312.05774, 202.54999, 272.97888, 225.1366, 234.00108, 202.63275, 195.1, 225.1166, 195.1, 270.05, 156, 292.6, 117, 270.10767, 78, 292.6, 38.9, 270.05, 38.9, 225.11658, -0.022239685, 202.6205, -39, 225.1, -78.1, 202.55, -78.1, 157.45, -39.0578, 134.93332, -39.078873, 89.91341, -0.0578537, 67.384605, -0.078811646, 22.578827, -39.057747, 0.049995422, -39.078873, -45.0866, -0.021125793, -67.6366, 38.97895, -45.095535, 77.9, -67.54232, 77.9, -112.55, 117, -135.1)
+
+[node name="Ground" type="Area2D" parent="." unique_id=1850709735]
+
+[node name="Solid" type="CollisionPolygon2D" parent="Ground" unique_id=285477827]
+polygon = PackedVector2Array(156.1, -112.55, 156.1, -67.54232, 195, -45.107674, 234, -67.6, 273.1, -45.050003, 273.1, 0.05000305, 234.1, 22.54232, 234.1, 67.35898, 273.12213, 89.88841, 273.10107, 134.90956, 312.07886, 157.4134, 312.05774, 202.54999, 272.97888, 225.1366, 234.00108, 202.63275, 195.1, 225.1166, 195.1, 270.05, 156, 292.6, 117, 270.10767, 78, 292.6, 38.9, 270.05, 38.9, 225.11658, -0.022239685, 202.6205, -39, 225.1, -78.1, 202.55, -78.1, 157.45, -39.0578, 134.93332, -39.078873, 89.91341, -0.0578537, 67.384605, -0.078811646, 22.578827, -39.057747, 0.049995422, -39.078873, -45.0866, -0.021125793, -67.6366, 38.97895, -45.095535, 77.9, -67.54232, 77.9, -112.55, 117, -135.1)

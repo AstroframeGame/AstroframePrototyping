@@ -1,8 +1,9 @@
 [gd_scene format=3 uid="uid://bkibqvfep8px0"]
 
-[ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/ui_textures/RoundedSquare.png" id="1_idfod"]
 [ext_resource type="Script" uid="uid://bdw1f2ciyocp4" path="res://shipBuilding/level_editor/hex_editor.gd" id="1_sx6es"]
 [ext_resource type="Script" uid="uid://duvfp0c112n5d" path="res://shipBuilding/level_editor/room_picker.gd" id="2_8axvm"]
+[ext_resource type="Theme" uid="uid://dj12nct3i1b1i" path="res://hub/ui-themes/header.tres" id="3_gbgp8"]
+[ext_resource type="Script" uid="uid://ckw7sol5r0pyt" path="res://shipBuilding/level_editor/ship_picker.gd" id="4_3b1i6"]
 [ext_resource type="PackedScene" uid="uid://b4ety2cv40p6l" path="res://shipBuilding/prefabs/ship.tscn" id="4_qoir8"]
 [ext_resource type="Script" uid="uid://dh4g6jyrhqp2w" path="res://shipBuilding/level_editor/editor_cam.gd" id="5_ujx4f"]
 [ext_resource type="Script" uid="uid://qknmsuin5gwv" path="res://shipBuilding/save_load.gd" id="7_q4pwh"]
@@ -18,30 +19,12 @@ offset_bottom = -202.0
 text = "ShipBuilding"
 
 [node name="Instructions" type="Label" parent="." unique_id=1952220908]
-offset_left = -349.0
-offset_top = -191.0
-offset_right = 363.0
-offset_bottom = -142.0
-text = "This is a ship level editor. Use the dropdown, right click to place, left to cycle, scroll to rotate."
-
-[node name="Todo" type="Label" parent="." unique_id=968046550]
-offset_left = -290.0
-offset_top = -74.0
-offset_right = 62.0
-offset_bottom = -25.0
-text = "To add
-- setup the power system
-- swap dots with circles?
-- create more rooms
-Done
-- Save/Load to Json functionality
-- Save to tscn
-- load from tscn
-- redo the controls
-- ship hex grid restructured
-- simple cam controller added
-Cancelled
-- multi editor"
+offset_left = -275.0
+offset_top = -193.0
+offset_right = -10.0
+offset_bottom = -144.0
+text = "This is a ship level editor.
+Middle mouse to pan."
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1182429860]
 
@@ -64,7 +47,7 @@ popup/item_2/id = 2
 popup/item_3/text = "Destroy"
 popup/item_3/id = 3
 
-[node name="SaveLoad" type="VBoxContainer" parent="UI" unique_id=551900175]
+[node name="Options" type="VBoxContainer" parent="UI" unique_id=551900175]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -72,52 +55,123 @@ offset_left = -150.0
 offset_bottom = 171.0
 grow_horizontal = 0
 
-[node name="SaveName" type="LineEdit" parent="UI/SaveLoad" unique_id=1508354069]
+[node name="SaveName" type="LineEdit" parent="UI/Options" unique_id=1508354069]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 text = "shipName"
 placeholder_text = "Ship Name"
 
-[node name="Savetscn" type="Button" parent="UI/SaveLoad" unique_id=396110949]
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/Options" unique_id=979771684]
 layout_mode = 2
-text = "Save to TSCN"
 
-[node name="Savejson" type="Button" parent="UI/SaveLoad" unique_id=1587268666]
+[node name="Save" type="VBoxContainer" parent="UI/Options/HBoxContainer" unique_id=2035655805]
 layout_mode = 2
-text = "Save to JSON"
 
-[node name="Loadtscn" type="Button" parent="UI/SaveLoad" unique_id=92137461]
+[node name="Label" type="Label" parent="UI/Options/HBoxContainer/Save" unique_id=1943679936]
 layout_mode = 2
-text = "Load TSCN"
+text = "Save"
 
-[node name="Loadjson" type="Button" parent="UI/SaveLoad" unique_id=1840473777]
+[node name="Savetscn" type="Button" parent="UI/Options/HBoxContainer/Save" unique_id=396110949]
 layout_mode = 2
-text = "Load JSON"
+text = "TSCN"
 
-[node name="RoomPicker" type="NinePatchRect" parent="UI" unique_id=1913782451]
-self_modulate = Color(0.16078432, 0.16078432, 0.16078432, 0.36862746)
+[node name="Savejson" type="Button" parent="UI/Options/HBoxContainer/Save" unique_id=1587268666]
+layout_mode = 2
+text = "JSON"
+
+[node name="Load" type="VBoxContainer" parent="UI/Options/HBoxContainer" unique_id=1892171249]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/Options/HBoxContainer/Load" unique_id=1087087221]
+layout_mode = 2
+text = "Load"
+
+[node name="Loadtscn" type="Button" parent="UI/Options/HBoxContainer/Load" unique_id=92137461]
+layout_mode = 2
+text = "TSCN"
+
+[node name="Loadjson" type="Button" parent="UI/Options/HBoxContainer/Load" unique_id=1840473777]
+layout_mode = 2
+text = "JSON"
+
+[node name="TabContainer" type="TabContainer" parent="UI" unique_id=1391215081]
 anchors_preset = 9
 anchor_bottom = 1.0
-offset_top = 100.0
-offset_right = 221.0
+offset_top = 89.0
+offset_right = 336.0
 grow_vertical = 2
-texture = ExtResource("1_idfod")
-patch_margin_left = 50
-patch_margin_top = 50
-patch_margin_right = 50
-patch_margin_bottom = 50
-script = ExtResource("2_8axvm")
+current_tab = 1
 
-[node name="ScrollContainer" type="ScrollContainer" parent="UI/RoomPicker" unique_id=158398648]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/RoomPicker/ScrollContainer" unique_id=1348412978]
+[node name="ShipPicker" type="ScrollContainer" parent="UI/TabContainer" unique_id=158398648]
+visible = false
 layout_mode = 2
+script = ExtResource("4_3b1i6")
+metadata/_tab_index = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/TabContainer/ShipPicker" unique_id=1348412978]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Header" type="Label" parent="UI/TabContainer/ShipPicker/VBoxContainer" unique_id=668103180]
+layout_mode = 2
+theme = ExtResource("3_gbgp8")
+text = "Ships"
+horizontal_alignment = 1
+
+[node name="RoomPicker" type="ScrollContainer" parent="UI/TabContainer" unique_id=1570167957]
+layout_mode = 2
+script = ExtResource("2_8axvm")
+metadata/_tab_index = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/TabContainer/RoomPicker" unique_id=764982012]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Header" type="Label" parent="UI/TabContainer/RoomPicker/VBoxContainer" unique_id=1453026274]
+layout_mode = 2
+theme = ExtResource("3_gbgp8")
+text = "Rooms"
+horizontal_alignment = 1
+
+[node name="MetaData" type="ScrollContainer" parent="UI/TabContainer" unique_id=2080992148]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/TabContainer/MetaData" unique_id=2072311992]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Header" type="Label" parent="UI/TabContainer/MetaData/VBoxContainer" unique_id=2139685824]
+layout_mode = 2
+theme = ExtResource("3_gbgp8")
+text = "MetaData"
+horizontal_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="UI/TabContainer/MetaData/VBoxContainer" unique_id=1098563377]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/TabContainer/MetaData/VBoxContainer/HBoxContainer2" unique_id=1942919115]
+layout_mode = 2
+text = "Ship Name"
+
+[node name="ShipName" type="LineEdit" parent="UI/TabContainer/MetaData/VBoxContainer/HBoxContainer2" unique_id=764822171]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+placeholder_text = "Ship Name"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/TabContainer/MetaData/VBoxContainer" unique_id=178939804]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/TabContainer/MetaData/VBoxContainer/HBoxContainer" unique_id=282690061]
+layout_mode = 2
+text = "Ship Color"
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="UI/TabContainer/MetaData/VBoxContainer/HBoxContainer" unique_id=3370567]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "Ship Color"
+color = Color(0.38762408, 0.7610512, 0.45739943, 1)
 
 [node name="HexEditor" type="Node" parent="." unique_id=1998897616]
 script = ExtResource("1_sx6es")
