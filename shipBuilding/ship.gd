@@ -68,17 +68,7 @@ func move_ship(state: PhysicsDirectBodyState2D):
 		state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * delta)
 	else:
 		state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * engines.drag_multiplier * delta)
-		
 
-# THIS SHOULD BE IN THE INPUT SINGLETON
-var mouse_controller = "mouse"
-func _input(event)-> void:
-	if event is InputEventMouseMotion:
-		if event.relative.length() > 1:
-			mouse_controller = "mouse"
-	var look_dir_controller = Input.get_vector("ship_look_left","ship_look_right", "ship_look_down", "ship_look_up")
-	if look_dir_controller.length() > 0.1:
-		mouse_controller = "controller"
 
 const flight_deadzone = 30 #px
 func rotate_ship(state: PhysicsDirectBodyState2D):
@@ -90,18 +80,10 @@ func rotate_ship(state: PhysicsDirectBodyState2D):
 	if not pilot:
 		state.angular_velocity = 0
 		return
-	var center = get_viewport_rect().get_center()
-	var look_dir = get_viewport().get_mouse_position() - center
-	if look_dir.abs().x < 30:
-		look_dir = Vector2.ZERO
-	else:
-		look_dir.x -= flight_deadzone * sign(look_dir.x) 
-	# JITTER
-	#var target_angle = look_dir.angle() + PI/2
-	#var angle_delta = wrapf(target_angle - global_rotation, -PI, PI)
+	var look_dir = InputHelper.mouse_center_offset_deadzone(flight_deadzone)
 	var rot_amount = look_dir.x * 0.01
-	if mouse_controller == "controller":
-		rot_amount = Input.get_axis("ship_look_left","ship_look_right")
+	if not InputHelper.using_mouse:
+		rot_amount = InputHelper.controller_look.x
 	state.angular_velocity = rot_amount * engines.get_rotational_thrust()
 	
 func calc_center_of_mass():
