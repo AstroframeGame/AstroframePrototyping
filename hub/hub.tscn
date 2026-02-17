@@ -114,16 +114,30 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -22.5
-offset_top = -20.0
-offset_right = 22.5
-offset_bottom = 20.0
+offset_left = -53.0
+offset_top = -63.155
+offset_right = 53.0
+offset_bottom = 170.8453
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Singleplayer" type="Button" parent="UI/Main/VBoxContainer" unique_id=1258526734]
 layout_mode = 2
 text = "Singleplayer"
+
+[node name="Multiplayer" type="VBoxContainer" parent="UI/Main/VBoxContainer" unique_id=1771371660]
+layout_mode = 2
+
+[node name="Host" type="Button" parent="UI/Main/VBoxContainer/Multiplayer" unique_id=1550926236]
+layout_mode = 2
+text = "Host"
+
+[node name="Join" type="Button" parent="UI/Main/VBoxContainer/Multiplayer" unique_id=1183886268]
+layout_mode = 2
+text = "Join"
+
+[node name="LobbyId" type="LineEdit" parent="UI/Main/VBoxContainer/Multiplayer" unique_id=2096278151]
+layout_mode = 2
 
 [node name="Options" type="Button" parent="UI/Main/VBoxContainer" unique_id=884632170]
 layout_mode = 2

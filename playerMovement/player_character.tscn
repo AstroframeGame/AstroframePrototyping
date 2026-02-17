@@ -48,3 +48,11 @@ shape = SubResource("CircleShape2D_qi68c")
 
 [node name="handgun" parent="." unique_id=1166717209 instance=ExtResource("3_me87i")]
 z_index = 1
+
+[node name="NamerTag" type="Label" parent="." unique_id=907102984]
+offset_left = -59.0
+offset_top = -58.0
+offset_right = 60.0
+offset_bottom = -36.0
+text = "Name"
+horizontal_alignment = 1
