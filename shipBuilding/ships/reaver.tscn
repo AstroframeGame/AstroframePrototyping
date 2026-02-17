@@ -1,0 +1,101 @@
+[gd_scene format=3 uid="uid://faukavu4hxon"]
+
+[ext_resource type="Script" uid="uid://cd7q0b3e1v6go" path="res://shipAI/Scripts/reaver.gd" id="1_fxyfo"]
+[ext_resource type="PackedScene" uid="uid://c2n7netp00xn6" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_42ouq"]
+[ext_resource type="PackedScene" uid="uid://qteo7ksf47a4" path="res://shipBuilding/rooms/piloting_1.tscn" id="3_don5h"]
+[ext_resource type="PackedScene" uid="uid://bmfrsjjfduwqn" path="res://shipBuilding/rooms/cannon.tscn" id="5_42ouq"]
+[ext_resource type="PackedScene" uid="uid://c80teck1ccmdv" path="res://shipBuilding/rooms/reactor_2.tscn" id="7_l5nxb"]
+[ext_resource type="PackedScene" uid="uid://daae3tloj435m" path="res://shipAI/prefabs/hud.tscn" id="8_42ouq"]
+[ext_resource type="PackedScene" uid="uid://dir8uoqft75m0" path="res://shipBuilding/rooms/airlock_1.tscn" id="9_dmnwi"]
+[ext_resource type="PackedScene" uid="uid://cebf4gqkt7jib" path="res://shipBuilding/rooms/engines_2.tscn" id="11_npxj2"]
+
+[sub_resource type="TileSet" id="TileSet_xsh4c"]
+tile_shape = 3
+tile_size = Vector2i(78, 90)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pkrgn"]
+radius = 1843.0988
+
+[node name="Reaver" type="RigidBody2D" unique_id=1784127879 node_paths=PackedStringArray("power_links", "hud") groups=["pirate_ship"]]
+input_pickable = true
+mass = 24.0
+gravity_scale = 0.0
+script = ExtResource("1_fxyfo")
+power_links = {
+null: null
+}
+max_hit_points = 280
+hit_points = 280
+hud = NodePath("HUD")
+
+[node name="HexGrid" parent="." unique_id=1277847278 instance=ExtResource("2_42ouq")]
+tile_set = SubResource("TileSet_xsh4c")
+
+[node name="Edge" type="CollisionPolygon2D" parent="." unique_id=1000707440]
+build_mode = 1
+polygon = PackedVector2Array(117.057755, -45.099983, 117.07881, -0.07883453, 156.05774, 22.450005, 156.07887, 67.58659, 117.05779, 90.11542, 117.07887, 135.13657, 78.1, 157.64104, 78.1, 202.55, 39, 225.1, 0, 202.60767, -39, 225.1, -78.1, 202.55, -78.1, 157.59105, -117.07887, 135.0866, -117.05782, 90.1154, -156.07887, 67.58659, -156.05774, 22.450005, -117.07881, -0.07883453, -117.057755, -45.099983, -77.97888, -67.68657, -38.9355, -45.144867, 0, -67.6, 38.9355, -45.144867, 77.97888, -67.68657)
+
+[node name="Piloting_1" parent="." unique_id=150588005 instance=ExtResource("3_don5h")]
+position = Vector2(0, -22.5)
+
+[node name="Airlock_1" parent="." unique_id=2084884563 instance=ExtResource("9_dmnwi")]
+position = Vector2(0, 112.5)
+
+[node name="Engines_2" parent="." unique_id=1685651061 instance=ExtResource("11_npxj2")]
+position = Vector2(-39, 180)
+
+[node name="Cannon" parent="." unique_id=195129740 instance=ExtResource("5_42ouq")]
+position = Vector2(-117, 45)
+rotation = 5.2359877
+
+[node name="Sprite" parent="Cannon/Gun" parent_id_path=PackedInt32Array(195129740, 783557809) index="0" unique_id=879061294]
+rotation = -2.0943952
+
+[node name="@Node2D@58" parent="." unique_id=1807958868 instance=ExtResource("5_42ouq")]
+position = Vector2(117, 45)
+rotation = 4.1887903
+
+[node name="Sprite" parent="@Node2D@58/Gun" parent_id_path=PackedInt32Array(1807958868, 783557809) index="0" unique_id=879061294]
+rotation = -4.1887903
+
+[node name="Reactor_2" parent="." unique_id=542255097 instance=ExtResource("7_l5nxb")]
+position = Vector2(-78, 112.5)
+rotation = 5.2359877
+
+[node name="@Node2D@59" parent="." unique_id=771592870 instance=ExtResource("7_l5nxb")]
+position = Vector2(39, 45)
+rotation = 1.0471976
+
+[node name="Ground" type="Area2D" parent="." unique_id=1498143212]
+visible = false
+
+[node name="Solid" type="CollisionPolygon2D" parent="Ground" unique_id=1638999231]
+polygon = PackedVector2Array(117.057755, -45.099983, 117.07881, -0.07883453, 156.05774, 22.450005, 156.07887, 67.58659, 117.05779, 90.11542, 117.07887, 135.13657, 78.1, 157.64104, 78.1, 202.55, 39, 225.1, 0, 202.60767, -39, 225.1, -78.1, 202.55, -78.1, 157.59105, -117.07887, 135.0866, -117.05782, 90.1154, -156.07887, 67.58659, -156.05774, 22.450005, -117.07881, -0.07883453, -117.057755, -45.099983, -77.97888, -67.68657, -38.9355, -45.144867, 0, -67.6, 38.9355, -45.144867, 77.97888, -67.68657)
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="." unique_id=1304921086]
+visible = false
+vertices = PackedVector2Array(-117, -46, -79, -68, 78, -67, 116, -45, 156, 23, 156, 68, 78, 203, 40, 225, -37, 225, -79, 202, -157, 68, -156, 23)
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1609805294]
+path_desired_distance = 50.0
+target_desired_distance = 500.0
+debug_enabled = true
+debug_path_custom_color = Color(1, 0, 0, 1)
+
+[node name="DetectionRange" type="Area2D" parent="." unique_id=371212281]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRange" unique_id=1822267753]
+shape = SubResource("CircleShape2D_pkrgn")
+debug_color = Color(0.827473, 0.16812393, 1.92523e-07, 0)
+
+[node name="DetectionTimer" type="Timer" parent="." unique_id=57873225]
+wait_time = 2.5
+one_shot = true
+
+[node name="HUD" parent="." unique_id=532014552 instance=ExtResource("8_42ouq")]
+
+[editable path="Cannon"]
+[editable path="Cannon/Gun"]
+[editable path="@Node2D@58"]
+[editable path="@Node2D@58/Gun"]

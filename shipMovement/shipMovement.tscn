@@ -22,6 +22,7 @@ shader_parameter/texture_scale = Vector2(0.001, 0.001)
 layer = -2
 
 [node name="GridBackground" type="ColorRect" parent="Background" unique_id=1740332153]
+z_index = -10
 material = SubResource("ShaderMaterial_rj20w")
 anchors_preset = 15
 anchor_right = 1.0

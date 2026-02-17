@@ -200,7 +200,6 @@ offset_bottom = 8.0
 text = "Back"
 
 [node name="Profiling" type="CanvasLayer" parent="." unique_id=1820677988]
-visible = false
 
 [node name="fps" type="Label" parent="Profiling" unique_id=1807193106]
 anchors_preset = 1

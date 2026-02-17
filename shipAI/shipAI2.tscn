@@ -1,11 +1,12 @@
-[gd_scene format=3 uid="uid://ci700nfmrtxsd"]
+[gd_scene format=3 uid="uid://6ehnee1j3rt7"]
 
-[ext_resource type="Shader" uid="uid://byhs5u1pst1nw" path="res://shipMovement/space_bg.gdshader" id="2_vrncs"]
-[ext_resource type="Texture2D" uid="uid://blw3cf71ki3n1" path="res://encounter/grid_black_1024x1024.png" id="3_nhcgg"]
-[ext_resource type="Script" path="res://shipMovement/scrolling_bg.gd" id="4_8rdp5"]
-[ext_resource type="PackedScene" uid="uid://b5hikq1i2xtpw" path="res://shipBuilding/ships/player_ship.tscn" id="5_nhcgg"]
-[ext_resource type="PackedScene" uid="uid://biexdduqulqnx" path="res://shipBuilding/ships/wasp.tscn" id="7_jrc0m"]
-[ext_resource type="FontFile" uid="uid://bvhs72w1tp2uu" path="res://hub/fonts/Ethnocentric-Regular.otf" id="8_8rdp5"]
+[ext_resource type="Shader" path="res://shipMovement/space_bg.gdshader" id="1_vhvb5"]
+[ext_resource type="Texture2D" uid="uid://blw3cf71ki3n1" path="res://encounter/grid_black_1024x1024.png" id="2_dwfna"]
+[ext_resource type="Script" path="res://shipMovement/scrolling_bg.gd" id="3_l5lfu"]
+[ext_resource type="PackedScene" path="res://shipBuilding/ships/wasp.tscn" id="4_jomsf"]
+[ext_resource type="PackedScene" path="res://shipBuilding/ships/player_ship.tscn" id="5_dmgyq"]
+[ext_resource type="PackedScene" uid="uid://dcpfkpex6ovaa" path="res://playerMovement/player_system.tscn" id="6_ksik8"]
+[ext_resource type="FontFile" uid="uid://bvhs72w1tp2uu" path="res://hub/fonts/Ethnocentric-Regular.otf" id="7_73825"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_jrc0m"]
 vertices = PackedVector2Array(15042.953, 15250.023, -15286, 15315.969, -15286, -15079, 14910.039, -15079)
@@ -13,15 +14,15 @@ polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-15296, -15089, 14920, -15089, 15053, 15260, -15296, 15326)])
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vo3si"]
-shader = ExtResource("2_vrncs")
-shader_parameter/grid_texture = ExtResource("3_nhcgg")
+shader = ExtResource("1_vhvb5")
+shader_parameter/grid_texture = ExtResource("2_dwfna")
 shader_parameter/camera_offset = Vector2(0, 0)
 shader_parameter/camera_zoom = 1.0
 shader_parameter/camera_rotation = 0.0
 shader_parameter/texture_scale = Vector2(0.001, 0.001)
 
 [sub_resource type="Theme" id="Theme_vo3si"]
-default_font = ExtResource("8_8rdp5")
+default_font = ExtResource("7_73825")
 default_font_size = 72
 
 [node name="ShipAi" type="Node2D" unique_id=2125256018]
@@ -40,26 +41,24 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("4_8rdp5")
+script = ExtResource("3_l5lfu")
 
-[node name="Wasp" parent="." unique_id=1784127879 instance=ExtResource("7_jrc0m")]
+[node name="Wasp" parent="." unique_id=1784127879 instance=ExtResource("4_jomsf")]
 position = Vector2(2499, 438)
 
-[node name="Wasp3" parent="." unique_id=1126325701 instance=ExtResource("7_jrc0m")]
+[node name="Wasp3" parent="." unique_id=1126325701 instance=ExtResource("4_jomsf")]
 position = Vector2(2547, 919)
 
-[node name="Wasp2" parent="." unique_id=974459420 instance=ExtResource("7_jrc0m")]
+[node name="Wasp2" parent="." unique_id=974459420 instance=ExtResource("4_jomsf")]
 position = Vector2(2111, 1570)
 
-[node name="PlayerShip" parent="." unique_id=1510963782 node_paths=PackedStringArray("power_links") instance=ExtResource("5_nhcgg")]
+[node name="PlayerShip" parent="." unique_id=1510963782 instance=ExtResource("5_dmgyq")]
 position = Vector2(358, 356)
-power_links = {
-NodePath("Reactor_4/OutputHex/OutClickArea"): NodePath("Cannon/InputHex/InClickArea"),
-NodePath("Reactor_4/OutputHex2/OutClickArea"): NodePath("Shields_3/InputHex3/InClickArea")
-}
 
-[node name="BumbleBee" parent="." unique_id=1937706760 instance=ExtResource("7_jrc0m")]
-position = Vector2(2411, 261)
+[node name="PlayerSystem" parent="." unique_id=809182662 instance=ExtResource("6_ksik8")]
+position = Vector2(44, 512)
+
+[node name="Projectiles" type="Node2D" parent="." unique_id=1484753651]
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=797339890]
 

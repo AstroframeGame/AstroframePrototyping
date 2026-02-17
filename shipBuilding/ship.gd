@@ -2,6 +2,7 @@ class_name Ship
 extends RigidBody2D
 
 signal room_clicked(room: Room, button_index: int)
+signal on_airlock_interaction(is_inside : bool)
 
 const HEX_GRID_PREFAB = preload("res://shipBuilding/prefabs/hex_grid.tscn")
 @onready var grid: TileMapLayer # set in update colliders
@@ -9,14 +10,29 @@ var occupied_cells: Dictionary[Vector2i, Room] = {} # only calculated in ship_bu
 
 @export var power_links : Dictionary[PowerOutHex, PowerInHex]
 
+@export var max_hit_points : int = 0
+@export var hit_points : int = 0
+
+@export var hud : CanvasLayer = null
+
 func _ready() -> void:
 	update_colliders()
 	calc_center_of_mass()
 	update_occupied_cells()
+	
+	for child in get_children():
+		if child is Room:
+			max_hit_points += child.durability
+	hit_points = max_hit_points
+	hud = get_node_or_null("HUD")
+	if hud:
+		hud.initialize()
+	z_index = 1
 
 func ground_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
 		var cell = world_to_grid(get_global_mouse_position())
+		print("A", cell)
 		if occupied_cells.has(cell):
 			var room = occupied_cells[cell]
 			print("Room ", room, " was clicked")
@@ -38,6 +54,12 @@ func get_pilot() -> PlayerCharacter:
 	if piloting:
 		return piloting.seat.controlled_by
 	return null
+func get_cannons() -> Array[Cannon]:
+	var cannons : Array[Cannon]
+	for r in get_children():
+		if r is Cannon:
+			cannons.append(r)
+	return cannons
 
 func handle_input(_event : InputEvent):
 	#print_debug("input ship", event)
@@ -68,19 +90,9 @@ func move_ship(state: PhysicsDirectBodyState2D):
 		state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * delta)
 	else:
 		state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * engines.drag_multiplier * delta)
-		
 
-# THIS SHOULD BE IN THE INPUT SINGLETON
-var mouse_controller = "mouse"
-func _input(event)-> void:
-	if event is InputEventMouseMotion:
-		if event.relative.length() > 1:
-			mouse_controller = "mouse"
-	var look_dir_controller = Input.get_vector("ship_look_left","ship_look_right", "ship_look_down", "ship_look_up")
-	if look_dir_controller.length() > 0.1:
-		mouse_controller = "controller"
 
-const flight_deadzone = 30 #px
+const flight_deadzone = 0.05 #screen %
 func rotate_ship(state: PhysicsDirectBodyState2D):
 	var engines :Engines = get_engines()
 	var piloting : Piloting = get_piloting()
@@ -90,18 +102,10 @@ func rotate_ship(state: PhysicsDirectBodyState2D):
 	if not pilot:
 		state.angular_velocity = 0
 		return
-	var center = get_viewport_rect().get_center()
-	var look_dir = get_viewport().get_mouse_position() - center
-	if look_dir.abs().x < 30:
-		look_dir = Vector2.ZERO
-	else:
-		look_dir.x -= flight_deadzone * sign(look_dir.x) 
-	# JITTER
-	#var target_angle = look_dir.angle() + PI/2
-	#var angle_delta = wrapf(target_angle - global_rotation, -PI, PI)
+	var look_dir = InputHelper.mouse_center_offset_deadzone(flight_deadzone)
 	var rot_amount = look_dir.x * 0.01
-	if mouse_controller == "controller":
-		rot_amount = Input.get_axis("ship_look_left","ship_look_right")
+	if not InputHelper.using_mouse:
+		rot_amount = InputHelper.controller_look.x
 	state.angular_velocity = rot_amount * engines.get_rotational_thrust()
 	
 func calc_center_of_mass():
@@ -409,4 +413,26 @@ func remove_power_link_out(power_out : PowerOutHex):
 		power_in.room.on_power_level_change.emit(power_in)
 		return true
 	return false
+#endregion
+
+#region Health	
+func take_damage(amount:int):
+	hit_points -= amount
+	hud.update_hp_bar()
+
+# death check
+func _process(_delta: float) -> void:
+	if hit_points > 0:
+		return 
+	# relocate player if its in the ship
+	for child in get_children():
+		if child.name == "PlayerSystem":
+			child.reparent(get_parent())
+			for node in child.get_children():
+				if node is PlayerCharacter:
+					node.on_ship_exit()
+					break
+			break
+	queue_free()
+
 #endregion
