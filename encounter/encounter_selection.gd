@@ -8,7 +8,6 @@ extends Node2D
 
 @export_file("*.tscn") var encounter_paths: Array[String]
 
-
 func _ready():
 	name = "EncounterSelection"
 	
@@ -29,8 +28,10 @@ func _ready():
 func _on_back_pressed() -> void:
 	back_btn.visible = false
 	encounter_list.visible = true
-	game_manager.game_quit.emit()
-	game_manager.current_scene.queue_free()
+	if game_manager.current_scene and game_manager.current_scene != self:
+		game_manager.current_scene.queue_free()
+		game_manager.current_scene = self
+		game_manager.game_quit.emit()
 
 func _on_btn_pressed(path: String) -> void:
 	back_btn.visible = true
