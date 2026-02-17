@@ -14,6 +14,12 @@ func initialize(parent : Node2D, parent_velocity : Vector2, projectileSpeed : fl
 	linear_velocity = direction * speed + parent_velocity
 	damage = projectileDamage
 	firer = parent
+	var inside = false
+	if inside:
+		z_index = 5
+	else:
+		z_index = 13
+	
 	#angular_velocity = # parent? didn't seem to affect anything
 
 func _on_body_entered(body: Node) -> void:

@@ -136,14 +136,12 @@ func on_ship_enter(new_ship : Ship):
 	on_ground(new_ship)
 	ship = new_ship
 	print(name + " parent to ship")
-	collision_layer = interior_layer
-	collision_mask = interior_mask
+	update_layers(true)
 
 func on_ship_exit():
 	# unground will be called when stops intersecting
 	print(name + " parent to wordl")
-	collision_layer = exterior_layer
-	collision_mask = exterior_mask
+	update_layers(false)
 
 func apply_ground_body_transform():
 	if is_instance_valid(ground_body):
@@ -151,6 +149,16 @@ func apply_ground_body_transform():
 		var diff = current_transform * prev_ground_body_transform.affine_inverse()
 		global_transform = diff * global_transform
 		prev_ground_body_transform = current_transform
+		
+func update_layers(inside : bool):
+	if inside:
+		collision_layer = interior_layer
+		collision_mask = interior_mask
+		z_index = 4
+	else:
+		collision_layer = exterior_layer
+		collision_mask = exterior_mask
+		z_index = 12
 #endregion
 
 func takeDamage(damage : int):

@@ -13,6 +13,7 @@ func _ready() -> void:
 	update_colliders()
 	calc_center_of_mass()
 	update_occupied_cells()
+	z_index = 1
 
 func ground_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
