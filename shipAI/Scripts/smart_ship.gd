@@ -50,10 +50,10 @@ var _target_angle : float
 var _angle_delta : float
 
 func sit_idle():
-	print("reaver idling")
+	print("wasp idling")
 
 func approach_target():
-	print("reaver approaching")
+	print("wasp approaching")
 	_look_dir = nav_agent.get_next_path_position() - piloting.global_position
 	_target_angle = _look_dir.angle() + PI/2
 	_angle_delta = wrapf(_target_angle - global_rotation, -PI, PI)
@@ -61,7 +61,7 @@ func approach_target():
 	linear_velocity -= transform.y * engines.standard_thrust
 
 func align():
-	print("reaver aligning")
+	print("wasp aligning")
 	global_position = target.to_global(_latching_position)
 	_look_dir = -(piloting.global_position - target.global_position)
 	_target_angle = _look_dir.angle() + PI/2 + PI
@@ -70,7 +70,7 @@ func align():
 	angular_velocity = _angle_delta * engines.rotational_thrust * _delta * 1000
 	
 func latch_on():
-	print("reaver latching")
+	print("wasp latching")
 	global_position = target.to_global(_latching_position)
 	_look_dir = -(piloting.global_position - target.global_position)
 	rotation = _look_dir.angle() + PI/2 + PI
@@ -81,6 +81,6 @@ func flank():
 	print("")
 
 func flee():
-	print("reaver fleeing")
+	print("wasp fleeing")
 	linear_velocity -= transform.y * engines.standard_thrust * 3
 #endregion 
