@@ -57,6 +57,8 @@ vertices = PackedVector2Array(39, 91, 78, 67, 157, -67, 157, -114, 118, -135, 0,
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1535005791]
 path_desired_distance = 50.0
 target_desired_distance = 500.0
+avoidance_enabled = true
+radius = 200.0
 debug_enabled = true
 debug_path_custom_color = Color(1, 0, 0, 1)
 
