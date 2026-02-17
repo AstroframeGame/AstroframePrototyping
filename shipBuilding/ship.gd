@@ -402,17 +402,19 @@ func take_damage(amount:int):
 	hit_points -= amount
 	hud.update_hp_bar()
 
-func _process(delta: float) -> void:
+# death check
+func _process(_delta: float) -> void:
 	if hit_points > 0:
 		return 
-		
-	print("ship died?")
+	# relocate player if its in the ship
 	for child in get_children():
 		if child.name == "PlayerSystem":
-			print("player found on dying ship")
 			child.reparent(get_parent())
+			for node in child.get_children():
+				if node is Player:
+					node.on_ship_exit()
+					break
 			break
-		
 	queue_free()
 
 #endregion

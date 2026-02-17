@@ -1,4 +1,4 @@
-class_name Bumble_Bee
+class_name Wasp
 extends Smart_Ship
 
 func _physics_process(_delta: float) -> void:

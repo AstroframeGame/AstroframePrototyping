@@ -28,7 +28,8 @@ func ship_detected():
 
 func update_state():
 	pass
-
+	
+#region State Processes
 func process_state():
 	match current_state:
 		State.IDLE:
@@ -39,6 +40,8 @@ func process_state():
 			align()
 		State.LATCHING:
 			latch_on()
+		State.FLANKING:
+			flank()
 		State.FLEEING:
 			flee()
 
@@ -47,10 +50,10 @@ var _target_angle : float
 var _angle_delta : float
 
 func sit_idle():
-	print("bee idling")
+	print("reaver idling")
 
 func approach_target():
-	print("bee approaching")
+	print("reaver approaching")
 	_look_dir = nav_agent.get_next_path_position() - piloting.global_position
 	_target_angle = _look_dir.angle() + PI/2
 	_angle_delta = wrapf(_target_angle - global_rotation, -PI, PI)
@@ -58,7 +61,7 @@ func approach_target():
 	linear_velocity -= transform.y * engines.standard_thrust
 
 func align():
-	print("bee aligning")
+	print("reaver aligning")
 	global_position = target.to_global(_latching_position)
 	_look_dir = -(piloting.global_position - target.global_position)
 	_target_angle = _look_dir.angle() + PI/2 + PI
@@ -67,13 +70,17 @@ func align():
 	angular_velocity = _angle_delta * engines.rotational_thrust * _delta * 1000
 	
 func latch_on():
-	print("bee latching")
+	print("reaver latching")
 	global_position = target.to_global(_latching_position)
 	_look_dir = -(piloting.global_position - target.global_position)
 	rotation = _look_dir.angle() + PI/2 + PI
 	for cannon in get_cannons():
 		cannon.gun.shoot(5)
 
+func flank():
+	print("")
+
 func flee():
-	print("bee fleeing")
+	print("reaver fleeing")
 	linear_velocity -= transform.y * engines.standard_thrust * 3
+#endregion 

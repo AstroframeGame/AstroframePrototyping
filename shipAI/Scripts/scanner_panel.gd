@@ -3,13 +3,6 @@ extends NinePatchRect
 @onready var title : Label =  $Title
 @onready var content : Label = $Content
 
-''' TODO:
-* make it so other tagged ships can be found
-* work on the bucaneer ai
-* 
-
-'''
-
 var ships_found = {
 	type = "",
 	list = [],
