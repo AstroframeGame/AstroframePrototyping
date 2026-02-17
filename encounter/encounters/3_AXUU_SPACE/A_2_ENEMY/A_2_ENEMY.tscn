@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://bva0v3j62wtw5"]
+
+[ext_resource type="Shader" uid="uid://byhs5u1pst1nw" path="res://shipMovement/space_bg.gdshader" id="1_s0v03"]
+[ext_resource type="Texture2D" uid="uid://blw3cf71ki3n1" path="res://encounter/grid_black_1024x1024.png" id="2_04uuu"]
+[ext_resource type="Script" uid="uid://ckvkvmc3ju7xr" path="res://shipMovement/scrolling_bg.gd" id="3_1owmp"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6xs7c"]
+shader = ExtResource("1_s0v03")
+shader_parameter/grid_texture = ExtResource("2_04uuu")
+shader_parameter/camera_offset = Vector2(0, 0)
+shader_parameter/camera_zoom = 1.0
+shader_parameter/camera_rotation = 0.0
+shader_parameter/texture_scale = Vector2(0.001, 0.001)
+
+[node name="A2Enemy" type="Node2D" unique_id=411502324]
+
+[node name="Background" type="CanvasLayer" parent="." unique_id=753227156]
+layer = -2
+
+[node name="GridBackground" type="ColorRect" parent="Background" unique_id=1456483366]
+z_index = -10
+material = SubResource("ShaderMaterial_6xs7c")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_1owmp")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="." unique_id=1166642190]
+offset_left = 154.0
+offset_top = 118.0
+offset_right = 252.0
+offset_bottom = 140.0
+text = "A_2_ENEMY"

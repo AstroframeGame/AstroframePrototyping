@@ -11,6 +11,14 @@ var npcs: Array
 var gm : GameManager
 var dialouge_runner : DialougeRunner
 
+func init():
+	# set location
+	location = enc_base_dir.split("/")[4]
+	location = location.right(-2)
+	
+	# get settings from encounter dictionary
+	settings = LevelStateManager.encounter_dictionary[location][name]
+
 func preload_scene_dialogue():
 	# get dialogue system
 	gm = get_tree().root.get_node("Hub").get_node("GameManager")

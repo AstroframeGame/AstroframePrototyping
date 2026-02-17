@@ -8,8 +8,7 @@ signal trigger_dialogue(npc: String, cat: String)
 func _ready() -> void:	
 	name = "0_1_DEMO"
 	enc_base_dir = get_script().get_path().get_base_dir()
-	location = enc_base_dir.split("/")[4]
-	settings = LevelStateManager.encounter_dictionary[location][name]
+	init()
 	
 	# set npc metadata 
 	faction_ship.name = "0_1_FACTION_PATROL"

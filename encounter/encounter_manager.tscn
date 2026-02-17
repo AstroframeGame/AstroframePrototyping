@@ -4,11 +4,20 @@
 
 [node name="EncounterSelection" type="Node2D" unique_id=818246174]
 script = ExtResource("1_lacgv")
-encounter_paths = Array[String](["uid://b6vnbwkbboq7g"])
+encounter_paths = Array[String](["uid://b6vnbwkbboq7g", "uid://dxrvojignopxd", "uid://q2p0800lhjde", "uid://b8cl6isnr2yv7", "uid://ipbt6kkxpxax", "uid://bva0v3j62wtw5", "uid://cuk3wk63bjabv"])
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1347541209]
 
-[node name="EncounterList" type="VBoxContainer" parent="CanvasLayer" unique_id=475968071]
-offset_top = 35.0
-offset_right = 40.0
-offset_bottom = 75.0
+[node name="Options" type="VBoxContainer" parent="CanvasLayer" unique_id=308039500]
+offset_left = 1.0
+offset_top = 54.0
+offset_right = 173.0
+offset_bottom = 94.0
+metadata/_edit_group_ = true
+
+[node name="BackButton" type="Button" parent="CanvasLayer/Options" unique_id=2096976502]
+layout_mode = 2
+text = "back to scene select"
+
+[node name="EncounterList" type="VBoxContainer" parent="CanvasLayer/Options" unique_id=475968071]
+layout_mode = 2

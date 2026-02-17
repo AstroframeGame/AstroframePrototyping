@@ -1,13 +1,13 @@
 [gd_scene format=3 uid="uid://b6vnbwkbboq7g"]
 
-[ext_resource type="Script" uid="uid://ci51s5x2ase5i" path="res://encounter/encounters/DEMO_LOCATION/0_1_DEMO/0_1_DEMO.gd" id="1_3qilk"]
+[ext_resource type="Script" uid="uid://ci51s5x2ase5i" path="res://encounter/encounters/__DEMO_LOCATION/0_1_DEMO/0_1_DEMO.gd" id="1_3qilk"]
 [ext_resource type="PackedScene" path="res://shipBuilding/ships/FACTION_PATROL.tscn" id="2_7k785"]
 [ext_resource type="Shader" uid="uid://byhs5u1pst1nw" path="res://shipMovement/space_bg.gdshader" id="2_efqu5"]
 [ext_resource type="PackedScene" path="res://shipBuilding/ships/PIRATE_DESTROYER.tscn" id="3_j7g30"]
 [ext_resource type="Texture2D" uid="uid://blw3cf71ki3n1" path="res://encounter/grid_black_1024x1024.png" id="3_jnims"]
 [ext_resource type="Script" uid="uid://ckvkvmc3ju7xr" path="res://shipMovement/scrolling_bg.gd" id="4_5pnwf"]
 [ext_resource type="PackedScene" uid="uid://ckcu1maqciewr" path="res://shipBuilding/ships/PIRATE_FRIGATE.tscn" id="4_ceqo7"]
-[ext_resource type="PackedScene" uid="uid://choyif0n5w2jj" path="res://encounter/encounters/DEMO_LOCATION/debris_field.tscn" id="5_smosv"]
+[ext_resource type="PackedScene" uid="uid://choyif0n5w2jj" path="res://encounter/encounters/__DEMO_LOCATION/debris_field.tscn" id="5_smosv"]
 [ext_resource type="PackedScene" uid="uid://b5hikq1i2xtpw" path="res://shipBuilding/ships/player_ship.tscn" id="6_h1xkd"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vsvg7"]

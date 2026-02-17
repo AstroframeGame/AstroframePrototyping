@@ -1,12 +1,19 @@
 extends Node2D
 
-@onready var encounter_list = $CanvasLayer/EncounterList
+@onready var options_list = $CanvasLayer/Options
+@onready var back_btn = $CanvasLayer/Options/BackButton
+@onready var encounter_list = $CanvasLayer/Options/EncounterList
+
 @onready var game_manager : GameManager = get_tree().root.get_node("Hub").get_node("GameManager")
 
 @export_file("*.tscn") var encounter_paths: Array[String]
 
+
 func _ready():
 	name = "EncounterSelection"
+	
+	back_btn.pressed.connect(_on_back_pressed)
+	back_btn.visible = false
 	
 	# DEMO menu to enter an encounter
 	for path in encounter_paths:
@@ -18,7 +25,14 @@ func _ready():
 		btn.text = name_source.get_file().get_basename()
 		btn.pressed.connect(_on_btn_pressed.bind(path))
 		encounter_list.add_child(btn)
+		
+func _on_back_pressed() -> void:
+	back_btn.visible = false
+	encounter_list.visible = true
+	game_manager.game_quit.emit()
+	game_manager.current_scene.queue_free()
 
 func _on_btn_pressed(path: String) -> void:
+	back_btn.visible = true
 	encounter_list.visible = false
 	game_manager.load_scene(path)
