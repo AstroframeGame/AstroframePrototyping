@@ -6,7 +6,7 @@ const JUMP_VELOCITY = -400.0
 var health = 100
 var timeSinceHeal = 0
 
-func take_damage(damage : int):
+func takeDamage(damage : int):
 	health -= damage
 	print("Damage Taken! Enemy now at %s health" % health)
 	

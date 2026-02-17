@@ -41,7 +41,6 @@ enabled=PackedStringArray("res://addons/trail_2d/plugin.cfg")
 player_ship=""
 player_controller=""
 projectiles=""
-pirate_ship=""
 
 [gui]
 
@@ -205,8 +204,6 @@ dialouge_next={
 2d_physics/layer_7="Unused"
 2d_physics/layer_9="Enviroment"
 2d_physics/layer_13="EnviromentObstacle"
-avoidance/layer_1="Ships"
-avoidance/layer_2="Environment"
 
 [rendering]
 

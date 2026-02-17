@@ -7,7 +7,5 @@
 input_pickable = true
 gravity_scale = 0.0
 script = ExtResource("1_vm1wr")
-max_hit_points = 1
-hit_points = 1
 
 [node name="HexGrid" parent="." unique_id=1277847278 instance=ExtResource("2_c3ljm")]

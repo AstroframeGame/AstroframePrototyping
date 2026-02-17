@@ -56,7 +56,6 @@ func augment_in_list(type:Variant)->int:
 		if is_instance_of(augment, type):
 			return augments.find(augment)
 	return -1
-
 func at_augment_limit(type:Variant, limit:int)->bool:
 	var count = 0
 	for augment in augments:

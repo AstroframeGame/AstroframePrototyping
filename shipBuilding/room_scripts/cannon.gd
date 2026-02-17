@@ -5,4 +5,4 @@ extends Room
 
 func shoot():
 	if power_level > 0:
-		gun.shoot(5)
+		gun.shoot()

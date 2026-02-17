@@ -51,7 +51,6 @@ var grounded : bool:
 		ground_check = $GroundCheck
 		return ground_check.has_overlapping_bodies() or ground_check.has_overlapping_areas()
 
-
 @onready var handgun: PlayerGun = $handgun
 
 func _ready() -> void:
@@ -59,7 +58,6 @@ func _ready() -> void:
 	ground_check.body_exited.connect(on_unground)
 	ground_check.area_entered.connect(on_ground)
 	ground_check.area_exited.connect(on_unground)
-	
 	
 	if ship:
 		on_ship_enter(ship)
@@ -104,7 +102,7 @@ func interact():
 	var interactable = get_interactable()
 	if interactable:
 		interactable.interact(self)
-		#print_debug("Player interacted with ", interactable)
+		print_debug("Player interacted with ", interactable)
 			
 func get_interactable() -> Node2D:
 	for area in interact_check.get_overlapping_areas():
@@ -159,22 +157,6 @@ func apply_ground_body_transform():
 		prev_ground_body_transform = current_transform
 #endregion
 
-func grapple():
-	if grapple_position != null:
-		var grapple_dist : float = (grapple_position - global_position).length()
-		grappling = not seat and Input.is_action_pressed("grapple") and grapple_dist > 10
-	
-	if Input.is_action_just_pressed("grapple"):
-		grapple_position = get_global_mouse_position()
-	if not grappling:
-		grapple_visual.visible = false
-		return
-	
-	grapple_visual.visible = true
-	grapple_visual.set_point_position(0, Vector2.ZERO)
-	grapple_visual.set_point_position(1, to_local(grapple_position))
-
-
-func take_damage(damage : int):
+func takeDamage(damage : int):
 	health -= damage
 	print("Damage Taken! Player now at %s health" % health)

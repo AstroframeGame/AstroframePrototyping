@@ -24,7 +24,7 @@ func handle_input(event:InputEvent):
 		return
 	# mouse guided system
 	if event.is_action_pressed("ship_fire"):
-		gun.shoot(10)
+		gun.shoot()
 		
 	if event is InputEventMouseMotion and mouse_controller == "mouse":
 		#_look_at_target_interpolated(gun.gunSprite, 5 * get_process_delta_time())
