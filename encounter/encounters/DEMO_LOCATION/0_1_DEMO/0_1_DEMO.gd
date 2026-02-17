@@ -23,6 +23,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if not player:
 		player = get_parent().multiplayer_manager.my_player
+		player.global_position = $Ship.global_position
 	
 	if player.global_position.distance_to(faction_ship.global_position) < 1000:
 			trigger_dialogue.emit(faction_ship.name, "greeting")
