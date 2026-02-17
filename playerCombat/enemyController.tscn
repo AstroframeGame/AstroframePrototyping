@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://cj60mf812rw82"]
+[gd_scene format=3 uid="uid://vww23tdch567"]
 
-[ext_resource type="Script" uid="uid://xwvb5rfi17fl" path="res://playerCombat/enemy_controller.gd" id="1_1i7g1"]
+[ext_resource type="Script" uid="uid://ddkrm14068nf" path="res://playerCombat/melee_enemy.gd" id="1_1i7g1"]
 [ext_resource type="Texture2D" uid="uid://dddvu1266fgfj" path="res://playerCombat/enemy.png" id="1_tqlqu"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1i7g1"]
@@ -18,3 +18,10 @@ texture = ExtResource("1_tqlqu")
 position = Vector2(0, 9.536743e-07)
 scale = Vector2(1.25, 1.25)
 shape = SubResource("CapsuleShape2D_1i7g1")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=275238744]
+avoidance_enabled = true
+
+[node name="Timer" type="Timer" parent="." unique_id=1128388081]
+
+[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]
