@@ -15,8 +15,8 @@ tile_size = Vector2i(78, 90)
 [node name="_RigidBody2D_161" type="RigidBody2D" unique_id=296890057]
 collision_mask = 257
 input_pickable = true
+mass = 30.0
 gravity_scale = 0.0
-sleeping = true
 script = ExtResource("1_h0j6g")
 
 [node name="HexGrid" type="TileMapLayer" parent="." unique_id=551180598]
@@ -41,3 +41,9 @@ rotation = 1.0471976
 
 [node name="Airlock_1" parent="." unique_id=827607629 instance=ExtResource("8_atxed")]
 position = Vector2(156, -157.5)
+
+[node name="Edge" type="CollisionPolygon2D" parent="." unique_id=1023664781]
+build_mode = 1
+polygon = PackedVector2Array(195.1, -180.05, 195.1, -135.06657, 234.01447, -112.57499, 234.03552, -67.55385, 273.01447, -45.025, 273.03558, 0.111595154, 233.97784, 22.66159, 194.99892, 0.1327591, 194.99228, 0.13659668, 194.99228, 0.13658905, 156.1, 22.59105, 156.1, 67.55, 117, 90.1, 78, 67.60767, 39, 90.1, -0.099998474, 67.55, -0.099998474, 22.591057, -38.998917, 0.1327591, -77.97784, 22.66159, -117.03558, 0.111595154, -117.014465, -45.024994, -78.03553, -67.55383, -78.014465, -112.57498, -39.1, -135.06657, -39.1, -180.05, 0, -202.6, 39, -180.10767, 78, -202.6, 117, -180.10767, 156, -202.6)
+
+[node name="Ground" type="Area2D" parent="." unique_id=1527198164]

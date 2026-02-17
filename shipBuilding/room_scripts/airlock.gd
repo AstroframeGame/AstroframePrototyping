@@ -4,7 +4,7 @@ extends Room
 #func _ready() -> void:
 	#super._ready()
 
-func on_door_interact(player : Player):
+func on_door_interact(player : PlayerCharacter):
 	print(player.ship, ship)
 	if player.ship == ship:
 		player.on_ship_exit()

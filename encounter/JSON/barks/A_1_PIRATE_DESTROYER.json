@@ -1,0 +1,11 @@
+{
+	"name": "PIRATE DESTROYER",
+	"greeting": {
+		"limit": 1,
+		"seen": 0,
+		"neutral": [
+			"Hey! You! \\ Yeah, you. Get out of here. \\ Unless you want some trouble...",
+			"Hello there... \\ That's a nice ship you got. \\ Come a little closer..."
+		]
+	}
+}

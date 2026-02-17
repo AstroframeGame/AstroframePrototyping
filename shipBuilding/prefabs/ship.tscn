@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://c2n7netp00xn6" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_c3ljm"]
 
 [node name="Ship" type="RigidBody2D" unique_id=1442409601]
+z_index = 1
 input_pickable = true
 gravity_scale = 0.0
 script = ExtResource("1_vm1wr")

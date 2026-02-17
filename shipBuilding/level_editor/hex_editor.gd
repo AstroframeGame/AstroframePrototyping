@@ -5,7 +5,7 @@ enum Mode { VIEW, ADD, MOVE, DESTROY }
 
 @onready var ship: Ship = $"../Ship"
 @onready var mode_dropdown: OptionButton = $"../UI/ModeDropdown"
-@onready var room_picker: Node = $"../UI/RoomPicker"
+@onready var room_picker: Node = $"../UI/TabContainer/RoomPicker"
 
 var preview_instance: Room
 var current_rotation: int = 0
@@ -64,12 +64,13 @@ func _rotate_preview(direction: int) -> void:
 
 func _update_preview() -> void:
 	var cell = ship.world_to_grid(ship.get_global_mouse_position())
-	
 	preview_instance.global_position = ship.grid_to_world(cell)
 	preview_instance.global_rotation = ship.global_rotation + (current_rotation * PI / 3.0)
 	
 	var cells = ship.get_cells_for_room(preview_instance, cell, current_rotation)
-	var is_valid = ship.is_area_free(cells)
+	var is_free = ship.is_area_free(cells)
+	var is_adj = ship.is_adjacent_to_occupied(cells)
+	var is_valid = is_free and is_adj
 	
 	var color = Color(0, 1, 0, 0.5) if is_valid else Color(1, 0, 0, 0.5)
 	for child in preview_instance.get_children():
@@ -79,7 +80,8 @@ func _update_preview() -> void:
 func _attempt_place(cell: Vector2i) -> void:
 	if not preview_instance: return
 	var cells = ship.get_cells_for_room(preview_instance, cell, current_rotation)
-	if not ship.is_area_free(cells): return
+	if not ship.is_area_free(cells) or not ship.is_adjacent_to_occupied(cells): 
+		return
 
 	var prefab = _get_prefab()
 	var new_room = prefab.instantiate() as Room
@@ -111,6 +113,7 @@ func _on_room_prefab_selected(index: int) -> void:
 	var prefab = _get_prefab()
 	if prefab:
 		preview_instance = prefab.instantiate() as Room
+		preview_instance.name = "PREVIEW" + preview_instance.name
 		add_child(preview_instance)
 		_rotate_preview(0)
 

@@ -19,9 +19,6 @@ func _ready() -> void:
 	update_colliders()
 	calc_center_of_mass()
 	update_occupied_cells()
-	var ground : Area2D = $Ground
-	ground.input_event.connect(ground_input_event)
-	print($Edge.build_mode) 
 	
 	for child in get_children():
 		if child is Room:
@@ -30,6 +27,7 @@ func _ready() -> void:
 	hud = get_node_or_null("HUD")
 	if hud:
 		hud.initialize()
+	z_index = 1
 
 func ground_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
@@ -51,7 +49,7 @@ func get_piloting() -> Piloting:
 		if r is Piloting:
 			return r
 	return null
-func get_pilot() -> Player:
+func get_pilot() -> PlayerCharacter:
 	var piloting :Piloting = get_piloting()
 	if piloting:
 		return piloting.seat.controlled_by
@@ -73,7 +71,7 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 
 func move_ship(state: PhysicsDirectBodyState2D):
 	var engines :Engines = get_engines()
-	var pilot : Player = get_pilot()
+	var pilot : PlayerCharacter = get_pilot()
 	if not engines:
 		return
 	if not pilot:
@@ -92,40 +90,22 @@ func move_ship(state: PhysicsDirectBodyState2D):
 		state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * delta)
 	else:
 		state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * engines.drag_multiplier * delta)
-		
 
-# THIS SHOULD BE IN THE INPUT SINGLETON
-var mouse_controller = "mouse"
-func _input(event)-> void:
-	if event is InputEventMouseMotion:
-		if event.relative.length() > 1:
-			mouse_controller = "mouse"
-	var look_dir_controller = Input.get_vector("ship_look_left","ship_look_right", "ship_look_down", "ship_look_up")
-	if look_dir_controller.length() > 0.1:
-		mouse_controller = "controller"
 
-const flight_deadzone = 30 #px
+const flight_deadzone = 0.05 #screen %
 func rotate_ship(state: PhysicsDirectBodyState2D):
 	var engines :Engines = get_engines()
 	var piloting : Piloting = get_piloting()
-	var pilot : Player = get_pilot()
+	var pilot : PlayerCharacter = get_pilot()
 	if not engines or not piloting:
 		return
 	if not pilot:
 		state.angular_velocity = 0
 		return
-	var center = get_viewport_rect().get_center()
-	var look_dir = get_viewport().get_mouse_position() - center
-	if look_dir.abs().x < 30:
-		look_dir = Vector2.ZERO
-	else:
-		look_dir.x -= flight_deadzone * sign(look_dir.x) 
-	# JITTER
-	#var target_angle = look_dir.angle() + PI/2
-	#var angle_delta = wrapf(target_angle - global_rotation, -PI, PI)
+	var look_dir = InputHelper.mouse_center_offset_deadzone(flight_deadzone)
 	var rot_amount = look_dir.x * 0.01
-	if mouse_controller == "controller":
-		rot_amount = Input.get_axis("ship_look_left","ship_look_right")
+	if not InputHelper.using_mouse:
+		rot_amount = InputHelper.controller_look.x
 	state.angular_velocity = rot_amount * engines.get_rotational_thrust()
 	
 func calc_center_of_mass():
@@ -227,6 +207,27 @@ func find_neighbors(room: Room) -> Array[Room]:
 		#neighbors.erase(self)
 	#print(neighbors)
 	return neighbors
+
+func is_adjacent_to_occupied(cells: Array[Vector2i]) -> bool:
+	if occupied_cells.is_empty():
+		return true
+	
+	var grid_layer: TileMapLayer = $HexGrid
+	var pointy_sides = [
+		TileSet.CELL_NEIGHBOR_RIGHT_SIDE,
+		TileSet.CELL_NEIGHBOR_BOTTOM_RIGHT_SIDE,
+		TileSet.CELL_NEIGHBOR_BOTTOM_LEFT_SIDE,
+		TileSet.CELL_NEIGHBOR_LEFT_SIDE,
+		TileSet.CELL_NEIGHBOR_TOP_LEFT_SIDE,
+		TileSet.CELL_NEIGHBOR_TOP_RIGHT_SIDE
+	]
+	
+	for cell in cells:
+		for side in pointy_sides:
+			var neighbor = grid_layer.get_neighbor_cell(cell, side)
+			if occupied_cells.has(neighbor):
+				return true
+	return false
 #endregion
 
 #region Add and Remove Room
@@ -241,6 +242,9 @@ func add_room(room: Room, cell: Vector2i, rot_index: int) -> void:
 	var cells = get_cells_for_room(room, cell, rot_index)
 	for c in cells:
 		occupied_cells[c] = room
+	
+	update_colliders()
+	calc_center_of_mass()
 
 func remove_room(room: Room) -> void:
 	var keys_to_erase = []
@@ -252,6 +256,10 @@ func remove_room(room: Room) -> void:
 		occupied_cells.erase(k)
 	
 	remove_child(room)
+	
+	update_colliders()
+	calc_center_of_mass()
+
 #endregion
 
 #region Collisions
@@ -293,6 +301,7 @@ func update_colliders() -> void:
 		edge = CollisionPolygon2D.new()
 		add_child(edge)
 		edge.name = "Edge"
+		edge.owner = self
 		edge.build_mode = CollisionPolygon2D.BUILD_SEGMENTS
 		print("Fallback: ", name, " creating edge")
 	var area = get_node_or_null("Ground")
@@ -300,14 +309,19 @@ func update_colliders() -> void:
 		area = Area2D.new()
 		add_child(area)
 		area.name = "Ground"
+		area.owner = self
 		print("Fallback: ", name, " creating area")
 	var solid = get_node_or_null("Ground/Solid")
 	if not solid:
 		solid = CollisionPolygon2D.new()
 		solid.name = "Solid"
 		solid.build_mode = CollisionPolygon2D.BUILD_SOLIDS
-		area.add_child.call_deferred(solid)
+		area.add_child(solid)
+		solid.owner = self
 		print("Fallback: ", name, " creating solid")
+	
+	move_child.call_deferred(edge, -1)
+	move_child.call_deferred(area, -1)
 	
 	if islands.size() > 0:
 		edge.polygon = islands[0]
@@ -315,6 +329,11 @@ func update_colliders() -> void:
 	else:
 		edge.polygon = PackedVector2Array()
 		solid.polygon = PackedVector2Array()
+	
+	
+	area.input_pickable = true
+	if not area.input_event.is_connected(ground_input_event):
+		area.input_event.connect(ground_input_event)
 
 const HEX_WIDTH = 78
 const HEX_HEIGHT = 90
@@ -344,7 +363,6 @@ func get_avalible_power_out() -> Array[PowerOutHex]:
 			for h in r.get_out_hexes():
 				if not h.is_powering:
 					out.append(h)
-	print(out)
 	return out
 
 func toggle_power(power_hex):

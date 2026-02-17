@@ -1,7 +1,7 @@
 class_name EditorSaveManager
 extends Node
 
-@onready var save_name: LineEdit = $"../UI/SaveLoad/SaveName"
+@onready var save_name: LineEdit = $"../UI/Options/SaveName"
 @onready var ship: Ship = $"../Ship"
 @onready var save_load: SaveLoad = $"../SaveLoad"
 @onready var hex_editor: HexEditor = $"../HexEditor"
@@ -10,10 +10,10 @@ var save_path = "res://shipBuilding/ships/"
 const ship_prefab = preload("res://shipBuilding/prefabs/ship.tscn")
 
 func _ready() -> void:
-	$"../UI/SaveLoad/Savetscn".pressed.connect(save_tscn)
-	$"../UI/SaveLoad/Loadtscn".pressed.connect(load_tscn)
-	$"../UI/SaveLoad/Savejson".pressed.connect(save_json)
-	$"../UI/SaveLoad/Loadjson".pressed.connect(load_json)
+	$"../UI/Options/HBoxContainer/Save/Savetscn".pressed.connect(save_tscn)
+	$"../UI/Options/HBoxContainer/Save/Savejson".pressed.connect(load_tscn)
+	$"../UI/Options/HBoxContainer/Load/Loadtscn".pressed.connect(save_json)
+	$"../UI/Options/HBoxContainer/Load/Loadjson".pressed.connect(load_json)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("editor_save"):

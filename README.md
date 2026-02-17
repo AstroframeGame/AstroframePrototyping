@@ -1,12 +1,18 @@
 # AstroframePrototyping
 The prototyping for Astroframe in godot
 
-[Live Demo](https://sentientdragon5gamedev.itch.io/astroframeprototype){target="_blank"}
+[Live Demo](https://sentientdragon5gamedev.itch.io/astroframeprototype)
 
-We will use this project to test different fun activites.
-Lets test different things in their own scene, then later we will go on and elaborate on certain things.
+### Z indices
+-10 backgrounds
+0 for ground
+4 for characters interior
+5 for bullets interior
+8 for exteriors
+12 for characters exteriors
+13 for bullets exterior
 
-Additional Todos (most todos are in the scenes)
-- art list
-- test auto deployment
-- test multiplayer
+### Credits:
+- <a target="_blank" href="https://icons8.com/icon/YmmZ2YsHiv59/discord-new">Discord</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+- <a target="_blank" href="https://icons8.com/icon/3tC9EQumUAuq/github">GitHub</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+- <a target="_blank" href="https://icons8.com/icon/JnHXhz9KQ8RC/folder">Folder</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
