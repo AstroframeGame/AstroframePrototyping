@@ -1,4 +1,12 @@
 {
+	"DEMO_LOCATION": 
+	{
+		"0_1_DEMO": 
+		{
+			"rewards": [],
+			"protocols": {}
+		}
+  	},
   "HOME": {
 	"0_INTRO": {
 	  "rewards": [

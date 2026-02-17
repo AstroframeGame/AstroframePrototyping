@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://chtt78xbee5cw"]
 
-[ext_resource type="Script" uid="uid://bebwododdxssu" path="res://encounter/managers/dialogue/dialouge_trigger.gd" id="2_cdscr"]
+[ext_resource type="Script" uid="uid://bebwododdxssu" path="res://encounter/managers/dialogue/dialogue_trigger.gd" id="2_cdscr"]
 
 [node name="DialogueTest" type="Node2D" unique_id=771673409]
 

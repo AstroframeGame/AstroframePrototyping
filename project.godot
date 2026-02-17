@@ -26,10 +26,10 @@ config/icon="res://icon.svg"
 CursorManager="*uid://xw0evujqrmw7"
 ScreenshotManager="*uid://crx4ktvfwjrs5"
 InGameConsole="*uid://bu0k62p1icydm"
-BarkGetter="*uid://c8aguxek25t81"
 ProjectileManager="*uid://d1vm8u2ei3vye"
 boot_splash/show_image=false
 config/icon="uid://w2speowsgqcy"
+LevelStateManager="*uid://b86c7evw35fa2"
 
 [display]
 
