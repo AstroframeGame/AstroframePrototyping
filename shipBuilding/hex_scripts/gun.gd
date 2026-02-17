@@ -13,14 +13,15 @@ func _ready():
 	timer.wait_time = cooldown
 
 
-var projectileSpeed = 200
+var projectileSpeed = 800
 func shoot(damage : int):
 	if timer.time_left > 0:
 		return
 	timer.start()
 	
 	var proj : Projectile = PROJECTILE.instantiate()
-	proj.initialize(gunSprite, room.ship.linear_velocity, projectileSpeed, Vector2.from_angle(gunSprite.global_rotation), marker_2d.global_position, damage)
+	#  room.ship.linear_velocity
+	proj.initialize(gunSprite, Vector2.ZERO, projectileSpeed, Vector2.from_angle(gunSprite.global_rotation), marker_2d.global_position, damage)
 	proj.add_collision_exception_with(room.ship)
 	proj.owner_ship = room.ship
 	
