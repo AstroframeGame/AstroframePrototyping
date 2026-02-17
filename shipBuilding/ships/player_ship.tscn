@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://pm5hyxwcnw50"]
+
+[ext_resource type="Script" uid="uid://bsurseo1hgudf" path="res://shipBuilding/ship.gd" id="1_qxsmk"]
+[ext_resource type="PackedScene" uid="uid://c2n7netp00xn6" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_sh1sj"]
+[ext_resource type="PackedScene" uid="uid://qteo7ksf47a4" path="res://shipBuilding/rooms/piloting_1.tscn" id="3_l4qrl"]
+[ext_resource type="PackedScene" uid="uid://daycij2kxk7dj" path="res://shipBuilding/rooms/turret_3.tscn" id="4_b00ty"]
+[ext_resource type="PackedScene" uid="uid://q2xbgli7wqkw" path="res://shipBuilding/rooms/aim_augment_2.tscn" id="5_ra1p5"]
+[ext_resource type="PackedScene" uid="uid://cplmkay6ecshy" path="res://shipBuilding/rooms/reactor_4.tscn" id="6_smrn0"]
+[ext_resource type="PackedScene" uid="uid://cebf4gqkt7jib" path="res://shipBuilding/rooms/engines_2.tscn" id="7_3v7xf"]
+[ext_resource type="PackedScene" uid="uid://dir8uoqft75m0" path="res://shipBuilding/rooms/airlock_1.tscn" id="8_bjjiu"]
+[ext_resource type="PackedScene" uid="uid://daae3tloj435m" path="res://shipAI/prefabs/hud.tscn" id="9_sh1sj"]
+
+[sub_resource type="TileSet" id="TileSet_xsh4c"]
+tile_shape = 3
+tile_size = Vector2i(78, 90)
+
+[node name="PlayerShip" type="RigidBody2D" unique_id=1784127879 groups=["player_ship"]]
+input_pickable = true
+mass = 26.0
+gravity_scale = 0.0
+script = ExtResource("1_qxsmk")
+
+[node name="HexGrid" parent="." unique_id=1277847278 instance=ExtResource("2_sh1sj")]
+tile_set = SubResource("TileSet_xsh4c")
+
+[node name="Piloting_1" parent="." unique_id=966141484 instance=ExtResource("3_l4qrl")]
+position = Vector2(39, 45)
+
+[node name="Turret_3" parent="." unique_id=1864384847 instance=ExtResource("4_b00ty")]
+position = Vector2(39, -90)
+rotation = 3.1415927
+
+[node name="Aim_Augment_2" parent="." unique_id=1368396417 instance=ExtResource("5_ra1p5")]
+position = Vector2(0, 112.5)
+rotation = 4.1887903
+
+[node name="Reactor_4" parent="." unique_id=920192434 instance=ExtResource("6_smrn0")]
+position = Vector2(117, 45)
+rotation = 3.1415927
+
+[node name="Engines_2" parent="." unique_id=120470860 instance=ExtResource("7_3v7xf")]
+position = Vector2(-39, 180)
+standard_thrust = 90
+
+[node name="Airlock_1" parent="." unique_id=2084884563 instance=ExtResource("8_bjjiu")]
+position = Vector2(-78, 112.5)
+
+[node name="Edge" type="CollisionPolygon2D" parent="." unique_id=1097744871]
+build_mode = 1
+polygon = PackedVector2Array(78.100006, -112.549995, 78.09999, -67.54232, 117.09999, -45.049995, 117.09999, -0.04232788, 156.1, 22.450005, 156.09999, 67.45767, 195.09999, 89.95001, 195.09999, 135.05002, 156.09998, 157.54233, 156.09998, 202.55, 116.999985, 225.1, 77.99999, 202.60767, 39, 225.1, 0, 202.60767, -39, 225.1, -78.1, 202.55, -78.1, 157.54233, -117.1, 135.05, -117.1, 89.95, -78.05777, 67.43332, -78.07886, 22.363419, -39.100006, -0.14102173, -39.100006, -45.05001, -0.099998474, -67.54233, -0.099998474, -112.55, 39.000008, -135.1)
+
+[node name="Ground" type="Area2D" parent="." unique_id=1690821881]
+
+[node name="Solid" type="CollisionPolygon2D" parent="Ground" unique_id=1155512632]
+visible = false
+polygon = PackedVector2Array(78.100006, -112.549995, 78.09999, -67.54232, 117.09999, -45.049995, 117.09999, -0.04232788, 156.1, 22.450005, 156.09999, 67.45767, 195.09999, 89.95001, 195.09999, 135.05002, 156.09998, 157.54233, 156.09998, 202.55, 116.999985, 225.1, 77.99999, 202.60767, 39, 225.1, 0, 202.60767, -39, 225.1, -78.1, 202.55, -78.1, 157.54233, -117.1, 135.05, -117.1, 89.95, -78.05777, 67.43332, -78.07886, 22.363419, -39.100006, -0.14102173, -39.100006, -45.05001, -0.099998474, -67.54233, -0.099998474, -112.55, 39.000008, -135.1)
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="." unique_id=1567892142]
+visible = false
+vertices = PackedVector2Array(41, -134, 77, -112, 77, -69, 117, -45, 118, -1, 156, 21, 155, 68, 196, 90, 195, 138, 156, 159, 158, 202, 115, 227, 76, 200, 39, 224, -1, 202, -39, 226, -79, 202, -79, 156, -116, 135, -118, 88, -77, 65, -81, 22, -39, -1, -39, -47, 0, -70, -2, -113)
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=84435214]
+
+[node name="HUD" parent="." unique_id=532014552 instance=ExtResource("9_sh1sj")]

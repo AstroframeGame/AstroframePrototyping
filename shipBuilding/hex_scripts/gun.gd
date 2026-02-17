@@ -12,9 +12,9 @@ const PROJECTILE = preload("uid://devin6bdbcbay") # funny uid lol
 func _ready():
 	timer.wait_time = cooldown
 
-var damage = 20
+
 var projectileSpeed = 200
-func shoot():
+func shoot(damage : int):
 	if timer.time_left > 0:
 		return
 	timer.start()
@@ -22,6 +22,7 @@ func shoot():
 	var proj : Projectile = PROJECTILE.instantiate()
 	proj.initialize(gunSprite, room.ship.linear_velocity, projectileSpeed, Vector2.from_angle(gunSprite.global_rotation), marker_2d.global_position, damage)
 	proj.add_collision_exception_with(room.ship)
+	proj.owner_ship = room.ship
 	
 	# get multiplayer manager instead
 	ProjectileManager.add_child(proj)

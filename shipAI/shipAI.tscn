@@ -4,8 +4,8 @@
 [ext_resource type="Shader" path="res://shipMovement/space_bg.gdshader" id="1_vrncs"]
 [ext_resource type="Texture2D" uid="uid://blw3cf71ki3n1" path="res://encounter/grid_black_1024x1024.png" id="2_nhcgg"]
 [ext_resource type="Script" path="res://shipMovement/scrolling_bg.gd" id="3_8rdp5"]
-[ext_resource type="PackedScene" uid="uid://pm5hyxwcnw50" path="res://shipBuilding/ships/player_ship.tscn" id="4_nhcgg"]
-[ext_resource type="PackedScene" uid="uid://2nt2e6ndfr3n" path="res://shipBuilding/ships/Bumble_Bee.tscn" id="5_jrc0m"]
+[ext_resource type="PackedScene" path="res://shipBuilding/ships/player_ship.tscn" id="4_nhcgg"]
+[ext_resource type="PackedScene" uid="uid://biexdduqulqnx" path="res://shipBuilding/ships/wasp.tscn" id="4_vrncs"]
 [ext_resource type="FontFile" uid="uid://bvhs72w1tp2uu" path="res://hub/fonts/Ethnocentric-Regular.otf" id="7_8rdp5"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_jrc0m"]
@@ -43,11 +43,17 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("3_8rdp5")
 
-[node name="PlayerShip" parent="." unique_id=1784127879 instance=ExtResource("4_nhcgg")]
-position = Vector2(358, 356)
+[node name="Wasp" parent="." unique_id=1784127879 instance=ExtResource("4_vrncs")]
+position = Vector2(2499, 438)
 
-[node name="BumbleBee" parent="." unique_id=1937706760 instance=ExtResource("5_jrc0m")]
-position = Vector2(2411, 261)
+[node name="Wasp3" parent="." unique_id=1126325701 instance=ExtResource("4_vrncs")]
+position = Vector2(2547, 919)
+
+[node name="Wasp2" parent="." unique_id=974459420 instance=ExtResource("4_vrncs")]
+position = Vector2(2111, 1570)
+
+[node name="PlayerShip" parent="." unique_id=1510963782 instance=ExtResource("4_nhcgg")]
+position = Vector2(358, 356)
 
 [node name="PlayerSystem" parent="." unique_id=809182662 instance=ExtResource("1_rcyo3")]
 position = Vector2(44, 512)
