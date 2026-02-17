@@ -19,13 +19,16 @@ var mouse_center_offset : Vector2 :
 		var center = get_viewport().get_visible_rect().get_center()
 		return get_viewport().get_mouse_position() - center
 
-func mouse_center_offset_deadzone(deadzone : float) -> Vector2:
+func mouse_center_offset_deadzone(percent : float = 0.05) -> Vector2:
 	var look_dir = mouse_center_offset
-	if look_dir.abs().x < deadzone:
-		look_dir = Vector2.ZERO
+	var screen_width = get_viewport().get_visible_rect().size.x
+	var deadzone_px = screen_width * percent
+	
+	if abs(look_dir.x) < deadzone_px:
+		look_dir.x = 0
 	else:
-		look_dir.x -= deadzone * sign(look_dir.x) 
-	print(look_dir)
+		look_dir.x -= deadzone_px * sign(look_dir.x) 
+	
 	return look_dir
 
 var _look_delta: Vector2 = Vector2.ZERO

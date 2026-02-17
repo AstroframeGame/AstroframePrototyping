@@ -70,7 +70,7 @@ func move_ship(state: PhysicsDirectBodyState2D):
 		state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * engines.drag_multiplier * delta)
 
 
-const flight_deadzone = 30 #px
+const flight_deadzone = 0.05 #screen %
 func rotate_ship(state: PhysicsDirectBodyState2D):
 	var engines :Engines = get_engines()
 	var piloting : Piloting = get_piloting()
