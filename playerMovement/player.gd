@@ -87,16 +87,6 @@ func _physics_process(delta):
 	
 	move_and_slide()
 
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("player_shoot"):
-		handgun.shoot_bullet()
-	if event.is_action_pressed("holster_handgun"):
-		if seat:
-			return
-		if handgun.get_holster():
-			handgun.unholster()
-			return
-		handgun.holster()
 # currently interacts with the first overlapping interactable area, but this can be changed to nearest, last, all, ect.
 func interact():
 	var interactable = get_interactable()
@@ -119,6 +109,12 @@ func get_interactable_hint() -> String:
 	return ""
 
 func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("player_shoot"):
+		handgun.shoot_bullet()
+	if event.is_action_pressed("holster_handgun"):
+		if seat:
+			return
+		handgun.toggle_holster()
 	if event.is_action_pressed("interact"):
 		interact()
 		return

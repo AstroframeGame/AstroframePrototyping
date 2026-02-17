@@ -54,5 +54,11 @@ func unholster() -> void:
 	visible = true
 	holstered = false
 
-func get_holster() -> bool:
+func get_holstered() -> bool:
 	return holstered
+
+func toggle_holster() -> void:
+	if get_holstered():
+		unholster()
+	else:
+		holster()
