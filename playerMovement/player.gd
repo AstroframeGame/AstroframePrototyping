@@ -132,19 +132,19 @@ func _unhandled_input(event: InputEvent) -> void:
 #region grounding
 # called when ground check intersects with rb
 func on_ground(_body : Node2D):
-	print("on_ground ", _body)
+	#print("on_ground ", _body)
 	if _body is Area2D:
-		print("parent is ship ", _body.get_parent() is Ship)
+		#print("parent is ship ", _body.get_parent() is Ship)
 		if _body.get_parent() is Ship:
 			ground_body = _body.get_parent()
 			prev_ground_body_transform = ground_body.global_transform
 	elif _body is PhysicsBody2D:
 		ground_body = _body
 		prev_ground_body_transform = ground_body.global_transform
-	print("gb ",ground_body)
+	#print("gb ",ground_body)
 
 func on_unground(_body : Node2D):
-	print("on_unground ", _body)
+	#print("on_unground ", _body)
 	if _body == ground_body:
 		ground_body = null
 
@@ -152,12 +152,12 @@ func on_unground(_body : Node2D):
 func on_ship_enter(new_ship : Ship):
 	on_ground(new_ship)
 	ship = new_ship
-	print(name + " parent to ship")
+	#print(name + " parent to ship")
 	update_layers(true)
 
 func on_ship_exit():
 	# unground will be called when stops intersecting
-	print(name + " parent to wordl")
+	#print(name + " parent to wordl")
 	update_layers(false)
 	ship = null
 
