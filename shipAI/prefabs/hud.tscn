@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/ui_textures/RoundedSquare.png" id="2_b4o85"]
 
 [node name="ShipHUD" type="CanvasLayer" unique_id=532014552]
+visible = false
 script = ExtResource("1_3rtup")
 
 [node name="Panel" type="Panel" parent="." unique_id=278467729]
