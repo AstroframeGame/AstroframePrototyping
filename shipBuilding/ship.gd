@@ -40,7 +40,7 @@ func ground_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> 
 		var cell = world_to_grid(get_global_mouse_position())
 		if occupied_cells.has(cell):
 			var room = occupied_cells[cell]
-			print("Room ", room, " was clicked")
+			#print("Room ", room, " was clicked")
 			room_clicked.emit(room, event.button_index)
 
 #region Piloting
@@ -314,14 +314,30 @@ func update_colliders() -> void:
 		grid = HEX_GRID_PREFAB.instantiate()
 		add_child(grid)
 	
-	var edge = get_node_or_null("Edge")
-	if not edge:
-		edge = CollisionPolygon2D.new()
-		add_child(edge)
-		edge.name = "Edge"
-		edge.owner = self
-		edge.build_mode = CollisionPolygon2D.BUILD_SEGMENTS
-		print("Fallback: ", name, " creating edge")
+	var old_edge = get_node_or_null("Edge")
+	if old_edge:
+		old_edge.queue_free()
+	for child in get_children():
+		if child.name.begins_with("Edge_"):
+			child.queue_free()
+	
+	var edge_index = 0
+	for island in islands:
+		for i in range(island.size()):
+			var p1 = island[i]
+			var p2 = island[(i + 1) % island.size()]
+			
+			var segment = CollisionShape2D.new()
+			segment.name = "Edge_" + str(edge_index)
+			
+			var shape = SegmentShape2D.new()
+			shape.a = p1
+			shape.b = p2
+			segment.shape = shape
+			
+			add_child.call_deferred(segment)
+			edge_index += 1
+
 	var area : Area2D = get_node_or_null("Ground")
 	if not area:
 		area = Area2D.new()
@@ -344,14 +360,11 @@ func update_colliders() -> void:
 	area.collision_mask = 3 # prob doesnt matter since it shouldnt be monitoring
 	area.monitoring = false
 	
-	move_child.call_deferred(edge, -1)
 	move_child.call_deferred(area, -1)
 	
 	if islands.size() > 0:
-		edge.polygon = islands[0]
 		solid.polygon = islands[0]
 	else:
-		edge.polygon = PackedVector2Array()
 		solid.polygon = PackedVector2Array()
 	
 	
