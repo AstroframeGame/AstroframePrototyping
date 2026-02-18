@@ -65,6 +65,12 @@ func get_cannons() -> Array[Cannon]:
 		if r is Cannon:
 			cannons.append(r)
 	return cannons
+func get_players_from_manager() -> Array[PlayerCharacter]:
+	var multiplayer_manager :MultiplayerManager= get_tree().root.get_node("Hub/MultiplayerManager")
+	if multiplayer_manager:
+		return multiplayer_manager.players
+	return []
+
 
 func handle_input(_event : InputEvent):
 	#print_debug("input ship", event)
@@ -77,11 +83,16 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 func move_ship(state: PhysicsDirectBodyState2D):
 	var engines :Engines = get_engines()
 	var pilot : PlayerCharacter = get_pilot()
-	if not engines:
+	#var pushing : bool = get_players_pushing().size() > 0
+	var pushing_rot : float = get_push_rotation()
+	var push_thrust : float = 0.1
+	
+	if not (engines and get_piloting() and pilot):
+		#print(pushing_vel," ",  lerp(state.linear_velocity, pushing_vel, 80 * state.step))
+		get_push_velocity(state)
+		state.angular_velocity = lerp(state.angular_velocity, pushing_rot, push_thrust)
 		return
-	if not pilot:
-		state.linear_velocity = Vector2.ZERO
-		return
+		
 	var direction = Input.get_vector("left", "right", "up", "down")
 	var delta = get_process_delta_time()
 	
@@ -311,7 +322,7 @@ func update_colliders() -> void:
 		edge.owner = self
 		edge.build_mode = CollisionPolygon2D.BUILD_SEGMENTS
 		print("Fallback: ", name, " creating edge")
-	var area = get_node_or_null("Ground")
+	var area : Area2D = get_node_or_null("Ground")
 	if not area:
 		area = Area2D.new()
 		add_child(area)
@@ -326,6 +337,12 @@ func update_colliders() -> void:
 		area.add_child(solid)
 		solid.owner = self
 		print("Fallback: ", name, " creating solid")
+	
+	collision_layer = 16 # Ship exterior layer
+	collision_mask = 16 #ship exterior layer
+	area.collision_layer = 3 # ship interior
+	area.collision_mask = 3 # prob doesnt matter since it shouldnt be monitoring
+	area.monitoring = false
 	
 	move_child.call_deferred(edge, -1)
 	move_child.call_deferred(area, -1)
@@ -422,7 +439,7 @@ func remove_power_link_out(power_out : PowerOutHex):
 	return false
 #endregion
 
-#region Health	
+#region Health
 const HUD = preload("res://shipAI/prefabs/hud.tscn")
 func check_hud():
 	for child in get_children():
@@ -469,4 +486,38 @@ func set_exterior_visible(_interactor : CharacterBody2D, entered : bool):
 		if r is Room:
 			r.roof.visible = not entered
 
+#endregion
+
+#region Pushing
+func get_players_pushing() -> Array[PlayerCharacter]:
+	var pushing_players : Array[PlayerCharacter] = []
+	for p in get_players_from_manager():
+		if p.pushing and p.ship == null and p.ground_body == self:
+			pushing_players.append(p)
+	return pushing_players
+
+func get_push_velocity(state : PhysicsDirectBodyState2D) -> Vector2:
+	var players = get_players_pushing()
+	if players.is_empty():
+		return state.linear_velocity
+	
+	var total_vel = state.linear_velocity
+	for p in players:
+		state.linear_velocity = lerp(state.linear_velocity, state.linear_velocity + p.push_dir, p.thrust_accel * 0.2 * state.step)
+	return total_vel
+
+func get_push_rotation() -> float:
+	var players = get_players_pushing()
+	if players.is_empty():
+		return 0.0
+	
+	var total_torque = 0.0
+	for p in players:
+		var r = p.global_position - global_position
+		var push_force = p.velocity
+		var torque = (r.x * push_force.y - r.y * push_force.x)
+		total_torque += torque
+		
+	var rotation_sensitivity = 0.00005 
+	return total_torque * rotation_sensitivity
 #endregion
