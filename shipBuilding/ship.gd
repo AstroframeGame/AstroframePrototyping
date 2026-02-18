@@ -2,7 +2,7 @@ class_name Ship
 extends RigidBody2D
 
 signal room_clicked(room: Room, button_index: int)
-signal on_airlock_interaction(is_inside : bool)
+signal on_airlock_interaction(is_inside : bool) # called from airlock
 
 const HEX_GRID_PREFAB = preload("res://shipBuilding/prefabs/hex_grid.tscn")
 @onready var grid: TileMapLayer # set in update colliders
@@ -20,6 +20,7 @@ func _ready() -> void:
 	calc_center_of_mass()
 	update_occupied_cells()
 	
+	on_airlock_interaction.connect(set_exterior_visible)
 	for child in get_children():
 		if child is Room:
 			max_hit_points += child.durability
@@ -438,28 +439,10 @@ func _process(_delta: float) -> void:
 
 #region InteriorExterior
 
-
-# DO NOT SYNC
-var _my_player_within : bool = false
-var my_player_within : bool:
-	set(value):
-		set_rooms_visible(value)
-		_my_player_within = false
-	get:
-		return _my_player_within
-# this is used to determin whether or not to show the ship's roof
-
-# this should maybe become generic for enemies too?
-func on_character_enter_ship(_p : PlayerCharacter):
-	# if I am MultiplayerManager's my player
-	my_player_within = true
-	
-func on_character_exit_ship(_p : PlayerCharacter):
-	my_player_within = false
-
-func set_rooms_visible(v : bool):
+func set_exterior_visible(v : bool):
+	print("SEt exterior ", v)
 	for r in get_children():
 		if r is Room:
-			r.roof.visible = v
+			r.roof.visible = not v
 
 #endregion

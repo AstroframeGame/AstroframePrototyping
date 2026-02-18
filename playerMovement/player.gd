@@ -139,14 +139,12 @@ func on_ship_enter(new_ship : Ship):
 	ship = new_ship
 	print(name + " parent to ship")
 	update_layers(true)
-	ship.on_character_enter_ship(self)
 
 func on_ship_exit():
 	# unground will be called when stops intersecting
 	print(name + " parent to wordl")
 	update_layers(false)
-	if ship:
-		ship.on_character_exit_ship(self)
+	ship = null
 
 func apply_ground_body_transform():
 	if is_instance_valid(ground_body):
