@@ -2,7 +2,7 @@ class_name Ship
 extends RigidBody2D
 
 signal room_clicked(room: Room, button_index: int)
-signal on_airlock_interaction(is_inside : bool) # called from airlock
+signal on_airlock_interaction(interactor : PlayerCharacter, is_inside : bool) # called from airlock
 
 const HEX_GRID_PREFAB = preload("res://shipBuilding/prefabs/hex_grid.tscn")
 @onready var grid: TileMapLayer # set in update colliders
@@ -462,7 +462,7 @@ func my_character_inside() -> bool:
 		return multiplayer_manager.my_player.ship == self
 	return false
 
-func set_exterior_visible(interactor : CharacterBody2D, entered : bool):
+func set_exterior_visible(_interactor : CharacterBody2D, entered : bool):
 	if not my_character_inside():
 		entered = false
 	for r in get_children():
