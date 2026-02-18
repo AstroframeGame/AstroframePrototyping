@@ -50,18 +50,6 @@ rotation = 2.0943952
 [node name="Airlock_1" parent="." unique_id=2084884563 instance=ExtResource("7_gcu0p")]
 position = Vector2(0, -157.5)
 
-[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="." unique_id=745567976]
-visible = false
-vertices = PackedVector2Array(39, 91, 78, 67, 157, -67, 157, -114, 118, -135, 0, -203, -117, -134, -157, -113, -157, -67, -78, 68, -37, 89)
-
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1535005791]
-path_desired_distance = 50.0
-target_desired_distance = 500.0
-avoidance_enabled = true
-radius = 200.0
-debug_enabled = true
-debug_path_custom_color = Color(1, 0, 0, 1)
-
 [node name="DetectionRange" type="Area2D" parent="." unique_id=511658665]
 collision_layer = 0
 

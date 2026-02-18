@@ -6,21 +6,22 @@ func _physics_process(_delta: float) -> void:
 		return
 	update_state()
 	process_state()
+	
+#func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector2) -> void:
+	#linear_velocity = safe_velocity
 
 func update_state() -> void:
 	if target == null:
 		current_state = State.IDLE
 	else:
-		if nav_agent.is_target_reached():
+		if distance_to_target() < 700:
 			if current_state == State.APPROACHING:
 				_latching_position = target.to_local(piloting.global_position)
 				current_state = State.ALIGNING
 			elif current_state == State.ALIGNING:
-				var look_dir = -(piloting.global_position - target.global_position)
-				if abs(look_dir.angle() - rotation) <= PI/2:
+				if abs(wrapf(_target_angle - global_rotation, -PI, PI)) <= 0.01:
 					current_state = State.LATCHING
 		else:
-			nav_agent.target_position = target.get_piloting().global_position
 			current_state = State.APPROACHING
 
 	@warning_ignore("integer_division")
