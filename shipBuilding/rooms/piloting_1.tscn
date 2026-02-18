@@ -26,6 +26,7 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Piloting"
 
 [node name="Roof" type="Node2D" parent="." unique_id=1501665446]
+visible = false
 
 [node name="Hex4" type="Sprite2D" parent="Roof" unique_id=1395280684]
 modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)

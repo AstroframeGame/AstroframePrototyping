@@ -2,7 +2,7 @@ class_name Ship
 extends RigidBody2D
 
 signal room_clicked(room: Room, button_index: int)
-signal on_airlock_interaction(is_inside : bool) # called from airlock
+signal on_airlock_interaction(interactor : PlayerCharacter, is_inside : bool) # called from airlock
 
 const HEX_GRID_PREFAB = preload("res://shipBuilding/prefabs/hex_grid.tscn")
 @onready var grid: TileMapLayer # set in update colliders
@@ -248,6 +248,8 @@ func add_room(room: Room, cell: Vector2i, rot_index: int) -> void:
 	for c in cells:
 		occupied_cells[c] = room
 	
+	room.get_node("Roof").visible = not my_character_inside()
+	
 	update_colliders()
 	calc_center_of_mass()
 
@@ -454,10 +456,17 @@ func death_check():
 
 #region InteriorExterior
 
-func set_exterior_visible(v : bool):
-	print("SEt exterior ", v)
+func my_character_inside() -> bool:
+	var multiplayer_manager = get_tree().root.find_child("MultiplayerManager", true, false)
+	if multiplayer_manager and multiplayer_manager.my_player:
+		return multiplayer_manager.my_player.ship == self
+	return false
+
+func set_exterior_visible(_interactor : CharacterBody2D, entered : bool):
+	if not my_character_inside():
+		entered = false
 	for r in get_children():
 		if r is Room:
-			r.roof.visible = not v
+			r.roof.visible = not entered
 
 #endregion
