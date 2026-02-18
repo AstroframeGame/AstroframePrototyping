@@ -20,8 +20,10 @@ the player is over ground, hence whether to use air movement or ground movement
 @export_flags_2d_physics var exterior_layer
 @export_flags_2d_physics var exterior_mask
 
+# sync these
 var pushing #set in physics process
 var push_dir
+var push_brake
 
 var _seat : SeatInteractable = null
 var seat : SeatInteractable :
@@ -77,6 +79,7 @@ func _physics_process(delta):
 	direction = direction.normalized().rotated(global_rotation)
 	pushing = ground_body != null and ground_body is Ship and ship == null and Input.is_action_pressed("ship_push")
 	push_dir = direction
+	push_brake = Input.is_action_pressed("brake")
 	#print(ground_body != null , ground_body is Ship , ship == null , Input.is_action_pressed("ship_push"))
 	
 	if seat or pushing:
@@ -89,10 +92,12 @@ func _physics_process(delta):
 		#rotate(Input.get_axis("rotate_left","rotate_right") * rotate_speed * delta)
 		velocity = direction * walk_speed
 	else:
+		var goal_vel = Vector2.ZERO
 		if Input.is_action_pressed("brake"):
-			velocity -= velocity.normalized() * thrust_accel * delta
+			velocity = lerp(velocity, goal_vel, thrust_accel * delta)
 		else:
-			velocity += direction * thrust_accel * delta
+			goal_vel = velocity + direction
+			velocity = lerp(velocity, goal_vel, thrust_accel * delta)
 	
 	move_and_slide()
 
