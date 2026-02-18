@@ -26,7 +26,6 @@ power_links = {
 null: null
 }
 max_hit_points = 560
-hit_points = 560
 hud = NodePath("HUD")
 
 [node name="HexGrid" parent="." unique_id=1277847278 instance=ExtResource("2_42ouq")]
@@ -62,16 +61,6 @@ rotation = 5.2359877
 [node name="@Node2D@59" parent="." unique_id=771592870 instance=ExtResource("7_l5nxb")]
 position = Vector2(39, 45)
 rotation = 1.0471976
-
-[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="." unique_id=1304921086]
-visible = false
-vertices = PackedVector2Array(-117, -46, -79, -68, 78, -67, 116, -45, 156, 23, 156, 68, 78, 203, 40, 225, -37, 225, -79, 202, -157, 68, -156, 23)
-
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1609805294]
-path_desired_distance = 50.0
-target_desired_distance = 500.0
-debug_enabled = true
-debug_path_custom_color = Color(1, 0, 0, 1)
 
 [node name="DetectionRange" type="Area2D" parent="." unique_id=371212281]
 collision_layer = 0

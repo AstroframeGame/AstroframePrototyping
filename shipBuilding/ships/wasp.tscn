@@ -16,11 +16,16 @@ tile_size = Vector2i(78, 90)
 [sub_resource type="CircleShape2D" id="CircleShape2D_u0ucr"]
 radius = 1843.0988
 
-[node name="Wasp" type="RigidBody2D" unique_id=1784127879 node_paths=PackedStringArray("hud") groups=["pirate_ship"]]
+[node name="Wasp" type="RigidBody2D" unique_id=1784127879 node_paths=PackedStringArray("power_links", "hud") groups=["pirate_ship"]]
 input_pickable = true
 mass = 20.0
 gravity_scale = 0.0
 script = ExtResource("1_n4pt3")
+power_links = {
+NodePath("Reactor_2(1)/OutputHex/OutClickArea"): NodePath("Engines_2/InputHex/InClickArea"),
+NodePath("Reactor_2(1)/OutputHex3/OutClickArea"): NodePath("Engines_2/InputHex2/InClickArea"),
+NodePath("Reactor_2/OutputHex/OutClickArea"): NodePath("Cannon/InputHex/InClickArea")
+}
 hud = NodePath("HUD")
 
 [node name="HexGrid" parent="." unique_id=1277847278 instance=ExtResource("2_8tr5f")]
@@ -69,3 +74,16 @@ rotation = 1.0471976
 
 [connection signal="body_entered" from="DetectionRange" to="." method="_on_detection_range_body_entered"]
 [connection signal="body_exited" from="DetectionRange" to="." method="_on_detection_range_body_exited"]
+
+[editable path="Engines_2"]
+[editable path="Engines_2/InputHex"]
+[editable path="Engines_2/InputHex2"]
+[editable path="Cannon"]
+[editable path="Cannon/InputHex"]
+[editable path="Cannon/Gun"]
+[editable path="Reactor_2(1)"]
+[editable path="Reactor_2(1)/OutputHex"]
+[editable path="Reactor_2(1)/OutputHex3"]
+[editable path="Reactor_2"]
+[editable path="Reactor_2/OutputHex"]
+[editable path="Reactor_2/OutputHex3"]

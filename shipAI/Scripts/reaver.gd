@@ -27,9 +27,8 @@ func update_state():
 	if target == null:
 		current_state = State.IDLE
 	else:
-		if nav_agent.is_target_reached():
+		if distance_to_target() < 600:
 			if current_state != State.FLANKING:
 				pass
 		else:
-			nav_agent.target_position = target.get_piloting().global_position
 			current_state = State.APPROACHING

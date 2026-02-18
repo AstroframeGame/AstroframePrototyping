@@ -64,7 +64,7 @@ func approach_target():
 	_target_angle = _look_dir.angle() + PI/2
 	_angle_delta = wrapf(_target_angle - global_rotation, -PI, PI)
 	angular_velocity = _angle_delta * engines.rotational_thrust * PI
-	linear_velocity -= transform.y * engines.standard_thrust
+	linear_velocity -= transform.y * engines.standard_thrust * engines.power_level
 
 func align():
 	print("%s aligning" % [name])
@@ -73,7 +73,7 @@ func align():
 	_target_angle = _look_dir.angle() + PI/2 + PI
 	_angle_delta = wrapf(_target_angle - global_rotation, -PI, PI)
 	var _delta = get_process_delta_time()
-	angular_velocity = _angle_delta * engines.rotational_thrust * _delta * 1000
+	angular_velocity = _angle_delta * engines.rotational_thrust * engines.power_level
 	
 func latch_on():
 	print("%s latching when angle_delta is %f" % [name, rotation])
@@ -89,5 +89,6 @@ func flank():
 
 func flee():
 	print("%s fleeing" % [name])
-	linear_velocity -= transform.y * engines.standard_thrust * 3
+	linear_velocity -= transform.y * engines.standard_thrust * engines.power_level
+	
 #endregion 
