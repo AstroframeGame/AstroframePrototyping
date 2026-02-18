@@ -14,7 +14,8 @@ tile_shape = 3
 tile_size = Vector2i(78, 90)
 
 [node name="Ship9" type="RigidBody2D" unique_id=1784127879]
-collision_layer = 3
+collision_layer = 16
+collision_mask = 16
 input_pickable = true
 mass = 18.0
 gravity_scale = 0.0

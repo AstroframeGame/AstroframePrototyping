@@ -323,7 +323,7 @@ func update_colliders() -> void:
 		edge.owner = self
 		edge.build_mode = CollisionPolygon2D.BUILD_SEGMENTS
 		print("Fallback: ", name, " creating edge")
-	var area = get_node_or_null("Ground")
+	var area : Area2D = get_node_or_null("Ground")
 	if not area:
 		area = Area2D.new()
 		add_child(area)
@@ -338,6 +338,12 @@ func update_colliders() -> void:
 		area.add_child(solid)
 		solid.owner = self
 		print("Fallback: ", name, " creating solid")
+	
+	collision_layer = 16 # Ship exterior layer
+	collision_mask = 16 #ship exterior layer
+	area.collision_layer = 3 # ship interior
+	area.collision_mask = 3 # prob doesnt matter since it shouldnt be monitoring
+	area.monitoring = false
 	
 	move_child.call_deferred(edge, -1)
 	move_child.call_deferred(area, -1)
@@ -434,7 +440,7 @@ func remove_power_link_out(power_out : PowerOutHex):
 	return false
 #endregion
 
-#region Health	
+#region Health
 const HUD = preload("res://shipAI/prefabs/hud.tscn")
 func check_hud():
 	for child in get_children():

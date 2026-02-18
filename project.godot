@@ -203,13 +203,13 @@ ship_push={
 
 [layer_names]
 
-2d_physics/layer_1="Ships"
+2d_physics/layer_1="ShipInterior"
 2d_physics/layer_2="CharactersInterior"
 2d_physics/layer_3="Interactables"
 2d_physics/layer_4="Mouse"
-2d_physics/layer_5="Projectiles"
+2d_physics/layer_5="ShipExterior"
 2d_physics/layer_6="CharactersExterior"
-2d_physics/layer_7="Unused"
+2d_physics/layer_7="Projectiles"
 2d_physics/layer_9="Enviroment"
 2d_physics/layer_13="EnviromentObstacle"
 avoidance/layer_1="Ships"
