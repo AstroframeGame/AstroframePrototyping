@@ -10,11 +10,19 @@ var dialogue: Dictionary
 var npcs: Array
 var gm : GameManager
 var dialouge_runner : DialougeRunner
+var objective: String
+var win: Callable	# lambda defined in child encounter scripts
 
 func _process(delta):
+	# set player
 	if not player:
 		player = get_parent().multiplayer_manager.my_player
 		player.global_position = $Ship.global_position
+	
+	# check win
+	if win and win.call() == true:
+		objective = "Success!"
+		win = func(): pass	# overwrite to prevent further checking? # TODO: TEST THIS
 
 func init():
 	# set location
