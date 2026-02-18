@@ -321,22 +321,25 @@ func update_colliders() -> void:
 		if child.name.begins_with("Edge_"):
 			child.queue_free()
 	
-	var edge_index = 0
+	var wall_thickness = 8.0
 	for island in islands:
 		for i in range(island.size()):
 			var p1 = island[i]
 			var p2 = island[(i + 1) % island.size()]
 			
 			var segment = CollisionShape2D.new()
-			segment.name = "Edge_" + str(edge_index)
+			segment.name = "Edge_" + str(i)
 			
-			var shape = SegmentShape2D.new()
-			shape.a = p1
-			shape.b = p2
-			segment.shape = shape
+			var rect = RectangleShape2D.new()
+			var length = p1.distance_to(p2)
 			
-			add_child.call_deferred(segment)
-			edge_index += 1
+			rect.size = Vector2(length, wall_thickness)
+			segment.shape = rect
+			
+			segment.position = (p1 + p2) / 2.0
+			segment.rotation = (p2 - p1).angle()
+			
+			add_child(segment)
 
 	var area : Area2D = get_node_or_null("Ground")
 	if not area:
@@ -359,6 +362,7 @@ func update_colliders() -> void:
 	area.collision_layer = 3 # ship interior
 	area.collision_mask = 3 # prob doesnt matter since it shouldnt be monitoring
 	area.monitoring = false
+	continuous_cd = RigidBody2D.CCD_MODE_CAST_RAY
 	
 	move_child.call_deferred(area, -1)
 	
