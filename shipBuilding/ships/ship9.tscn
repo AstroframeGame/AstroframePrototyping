@@ -57,6 +57,7 @@ polygon = PackedVector2Array(156.1, -112.55, 156.1, -67.61659, 195.00107, -45.13
 [editable path="Engines_2/InputHex"]
 [editable path="Cannon"]
 [editable path="Cannon/InputHex"]
+[editable path="Cannon/Gun"]
 [editable path="Reactor_2"]
 [editable path="Reactor_2/OutputHex"]
 [editable path="Reactor_2/OutputHex3"]
