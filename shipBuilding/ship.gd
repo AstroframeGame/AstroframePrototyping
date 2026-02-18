@@ -103,9 +103,9 @@ func move_ship(state: PhysicsDirectBodyState2D):
 			direction.y *= engines.forward_multiplier
 		goal_vel = state.linear_velocity + direction.rotated(global_rotation)
 		goal_vel = goal_vel.normalized() * min(goal_vel.length(), engines.get_max_speed()) # clamp speed
-		state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * delta)
+		state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * state.inverse_mass * delta)
 	else:
-		state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * engines.drag_multiplier * delta)
+		state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * state.inverse_mass * engines.drag_multiplier * delta)
 
 
 const flight_deadzone = 0.05 #screen %
@@ -504,9 +504,9 @@ func get_push_velocity(state : PhysicsDirectBodyState2D) -> Vector2:
 	var total_vel = state.linear_velocity
 	for p in players:
 		if p.push_brake:
-			state.linear_velocity = lerp(state.linear_velocity, Vector2.ZERO, p.thrust_accel * 0.2 * state.step)
+			state.linear_velocity = lerp(state.linear_velocity, Vector2.ZERO, p.thrust_accel * state.inverse_mass * 0.2 * state.step)
 		else:
-			state.linear_velocity = lerp(state.linear_velocity, state.linear_velocity + p.push_dir, p.thrust_accel * 0.2 * state.step)
+			state.linear_velocity = lerp(state.linear_velocity, state.linear_velocity + p.push_dir, p.thrust_accel * state.inverse_mass * 0.2 * state.step)
 	return total_vel
 
 func get_push_rotation() -> float:
