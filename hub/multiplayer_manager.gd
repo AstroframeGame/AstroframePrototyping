@@ -21,9 +21,11 @@ func create_player(_world):
 	my_player = PLAYER_CHARACTER_PREFAB.instantiate()
 	call_deferred("add_child", my_player_system)
 	call_deferred("add_child", my_player)
+	players.append(my_player)
 
 func remove_my_player():
 	if my_player_system:
 		my_player_system.call_deferred("queue_free")
 	if my_player:
 		my_player.call_deferred("queue_free")
+		players.erase(my_player)

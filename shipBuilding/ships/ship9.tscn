@@ -14,7 +14,8 @@ tile_shape = 3
 tile_size = Vector2i(78, 90)
 
 [node name="Ship9" type="RigidBody2D" unique_id=1784127879]
-collision_layer = 3
+collision_layer = 16
+collision_mask = 16
 input_pickable = true
 mass = 18.0
 gravity_scale = 0.0
@@ -57,6 +58,7 @@ polygon = PackedVector2Array(156.1, -112.55, 156.1, -67.61659, 195.00107, -45.13
 [editable path="Engines_2/InputHex"]
 [editable path="Cannon"]
 [editable path="Cannon/InputHex"]
+[editable path="Cannon/Gun"]
 [editable path="Reactor_2"]
 [editable path="Reactor_2/OutputHex"]
 [editable path="Reactor_2/OutputHex3"]

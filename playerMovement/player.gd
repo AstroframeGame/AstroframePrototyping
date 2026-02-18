@@ -20,6 +20,11 @@ the player is over ground, hence whether to use air movement or ground movement
 @export_flags_2d_physics var exterior_layer
 @export_flags_2d_physics var exterior_mask
 
+# sync these
+var pushing #set in physics process
+var push_dir
+var push_brake
+
 var _seat : SeatInteractable = null
 var seat : SeatInteractable :
 	get:
@@ -33,7 +38,7 @@ var seat : SeatInteractable :
 
 # for fake parenting
 # separated from ship
-var ground_body : RigidBody2D
+var ground_body : PhysicsBody2D
 var prev_ground_body_transform : Transform2D
 
 var ship : Ship
@@ -72,7 +77,12 @@ func _physics_process(delta):
 	
 	var direction = Input.get_vector("left", "right", "up", "down")
 	direction = direction.normalized().rotated(global_rotation)
-	if seat:
+	pushing = ground_body != null and ground_body is Ship and ship == null and Input.is_action_pressed("ship_push")
+	push_dir = direction
+	push_brake = Input.is_action_pressed("brake")
+	#print(ground_body != null , ground_body is Ship , ship == null , Input.is_action_pressed("ship_push"))
+	
+	if seat or pushing:
 		velocity = Vector2.ZERO # ship vel added later
 		handgun.holster()
 	elif grapple.wants_grapple():
@@ -82,10 +92,12 @@ func _physics_process(delta):
 		#rotate(Input.get_axis("rotate_left","rotate_right") * rotate_speed * delta)
 		velocity = direction * walk_speed
 	else:
+		var goal_vel = Vector2.ZERO
 		if Input.is_action_pressed("brake"):
-			velocity -= velocity.normalized() * thrust_accel * delta
+			velocity = lerp(velocity, goal_vel, thrust_accel * delta)
 		else:
-			velocity += direction * thrust_accel * delta
+			goal_vel = velocity + direction
+			velocity = lerp(velocity, goal_vel, thrust_accel * delta)
 	
 	move_and_slide()
 
@@ -125,11 +137,20 @@ func _unhandled_input(event: InputEvent) -> void:
 #region grounding
 # called when ground check intersects with rb
 func on_ground(_body : Node2D):
-	if _body is RigidBody2D:
+	# maybe chekc if there is more priority for the new ground. ships should be easier to ground than envs
+	#print("on_ground ", _body)
+	if _body is Area2D:
+		#print("parent is ship ", _body.get_parent() is Ship)
+		if _body.get_parent() is Ship:
+			ground_body = _body.get_parent()
+			prev_ground_body_transform = ground_body.global_transform
+	elif _body is PhysicsBody2D:
 		ground_body = _body
 		prev_ground_body_transform = ground_body.global_transform
+	#print("gb ",ground_body)
 
 func on_unground(_body : Node2D):
+	#print("on_unground ", _body)
 	if _body == ground_body:
 		ground_body = null
 
@@ -137,12 +158,12 @@ func on_unground(_body : Node2D):
 func on_ship_enter(new_ship : Ship):
 	on_ground(new_ship)
 	ship = new_ship
-	print(name + " parent to ship")
+	#print(name + " parent to ship")
 	update_layers(true)
 
 func on_ship_exit():
 	# unground will be called when stops intersecting
-	print(name + " parent to wordl")
+	#print(name + " parent to wordl")
 	update_layers(false)
 	ship = null
 
@@ -164,6 +185,8 @@ func update_layers(inside : bool):
 		z_index = 12
 #endregion
 
+
 func take_damage(damage : int):
 	health -= damage
 	print("Damage Taken! Player now at %s health" % health)
+	
