@@ -32,7 +32,6 @@ func _ready() -> void:
 func ground_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
 		var cell = world_to_grid(get_global_mouse_position())
-		print("A", cell)
 		if occupied_cells.has(cell):
 			var room = occupied_cells[cell]
 			print("Room ", room, " was clicked")
@@ -434,5 +433,33 @@ func _process(_delta: float) -> void:
 					break
 			break
 	queue_free()
+
+#endregion
+
+#region InteriorExterior
+
+
+# DO NOT SYNC
+var _my_player_within : bool = false
+var my_player_within : bool:
+	set(value):
+		set_rooms_visible(value)
+		_my_player_within = false
+	get:
+		return _my_player_within
+# this is used to determin whether or not to show the ship's roof
+
+# this should maybe become generic for enemies too?
+func on_character_enter_ship(_p : PlayerCharacter):
+	# if I am MultiplayerManager's my player
+	my_player_within = true
+	
+func on_character_exit_ship(_p : PlayerCharacter):
+	my_player_within = false
+
+func set_rooms_visible(v : bool):
+	for r in get_children():
+		if r is Room:
+			r.roof.visible = v
 
 #endregion

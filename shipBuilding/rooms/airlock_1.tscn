@@ -2,11 +2,25 @@
 
 [ext_resource type="Script" uid="uid://c173g2mdo5jh1" path="res://shipBuilding/room_scripts/airlock.gd" id="1_r60ym"]
 [ext_resource type="PackedScene" uid="uid://clyn58uoj7ooi" path="res://shipBuilding/hexes/door_hex.tscn" id="2_eprgn"]
+[ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="3_r60ym"]
+[ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/ui_textures/RoundedSquare.png" id="4_fyg8x"]
 
 [node name="Airlock_1" type="Node2D" unique_id=2084884563]
 script = ExtResource("1_r60ym")
 
 [node name="DoorHex" parent="." unique_id=1390897145 instance=ExtResource("2_eprgn")]
+
+[node name="Roof" type="Node2D" parent="." unique_id=1494223740]
+
+[node name="Hex4" type="Sprite2D" parent="Roof" unique_id=2116210467]
+modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_r60ym")
+
+[node name="Box" type="Sprite2D" parent="Roof/Hex4" unique_id=1883587473]
+modulate = Color(0.21950102, 0.21950102, 0.21950102, 1)
+scale = Vector2(0.475, 0.475)
+texture = ExtResource("4_fyg8x")
 
 [node name="Label" type="Label" parent="." unique_id=1223719285]
 offset_left = -27.0
