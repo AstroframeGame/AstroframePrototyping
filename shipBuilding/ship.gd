@@ -11,23 +11,28 @@ var occupied_cells: Dictionary[Vector2i, Room] = {} # only calculated in ship_bu
 @export var power_links : Dictionary[PowerOutHex, PowerInHex]
 
 @export var max_hit_points : int = 0
-@export var hit_points : int = 0
+@export var _hit_points : int = 0
+var hit_points : int:
+	get:
+		return _hit_points
+	set(value):
+		if value < _hit_points:
+			on_hit.emit()
+		_hit_points = value
+signal on_hit()
 
-@export var hud : CanvasLayer = null
+@export var hud : ShipHud = null
 
 func _ready() -> void:
 	update_colliders()
 	calc_center_of_mass()
 	update_occupied_cells()
+	check_hud()
 	
 	on_airlock_interaction.connect(set_exterior_visible)
-	for child in get_children():
-		if child is Room:
-			max_hit_points += child.durability
-	hit_points = max_hit_points
-	hud = get_node_or_null("HUD")
-	if hud:
-		hud.initialize()
+	on_hit.connect(hud.update_hp_bar)
+	on_hit.connect(death_check)
+	
 	z_index = 1
 
 func ground_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
@@ -416,12 +421,22 @@ func remove_power_link_out(power_out : PowerOutHex):
 #endregion
 
 #region Health	
-func take_damage(amount:int):
-	hit_points -= amount
-	hud.update_hp_bar()
+const HUD = preload("res://shipAI/prefabs/hud.tscn")
+func check_hud():
+	for child in get_children():
+		if child is Room:
+			max_hit_points += child.durability
+	hit_points = max_hit_points
+	hud = get_node_or_null("HUD")
+	if not hud:
+		hud = HUD.instantiate()
+		add_child(hud)
+	hud.initialize() # @ Kevin remove?
 
-# death check
-func _process(_delta: float) -> void:
+func take_damage(amount:int):
+	hit_points -= amount # property has callback that sets the hud to update
+
+func death_check():
 	if hit_points > 0:
 		return 
 	# relocate player if its in the ship
