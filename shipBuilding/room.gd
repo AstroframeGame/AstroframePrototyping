@@ -15,6 +15,8 @@ var grid_pos : Vector2i:
 @warning_ignore("unused_signal") # used in ship
 signal on_power_level_change(room : Room)
 
+@onready var roof: Node2D = $Roof
+
 var power_level : int:
 	get:
 		var in_hexes = 0

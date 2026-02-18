@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://byqsdjgqvjiln" path="res://shipBuilding/room_scripts/engines.gd" id="1_w1q65"]
 [ext_resource type="PackedScene" uid="uid://dmgvcp6y668bi" path="res://shipBuilding/hexes/input_hex.tscn" id="2_rosf4"]
 [ext_resource type="Script" uid="uid://cxaq4li7q471e" path="res://addons/trail_2d/trail_2d.gd" id="2_w1q65"]
+[ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="4_rosf4"]
 
 [sub_resource type="Curve" id="Curve_w1q65"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -48,3 +49,16 @@ offset_right = 71.0
 offset_bottom = -5.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Engines"
+
+[node name="Roof" type="Node2D" parent="." unique_id=1066018324]
+
+[node name="Hex3" type="Sprite2D" parent="Roof" unique_id=1799966351]
+modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
+position = Vector2(78, 0)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_rosf4")
+
+[node name="Hex4" type="Sprite2D" parent="Roof" unique_id=280910906]
+modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_rosf4")

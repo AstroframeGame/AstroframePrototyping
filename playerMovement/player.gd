@@ -144,6 +144,7 @@ func on_ship_exit():
 	# unground will be called when stops intersecting
 	print(name + " parent to wordl")
 	update_layers(false)
+	ship = null
 
 func apply_ground_body_transform():
 	if is_instance_valid(ground_body):
