@@ -40,7 +40,7 @@ func ground_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> 
 		var cell = world_to_grid(get_global_mouse_position())
 		if occupied_cells.has(cell):
 			var room = occupied_cells[cell]
-			print("Room ", room, " was clicked")
+			#print("Room ", room, " was clicked")
 			room_clicked.emit(room, event.button_index)
 
 #region Piloting
@@ -103,9 +103,9 @@ func move_ship(state: PhysicsDirectBodyState2D):
 			direction.y *= engines.forward_multiplier
 		goal_vel = state.linear_velocity + direction.rotated(global_rotation)
 		goal_vel = goal_vel.normalized() * min(goal_vel.length(), engines.get_max_speed()) # clamp speed
-		state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * delta)
+		state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * state.inverse_mass * delta)
 	else:
-		state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * engines.drag_multiplier * delta)
+		state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * state.inverse_mass * engines.drag_multiplier * delta)
 
 
 const flight_deadzone = 0.05 #screen %
@@ -314,14 +314,33 @@ func update_colliders() -> void:
 		grid = HEX_GRID_PREFAB.instantiate()
 		add_child(grid)
 	
-	var edge = get_node_or_null("Edge")
-	if not edge:
-		edge = CollisionPolygon2D.new()
-		add_child(edge)
-		edge.name = "Edge"
-		edge.owner = self
-		edge.build_mode = CollisionPolygon2D.BUILD_SEGMENTS
-		print("Fallback: ", name, " creating edge")
+	var old_edge = get_node_or_null("Edge")
+	if old_edge:
+		old_edge.queue_free()
+	for child in get_children():
+		if child.name.begins_with("Edge_"):
+			child.queue_free()
+	
+	var wall_thickness = 8.0
+	for island in islands:
+		for i in range(island.size()):
+			var p1 = island[i]
+			var p2 = island[(i + 1) % island.size()]
+			
+			var segment = CollisionShape2D.new()
+			segment.name = "Edge_" + str(i)
+			
+			var rect = RectangleShape2D.new()
+			var length = p1.distance_to(p2)
+			
+			rect.size = Vector2(length, wall_thickness)
+			segment.shape = rect
+			
+			segment.position = (p1 + p2) / 2.0
+			segment.rotation = (p2 - p1).angle()
+			
+			add_child(segment)
+
 	var area : Area2D = get_node_or_null("Ground")
 	if not area:
 		area = Area2D.new()
@@ -343,15 +362,13 @@ func update_colliders() -> void:
 	area.collision_layer = 3 # ship interior
 	area.collision_mask = 3 # prob doesnt matter since it shouldnt be monitoring
 	area.monitoring = false
+	continuous_cd = RigidBody2D.CCD_MODE_CAST_RAY
 	
-	move_child.call_deferred(edge, -1)
 	move_child.call_deferred(area, -1)
 	
 	if islands.size() > 0:
-		edge.polygon = islands[0]
 		solid.polygon = islands[0]
 	else:
-		edge.polygon = PackedVector2Array()
 		solid.polygon = PackedVector2Array()
 	
 	
@@ -503,7 +520,10 @@ func get_push_velocity(state : PhysicsDirectBodyState2D) -> Vector2:
 	
 	var total_vel = state.linear_velocity
 	for p in players:
-		state.linear_velocity = lerp(state.linear_velocity, state.linear_velocity + p.push_dir, p.thrust_accel * 0.2 * state.step)
+		if p.push_brake:
+			state.linear_velocity = lerp(state.linear_velocity, Vector2.ZERO, p.thrust_accel * state.inverse_mass * 0.2 * state.step)
+		else:
+			state.linear_velocity = lerp(state.linear_velocity, state.linear_velocity + p.push_dir, p.thrust_accel * state.inverse_mass * 0.2 * state.step)
 	return total_vel
 
 func get_push_rotation() -> float:
