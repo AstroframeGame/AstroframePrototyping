@@ -41,6 +41,7 @@ shape = SubResource("CircleShape2D_bucqc")
 debug_color = Color(0.81960785, 0.35686275, 0.5058824, 0)
 
 [node name="Roof" type="Node2D" parent="." unique_id=475660757]
+visible = false
 
 [node name="Hex3" type="Sprite2D" parent="Roof" unique_id=495697975]
 modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)

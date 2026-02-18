@@ -31,6 +31,7 @@ text = "Shields"
 position = Vector2(0, -45)
 
 [node name="Roof" type="Node2D" parent="." unique_id=1583828134]
+visible = false
 
 [node name="Hex3" type="Sprite2D" parent="Roof" unique_id=644852332]
 modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
