@@ -84,16 +84,12 @@ func move_ship(state: PhysicsDirectBodyState2D):
 	var engines :Engines = get_engines()
 	var pilot : PlayerCharacter = get_pilot()
 	#var pushing : bool = get_players_pushing().size() > 0
-	var pushing_vel : Vector2 = get_push_velocity()
 	var pushing_rot : float = get_push_rotation()
 	var push_thrust : float = 0.1
 	
 	if not (engines and get_piloting() and pilot):
-		print(pushing_vel," ",  lerp(state.linear_velocity, pushing_vel, 80 * state.step))
-		if pushing_vel.length_squared() > 0.1:
-			state.linear_velocity = lerp(state.linear_velocity, state.linear_velocity + pushing_vel, 80 * state.step)
-		else:
-			state.linear_velocity = lerp(state.linear_velocity, Vector2.ZERO, 80 * state.step)
+		#print(pushing_vel," ",  lerp(state.linear_velocity, pushing_vel, 80 * state.step))
+		get_push_velocity(state)
 		state.angular_velocity = lerp(state.angular_velocity, pushing_rot, push_thrust)
 		return
 		
@@ -496,18 +492,18 @@ func set_exterior_visible(_interactor : CharacterBody2D, entered : bool):
 func get_players_pushing() -> Array[PlayerCharacter]:
 	var pushing_players : Array[PlayerCharacter] = []
 	for p in get_players_from_manager():
-		if p.pushing:
+		if p.pushing and p.ship == null and p.ground_body == self:
 			pushing_players.append(p)
 	return pushing_players
 
-func get_push_velocity() -> Vector2:
+func get_push_velocity(state : PhysicsDirectBodyState2D) -> Vector2:
 	var players = get_players_pushing()
 	if players.is_empty():
-		return Vector2.ZERO
+		return state.linear_velocity
 	
-	var total_vel = Vector2.ZERO
+	var total_vel = state.linear_velocity
 	for p in players:
-		total_vel = p.push_dir
+		state.linear_velocity = lerp(state.linear_velocity, state.linear_velocity + p.push_dir, p.thrust_accel * 0.2 * state.step)
 	return total_vel
 
 func get_push_rotation() -> float:

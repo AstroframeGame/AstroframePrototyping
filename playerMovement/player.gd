@@ -137,6 +137,7 @@ func _unhandled_input(event: InputEvent) -> void:
 #region grounding
 # called when ground check intersects with rb
 func on_ground(_body : Node2D):
+	# maybe chekc if there is more priority for the new ground. ships should be easier to ground than envs
 	#print("on_ground ", _body)
 	if _body is Area2D:
 		#print("parent is ship ", _body.get_parent() is Ship)
