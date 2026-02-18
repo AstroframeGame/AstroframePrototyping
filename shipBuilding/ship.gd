@@ -503,7 +503,10 @@ func get_push_velocity(state : PhysicsDirectBodyState2D) -> Vector2:
 	
 	var total_vel = state.linear_velocity
 	for p in players:
-		state.linear_velocity = lerp(state.linear_velocity, state.linear_velocity + p.push_dir, p.thrust_accel * 0.2 * state.step)
+		if p.push_brake:
+			state.linear_velocity = lerp(state.linear_velocity, Vector2.ZERO, p.thrust_accel * 0.2 * state.step)
+		else:
+			state.linear_velocity = lerp(state.linear_velocity, state.linear_velocity + p.push_dir, p.thrust_accel * 0.2 * state.step)
 	return total_vel
 
 func get_push_rotation() -> float:
