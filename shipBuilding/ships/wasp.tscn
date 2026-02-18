@@ -57,6 +57,7 @@ position = Vector2(0, -157.5)
 
 [node name="DetectionRange" type="Area2D" parent="." unique_id=511658665]
 collision_layer = 0
+collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRange" unique_id=475700316]
 shape = SubResource("CircleShape2D_u0ucr")

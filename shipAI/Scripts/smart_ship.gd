@@ -60,26 +60,31 @@ func sit_idle():
 
 func approach_target():
 	print("%s approaching" % [name])
+	#angular_velocity = input_rotation() * engines.rotational_thrust * engines.power_level
+	#linear_velocity -= transform.y * engines.standard_thrust / mass * engines.power_level
+
+func input_direction() -> Vector2:
+	return (target.global_position - global_position) * global_transform.affine_inverse()
+func input_rotation() -> float:
 	_look_dir = target.get_piloting().global_position - piloting.global_position
 	_target_angle = _look_dir.angle() + PI/2
 	_angle_delta = wrapf(_target_angle - global_rotation, -PI, PI)
-	angular_velocity = _angle_delta * engines.rotational_thrust * PI
-	linear_velocity -= transform.y * engines.standard_thrust * engines.power_level
+	return _angle_delta
 
 func align():
 	print("%s aligning" % [name])
 	global_position = target.to_global(_latching_position)
-	_look_dir = -(piloting.global_position - target.global_position)
-	_target_angle = _look_dir.angle() + PI/2 + PI
-	_angle_delta = wrapf(_target_angle - global_rotation, -PI, PI)
-	var _delta = get_process_delta_time()
-	angular_velocity = _angle_delta * engines.rotational_thrust * engines.power_level
+	#_look_dir = -(piloting.global_position - target.global_position)
+	#_target_angle = _look_dir.angle() + PI/2 + PI
+	#_angle_delta = wrapf(_target_angle - global_rotation, -PI, PI)
+	#var _delta = get_process_delta_time()
+	#angular_velocity = _angle_delta * engines.rotational_thrust * engines.power_level
 	
 func latch_on():
 	print("%s latching when angle_delta is %f" % [name, rotation])
-	global_position = target.to_global(_latching_position)
-	_look_dir = -(piloting.global_position - target.global_position)
-	rotation = _look_dir.angle() + PI/2 + PI
+	#global_position = target.to_global(_latching_position)
+	#_look_dir = -(piloting.global_position - target.global_position)
+	#rotation = _look_dir.angle() + PI/2 + PI
 	for cannon in get_cannons():
 		cannon.gun.shoot(5)
 
@@ -89,6 +94,6 @@ func flank():
 
 func flee():
 	print("%s fleeing" % [name])
-	linear_velocity -= transform.y * engines.standard_thrust * engines.power_level
+	#linear_velocity -= transform.y * engines.standard_thrust / mass * engines.power_level
 	
 #endregion 

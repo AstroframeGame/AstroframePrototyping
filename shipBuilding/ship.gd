@@ -23,6 +23,16 @@ signal on_hit()
 
 @export var hud : ShipHud = null
 
+
+func input_direction() ->Vector2:
+	return Input.get_vector("left", "right", "up", "down")
+func input_rotation() -> float:
+	var look_dir = InputHelper.mouse_center_offset_deadzone(flight_deadzone)
+	var rot_amount = look_dir.x * 0.01
+	if not InputHelper.using_mouse:
+		rot_amount = InputHelper.controller_look.x
+	return rot_amount
+
 func _ready() -> void:
 	update_colliders()
 	calc_center_of_mass()
@@ -93,7 +103,7 @@ func move_ship(state: PhysicsDirectBodyState2D):
 		state.angular_velocity = lerp(state.angular_velocity, pushing_rot, push_thrust)
 		return
 		
-	var direction = Input.get_vector("left", "right", "up", "down")
+	var direction = input_direction()
 	var delta = get_process_delta_time()
 	
 	var goal_vel :Vector2 = Vector2.ZERO # default goal, for braking or auto braking
@@ -118,10 +128,7 @@ func rotate_ship(state: PhysicsDirectBodyState2D):
 	if not pilot:
 		state.angular_velocity = 0
 		return
-	var look_dir = InputHelper.mouse_center_offset_deadzone(flight_deadzone)
-	var rot_amount = look_dir.x * 0.01
-	if not InputHelper.using_mouse:
-		rot_amount = InputHelper.controller_look.x
+	var rot_amount = input_rotation()
 	state.angular_velocity = rot_amount * engines.get_rotational_thrust()
 	
 func calc_center_of_mass():
@@ -339,7 +346,7 @@ func update_colliders() -> void:
 			segment.position = (p1 + p2) / 2.0
 			segment.rotation = (p2 - p1).angle()
 			
-			add_child(segment)
+			add_child.call_deferred(segment)
 
 	var area : Area2D = get_node_or_null("Ground")
 	if not area:
