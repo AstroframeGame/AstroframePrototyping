@@ -11,6 +11,11 @@ var npcs: Array
 var gm : GameManager
 var dialouge_runner : DialougeRunner
 
+func _process(delta):
+	if not player:
+		player = get_parent().multiplayer_manager.my_player
+		player.global_position = $Ship.global_position
+
 func init():
 	# set location
 	location = enc_base_dir.split("/")[4]
