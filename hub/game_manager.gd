@@ -13,6 +13,10 @@ signal game_quit()
 
 func _ready() -> void:
 	menus.open_menu("Main")
+	# load settings
+	# settings include whether or not game is muted
+	# debug setting it muted for now
+	MusicManager.muted = true
 	MusicManager.play_menu()
 	
 func load_scene(path : String)->void:
