@@ -7,9 +7,6 @@ func _physics_process(_delta: float) -> void:
 	update_state()
 	process_state()
 	
-#func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector2) -> void:
-	#linear_velocity = safe_velocity
-
 func update_state() -> void:
 	if target == null:
 		current_state = State.IDLE

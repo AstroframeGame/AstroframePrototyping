@@ -467,6 +467,7 @@ func check_hud():
 	if not hud:
 		hud = HUD.instantiate()
 		add_child(hud)
+	hud.initialize()
 
 func take_damage(amount:int):
 	hit_points -= amount # property has callback that sets the hud to update

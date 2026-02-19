@@ -30,11 +30,11 @@ func ship_detected() -> Ship:
 func distance_to_target() -> float:
 	return global_position.distance_to(target.global_position)
 #endregion
-
-func update_state():
-	pass
 	
 #region State Processes
+func update_state():
+	pass
+
 func process_state():
 	match current_state:
 		State.IDLE:
@@ -65,6 +65,7 @@ func approach_target():
 	_angle_delta = wrapf(_target_angle - global_rotation, -PI, PI)
 	angular_velocity = _angle_delta * engines.rotational_thrust * PI
 	linear_velocity -= transform.y * engines.standard_thrust * engines.power_level
+	linear_velocity /= mass
 
 func align():
 	print("%s aligning" % [name])
@@ -76,7 +77,7 @@ func align():
 	angular_velocity = _angle_delta * engines.rotational_thrust * engines.power_level
 	
 func latch_on():
-	print("%s latching when angle_delta is %f" % [name, rotation])
+	print("%s latching" % [name])
 	global_position = target.to_global(_latching_position)
 	_look_dir = -(piloting.global_position - target.global_position)
 	rotation = _look_dir.angle() + PI/2 + PI
@@ -90,5 +91,6 @@ func flank():
 func flee():
 	print("%s fleeing" % [name])
 	linear_velocity -= transform.y * engines.standard_thrust * engines.power_level
+	linear_velocity /= mass
 	
 #endregion 

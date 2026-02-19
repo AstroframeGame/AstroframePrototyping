@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://blw3cf71ki3n1" path="res://encounter/grid_black_1024x1024.png" id="3_nhcgg"]
 [ext_resource type="Script" uid="uid://ckvkvmc3ju7xr" path="res://shipMovement/scrolling_bg.gd" id="4_8rdp5"]
 [ext_resource type="PackedScene" uid="uid://b5hikq1i2xtpw" path="res://shipBuilding/ships/player_ship.tscn" id="5_nhcgg"]
-[ext_resource type="PackedScene" uid="uid://biexdduqulqnx" path="res://shipBuilding/ships/wasp.tscn" id="7_jrc0m"]
+[ext_resource type="PackedScene" uid="uid://cxfdk3i3ew4wb" path="res://shipBuilding/ships/wasp.tscn" id="7_jrc0m"]
 [ext_resource type="FontFile" uid="uid://bvhs72w1tp2uu" path="res://hub/fonts/Ethnocentric-Regular.otf" id="8_8rdp5"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_jrc0m"]
@@ -49,6 +49,8 @@ NodePath("Reactor_2(1)/OutputHex/OutClickArea"): NodePath("Engines_2/InputHex/In
 NodePath("Reactor_2(1)/OutputHex3/OutClickArea"): NodePath("Engines_2/InputHex2/InClickArea"),
 NodePath("Reactor_2/OutputHex/OutClickArea"): NodePath("Cannon/InputHex/InClickArea")
 }
+max_hit_points = 0
+_hit_points = 0
 
 [node name="Wasp2" parent="." unique_id=1186956246 node_paths=PackedStringArray("power_links") instance=ExtResource("7_jrc0m")]
 position = Vector2(2670, 491)
@@ -57,6 +59,8 @@ NodePath("Reactor_2(1)/OutputHex/OutClickArea"): NodePath("Engines_2/InputHex/In
 NodePath("Reactor_2(1)/OutputHex3/OutClickArea"): NodePath("Engines_2/InputHex2/InClickArea"),
 NodePath("Reactor_2/OutputHex/OutClickArea"): NodePath("Cannon/InputHex/InClickArea")
 }
+max_hit_points = 0
+_hit_points = 0
 
 [node name="PlayerShip" parent="." unique_id=1510963782 node_paths=PackedStringArray("power_links") instance=ExtResource("5_nhcgg")]
 position = Vector2(163, 227)
