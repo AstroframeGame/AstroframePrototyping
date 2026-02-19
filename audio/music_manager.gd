@@ -1,6 +1,6 @@
 extends Node
 
-@onready var menu: AudioStreamPlayer = $MenuPlayer
+@onready var menu: AudioStreamPlayer = $MenuMusic
 @onready var ambient: AudioStreamPlayer = $GameAmbient
 @onready var tense: AudioStreamPlayer = $GameTense
 
@@ -62,8 +62,15 @@ func _crossfade(to: AudioStreamPlayer, from: Array[AudioStreamPlayer]):
 	if _tween: _tween.kill()
 	_tween = create_tween()
 	
-	if not to.playing: to.play()
+	if not to.playing: 
+		to.volume_db = -80.0
+		to.play()
 	
-	_tween.parallel().tween_property(to, "volume_db", 0.0, 2.0)
+	_tween.set_parallel(true)
+	_tween.set_trans(Tween.TRANS_SINE)
+	
+	_tween.tween_property(to, "volume_db", 0.0, 2.0).set_ease(Tween.EASE_OUT)
+	
 	for p in from:
-		_tween.parallel().tween_property(p, "volume_db", -80.0, 2.0)
+		if p.playing:
+			_tween.tween_property(p, "volume_db", -80.0, 2.0).set_ease(Tween.EASE_IN)

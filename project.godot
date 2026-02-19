@@ -29,6 +29,7 @@ ScreenshotManager="*uid://crx4ktvfwjrs5"
 InGameConsole="*uid://bu0k62p1icydm"
 BarkGetter="*uid://c8aguxek25t81"
 ProjectileManager="*uid://d1vm8u2ei3vye"
+MusicManager="*uid://b7tv0wcrra483"
 
 [display]
 

@@ -1,12 +1,18 @@
 [gd_scene format=3 uid="uid://b7tv0wcrra483"]
 
 [ext_resource type="Script" uid="uid://b5xk0k3t41sn6" path="res://audio/music_manager.gd" id="1_ip8bo"]
+[ext_resource type="AudioStream" uid="uid://snywu31mw3pa" path="res://audio/music/asteroid_field_ambient_loop.ogg" id="2_8vo66"]
+[ext_resource type="AudioStream" uid="uid://bgxfxwh6jhqwt" path="res://audio/music/astroframe_main_theme.ogg" id="2_t7ws8"]
+[ext_resource type="AudioStream" uid="uid://cxodm1kldpmiw" path="res://audio/music/asteroid_field_combat_loop.ogg" id="3_t7ws8"]
 
 [node name="MusicManager" type="Node" unique_id=815796091]
 script = ExtResource("1_ip8bo")
 
 [node name="MenuMusic" type="AudioStreamPlayer" parent="." unique_id=477075140]
+stream = ExtResource("2_t7ws8")
 
 [node name="GameAmbient" type="AudioStreamPlayer" parent="." unique_id=2052447841]
+stream = ExtResource("2_8vo66")
 
 [node name="GameTense" type="AudioStreamPlayer" parent="." unique_id=322523742]
+stream = ExtResource("3_t7ws8")

@@ -13,6 +13,7 @@ signal game_quit()
 
 func _ready() -> void:
 	menus.open_menu("Main")
+	MusicManager.play_menu()
 	
 func load_scene(path : String)->void:
 	var packed_scene = await menus.load_scene(path)
@@ -22,6 +23,7 @@ func load_scene(path : String)->void:
 	if current_scene.name == "ShipBuilding":
 		return # skip the player on building scene
 	game_start.emit(current_scene)
+	MusicManager.play_gameplay()
 
 func start_game():
 	pass
@@ -37,6 +39,7 @@ func quit_to_list():
 	if current_scene:
 		current_scene.queue_free()
 	menus.open_menu("Main")
+	MusicManager.play_menu()
 
 func quit_application():
 	get_tree().quit()
