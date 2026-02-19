@@ -55,7 +55,7 @@ func _ready():
 	# preload rewards
 	preload_rewards()
 
-func _process(delta):
+func _process(_delta):
 	# set player (used for polling distance to other entities in encounter)
 	# may be best to replace with signals, see notes in 0_1_DEMO.gd
 	if not player:

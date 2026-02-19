@@ -340,7 +340,7 @@ func update_colliders() -> void:
 			segment.position = (p1 + p2) / 2.0
 			segment.rotation = (p2 - p1).angle()
 			
-			add_child(segment)
+			add_child.call_deferred(segment)
 
 	var area : Area2D = get_node_or_null("Ground")
 	if not area:
