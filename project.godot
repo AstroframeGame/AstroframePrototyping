@@ -19,7 +19,7 @@ run/main_scene="uid://c57plc2whtank"
 config/quit_on_go_back=false
 config/features=PackedStringArray("4.6", "Forward Plus")
 boot_splash/show_image=false
-config/icon="uid://w2speowsgqcy"
+config/icon="res://icon.svg"
 
 [autoload]
 
@@ -27,8 +27,10 @@ CursorManager="*uid://csw11jb8ee5on"
 InputHelper="*uid://c853xrefm0y5x"
 ScreenshotManager="*uid://crx4ktvfwjrs5"
 InGameConsole="*uid://bu0k62p1icydm"
-BarkGetter="*uid://c8aguxek25t81"
 ProjectileManager="*uid://d1vm8u2ei3vye"
+boot_splash/show_image=false
+config/icon="uid://w2speowsgqcy"
+LevelStateManager="*uid://b86c7evw35fa2"
 
 [display]
 

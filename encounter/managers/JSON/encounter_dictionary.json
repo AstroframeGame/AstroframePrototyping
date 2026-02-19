@@ -1,4 +1,14 @@
 {
+	"DEMO_LOCATION": 
+	{
+		"0_1_DEMO": 
+		{
+			"rewards": [
+				{"type": "room", "path": "res://shipBuilding/rooms/aim_augment_2.tscn"}
+			],
+			"protocols": {}
+		}
+  	},
   "HOME": {
 	"0_INTRO": {
 	  "rewards": [

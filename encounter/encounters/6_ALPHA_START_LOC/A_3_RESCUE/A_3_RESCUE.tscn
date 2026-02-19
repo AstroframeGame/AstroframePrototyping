@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://cuk3wk63bjabv"]
+
+[ext_resource type="Shader" uid="uid://byhs5u1pst1nw" path="res://shipMovement/space_bg.gdshader" id="1_n38wd"]
+[ext_resource type="Texture2D" uid="uid://blw3cf71ki3n1" path="res://encounter/grid_black_1024x1024.png" id="2_gpiox"]
+[ext_resource type="Script" uid="uid://ckvkvmc3ju7xr" path="res://shipMovement/scrolling_bg.gd" id="3_0guk1"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_85kq0"]
+shader = ExtResource("1_n38wd")
+shader_parameter/grid_texture = ExtResource("2_gpiox")
+shader_parameter/camera_offset = Vector2(0, 0)
+shader_parameter/camera_zoom = 1.0
+shader_parameter/camera_rotation = 0.0
+shader_parameter/texture_scale = Vector2(0.001, 0.001)
+
+[node name="A3Rescue" type="Node2D" unique_id=987745687]
+
+[node name="Background" type="CanvasLayer" parent="." unique_id=1753853604]
+layer = -2
+
+[node name="GridBackground" type="ColorRect" parent="Background" unique_id=1831981531]
+z_index = -10
+material = SubResource("ShaderMaterial_85kq0")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_0guk1")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="." unique_id=1996297444]
+offset_left = 158.0
+offset_top = 77.0
+offset_right = 262.0
+offset_bottom = 99.0
+text = "A_3_RESCUE"

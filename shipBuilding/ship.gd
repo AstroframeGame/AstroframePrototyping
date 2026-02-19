@@ -3,6 +3,7 @@ extends RigidBody2D
 
 signal room_clicked(room: Room, button_index: int)
 signal on_airlock_interaction(interactor : PlayerCharacter, is_inside : bool) # called from airlock
+signal ship_destroyed
 
 const HEX_GRID_PREFAB = preload("res://shipBuilding/prefabs/hex_grid.tscn")
 @onready var grid: TileMapLayer # set in update colliders
@@ -484,6 +485,7 @@ func death_check():
 					node.on_ship_exit()
 					break
 			break
+	ship_destroyed.emit()
 	queue_free()
 
 #endregion

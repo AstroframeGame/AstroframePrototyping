@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://b6vnbwkbboq7g"]
+
+[ext_resource type="Script" uid="uid://ci51s5x2ase5i" path="res://encounter/encounters/__DEMO_LOCATION/0_1_DEMO/0_1_DEMO.gd" id="1_3qilk"]
+[ext_resource type="PackedScene" path="res://shipBuilding/ships/FACTION_PATROL.tscn" id="2_7k785"]
+[ext_resource type="Shader" path="res://shipMovement/space_bg.gdshader" id="2_efqu5"]
+[ext_resource type="PackedScene" path="res://shipBuilding/ships/PIRATE_DESTROYER.tscn" id="3_j7g30"]
+[ext_resource type="Texture2D" uid="uid://blw3cf71ki3n1" path="res://encounter/grid_black_1024x1024.png" id="3_jnims"]
+[ext_resource type="Script" path="res://shipMovement/scrolling_bg.gd" id="4_5pnwf"]
+[ext_resource type="PackedScene" path="res://shipBuilding/ships/PIRATE_FRIGATE.tscn" id="4_ceqo7"]
+[ext_resource type="PackedScene" uid="uid://choyif0n5w2jj" path="res://encounter/encounters/__DEMO_LOCATION/debris_field.tscn" id="5_smosv"]
+[ext_resource type="PackedScene" uid="uid://b5hikq1i2xtpw" path="res://shipBuilding/ships/player_ship.tscn" id="6_h1xkd"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vsvg7"]
+shader = ExtResource("2_efqu5")
+shader_parameter/grid_texture = ExtResource("3_jnims")
+shader_parameter/camera_offset = Vector2(0, 0)
+shader_parameter/camera_zoom = 1.0
+shader_parameter/camera_rotation = 0.0
+shader_parameter/texture_scale = Vector2(0.001, 0.001)
+
+[node name="demo_encounter" type="Node2D" unique_id=850323789]
+script = ExtResource("1_3qilk")
+
+[node name="Background" type="CanvasLayer" parent="." unique_id=1933024674]
+layer = -2
+
+[node name="GridBackground" type="ColorRect" parent="Background" unique_id=1130970490]
+z_index = -10
+material = SubResource("ShaderMaterial_vsvg7")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_5pnwf")
+metadata/_edit_use_anchors_ = true
+
+[node name="ships" type="Node" parent="." unique_id=118378702]
+
+[node name="FACTION_PATROL" parent="ships" unique_id=1784127879 node_paths=PackedStringArray("power_links") instance=ExtResource("2_7k785")]
+position = Vector2(-48, -2003)
+power_links = {
+NodePath("Reactor_4/OutputHex/OutClickArea"): NodePath("Shields_3/InputHex3/InClickArea"),
+null: null
+}
+
+[node name="pirates" type="Node" parent="ships" unique_id=961397819]
+
+[node name="PIRATE_DESTROYER" parent="ships/pirates" unique_id=672885674 node_paths=PackedStringArray("power_links") instance=ExtResource("3_j7g30")]
+position = Vector2(141, 2844)
+power_links = {
+NodePath("Reactor_4/OutputHex2/OutClickArea"): NodePath("Engines_2/InputHex/InClickArea"),
+NodePath("Reactor_4/OutputHex3/OutClickArea"): NodePath("Turret_3/InputHex/InClickArea"),
+NodePath("Reactor_4/OutputHex/OutClickArea"): NodePath("Shields_3/InputHex3/InClickArea"),
+null: null
+}
+
+[node name="PIRATE_FRIGATE" parent="ships/pirates" unique_id=596346317 node_paths=PackedStringArray("power_links") instance=ExtResource("4_ceqo7")]
+position = Vector2(-606, 3388)
+power_links = {
+null: null
+}
+
+[node name="PIRATE_FRIGATE2" parent="ships/pirates" unique_id=585482569 node_paths=PackedStringArray("power_links") instance=ExtResource("4_ceqo7")]
+position = Vector2(104, 3683)
+power_links = {
+null: null
+}
+
+[node name="PIRATE_FRIGATE3" parent="ships/pirates" unique_id=399402073 node_paths=PackedStringArray("power_links") instance=ExtResource("4_ceqo7")]
+position = Vector2(808, 3460)
+power_links = {
+null: null
+}
+
+[node name="Ship" parent="." unique_id=1431510437 node_paths=PackedStringArray("power_links") instance=ExtResource("6_h1xkd")]
+position = Vector2(-2669, -538)
+power_links = {
+NodePath("Reactor_4/OutputHex/OutClickArea"): NodePath("Cannon/InputHex/InClickArea"),
+NodePath("Reactor_4/OutputHex2/OutClickArea"): NodePath("Shields_3/InputHex3/InClickArea"),
+null: null
+}
+
+[node name="Debris" parent="." unique_id=568316699 instance=ExtResource("5_smosv")]
+position = Vector2(-160, 780)
+
+[node name="RewardZone" type="Marker2D" parent="." unique_id=385857407]
+position = Vector2(272, 3295)
+
+[connection signal="trigger_dialogue" from="." to="." method="start_dialogue"]
