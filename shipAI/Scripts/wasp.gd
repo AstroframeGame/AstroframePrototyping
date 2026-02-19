@@ -1,6 +1,10 @@
 class_name Wasp
 extends Smart_Ship
 
+func _ready() -> void:
+	super()
+	_aligning_speed_scalar = 400
+
 func _physics_process(_delta: float) -> void:
 	if not engines or not piloting:
 		return
@@ -16,7 +20,7 @@ func update_state() -> void:
 				_latching_position = target.to_local(piloting.global_position)
 				current_state = State.ALIGNING
 			elif current_state == State.ALIGNING:
-				if abs(wrapf(_target_angle - global_rotation, -PI, PI)) <= 0.01:
+				if abs(wrapf(_target_angle - global_rotation, -PI, PI)) <= 0.03:
 					current_state = State.LATCHING
 		else:
 			current_state = State.APPROACHING

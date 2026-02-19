@@ -475,15 +475,10 @@ func take_damage(amount:int):
 func death_check():
 	if hit_points > 0:
 		return 
-	# relocate player if its in the ship
-	for child in get_children():
-		if child.name == "PlayerSystem":
-			child.reparent(get_parent())
-			for node in child.get_children():
-				if node is PlayerCharacter:
-					node.on_ship_exit()
-					break
-			break
+	# update player so they dont collide with ship walls
+	for p in get_tree().get_nodes_in_group("player_controller"):
+		if p.ship == self:
+			p.update_layers(false)
 	queue_free()
 
 #endregion

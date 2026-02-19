@@ -11,6 +11,7 @@ var piloting : Piloting
 var engines : Engines
 
 var _latching_position : Vector2
+@onready var _aligning_speed_scalar : int = 1
 
 func _ready() -> void:
 	super._ready()
@@ -74,7 +75,8 @@ func align():
 	_target_angle = _look_dir.angle() + PI/2 + PI
 	_angle_delta = wrapf(_target_angle - global_rotation, -PI, PI)
 	var _delta = get_process_delta_time()
-	angular_velocity = _angle_delta * engines.rotational_thrust * engines.power_level
+	angular_velocity = _angle_delta * engines.rotational_thrust 
+	angular_velocity *= engines.power_level * _delta * _aligning_speed_scalar
 	
 func latch_on():
 	print("%s latching" % [name])
