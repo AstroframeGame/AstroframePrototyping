@@ -3,12 +3,25 @@ extends Node
 
 var enc_base_dir: String
 
-var player: Node				# reference to player
+var player: Node				# reference to player (used for polling distance to npc ships, TEMP)
 var location: String			# location key
 var settings: Dictionary		# encounter settings (prereqs, rewards, etc)
-var encounter_scene: String
+var reward_zone: Vector2		# where in the scene to put reward (using instead of player position)
 
-var objective: String			# print obj to onscreen console
+# objectives
+var obj_panel: Label:
+	set(value):
+		obj_panel = value
+		if obj_panel and objective != "":
+			obj_panel.text = objective
+			print("text set to: ", obj_panel.text)
+
+var objective: String:
+	set(value):
+		objective = value
+		if obj_panel:
+			obj_panel.text = value
+			print("text set to: ", obj_panel.text)
 
 var npcs_with_dialogue: Array	# defined in child, npcs with dialogue
 var dialogue: Dictionary		# hold dictionary for quick lookup 
@@ -48,6 +61,12 @@ func _process(delta):
 	if not player:
 		player = get_parent().multiplayer_manager.my_player
 		player.global_position = $Ship.global_position
+		
+	if not obj_panel:
+		obj_panel = get_parent().multiplayer_manager.my_player_system.find_child("PlayerUI").find_child("ScannerPanel").find_child("Content")
+		var title = get_parent().multiplayer_manager.my_player_system.find_child("PlayerUI").find_child("ScannerPanel").find_child("Title")
+		title.text = "Objectives"
+		obj_panel.get_parent().scanner_active = false
 
 func preload_scene_dialogue():
 	# get dialogue system
@@ -91,10 +110,7 @@ func _on_encounter_completed(enc_name: String):
 	
 	# grant rewards
 	if rewards_granted: return
-	
 	for reward in prepacked_rewards:
 		var r = reward.instantiate()
 		gm.current_scene.add_child(r)
-		r.global_position = player.global_position
-		r.global_position += Vector2(0, -400)	# TODO: better positioning
-		rewards_granted = true
+		r.global_position = reward_zone

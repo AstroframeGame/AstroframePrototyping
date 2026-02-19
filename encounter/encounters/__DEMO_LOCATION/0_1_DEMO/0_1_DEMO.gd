@@ -1,7 +1,5 @@
 extends Encounter
 
-@export_file("*.tscn") var my_scene_path: String
-
 @onready var faction_ship: Node = $ships/FACTION_PATROL
 @onready var pirate_destroyer: Node = $ships/pirates/PIRATE_DESTROYER
 @onready var to_kill: Array[Node] = [
@@ -19,8 +17,8 @@ func _ready() -> void:
 	# scene info
 	name = "0_1_DEMO"
 	enc_base_dir = get_script().get_path().get_base_dir()
-	objective = "Destroy pirate ships!"	# TBD: store and retrieve from encounter json dictionary
-	encounter_scene = my_scene_path
+	objective = "Destroy all pirate ships!"
+	reward_zone = $RewardZone.global_position
 	
 	# win state setup
 	for ship in to_kill:

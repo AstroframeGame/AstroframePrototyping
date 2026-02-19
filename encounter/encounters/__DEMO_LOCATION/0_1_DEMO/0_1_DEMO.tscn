@@ -47,7 +47,7 @@ null: null
 [node name="pirates" type="Node" parent="ships" unique_id=961397819]
 
 [node name="PIRATE_DESTROYER" parent="ships/pirates" unique_id=672885674 node_paths=PackedStringArray("power_links") instance=ExtResource("3_j7g30")]
-position = Vector2(556, 2006)
+position = Vector2(141, 2844)
 power_links = {
 NodePath("Reactor_4/OutputHex2/OutClickArea"): NodePath("Engines_2/InputHex/InClickArea"),
 NodePath("Reactor_4/OutputHex3/OutClickArea"): NodePath("Turret_3/InputHex/InClickArea"),
@@ -56,19 +56,19 @@ null: null
 }
 
 [node name="PIRATE_FRIGATE" parent="ships/pirates" unique_id=596346317 node_paths=PackedStringArray("power_links") instance=ExtResource("4_ceqo7")]
-position = Vector2(-191, 2550)
+position = Vector2(-606, 3388)
 power_links = {
 null: null
 }
 
 [node name="PIRATE_FRIGATE2" parent="ships/pirates" unique_id=585482569 node_paths=PackedStringArray("power_links") instance=ExtResource("4_ceqo7")]
-position = Vector2(519, 2845)
+position = Vector2(104, 3683)
 power_links = {
 null: null
 }
 
 [node name="PIRATE_FRIGATE3" parent="ships/pirates" unique_id=399402073 node_paths=PackedStringArray("power_links") instance=ExtResource("4_ceqo7")]
-position = Vector2(1223, 2622)
+position = Vector2(808, 3460)
 power_links = {
 null: null
 }
@@ -83,5 +83,8 @@ null: null
 
 [node name="Debris" parent="." unique_id=568316699 instance=ExtResource("5_smosv")]
 position = Vector2(-160, 780)
+
+[node name="RewardZone" type="Marker2D" parent="." unique_id=385857407]
+position = Vector2(272, 3295)
 
 [connection signal="trigger_dialogue" from="." to="." method="start_dialogue"]
