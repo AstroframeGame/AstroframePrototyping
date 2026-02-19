@@ -3,48 +3,66 @@ extends Node
 
 var enc_base_dir: String
 
-var player: Node
-var location: String
-var settings: Dictionary
-var dialogue: Dictionary
-var npcs: Array
+var player: Node				# reference to player
+var location: String			# location key
+var settings: Dictionary		# encounter settings (prereqs, rewards, etc)
+var encounter_scene: String
+
+var objective: String			# print obj to onscreen console
+
+var npcs_with_dialogue: Array	# defined in child, npcs with dialogue
+var dialogue: Dictionary		# hold dictionary for quick lookup 
+
+# globals
 var gm : GameManager
 var dialouge_runner : DialougeRunner
-var objective: String
-var win: Callable	# lambda defined in child encounter scripts
 
-func _process(delta):
-	# set player
-	if not player:
-		player = get_parent().multiplayer_manager.my_player
-		player.global_position = $Ship.global_position
-	
-	# check win
-	if win and win.call() == true:
-		objective = "Success!"
-		win = func(): pass	# overwrite to prevent further checking? # TODO: TEST THIS
+# completion
+signal encounter_completed
+var prepacked_rewards: Array
+var rewards_granted: bool
 
-func init():
+func _ready():
 	# set location
 	location = enc_base_dir.split("/")[4]
 	location = location.right(-2)
 	
 	# get settings from encounter dictionary
 	settings = LevelStateManager.encounter_dictionary[location][name]
+	
+	# prepare dialogue
+	preload_scene_dialogue()
+	
+	# setup signals
+	encounter_completed.connect(_on_encounter_completed)
+	
+	# update LSM
+	LevelStateManager.visited.push_front(location)
+	
+	# preload rewards
+	preload_rewards()
+
+func _process(delta):
+	# set player (used for polling distance to other entities in encounter)
+	# may be best to replace with signals, see notes in 0_1_DEMO.gd
+	if not player:
+		player = get_parent().multiplayer_manager.my_player
+		player.global_position = $Ship.global_position
 
 func preload_scene_dialogue():
 	# get dialogue system
 	gm = get_tree().root.get_node("Hub").get_node("GameManager")
 	dialouge_runner = gm.dialogue_runner
 
-	for npc in npcs:
+	for npc in npcs_with_dialogue:
 		dialogue[npc.name] = LevelStateManager.load_dictionary("%s/dialogue/%s.json" % [enc_base_dir, npc.name])
 
 func start_dialogue(npc: String, cat: String)->void:
 	if dialogue[npc][cat].seen >= dialogue[npc][cat].limit:
 		return
-		
-	var temp = "neutral" # TODO: in the future, this can be tuned by faction relatioship stats
+	
+	# TODO: in the future, tune this with faction relatioship stats
+	var temp = "neutral" 
 	
 	var random_pick = dialogue[npc][cat][temp].pick_random()
 	var npc_dlg = parse_dialogue_to_array(dialogue[npc].name, random_pick)
@@ -60,3 +78,23 @@ func parse_dialogue_to_array(npc: String, dlg: String):
 		result.push_back([npc, d])
 	
 	return result
+
+func preload_rewards():
+	for reward in settings.rewards:
+		prepacked_rewards.append(load(reward.path))
+
+func _on_encounter_completed(enc_name: String):
+	objective = "Complete!"
+	
+	# update LSM
+	LevelStateManager.completed_encounters.push_front(enc_name)
+	
+	# grant rewards
+	if rewards_granted: return
+	
+	for reward in prepacked_rewards:
+		var r = reward.instantiate()
+		gm.current_scene.add_child(r)
+		r.global_position = player.global_position
+		r.global_position += Vector2(0, -400)	# TODO: better positioning
+		rewards_granted = true

@@ -36,7 +36,11 @@ var items = [
   "RUSTY_GRAPPLING_HOOK",
   "PIRATE_FAVOR"
 ]
-	
+
+# state tracking
+var visited = []
+var completed_encounters = []
+
 # load data from a lookup json
 # https://forum.godotengine.org/t/how-do-i-read-json-files/38063
 func load_dictionary(path):

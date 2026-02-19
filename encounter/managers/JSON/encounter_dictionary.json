@@ -3,7 +3,9 @@
 	{
 		"0_1_DEMO": 
 		{
-			"rewards": [],
+			"rewards": [
+				{"type": "room", "path": "res://shipBuilding/rooms/aim_augment_2.tscn"}
+			],
 			"protocols": {}
 		}
   	},
