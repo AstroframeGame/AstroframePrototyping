@@ -1,8 +1,7 @@
 class_name PlayerGun
 extends Sprite2D
 
-@onready var player: Player = $".."
-@onready var asteroids: Node2D = $"../../../Asteroids"
+@onready var player: PlayerCharacter = $".."
 @onready var marker_2d: Marker2D = $Marker2D
 @onready var gunSprite : Sprite2D = $"."
 
@@ -14,14 +13,13 @@ var accur_high = 1.0
 var time_since_shot = 0
 
 var damage = 5
-var bullet_speed = 500
+var bullet_speed = 500 # @Alejandro can you add types to all variables, so that they match the projectile init() parameters
 
 var holstered = false
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _ready() -> void:
+	holster()
+
 func _process(delta: float) -> void:
 	if (!holstered):
 		look_at(get_global_mouse_position())
@@ -46,9 +44,7 @@ func shoot_bullet() -> void:
 	time_since_shot = 0
 	accuracy = min(accuracy + (0.05), accur_high)
 	
-	var world = player.global_world
-	if world.get_node("Projectiles") != null:
-		world.get_node("Projectiles").add_child(new_bullet)
+	ProjectileManager.add_child(new_bullet)
 		
 func holster() -> void:
 	visible = false
@@ -58,5 +54,11 @@ func unholster() -> void:
 	visible = true
 	holstered = false
 
-func get_holster() -> bool:
+func get_holstered() -> bool:
 	return holstered
+
+func toggle_holster() -> void:
+	if get_holstered():
+		unholster()
+	else:
+		holster()

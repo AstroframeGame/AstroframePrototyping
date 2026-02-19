@@ -16,7 +16,7 @@ enum State {IDLE, SEEKING, ATTACKING, FLEEING}
 func _physics_process(delta: float) -> void:
 	pass
 
-func takeDamage(damage : int):
+func take_damage(damage : int):
 	health -= damage
 	print("Damage Taken! Enemy now at %s health" % health)
 

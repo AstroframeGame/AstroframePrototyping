@@ -10,3 +10,11 @@ script = ExtResource("1_rw5c6")
 modulate = Color(0.18807214, 0.24506387, 0.31323466, 1)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_cyhtv")
+
+[node name="Roof" type="Node2D" parent="." unique_id=94053732]
+visible = false
+
+[node name="Hex4" type="Sprite2D" parent="Roof" unique_id=57296638]
+modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_cyhtv")

@@ -2,6 +2,7 @@ class_name Ship
 extends RigidBody2D
 
 signal room_clicked(room: Room, button_index: int)
+signal on_airlock_interaction(interactor : PlayerCharacter, is_inside : bool) # called from airlock
 
 const HEX_GRID_PREFAB = preload("res://shipBuilding/prefabs/hex_grid.tscn")
 @onready var grid: TileMapLayer # set in update colliders
@@ -9,19 +10,37 @@ var occupied_cells: Dictionary[Vector2i, Room] = {} # only calculated in ship_bu
 
 @export var power_links : Dictionary[PowerOutHex, PowerInHex]
 
+@export var max_hit_points : int = 0
+@export var _hit_points : int = 0
+var hit_points : int:
+	get:
+		return _hit_points
+	set(value):
+		if value < _hit_points:
+			on_hit.emit()
+		_hit_points = value
+signal on_hit()
+
+@export var hud : ShipHud = null
+
 func _ready() -> void:
 	update_colliders()
 	calc_center_of_mass()
 	update_occupied_cells()
-	var ground : Area2D = $Ground
-	ground.input_event.connect(ground_input_event)
+	check_hud()
+	
+	on_airlock_interaction.connect(set_exterior_visible)
+	on_hit.connect(hud.update_hp_bar)
+	on_hit.connect(death_check)
+	
+	z_index = 1
 
 func ground_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
 		var cell = world_to_grid(get_global_mouse_position())
 		if occupied_cells.has(cell):
 			var room = occupied_cells[cell]
-			print("Room ", room, " was clicked")
+			#print("Room ", room, " was clicked")
 			room_clicked.emit(room, event.button_index)
 
 #region Piloting
@@ -35,11 +54,23 @@ func get_piloting() -> Piloting:
 		if r is Piloting:
 			return r
 	return null
-func get_pilot() -> Player:
+func get_pilot() -> PlayerCharacter:
 	var piloting :Piloting = get_piloting()
 	if piloting:
 		return piloting.seat.controlled_by
 	return null
+func get_cannons() -> Array[Cannon]:
+	var cannons : Array[Cannon]
+	for r in get_children():
+		if r is Cannon:
+			cannons.append(r)
+	return cannons
+func get_players_from_manager() -> Array[PlayerCharacter]:
+	var multiplayer_manager :MultiplayerManager= get_tree().root.get_node("Hub/MultiplayerManager")
+	if multiplayer_manager:
+		return multiplayer_manager.players
+	return []
+
 
 func handle_input(_event : InputEvent):
 	#print_debug("input ship", event)
@@ -51,12 +82,17 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 
 func move_ship(state: PhysicsDirectBodyState2D):
 	var engines :Engines = get_engines()
-	var pilot : Player = get_pilot()
-	if not engines:
+	var pilot : PlayerCharacter = get_pilot()
+	#var pushing : bool = get_players_pushing().size() > 0
+	var pushing_rot : float = get_push_rotation()
+	var push_thrust : float = 0.1
+	
+	if not (engines and get_piloting() and pilot):
+		#print(pushing_vel," ",  lerp(state.linear_velocity, pushing_vel, 80 * state.step))
+		get_push_velocity(state)
+		state.angular_velocity = lerp(state.angular_velocity, pushing_rot, push_thrust)
 		return
-	if not pilot:
-		state.linear_velocity = Vector2.ZERO
-		return
+		
 	var direction = Input.get_vector("left", "right", "up", "down")
 	var delta = get_process_delta_time()
 	
@@ -67,43 +103,25 @@ func move_ship(state: PhysicsDirectBodyState2D):
 			direction.y *= engines.forward_multiplier
 		goal_vel = state.linear_velocity + direction.rotated(global_rotation)
 		goal_vel = goal_vel.normalized() * min(goal_vel.length(), engines.get_max_speed()) # clamp speed
-		state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * delta)
+		state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * state.inverse_mass * delta)
 	else:
-		state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * engines.drag_multiplier * delta)
-		
+		state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * state.inverse_mass * engines.drag_multiplier * delta)
 
-# THIS SHOULD BE IN THE INPUT SINGLETON
-var mouse_controller = "mouse"
-func _input(event)-> void:
-	if event is InputEventMouseMotion:
-		if event.relative.length() > 1:
-			mouse_controller = "mouse"
-	var look_dir_controller = Input.get_vector("ship_look_left","ship_look_right", "ship_look_down", "ship_look_up")
-	if look_dir_controller.length() > 0.1:
-		mouse_controller = "controller"
 
-const flight_deadzone = 30 #px
+const flight_deadzone = 0.05 #screen %
 func rotate_ship(state: PhysicsDirectBodyState2D):
 	var engines :Engines = get_engines()
 	var piloting : Piloting = get_piloting()
-	var pilot : Player = get_pilot()
+	var pilot : PlayerCharacter = get_pilot()
 	if not engines or not piloting:
 		return
 	if not pilot:
 		state.angular_velocity = 0
 		return
-	var center = get_viewport_rect().get_center()
-	var look_dir = get_viewport().get_mouse_position() - center
-	if look_dir.abs().x < 30:
-		look_dir = Vector2.ZERO
-	else:
-		look_dir.x -= flight_deadzone * sign(look_dir.x) 
-	# JITTER
-	#var target_angle = look_dir.angle() + PI/2
-	#var angle_delta = wrapf(target_angle - global_rotation, -PI, PI)
+	var look_dir = InputHelper.mouse_center_offset_deadzone(flight_deadzone)
 	var rot_amount = look_dir.x * 0.01
-	if mouse_controller == "controller":
-		rot_amount = Input.get_axis("ship_look_left","ship_look_right")
+	if not InputHelper.using_mouse:
+		rot_amount = InputHelper.controller_look.x
 	state.angular_velocity = rot_amount * engines.get_rotational_thrust()
 	
 func calc_center_of_mass():
@@ -205,6 +223,27 @@ func find_neighbors(room: Room) -> Array[Room]:
 		#neighbors.erase(self)
 	#print(neighbors)
 	return neighbors
+
+func is_adjacent_to_occupied(cells: Array[Vector2i]) -> bool:
+	if occupied_cells.is_empty():
+		return true
+	
+	var grid_layer: TileMapLayer = $HexGrid
+	var pointy_sides = [
+		TileSet.CELL_NEIGHBOR_RIGHT_SIDE,
+		TileSet.CELL_NEIGHBOR_BOTTOM_RIGHT_SIDE,
+		TileSet.CELL_NEIGHBOR_BOTTOM_LEFT_SIDE,
+		TileSet.CELL_NEIGHBOR_LEFT_SIDE,
+		TileSet.CELL_NEIGHBOR_TOP_LEFT_SIDE,
+		TileSet.CELL_NEIGHBOR_TOP_RIGHT_SIDE
+	]
+	
+	for cell in cells:
+		for side in pointy_sides:
+			var neighbor = grid_layer.get_neighbor_cell(cell, side)
+			if occupied_cells.has(neighbor):
+				return true
+	return false
 #endregion
 
 #region Add and Remove Room
@@ -219,6 +258,11 @@ func add_room(room: Room, cell: Vector2i, rot_index: int) -> void:
 	var cells = get_cells_for_room(room, cell, rot_index)
 	for c in cells:
 		occupied_cells[c] = room
+	
+	room.get_node("Roof").visible = not my_character_inside()
+	
+	update_colliders()
+	calc_center_of_mass()
 
 func remove_room(room: Room) -> void:
 	var keys_to_erase = []
@@ -230,6 +274,10 @@ func remove_room(room: Room) -> void:
 		occupied_cells.erase(k)
 	
 	remove_child(room)
+	
+	update_colliders()
+	calc_center_of_mass()
+
 #endregion
 
 #region Collisions
@@ -266,33 +314,67 @@ func update_colliders() -> void:
 		grid = HEX_GRID_PREFAB.instantiate()
 		add_child(grid)
 	
-	var edge = get_node_or_null("Edge")
-	if not edge:
-		edge = CollisionPolygon2D.new()
-		add_child(edge)
-		edge.name = "Edge"
-		edge.build_mode = CollisionPolygon2D.BUILD_SEGMENTS
-		print("Fallback: ", name, " creating edge")
-	var area = get_node_or_null("Ground")
+	var old_edge = get_node_or_null("Edge")
+	if old_edge:
+		old_edge.queue_free()
+	for child in get_children():
+		if child.name.begins_with("Edge_"):
+			child.queue_free()
+	
+	var wall_thickness = 8.0
+	for island in islands:
+		for i in range(island.size()):
+			var p1 = island[i]
+			var p2 = island[(i + 1) % island.size()]
+			
+			var segment = CollisionShape2D.new()
+			segment.name = "Edge_" + str(i)
+			
+			var rect = RectangleShape2D.new()
+			var length = p1.distance_to(p2)
+			
+			rect.size = Vector2(length, wall_thickness)
+			segment.shape = rect
+			
+			segment.position = (p1 + p2) / 2.0
+			segment.rotation = (p2 - p1).angle()
+			
+			add_child(segment)
+
+	var area : Area2D = get_node_or_null("Ground")
 	if not area:
 		area = Area2D.new()
 		add_child(area)
 		area.name = "Ground"
+		area.owner = self
 		print("Fallback: ", name, " creating area")
 	var solid = get_node_or_null("Ground/Solid")
 	if not solid:
 		solid = CollisionPolygon2D.new()
 		solid.name = "Solid"
 		solid.build_mode = CollisionPolygon2D.BUILD_SOLIDS
-		area.add_child.call_deferred(solid)
+		area.add_child(solid)
+		solid.owner = self
 		print("Fallback: ", name, " creating solid")
 	
+	collision_layer = 16 # Ship exterior layer
+	collision_mask = 16 #ship exterior layer
+	area.collision_layer = 3 # ship interior
+	area.collision_mask = 3 # prob doesnt matter since it shouldnt be monitoring
+	area.monitoring = false
+	continuous_cd = RigidBody2D.CCD_MODE_CAST_RAY
+	
+	move_child.call_deferred(area, -1)
+	
 	if islands.size() > 0:
-		edge.polygon = islands[0]
 		solid.polygon = islands[0]
 	else:
-		edge.polygon = PackedVector2Array()
 		solid.polygon = PackedVector2Array()
+	
+	
+	area.input_pickable = true
+	if not area.input_event.is_connected(ground_input_event):
+		area.input_event.connect(ground_input_event)
 
 const HEX_WIDTH = 78
 const HEX_HEIGHT = 90
@@ -322,7 +404,6 @@ func get_avalible_power_out() -> Array[PowerOutHex]:
 			for h in r.get_out_hexes():
 				if not h.is_powering:
 					out.append(h)
-	print(out)
 	return out
 
 func toggle_power(power_hex):
@@ -373,4 +454,90 @@ func remove_power_link_out(power_out : PowerOutHex):
 		power_in.room.on_power_level_change.emit(power_in)
 		return true
 	return false
+#endregion
+
+#region Health
+const HUD = preload("res://shipAI/prefabs/hud.tscn")
+func check_hud():
+	for child in get_children():
+		if child is Room:
+			max_hit_points += child.durability
+	hit_points = max_hit_points
+	hud = get_node_or_null("HUD")
+	if not hud:
+		hud = HUD.instantiate()
+		add_child(hud)
+	hud.initialize() # @ Kevin remove?
+
+func take_damage(amount:int):
+	hit_points -= amount # property has callback that sets the hud to update
+
+func death_check():
+	if hit_points > 0:
+		return 
+	# relocate player if its in the ship
+	for child in get_children():
+		if child.name == "PlayerSystem":
+			child.reparent(get_parent())
+			for node in child.get_children():
+				if node is PlayerCharacter:
+					node.on_ship_exit()
+					break
+			break
+	queue_free()
+
+#endregion
+
+#region InteriorExterior
+
+func my_character_inside() -> bool:
+	var multiplayer_manager = get_tree().root.find_child("MultiplayerManager", true, false)
+	if multiplayer_manager and multiplayer_manager.my_player:
+		return multiplayer_manager.my_player.ship == self
+	return false
+
+func set_exterior_visible(_interactor : CharacterBody2D, entered : bool):
+	if not my_character_inside():
+		entered = false
+	for r in get_children():
+		if r is Room:
+			r.roof.visible = not entered
+
+#endregion
+
+#region Pushing
+func get_players_pushing() -> Array[PlayerCharacter]:
+	var pushing_players : Array[PlayerCharacter] = []
+	for p in get_players_from_manager():
+		if p.pushing and p.ship == null and p.ground_body == self:
+			pushing_players.append(p)
+	return pushing_players
+
+func get_push_velocity(state : PhysicsDirectBodyState2D) -> Vector2:
+	var players = get_players_pushing()
+	if players.is_empty():
+		return state.linear_velocity
+	
+	var total_vel = state.linear_velocity
+	for p in players:
+		if p.push_brake:
+			state.linear_velocity = lerp(state.linear_velocity, Vector2.ZERO, p.thrust_accel * state.inverse_mass * 0.2 * state.step)
+		else:
+			state.linear_velocity = lerp(state.linear_velocity, state.linear_velocity + p.push_dir, p.thrust_accel * state.inverse_mass * 0.2 * state.step)
+	return total_vel
+
+func get_push_rotation() -> float:
+	var players = get_players_pushing()
+	if players.is_empty():
+		return 0.0
+	
+	var total_torque = 0.0
+	for p in players:
+		var r = p.global_position - global_position
+		var push_force = p.velocity
+		var torque = (r.x * push_force.y - r.y * push_force.x)
+		total_torque += torque
+		
+	var rotation_sensitivity = 0.00005 
+	return total_torque * rotation_sensitivity
 #endregion

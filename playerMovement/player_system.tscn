@@ -1,12 +1,10 @@
 [gd_scene format=3 uid="uid://dcpfkpex6ovaa"]
 
-[ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/RoundedSquare.png" id="1_0p3lp"]
-[ext_resource type="Script" uid="uid://b8g4jci7uq4ut" path="res://playerMovement/player_camera.gd" id="1_hk7lp"]
-[ext_resource type="Script" uid="uid://bvtrly1u1q4h7" path="res://playerMovement/player.gd" id="2_0p3lp"]
-[ext_resource type="Texture2D" uid="uid://idculymd1355" path="res://playerMovement/person.png" id="3_h3ory"]
-[ext_resource type="PackedScene" uid="uid://oar1of8mix7f" path="res://playerCombat/Handgun.tscn" id="4_0p3lp"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_qi68c"]
+[ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/ui_textures/RoundedSquare.png" id="1_0p3lp"]
+[ext_resource type="Script" uid="uid://b8g4jci7uq4ut" path="res://playerMovement/player_camera.gd" id="2_camera"]
+[ext_resource type="Script" uid="uid://bmy54l1lxqu10" path="res://shipAI/Scripts/scanner_panel.gd" id="4_scanner"]
+[ext_resource type="Theme" uid="uid://dj12nct3i1b1i" path="res://hub/ui-themes/header.tres" id="7_header_theme"]
+[ext_resource type="Theme" uid="uid://f1k0rdfg3btk" path="res://hub/ui-themes/default.tres" id="8_default_theme"]
 
 [node name="PlayerSystem" type="Node2D" unique_id=809182662]
 
@@ -35,7 +33,7 @@ texture_progress = ExtResource("1_0p3lp")
 tint_under = Color(0.51, 0.51, 0.51, 1)
 tint_progress = Color(0.5137255, 0.74509805, 0.4862745, 1)
 
-[node name="Objectives" type="NinePatchRect" parent="PlayerUI" unique_id=575546727]
+[node name="ScannerPanel" type="NinePatchRect" parent="PlayerUI" unique_id=575546727]
 self_modulate = Color(0, 0, 0, 0.23137255)
 anchors_preset = 1
 anchor_left = 1.0
@@ -48,63 +46,27 @@ patch_margin_left = 20
 patch_margin_top = 20
 patch_margin_right = 20
 patch_margin_bottom = 20
+script = ExtResource("4_scanner")
 
-[node name="Label" type="Label" parent="PlayerUI/Objectives" unique_id=51751683]
+[node name="Title" type="Label" parent="PlayerUI/ScannerPanel" unique_id=51751683]
 layout_mode = 0
 offset_left = 21.0
 offset_top = 11.0
 offset_right = 102.0
 offset_bottom = 34.0
-text = "Objectives"
+theme = ExtResource("7_header_theme")
+text = "Objects Found"
 
-[node name="Label2" type="Label" parent="PlayerUI/Objectives" unique_id=282384385]
+[node name="Content" type="Label" parent="PlayerUI/ScannerPanel" unique_id=282384385]
 layout_mode = 0
 offset_left = 23.0
 offset_top = 37.0
 offset_right = 104.0
 offset_bottom = 60.0
+theme = ExtResource("8_default_theme")
 text = "Defeat bandits"
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1873286781]
 ignore_rotation = false
 editor_draw_limits = true
-script = ExtResource("1_hk7lp")
-
-[node name="Player" type="CharacterBody2D" parent="." unique_id=1871139357]
-collision_layer = 0
-collision_mask = 0
-script = ExtResource("2_0p3lp")
-interior_layer = 2
-interior_mask = 3
-exterior_layer = 32
-exterior_mask = 4128
-
-[node name="Grapple" type="Line2D" parent="Player" unique_id=115981033]
-points = PackedVector2Array(0, 0, 0, 0)
-default_color = Color(0, 0, 0, 1)
-
-[node name="Person" type="Sprite2D" parent="Player" unique_id=208259555]
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("3_h3ory")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=666054407]
-position = Vector2(0, 16)
-shape = SubResource("CircleShape2D_qi68c")
-
-[node name="GroundCheck" type="Area2D" parent="Player" unique_id=301297836]
-collision_layer = 2
-collision_mask = 257
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/GroundCheck" unique_id=1287426176]
-position = Vector2(0, 16)
-shape = SubResource("CircleShape2D_qi68c")
-
-[node name="InteractCheck" type="Area2D" parent="Player" unique_id=406014977]
-collision_layer = 0
-collision_mask = 4
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/InteractCheck" unique_id=78024623]
-position = Vector2(0, 16)
-shape = SubResource("CircleShape2D_qi68c")
-
-[node name="handgun" parent="Player" unique_id=1166717209 instance=ExtResource("4_0p3lp")]
+script = ExtResource("2_camera")

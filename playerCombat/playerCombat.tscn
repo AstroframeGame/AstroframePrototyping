@@ -1,6 +1,5 @@
 [gd_scene format=3 uid="uid://dthcyp01ao5y8"]
 
-[ext_resource type="PackedScene" uid="uid://dcpfkpex6ovaa" path="res://playerMovement/player_system.tscn" id="1_h7h2y"]
 [ext_resource type="PackedScene" uid="uid://cftem25vj36a6" path="res://playerMovement/asteroids.tscn" id="2_pmt8r"]
 [ext_resource type="PackedScene" uid="uid://vww23tdch567" path="res://playerCombat/enemyController.tscn" id="3_22lf3"]
 

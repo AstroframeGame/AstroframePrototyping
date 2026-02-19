@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://crgm77ga0tu4f" path="res://shipBuilding/room_scripts/aim_augment.gd" id="1_jqip6"]
 [ext_resource type="PackedScene" uid="uid://dmgvcp6y668bi" path="res://shipBuilding/hexes/input_hex.tscn" id="2_xlycq"]
+[ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="3_jqip6"]
 
 [node name="Aim_Augment_2" type="Node2D" unique_id=1056768738]
 script = ExtResource("1_jqip6")
@@ -20,3 +21,17 @@ offset_right = 75.0
 offset_bottom = -5.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Auto-aim"
+
+[node name="Roof" type="Node2D" parent="." unique_id=36153883]
+visible = false
+
+[node name="Hex3" type="Sprite2D" parent="Roof" unique_id=1627226535]
+modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
+position = Vector2(78, 0)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_jqip6")
+
+[node name="Hex4" type="Sprite2D" parent="Roof" unique_id=2078297214]
+modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_jqip6")

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://clyn58uoj7ooi"]
 
 [ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="1_w3q7q"]
-[ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/RoundedSquare.png" id="2_o4g5q"]
+[ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/ui_textures/RoundedSquare.png" id="2_o4g5q"]
 [ext_resource type="Script" uid="uid://yhqr8wwlrcpr" path="res://shipBuilding/hex_scripts/door_interactable.gd" id="3_hulgd"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_e5vo3"]

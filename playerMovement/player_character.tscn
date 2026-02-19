@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://chnvndt3w3heq"]
+
+[ext_resource type="Script" uid="uid://bvtrly1u1q4h7" path="res://playerMovement/player.gd" id="1_r0exs"]
+[ext_resource type="Texture2D" uid="uid://idculymd1355" path="res://playerMovement/person.png" id="2_3pww0"]
+[ext_resource type="Script" uid="uid://bh8epk5lqpukf" path="res://playerMovement/grapple.gd" id="2_me87i"]
+[ext_resource type="PackedScene" uid="uid://oar1of8mix7f" path="res://playerCombat/Handgun.tscn" id="3_me87i"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qi68c"]
+
+[node name="PlayerCharacter" type="CharacterBody2D" unique_id=1589297424]
+z_index = 1
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_r0exs")
+interior_layer = 2
+interior_mask = 275
+exterior_layer = 32
+exterior_mask = 4129
+
+[node name="Grapple" type="Line2D" parent="." unique_id=520657595]
+points = PackedVector2Array(0, 0, 0, 0)
+default_color = Color(0, 0, 0, 1)
+script = ExtResource("2_me87i")
+
+[node name="Person" type="Sprite2D" parent="." unique_id=386810011]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_3pww0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1298068473]
+position = Vector2(0, 16)
+shape = SubResource("CircleShape2D_qi68c")
+
+[node name="GroundCheck" type="Area2D" parent="." unique_id=1711496005]
+collision_layer = 2
+collision_mask = 257
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GroundCheck" unique_id=355728786]
+position = Vector2(0, 16)
+shape = SubResource("CircleShape2D_qi68c")
+
+[node name="InteractCheck" type="Area2D" parent="." unique_id=1394873128]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractCheck" unique_id=997832206]
+position = Vector2(0, 16)
+shape = SubResource("CircleShape2D_qi68c")
+
+[node name="handgun" parent="." unique_id=1166717209 instance=ExtResource("3_me87i")]
+z_index = 1
