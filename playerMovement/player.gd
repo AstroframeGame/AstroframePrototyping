@@ -15,6 +15,7 @@ the player is over ground, hence whether to use air movement or ground movement
 @export var thrust_accel = 400
 @export var rotate_speed = 10
 
+# Players are currently unable to collide. This is intended.  
 @export_flags_2d_physics var interior_layer
 @export_flags_2d_physics var interior_mask
 @export_flags_2d_physics var exterior_layer
