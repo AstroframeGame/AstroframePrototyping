@@ -23,6 +23,12 @@ func load_scene(path : String)->void:
 		return # skip the player on building scene
 	game_start.emit(current_scene)
 
+@rpc("authority", "call_local", "reliable")
+func load_scenes_across_peers(path):
+	multiplayer_manager.curr_scene_path = path
+	multiplayer_manager.is_in_scene = true
+	load_scene(path)	
+
 func start_game():
 	pass
 

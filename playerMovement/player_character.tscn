@@ -7,6 +7,11 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qi68c"]
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3pww0"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
 [node name="PlayerCharacter" type="CharacterBody2D" unique_id=1589297424]
 z_index = 1
 collision_layer = 0
@@ -56,3 +61,6 @@ offset_right = 60.0
 offset_bottom = -36.0
 text = "Name"
 horizontal_alignment = 1
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=538172019]
+replication_config = SubResource("SceneReplicationConfig_3pww0")

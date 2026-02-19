@@ -29,6 +29,11 @@ script = ExtResource("1_n4d7h")
 [node name="MultiplayerManager" type="Node" parent="." unique_id=506980756]
 script = ExtResource("2_2qbsn")
 
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="MultiplayerManager" unique_id=1815807794]
+_spawnable_scenes = PackedStringArray("uid://dcpfkpex6ovaa")
+
+[node name="Players" type="Node2D" parent="MultiplayerManager" unique_id=168839150]
+
 [node name="UI" type="Node" parent="." unique_id=1145349593]
 script = ExtResource("2_nm8ur")
 open = NodePath("Main")
@@ -136,7 +141,7 @@ text = "Host"
 layout_mode = 2
 text = "Join"
 
-[node name="LobbyId" type="LineEdit" parent="UI/Main/VBoxContainer/Multiplayer" unique_id=2096278151]
+[node name="IDPrompt" type="LineEdit" parent="UI/Main/VBoxContainer/Multiplayer" unique_id=2096278151]
 layout_mode = 2
 
 [node name="Options" type="Button" parent="UI/Main/VBoxContainer" unique_id=884632170]
@@ -232,6 +237,9 @@ environment = SubResource("Environment_21dlm")
 [connection signal="pressed" from="UI/Main/Socials/Ships" to="UI/Main/Socials" method="ships_folder"]
 [connection signal="pressed" from="UI/Main/Socials/Github" to="UI/Main/Socials" method="github"]
 [connection signal="pressed" from="UI/Main/Socials/Discord" to="UI/Main/Socials" method="discord"]
+[connection signal="pressed" from="UI/Main/VBoxContainer/Multiplayer/Host" to="MultiplayerManager" method="_on_host_pressed"]
+[connection signal="pressed" from="UI/Main/VBoxContainer/Multiplayer/Join" to="MultiplayerManager" method="_on_join_pressed"]
+[connection signal="text_changed" from="UI/Main/VBoxContainer/Multiplayer/IDPrompt" to="MultiplayerManager" method="_on_id_prompt_text_changed"]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Options" to="UI" method="open_menu" binds= [&"Options"]]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Credits" to="UI" method="open_menu" binds= [&"Credits"]]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Quit" to="GameManager" method="quit_application"]

@@ -40,7 +40,6 @@ var ship : Ship
 
 @onready var ground_check: Area2D = $GroundCheck
 @onready var interact_check: Area2D = $InteractCheck
-@onready var multiplayer_manager : MultiplayerManager = $".."
 
 @onready var grapple: Grapple = $Grapple
 
@@ -54,12 +53,44 @@ var grounded : bool:
 
 @onready var handgun: PlayerGun = $handgun
 
+## ====== Multiplayer START ======
+
+var is_multiplayer: bool = false
+var input_dir := Vector2.ZERO
+var target_pos := Vector2.ZERO
+var target_vel := Vector2.ZERO
+var owner_id: int
+
+## ======  Multiplayer END  ======
+
 func _ready() -> void:
+	
+	## ====== Multiplayer START ======
+	
+	if multiplayer.has_multiplayer_peer():
+		is_multiplayer = true
+		owner_id = name.to_int()
+		target_pos = global_position
+		
+		await get_tree().process_frame
+		
+		if has_node("MultiplayerSynchronizer"):
+			$MultiplayerSynchronizer.set_multiplayer_authority(1)
+			
+		print("Initializing player ", name, " in Multiplayer...")
+		print("   Player ", owner_id, 
+		" | Local ID: ", multiplayer.get_unique_id(), 
+		" | Authority: ", get_multiplayer_authority())
+	else:
+		$NamerTag.text = ""
+		print("Initializing player in Singleplayer")
+	
+	## ======  Multiplayer END  ======
+	
 	ground_check.body_entered.connect(on_ground)
 	ground_check.body_exited.connect(on_unground)
 	ground_check.area_entered.connect(on_ground)
 	ground_check.area_exited.connect(on_unground)
-	
 	
 	if ship:
 		on_ship_enter(ship)
@@ -68,26 +99,75 @@ func _ready() -> void:
 
 
 func _physics_process(delta):
-	apply_ground_body_transform()
 	
-	var direction = Input.get_vector("left", "right", "up", "down")
-	direction = direction.normalized().rotated(global_rotation)
-	if seat:
-		velocity = Vector2.ZERO # ship vel added later
-		handgun.holster()
-	elif grapple.wants_grapple():
-		velocity = grapple.velocity(delta)
-	elif grounded:
-		# remove rotation?
-		#rotate(Input.get_axis("rotate_left","rotate_right") * rotate_speed * delta)
-		velocity = direction * walk_speed
-	else:
-		if Input.is_action_pressed("brake"):
-			velocity -= velocity.normalized() * thrust_accel * delta
+	# Authority lands on player on singleplayer mode
+	if is_multiplayer_authority():
+		apply_ground_body_transform()
+		input_dir = input_dir.normalized().rotated(global_rotation)
+		if seat:
+			velocity = Vector2.ZERO # ship vel added later
+			handgun.holster()
+		elif grapple.wants_grapple():
+			velocity = grapple.velocity(delta)
+		elif grounded:
+			# remove rotation?
+			#rotate(Input.get_axis("rotate_left","rotate_right") * rotate_speed * delta)
+			velocity = input_dir * walk_speed
 		else:
-			velocity += direction * thrust_accel * delta
+			if Input.is_action_pressed("brake"):
+				velocity -= velocity.normalized() * thrust_accel * delta
+			else:
+				velocity += input_dir * thrust_accel * delta
+		move_and_slide()
+		
+		## ====== Multiplayer START ======
+
+		for i in range(get_slide_collision_count()):
+			var collision = get_slide_collision(i)
+			var collider = collision.get_collider()
+		
+			if collider is RigidBody2D:
+				var push_dir = -collision.get_normal()
+				var impulse = push_dir * 200 * delta
+				collider.apply_central_impulse(impulse)
+		
+		sync_state.rpc(global_position, velocity)
+		
+		## ======  Multiplayer END  ======
 	
-	move_and_slide()
+	else: 
+		global_position = global_position.lerp(target_pos, 0.25)
+		velocity = target_vel
+
+## ====== Multiplayer START ======
+
+func _process(delta: float) -> void:
+	var is_local_player = multiplayer.get_unique_id() == owner_id
+	
+	if is_local_player:
+		var dir = Input.get_vector("left", "right", "up", "down")
+		
+		if is_multiplayer_authority():
+			input_dir = dir
+		else:
+			send_input.rpc_id(1, dir)
+
+@rpc("any_peer", "call_remote", "reliable")
+func send_input(dir: Vector2):
+	var sender_id = multiplayer.get_remote_sender_id()
+	if sender_id != owner_id:
+		push_warning("Player %d tried to control player %d" % [sender_id, owner_id])
+		return
+		
+	input_dir = dir
+	
+@rpc("authority", "call_remote", "unreliable")
+func sync_state(pos: Vector2, vel: Vector2):
+	if not is_multiplayer_authority():
+		target_pos = pos
+		target_vel = vel
+
+## ======  Multiplayer END  ======
 
 # currently interacts with the first overlapping interactable area, but this can be changed to nearest, last, all, ect.
 func interact():

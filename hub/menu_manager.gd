@@ -46,6 +46,8 @@ func load_scene_in_bg(scene_path):
 	var packed_scene = ResourceLoader.load_threaded_get(scene_path)
 	return packed_scene
 
+
+
 # TODO
 # if playing, return to gameplay
 # if in main menu, back to main
