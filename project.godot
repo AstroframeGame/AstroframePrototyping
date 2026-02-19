@@ -28,9 +28,8 @@ InputHelper="*uid://c853xrefm0y5x"
 ScreenshotManager="*uid://crx4ktvfwjrs5"
 InGameConsole="*uid://bu0k62p1icydm"
 ProjectileManager="*uid://d1vm8u2ei3vye"
-boot_splash/show_image=false
-config/icon="uid://w2speowsgqcy"
 LevelStateManager="*uid://b86c7evw35fa2"
+MusicManager="*uid://b7tv0wcrra483"
 
 [display]
 
