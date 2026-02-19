@@ -24,7 +24,7 @@ func _ready() -> void:
 	
 	# win state setup
 	for ship in to_kill:
-		ship.connect("ship_destroyed", win_check.bind(name))	# when target destroyed, check for win
+		ship.connect( "ship_destroyed", win_check.bind() )	# when target destroyed, check for win
 	
 	# set npc metadata 
 	faction_ship.name = "0_1_FACTION_PATROL"
