@@ -12,7 +12,8 @@ the player is over ground, hence whether to use air movement or ground movement
 '''
 
 @export var walk_speed = 200
-@export var thrust_accel = 400
+@export var thrust_move = 6
+@export var thrust_accel = 800
 @export var rotate_speed = 10
 
 @export_flags_2d_physics var interior_layer
@@ -96,10 +97,10 @@ func _physics_process(delta):
 	else:
 		var goal_vel = Vector2.ZERO
 		if Input.is_action_pressed("brake"):
-			velocity = lerp(velocity, goal_vel, thrust_accel * delta)
+			velocity = velocity.move_toward(Vector2.ZERO, thrust_accel * delta)
 		else:
-			goal_vel = velocity + direction
-			velocity = lerp(velocity, goal_vel, thrust_accel * delta)
+			goal_vel = velocity + direction * thrust_move
+			velocity = velocity.move_toward(goal_vel, thrust_accel * delta)
 	
 	move_and_slide()
 
