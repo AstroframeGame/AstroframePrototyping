@@ -56,11 +56,11 @@ var _target_angle : float
 var _angle_delta : float
 
 func sit_idle():
-	print("%s idling" % [name])
+	#print("%s idling" % [name])
 	pass
 
 func approach_target():
-	print("%s approaching" % [name])
+	#print("%s approaching" % [name])
 	_look_dir = target.get_piloting().global_position - piloting.global_position
 	_target_angle = _look_dir.angle() + PI/2
 	_angle_delta = wrapf(_target_angle - global_rotation, -PI, PI)
@@ -69,7 +69,7 @@ func approach_target():
 	linear_velocity /= mass
 
 func align():
-	print("%s aligning" % [name])
+	#print("%s aligning" % [name])
 	global_position = target.to_global(_latching_position)
 	_look_dir = -(piloting.global_position - target.global_position)
 	_target_angle = _look_dir.angle() + PI/2 + PI
@@ -79,7 +79,7 @@ func align():
 	angular_velocity *= engines.power_level * _delta * _aligning_speed_scalar
 	
 func latch_on():
-	print("%s latching" % [name])
+	#print("%s latching" % [name])
 	global_position = target.to_global(_latching_position)
 	_look_dir = -(piloting.global_position - target.global_position)
 	rotation = _look_dir.angle() + PI/2 + PI
@@ -87,11 +87,11 @@ func latch_on():
 		cannon.gun.shoot(5)
 
 func flank():
-	print("%s flanking" % [name])
+	#print("%s flanking" % [name])
 	pass
 
 func flee():
-	print("%s fleeing" % [name])
+	#print("%s fleeing" % [name])f
 	linear_velocity -= transform.y * engines.standard_thrust * engines.power_level
 	linear_velocity /= mass
 	

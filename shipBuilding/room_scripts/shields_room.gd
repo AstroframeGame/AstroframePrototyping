@@ -1,5 +1,5 @@
 extends Room
-class_name Shields
+class_name Shields_Room
 
 
 # should probably create a shield as a rb and pin it to the ship instead
@@ -8,14 +8,15 @@ class_name Shields
 # check power_level to change the shield recharge speed
 
 @export var recharge_speed = 30
-@export var shield_durability = 100
+@export var max_shield_durability = 100
 
-@onready var shield: Sprite2D = $Shield
+@onready var shield: Shield = $Shield
 
 func  _ready() -> void:
 	on_power_level_change.connect(on_power_change)
 	on_power_change(self)
 
 func on_power_change(_room):
-	shield.visible = power_level > 0
+	recharge_speed = 10 * power_level
+	shield.set_active(power_level > 0)
 	# smooth this later with a coroutine

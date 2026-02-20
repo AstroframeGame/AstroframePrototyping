@@ -27,8 +27,10 @@ CursorManager="*uid://csw11jb8ee5on"
 InputHelper="*uid://c853xrefm0y5x"
 ScreenshotManager="*uid://crx4ktvfwjrs5"
 InGameConsole="*uid://bu0k62p1icydm"
-BarkGetter="*uid://c8aguxek25t81"
 ProjectileManager="*uid://d1vm8u2ei3vye"
+LevelStateManager="*uid://b86c7evw35fa2"
+MusicManager="*uid://b7tv0wcrra483"
+BarkGetter="*uid://c8aguxek25t81"
 
 [display]
 
@@ -212,6 +214,7 @@ ship_push={
 2d_physics/layer_7="Projectiles"
 2d_physics/layer_9="Enviroment"
 2d_physics/layer_13="EnviromentObstacle"
+2d_physics/layer_14="Shields"
 avoidance/layer_1="Ships"
 avoidance/layer_2="Environment"
 

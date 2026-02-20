@@ -65,6 +65,18 @@ func get_cannons() -> Array[Cannon]:
 		if r is Cannon:
 			cannons.append(r)
 	return cannons
+func get_shields()->Array[Shields_Room]:
+	var shields_rooms : Array[Shields_Room]
+	for r in get_children():
+		if r is Shields_Room:
+			shields_rooms.append(r)
+	return shields_rooms
+func get_active_shields()->Array[Shield]:
+	var shields : Array[Shield]
+	for s in get_shields():
+		if s.shield != null and s.shield.visible:
+			shields.append(s.shield)
+	return shields
 func get_players_from_manager() -> Array[PlayerCharacter]:
 	var multiplayer_manager :MultiplayerManager= get_tree().root.get_node("Hub/MultiplayerManager")
 	if multiplayer_manager:
@@ -339,7 +351,7 @@ func update_colliders() -> void:
 			segment.position = (p1 + p2) / 2.0
 			segment.rotation = (p2 - p1).angle()
 			
-			add_child(segment)
+			add_child.call_deferred(segment)
 
 	var area : Area2D = get_node_or_null("Ground")
 	if not area:
@@ -475,12 +487,10 @@ func take_damage(amount:int):
 func death_check():
 	if hit_points > 0:
 		return 
-	# update player so they dont collide with ship walls
-	for p in get_tree().get_nodes_in_group("player_controller"):
-		if p.ship == self:
-			p.update_layers(false)
+	for pc in get_tree().get_nodes_in_group("player_controller"):
+		if pc.ship == self:
+			pc.update_layers(false)
 	queue_free()
-
 #endregion
 
 #region InteriorExterior

@@ -52,16 +52,6 @@ NodePath("Reactor_2/OutputHex/OutClickArea"): NodePath("Cannon/InputHex/InClickA
 max_hit_points = 0
 _hit_points = 0
 
-[node name="Wasp2" parent="." unique_id=1186956246 node_paths=PackedStringArray("power_links") instance=ExtResource("7_jrc0m")]
-position = Vector2(2670, 491)
-power_links = {
-NodePath("Reactor_2(1)/OutputHex/OutClickArea"): NodePath("Engines_2/InputHex/InClickArea"),
-NodePath("Reactor_2(1)/OutputHex3/OutClickArea"): NodePath("Engines_2/InputHex2/InClickArea"),
-NodePath("Reactor_2/OutputHex/OutClickArea"): NodePath("Cannon/InputHex/InClickArea")
-}
-max_hit_points = 0
-_hit_points = 0
-
 [node name="PlayerShip" parent="." unique_id=1510963782 node_paths=PackedStringArray("power_links") instance=ExtResource("5_nhcgg")]
 position = Vector2(163, 227)
 power_links = {

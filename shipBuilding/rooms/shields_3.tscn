@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dffynorp3oc0l"]
 
-[ext_resource type="Script" uid="uid://fr42tlimyfad" path="res://shipBuilding/room_scripts/shields.gd" id="1_43tt2"]
+[ext_resource type="Script" uid="uid://fr42tlimyfad" path="res://shipBuilding/room_scripts/shields_room.gd" id="1_43tt2"]
 [ext_resource type="PackedScene" uid="uid://ddufh33lvtb2a" path="res://shipBuilding/fx/shield/shield.tscn" id="3_43tt2"]
 [ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="4_ixx2e"]
 [ext_resource type="PackedScene" uid="uid://dmgvcp6y668bi" path="res://shipBuilding/hexes/input_hex.tscn" id="5_mqtj2"]
@@ -49,3 +49,5 @@ texture = ExtResource("4_ixx2e")
 modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_ixx2e")
+
+[editable path="Shield"]

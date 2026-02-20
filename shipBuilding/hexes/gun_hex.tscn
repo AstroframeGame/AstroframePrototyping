@@ -21,3 +21,11 @@ position = Vector2(229.09433, -5.3136444)
 [node name="Timer" type="Timer" parent="." unique_id=1871114995]
 wait_time = 0.5
 one_shot = true
+
+[node name="ShieldCheck" type="Area2D" parent="." unique_id=318951157]
+visible = false
+collision_layer = 16
+collision_mask = 8192
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ShieldCheck" unique_id=648905998]
+polygon = PackedVector2Array(-12, -58, 10, -58, 0, -2)
