@@ -21,9 +21,13 @@ var ship_flight_offset = Vector2(0,-0.6)
 func _ready() -> void:
 	var multiplayer_manager : MultiplayerManager = get_parent().get_parent()
 	player = multiplayer_manager.my_player
+	await get_tree().process_frame
+	global_position = player.global_position
 
 func _physics_process(delta: float) -> void:
 	var zoom_goal = player_zoom
+	if not player:
+		return
 	if Input.is_action_pressed("ship_view") and player.ship:
 		var pos = player.ship.get_piloting().global_position
 		global_position = global_position.lerp(pos, pos_smooth * delta)
