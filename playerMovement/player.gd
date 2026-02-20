@@ -19,6 +19,8 @@ the player is over ground, hence whether to use air movement or ground movement
 @export_flags_2d_physics var interior_mask
 @export_flags_2d_physics var exterior_layer
 @export_flags_2d_physics var exterior_mask
+@export_flags_2d_physics var interior_ground_mask
+@export_flags_2d_physics var exterior_ground_mask
 
 # sync these
 var pushing #set in physics process
@@ -178,10 +180,12 @@ func update_layers(inside : bool):
 	if inside:
 		collision_layer = interior_layer
 		collision_mask = interior_mask
+		ground_check.collision_mask = interior_ground_mask
 		z_index = 4
 	else:
 		collision_layer = exterior_layer
 		collision_mask = exterior_mask
+		ground_check.collision_mask = exterior_ground_mask
 		z_index = 12
 #endregion
 
