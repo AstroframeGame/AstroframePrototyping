@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://d2cv6pxd82txj" path="res://shipBuilding/room_scripts/piloting.gd" id="1_bq5al"]
 [ext_resource type="PackedScene" uid="uid://dtg3tqh28wihx" path="res://shipBuilding/hexes/seat_hex.tscn" id="2_bq5al"]
+[ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="3_1032q"]
 
 [node name="Piloting_1" type="Node2D" unique_id=150588005]
 script = ExtResource("1_bq5al")
@@ -23,5 +24,13 @@ offset_right = 30.0
 offset_bottom = -13.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Piloting"
+
+[node name="Roof" type="Node2D" parent="." unique_id=1501665446]
+visible = false
+
+[node name="Hex4" type="Sprite2D" parent="Roof" unique_id=1395280684]
+modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_1032q")
 
 [editable path="SeatHex"]

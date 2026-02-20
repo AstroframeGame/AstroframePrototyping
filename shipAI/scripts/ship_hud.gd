@@ -1,4 +1,5 @@
 extends CanvasLayer
+class_name ShipHud
 
 var ship : Ship:
 	get:
@@ -7,13 +8,14 @@ var ship : Ship:
 @onready var healthbar : TextureProgressBar = $HPBar
 @onready var health_label : Label = $HPBar/Label
 
+# @Kevin change to ready?
 func initialize() -> void:
 	healthbar.max_value = ship.max_hit_points
 	health_label.text = str(ship.max_hit_points)
 	update_hp_bar()
-	ship.on_airlock_interaction.connect(toggle_hud,1)
+	ship.on_airlock_interaction.connect(toggle_hud, ConnectFlags.CONNECT_DEFERRED)
 
-func toggle_hud(is_inside : bool):
+func toggle_hud(_interactor, is_inside : bool):
 	visible = is_inside
 		
 func update_hp_bar():

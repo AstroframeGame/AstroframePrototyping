@@ -18,9 +18,11 @@ collision_layer = 0
 collision_mask = 0
 script = ExtResource("1_r0exs")
 interior_layer = 2
-interior_mask = 1
+interior_mask = 19
 exterior_layer = 32
-exterior_mask = 4096
+exterior_mask = 4129
+interior_ground_mask = 1
+exterior_ground_mask = 257
 
 [node name="Grapple" type="Line2D" parent="." unique_id=520657595]
 points = PackedVector2Array(0, 0, 0, 0)
@@ -36,8 +38,7 @@ position = Vector2(0, 16)
 shape = SubResource("CircleShape2D_qi68c")
 
 [node name="GroundCheck" type="Area2D" parent="." unique_id=1711496005]
-collision_layer = 2
-collision_mask = 257
+collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GroundCheck" unique_id=355728786]
 position = Vector2(0, 16)

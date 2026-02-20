@@ -12,7 +12,8 @@ the player is over ground, hence whether to use air movement or ground movement
 '''
 
 @export var walk_speed = 200
-@export var thrust_accel = 400
+@export var thrust_move = 6
+@export var thrust_accel = 800
 @export var rotate_speed = 10
 
 # Players are currently unable to collide. This is intended.  
@@ -20,6 +21,13 @@ the player is over ground, hence whether to use air movement or ground movement
 @export_flags_2d_physics var interior_mask
 @export_flags_2d_physics var exterior_layer
 @export_flags_2d_physics var exterior_mask
+@export_flags_2d_physics var interior_ground_mask
+@export_flags_2d_physics var exterior_ground_mask
+
+# sync these
+var pushing #set in physics process
+var push_dir
+var push_brake
 
 var _seat : SeatInteractable = null
 var seat : SeatInteractable :
@@ -34,7 +42,7 @@ var seat : SeatInteractable :
 
 # for fake parenting
 # separated from ship
-var ground_body : RigidBody2D
+var ground_body : PhysicsBody2D
 var prev_ground_body_transform : Transform2D
 
 var ship : Ship
@@ -206,11 +214,20 @@ func _unhandled_input(event: InputEvent) -> void:
 #region grounding
 # called when ground check intersects with rb
 func on_ground(_body : Node2D):
-	if _body is RigidBody2D:
+	# maybe chekc if there is more priority for the new ground. ships should be easier to ground than envs
+	#print("on_ground ", _body)
+	if _body is Area2D:
+		#print("parent is ship ", _body.get_parent() is Ship)
+		if _body.get_parent() is Ship:
+			ground_body = _body.get_parent()
+			prev_ground_body_transform = ground_body.global_transform
+	elif _body is PhysicsBody2D:
 		ground_body = _body
 		prev_ground_body_transform = ground_body.global_transform
+	#print("gb ",ground_body)
 
 func on_unground(_body : Node2D):
+	#print("on_unground ", _body)
 	if _body == ground_body:
 		ground_body = null
 
@@ -218,13 +235,14 @@ func on_unground(_body : Node2D):
 func on_ship_enter(new_ship : Ship):
 	on_ground(new_ship)
 	ship = new_ship
-	print(name + " parent to ship")
+	#print(name + " parent to ship")
 	update_layers(true)
 
 func on_ship_exit():
 	# unground will be called when stops intersecting
-	print(name + " parent to wordl")
+	#print(name + " parent to wordl")
 	update_layers(false)
+	ship = null
 
 func apply_ground_body_transform():
 	if is_instance_valid(ground_body):
@@ -237,13 +255,17 @@ func update_layers(inside : bool):
 	if inside:
 		collision_layer = interior_layer
 		collision_mask = interior_mask
+		ground_check.collision_mask = interior_ground_mask
 		z_index = 4
 	else:
 		collision_layer = exterior_layer
 		collision_mask = exterior_mask
+		ground_check.collision_mask = exterior_ground_mask
 		z_index = 12
 #endregion
+
 
 func take_damage(damage : int):
 	health -= damage
 	print("Damage Taken! Player now at %s health" % health)
+	

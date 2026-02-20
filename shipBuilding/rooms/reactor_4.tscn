@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://vo6mtf68wgee" path="res://shipBuilding/room.gd" id="1_akdpe"]
 [ext_resource type="PackedScene" uid="uid://8j8lbkqti4qs" path="res://shipBuilding/hexes/output_hex.tscn" id="2_ykp41"]
+[ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="3_4l1y1"]
 
 [node name="Reactor_4" type="Node2D" unique_id=542255097]
 script = ExtResource("1_akdpe")
@@ -28,3 +29,29 @@ offset_right = 30.0
 offset_bottom = -82.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Reactor"
+
+[node name="Roof" type="Node2D" parent="." unique_id=364276992]
+visible = false
+
+[node name="Hex3" type="Sprite2D" parent="Roof" unique_id=1835392085]
+modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
+position = Vector2(39, -67.5)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_4l1y1")
+
+[node name="Hex5" type="Sprite2D" parent="Roof" unique_id=1886799742]
+modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
+position = Vector2(-39, -67.5)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_4l1y1")
+
+[node name="Hex4" type="Sprite2D" parent="Roof" unique_id=174605438]
+modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_4l1y1")
+
+[node name="Hex6" type="Sprite2D" parent="Roof" unique_id=444710332]
+modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
+position = Vector2(0, -135)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_4l1y1")

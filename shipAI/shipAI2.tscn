@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://6ehnee1j3rt7"]
 
-[ext_resource type="Shader" path="res://shipMovement/space_bg.gdshader" id="1_vhvb5"]
+[ext_resource type="Shader" uid="uid://byhs5u1pst1nw" path="res://shipMovement/grid.gdshader" id="1_vhvb5"]
 [ext_resource type="Texture2D" uid="uid://blw3cf71ki3n1" path="res://encounter/grid_black_1024x1024.png" id="2_dwfna"]
-[ext_resource type="Script" path="res://shipMovement/scrolling_bg.gd" id="3_l5lfu"]
-[ext_resource type="PackedScene" path="res://shipBuilding/ships/wasp.tscn" id="4_jomsf"]
-[ext_resource type="PackedScene" path="res://shipBuilding/ships/player_ship.tscn" id="5_dmgyq"]
+[ext_resource type="Script" uid="uid://ckvkvmc3ju7xr" path="res://shipMovement/scrolling_bg.gd" id="3_l5lfu"]
+[ext_resource type="PackedScene" uid="uid://biexdduqulqnx" path="res://shipBuilding/ships/wasp.tscn" id="4_jomsf"]
+[ext_resource type="PackedScene" uid="uid://b5hikq1i2xtpw" path="res://shipBuilding/ships/player_ship.tscn" id="5_dmgyq"]
 [ext_resource type="PackedScene" uid="uid://dcpfkpex6ovaa" path="res://playerMovement/player_system.tscn" id="6_ksik8"]
 [ext_resource type="FontFile" uid="uid://bvhs72w1tp2uu" path="res://hub/fonts/Ethnocentric-Regular.otf" id="7_73825"]
 

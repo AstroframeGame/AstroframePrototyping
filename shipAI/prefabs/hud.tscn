@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://daae3tloj435m"]
 
-[ext_resource type="Script" uid="uid://bwvp5wfog61cs" path="res://shipAI/scripts/ship_hud.gd" id="1_3rtup"]
-[ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/RoundedSquare.png" id="2_b4o85"]
+[ext_resource type="Script" uid="uid://bwvp5wfog61cs" path="res://shipAI/Scripts/ship_hud.gd" id="1_3rtup"]
+[ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/ui_textures/RoundedSquare.png" id="2_b4o85"]
 
-[node name="HUD" type="CanvasLayer" unique_id=532014552]
+[node name="ShipHUD" type="CanvasLayer" unique_id=532014552]
 visible = false
 script = ExtResource("1_3rtup")
 
@@ -33,7 +33,7 @@ stretch_margin_top = 20
 stretch_margin_right = 20
 stretch_margin_bottom = 20
 texture_progress = ExtResource("2_b4o85")
-tint_progress = Color(0, 1, 0, 1)
+tint_progress = Color(0.6162979, 0.8811128, 0.67287827, 1)
 
 [node name="Label" type="Label" parent="HPBar" unique_id=861636281]
 layout_mode = 0
