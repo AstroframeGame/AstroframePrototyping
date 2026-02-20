@@ -410,6 +410,8 @@ func get_avalible_power_out() -> Array[PowerOutHex]:
 	return out
 
 func toggle_power(power_hex):
+	if not my_character_inside():
+		return
 	if power_hex is PowerOutHex && power_hex.is_powering:
 		# turn off power
 		remove_power_link_out(power_hex)
