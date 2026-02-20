@@ -128,15 +128,21 @@ func rotate_ship(state: PhysicsDirectBodyState2D):
 func calc_center_of_mass():
 	var hex_mass = 2.0
 	var total_mass = 0.0
+	var weighted_pos_sum = Vector2.ZERO
 	
 	for child in get_children():
 		if child is Room:
 			for hex in child.get_children():
 				if hex is Sprite2D:
 					total_mass += hex_mass
+					weighted_pos_sum += (child.transform * hex.position) * hex_mass
+					
 	if total_mass == 0:
 		return
+		
 	mass = total_mass
+	center_of_mass_mode = RigidBody2D.CENTER_OF_MASS_MODE_CUSTOM
+	center_of_mass = weighted_pos_sum / total_mass
 
 func get_bounds_rect() -> Rect2:
 	var combined_rect = Rect2()

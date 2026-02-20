@@ -29,14 +29,14 @@ func _physics_process(delta: float) -> void:
 	if not player:
 		return
 	if Input.is_action_pressed("ship_view") and player.ship:
-		var pos = player.ship.get_piloting().global_position
+		var pos = player.ship.to_global(player.ship.center_of_mass)
 		global_position = global_position.lerp(pos, pos_smooth * delta)
 		global_rotation = lerp_angle(global_rotation, player.ship.global_rotation, rot_smooth * delta)
 		zoom_goal = ship_zoom
 	elif seat and seat.room is Piloting:
 		var offset_px = get_viewport_rect().size * ship_flight_offset
 		offset_px += Vector2(0,seat.room.ship.get_bounds_rect().size.y/2)
-		var pos = player.ship.get_piloting().global_position + offset_px.rotated(player.ship.global_rotation)
+		var pos = player.ship.to_global(player.ship.center_of_mass) + offset_px.rotated(player.ship.global_rotation)
 		global_position = global_position.lerp(pos, pos_smooth * delta)
 		global_rotation = lerp_angle(global_rotation, player.ship.global_rotation, rot_smooth * delta)
 		zoom_goal = ship_flight_zoom
