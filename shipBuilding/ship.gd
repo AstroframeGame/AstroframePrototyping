@@ -25,9 +25,9 @@ signal on_hit()
 @export var hud : ShipHud = null
 
 func _ready() -> void:
+	update_occupied_cells()
 	update_colliders()
 	calc_center_of_mass()
-	update_occupied_cells()
 	check_hud()
 	
 	on_airlock_interaction.connect(set_exterior_visible)
@@ -267,9 +267,6 @@ func add_room(room: Room, cell: Vector2i, rot_index: int) -> void:
 		occupied_cells[c] = room
 	
 	room.get_node("Roof").visible = not my_character_inside()
-	
-	update_colliders()
-	calc_center_of_mass()
 
 func remove_room(room: Room) -> void:
 	var keys_to_erase = []
@@ -281,9 +278,6 @@ func remove_room(room: Room) -> void:
 		occupied_cells.erase(k)
 	
 	remove_child(room)
-	
-	update_colliders()
-	calc_center_of_mass()
 
 #endregion
 
@@ -329,6 +323,8 @@ func update_colliders() -> void:
 			child.queue_free()
 	
 	var wall_thickness = 8.0
+	
+	print(islands[0])
 	for island in islands:
 		for i in range(island.size()):
 			var p1 = island[i]
