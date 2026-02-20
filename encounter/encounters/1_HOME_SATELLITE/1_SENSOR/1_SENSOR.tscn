@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://q2p0800lhjde"]
 
-[ext_resource type="Shader" uid="uid://byhs5u1pst1nw" path="res://shipMovement/space_bg.gdshader" id="1_bdgg0"]
+[ext_resource type="Shader" uid="uid://byhs5u1pst1nw" path="res://shipMovement/grid.gdshader" id="1_bdgg0"]
 [ext_resource type="Texture2D" uid="uid://blw3cf71ki3n1" path="res://encounter/grid_black_1024x1024.png" id="2_geya4"]
 [ext_resource type="Script" uid="uid://ckvkvmc3ju7xr" path="res://shipMovement/scrolling_bg.gd" id="3_tt8fx"]
 
