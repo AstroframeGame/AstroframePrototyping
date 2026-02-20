@@ -33,7 +33,7 @@ MusicManager="*uid://b7tv0wcrra483"
 
 [display]
 
-window/stretch/mode="canvas_items"
+window/stretch/mode="viewport"
 
 [editor_plugins]
 

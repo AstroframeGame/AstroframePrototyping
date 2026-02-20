@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c752nipt4tmop"]
 
-[ext_resource type="PackedScene" uid="uid://t48ysm6u8q54" path="res://art/background/grid_background.tscn" id="1_6pyit"]
+[ext_resource type="PackedScene" uid="uid://c7h5fcycvrbqe" path="res://art/background/space_background.tscn" id="1_6pyit"]
 [ext_resource type="PackedScene" uid="uid://cftem25vj36a6" path="res://playerMovement/asteroids.tscn" id="1_g0kr4"]
 [ext_resource type="PackedScene" uid="uid://v5d1nbgycb44" path="res://shipBuilding/ships/testShip.tscn" id="1_hqjgw"]
 [ext_resource type="PackedScene" uid="uid://d37m1h0nl2dsh" path="res://shipBuilding/load_ship.tscn" id="2_6pyit"]
@@ -11,7 +11,7 @@
 [node name="Background" type="CanvasLayer" parent="." unique_id=1367876475]
 layer = -2
 
-[node name="GridBackground" parent="Background" unique_id=1650344788 instance=ExtResource("1_6pyit")]
+[node name="SpaceBackground" parent="Background" unique_id=1650344788 instance=ExtResource("1_6pyit")]
 
 [node name="Name" type="Label" parent="." unique_id=1679761576]
 offset_left = 243.0
