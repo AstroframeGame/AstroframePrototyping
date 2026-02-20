@@ -19,7 +19,7 @@ run/main_scene="uid://c57plc2whtank"
 config/quit_on_go_back=false
 config/features=PackedStringArray("4.6", "Forward Plus")
 boot_splash/show_image=false
-config/icon="res://icon.svg"
+config/icon="uid://w2speowsgqcy"
 
 [autoload]
 
