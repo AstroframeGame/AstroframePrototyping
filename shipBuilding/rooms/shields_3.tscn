@@ -50,4 +50,8 @@ modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_ixx2e")
 
+[node name="RechargeTimer" type="Timer" parent="." unique_id=676478285]
+wait_time = 2.5
+one_shot = true
+
 [editable path="Shield"]
