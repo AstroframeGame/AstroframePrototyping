@@ -12,13 +12,16 @@ the player is over ground, hence whether to use air movement or ground movement
 '''
 
 @export var walk_speed = 200
-@export var thrust_accel = 400
+@export var thrust_move = 6
+@export var thrust_accel = 800
 @export var rotate_speed = 10
 
 @export_flags_2d_physics var interior_layer
 @export_flags_2d_physics var interior_mask
 @export_flags_2d_physics var exterior_layer
 @export_flags_2d_physics var exterior_mask
+@export_flags_2d_physics var interior_ground_mask
+@export_flags_2d_physics var exterior_ground_mask
 
 # sync these
 var pushing #set in physics process
@@ -94,10 +97,10 @@ func _physics_process(delta):
 	else:
 		var goal_vel = Vector2.ZERO
 		if Input.is_action_pressed("brake"):
-			velocity = lerp(velocity, goal_vel, thrust_accel * delta)
+			velocity = velocity.move_toward(Vector2.ZERO, thrust_accel * delta)
 		else:
-			goal_vel = velocity + direction
-			velocity = lerp(velocity, goal_vel, thrust_accel * delta)
+			goal_vel = velocity + direction * thrust_move
+			velocity = velocity.move_toward(goal_vel, thrust_accel * delta)
 	
 	move_and_slide()
 
@@ -178,10 +181,12 @@ func update_layers(inside : bool):
 	if inside:
 		collision_layer = interior_layer
 		collision_mask = interior_mask
+		ground_check.collision_mask = interior_ground_mask
 		z_index = 4
 	else:
 		collision_layer = exterior_layer
 		collision_mask = exterior_mask
+		ground_check.collision_mask = exterior_ground_mask
 		z_index = 12
 #endregion
 

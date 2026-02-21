@@ -17,6 +17,8 @@ func open_menu(menu_name : String):
 	get_node(open).visible = false
 	open = NodePath(menu_name)
 	get_node(open).visible = true
+	if menu_name == "Main": # can be done more cleanly
+		CursorManager.reset_cursor()
 	
 # returns packed_scene
 func load_scene(scene_path):

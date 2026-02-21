@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://cftem25vj36a6" path="res://playerMovement/asteroids.tscn" id="1_cjkgp"]
 [ext_resource type="PackedScene" uid="uid://bvba8kphvl2d0" path="res://shipBuilding/ships/vulture.tscn" id="1_ic617"]
-[ext_resource type="PackedScene" path="res://shipBuilding/ships/bucaneer.tscn" id="2_ic617"]
+[ext_resource type="PackedScene" uid="uid://faukavu4hxon" path="res://shipBuilding/ships/reaver.tscn" id="2_ic617"]
 [ext_resource type="PackedScene" uid="uid://devin6bdbcbay" path="res://turretInteractions/Prefabs/projectile.tscn" id="3_2q5u5"]
 
 [node name="TurretInteractions" type="Node2D" unique_id=1383818248]
@@ -42,5 +42,8 @@ position = Vector2(272, 107)
 position = Vector2(-117, 376)
 collision_layer = 1
 
-[node name="Ship" parent="." unique_id=662049124 instance=ExtResource("2_ic617")]
+[node name="Ship" parent="." unique_id=662049124 node_paths=PackedStringArray("power_links") instance=ExtResource("2_ic617")]
 position = Vector2(-184, -752)
+power_links = {
+null: null
+}
