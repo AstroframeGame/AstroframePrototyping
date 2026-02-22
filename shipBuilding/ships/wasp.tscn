@@ -469,8 +469,7 @@ continuous_cd = 1
 script = ExtResource("1_n4pt3")
 power_links = {
 NodePath("Reactor_2(1)/OutputHex/OutClickArea"): NodePath("Engines_2/InputHex/InClickArea"),
-NodePath("Reactor_2(1)/OutputHex3/OutClickArea"): NodePath("Engines_2/InputHex2/InClickArea"),
-NodePath("Reactor_2/OutputHex/OutClickArea"): NodePath("Cannon/InputHex/InClickArea")
+NodePath("Reactor_2(1)/OutputHex3/OutClickArea"): NodePath("Engines_2/InputHex2/InClickArea")
 }
 max_hit_points = 240
 _hit_points = 240
@@ -485,6 +484,8 @@ position = Vector2(0, -22.5)
 
 [node name="Engines_2" parent="." unique_id=1685651061 instance=ExtResource("4_qu3rs")]
 position = Vector2(-39, 45)
+standard_thrust = 1800
+rotational_thrust = 0.15
 
 [node name="Trail2D" parent="Engines_2" index="0" unique_id=900554177]
 position = Vector2(39, -45)
@@ -571,732 +572,880 @@ self_modulate = Color(0.9254902, 0, 0.5137255, 1)
 shape = SubResource("CircleShape2D_bd20s")
 
 [node name="@CollisionShape2D@76" type="CollisionShape2D" parent="." unique_id=137005246]
+visible = false
 position = Vector2(39.1, -157.54617)
 rotation = 1.5707964
 shape = SubResource("RectangleShape2D_or76q")
 
 [node name="@CollisionShape2D@77" type="CollisionShape2D" parent="." unique_id=2110396598]
+visible = false
 position = Vector2(58.560516, -123.81893)
 rotation = 0.52313083
 shape = SubResource("RectangleShape2D_ay2yo")
 
 [node name="@CollisionShape2D@78" type="CollisionShape2D" parent="." unique_id=1030276419]
+visible = false
 position = Vector2(97.52109, -123.866066)
 rotation = -0.5240668
 shape = SubResource("RectangleShape2D_jx8pd")
 
 [node name="@CollisionShape2D@79" type="CollisionShape2D" parent="." unique_id=924886388]
+visible = false
 position = Vector2(136.55, -123.861595)
 rotation = 0.5235989
 shape = SubResource("RectangleShape2D_y46ue")
 
 [node name="@CollisionShape2D@80" type="CollisionShape2D" parent="." unique_id=567745800]
+visible = false
 position = Vector2(156.0683, -90.018295)
 rotation = 1.5712645
 shape = SubResource("RectangleShape2D_tt7u2")
 
 [node name="@CollisionShape2D@81" type="CollisionShape2D" parent="." unique_id=1773412452]
+visible = false
 position = Vector2(136.56827, -56.185585)
 rotation = 2.6175258
 shape = SubResource("RectangleShape2D_1qf0j")
 
 [node name="@CollisionShape2D@82" type="CollisionShape2D" parent="." unique_id=1031576493]
+visible = false
 position = Vector2(117.068275, -22.410595)
 rotation = 1.5712644
 shape = SubResource("RectangleShape2D_yinr0")
 
 [node name="@CollisionShape2D@83" type="CollisionShape2D" parent="." unique_id=845660074]
+visible = false
 position = Vector2(97.57887, 11.358273)
 rotation = 2.6175258
 shape = SubResource("RectangleShape2D_bd1wn")
 
 [node name="@CollisionShape2D@84" type="CollisionShape2D" parent="." unique_id=156466801]
+visible = false
 position = Vector2(78.1, 45.083282)
 rotation = 1.5707964
 shape = SubResource("RectangleShape2D_f4h4c")
 
 [node name="@CollisionShape2D@85" type="CollisionShape2D" parent="." unique_id=661737172]
+visible = false
 position = Vector2(58.55, 78.825)
 rotation = 2.618462
 shape = SubResource("RectangleShape2D_wlai6")
 
 [node name="@CollisionShape2D@86" type="CollisionShape2D" parent="." unique_id=2115134828]
+visible = false
 position = Vector2(19.5, 78.853836)
 rotation = -2.618462
 shape = SubResource("RectangleShape2D_m0pwb")
 
 [node name="@CollisionShape2D@87" type="CollisionShape2D" parent="." unique_id=624638543]
+visible = false
 position = Vector2(-19.5, 78.853836)
 rotation = 2.618462
 shape = SubResource("RectangleShape2D_cr64j")
 
 [node name="@CollisionShape2D@88" type="CollisionShape2D" parent="." unique_id=611502628]
+visible = false
 position = Vector2(-58.55, 78.825)
 rotation = -2.618462
 shape = SubResource("RectangleShape2D_w7thc")
 
 [node name="@CollisionShape2D@89" type="CollisionShape2D" parent="." unique_id=1444105340]
+visible = false
 position = Vector2(-78.1, 45.083286)
 rotation = -1.5707964
 shape = SubResource("RectangleShape2D_rn2sh")
 
 [node name="@CollisionShape2D@90" type="CollisionShape2D" parent="." unique_id=1518300916]
+visible = false
 position = Vector2(-97.57887, 11.358276)
 rotation = -2.6175258
 shape = SubResource("RectangleShape2D_i5cxy")
 
 [node name="@CollisionShape2D@91" type="CollisionShape2D" parent="." unique_id=2031085637]
+visible = false
 position = Vector2(-117.06828, -22.410595)
 rotation = -1.571264
 shape = SubResource("RectangleShape2D_mq0x3")
 
 [node name="@CollisionShape2D@92" type="CollisionShape2D" parent="." unique_id=1105289844]
+visible = false
 position = Vector2(-136.56827, -56.18559)
 rotation = -2.6175258
 shape = SubResource("RectangleShape2D_wh8tu")
 
 [node name="@CollisionShape2D@93" type="CollisionShape2D" parent="." unique_id=888627170]
+visible = false
 position = Vector2(-156.0683, -90.018295)
 rotation = -1.5712645
 shape = SubResource("RectangleShape2D_h80up")
 
 [node name="@CollisionShape2D@94" type="CollisionShape2D" parent="." unique_id=2037778482]
+visible = false
 position = Vector2(-136.55, -123.861595)
 rotation = -0.52359885
 shape = SubResource("RectangleShape2D_da5b1")
 
 [node name="@CollisionShape2D@95" type="CollisionShape2D" parent="." unique_id=774686932]
+visible = false
 position = Vector2(-97.52109, -123.866066)
 rotation = 0.52406704
 shape = SubResource("RectangleShape2D_hfu1s")
 
 [node name="@CollisionShape2D@96" type="CollisionShape2D" parent="." unique_id=1306382210]
+visible = false
 position = Vector2(-58.560524, -123.81893)
 rotation = -0.52313066
 shape = SubResource("RectangleShape2D_00who")
 
 [node name="@CollisionShape2D@97" type="CollisionShape2D" parent="." unique_id=1100840540]
+visible = false
 position = Vector2(-39.1, -157.54617)
 rotation = -1.5707964
 shape = SubResource("RectangleShape2D_ohitx")
 
 [node name="@CollisionShape2D@98" type="CollisionShape2D" parent="." unique_id=855325851]
+visible = false
 position = Vector2(-19.55, -191.32501)
 rotation = -0.5231308
 shape = SubResource("RectangleShape2D_pkmcs")
 
 [node name="@CollisionShape2D@99" type="CollisionShape2D" parent="." unique_id=1241695982]
+visible = false
 position = Vector2(19.55, -191.32501)
 rotation = 0.5231308
 shape = SubResource("RectangleShape2D_3pjvg")
 
 [node name="@CollisionShape2D@100" type="CollisionShape2D" parent="." unique_id=931669753]
+visible = false
 position = Vector2(39.1, -157.54617)
 rotation = 1.5707964
 shape = SubResource("RectangleShape2D_mjlds")
 
 [node name="@CollisionShape2D@101" type="CollisionShape2D" parent="." unique_id=1585110337]
+visible = false
 position = Vector2(58.560516, -123.81893)
 rotation = 0.52313083
 shape = SubResource("RectangleShape2D_d5ow0")
 
 [node name="@CollisionShape2D@102" type="CollisionShape2D" parent="." unique_id=110434947]
+visible = false
 position = Vector2(97.52109, -123.866066)
 rotation = -0.5240668
 shape = SubResource("RectangleShape2D_8lvx7")
 
 [node name="@CollisionShape2D@103" type="CollisionShape2D" parent="." unique_id=1397805749]
+visible = false
 position = Vector2(136.55, -123.861595)
 rotation = 0.5235989
 shape = SubResource("RectangleShape2D_6la6m")
 
 [node name="@CollisionShape2D@104" type="CollisionShape2D" parent="." unique_id=870632828]
+visible = false
 position = Vector2(156.0683, -90.018295)
 rotation = 1.5712645
 shape = SubResource("RectangleShape2D_xyygk")
 
 [node name="@CollisionShape2D@105" type="CollisionShape2D" parent="." unique_id=114040978]
+visible = false
 position = Vector2(136.56827, -56.185585)
 rotation = 2.6175258
 shape = SubResource("RectangleShape2D_1mkdt")
 
 [node name="@CollisionShape2D@106" type="CollisionShape2D" parent="." unique_id=2007638511]
+visible = false
 position = Vector2(117.068275, -22.410595)
 rotation = 1.5712644
 shape = SubResource("RectangleShape2D_gwicw")
 
 [node name="@CollisionShape2D@107" type="CollisionShape2D" parent="." unique_id=1755848544]
+visible = false
 position = Vector2(97.57887, 11.358273)
 rotation = 2.6175258
 shape = SubResource("RectangleShape2D_3pjby")
 
 [node name="@CollisionShape2D@108" type="CollisionShape2D" parent="." unique_id=1006841111]
+visible = false
 position = Vector2(78.1, 45.083282)
 rotation = 1.5707964
 shape = SubResource("RectangleShape2D_5d1xf")
 
 [node name="@CollisionShape2D@109" type="CollisionShape2D" parent="." unique_id=630023807]
+visible = false
 position = Vector2(58.55, 78.825)
 rotation = 2.618462
 shape = SubResource("RectangleShape2D_xxwvl")
 
 [node name="@CollisionShape2D@110" type="CollisionShape2D" parent="." unique_id=2068695295]
+visible = false
 position = Vector2(19.5, 78.853836)
 rotation = -2.618462
 shape = SubResource("RectangleShape2D_as4o3")
 
 [node name="@CollisionShape2D@111" type="CollisionShape2D" parent="." unique_id=792772962]
+visible = false
 position = Vector2(-19.5, 78.853836)
 rotation = 2.618462
 shape = SubResource("RectangleShape2D_580y8")
 
 [node name="@CollisionShape2D@112" type="CollisionShape2D" parent="." unique_id=734199483]
+visible = false
 position = Vector2(-58.55, 78.825)
 rotation = -2.618462
 shape = SubResource("RectangleShape2D_w2j6i")
 
 [node name="@CollisionShape2D@113" type="CollisionShape2D" parent="." unique_id=1077172912]
+visible = false
 position = Vector2(-78.1, 45.083286)
 rotation = -1.5707964
 shape = SubResource("RectangleShape2D_in854")
 
 [node name="@CollisionShape2D@114" type="CollisionShape2D" parent="." unique_id=895175925]
+visible = false
 position = Vector2(-97.57887, 11.358276)
 rotation = -2.6175258
 shape = SubResource("RectangleShape2D_ag7al")
 
 [node name="@CollisionShape2D@115" type="CollisionShape2D" parent="." unique_id=862446841]
+visible = false
 position = Vector2(-117.06828, -22.410595)
 rotation = -1.571264
 shape = SubResource("RectangleShape2D_vyr1g")
 
 [node name="@CollisionShape2D@116" type="CollisionShape2D" parent="." unique_id=155942002]
+visible = false
 position = Vector2(-136.56827, -56.18559)
 rotation = -2.6175258
 shape = SubResource("RectangleShape2D_m7n44")
 
 [node name="@CollisionShape2D@117" type="CollisionShape2D" parent="." unique_id=1137774430]
+visible = false
 position = Vector2(-156.0683, -90.018295)
 rotation = -1.5712645
 shape = SubResource("RectangleShape2D_iutnr")
 
 [node name="@CollisionShape2D@118" type="CollisionShape2D" parent="." unique_id=1467537264]
+visible = false
 position = Vector2(-136.55, -123.861595)
 rotation = -0.52359885
 shape = SubResource("RectangleShape2D_212ad")
 
 [node name="@CollisionShape2D@119" type="CollisionShape2D" parent="." unique_id=860399765]
+visible = false
 position = Vector2(-97.52109, -123.866066)
 rotation = 0.52406704
 shape = SubResource("RectangleShape2D_e7nhj")
 
 [node name="@CollisionShape2D@120" type="CollisionShape2D" parent="." unique_id=931839421]
+visible = false
 position = Vector2(-58.560524, -123.81893)
 rotation = -0.52313066
 shape = SubResource("RectangleShape2D_y6qi4")
 
 [node name="@CollisionShape2D@121" type="CollisionShape2D" parent="." unique_id=497036496]
+visible = false
 position = Vector2(-39.1, -157.54617)
 rotation = -1.5707964
 shape = SubResource("RectangleShape2D_2sxhg")
 
 [node name="@CollisionShape2D@122" type="CollisionShape2D" parent="." unique_id=53549203]
+visible = false
 position = Vector2(-19.55, -191.32501)
 rotation = -0.5231308
 shape = SubResource("RectangleShape2D_nkghi")
 
 [node name="@CollisionShape2D@123" type="CollisionShape2D" parent="." unique_id=1421045359]
+visible = false
 position = Vector2(19.55, -191.32501)
 rotation = 0.5231308
 shape = SubResource("RectangleShape2D_5hryg")
 
 [node name="@CollisionShape2D@124" type="CollisionShape2D" parent="." unique_id=208517131]
+visible = false
 position = Vector2(39.1, -157.54617)
 rotation = 1.5707964
 shape = SubResource("RectangleShape2D_s57cb")
 
 [node name="@CollisionShape2D@125" type="CollisionShape2D" parent="." unique_id=1297960799]
+visible = false
 position = Vector2(58.560516, -123.81893)
 rotation = 0.52313083
 shape = SubResource("RectangleShape2D_v2dwq")
 
 [node name="@CollisionShape2D@126" type="CollisionShape2D" parent="." unique_id=1733851551]
+visible = false
 position = Vector2(97.52109, -123.866066)
 rotation = -0.5240668
 shape = SubResource("RectangleShape2D_of1wu")
 
 [node name="@CollisionShape2D@127" type="CollisionShape2D" parent="." unique_id=376268091]
+visible = false
 position = Vector2(136.55, -123.861595)
 rotation = 0.5235989
 shape = SubResource("RectangleShape2D_xgeny")
 
 [node name="@CollisionShape2D@128" type="CollisionShape2D" parent="." unique_id=437115706]
+visible = false
 position = Vector2(156.0683, -90.018295)
 rotation = 1.5712645
 shape = SubResource("RectangleShape2D_5mb7w")
 
 [node name="@CollisionShape2D@129" type="CollisionShape2D" parent="." unique_id=295787554]
+visible = false
 position = Vector2(136.56827, -56.185585)
 rotation = 2.6175258
 shape = SubResource("RectangleShape2D_cklfj")
 
 [node name="@CollisionShape2D@130" type="CollisionShape2D" parent="." unique_id=1070106323]
+visible = false
 position = Vector2(117.068275, -22.410595)
 rotation = 1.5712644
 shape = SubResource("RectangleShape2D_exmv7")
 
 [node name="@CollisionShape2D@131" type="CollisionShape2D" parent="." unique_id=1856616431]
+visible = false
 position = Vector2(97.57887, 11.358273)
 rotation = 2.6175258
 shape = SubResource("RectangleShape2D_7uq58")
 
 [node name="@CollisionShape2D@132" type="CollisionShape2D" parent="." unique_id=599233799]
+visible = false
 position = Vector2(78.1, 45.083282)
 rotation = 1.5707964
 shape = SubResource("RectangleShape2D_1xx8e")
 
 [node name="@CollisionShape2D@133" type="CollisionShape2D" parent="." unique_id=745586181]
+visible = false
 position = Vector2(58.55, 78.825)
 rotation = 2.618462
 shape = SubResource("RectangleShape2D_vn7e4")
 
 [node name="@CollisionShape2D@134" type="CollisionShape2D" parent="." unique_id=1333456651]
+visible = false
 position = Vector2(19.5, 78.853836)
 rotation = -2.618462
 shape = SubResource("RectangleShape2D_pfoo8")
 
 [node name="@CollisionShape2D@135" type="CollisionShape2D" parent="." unique_id=645918859]
+visible = false
 position = Vector2(-19.5, 78.853836)
 rotation = 2.618462
 shape = SubResource("RectangleShape2D_d30k2")
 
 [node name="@CollisionShape2D@136" type="CollisionShape2D" parent="." unique_id=231567464]
+visible = false
 position = Vector2(-58.55, 78.825)
 rotation = -2.618462
 shape = SubResource("RectangleShape2D_vrqla")
 
 [node name="@CollisionShape2D@137" type="CollisionShape2D" parent="." unique_id=1590126833]
+visible = false
 position = Vector2(-78.1, 45.083286)
 rotation = -1.5707964
 shape = SubResource("RectangleShape2D_ph2yo")
 
 [node name="@CollisionShape2D@138" type="CollisionShape2D" parent="." unique_id=108309355]
+visible = false
 position = Vector2(-97.57887, 11.358276)
 rotation = -2.6175258
 shape = SubResource("RectangleShape2D_uurb7")
 
 [node name="@CollisionShape2D@139" type="CollisionShape2D" parent="." unique_id=1035756422]
+visible = false
 position = Vector2(-117.06828, -22.410595)
 rotation = -1.571264
 shape = SubResource("RectangleShape2D_8f04y")
 
 [node name="@CollisionShape2D@140" type="CollisionShape2D" parent="." unique_id=615281172]
+visible = false
 position = Vector2(-136.56827, -56.18559)
 rotation = -2.6175258
 shape = SubResource("RectangleShape2D_8ru62")
 
 [node name="@CollisionShape2D@141" type="CollisionShape2D" parent="." unique_id=1946795013]
+visible = false
 position = Vector2(-156.0683, -90.018295)
 rotation = -1.5712645
 shape = SubResource("RectangleShape2D_blocd")
 
 [node name="@CollisionShape2D@142" type="CollisionShape2D" parent="." unique_id=980232029]
+visible = false
 position = Vector2(-136.55, -123.861595)
 rotation = -0.52359885
 shape = SubResource("RectangleShape2D_fb2au")
 
 [node name="@CollisionShape2D@143" type="CollisionShape2D" parent="." unique_id=1779375622]
+visible = false
 position = Vector2(-97.52109, -123.866066)
 rotation = 0.52406704
 shape = SubResource("RectangleShape2D_r0ofi")
 
 [node name="@CollisionShape2D@144" type="CollisionShape2D" parent="." unique_id=804730336]
+visible = false
 position = Vector2(-58.560524, -123.81893)
 rotation = -0.52313066
 shape = SubResource("RectangleShape2D_vyett")
 
 [node name="@CollisionShape2D@145" type="CollisionShape2D" parent="." unique_id=1853787977]
+visible = false
 position = Vector2(-39.1, -157.54617)
 rotation = -1.5707964
 shape = SubResource("RectangleShape2D_6ada8")
 
 [node name="@CollisionShape2D@146" type="CollisionShape2D" parent="." unique_id=2003439374]
+visible = false
 position = Vector2(-19.55, -191.32501)
 rotation = -0.5231308
 shape = SubResource("RectangleShape2D_b3vk0")
 
 [node name="@CollisionShape2D@147" type="CollisionShape2D" parent="." unique_id=5267944]
+visible = false
 position = Vector2(19.55, -191.32501)
 rotation = 0.5231308
 shape = SubResource("RectangleShape2D_4mig0")
 
 [node name="@CollisionShape2D@148" type="CollisionShape2D" parent="." unique_id=1162723445]
+visible = false
 position = Vector2(39.1, -157.54617)
 rotation = 1.5707964
 shape = SubResource("RectangleShape2D_mxamd")
 
 [node name="@CollisionShape2D@149" type="CollisionShape2D" parent="." unique_id=1892925079]
+visible = false
 position = Vector2(58.560516, -123.81893)
 rotation = 0.52313083
 shape = SubResource("RectangleShape2D_a1344")
 
 [node name="@CollisionShape2D@150" type="CollisionShape2D" parent="." unique_id=994206109]
+visible = false
 position = Vector2(97.52109, -123.866066)
 rotation = -0.5240668
 shape = SubResource("RectangleShape2D_ptyky")
 
 [node name="@CollisionShape2D@151" type="CollisionShape2D" parent="." unique_id=1081177600]
+visible = false
 position = Vector2(136.55, -123.861595)
 rotation = 0.5235989
 shape = SubResource("RectangleShape2D_7ckst")
 
 [node name="@CollisionShape2D@152" type="CollisionShape2D" parent="." unique_id=436295165]
+visible = false
 position = Vector2(156.0683, -90.018295)
 rotation = 1.5712645
 shape = SubResource("RectangleShape2D_m8sc7")
 
 [node name="@CollisionShape2D@153" type="CollisionShape2D" parent="." unique_id=1565323720]
+visible = false
 position = Vector2(136.56827, -56.185585)
 rotation = 2.6175258
 shape = SubResource("RectangleShape2D_xid6j")
 
 [node name="@CollisionShape2D@154" type="CollisionShape2D" parent="." unique_id=829133739]
+visible = false
 position = Vector2(117.068275, -22.410595)
 rotation = 1.5712644
 shape = SubResource("RectangleShape2D_pipe3")
 
 [node name="@CollisionShape2D@155" type="CollisionShape2D" parent="." unique_id=110487131]
+visible = false
 position = Vector2(97.57887, 11.358273)
 rotation = 2.6175258
 shape = SubResource("RectangleShape2D_ouwlw")
 
 [node name="@CollisionShape2D@156" type="CollisionShape2D" parent="." unique_id=463702402]
+visible = false
 position = Vector2(78.1, 45.083282)
 rotation = 1.5707964
 shape = SubResource("RectangleShape2D_00da6")
 
 [node name="@CollisionShape2D@157" type="CollisionShape2D" parent="." unique_id=792741560]
+visible = false
 position = Vector2(58.55, 78.825)
 rotation = 2.618462
 shape = SubResource("RectangleShape2D_3wj72")
 
 [node name="@CollisionShape2D@158" type="CollisionShape2D" parent="." unique_id=92296872]
+visible = false
 position = Vector2(19.5, 78.853836)
 rotation = -2.618462
 shape = SubResource("RectangleShape2D_cjd63")
 
 [node name="@CollisionShape2D@159" type="CollisionShape2D" parent="." unique_id=49524547]
+visible = false
 position = Vector2(-19.5, 78.853836)
 rotation = 2.618462
 shape = SubResource("RectangleShape2D_ch5ef")
 
 [node name="@CollisionShape2D@160" type="CollisionShape2D" parent="." unique_id=1160645857]
+visible = false
 position = Vector2(-58.55, 78.825)
 rotation = -2.618462
 shape = SubResource("RectangleShape2D_e027y")
 
 [node name="@CollisionShape2D@161" type="CollisionShape2D" parent="." unique_id=1177949372]
+visible = false
 position = Vector2(-78.1, 45.083286)
 rotation = -1.5707964
 shape = SubResource("RectangleShape2D_c1asd")
 
 [node name="@CollisionShape2D@162" type="CollisionShape2D" parent="." unique_id=1025872264]
+visible = false
 position = Vector2(-97.57887, 11.358276)
 rotation = -2.6175258
 shape = SubResource("RectangleShape2D_s8jk8")
 
 [node name="@CollisionShape2D@163" type="CollisionShape2D" parent="." unique_id=1539656587]
+visible = false
 position = Vector2(-117.06828, -22.410595)
 rotation = -1.571264
 shape = SubResource("RectangleShape2D_osdpt")
 
 [node name="@CollisionShape2D@164" type="CollisionShape2D" parent="." unique_id=1195992103]
+visible = false
 position = Vector2(-136.56827, -56.18559)
 rotation = -2.6175258
 shape = SubResource("RectangleShape2D_8eifi")
 
 [node name="@CollisionShape2D@165" type="CollisionShape2D" parent="." unique_id=1714708408]
+visible = false
 position = Vector2(-156.0683, -90.018295)
 rotation = -1.5712645
 shape = SubResource("RectangleShape2D_4py0g")
 
 [node name="@CollisionShape2D@166" type="CollisionShape2D" parent="." unique_id=29013870]
+visible = false
 position = Vector2(-136.55, -123.861595)
 rotation = -0.52359885
 shape = SubResource("RectangleShape2D_7mikd")
 
 [node name="@CollisionShape2D@167" type="CollisionShape2D" parent="." unique_id=1192158988]
+visible = false
 position = Vector2(-97.52109, -123.866066)
 rotation = 0.52406704
 shape = SubResource("RectangleShape2D_ev7qd")
 
 [node name="@CollisionShape2D@168" type="CollisionShape2D" parent="." unique_id=1697499681]
+visible = false
 position = Vector2(-58.560524, -123.81893)
 rotation = -0.52313066
 shape = SubResource("RectangleShape2D_icagn")
 
 [node name="@CollisionShape2D@169" type="CollisionShape2D" parent="." unique_id=594847105]
+visible = false
 position = Vector2(-39.1, -157.54617)
 rotation = -1.5707964
 shape = SubResource("RectangleShape2D_wf3b3")
 
 [node name="@CollisionShape2D@170" type="CollisionShape2D" parent="." unique_id=1188550573]
+visible = false
 position = Vector2(-19.55, -191.32501)
 rotation = -0.5231308
 shape = SubResource("RectangleShape2D_01d6g")
 
 [node name="@CollisionShape2D@171" type="CollisionShape2D" parent="." unique_id=2052951905]
+visible = false
 position = Vector2(19.55, -191.32501)
 rotation = 0.5231308
 shape = SubResource("RectangleShape2D_0ixu8")
 
 [node name="@CollisionShape2D@172" type="CollisionShape2D" parent="." unique_id=557533077]
+visible = false
 position = Vector2(39.1, -157.54617)
 rotation = 1.5707964
 shape = SubResource("RectangleShape2D_iid18")
 
 [node name="@CollisionShape2D@173" type="CollisionShape2D" parent="." unique_id=806858446]
+visible = false
 position = Vector2(58.560516, -123.81893)
 rotation = 0.52313083
 shape = SubResource("RectangleShape2D_a3kc5")
 
 [node name="@CollisionShape2D@174" type="CollisionShape2D" parent="." unique_id=705967923]
+visible = false
 position = Vector2(97.52109, -123.866066)
 rotation = -0.5240668
 shape = SubResource("RectangleShape2D_gf3f3")
 
 [node name="@CollisionShape2D@175" type="CollisionShape2D" parent="." unique_id=55130734]
+visible = false
 position = Vector2(136.55, -123.861595)
 rotation = 0.5235989
 shape = SubResource("RectangleShape2D_1vqyh")
 
 [node name="@CollisionShape2D@176" type="CollisionShape2D" parent="." unique_id=196863737]
+visible = false
 position = Vector2(156.0683, -90.018295)
 rotation = 1.5712645
 shape = SubResource("RectangleShape2D_lb27y")
 
 [node name="@CollisionShape2D@177" type="CollisionShape2D" parent="." unique_id=1627779068]
+visible = false
 position = Vector2(136.56827, -56.185585)
 rotation = 2.6175258
 shape = SubResource("RectangleShape2D_tcesd")
 
 [node name="@CollisionShape2D@178" type="CollisionShape2D" parent="." unique_id=279519383]
+visible = false
 position = Vector2(117.068275, -22.410595)
 rotation = 1.5712644
 shape = SubResource("RectangleShape2D_4qffn")
 
 [node name="@CollisionShape2D@179" type="CollisionShape2D" parent="." unique_id=851290681]
+visible = false
 position = Vector2(97.57887, 11.358273)
 rotation = 2.6175258
 shape = SubResource("RectangleShape2D_vvrgc")
 
 [node name="@CollisionShape2D@180" type="CollisionShape2D" parent="." unique_id=1670066713]
+visible = false
 position = Vector2(78.1, 45.083282)
 rotation = 1.5707964
 shape = SubResource("RectangleShape2D_2toif")
 
 [node name="@CollisionShape2D@181" type="CollisionShape2D" parent="." unique_id=1973573150]
+visible = false
 position = Vector2(58.55, 78.825)
 rotation = 2.618462
 shape = SubResource("RectangleShape2D_kfryj")
 
 [node name="@CollisionShape2D@182" type="CollisionShape2D" parent="." unique_id=93992929]
+visible = false
 position = Vector2(19.5, 78.853836)
 rotation = -2.618462
 shape = SubResource("RectangleShape2D_8j13v")
 
 [node name="@CollisionShape2D@183" type="CollisionShape2D" parent="." unique_id=1824647782]
+visible = false
 position = Vector2(-19.5, 78.853836)
 rotation = 2.618462
 shape = SubResource("RectangleShape2D_ko82a")
 
 [node name="@CollisionShape2D@184" type="CollisionShape2D" parent="." unique_id=1732602977]
+visible = false
 position = Vector2(-58.55, 78.825)
 rotation = -2.618462
 shape = SubResource("RectangleShape2D_fbn2k")
 
 [node name="@CollisionShape2D@185" type="CollisionShape2D" parent="." unique_id=1789874302]
+visible = false
 position = Vector2(-78.1, 45.083286)
 rotation = -1.5707964
 shape = SubResource("RectangleShape2D_d7tft")
 
 [node name="@CollisionShape2D@186" type="CollisionShape2D" parent="." unique_id=599069876]
+visible = false
 position = Vector2(-97.57887, 11.358276)
 rotation = -2.6175258
 shape = SubResource("RectangleShape2D_ycuxo")
 
 [node name="@CollisionShape2D@187" type="CollisionShape2D" parent="." unique_id=1968032419]
+visible = false
 position = Vector2(-117.06828, -22.410595)
 rotation = -1.571264
 shape = SubResource("RectangleShape2D_r07qy")
 
 [node name="@CollisionShape2D@188" type="CollisionShape2D" parent="." unique_id=2059525870]
+visible = false
 position = Vector2(-136.56827, -56.18559)
 rotation = -2.6175258
 shape = SubResource("RectangleShape2D_sy8p8")
 
 [node name="@CollisionShape2D@189" type="CollisionShape2D" parent="." unique_id=1221180808]
+visible = false
 position = Vector2(-156.0683, -90.018295)
 rotation = -1.5712645
 shape = SubResource("RectangleShape2D_cjk7a")
 
 [node name="@CollisionShape2D@190" type="CollisionShape2D" parent="." unique_id=1028871290]
+visible = false
 position = Vector2(-136.55, -123.861595)
 rotation = -0.52359885
 shape = SubResource("RectangleShape2D_wspts")
 
 [node name="@CollisionShape2D@191" type="CollisionShape2D" parent="." unique_id=716856114]
+visible = false
 position = Vector2(-97.52109, -123.866066)
 rotation = 0.52406704
 shape = SubResource("RectangleShape2D_7q1hb")
 
 [node name="@CollisionShape2D@192" type="CollisionShape2D" parent="." unique_id=1608710184]
+visible = false
 position = Vector2(-58.560524, -123.81893)
 rotation = -0.52313066
 shape = SubResource("RectangleShape2D_idwsl")
 
 [node name="@CollisionShape2D@193" type="CollisionShape2D" parent="." unique_id=1339703556]
+visible = false
 position = Vector2(-39.1, -157.54617)
 rotation = -1.5707964
 shape = SubResource("RectangleShape2D_viqga")
 
 [node name="@CollisionShape2D@194" type="CollisionShape2D" parent="." unique_id=391921459]
+visible = false
 position = Vector2(-19.55, -191.32501)
 rotation = -0.5231308
 shape = SubResource("RectangleShape2D_j0g7r")
 
 [node name="@CollisionShape2D@195" type="CollisionShape2D" parent="." unique_id=1556088910]
+visible = false
 position = Vector2(19.55, -191.32501)
 rotation = 0.5231308
 shape = SubResource("RectangleShape2D_777l2")
 
 [node name="@CollisionShape2D@196" type="CollisionShape2D" parent="." unique_id=258075888]
+visible = false
 position = Vector2(39.1, -157.54617)
 rotation = 1.5707964
 shape = SubResource("RectangleShape2D_rficp")
 
 [node name="@CollisionShape2D@197" type="CollisionShape2D" parent="." unique_id=368246170]
+visible = false
 position = Vector2(58.560516, -123.81893)
 rotation = 0.52313083
 shape = SubResource("RectangleShape2D_6glk0")
 
 [node name="@CollisionShape2D@198" type="CollisionShape2D" parent="." unique_id=1345434144]
+visible = false
 position = Vector2(97.52109, -123.866066)
 rotation = -0.5240668
 shape = SubResource("RectangleShape2D_a8tyn")
 
 [node name="@CollisionShape2D@199" type="CollisionShape2D" parent="." unique_id=172395861]
+visible = false
 position = Vector2(136.55, -123.861595)
 rotation = 0.5235989
 shape = SubResource("RectangleShape2D_lqy8n")
 
 [node name="@CollisionShape2D@200" type="CollisionShape2D" parent="." unique_id=1825756118]
+visible = false
 position = Vector2(156.0683, -90.018295)
 rotation = 1.5712645
 shape = SubResource("RectangleShape2D_5fec6")
 
 [node name="@CollisionShape2D@201" type="CollisionShape2D" parent="." unique_id=1844861111]
+visible = false
 position = Vector2(136.56827, -56.185585)
 rotation = 2.6175258
 shape = SubResource("RectangleShape2D_1rb6a")
 
 [node name="@CollisionShape2D@202" type="CollisionShape2D" parent="." unique_id=1575372422]
+visible = false
 position = Vector2(117.068275, -22.410595)
 rotation = 1.5712644
 shape = SubResource("RectangleShape2D_3rt1e")
 
 [node name="@CollisionShape2D@203" type="CollisionShape2D" parent="." unique_id=1071109811]
+visible = false
 position = Vector2(97.57887, 11.358273)
 rotation = 2.6175258
 shape = SubResource("RectangleShape2D_2k0cm")
 
 [node name="@CollisionShape2D@204" type="CollisionShape2D" parent="." unique_id=285932809]
+visible = false
 position = Vector2(78.1, 45.083282)
 rotation = 1.5707964
 shape = SubResource("RectangleShape2D_3hhxw")
 
 [node name="@CollisionShape2D@205" type="CollisionShape2D" parent="." unique_id=2098771832]
+visible = false
 position = Vector2(58.55, 78.825)
 rotation = 2.618462
 shape = SubResource("RectangleShape2D_ms0y4")
 
 [node name="@CollisionShape2D@206" type="CollisionShape2D" parent="." unique_id=1962810019]
+visible = false
 position = Vector2(19.5, 78.853836)
 rotation = -2.618462
 shape = SubResource("RectangleShape2D_so6io")
 
 [node name="@CollisionShape2D@207" type="CollisionShape2D" parent="." unique_id=702749585]
+visible = false
 position = Vector2(-19.5, 78.853836)
 rotation = 2.618462
 shape = SubResource("RectangleShape2D_0q6b0")
 
 [node name="@CollisionShape2D@208" type="CollisionShape2D" parent="." unique_id=422895462]
+visible = false
 position = Vector2(-58.55, 78.825)
 rotation = -2.618462
 shape = SubResource("RectangleShape2D_h4j2k")
 
 [node name="@CollisionShape2D@209" type="CollisionShape2D" parent="." unique_id=1538009809]
+visible = false
 position = Vector2(-78.1, 45.083286)
 rotation = -1.5707964
 shape = SubResource("RectangleShape2D_t4ovv")
 
 [node name="@CollisionShape2D@210" type="CollisionShape2D" parent="." unique_id=334323418]
+visible = false
 position = Vector2(-97.57887, 11.358276)
 rotation = -2.6175258
 shape = SubResource("RectangleShape2D_1gr4w")
 
 [node name="@CollisionShape2D@211" type="CollisionShape2D" parent="." unique_id=2130032057]
+visible = false
 position = Vector2(-117.06828, -22.410595)
 rotation = -1.571264
 shape = SubResource("RectangleShape2D_3oyu4")
 
 [node name="@CollisionShape2D@212" type="CollisionShape2D" parent="." unique_id=1135749152]
+visible = false
 position = Vector2(-136.56827, -56.18559)
 rotation = -2.6175258
 shape = SubResource("RectangleShape2D_gtcwq")
 
 [node name="@CollisionShape2D@213" type="CollisionShape2D" parent="." unique_id=772486051]
+visible = false
 position = Vector2(-156.0683, -90.018295)
 rotation = -1.5712645
 shape = SubResource("RectangleShape2D_jewhq")
 
 [node name="@CollisionShape2D@214" type="CollisionShape2D" parent="." unique_id=777906739]
+visible = false
 position = Vector2(-136.55, -123.861595)
 rotation = -0.52359885
 shape = SubResource("RectangleShape2D_t00y1")
 
 [node name="@CollisionShape2D@215" type="CollisionShape2D" parent="." unique_id=1913997622]
+visible = false
 position = Vector2(-97.52109, -123.866066)
 rotation = 0.52406704
 shape = SubResource("RectangleShape2D_f1cvg")
 
 [node name="@CollisionShape2D@216" type="CollisionShape2D" parent="." unique_id=2136262251]
+visible = false
 position = Vector2(-58.560524, -123.81893)
 rotation = -0.52313066
 shape = SubResource("RectangleShape2D_bitkh")
 
 [node name="@CollisionShape2D@217" type="CollisionShape2D" parent="." unique_id=1286213625]
+visible = false
 position = Vector2(-39.1, -157.54617)
 rotation = -1.5707964
 shape = SubResource("RectangleShape2D_qliop")
 
 [node name="@CollisionShape2D@218" type="CollisionShape2D" parent="." unique_id=1578745229]
+visible = false
 position = Vector2(-19.55, -191.32501)
 rotation = -0.5231308
 shape = SubResource("RectangleShape2D_jbngl")
 
 [node name="@CollisionShape2D@219" type="CollisionShape2D" parent="." unique_id=750296084]
+visible = false
 position = Vector2(19.55, -191.32501)
 rotation = 0.5231308
 shape = SubResource("RectangleShape2D_d74al")
 
 [node name="Ground" type="Area2D" parent="." unique_id=979286217]
+visible = false
 collision_layer = 3
 collision_mask = 3
 monitoring = false
 
 [node name="Solid" type="CollisionPolygon2D" parent="Ground" unique_id=372348846]
 polygon = PackedVector2Array(39.1, -180.05, 39.1, -135.04233, 78.021034, -112.595535, 117.02113, -135.1366, 156.07887, -112.58659, 156.05774, -67.45, 117.07881, -44.921173, 117.05774, 0.099983215, 78.1, 22.616562, 78.1, 67.55, 39, 90.1, 0, 67.60767, -39, 90.1, -78.1, 67.55, -78.1, 22.61657, -117.057755, 0.099983215, -117.07881, -44.921173, -156.05774, -67.450005, -156.07887, -112.58659, -117.021126, -135.1366, -78.02105, -112.595535, -39.1, -135.04233, -39.1, -180.05, 0, -202.6)
+
+[node name="RayCast2D" type="RayCast2D" parent="." unique_id=116497170]
+collision_mask = 4112
 
 [connection signal="body_entered" from="DetectionRange" to="." method="_on_detection_range_body_entered"]
 [connection signal="body_exited" from="DetectionRange" to="." method="_on_detection_range_body_exited"]

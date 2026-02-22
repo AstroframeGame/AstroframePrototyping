@@ -22,7 +22,7 @@ func initialize(parent : Node2D, parent_velocity : Vector2, projectileSpeed : fl
 	#angular_velocity = # parent? didn't seem to affect anything
 
 func _on_body_entered(body: Node) -> void:
-	print(str(body) + " was hit")
+	#print(str(body) + " was hit")
 	if body.has_method("take_damage"):
 		body.take_damage(damage)
 	queue_free()

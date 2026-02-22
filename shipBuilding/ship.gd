@@ -336,7 +336,6 @@ func update_colliders() -> void:
 	
 	var wall_thickness = 8.0
 	
-	print(islands[0])
 	for island in islands:
 		for i in range(island.size()):
 			var p1 = island[i]

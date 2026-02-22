@@ -14,20 +14,22 @@ func _physics_process(_delta: float) -> void:
 func update_state() -> void:
 	if target == null:
 		current_state = State.IDLE
-	else:
-		if distance_to_target() < 700:
-			if current_state == State.APPROACHING:
-				_latching_position = target.to_local(piloting.global_position)
-				current_state = State.ALIGNING
-			elif current_state == State.ALIGNING:
-				if abs(wrapf(_target_angle - global_rotation, -PI, PI)) <= 0.03:
-					current_state = State.LATCHING
-		else:
-			current_state = State.APPROACHING
-
+		return
 	@warning_ignore("integer_division")
 	if hit_points < max_hit_points/2:
 		current_state = State.FLEEING
+		return
+		
+	_latching_position = target.to_local(piloting.global_position)
+	# for some reason going align>latch>approach
+	if distance_to_target() > 800:
+		current_state = State.APPROACHING
+	elif distance_to_target() < 700:
+		if current_state == State.APPROACHING:
+			current_state = State.ALIGNING
+		elif current_state == State.ALIGNING:
+			if abs(wrapf(_target_angle - global_rotation, -PI, PI)) <= 0.03:
+					current_state = State.LATCHING
 
 func _on_detection_range_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player_ship"):
