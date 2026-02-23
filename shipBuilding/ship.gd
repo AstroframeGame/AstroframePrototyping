@@ -4,15 +4,25 @@ extends RigidBody2D
 signal room_clicked(room: Room, button_index: int)
 signal on_airlock_interaction(interactor : PlayerCharacter, is_inside : bool) # called from airlock
 signal ship_destroyed
+signal on_hit()
 
 const HEX_GRID_PREFAB = preload("res://shipBuilding/prefabs/hex_grid.tscn")
+const HUD_PREFAB = preload("res://shipAI/prefabs/hud.tscn")
+const SHIP_PREFAB = preload("res://shipBuilding/prefabs/ship.tscn")
+const FLIGHT_DEADZONE = 0.05 # screen %
+const MAX_MERGE_DISTANCE: float = 600.0
+const HEX_WIDTH = 78
+const HEX_HEIGHT = 90
+const EDGE_WIDTH = 8.0
+
 @onready var grid: TileMapLayer # set in update colliders
-var occupied_cells: Dictionary[Vector2i, Room] = {} # only calculated in ship_building
+var occupied_cells: Dictionary[Vector2i, Room] = {}
 
 @export var power_links : Dictionary[PowerOutHex, PowerInHex]
 
 @export var max_hit_points : int = 0
 @export var _hit_points : int = 0
+@export var hud : ShipHud = null
 var hit_points : int:
 	get:
 		return _hit_points
@@ -20,22 +30,54 @@ var hit_points : int:
 		if value < _hit_points:
 			on_hit.emit()
 		_hit_points = value
-signal on_hit()
 
-@export var hud : ShipHud = null
 
+var merge_target_ship: Ship = null
+var ghost_preview: Node2D = null
+
+#region godot callbacks
 func _ready() -> void:
-	separate_islands()
-	update_occupied_cells()
-	update_colliders()
-	calc_center_of_mass()
-	check_hud()
+	refresh_ship_state()
 	
 	on_airlock_interaction.connect(set_exterior_visible)
 	on_hit.connect(hud.update_hp_bar)
 	on_hit.connect(death_check)
 	
 	z_index = 1
+
+func _process(_delta: float) -> void:
+	# if not multiplayer auth: @Tapesh
+	#   clear_ghost_preview()
+	#   return
+	var pushers = get_players_pushing()
+	
+	if pushers.is_empty() or process_room_detachment(pushers):
+		clear_ghost_preview()
+		return
+		
+	merge_target_ship = find_nearest_ship()
+	
+	if merge_target_ship:
+		if not is_instance_valid(ghost_preview):
+			generate_ghost_preview()
+			
+		var snap_data = merge_target_ship.calculate_snap_data(self)
+		merge_target_ship.update_ghost_visuals(ghost_preview, snap_data)
+		
+		for p in pushers:
+			if Input.is_action_just_pressed("interact") and snap_data.is_valid:
+				merge_target_ship.apply_merged_rooms(self, snap_data)
+				clear_ghost_preview()
+				p.pushing = false
+				p.fix_unsure_grounding()
+				return
+	else:
+		clear_ghost_preview()
+
+func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
+	rotate_ship(state)
+	move_ship(state)
+#endregion
 
 func ground_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
@@ -44,6 +86,26 @@ func ground_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> 
 			var room = occupied_cells[cell]
 			#print("Room ", room, " was clicked")
 			room_clicked.emit(room, event.button_index)
+
+func refresh_ship_state() -> void:
+	separate_islands()
+	update_occupied_cells()
+	update_colliders()
+	calc_center_of_mass()
+	check_hud()
+
+#region Players
+func _get_multiplayer_manager() -> MultiplayerManager:
+	return get_tree().root.get_node_or_null("Hub/MultiplayerManager")
+
+func get_players_from_manager() -> Array[PlayerCharacter]:
+	var manager = _get_multiplayer_manager()
+	return manager.players if manager else []
+
+func my_character_inside() -> bool:
+	var manager = get_tree().root.find_child("MultiplayerManager", true, false)
+	return manager.my_player != null and manager.my_player.ship == self if manager else false
+#endregion
 
 #region Piloting
 func get_engines() -> Engines:
@@ -57,69 +119,53 @@ func get_piloting() -> Piloting:
 			return r
 	return null
 func get_pilot() -> PlayerCharacter:
-	var piloting :Piloting = get_piloting()
+	var piloting : Piloting = get_piloting()
 	if piloting:
 		return piloting.seat.controlled_by
 	return null
 func get_cannons() -> Array[Cannon]:
-	var cannons : Array[Cannon]
+	var cannons : Array[Cannon] = []
 	for r in get_children():
 		if r is Cannon:
 			cannons.append(r)
 	return cannons
-func get_players_from_manager() -> Array[PlayerCharacter]:
-	var multiplayer_manager :MultiplayerManager= get_tree().root.get_node("Hub/MultiplayerManager")
-	if multiplayer_manager:
-		return multiplayer_manager.players
-	return []
 
+func _get_rotation_input() -> float:
+	if InputHelper.using_mouse:
+		return InputHelper.mouse_center_offset_deadzone(FLIGHT_DEADZONE).x * 0.01
+	return InputHelper.controller_look.x
 
 func handle_input(_event : InputEvent):
 	#print_debug("input ship", event)
 	pass
 
-func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
-	rotate_ship(state)
-	move_ship(state)
-
-func move_ship(state: PhysicsDirectBodyState2D):
+func move_ship(state: PhysicsDirectBodyState2D) -> void:
 	var engines :Engines = get_engines()
 	var pilot : PlayerCharacter = get_pilot()
-	#var pushing : bool = get_players_pushing().size() > 0
-	var push_thrust : float = 0.1
 	
 	if not (engines and get_piloting() and pilot):
-		#print(pushing_vel," ",  lerp(state.linear_velocity, pushing_vel, 80 * state.step))
 		get_push_velocity(state)
 		return
 		
 	var direction = Input.get_vector("left", "right", "up", "down")
 	var delta = get_process_delta_time()
+	var goal_vel = Vector2.ZERO
 	
-	var goal_vel :Vector2 = Vector2.ZERO # default goal, for braking or auto braking
-	
-	if direction.length() > 0.1 or Input.is_action_pressed("brake"): # directional input given
+	if direction.length() > 0.1 or Input.is_action_pressed("brake"):
 		if direction.y > 0:
 			direction.y *= engines.forward_multiplier
 		goal_vel = state.linear_velocity + direction.rotated(global_rotation)
-		goal_vel = goal_vel.normalized() * min(goal_vel.length(), engines.get_max_speed()) # clamp speed
+		goal_vel = goal_vel.normalized() * min(goal_vel.length(), engines.get_max_speed())
 		state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * state.inverse_mass * delta)
 	else:
 		state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * state.inverse_mass * engines.drag_multiplier * delta)
 
-
-const flight_deadzone = 0.05 #screen %
-func rotate_ship(state: PhysicsDirectBodyState2D):
-	var engines: Engines = get_engines()
-	var pilot: PlayerCharacter = get_pilot()
-	var delta: float = state.step
+func rotate_ship(state: PhysicsDirectBodyState2D) -> void:
+	var engines :Engines = get_engines()
+	var delta :float = state.step
 	
-	if engines and pilot:
-		var look_dir = InputHelper.mouse_center_offset_deadzone(flight_deadzone)
-		var rot_amount = look_dir.x * 0.01
-		if not InputHelper.using_mouse:
-			rot_amount = InputHelper.controller_look.x
-		state.angular_velocity = rot_amount * engines.get_rotational_thrust()
+	if engines and get_pilot():
+		state.angular_velocity = _get_rotation_input() * engines.get_rotational_thrust()
 	else:
 		var push_rot = get_push_rotation(state)
 		if abs(push_rot) > 0.01:
@@ -128,7 +174,7 @@ func rotate_ship(state: PhysicsDirectBodyState2D):
 			var drag = engines.drag_multiplier if engines else 2.0
 			state.angular_velocity = lerp(state.angular_velocity, 0.0, drag * delta)
 
-func calc_center_of_mass():
+func calc_center_of_mass() -> void:
 	var hex_mass = 2.0
 	var total_mass = 0.0
 	var weighted_pos_sum = Vector2.ZERO
@@ -182,7 +228,7 @@ func polygon_rect(c : CollisionPolygon2D):
 #endregion
 
 #region Grid and Cell functions
-func update_occupied_cells()->void:
+func update_occupied_cells() -> void:
 	for room in get_children():
 		if room is Room:
 			add_room(room, room.grid_pos, room.rot_index)
@@ -213,32 +259,27 @@ func get_cells_for_room(room: Node, center_cell: Vector2i, rot_index: int) -> Ar
 	
 func neighborhood_coords(cell: Vector2i) -> Array[Vector2i]:
 	return [
-		Vector2i(cell.x-1,cell.y-1), Vector2i(cell.x,cell.y+1), 
-		Vector2i(cell.x,cell.y-1), Vector2i(cell.x-1,cell.y+1),
-		Vector2i(cell.x+1,cell.y), Vector2i(cell.x-1,cell.y),
+		Vector2i(cell.x-1, cell.y-1), Vector2i(cell.x, cell.y+1), 
+		Vector2i(cell.x, cell.y-1), Vector2i(cell.x-1, cell.y+1),
+		Vector2i(cell.x+1, cell.y), Vector2i(cell.x-1, cell.y)
 	]
 	# (-,-), (0,-), (+,0), (0,+), (-,+), (-,0)
 
 func find_neighbors(room: Room) -> Array[Room]:
-	var neighbors : Array[Room] = []
+	var neighbors: Array[Room] = []
 	grid = get_node("HexGrid")
 	for cell in get_cells_for_room(room, room.grid_pos, room.rot_index):
 		for coord in neighborhood_coords(cell):
-			if is_area_free([coord]):
-				#print("find_neighbors found empty neighbor")
-				continue
-			var _room = occupied_cells[coord]
-			if not _room in neighbors:
-				neighbors.append(_room)
-		#neighbors.erase(self)
-	#print(neighbors)
+			if not is_area_free([coord]):
+				var adj_room = occupied_cells[coord]
+				if not adj_room in neighbors:
+					neighbors.append(adj_room)
 	return neighbors
 
 func is_adjacent_to_occupied(cells: Array[Vector2i]) -> bool:
 	if occupied_cells.is_empty():
 		return true
 	
-	var grid_layer: TileMapLayer = $HexGrid
 	var pointy_sides = [
 		TileSet.CELL_NEIGHBOR_RIGHT_SIDE,
 		TileSet.CELL_NEIGHBOR_BOTTOM_RIGHT_SIDE,
@@ -250,8 +291,7 @@ func is_adjacent_to_occupied(cells: Array[Vector2i]) -> bool:
 	
 	for cell in cells:
 		for side in pointy_sides:
-			var neighbor = grid_layer.get_neighbor_cell(cell, side)
-			if occupied_cells.has(neighbor):
+			if occupied_cells.has(grid.get_neighbor_cell(cell, side)):
 				return true
 	return false
 #endregion
@@ -265,8 +305,7 @@ func add_room(room: Room, cell: Vector2i, rot_index: int) -> void:
 	room.global_position = grid_to_world(cell)
 	room.rotation = rot_index * PI / 3.0
 	
-	var cells = get_cells_for_room(room, cell, rot_index)
-	for c in cells:
+	for c in get_cells_for_room(room, cell, rot_index):
 		occupied_cells[c] = room
 		
 	# add power links
@@ -297,19 +336,13 @@ func update_colliders() -> void:
 	var islands: Array[PackedVector2Array] = []
 	var base_hex = _get_hex_poly()
 	
-	for child in get_children():
-		if child is Room:
-			var room = child
-			var room_transform = room.transform
-			
+	for room in get_children():
+		if room is Room:
 			for room_child in room.get_children():
 				if room_child is Sprite2D:
 					var poly = base_hex.duplicate()
-					var sprite_pos = room_child.position
-					
 					for i in range(poly.size()):
-						var point_in_room = sprite_pos + poly[i]
-						poly[i] = room_transform * point_in_room
+						poly[i] = room.transform * (room_child.position + poly[i])
 					
 					var current_poly = poly
 					var i = islands.size() - 1
@@ -321,30 +354,20 @@ func update_colliders() -> void:
 						i -= 1
 					islands.append(current_poly)
 	
-	grid = get_node_or_null("HexGrid")
-	if not grid:
-		grid = HEX_GRID_PREFAB.instantiate()
-		add_child(grid)
+	if not get_node_or_null("HexGrid"):
+		add_child(HEX_GRID_PREFAB.instantiate())
 	
-	var old_edge = get_node_or_null("Edge")
-	if old_edge:
-		old_edge.queue_free()
-	for child in get_children():
-		if child is CollisionShape2D:
-			child.queue_free()
-	
-	
-	var walls : StaticBody2D = get_node_or_null("Walls")
+	var walls = get_node_or_null("Walls")
 	if not walls:
 		walls = StaticBody2D.new()
 		walls.name = "Walls"
 		add_child(walls)
 	
 	for child in walls.get_children():
+		child.queue_free()
+	for child in get_children():
 		if child is CollisionShape2D:
 			child.queue_free()
-	
-	var wall_thickness = 8.0
 	
 	for island in islands:
 		for i in range(island.size()):
@@ -353,23 +376,17 @@ func update_colliders() -> void:
 			
 			var segment = CollisionShape2D.new()
 			segment.name = "Edge_" + str(i)
-			
 			var rect = RectangleShape2D.new()
-			var length = p1.distance_to(p2)
+			rect.size = Vector2(p1.distance_to(p2), EDGE_WIDTH)
 			
-			rect.size = Vector2(length, wall_thickness)
 			segment.shape = rect
-			
 			segment.position = (p1 + p2) / 2.0
 			segment.rotation = (p2 - p1).angle()
-			
 			walls.add_child.call_deferred(segment)
 
-	var area : Area2D = get_node_or_null("Ground")
-	if area:
-		area.queue_free()
+	if get_node_or_null("Ground"):
+		get_node("Ground").queue_free()
 		
-	
 	var solid = get_node_or_null("Solid")
 	if not solid:
 		solid = CollisionPolygon2D.new()
@@ -377,36 +394,24 @@ func update_colliders() -> void:
 		solid.build_mode = CollisionPolygon2D.BUILD_SOLIDS
 		add_child(solid)
 		solid.owner = self
-		print("Fallback: ", name, " creating solid")
-	
 	
 	walls.collision_layer = 16 # Ship exterior layer
-	walls.collision_mask = 0#16 #ship exterior layer
+	walls.collision_mask = 0 #16 #ship exterior layer
 	collision_layer = 1 # ship interior
 	collision_mask = 257 # collide with other ships and enviroment
-	continuous_cd = RigidBody2D.CCD_MODE_CAST_RAY
+	# continuous_cd = RigidBody2D.CCD_MODE_CAST_RAY # causing an error with concave polys
 	
 	move_child.call_deferred(walls, -1)
-	
-	if islands.size() > 0:
-		solid.polygon = islands[0]
-	else:
-		solid.polygon = PackedVector2Array()
-	
+	solid.polygon = islands[0] if islands.size() > 0 else PackedVector2Array()
 	
 	input_pickable = true
 	if not input_event.is_connected(ground_input_event):
 		input_event.connect(ground_input_event)
 
-const HEX_WIDTH = 78
-const HEX_HEIGHT = 90
-
 func _get_hex_poly() -> PackedVector2Array:
-	var w = HEX_WIDTH
-	var h = HEX_HEIGHT
-	var w_half = (w * 0.5) + 0.1
-	var h_half = (h * 0.5) + 0.1
-	var h_quarter = (h * 0.25) + 0.05
+	var w_half = (HEX_WIDTH * 0.5) + 0.1
+	var h_half = (HEX_HEIGHT * 0.5) + 0.1
+	var h_quarter = (HEX_HEIGHT * 0.25) + 0.05
 	
 	return PackedVector2Array([
 		Vector2(0, -h_half),
@@ -419,8 +424,9 @@ func _get_hex_poly() -> PackedVector2Array:
 #endregion
 
 #region Power
+
 func get_avalible_power_out() -> Array[PowerOutHex]:
-	var out : Array[PowerOutHex] = []
+	var out: Array[PowerOutHex] = []
 	for r in get_children():
 		if r is Room:
 			for h in r.get_out_hexes():
@@ -428,40 +434,34 @@ func get_avalible_power_out() -> Array[PowerOutHex]:
 					out.append(h)
 	return out
 
-func toggle_power(power_hex):
+func toggle_power(power_hex) -> void:
 	if not my_character_inside():
 		return
-	#if power_hex is PowerOutHex && power_hex.is_powering:
-		## turn off power
-		#remove_power_link_out(power_hex)
+	
 	if power_hex is PowerInHex:
 		if power_hex.is_powered:
-			# turn off power
 			remove_power_link_in(power_hex)
 		else:
-			# turn on power
 			set_next_avalible_power_out(power_hex)
 
 func set_next_avalible_power_out(power_in : PowerInHex) -> bool:
 	var power_outs = get_avalible_power_out()
 	if power_outs.size() > 0:
-		var power_out = power_outs[0]
-		add_power_link(power_out, power_in)
+		add_power_link(power_outs[0], power_in)
 		return true
 	return false
 
-func add_power_link(power_out : PowerOutHex, power_in : PowerInHex):
-	if power_out.is_powering or power_in.is_powered:
-		return false
+func add_power_link(power_out: PowerOutHex, power_in: PowerInHex) -> bool:
+	if power_out.is_powering or power_in.is_powered: return false
 	power_links[power_out] = power_in
 	power_out.update_state()
 	power_in.update_state()
 	power_in.room.on_power_level_change.emit(power_in)
 	return true
 
-func remove_power_link_in(power_in : PowerInHex):
+func remove_power_link_in(power_in : PowerInHex) -> bool:
 	var power_out = power_links.find_key(power_in)
-	if power_out != null:
+	if power_out:
 		power_links.erase(power_out)
 		power_out.update_state()
 		power_in.update_state()
@@ -469,8 +469,8 @@ func remove_power_link_in(power_in : PowerInHex):
 		return true
 	return false
 
-func remove_power_link_out(power_out : PowerOutHex):
-	if power_out != null && power_links.has(power_out):
+func remove_power_link_out(power_out : PowerOutHex) -> bool:
+	if power_out and power_links.has(power_out):
 		var power_in = power_links[power_out]
 		power_links.erase(power_out)
 		power_out.update_state()
@@ -481,22 +481,22 @@ func remove_power_link_out(power_out : PowerOutHex):
 #endregion
 
 #region Health
-const HUD = preload("res://shipAI/prefabs/hud.tscn")
-func check_hud():
+func check_hud() -> void:
+	max_hit_points = 0
 	for child in get_children():
 		if child is Room:
 			max_hit_points += child.durability
 	hit_points = max_hit_points
 	hud = get_node_or_null("HUD")
 	if not hud:
-		hud = HUD.instantiate()
+		hud = HUD_PREFAB.instantiate()
 		add_child(hud)
-	hud.initialize() # @ Kevin remove?
+	hud.initialize() # @ Kevin remove? could this be changed to ready?
 
-func take_damage(amount:int):
+func take_damage(amount : int) -> void:
 	hit_points -= amount # property has callback that sets the hud to update
 
-func death_check():
+func death_check() -> void:
 	if hit_points > 0:
 		return 
 	# relocate player if its in the ship
@@ -514,15 +514,7 @@ func death_check():
 #endregion
 
 #region InteriorExterior
-
-func my_character_inside() -> bool:
-	var multiplayer_manager = get_tree().root.find_child("MultiplayerManager", true, false)
-	if multiplayer_manager and multiplayer_manager.my_player:
-		return multiplayer_manager.my_player.ship == self
-	return false
-
-# interactor will be null if the editor calls this 
-func set_exterior_visible(_interactor : CharacterBody2D, entered : bool):
+func set_exterior_visible(_interactor : CharacterBody2D, entered : bool) -> void:
 	if not my_character_inside() and _interactor != null:
 		entered = false
 	for r in get_children():
@@ -546,10 +538,8 @@ func get_push_velocity(state : PhysicsDirectBodyState2D) -> Vector2:
 	
 	var total_vel = state.linear_velocity
 	for p in players:
-		if p.push_brake:
-			state.linear_velocity = lerp(state.linear_velocity, Vector2.ZERO, p.thrust_accel * state.inverse_mass * 0.2 * state.step)
-		else:
-			state.linear_velocity = lerp(state.linear_velocity, state.linear_velocity + p.push_dir, p.thrust_accel * state.inverse_mass * 0.2 * state.step)
+		var target_vel = Vector2.ZERO if p.push_brake else state.linear_velocity + p.push_dir
+		state.linear_velocity = lerp(state.linear_velocity, target_vel, p.thrust_accel * state.inverse_mass * 0.2 * state.step)
 	return total_vel
 
 func get_push_rotation(state : PhysicsDirectBodyState2D) -> float:
@@ -558,54 +548,11 @@ func get_push_rotation(state : PhysicsDirectBodyState2D) -> float:
 		return 0.0
 	
 	var total_rot_input = 0.0
+	var rot_input = _get_rotation_input()
 	for p in players:
-		var look_dir = InputHelper.mouse_center_offset_deadzone(flight_deadzone)
-		var rot_amount = look_dir.x * 0.01
-		if not InputHelper.using_mouse:
-			rot_amount = InputHelper.controller_look.x
-		total_rot_input += rot_amount * p.rotate_speed
+		total_rot_input += rot_input * p.rotate_speed
 		
 	return (total_rot_input * state.inverse_mass) * 0.1
-#endregion
-
-#region merging
-var merge_target_ship: Ship = null
-var ghost_preview: Node2D = null
-const MAX_MERGE_DISTANCE: float = 600.0
-
-func _process(_delta: float) -> void:
-	# if not multiplayer auth: @Tapesh
-	#   clear_ghost_preview()
-	#   return
-	
-	var pushers = get_players_pushing()
-	
-	if pushers.is_empty():
-		clear_ghost_preview()
-		return
-		
-	if process_room_detachment(pushers):
-		clear_ghost_preview()
-		return
-		
-	merge_target_ship = find_nearest_ship()
-	
-	if merge_target_ship:
-		if not is_instance_valid(ghost_preview):
-			generate_ghost_preview()
-			
-		var snap_data = merge_target_ship.calculate_snap_data(self)
-		merge_target_ship.update_ghost_visuals(ghost_preview, snap_data)
-		
-		for p in pushers:
-			if Input.is_action_just_pressed("interact") and snap_data.is_valid:
-				merge_target_ship.apply_merged_rooms(self, snap_data)
-				clear_ghost_preview()
-				p.pushing = false
-				p.fix_unsure_grounding()
-				return
-	else:
-		clear_ghost_preview()
 
 func find_nearest_ship() -> Ship:
 	var out: Ship = null
@@ -626,166 +573,135 @@ func generate_ghost_preview() -> void:
 	ghost_preview.z_index = 2
 	get_parent().add_child(ghost_preview)
 	
-	for child_node in get_children():
-		if child_node is Room:
-			var room_duplicate = child_node.duplicate()
-			ghost_preview.add_child(room_duplicate)
-			room_duplicate.position = child_node.position
-			room_duplicate.rotation = child_node.rotation
+	for child in get_children():
+		if child is Room:
+			var room_dup = child.duplicate()
+			ghost_preview.add_child(room_dup)
+			room_dup.position = child.position
+			room_dup.rotation = child.rotation
 			
-			for room_component in room_duplicate.get_children():
-				if not room_component is Sprite2D:
-					room_component.queue_free()
+			for component in room_dup.get_children():
+				if not component is Sprite2D:
+					component.queue_free()
 
 func clear_ghost_preview() -> void:
 	if is_instance_valid(ghost_preview):
 		ghost_preview.queue_free()
 	merge_target_ship = null
 
-func calculate_offset_transform(pushed_ship: Ship, target_grid_cell: Vector2i, rotation_index_offset: int) -> Transform2D:
-	var target_global_position = grid_to_world(target_grid_cell)
-	var target_rotation = (rotation_index_offset * (PI / 3.0)) + global_rotation
+func calculate_offset_transform(pushed_ship: Ship, target_cell: Vector2i, rot_idx_offset: int) -> Transform2D:
+	var target_global_pos = grid_to_world(target_cell)
+	var target_rot = (rot_idx_offset * (PI / 3.0)) + global_rotation
 	
 	var pushed_grid = pushed_ship.get_node_or_null("HexGrid")
-	var pushed_origin_local = pushed_grid.map_to_local(Vector2i.ZERO) if pushed_grid else Vector2.ZERO
-	var pushed_origin_global = pushed_ship.to_global(pushed_origin_local)
+	var origin_local = pushed_grid.map_to_local(Vector2i.ZERO) if pushed_grid else Vector2.ZERO
+	var origin_global = pushed_ship.to_global(origin_local)
 	
-	var origin_transform = Transform2D(pushed_ship.global_rotation, pushed_origin_global)
-	var destination_transform = Transform2D(target_rotation, target_global_position)
-	
-	return destination_transform * origin_transform.inverse()
+	return Transform2D(target_rot, target_global_pos) * Transform2D(pushed_ship.global_rotation, origin_global).inverse()
 
 func calculate_snap_data(pushed_ship: Ship) -> Dictionary:
-	var relative_angle = pushed_ship.global_rotation - global_rotation
-	var rotation_index_offset = int(round(relative_angle / (PI / 3.0)))
-	
+	var rot_idx_offset = int(round((pushed_ship.global_rotation - global_rotation) / (PI / 3.0)))
 	var pushed_grid = pushed_ship.get_node_or_null("HexGrid")
-	var pushed_origin_local = pushed_grid.map_to_local(Vector2i.ZERO) if pushed_grid else Vector2.ZERO
-	var pushed_origin_global = pushed_ship.to_global(pushed_origin_local)
+	var origin_global = pushed_ship.to_global(pushed_grid.map_to_local(Vector2i.ZERO) if pushed_grid else Vector2.ZERO)
 	
-	var starting_cell = world_to_grid(pushed_origin_global)
-	var _closest_valid_cell = starting_cell
-	var is_placement_valid = false
-	var minimum_distance = INF
+	var start_cell = world_to_grid(origin_global)
+	var valid_placement = false
+	var min_dist = INF
+	var optimal_tf = calculate_offset_transform(pushed_ship, start_cell, rot_idx_offset)
 	
-	var cells_to_visit = [starting_cell]
-	var cell_distances = {starting_cell: 0}
-	var optimal_transform = calculate_offset_transform(pushed_ship, starting_cell, rotation_index_offset)
+	var queue = [start_cell]
+	var distances = {start_cell: 0}
 	
-	while cells_to_visit.size() > 0:
-		var current_cell = cells_to_visit.pop_front()
-		var current_distance_steps = cell_distances[current_cell]
-		var current_transform = calculate_offset_transform(pushed_ship, current_cell, rotation_index_offset)
+	while queue.size() > 0:
+		var cell = queue.pop_front()
+		var dist = distances[cell]
+		var current_tf = calculate_offset_transform(pushed_ship, cell, rot_idx_offset)
 		
-		if is_transform_valid_for_merge(pushed_ship, current_transform, rotation_index_offset):
-			var cell_global_position = grid_to_world(current_cell)
-			var spatial_distance = cell_global_position.distance_squared_to(pushed_origin_global)
-			
-			if spatial_distance < minimum_distance:
-				minimum_distance = spatial_distance
-				_closest_valid_cell = current_cell
-				optimal_transform = current_transform
-				is_placement_valid = true
+		if is_transform_valid_for_merge(pushed_ship, current_tf, rot_idx_offset):
+			var d_sq = grid_to_world(cell).distance_squared_to(origin_global)
+			if d_sq < min_dist:
+				min_dist = d_sq
+				optimal_tf = current_tf
+				valid_placement = true
 		
-		if current_distance_steps < 6:
-			for neighbor_cell in neighborhood_coords(current_cell):
-				if not cell_distances.has(neighbor_cell):
-					cell_distances[neighbor_cell] = current_distance_steps + 1
-					cells_to_visit.append(neighbor_cell)
+		if dist < 6:
+			for neighbor in neighborhood_coords(cell):
+				if not distances.has(neighbor):
+					distances[neighbor] = dist + 1
+					queue.append(neighbor)
 	
 	return {
-		"is_valid": is_placement_valid,
-		"optimal_transform": optimal_transform,
-		"rotation_index_offset": rotation_index_offset,
+		"is_valid": valid_placement,
+		"optimal_transform": optimal_tf,
+		"rotation_index_offset": rot_idx_offset,
 		"pushed_ship_transform": pushed_ship.global_transform
 	}
 
-func is_transform_valid_for_merge(pushed_ship: Ship, offset_transform: Transform2D, rotation_index_offset: int) -> bool:
-	var projected_occupied_cells: Array[Vector2i] = []
+func is_transform_valid_for_merge(pushed_ship: Ship, offset_tf: Transform2D, rot_idx_offset: int) -> bool:
+	var projected_cells: Array[Vector2i] = []
 	
-	for room_node in pushed_ship.get_children():
-		if room_node is Room:
-			var projected_global_position = offset_transform * room_node.global_position
-			var target_room_cell = world_to_grid(projected_global_position)
-			var projected_rotation_index = posmod(room_node.rot_index + rotation_index_offset, 6)
+	for room in pushed_ship.get_children():
+		if room is Room:
+			var target_cell = world_to_grid(offset_tf * room.global_position)
+			var projected_rot = posmod(room.rot_index + rot_idx_offset, 6)
+			projected_cells.append_array(get_cells_for_room(room, target_cell, projected_rot))
 			
-			var room_required_cells = get_cells_for_room(room_node, target_room_cell, projected_rotation_index)
-			projected_occupied_cells.append_array(room_required_cells)
-			
-	return is_area_free(projected_occupied_cells) and is_adjacent_to_occupied(projected_occupied_cells)
+	return is_area_free(projected_cells) and is_adjacent_to_occupied(projected_cells)
 
 func update_ghost_visuals(ghost_container: Node2D, snap_data: Dictionary) -> void:
 	ghost_container.global_transform = snap_data.optimal_transform * snap_data.pushed_ship_transform
 	ghost_container.modulate = Color(0, 1, 0, 0.5) if snap_data.is_valid else Color(1, 0, 0, 0.5)
 
 func apply_merged_rooms(pushed_ship: Ship, snap_data: Dictionary) -> void:
-	for room_node in pushed_ship.get_children():
-		if room_node is Room:
-			var duplicate_room = room_node.duplicate()
-			add_child(duplicate_room)
+	for room in pushed_ship.get_children():
+		if room is Room:
+			var dup_room = room.duplicate()
+			add_child(dup_room)
+			dup_room.global_transform = snap_data.optimal_transform * room.global_transform
+			add_room(dup_room, world_to_grid(dup_room.global_position), posmod(room.rot_index + snap_data.rotation_index_offset, 6))
 			
-			duplicate_room.global_transform = snap_data.optimal_transform * room_node.global_transform
-			
-			var merged_cell = world_to_grid(duplicate_room.global_position)
-			var merged_rotation_index = posmod(room_node.rot_index + snap_data.rotation_index_offset, 6)
-			
-			add_room(duplicate_room, merged_cell, merged_rotation_index)
-			
-	update_colliders()
-	calc_center_of_mass()
-	check_hud()
+	refresh_ship_state()
 	pushed_ship.queue_free()
-#endregion
-
-#region detaching
-const SHIP_PREFAB = preload("res://shipBuilding/prefabs/ship.tscn")
 
 func process_room_detachment(active_pushers: Array) -> bool:
 	for pusher in active_pushers:
 		if Input.is_action_just_pressed("detach"):
-			var projection_distance = 45.0
-			var contact_global_position = pusher.global_position + (pusher.push_dir * projection_distance)
-			var targeted_grid_cell = world_to_grid(contact_global_position)
-			var targeted_room_node = occupied_cells.get(targeted_grid_cell)
+			var target_cell = world_to_grid(pusher.global_position + (pusher.push_dir * 45.0))
+			var target_room = occupied_cells.get(target_cell)
 			
-			if targeted_room_node and get_total_room_count() > 1:
-				detach_room_to_new_ship(targeted_room_node, pusher.push_dir)
+			if target_room and get_total_room_count() > 1:
+				detach_room_to_new_ship(target_room, pusher.push_dir)
 				return true
 	return false
 
 func get_total_room_count() -> int:
-	var total_rooms = 0
-	for child_node in get_children():
-		if child_node is Room:
-			total_rooms += 1
-	return total_rooms
+	var count = 0
+	for child in get_children():
+		if child is Room:
+			count += 1
+	return count
 
-func detach_room_to_new_ship(target_room: Room, push_direction: Vector2) -> void:
-	var detached_ship_instance = SHIP_PREFAB.instantiate()
-	get_parent().add_child(detached_ship_instance)
+func _setup_new_ship(new_ship: Ship, rooms: Array, velocity_offset: Vector2 = Vector2.ZERO, position_offset: Vector2 = Vector2.ZERO) -> void:
+	get_parent().add_child(new_ship)
+	new_ship.global_transform = global_transform
+	new_ship.global_position += position_offset
+	new_ship.linear_velocity = linear_velocity + velocity_offset
+	new_ship.angular_velocity = angular_velocity
 	
-	var separation_offset = push_direction * 25.0
-	var separation_velocity = push_direction * 350.0
+	for room in rooms:
+		var pos = room.grid_pos
+		var rot = room.rot_index
+		remove_room(room)
+		new_ship.add_room(room, pos, rot)
+		
+	new_ship.refresh_ship_state()
+
+func detach_room_to_new_ship(target_room: Room, push_dir: Vector2) -> void:
+	var detached_ship = SHIP_PREFAB.instantiate()
+	_setup_new_ship(detached_ship, [target_room], push_dir * 350.0, push_dir * 25.0)
 	
-	detached_ship_instance.global_transform = global_transform
-	detached_ship_instance.global_position += separation_offset
-	detached_ship_instance.linear_velocity = linear_velocity + separation_velocity
-	detached_ship_instance.angular_velocity = angular_velocity
-	
-	var original_grid_pos = target_room.grid_pos
-	var original_rot_index = target_room.rot_index
-	remove_room(target_room)
-	detached_ship_instance.add_room(target_room, original_grid_pos, original_rot_index)
-	
-	separate_islands()
-	
-	update_colliders()
-	calc_center_of_mass()
-	check_hud()
-	
-	detached_ship_instance.update_colliders()
-	detached_ship_instance.calc_center_of_mass()
-	detached_ship_instance.check_hud()
+	refresh_ship_state()
+
 #endregion
 
 #region islands
@@ -821,28 +737,12 @@ func separate_islands() -> void:
 		islands.append(current_group)
 
 	if islands.size() > 1:
-		print_debug("Warning, Separating islands on ship")
 		for i in range(1, islands.size()):
 			_spawn_island_ship(islands[i])
-		update_colliders()
-		calc_center_of_mass()
-		check_hud()
+		refresh_ship_state()
 
 func _spawn_island_ship(island_rooms: Array) -> void:
 	var new_ship = SHIP_PREFAB.instantiate()
-	get_parent().add_child(new_ship)
-	
-	new_ship.global_transform = global_transform
-	new_ship.linear_velocity = linear_velocity
-	new_ship.angular_velocity = angular_velocity
-	
-	for room in island_rooms:
-		var pos = room.grid_pos
-		var rot = room.rot_index
-		remove_room(room)
-		new_ship.add_room(room, pos, rot)
-		
-	new_ship.update_colliders()
-	new_ship.calc_center_of_mass()
-	new_ship.check_hud()
+	_setup_new_ship(new_ship, island_rooms)
+
 #endregion
