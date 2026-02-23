@@ -64,4 +64,7 @@ position = Vector2(-160, 780)
 [node name="RewardZone" type="Marker2D" parent="." unique_id=385857407]
 position = Vector2(272, 3295)
 
+[node name="PlayerSpawn" type="Marker2D" parent="." unique_id=1591518801]
+position = Vector2(-2740, -315)
+
 [connection signal="trigger_dialogue" from="." to="." method="start_dialogue"]
