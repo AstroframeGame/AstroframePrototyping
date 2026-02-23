@@ -519,8 +519,9 @@ func my_character_inside() -> bool:
 		return multiplayer_manager.my_player.ship == self
 	return false
 
+# interactor will be null if the editor calls this 
 func set_exterior_visible(_interactor : CharacterBody2D, entered : bool):
-	if not my_character_inside():
+	if not my_character_inside() and _interactor != null:
 		entered = false
 	for r in get_children():
 		if r is Room:

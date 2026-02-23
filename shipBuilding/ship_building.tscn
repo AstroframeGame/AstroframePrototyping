@@ -166,6 +166,16 @@ custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 placeholder_text = "Ship Name"
 
+[node name="HBoxContainer4" type="HBoxContainer" parent="UI/TabContainer/MetaData/VBoxContainer" unique_id=826473756]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/TabContainer/MetaData/VBoxContainer/HBoxContainer4" unique_id=1819161881]
+layout_mode = 2
+text = "Show Exterior"
+
+[node name="CheckBox" type="CheckBox" parent="UI/TabContainer/MetaData/VBoxContainer/HBoxContainer4" unique_id=1070271660]
+layout_mode = 2
+
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/TabContainer/MetaData/VBoxContainer" unique_id=178939804]
 layout_mode = 2
 
