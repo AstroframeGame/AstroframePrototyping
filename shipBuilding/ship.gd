@@ -29,6 +29,7 @@ func _ready() -> void:
 	update_colliders()
 	calc_center_of_mass()
 	check_hud()
+	print('Ready')
 	
 	on_airlock_interaction.connect(set_exterior_visible)
 	on_hit.connect(hud.update_hp_bar)
@@ -327,7 +328,7 @@ func update_colliders() -> void:
 	if old_edge:
 		old_edge.queue_free()
 	for child in get_children():
-		if child.name.begins_with("Edge_"):
+		if child is CollisionShape2D:
 			child.queue_free()
 	
 	var wall_thickness = 8.0
@@ -645,7 +646,7 @@ func calculate_snap_data(pushed_ship: Ship) -> Dictionary:
 	var pushed_origin_global = pushed_ship.to_global(pushed_origin_local)
 	
 	var starting_cell = world_to_grid(pushed_origin_global)
-	var closest_valid_cell = starting_cell
+	var _closest_valid_cell = starting_cell
 	var is_placement_valid = false
 	var minimum_distance = INF
 	
@@ -664,7 +665,7 @@ func calculate_snap_data(pushed_ship: Ship) -> Dictionary:
 			
 			if spatial_distance < minimum_distance:
 				minimum_distance = spatial_distance
-				closest_valid_cell = current_cell
+				_closest_valid_cell = current_cell
 				optimal_transform = current_transform
 				is_placement_valid = true
 		

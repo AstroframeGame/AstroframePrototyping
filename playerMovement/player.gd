@@ -95,6 +95,7 @@ func _physics_process(delta):
 		#rotate(Input.get_axis("rotate_left","rotate_right") * rotate_speed * delta)
 		velocity = direction * walk_speed
 	else:
+		ground_body = null
 		var goal_vel = Vector2.ZERO
 		if Input.is_action_pressed("brake"):
 			velocity = velocity.move_toward(Vector2.ZERO, thrust_accel * delta)
