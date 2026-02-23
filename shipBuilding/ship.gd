@@ -115,13 +115,8 @@ func get_engines() -> Engines:
 	return null
 func get_piloting() -> Piloting:
 	for r in get_children():
-		if r is Piloting:
+		if r is Piloting and r.is_active():
 			return r
-	return null
-func get_pilot() -> PlayerCharacter:
-	var piloting : Piloting = get_piloting()
-	if piloting:
-		return piloting.seat.controlled_by
 	return null
 func get_cannons() -> Array[Cannon]:
 	var cannons : Array[Cannon] = []
@@ -141,38 +136,24 @@ func handle_input(_event : InputEvent):
 
 func move_ship(state: PhysicsDirectBodyState2D) -> void:
 	var engines :Engines = get_engines()
-	var pilot : PlayerCharacter = get_pilot()
-	
-	if not (engines and get_piloting() and pilot):
-		get_push_velocity(state)
-		return
-		
-	var direction = Input.get_vector("left", "right", "up", "down")
-	var delta = get_process_delta_time()
-	var goal_vel = Vector2.ZERO
-	
-	if direction.length() > 0.1 or Input.is_action_pressed("brake"):
-		if direction.y > 0:
-			direction.y *= engines.forward_multiplier
-		goal_vel = state.linear_velocity + direction.rotated(global_rotation)
-		goal_vel = goal_vel.normalized() * min(goal_vel.length(), engines.get_max_speed())
+	var piloting : Piloting = get_piloting()
+	var delta : float = state.step
+
+	if engines and piloting:
+		var goal_vel = piloting.goal_velocity()
 		state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * state.inverse_mass * delta)
 	else:
-		state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * state.inverse_mass * engines.drag_multiplier * delta)
+		apply_push_velocity(state)
+		return
 
 func rotate_ship(state: PhysicsDirectBodyState2D) -> void:
-	var engines :Engines = get_engines()
-	var delta :float = state.step
+	var engines : Engines = get_engines()
+	var piloting : Piloting = get_piloting()
 	
-	if engines and get_pilot():
-		state.angular_velocity = _get_rotation_input() * engines.get_rotational_thrust()
+	if engines and piloting:
+		state.angular_velocity = piloting.goal_angular_velocity()
 	else:
-		var push_rot = get_push_rotation(state)
-		if abs(push_rot) > 0.01:
-			state.angular_velocity = lerp(state.angular_velocity, push_rot, 5.0 * delta)
-		else:
-			var drag = engines.drag_multiplier if engines else 2.0
-			state.angular_velocity = lerp(state.angular_velocity, 0.0, drag * delta)
+		apply_push_rotation(state)
 
 func calc_center_of_mass() -> void:
 	var hex_mass = 2.0
@@ -531,28 +512,33 @@ func get_players_pushing() -> Array[PlayerCharacter]:
 			pushing_players.append(p)
 	return pushing_players
 
-func get_push_velocity(state : PhysicsDirectBodyState2D) -> Vector2:
+func apply_push_velocity(state : PhysicsDirectBodyState2D) -> void:
 	var players = get_players_pushing()
 	if players.is_empty():
-		return state.linear_velocity
+		return
 	
-	var total_vel = state.linear_velocity
 	for p in players:
 		var target_vel = Vector2.ZERO if p.push_brake else state.linear_velocity + p.push_dir
 		state.linear_velocity = lerp(state.linear_velocity, target_vel, p.thrust_accel * state.inverse_mass * 0.2 * state.step)
-	return total_vel
 
-func get_push_rotation(state : PhysicsDirectBodyState2D) -> float:
+func apply_push_rotation(state : PhysicsDirectBodyState2D) -> void:
+	var engines : Engines = get_engines()
 	var players = get_players_pushing()
+	var delta : float = state.step
 	if players.is_empty():
-		return 0.0
+		return
 	
 	var total_rot_input = 0.0
 	var rot_input = _get_rotation_input()
 	for p in players:
 		total_rot_input += rot_input * p.rotate_speed
 		
-	return (total_rot_input * state.inverse_mass) * 0.1
+	var push_rot = (total_rot_input * state.inverse_mass) * 0.1
+	if abs(push_rot) > 0.01:
+		state.angular_velocity = lerp(state.angular_velocity, push_rot, 5.0 * delta)
+	else:
+		var drag = engines.drag_multiplier if engines else 2.0
+		state.angular_velocity = lerp(state.angular_velocity, 0.0, drag * delta)
 
 func find_nearest_ship() -> Ship:
 	var out: Ship = null
