@@ -127,6 +127,10 @@ grow_vertical = 2
 layout_mode = 2
 text = "Singleplayer"
 
+[node name="Editor" type="Button" parent="UI/Main/VBoxContainer" unique_id=1870370267]
+layout_mode = 2
+text = "Ship Editor"
+
 [node name="Options" type="Button" parent="UI/Main/VBoxContainer" unique_id=884632170]
 layout_mode = 2
 text = "Options"
@@ -233,6 +237,7 @@ environment = SubResource("Environment_21dlm")
 [connection signal="pressed" from="UI/Main/Socials/Ships" to="UI/Main/Socials" method="ships_folder"]
 [connection signal="pressed" from="UI/Main/Socials/Github" to="UI/Main/Socials" method="github"]
 [connection signal="pressed" from="UI/Main/Socials/Discord" to="UI/Main/Socials" method="discord"]
+[connection signal="pressed" from="UI/Main/VBoxContainer/Editor" to="GameManager" method="open_ship_editor"]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Options" to="UI" method="open_menu" binds= [&"Options"]]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Credits" to="UI" method="open_menu" binds= [&"Credits"]]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Quit" to="GameManager" method="quit_application"]

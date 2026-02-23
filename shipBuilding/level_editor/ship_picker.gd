@@ -8,6 +8,7 @@ var ship_prefabs: Array[PackedScene]
 
 func _ready() -> void:
 	load_ships()
+	$VBoxContainer/UpdateAll.pressed.connect(update_all)
 
 func load_ship(index: int) -> void:
 	save_manager.save_name.text = ship_prefabs[index].resource_path.get_file().get_basename()
@@ -33,3 +34,17 @@ func _create_button(label: String, index: int) -> void:
 
 func get_ship_index(ship_instance: Ship) -> int:
 	return ship_prefabs.find(load(ship_instance.scene_file_path))
+	
+
+# If there is a ship this touches you do not want it to edit, discard the changes
+# before you commit to gh.
+func update_all():
+	for i in range(len(ship_prefabs)):
+		save_manager.save_name.text = ship_prefabs[i].resource_path.get_file().get_basename()
+		save_manager.load_tscn()
+		await get_tree().process_frame
+		save_manager.save_json()
+		await get_tree().process_frame
+		save_manager.load_json()
+		await get_tree().process_frame
+		save_manager.save_tscn()
