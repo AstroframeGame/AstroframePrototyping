@@ -25,11 +25,11 @@ signal on_hit()
 @export var hud : ShipHud = null
 
 func _ready() -> void:
+	separate_islands()
 	update_occupied_cells()
 	update_colliders()
 	calc_center_of_mass()
 	check_hud()
-	print('Ready')
 	
 	on_airlock_interaction.connect(set_exterior_visible)
 	on_hit.connect(hud.update_hp_bar)
@@ -380,8 +380,8 @@ func update_colliders() -> void:
 	
 	walls.collision_layer = 16 # Ship exterior layer
 	walls.collision_mask = 0#16 #ship exterior layer
-	#collision_layer = 3 # ship interior
-	#collision_mask = 3 # prob doesnt matter since it shouldnt be monitoring
+	collision_layer = 1 # ship interior
+	collision_mask = 257 # collide with other ships and enviroment
 	continuous_cd = RigidBody2D.CCD_MODE_CAST_RAY
 	
 	move_child.call_deferred(walls, -1)
@@ -599,6 +599,8 @@ func _process(_delta: float) -> void:
 			if Input.is_action_just_pressed("interact") and snap_data.is_valid:
 				merge_target_ship.apply_merged_rooms(self, snap_data)
 				clear_ghost_preview()
+				p.pushing = false
+				p.fix_unsure_grounding()
 				return
 	else:
 		clear_ghost_preview()
@@ -773,6 +775,8 @@ func detach_room_to_new_ship(target_room: Room, push_direction: Vector2) -> void
 	remove_room(target_room)
 	detached_ship_instance.add_room(target_room, original_grid_pos, original_rot_index)
 	
+	separate_islands()
+	
 	update_colliders()
 	calc_center_of_mass()
 	check_hud()
@@ -780,4 +784,63 @@ func detach_room_to_new_ship(target_room: Room, push_direction: Vector2) -> void
 	detached_ship_instance.update_colliders()
 	detached_ship_instance.calc_center_of_mass()
 	detached_ship_instance.check_hud()
+#endregion
+
+#region islands
+func separate_islands() -> void:
+	var rooms = []
+	for child in get_children():
+		if child is Room:
+			rooms.append(child)
+	
+	if rooms.is_empty():
+		return
+	
+	var processed_rooms = []
+	var islands = []
+
+	for room in rooms:
+		if room in processed_rooms:
+			continue
+			
+		var current_group = []
+		var queue = [room]
+		processed_rooms.append(room)
+		
+		while queue.size() > 0:
+			var current = queue.pop_front()
+			current_group.append(current)
+			
+			for neighbor in find_neighbors(current):
+				if neighbor not in processed_rooms:
+					processed_rooms.append(neighbor)
+					queue.append(neighbor)
+		
+		islands.append(current_group)
+
+	if islands.size() > 1:
+		print_debug("Warning, Separating islands on ship")
+		for i in range(1, islands.size()):
+			_spawn_island_ship(islands[i])
+		update_colliders()
+		calc_center_of_mass()
+		check_hud()
+
+func _spawn_island_ship(island_rooms: Array) -> void:
+	var new_ship = SHIP_PREFAB.instantiate()
+	get_parent().add_child(new_ship)
+	
+	new_ship.global_transform = global_transform
+	new_ship.linear_velocity = linear_velocity
+	new_ship.angular_velocity = angular_velocity
+	
+	for room in island_rooms:
+		var pos = room.grid_pos
+		var rot = room.rot_index
+		remove_room(room)
+		new_ship.add_room(room, pos, rot)
+		
+	new_ship.update_colliders()
+	new_ship.calc_center_of_mass()
+	new_ship.check_hud()
 #endregion
