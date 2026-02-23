@@ -9,6 +9,8 @@ extends Node
 var save_path = "res://shipBuilding/ships/"
 const ship_prefab = preload("res://shipBuilding/prefabs/ship.tscn")
 
+signal on_post_load()
+
 func _ready() -> void:
 	$"../UI/Options/HBoxContainer/Save/Savetscn".pressed.connect(save_tscn)
 	$"../UI/Options/HBoxContainer/Save/Savejson".pressed.connect(save_json)
@@ -30,6 +32,7 @@ func load_tscn() -> void:
 		print("Load failed.")
 		return
 	_replace_ship(new_ship)
+	on_post_load.emit()
 
 func save_json() -> void:
 	save_load.save_json(ship, save_path, save_name.text)
@@ -38,6 +41,7 @@ func load_json() -> void:
 	var new_ship = ship_prefab.instantiate()
 	_replace_ship(new_ship)
 	save_load.load_json(save_path, save_name.text, new_ship)
+	on_post_load.emit()
 
 func _replace_ship(new_ship: Node) -> void:
 	ship.get_parent().add_child(new_ship)
