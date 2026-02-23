@@ -5,8 +5,6 @@
 
 [node name="Ship" type="RigidBody2D" unique_id=1442409601]
 z_index = 1
-collision_layer = 16
-collision_mask = 16
 input_pickable = true
 gravity_scale = 0.0
 script = ExtResource("1_vm1wr")

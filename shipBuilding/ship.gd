@@ -331,6 +331,17 @@ func update_colliders() -> void:
 		if child is CollisionShape2D:
 			child.queue_free()
 	
+	
+	var walls : StaticBody2D = get_node_or_null("Walls")
+	if not walls:
+		walls = StaticBody2D.new()
+		walls.name = "Walls"
+		add_child(walls)
+	
+	for child in walls.get_children():
+		if child is CollisionShape2D:
+			child.queue_free()
+	
 	var wall_thickness = 8.0
 	
 	for island in islands:
@@ -350,32 +361,30 @@ func update_colliders() -> void:
 			segment.position = (p1 + p2) / 2.0
 			segment.rotation = (p2 - p1).angle()
 			
-			add_child.call_deferred(segment)
+			walls.add_child.call_deferred(segment)
 
 	var area : Area2D = get_node_or_null("Ground")
-	if not area:
-		area = Area2D.new()
-		add_child(area)
-		area.name = "Ground"
-		area.owner = self
-		print("Fallback: ", name, " creating area")
-	var solid = get_node_or_null("Ground/Solid")
+	if area:
+		area.queue_free()
+		
+	
+	var solid = get_node_or_null("Solid")
 	if not solid:
 		solid = CollisionPolygon2D.new()
 		solid.name = "Solid"
 		solid.build_mode = CollisionPolygon2D.BUILD_SOLIDS
-		area.add_child(solid)
+		add_child(solid)
 		solid.owner = self
 		print("Fallback: ", name, " creating solid")
 	
-	collision_layer = 16 # Ship exterior layer
-	collision_mask = 16 #ship exterior layer
-	area.collision_layer = 3 # ship interior
-	area.collision_mask = 3 # prob doesnt matter since it shouldnt be monitoring
-	area.monitoring = false
+	
+	walls.collision_layer = 16 # Ship exterior layer
+	walls.collision_mask = 16 #ship exterior layer
+	#collision_layer = 3 # ship interior
+	#collision_mask = 3 # prob doesnt matter since it shouldnt be monitoring
 	continuous_cd = RigidBody2D.CCD_MODE_CAST_RAY
 	
-	move_child.call_deferred(area, -1)
+	move_child.call_deferred(walls, -1)
 	
 	if islands.size() > 0:
 		solid.polygon = islands[0]
@@ -383,9 +392,9 @@ func update_colliders() -> void:
 		solid.polygon = PackedVector2Array()
 	
 	
-	area.input_pickable = true
-	if not area.input_event.is_connected(ground_input_event):
-		area.input_event.connect(ground_input_event)
+	input_pickable = true
+	if not input_event.is_connected(ground_input_event):
+		input_event.connect(ground_input_event)
 
 const HEX_WIDTH = 78
 const HEX_HEIGHT = 90
