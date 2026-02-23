@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" path="res://shipBuilding/ships/FACTION_PATROL.tscn" id="2_7k785"]
 [ext_resource type="PackedScene" uid="uid://c7h5fcycvrbqe" path="res://art/background/space_background.tscn" id="2_onbk5"]
 [ext_resource type="PackedScene" path="res://shipBuilding/ships/PIRATE_DESTROYER.tscn" id="3_j7g30"]
-[ext_resource type="PackedScene" uid="uid://ckcu1maqciewr" path="res://shipBuilding/ships/PIRATE_FRIGATE.tscn" id="4_ceqo7"]
+[ext_resource type="PackedScene" path="res://shipBuilding/ships/PIRATE_FRIGATE.tscn" id="4_ceqo7"]
 [ext_resource type="PackedScene" uid="uid://choyif0n5w2jj" path="res://encounter/encounters/__DEMO_LOCATION/debris_field.tscn" id="5_smosv"]
 [ext_resource type="PackedScene" uid="uid://b5hikq1i2xtpw" path="res://shipBuilding/ships/player_ship.tscn" id="6_h1xkd"]
 
@@ -17,13 +17,6 @@ layer = -2
 [node name="SpaceBackground" parent="Background" unique_id=1650344788 instance=ExtResource("2_onbk5")]
 
 [node name="ships" type="Node" parent="." unique_id=118378702]
-
-[node name="FACTION_PATROL" parent="ships" unique_id=1784127879 node_paths=PackedStringArray("power_links") instance=ExtResource("2_7k785")]
-position = Vector2(-48, -2003)
-power_links = {
-NodePath("Reactor_4/OutputHex/OutClickArea"): NodePath("Shields_3/InputHex3/InClickArea"),
-null: null
-}
 
 [node name="pirates" type="Node" parent="ships" unique_id=961397819]
 
@@ -53,6 +46,9 @@ position = Vector2(808, 3460)
 power_links = {
 null: null
 }
+
+[node name="FACTION_PATROL" parent="ships" unique_id=1784127879 instance=ExtResource("2_7k785")]
+position = Vector2(251, -1354)
 
 [node name="Ship" parent="." unique_id=1431510437 node_paths=PackedStringArray("power_links") instance=ExtResource("6_h1xkd")]
 position = Vector2(-2669, -538)
