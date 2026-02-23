@@ -554,3 +554,166 @@ func get_push_rotation() -> float:
 	var rotation_sensitivity = 0.00005 
 	return total_torque * rotation_sensitivity
 #endregion
+
+#region merging
+var merge_target_ship: Ship = null
+var ghost_preview: Node2D = null
+const MAX_MERGE_DISTANCE: float = 600.0
+
+func _process(_delta: float) -> void:
+	# if not multiplayer auth: @Tapesh
+	#   clear_ghost_preview()
+	#   return
+	
+	var pushers = get_players_pushing()
+	
+	if pushers.is_empty():
+		clear_ghost_preview()
+		return
+		
+	merge_target_ship = find_nearest_ship()
+	
+	if merge_target_ship:
+		if not is_instance_valid(ghost_preview):
+			generate_ghost_preview()
+			
+		var snap_data = merge_target_ship.calculate_snap_data(self)
+		merge_target_ship.update_ghost_visuals(ghost_preview, snap_data)
+		
+		for p in pushers:
+			if Input.is_action_just_pressed("interact") and snap_data.is_valid:
+				merge_target_ship.apply_merged_rooms(self, snap_data)
+				clear_ghost_preview()
+				return
+	else:
+		clear_ghost_preview()
+
+func find_nearest_ship() -> Ship:
+	var out: Ship = null
+	var min_dist = MAX_MERGE_DISTANCE
+	
+	for s in get_parent().get_children():
+		if s is Ship and s != self:
+			var d = to_global(center_of_mass).distance_to(s.to_global(s.center_of_mass))
+			if d < min_dist:
+				min_dist = d
+				out = s
+				
+	return out
+
+func generate_ghost_preview() -> void:
+	ghost_preview = Node2D.new()
+	ghost_preview.name = "GhostPreview"
+	ghost_preview.z_index = 2
+	get_parent().add_child(ghost_preview)
+	
+	for child_node in get_children():
+		if child_node is Room:
+			var room_duplicate = child_node.duplicate()
+			ghost_preview.add_child(room_duplicate)
+			room_duplicate.position = child_node.position
+			room_duplicate.rotation = child_node.rotation
+			
+			for room_component in room_duplicate.get_children():
+				if not room_component is Sprite2D:
+					room_component.queue_free()
+
+func clear_ghost_preview() -> void:
+	if is_instance_valid(ghost_preview):
+		ghost_preview.queue_free()
+	merge_target_ship = null
+
+func calculate_offset_transform(pushed_ship: Ship, target_grid_cell: Vector2i, rotation_index_offset: int) -> Transform2D:
+	var target_global_position = grid_to_world(target_grid_cell)
+	var target_rotation = (rotation_index_offset * (PI / 3.0)) + global_rotation
+	
+	var pushed_grid = pushed_ship.get_node_or_null("HexGrid")
+	var pushed_origin_local = pushed_grid.map_to_local(Vector2i.ZERO) if pushed_grid else Vector2.ZERO
+	var pushed_origin_global = pushed_ship.to_global(pushed_origin_local)
+	
+	var origin_transform = Transform2D(pushed_ship.global_rotation, pushed_origin_global)
+	var destination_transform = Transform2D(target_rotation, target_global_position)
+	
+	return destination_transform * origin_transform.inverse()
+
+func calculate_snap_data(pushed_ship: Ship) -> Dictionary:
+	var relative_angle = pushed_ship.global_rotation - global_rotation
+	var rotation_index_offset = int(round(relative_angle / (PI / 3.0)))
+	
+	var pushed_grid = pushed_ship.get_node_or_null("HexGrid")
+	var pushed_origin_local = pushed_grid.map_to_local(Vector2i.ZERO) if pushed_grid else Vector2.ZERO
+	var pushed_origin_global = pushed_ship.to_global(pushed_origin_local)
+	
+	var starting_cell = world_to_grid(pushed_origin_global)
+	var closest_valid_cell = starting_cell
+	var is_placement_valid = false
+	var minimum_distance = INF
+	
+	var cells_to_visit = [starting_cell]
+	var cell_distances = {starting_cell: 0}
+	var optimal_transform = calculate_offset_transform(pushed_ship, starting_cell, rotation_index_offset)
+	
+	while cells_to_visit.size() > 0:
+		var current_cell = cells_to_visit.pop_front()
+		var current_distance_steps = cell_distances[current_cell]
+		var current_transform = calculate_offset_transform(pushed_ship, current_cell, rotation_index_offset)
+		
+		if is_transform_valid_for_merge(pushed_ship, current_transform, rotation_index_offset):
+			var cell_global_position = grid_to_world(current_cell)
+			var spatial_distance = cell_global_position.distance_squared_to(pushed_origin_global)
+			
+			if spatial_distance < minimum_distance:
+				minimum_distance = spatial_distance
+				closest_valid_cell = current_cell
+				optimal_transform = current_transform
+				is_placement_valid = true
+		
+		if current_distance_steps < 6:
+			for neighbor_cell in neighborhood_coords(current_cell):
+				if not cell_distances.has(neighbor_cell):
+					cell_distances[neighbor_cell] = current_distance_steps + 1
+					cells_to_visit.append(neighbor_cell)
+	
+	return {
+		"is_valid": is_placement_valid,
+		"optimal_transform": optimal_transform,
+		"rotation_index_offset": rotation_index_offset,
+		"pushed_ship_transform": pushed_ship.global_transform
+	}
+
+func is_transform_valid_for_merge(pushed_ship: Ship, offset_transform: Transform2D, rotation_index_offset: int) -> bool:
+	var projected_occupied_cells: Array[Vector2i] = []
+	
+	for room_node in pushed_ship.get_children():
+		if room_node is Room:
+			var projected_global_position = offset_transform * room_node.global_position
+			var target_room_cell = world_to_grid(projected_global_position)
+			var projected_rotation_index = posmod(room_node.rot_index + rotation_index_offset, 6)
+			
+			var room_required_cells = get_cells_for_room(room_node, target_room_cell, projected_rotation_index)
+			projected_occupied_cells.append_array(room_required_cells)
+			
+	return is_area_free(projected_occupied_cells) and is_adjacent_to_occupied(projected_occupied_cells)
+
+func update_ghost_visuals(ghost_container: Node2D, snap_data: Dictionary) -> void:
+	ghost_container.global_transform = snap_data.optimal_transform * snap_data.pushed_ship_transform
+	ghost_container.modulate = Color(0, 1, 0, 0.5) if snap_data.is_valid else Color(1, 0, 0, 0.5)
+
+func apply_merged_rooms(pushed_ship: Ship, snap_data: Dictionary) -> void:
+	for room_node in pushed_ship.get_children():
+		if room_node is Room:
+			var duplicate_room = room_node.duplicate()
+			add_child(duplicate_room)
+			
+			duplicate_room.global_transform = snap_data.optimal_transform * room_node.global_transform
+			
+			var merged_cell = world_to_grid(duplicate_room.global_position)
+			var merged_rotation_index = posmod(room_node.rot_index + snap_data.rotation_index_offset, 6)
+			
+			add_room(duplicate_room, merged_cell, merged_rotation_index)
+			
+	update_colliders()
+	calc_center_of_mass()
+	check_hud()
+	pushed_ship.queue_free()
+#endregion
