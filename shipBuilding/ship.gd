@@ -379,7 +379,7 @@ func update_colliders() -> void:
 	
 	
 	walls.collision_layer = 16 # Ship exterior layer
-	walls.collision_mask = 16 #ship exterior layer
+	walls.collision_mask = 0#16 #ship exterior layer
 	#collision_layer = 3 # ship interior
 	#collision_mask = 3 # prob doesnt matter since it shouldnt be monitoring
 	continuous_cd = RigidBody2D.CCD_MODE_CAST_RAY
@@ -581,6 +581,10 @@ func _process(_delta: float) -> void:
 		clear_ghost_preview()
 		return
 		
+	if process_room_detachment(pushers):
+		clear_ghost_preview()
+		return
+		
 	merge_target_ship = find_nearest_ship()
 	
 	if merge_target_ship:
@@ -726,4 +730,53 @@ func apply_merged_rooms(pushed_ship: Ship, snap_data: Dictionary) -> void:
 	calc_center_of_mass()
 	check_hud()
 	pushed_ship.queue_free()
+#endregion
+
+#region detaching
+const SHIP_PREFAB = preload("res://shipBuilding/prefabs/ship.tscn")
+
+func process_room_detachment(active_pushers: Array) -> bool:
+	for pusher in active_pushers:
+		if Input.is_action_just_pressed("detach"):
+			var projection_distance = 45.0
+			var contact_global_position = pusher.global_position + (pusher.push_dir * projection_distance)
+			var targeted_grid_cell = world_to_grid(contact_global_position)
+			var targeted_room_node = occupied_cells.get(targeted_grid_cell)
+			
+			if targeted_room_node and get_total_room_count() > 1:
+				detach_room_to_new_ship(targeted_room_node, pusher.push_dir)
+				return true
+	return false
+
+func get_total_room_count() -> int:
+	var total_rooms = 0
+	for child_node in get_children():
+		if child_node is Room:
+			total_rooms += 1
+	return total_rooms
+
+func detach_room_to_new_ship(target_room: Room, push_direction: Vector2) -> void:
+	var detached_ship_instance = SHIP_PREFAB.instantiate()
+	get_parent().add_child(detached_ship_instance)
+	
+	var separation_offset = push_direction * 25.0
+	var separation_velocity = push_direction * 350.0
+	
+	detached_ship_instance.global_transform = global_transform
+	detached_ship_instance.global_position += separation_offset
+	detached_ship_instance.linear_velocity = linear_velocity + separation_velocity
+	detached_ship_instance.angular_velocity = angular_velocity
+	
+	var original_grid_pos = target_room.grid_pos
+	var original_rot_index = target_room.rot_index
+	remove_room(target_room)
+	detached_ship_instance.add_room(target_room, original_grid_pos, original_rot_index)
+	
+	update_colliders()
+	calc_center_of_mass()
+	check_hud()
+	
+	detached_ship_instance.update_colliders()
+	detached_ship_instance.calc_center_of_mass()
+	detached_ship_instance.check_hud()
 #endregion

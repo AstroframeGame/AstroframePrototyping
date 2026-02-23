@@ -11,8 +11,8 @@ const ship_prefab = preload("res://shipBuilding/prefabs/ship.tscn")
 
 func _ready() -> void:
 	$"../UI/Options/HBoxContainer/Save/Savetscn".pressed.connect(save_tscn)
-	$"../UI/Options/HBoxContainer/Save/Savejson".pressed.connect(load_tscn)
-	$"../UI/Options/HBoxContainer/Load/Loadtscn".pressed.connect(save_json)
+	$"../UI/Options/HBoxContainer/Save/Savejson".pressed.connect(save_json)
+	$"../UI/Options/HBoxContainer/Load/Loadtscn".pressed.connect(load_tscn)
 	$"../UI/Options/HBoxContainer/Load/Loadjson".pressed.connect(load_json)
 
 func _unhandled_input(event: InputEvent) -> void:
