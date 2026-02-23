@@ -265,6 +265,14 @@ func add_room(room: Room, cell: Vector2i, rot_index: int) -> void:
 	var cells = get_cells_for_room(room, cell, rot_index)
 	for c in cells:
 		occupied_cells[c] = room
+		
+	# add power links
+	for hex in room.get_in_hexes():
+		if not hex.on_clicked.is_connected(room.ship.toggle_power):
+			hex.on_clicked.connect(room.ship.toggle_power)
+		hex.update_state()
+	for hex in room.get_out_hexes():
+		hex.update_state()
 	
 	room.get_node("Roof").visible = not my_character_inside()
 
@@ -324,7 +332,6 @@ func update_colliders() -> void:
 	
 	var wall_thickness = 8.0
 	
-	print(islands[0])
 	for island in islands:
 		for i in range(island.size()):
 			var p1 = island[i]
@@ -412,9 +419,9 @@ func get_avalible_power_out() -> Array[PowerOutHex]:
 func toggle_power(power_hex):
 	if not my_character_inside():
 		return
-	if power_hex is PowerOutHex && power_hex.is_powering:
-		# turn off power
-		remove_power_link_out(power_hex)
+	#if power_hex is PowerOutHex && power_hex.is_powering:
+		## turn off power
+		#remove_power_link_out(power_hex)
 	if power_hex is PowerInHex:
 		if power_hex.is_powered:
 			# turn off power
@@ -435,8 +442,8 @@ func add_power_link(power_out : PowerOutHex, power_in : PowerInHex):
 	if power_out.is_powering or power_in.is_powered:
 		return false
 	power_links[power_out] = power_in
-	power_out.update_state(true)
-	power_in.update_state(true)
+	power_out.update_state()
+	power_in.update_state()
 	power_in.room.on_power_level_change.emit(power_in)
 	return true
 
@@ -444,8 +451,8 @@ func remove_power_link_in(power_in : PowerInHex):
 	var power_out = power_links.find_key(power_in)
 	if power_out != null:
 		power_links.erase(power_out)
-		power_out.update_state(false)
-		power_in.update_state(false)
+		power_out.update_state()
+		power_in.update_state()
 		power_in.room.on_power_level_change.emit(power_in)
 		return true
 	return false
@@ -454,8 +461,8 @@ func remove_power_link_out(power_out : PowerOutHex):
 	if power_out != null && power_links.has(power_out):
 		var power_in = power_links[power_out]
 		power_links.erase(power_out)
-		power_out.update_state(false)
-		power_in.update_state(false)
+		power_out.update_state()
+		power_in.update_state()
 		power_in.room.on_power_level_change.emit(power_in)
 		return true
 	return false
