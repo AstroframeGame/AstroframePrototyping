@@ -21,6 +21,10 @@ config/features=PackedStringArray("4.6", "Forward Plus")
 boot_splash/show_image=false
 config/icon="uid://w2speowsgqcy"
 
+[audio]
+
+buses/default_bus_layout="uid://bphrbajom7ywo"
+
 [autoload]
 
 CursorManager="*uid://csw11jb8ee5on"
@@ -33,6 +37,8 @@ MusicManager="*uid://b7tv0wcrra483"
 
 [display]
 
+window/size/viewport_width=1280
+window/size/viewport_height=720
 window/stretch/mode="viewport"
 
 [editor_plugins]
