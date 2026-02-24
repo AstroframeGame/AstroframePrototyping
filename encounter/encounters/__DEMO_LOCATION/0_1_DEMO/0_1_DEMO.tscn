@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://cr6brw3ygqp2" path="res://encounter/encounters/__DEMO_LOCATION/debris_field.tscn" id="5_smosv"]
 [ext_resource type="PackedScene" path="res://shipBuilding/ships/player_ship.tscn" id="6_h1xkd"]
 [ext_resource type="Script" uid="uid://b0hi7cnj2u5p6" path="res://encounter/encounters/__DEMO_LOCATION/debris_field.gd" id="8_akvn3"]
+[ext_resource type="Script" uid="uid://coswak26beue6" path="res://encounter/encounters/__DEMO_LOCATION/0_1_DEMO/poi_marker.gd" id="9_76my7"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_akvn3"]
 vertices = PackedVector2Array(15042.953, 15250.023, -15286, 15315.969, -15286, -15079, 14910.039, -15079)
@@ -63,5 +64,23 @@ position = Vector2(272, 3295)
 
 [node name="PlayerSpawn" type="Marker2D" parent="." unique_id=1591518801]
 position = Vector2(-2740, -315)
+
+[node name="temp HUD" type="CanvasLayer" parent="." unique_id=1470133338]
+
+[node name="faction_ship_marker" type="Polygon2D" parent="temp HUD" unique_id=1654820679 node_paths=PackedStringArray("target")]
+position = Vector2(-2688, -331)
+scale = Vector2(3, 3)
+color = Color(0, 1, 0.21568628, 1)
+polygon = PackedVector2Array(0, 3, 3, 0, 0, -3, -3, 0)
+script = ExtResource("9_76my7")
+target = NodePath("../../ships/FACTION_PATROL")
+
+[node name="pirate_ship_marker" type="Polygon2D" parent="temp HUD" unique_id=1814700100 node_paths=PackedStringArray("target")]
+position = Vector2(-10752, -1324)
+scale = Vector2(3, 3)
+color = Color(1, 0, 0, 1)
+polygon = PackedVector2Array(0, 3, 3, 0, 0, -3, -3, 0)
+script = ExtResource("9_76my7")
+target = NodePath("../../ships/pirates/PIRATE_DESTROYER")
 
 [connection signal="trigger_dialogue" from="." to="." method="start_dialogue"]
