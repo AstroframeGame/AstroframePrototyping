@@ -214,12 +214,12 @@ offset_right = 8.0
 offset_bottom = 8.0
 text = "Back"
 
-[node name="Options" type="CanvasLayer" parent="UI" unique_id=1322932418]
+[node name="Settings" type="CanvasLayer" parent="UI" unique_id=1322932418]
 visible = false
 
-[node name="SettingsMenu" parent="UI/Options" unique_id=1472990964 instance=ExtResource("15_qui64")]
+[node name="SettingsMenu" parent="UI/Settings" unique_id=1472990964 instance=ExtResource("15_qui64")]
 
-[node name="Back" type="Button" parent="UI/Options" unique_id=1581757141]
+[node name="Back" type="Button" parent="UI/Settings" unique_id=1581757141]
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -248,6 +248,7 @@ text = "fps"
 script = ExtResource("3_6ebxt")
 
 [node name="AssetLoadProgress" type="TextureProgressBar" parent="Profiling" unique_id=2072545746]
+visible = false
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -268,9 +269,9 @@ environment = SubResource("Environment_21dlm")
 [connection signal="pressed" from="UI/Main/Socials/Github" to="UI/Main/Socials" method="github"]
 [connection signal="pressed" from="UI/Main/Socials/Discord" to="UI/Main/Socials" method="discord"]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Editor" to="GameManager" method="open_ship_editor"]
-[connection signal="pressed" from="UI/Main/VBoxContainer/Options" to="UI" method="open_menu" binds= [&"Options"]]
+[connection signal="pressed" from="UI/Main/VBoxContainer/Settings" to="GameManager" method="_on_settings_pressed"]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Credits" to="UI" method="open_menu" binds= [&"Credits"]]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Quit" to="GameManager" method="quit_application"]
 [connection signal="pressed" from="UI/Game/Exit" to="GameManager" method="quit_to_list"]
 [connection signal="pressed" from="UI/Credits/Back" to="UI" method="menu_back"]
-[connection signal="pressed" from="UI/Options/Back" to="UI" method="menu_back"]
+[connection signal="pressed" from="UI/Settings/Back" to="GameManager" method="menu_back"]

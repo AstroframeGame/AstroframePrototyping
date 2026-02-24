@@ -51,9 +51,9 @@ selected = 3
 allow_reselect = true
 item_count = 5
 popup/item_0/text = "3840x2160"
-popup/item_0/id = 1
+popup/item_0/id = 0
 popup/item_1/text = "2560x1440"
-popup/item_1/id = 0
+popup/item_1/id = 1
 popup/item_2/text = "1920x1080"
 popup/item_2/id = 2
 popup/item_3/text = "1280x720"
@@ -77,6 +77,30 @@ icon = SubResource("ViewportTexture_8fw5y")
 layout_mode = 2
 text = "Accessibility"
 label_settings = SubResource("LabelSettings_0s764")
+
+[node name="ColorblindFilter" type="Label" parent="SettingsTabs/Video/VBoxContainer" unique_id=1039094355]
+layout_mode = 2
+text = "Colorblind Filter:"
+
+[node name="ResolutonOptions" type="OptionButton" parent="SettingsTabs/Video/VBoxContainer/ColorblindFilter" unique_id=1201157121]
+layout_mode = 0
+offset_left = 141.0
+offset_top = -4.0
+offset_right = 280.0
+offset_bottom = 26.0
+selected = 0
+allow_reselect = true
+item_count = 5
+popup/item_0/text = "Off"
+popup/item_0/id = 0
+popup/item_1/text = "Deuteranopia"
+popup/item_1/id = 1
+popup/item_2/text = "Protanopia"
+popup/item_2/id = 2
+popup/item_3/text = "Tritanopia"
+popup/item_3/id = 3
+popup/item_4/text = "Grayscale "
+popup/item_4/id = 4
 
 [node name="Controls" type="ScrollContainer" parent="SettingsTabs" unique_id=1584863402]
 visible = false

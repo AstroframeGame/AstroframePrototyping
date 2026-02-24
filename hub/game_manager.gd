@@ -52,3 +52,13 @@ func quit_application():
 	get_tree().quit()
 
 @onready var dialogue_runner: DialougeRunner = $"../UI/Game/DialogueRunner"
+
+
+func _on_settings_pressed() -> void:
+	menus.open_menu("Settings")
+
+# TODO
+# if playing, return to gameplay
+# if in main menu, back to main
+func menu_back():
+	menus.open_menu("Main")
