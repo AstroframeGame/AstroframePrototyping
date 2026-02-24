@@ -234,6 +234,7 @@ text = "fps"
 script = ExtResource("3_6ebxt")
 
 [node name="AssetLoadProgress" type="TextureProgressBar" parent="Profiling" unique_id=2072545746]
+visible = false
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
