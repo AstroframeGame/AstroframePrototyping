@@ -21,12 +21,6 @@ func _ready() -> void:
 	mode_dropdown.item_selected.connect(_on_mode_selected)
 	ship.room_clicked.connect(_on_ship_room_clicked)
 	undo.max_steps = 10
-	
-	for child in ship.get_children():
-		if child is Room:
-			var cell = ship.world_to_grid(child.global_position)
-			var rot = int(round(child.rotation / (PI / 3.0)))
-			ship.add_room(child, cell, rot)
 	on_room_add.emit()
 
 func _process(_delta: float) -> void:

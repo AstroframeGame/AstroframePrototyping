@@ -158,10 +158,14 @@ func polygon_rect(c : CollisionPolygon2D):
 #endregion
 
 #region Grid and Cell functions
-func update_occupied_cells()->void:
+func update_occupied_cells() -> void:
+	occupied_cells.clear()
 	for room in get_children():
 		if room is Room:
 			add_room(room, room.grid_pos, room.rot_index)
+			#var cells = get_cells_for_room(room, room.grid_pos, room.rot_index)
+			#for c in cells:
+				#occupied_cells[c] = room
 
 func world_to_grid(world_pos: Vector2) -> Vector2i:
 	return grid.local_to_map(to_local(world_pos))
@@ -184,7 +188,8 @@ func get_cells_for_room(room: Node, center_cell: Vector2i, rot_index: int) -> Ar
 		if child is Sprite2D:
 			var rotated_offset = child.position.rotated(angle)
 			var target_cell = grid.local_to_map(grid.to_local(to_global(center_local + rotated_offset)))
-			cells.append(target_cell)
+			if not target_cell in cells:
+				cells.append(target_cell)
 	return cells
 	
 func neighborhood_coords(cell: Vector2i) -> Array[Vector2i]:
@@ -230,11 +235,11 @@ func is_adjacent_to_occupied(cells: Array[Vector2i]) -> bool:
 #region Add and Remove Room
 
 func add_room(room: Room, cell: Vector2i, rot_index: int) -> void:
+	room.position = to_local(grid_to_world(cell))
+	room.rotation = rot_index * PI / 3.0
+	
 	if room.get_parent() != self:
 		add_child(room)
-	
-	room.global_position = grid_to_world(cell)
-	room.rotation = rot_index * PI / 3.0
 	
 	var cells = get_cells_for_room(room, cell, rot_index)
 	for c in cells:
