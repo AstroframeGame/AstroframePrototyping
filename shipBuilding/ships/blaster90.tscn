@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://6legu8m3wxlh"]
+
+[ext_resource type="Script" uid="uid://bsurseo1hgudf" path="res://shipBuilding/ship.gd" id="1_km5tp"]
+[ext_resource type="PackedScene" uid="uid://c2n7netp00xn6" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_r30uf"]
+[ext_resource type="PackedScene" uid="uid://cebf4gqkt7jib" path="res://shipBuilding/rooms/engines_2.tscn" id="5_m7mge"]
+[ext_resource type="PackedScene" uid="uid://dir8uoqft75m0" path="res://shipBuilding/rooms/airlock_1.tscn" id="7_kmq81"]
+[ext_resource type="PackedScene" uid="uid://cplmkay6ecshy" path="res://shipBuilding/rooms/reactor_4.tscn" id="9_yu8xd"]
+[ext_resource type="PackedScene" uid="uid://daycij2kxk7dj" path="res://shipBuilding/rooms/turret_3.tscn" id="11_d2340"]
+[ext_resource type="PackedScene" uid="uid://dffynorp3oc0l" path="res://shipBuilding/rooms/shields_3.tscn" id="13_2yqy7"]
+[ext_resource type="PackedScene" uid="uid://c80teck1ccmdv" path="res://shipBuilding/rooms/reactor_2.tscn" id="15_0oqwj"]
+[ext_resource type="PackedScene" uid="uid://bmfrsjjfduwqn" path="res://shipBuilding/rooms/cannon.tscn" id="16_sxfcq"]
+[ext_resource type="PackedScene" uid="uid://daae3tloj435m" path="res://shipAI/prefabs/hud.tscn" id="18_fhyhx"]
+[ext_resource type="PackedScene" uid="uid://qteo7ksf47a4" path="res://shipBuilding/rooms/piloting_1.tscn" id="18_gwv0o"]
+
+[sub_resource type="TileSet" id="TileSet_xsh4c"]
+tile_shape = 3
+tile_size = Vector2i(78, 90)
+
+[node name="_RigidBody2D_77" type="RigidBody2D" unique_id=1442409601 node_paths=PackedStringArray("hud")]
+z_index = 1
+input_pickable = true
+gravity_scale = 0.0
+continuous_cd = 1
+script = ExtResource("1_km5tp")
+max_hit_points = 1
+_hit_points = 1
+hud = NodePath("ShipHUD")
+
+[node name="HexGrid" parent="." unique_id=1277847278 instance=ExtResource("2_r30uf")]
+tile_set = SubResource("TileSet_xsh4c")
+
+[node name="Solid" type="CollisionPolygon2D" parent="." unique_id=1406008115]
+
+[node name="ShipHUD" parent="." unique_id=532014552 instance=ExtResource("18_fhyhx")]
+
+[node name="Engines_2" parent="." unique_id=1685651061 instance=ExtResource("5_m7mge")]
+position = Vector2(39, 180)
+
+[node name="_Node2D_76" parent="." unique_id=1057745376 instance=ExtResource("5_m7mge")]
+position = Vector2(195, 180)
+
+[node name="Airlock_1" parent="." unique_id=2084884563 instance=ExtResource("7_kmq81")]
+position = Vector2(0, 112.5)
+
+[node name="_Node2D_77" parent="." unique_id=473638297 instance=ExtResource("7_kmq81")]
+position = Vector2(312, 112.5)
+
+[node name="Reactor_4" parent="." unique_id=542255097 instance=ExtResource("9_yu8xd")]
+position = Vector2(78, 112.5)
+
+[node name="_Node2D_78" parent="." unique_id=1677026165 instance=ExtResource("9_yu8xd")]
+position = Vector2(234, 112.5)
+
+[node name="_Node2D_79" parent="." unique_id=868786300 instance=ExtResource("7_kmq81")]
+position = Vector2(156, 112.5)
+
+[node name="_Node2D_80" parent="." unique_id=804253616 instance=ExtResource("7_kmq81")]
+position = Vector2(156, -22.5)
+
+[node name="Turret_3" parent="." unique_id=1336280051 instance=ExtResource("11_d2340")]
+position = Vector2(-39, -90)
+rotation = 2.0943952
+
+[node name="_Node2D_81" parent="." unique_id=2085421611 instance=ExtResource("11_d2340")]
+position = Vector2(351, -90)
+rotation = 4.1887903
+
+[node name="Shields_3" parent="." unique_id=1633765650 instance=ExtResource("13_2yqy7")]
+position = Vector2(195, -90)
+rotation = 5.2359877
+
+[node name="Reactor_2" parent="." unique_id=675120185 instance=ExtResource("15_0oqwj")]
+position = Vector2(0, -157.5)
+
+[node name="Cannon" parent="." unique_id=195129740 instance=ExtResource("16_sxfcq")]
+position = Vector2(39, -225)
+
+[node name="_Node2D_82" parent="." unique_id=934659440 instance=ExtResource("16_sxfcq")]
+position = Vector2(195, -225)
+
+[node name="_Node2D_83" parent="." unique_id=1024379236 instance=ExtResource("7_kmq81")]
+position = Vector2(312, -157.5)
+rotation = 4.1887903
+
+[node name="Piloting_1" parent="." unique_id=150588005 instance=ExtResource("18_gwv0o")]
+position = Vector2(234, -157.5)
+
+[node name="Walls" type="StaticBody2D" parent="." unique_id=750208207]
+collision_layer = 16
+collision_mask = 0

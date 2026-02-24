@@ -38,6 +38,9 @@ func new_game():
 func load_game():
 	pass
 
+func open_ship_editor():
+	load_scene("res://shipBuilding/ship_building.tscn")
+
 func quit_to_list():
 	game_quit.emit()
 	if current_scene:
