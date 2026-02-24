@@ -3,13 +3,22 @@
 [ext_resource type="Script" uid="uid://ci51s5x2ase5i" path="res://encounter/encounters/__DEMO_LOCATION/0_1_DEMO/0_1_DEMO.gd" id="1_3qilk"]
 [ext_resource type="PackedScene" path="res://shipBuilding/ships/FACTION_PATROL.tscn" id="2_7k785"]
 [ext_resource type="PackedScene" uid="uid://c7h5fcycvrbqe" path="res://art/background/space_background.tscn" id="2_onbk5"]
-[ext_resource type="PackedScene" path="res://shipBuilding/ships/PIRATE_DESTROYER.tscn" id="3_j7g30"]
-[ext_resource type="PackedScene" path="res://shipBuilding/ships/PIRATE_FRIGATE.tscn" id="4_ceqo7"]
+[ext_resource type="PackedScene" uid="uid://d15dt0hlcdb22" path="res://shipBuilding/ships/PIRATE_DESTROYER.tscn" id="3_j7g30"]
+[ext_resource type="PackedScene" uid="uid://biexdduqulqnx" path="res://shipBuilding/ships/wasp.tscn" id="5_76my7"]
 [ext_resource type="PackedScene" uid="uid://choyif0n5w2jj" path="res://encounter/encounters/__DEMO_LOCATION/debris_field.tscn" id="5_smosv"]
-[ext_resource type="PackedScene" uid="uid://b5hikq1i2xtpw" path="res://shipBuilding/ships/player_ship.tscn" id="6_h1xkd"]
+[ext_resource type="PackedScene" uid="uid://bwhyf4o6fe3p3" path="res://shipBuilding/ships/player_ship.tscn" id="6_h1xkd"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_akvn3"]
+vertices = PackedVector2Array(15042.953, 15250.023, -15286, 15315.969, -15286, -15079, 14910.039, -15079)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-15296, -15089, 14920, -15089, 15053, 15260, -15296, 15326)])
 
 [node name="demo_encounter" type="Node2D" unique_id=850323789]
 script = ExtResource("1_3qilk")
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=1181661449]
+visible = false
+navigation_polygon = SubResource("NavigationPolygon_akvn3")
 
 [node name="Background" type="CanvasLayer" parent="." unique_id=1933024674]
 layer = -2
@@ -20,34 +29,19 @@ layer = -2
 
 [node name="pirates" type="Node" parent="ships" unique_id=961397819]
 
-[node name="PIRATE_DESTROYER" parent="ships/pirates" unique_id=672885674 node_paths=PackedStringArray("power_links") instance=ExtResource("3_j7g30")]
+[node name="PIRATE_DESTROYER" parent="ships/pirates" unique_id=672885674 instance=ExtResource("3_j7g30")]
 position = Vector2(141, 2844)
-power_links = {
-NodePath("Reactor_4/OutputHex2/OutClickArea"): NodePath("Engines_2/InputHex/InClickArea"),
-NodePath("Reactor_4/OutputHex3/OutClickArea"): NodePath("Turret_3/InputHex/InClickArea"),
-NodePath("Reactor_4/OutputHex/OutClickArea"): NodePath("Shields_3/InputHex3/InClickArea"),
-null: null
-}
 
-[node name="PIRATE_FRIGATE" parent="ships/pirates" unique_id=596346317 node_paths=PackedStringArray("power_links") instance=ExtResource("4_ceqo7")]
-position = Vector2(-606, 3388)
-power_links = {
-null: null
-}
+[node name="PIRATE_FRIGATE" parent="ships/pirates" unique_id=1784127879 instance=ExtResource("5_76my7")]
+position = Vector2(-1096, 3618)
 
-[node name="PIRATE_FRIGATE2" parent="ships/pirates" unique_id=585482569 node_paths=PackedStringArray("power_links") instance=ExtResource("4_ceqo7")]
-position = Vector2(104, 3683)
-power_links = {
-null: null
-}
+[node name="PIRATE_FRIGATE2" parent="ships/pirates" unique_id=1370265863 instance=ExtResource("5_76my7")]
+position = Vector2(351, 4664)
 
-[node name="PIRATE_FRIGATE3" parent="ships/pirates" unique_id=399402073 node_paths=PackedStringArray("power_links") instance=ExtResource("4_ceqo7")]
-position = Vector2(808, 3460)
-power_links = {
-null: null
-}
+[node name="PIRATE_FRIGATE3" parent="ships/pirates" unique_id=576902333 instance=ExtResource("5_76my7")]
+position = Vector2(1674, 3446)
 
-[node name="FACTION_PATROL" parent="ships" unique_id=1784127879 instance=ExtResource("2_7k785")]
+[node name="FACTION_PATROL" parent="ships" unique_id=54830236 instance=ExtResource("2_7k785")]
 position = Vector2(251, -1354)
 
 [node name="Ship" parent="." unique_id=1431510437 node_paths=PackedStringArray("power_links") instance=ExtResource("6_h1xkd")]
