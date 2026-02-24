@@ -140,7 +140,7 @@ func move_ship(state: PhysicsDirectBodyState2D) -> void:
 	var delta : float = state.step
 
 	if engines and piloting:
-		var goal_vel = piloting.goal_velocity()
+		var goal_vel = piloting.get_goal_velocity(state.linear_velocity)
 		state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * state.inverse_mass * delta)
 	else:
 		apply_push_velocity(state)
