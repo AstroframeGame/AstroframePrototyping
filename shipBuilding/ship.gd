@@ -6,12 +6,23 @@ signal on_airlock_interaction(interactor : PlayerCharacter, is_inside : bool) # 
 signal ship_destroyed
 signal on_hit()
 
-const flight_deadzone = 0.05 #screen %
-const HEX_GRID_PREFAB = preload("res://shipBuilding/prefabs/hex_grid.tscn")
+const FLIGHT_DEADZONE = 0.05 #screen %
+const HEX_WIDTH = 78
+const HEX_HEIGHT = 90
 
-@onready var grid: TileMapLayer # set in update colliders
+const HEX_GRID_PREFAB = preload("res://shipBuilding/prefabs/hex_grid.tscn")
+const HUD = preload("res://shipAI/prefabs/hud.tscn")
+const SHIP_PREFAB = preload("res://shipBuilding/prefabs/ship.tscn")
+
+const MAX_MERGE_DISTANCE: float = 600.0
+
+var grid: TileMapLayer:
+	get:
+		return get_node("HexGrid")
 @export var hud : ShipHud = null
 
+var merge_target_ship: Ship = null
+var ghost_preview: Node2D = null
 var occupied_cells: Dictionary[Vector2i, Room] = {} # only calculated in ship_building
 @export var power_links : Dictionary[PowerOutHex, PowerInHex]
 
@@ -63,11 +74,6 @@ func get_piloting() -> Piloting:
 			if r.is_active():
 				return r
 	return null
-func get_pilot() -> PlayerCharacter:
-	var piloting :Piloting = get_piloting()
-	if piloting:
-		return piloting.seat.controlled_by
-	return null
 func get_cannons() -> Array[Cannon]:
 	var cannons : Array[Cannon]
 	for r in get_children():
@@ -79,11 +85,6 @@ func get_players_from_manager() -> Array[PlayerCharacter]:
 	if multiplayer_manager:
 		return multiplayer_manager.players
 	return []
-
-
-func handle_input(_event : InputEvent):
-	#print_debug("input ship", event)
-	pass
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	var engines :Engines = get_engines()
@@ -163,10 +164,10 @@ func update_occupied_cells()->void:
 			add_room(room, room.grid_pos, room.rot_index)
 
 func world_to_grid(world_pos: Vector2) -> Vector2i:
-	return $HexGrid.local_to_map(to_local(world_pos))
+	return grid.local_to_map(to_local(world_pos))
 	
 func grid_to_world(cell: Vector2i) -> Vector2:
-	return to_global($HexGrid.map_to_local(cell))
+	return to_global(grid.map_to_local(cell))
 
 func is_area_free(cells: Array[Vector2i]) -> bool:
 	for cell in cells:
@@ -176,13 +177,13 @@ func is_area_free(cells: Array[Vector2i]) -> bool:
 
 func get_cells_for_room(room: Node, center_cell: Vector2i, rot_index: int) -> Array[Vector2i]:
 	var cells: Array[Vector2i] = []
-	var center_local = $HexGrid.map_to_local(center_cell)
+	var center_local = grid.map_to_local(center_cell)
 	var angle = rot_index * PI / 3.0
 	
 	for child in room.get_children():
 		if child is Sprite2D:
 			var rotated_offset = child.position.rotated(angle)
-			var target_cell = $HexGrid.local_to_map($HexGrid.to_local(to_global(center_local + rotated_offset)))
+			var target_cell = grid.local_to_map(grid.to_local(to_global(center_local + rotated_offset)))
 			cells.append(target_cell)
 	return cells
 	
@@ -196,24 +197,19 @@ func neighborhood_coords(cell: Vector2i) -> Array[Vector2i]:
 
 func find_neighbors(room: Room) -> Array[Room]:
 	var neighbors : Array[Room] = []
-	grid = get_node("HexGrid")
 	for cell in get_cells_for_room(room, room.grid_pos, room.rot_index):
 		for coord in neighborhood_coords(cell):
 			if is_area_free([coord]):
-				#print("find_neighbors found empty neighbor")
 				continue
 			var _room = occupied_cells[coord]
 			if not _room in neighbors:
 				neighbors.append(_room)
-		#neighbors.erase(self)
-	#print(neighbors)
 	return neighbors
 
 func is_adjacent_to_occupied(cells: Array[Vector2i]) -> bool:
 	if occupied_cells.is_empty():
 		return true
 	
-	var grid_layer: TileMapLayer = $HexGrid
 	var pointy_sides = [
 		TileSet.CELL_NEIGHBOR_RIGHT_SIDE,
 		TileSet.CELL_NEIGHBOR_BOTTOM_RIGHT_SIDE,
@@ -225,7 +221,7 @@ func is_adjacent_to_occupied(cells: Array[Vector2i]) -> bool:
 	
 	for cell in cells:
 		for side in pointy_sides:
-			var neighbor = grid_layer.get_neighbor_cell(cell, side)
+			var neighbor = grid.get_neighbor_cell(cell, side)
 			if occupied_cells.has(neighbor):
 				return true
 	return false
@@ -255,6 +251,16 @@ func add_room(room: Room, cell: Vector2i, rot_index: int) -> void:
 	room.get_node("Roof").visible = not my_character_inside()
 
 func remove_room(room: Room) -> void:
+	# remove power links
+	for hex in room.get_in_hexes():
+		if hex in power_links.values():
+			remove_power_link_in(hex)
+		hex.update_state()
+	for hex in room.get_out_hexes():
+		if hex in power_links.keys():
+			remove_power_link_out(hex)
+		hex.update_state()
+	
 	var keys_to_erase = []
 	for cell in occupied_cells:
 		if occupied_cells[cell] == room:
@@ -373,8 +379,6 @@ func update_colliders() -> void:
 	if not input_event.is_connected(ground_input_event):
 		input_event.connect(ground_input_event)
 
-const HEX_WIDTH = 78
-const HEX_HEIGHT = 90
 
 func _get_hex_poly() -> PackedVector2Array:
 	var w = HEX_WIDTH
@@ -456,7 +460,6 @@ func remove_power_link_out(power_out : PowerOutHex):
 #endregion
 
 #region Health
-const HUD = preload("res://shipAI/prefabs/hud.tscn")
 func check_hud():
 	for child in get_children():
 		if child is Room:
@@ -532,7 +535,7 @@ func apply_push_rotation(state : PhysicsDirectBodyState2D) -> void:
 		return
 	var total_rot_input = 0.0
 	for p in players:
-		var look_dir = InputHelper.mouse_center_offset_deadzone(flight_deadzone)
+		var look_dir = InputHelper.mouse_center_offset_deadzone(FLIGHT_DEADZONE)
 		var rot_amount = look_dir.x * 0.01
 		if not InputHelper.using_mouse:
 			rot_amount = InputHelper.controller_look.x
@@ -543,9 +546,6 @@ func apply_push_rotation(state : PhysicsDirectBodyState2D) -> void:
 #endregion
 
 #region merging
-var merge_target_ship: Ship = null
-var ghost_preview: Node2D = null
-const MAX_MERGE_DISTANCE: float = 600.0
 
 func _process(_delta: float) -> void:
 	# if not multiplayer auth: @Tapesh
@@ -710,8 +710,6 @@ func apply_merged_rooms(pushed_ship: Ship, snap_data: Dictionary) -> void:
 #endregion
 
 #region detaching
-const SHIP_PREFAB = preload("res://shipBuilding/prefabs/ship.tscn")
-
 func process_room_detachment(active_pushers: Array) -> bool:
 	for pusher in active_pushers:
 		if Input.is_action_just_pressed("detach"):

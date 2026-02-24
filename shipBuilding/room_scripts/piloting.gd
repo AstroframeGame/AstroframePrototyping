@@ -8,7 +8,6 @@ func handle_input(event:InputEvent):
 	if event.is_action_pressed("ship_fire"): #See turret.gd for ACTUAL firing
 		shoot_all_cannons()
 		return
-	ship.handle_input(event) #MIGHT BE MOVED
 	
 
 func shoot_all_cannons():
@@ -48,6 +47,6 @@ func get_goal_angular_velocity() -> float:
 		
 	var rot_input = InputHelper.controller_look.x
 	if InputHelper.using_mouse:
-		rot_input = InputHelper.mouse_center_offset_deadzone(ship.flight_deadzone).x * 0.01
+		rot_input = InputHelper.mouse_center_offset_deadzone(ship.FLIGHT_DEADZONE).x * 0.01
 		
 	return rot_input * engines.get_rotational_thrust()
