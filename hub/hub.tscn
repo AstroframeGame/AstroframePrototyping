@@ -16,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://c856slvu6oqjm" path="res://hub/menu_icons/icons8-mute-64.png" id="11_wm4ra"]
 [ext_resource type="Script" path="res://hub/mute_button.gd" id="12_6jnk7"]
 [ext_resource type="Theme" uid="uid://d0o0krm245a4q" path="res://hub/ui-themes/unstyled.tres" id="13_h8dj6"]
+[ext_resource type="Texture2D" uid="uid://cjtj7xo6f6waa" path="res://shipBuilding/icons/torus.png" id="17_qui64"]
 
 [sub_resource type="Environment" id="Environment_21dlm"]
 background_mode = 3
@@ -127,6 +128,10 @@ grow_vertical = 2
 layout_mode = 2
 text = "Singleplayer"
 
+[node name="Editor" type="Button" parent="UI/Main/VBoxContainer" unique_id=1870370267]
+layout_mode = 2
+text = "Ship Editor"
+
 [node name="Options" type="Button" parent="UI/Main/VBoxContainer" unique_id=884632170]
 layout_mode = 2
 text = "Options"
@@ -217,6 +222,7 @@ text = "Back"
 [node name="Profiling" type="CanvasLayer" parent="." unique_id=1820677988]
 
 [node name="fps" type="Label" parent="Profiling" unique_id=1807193106]
+visible = false
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -227,12 +233,28 @@ theme = ExtResource("13_h8dj6")
 text = "fps"
 script = ExtResource("3_6ebxt")
 
+[node name="AssetLoadProgress" type="TextureProgressBar" parent="Profiling" unique_id=2072545746]
+visible = false
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -64.0
+offset_top = -64.0
+grow_horizontal = 0
+grow_vertical = 0
+value = 50.0
+nine_patch_stretch = true
+texture_progress = ExtResource("17_qui64")
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1798994774]
 environment = SubResource("Environment_21dlm")
 
 [connection signal="pressed" from="UI/Main/Socials/Ships" to="UI/Main/Socials" method="ships_folder"]
 [connection signal="pressed" from="UI/Main/Socials/Github" to="UI/Main/Socials" method="github"]
 [connection signal="pressed" from="UI/Main/Socials/Discord" to="UI/Main/Socials" method="discord"]
+[connection signal="pressed" from="UI/Main/VBoxContainer/Editor" to="GameManager" method="open_ship_editor"]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Options" to="UI" method="open_menu" binds= [&"Options"]]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Credits" to="UI" method="open_menu" binds= [&"Credits"]]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Quit" to="GameManager" method="quit_application"]

@@ -80,7 +80,11 @@ func _physics_process(delta):
 	
 	var direction = Input.get_vector("left", "right", "up", "down")
 	direction = direction.normalized().rotated(global_rotation)
-	pushing = ground_body != null and ground_body is Ship and ship == null and Input.is_action_pressed("ship_push")
+	if Input.is_action_just_pressed("ship_push"):
+		if pushing:
+			pushing = false
+		else:
+			pushing = ground_body != null and ground_body is Ship and ship == null
 	push_dir = direction
 	push_brake = Input.is_action_pressed("brake")
 	#print(ground_body != null , ground_body is Ship , ship == null , Input.is_action_pressed("ship_push"))
@@ -95,6 +99,7 @@ func _physics_process(delta):
 		#rotate(Input.get_axis("rotate_left","rotate_right") * rotate_speed * delta)
 		velocity = direction * walk_speed
 	else:
+		ground_body = null
 		var goal_vel = Vector2.ZERO
 		if Input.is_action_pressed("brake"):
 			velocity = velocity.move_toward(Vector2.ZERO, thrust_accel * delta)
@@ -156,6 +161,15 @@ func on_unground(_body : Node2D):
 	#print("on_unground ", _body)
 	if _body == ground_body:
 		ground_body = null
+
+# if you do not know if grounded (like after placing room)
+func fix_unsure_grounding():
+	ground_body = null
+	on_ship_exit()
+	for b in ground_check.get_overlapping_bodies():
+		on_ground(b)
+	for a in ground_check.get_overlapping_areas():
+		on_ground(a)
 
 # called when enter airlock
 func on_ship_enter(new_ship : Ship):

@@ -6,7 +6,7 @@
 [sub_resource type="Gradient" id="Gradient_lh252"]
 interpolation_mode = 1
 offsets = PackedFloat32Array(0, 0.70405984, 0.9326923)
-colors = PackedColorArray(0.05438584, 0.12341712, 0.2530221, 1, 0.086326994, 0.17684212, 0.34430212, 1, 0.14901961, 0.27450982, 0.50980395, 1)
+colors = PackedColorArray(0.058949098, 0.028505377, 0.14334852, 1, 0.09229449, 0.060880266, 0.1978313, 1, 0.15799984, 0.08679881, 0.29673854, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_rkfo6"]
 gradient = SubResource("Gradient_lh252")
@@ -18,6 +18,10 @@ shader_parameter/camera_offset = Vector2(0, 0)
 shader_parameter/camera_zoom = 1.0
 shader_parameter/camera_rotation = 0.0
 shader_parameter/noise_frequency = 0.002
+shader_parameter/star_density = 0.998
+shader_parameter/star_scale = 0.2
+shader_parameter/noise_parallax = 1.0
+shader_parameter/star_parallax = 0.2
 
 [node name="SpaceBackground" type="ColorRect" unique_id=1650344788]
 z_index = -10

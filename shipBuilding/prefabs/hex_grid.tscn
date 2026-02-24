@@ -1,8 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://c2n7netp00xn6"]
+[gd_scene format=3 uid="uid://c2n7netp00xn6"]
 
 [sub_resource type="TileSet" id="TileSet_xsh4c"]
 tile_shape = 3
 tile_size = Vector2i(78, 90)
 
-[node name="HexGrid" type="TileMapLayer"]
+[node name="HexGrid" type="TileMapLayer" unique_id=1427588940]
+enabled = false
 tile_set = SubResource("TileSet_xsh4c")
+collision_enabled = false
+navigation_enabled = false

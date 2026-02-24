@@ -28,6 +28,7 @@ func shoot(damage : int):
 	for shield in room.ship.get_active_shields():
 		if shield.visible:
 			proj.add_collision_exception_with(shield)
+	proj.add_collision_exception_with(room.ship.get_node("Walls"))
 	proj.owner_ship = room.ship
 	
 	for body in shield_check.get_overlapping_bodies():
