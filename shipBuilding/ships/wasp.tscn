@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://cxfdk3i3ew4wb"]
+[gd_scene format=3 uid="uid://biexdduqulqnx"]
 
 [ext_resource type="Script" uid="uid://dcajyqv0dixk3" path="res://shipAI/Scripts/wasp.gd" id="1_n4pt3"]
 [ext_resource type="PackedScene" uid="uid://c2n7netp00xn6" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_8tr5f"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://c80teck1ccmdv" path="res://shipBuilding/rooms/reactor_2.tscn" id="6_0m1te"]
 [ext_resource type="PackedScene" uid="uid://dir8uoqft75m0" path="res://shipBuilding/rooms/airlock_1.tscn" id="7_gcu0p"]
 [ext_resource type="PackedScene" uid="uid://daae3tloj435m" path="res://shipAI/prefabs/hud.tscn" id="8_6o2g8"]
+[ext_resource type="PackedScene" uid="uid://ssf2l4bt2vby" path="res://shipAI/prefabs/ship_ai_state_machine.tscn" id="9_qmdjo"]
 
 [sub_resource type="TileSet" id="TileSet_xsh4c"]
 tile_shape = 3
@@ -458,7 +459,7 @@ size = Vector2(45.136597, 8)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d74al"]
 size = Vector2(45.136597, 8)
 
-[node name="Wasp" type="RigidBody2D" unique_id=1784127879 node_paths=PackedStringArray("power_links", "hud") groups=["pirate_ship"]]
+[node name="Wasp" type="RigidBody2D" unique_id=1784127879 node_paths=PackedStringArray("hud") groups=["pirate_ship"]]
 z_index = 1
 collision_layer = 16
 collision_mask = 16
@@ -467,10 +468,6 @@ mass = 20.0
 gravity_scale = 0.0
 continuous_cd = 1
 script = ExtResource("1_n4pt3")
-power_links = {
-NodePath("Reactor_2(1)/OutputHex/OutClickArea"): NodePath("Engines_2/InputHex/InClickArea"),
-NodePath("Reactor_2(1)/OutputHex3/OutClickArea"): NodePath("Engines_2/InputHex2/InClickArea")
-}
 max_hit_points = 240
 _hit_points = 240
 hud = NodePath("HUD")
@@ -1444,11 +1441,21 @@ monitoring = false
 [node name="Solid" type="CollisionPolygon2D" parent="Ground" unique_id=372348846]
 polygon = PackedVector2Array(39.1, -180.05, 39.1, -135.04233, 78.021034, -112.595535, 117.02113, -135.1366, 156.07887, -112.58659, 156.05774, -67.45, 117.07881, -44.921173, 117.05774, 0.099983215, 78.1, 22.616562, 78.1, 67.55, 39, 90.1, 0, 67.60767, -39, 90.1, -78.1, 67.55, -78.1, 22.61657, -117.057755, 0.099983215, -117.07881, -44.921173, -156.05774, -67.450005, -156.07887, -112.58659, -117.021126, -135.1366, -78.02105, -112.595535, -39.1, -135.04233, -39.1, -180.05, 0, -202.6)
 
-[node name="RayCast2D" type="RayCast2D" parent="." unique_id=116497170]
-collision_mask = 4112
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="." unique_id=610273632]
+visible = false
+vertices = PackedVector2Array(1, -203, 155, -113, 156, -69, 77, 69, 41, 89, -40, 89, -80, 69, -158, -68, -155, -112)
+affect_navigation_mesh = true
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=934843504]
+avoidance_enabled = true
+radius = 160.0
+
+[node name="StateMachine" parent="." unique_id=1311461638 instance=ExtResource("9_qmdjo")]
 
 [connection signal="body_entered" from="DetectionRange" to="." method="_on_detection_range_body_entered"]
 [connection signal="body_exited" from="DetectionRange" to="." method="_on_detection_range_body_exited"]
+[connection signal="navigation_finished" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_navigation_finished"]
+[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]
 
 [editable path="Engines_2"]
 [editable path="Engines_2/InputHex"]
@@ -1462,3 +1469,4 @@ collision_mask = 4112
 [editable path="Reactor_2"]
 [editable path="Reactor_2/OutputHex"]
 [editable path="Reactor_2/OutputHex3"]
+[editable path="StateMachine"]
