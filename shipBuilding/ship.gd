@@ -5,6 +5,7 @@ signal room_clicked(room: Room, button_index: int)
 signal on_airlock_interaction(interactor : PlayerCharacter, is_inside : bool) # called from airlock
 signal ship_destroyed
 
+const flight_deadzone = 0.05 #screen %
 const HEX_GRID_PREFAB = preload("res://shipBuilding/prefabs/hex_grid.tscn")
 @onready var grid: TileMapLayer # set in update colliders
 var occupied_cells: Dictionary[Vector2i, Room] = {} # only calculated in ship_building
@@ -80,35 +81,20 @@ func handle_input(_event : InputEvent):
 	pass
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
-	rotate_ship(state)
-	move_ship(state)
-
-func move_ship(state: PhysicsDirectBodyState2D):
 	var engines :Engines = get_engines()
-	var pilot : PlayerCharacter = get_pilot()
-	var piloting : Piloting = get_piloting()
-	var delta = state.step
-	if not (engines and get_piloting() and pilot):
-		apply_push_velocity(state)
-		return
-	var goal_vel :Vector2 = piloting.get_goal_velocity(state.linear_velocity)
-	
-	if not piloting.is_idling():
-		state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * state.inverse_mass * delta)
-	else:
-		state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * state.inverse_mass * engines.drag_multiplier * delta)
-
-
-const flight_deadzone = 0.05 #screen %
-func rotate_ship(state: PhysicsDirectBodyState2D):
-	var engines: Engines = get_engines()
-	var pilot: PlayerCharacter = get_pilot()
 	var piloting : Piloting = get_piloting()
 	
-	if engines and pilot:
+	if engines and piloting:
 		state.angular_velocity = piloting.get_goal_angular_velocity()
+		var goal_vel :Vector2 = piloting.get_goal_velocity(state.linear_velocity)
+		var delta = state.step
+		if not piloting.is_idling():
+			state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * state.inverse_mass * delta)
+		else:
+			state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * state.inverse_mass * engines.drag_multiplier * delta)
 	else:
 		apply_push_rotation(state)
+		apply_push_velocity(state)
 
 func calc_center_of_mass():
 	var hex_mass = 2.0
