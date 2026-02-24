@@ -19,3 +19,4 @@ The prototyping for Astroframe in godot
 - <a target="_blank" href="https://icons8.com/icon/9976/mute">Mute</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
 - <a target="_blank" href="https://icons8.com/icon/9982/audio">Audio</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
 - <a target="_blank" href="https://icons8.com/icon/35066/wrench">Wrench</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+- <a target="_blank" href="https://icons8.com/icon/10767/triangle-arrow">Triangle Arrow</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
