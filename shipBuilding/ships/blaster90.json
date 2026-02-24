@@ -16,7 +16,7 @@
 				2
 			],
 			"id": "engines_2",
-			"name": "@Node2D@76",
+			"name": "_Node2D_76",
 			"rot_index": 0
 		},
 		{
@@ -34,7 +34,7 @@
 				1
 			],
 			"id": "airlock_1",
-			"name": "@Node2D@77",
+			"name": "_Node2D_77",
 			"rot_index": 0
 		},
 		{
@@ -52,7 +52,7 @@
 				1
 			],
 			"id": "reactor_4",
-			"name": "@Node2D@78",
+			"name": "_Node2D_78",
 			"rot_index": 0
 		},
 		{
@@ -61,7 +61,7 @@
 				1
 			],
 			"id": "airlock_1",
-			"name": "@Node2D@79",
+			"name": "_Node2D_79",
 			"rot_index": 0
 		},
 		{
@@ -70,7 +70,7 @@
 				-1
 			],
 			"id": "airlock_1",
-			"name": "@Node2D@80",
+			"name": "_Node2D_80",
 			"rot_index": 0
 		},
 		{
@@ -88,7 +88,7 @@
 				-2
 			],
 			"id": "turret_3",
-			"name": "@Node2D@81",
+			"name": "_Node2D_81",
 			"rot_index": 4
 		},
 		{
@@ -124,7 +124,7 @@
 				-4
 			],
 			"id": "cannon",
-			"name": "@Node2D@82",
+			"name": "_Node2D_82",
 			"rot_index": 0
 		},
 		{
@@ -133,7 +133,7 @@
 				-3
 			],
 			"id": "airlock_1",
-			"name": "@Node2D@83",
+			"name": "_Node2D_83",
 			"rot_index": 4
 		},
 		{

@@ -1,81 +1,94 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" uid="uid://bsurseo1hgudf" path="res://shipBuilding/ship.gd" id="1_0fyav"]
-[ext_resource type="PackedScene" uid="uid://c2n7netp00xn6" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_g6pe3"]
-[ext_resource type="PackedScene" uid="uid://cebf4gqkt7jib" path="res://shipBuilding/rooms/engines_2.tscn" id="3_tjpy8"]
-[ext_resource type="Script" uid="uid://vo6mtf68wgee" path="res://shipBuilding/room.gd" id="4_ha8g0"]
-[ext_resource type="PackedScene" uid="uid://dffynorp3oc0l" path="res://shipBuilding/rooms/shields_3.tscn" id="5_go421"]
-[ext_resource type="PackedScene" uid="uid://bmfrsjjfduwqn" path="res://shipBuilding/rooms/cannon.tscn" id="6_ullhp"]
-[ext_resource type="Script" uid="uid://cwoq3gu0md6vm" path="res://shipBuilding/room_scripts/cannon.gd" id="7_38arh"]
-[ext_resource type="PackedScene" uid="uid://cplmkay6ecshy" path="res://shipBuilding/rooms/reactor_4.tscn" id="8_ira3a"]
-[ext_resource type="PackedScene" uid="uid://8plbkd62xtgy" path="res://shipBuilding/rooms/hull_1.tscn" id="9_5jsne"]
-[ext_resource type="PackedScene" uid="uid://qteo7ksf47a4" path="res://shipBuilding/rooms/piloting_1.tscn" id="10_8bh23"]
+[ext_resource type="Script" path="res://shipBuilding/ship.gd" id="1_0fyav"]
+[ext_resource type="PackedScene" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_g6pe3"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/engines_2.tscn" id="3_tjpy8"]
+[ext_resource type="PackedScene" path="res://shipAI/prefabs/hud.tscn" id="3_ullhp"]
+[ext_resource type="Script" path="res://shipAI/Scripts/ship_hud.gd" id="4_38arh"]
+[ext_resource type="Script" path="res://shipBuilding/room.gd" id="4_ha8g0"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/shields_3.tscn" id="5_go421"]
+[ext_resource type="Script" path="res://shipBuilding/room_scripts/engines.gd" id="6_ira3a"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/cannon.tscn" id="6_ullhp"]
+[ext_resource type="Script" path="res://shipBuilding/room_scripts/cannon.gd" id="7_38arh"]
+[ext_resource type="Script" path="res://shipBuilding/room_scripts/shields.gd" id="8_5jsne"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/reactor_4.tscn" id="8_ira3a"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/hull_1.tscn" id="9_5jsne"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/piloting_1.tscn" id="10_8bh23"]
+[ext_resource type="Script" path="res://shipBuilding/room_scripts/piloting.gd" id="15_8bh23"]
 
 [sub_resource type="TileSet" id="TileSet_xsh4c"]
 tile_shape = 3
 tile_size = Vector2i(78, 90)
 
-[node name="Ship" type="RigidBody2D" unique_id=1784127879]
+[node name="simpleEnemy" type="RigidBody2D" unique_id=1442409601 node_paths=PackedStringArray("hud")]
+z_index = 1
+collision_mask = 257
 input_pickable = true
 gravity_scale = 0.0
-sleeping = true
+continuous_cd = 1
 script = ExtResource("1_0fyav")
+hud = NodePath("ShipHUD")
+max_hit_points = 1
+_hit_points = 1
 
-[node name="HexGrid" type="TileMapLayer" parent="." unique_id=1258279768 instance=ExtResource("2_g6pe3")]
+[node name="HexGrid" type="TileMapLayer" parent="." unique_id=1277847278 instance=ExtResource("2_g6pe3")]
+enabled = false
 tile_set = SubResource("TileSet_xsh4c")
+collision_enabled = false
+navigation_enabled = false
 
-[node name="Engines_2" type="CollisionPolygon2D" parent="." unique_id=623577633 instance=ExtResource("3_tjpy8")]
+[node name="Solid" type="CollisionPolygon2D" parent="." unique_id=622289065]
+
+[node name="ShipHUD" type="CanvasLayer" parent="." unique_id=532014552 instance=ExtResource("3_ullhp")]
+visible = false
+script = ExtResource("4_38arh")
+
+[node name="Engines_2" type="Node2D" parent="." unique_id=1685651061 instance=ExtResource("3_tjpy8")]
 position = Vector2(117, 180)
-polygon = PackedVector2Array(117.1, -22.550003, 117.1, 22.550003, 78, 45.1, 39, 22.607674, 0, 45.1, -39.1, 22.550003, -39.1, -22.550003, 0, -45.1, 39, -22.607674, 78, -45.1)
-script = ExtResource("4_ha8g0")
+script = ExtResource("6_ira3a")
 
-[node name="Shields_3" type="CollisionPolygon2D" parent="." unique_id=1966950406 instance=ExtResource("5_go421")]
+[node name="Shields_3" type="Node2D" parent="." unique_id=1633765650 instance=ExtResource("5_go421")]
 position = Vector2(273, 180)
-polygon = PackedVector2Array(78.1, -90.05, 78.1, -44.950005, 39.1, -22.457672, 39.1, 22.550003, 0, 45.1, -39.1, 22.550003, -39.1, -22.457672, -78.1, -44.950005, -78.1, -90.05, -39, -112.6, 0, -90.10767, 39, -112.6)
-script = ExtResource("4_ha8g0")
+script = ExtResource("8_5jsne")
 
-[node name="Cannon" type="CollisionPolygon2D" parent="." unique_id=1272635105 instance=ExtResource("6_ullhp")]
+[node name="Cannon" type="Node2D" parent="." unique_id=195129740 instance=ExtResource("6_ullhp")]
 position = Vector2(273, 45)
-polygon = PackedVector2Array(0.099998474, -90.05, 0.099998474, -45.04232, 39.1, -22.550003, 39.1, 22.550003, 0, 45.1, -39.1, 22.550003, -39.1, -22.457672, -78.1, -44.950005, -78.1, -90.05, -39, -112.6)
 script = ExtResource("7_38arh")
 
-[node name="@CollisionPolygon2D@135" type="CollisionPolygon2D" parent="." unique_id=761805299 instance=ExtResource("6_ullhp")]
+[node name="_CollisionPolygon2D_135" type="Node2D" parent="." unique_id=1521222669 instance=ExtResource("6_ullhp")]
 position = Vector2(39, 45)
 rotation = 1.0471976
-polygon = PackedVector2Array(0.099998474, -90.05, 0.099998474, -45.04232, 39.1, -22.550003, 39.1, 22.550003, 0, 45.1, -39.1, 22.550003, -39.1, -22.457672, -78.1, -44.950005, -78.1, -90.05, -39, -112.6)
 script = ExtResource("7_38arh")
 
-[node name="Reactor_4" type="CollisionPolygon2D" parent="." unique_id=291240447 instance=ExtResource("8_ira3a")]
+[node name="Reactor_4" type="Node2D" parent="." unique_id=542255097 instance=ExtResource("8_ira3a")]
 position = Vector2(195, 45)
 rotation = 4.1887903
-polygon = PackedVector2Array(39.1, -157.55, 39.1, -112.54232, 78.1, -90.05, 78.1, -44.950005, 39.1, -22.457672, 39.1, 22.550003, 0, 45.1, -39.1, 22.550003, -39.1, -22.457672, -78.1, -44.950005, -78.1, -90.05, -39.1, -112.54232, -39.1, -157.55, 0, -180.1)
 script = ExtResource("4_ha8g0")
 
-[node name="Hull_1" type="CollisionPolygon2D" parent="." unique_id=2127482155 instance=ExtResource("9_5jsne")]
+[node name="Hull_1" type="Node2D" parent="." unique_id=284853880 instance=ExtResource("9_5jsne")]
 position = Vector2(0, 112.5)
 rotation = 4.1887903
-polygon = PackedVector2Array(0, -45.1, 39.1, -22.55, 39.1, 22.55, 0, 45.1, -39.1, 22.55, -39.1, -22.55)
 script = ExtResource("4_ha8g0")
 
-[node name="@CollisionPolygon2D@136" type="CollisionPolygon2D" parent="." unique_id=785684796 instance=ExtResource("9_5jsne")]
+[node name="_CollisionPolygon2D_136" type="Node2D" parent="." unique_id=1245804201 instance=ExtResource("9_5jsne")]
 position = Vector2(39, 180)
 rotation = 4.1887903
-polygon = PackedVector2Array(0, -45.1, 39.1, -22.55, 39.1, 22.55, 0, 45.1, -39.1, 22.55, -39.1, -22.55)
 script = ExtResource("4_ha8g0")
 
-[node name="@CollisionPolygon2D@137" type="CollisionPolygon2D" parent="." unique_id=542725454 instance=ExtResource("9_5jsne")]
+[node name="_CollisionPolygon2D_137" type="Node2D" parent="." unique_id=641882382 instance=ExtResource("9_5jsne")]
 position = Vector2(117, -90)
 rotation = 4.1887903
-polygon = PackedVector2Array(0, -45.1, 39.1, -22.55, 39.1, 22.55, 0, 45.1, -39.1, 22.55, -39.1, -22.55)
 script = ExtResource("4_ha8g0")
 
-[node name="@CollisionPolygon2D@138" type="CollisionPolygon2D" parent="." unique_id=90650062 instance=ExtResource("9_5jsne")]
+[node name="_CollisionPolygon2D_138" type="Node2D" parent="." unique_id=396098167 instance=ExtResource("9_5jsne")]
 position = Vector2(195, -90)
 rotation = 4.1887903
-polygon = PackedVector2Array(0, -45.1, 39.1, -22.55, 39.1, 22.55, 0, 45.1, -39.1, 22.55, -39.1, -22.55)
 script = ExtResource("4_ha8g0")
 
-[node name="Piloting_1" type="CollisionPolygon2D" parent="." unique_id=966141484 instance=ExtResource("10_8bh23")]
+[node name="Piloting_1" type="Node2D" parent="." unique_id=150588005 instance=ExtResource("10_8bh23")]
 position = Vector2(156, -22.5)
-polygon = PackedVector2Array(0, -45.1, 39.1, -22.55, 39.1, 22.55, 0, 45.1, -39.1, 22.55, -39.1, -22.55)
-script = ExtResource("4_ha8g0")
+script = ExtResource("15_8bh23")
+
+[node name="Walls" type="StaticBody2D" parent="." unique_id=1106142830]
+collision_layer = 16
+collision_mask = 0
