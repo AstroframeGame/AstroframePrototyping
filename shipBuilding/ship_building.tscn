@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://duvfp0c112n5d" path="res://shipBuilding/level_editor/room_picker.gd" id="2_8axvm"]
 [ext_resource type="Theme" uid="uid://dj12nct3i1b1i" path="res://hub/ui-themes/header.tres" id="3_gbgp8"]
 [ext_resource type="Script" uid="uid://ckw7sol5r0pyt" path="res://shipBuilding/level_editor/ship_picker.gd" id="4_3b1i6"]
+[ext_resource type="Script" uid="uid://c27ia4wg58upb" path="res://shipBuilding/ship_meta_data_editor.gd" id="4_q8ivf"]
 [ext_resource type="PackedScene" uid="uid://b4ety2cv40p6l" path="res://shipBuilding/prefabs/ship.tscn" id="4_qoir8"]
 [ext_resource type="Script" uid="uid://dh4g6jyrhqp2w" path="res://shipBuilding/level_editor/editor_cam.gd" id="5_ujx4f"]
 [ext_resource type="Script" uid="uid://qknmsuin5gwv" path="res://shipBuilding/save_load.gd" id="7_q4pwh"]
@@ -100,10 +101,9 @@ anchor_bottom = 1.0
 offset_top = 89.0
 offset_right = 336.0
 grow_vertical = 2
-current_tab = 1
+current_tab = 0
 
 [node name="ShipPicker" type="ScrollContainer" parent="UI/TabContainer" unique_id=158398648]
-visible = false
 layout_mode = 2
 script = ExtResource("4_3b1i6")
 metadata/_tab_index = 0
@@ -118,7 +118,12 @@ theme = ExtResource("3_gbgp8")
 text = "Ships"
 horizontal_alignment = 1
 
+[node name="UpdateAll" type="Button" parent="UI/TabContainer/ShipPicker/VBoxContainer" unique_id=1040810274]
+layout_mode = 2
+text = "Update All"
+
 [node name="RoomPicker" type="ScrollContainer" parent="UI/TabContainer" unique_id=1570167957]
+visible = false
 layout_mode = 2
 script = ExtResource("2_8axvm")
 metadata/_tab_index = 1
@@ -136,6 +141,7 @@ horizontal_alignment = 1
 [node name="MetaData" type="ScrollContainer" parent="UI/TabContainer" unique_id=2080992148]
 visible = false
 layout_mode = 2
+script = ExtResource("4_q8ivf")
 metadata/_tab_index = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/TabContainer/MetaData" unique_id=2072311992]
@@ -160,18 +166,57 @@ custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 placeholder_text = "Ship Name"
 
+[node name="HBoxContainer4" type="HBoxContainer" parent="UI/TabContainer/MetaData/VBoxContainer" unique_id=826473756]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/TabContainer/MetaData/VBoxContainer/HBoxContainer4" unique_id=1819161881]
+layout_mode = 2
+text = "Show Exterior"
+
+[node name="CheckBox" type="CheckBox" parent="UI/TabContainer/MetaData/VBoxContainer/HBoxContainer4" unique_id=1070271660]
+layout_mode = 2
+
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/TabContainer/MetaData/VBoxContainer" unique_id=178939804]
 layout_mode = 2
 
 [node name="Label" type="Label" parent="UI/TabContainer/MetaData/VBoxContainer/HBoxContainer" unique_id=282690061]
 layout_mode = 2
-text = "Ship Color"
+text = "Custom Color"
+
+[node name="CheckBox" type="CheckBox" parent="UI/TabContainer/MetaData/VBoxContainer/HBoxContainer" unique_id=421396052]
+layout_mode = 2
 
 [node name="ColorPickerButton" type="ColorPickerButton" parent="UI/TabContainer/MetaData/VBoxContainer/HBoxContainer" unique_id=3370567]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 text = "Ship Color"
 color = Color(0.38762408, 0.7610512, 0.45739943, 1)
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="UI/TabContainer/MetaData/VBoxContainer" unique_id=1524202908]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/TabContainer/MetaData/VBoxContainer/HBoxContainer3" unique_id=1079147410]
+layout_mode = 2
+text = "Owner "
+
+[node name="OptionButton" type="OptionButton" parent="UI/TabContainer/MetaData/VBoxContainer/HBoxContainer3" unique_id=1828788729]
+layout_mode = 2
+selected = 0
+item_count = 7
+popup/item_0/text = "No Team"
+popup/item_0/id = 0
+popup/item_1/text = "KIGIB"
+popup/item_1/id = 1
+popup/item_2/text = "AURALA"
+popup/item_2/id = 2
+popup/item_3/text = "WIIQUA"
+popup/item_3/id = 3
+popup/item_4/text = "QAAL"
+popup/item_4/id = 4
+popup/item_5/text = "TERRANU"
+popup/item_5/id = 5
+popup/item_6/text = "AXUU"
+popup/item_6/id = 6
 
 [node name="HexEditor" type="Node" parent="." unique_id=1998897616]
 script = ExtResource("1_sx6es")

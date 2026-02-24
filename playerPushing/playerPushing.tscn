@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://bi6bllil67sau"]
+[gd_scene format=3 uid="uid://bi6bllil67sau"]
 
 [ext_resource type="PackedScene" uid="uid://v5d1nbgycb44" path="res://shipBuilding/ships/testShip.tscn" id="2_8wwce"]
 [ext_resource type="PackedScene" uid="uid://c2n7netp00xn6" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_jww6g"]
 [ext_resource type="Script" uid="uid://bsurseo1hgudf" path="res://shipBuilding/ship.gd" id="3_8wwce"]
 [ext_resource type="PackedScene" uid="uid://dffynorp3oc0l" path="res://shipBuilding/rooms/shields_3.tscn" id="3_jww6g"]
+[ext_resource type="PackedScene" uid="uid://6legu8m3wxlh" path="res://shipBuilding/ships/blaster90.tscn" id="5_jww6g"]
 
 [node name="PlayerPushing" type="Node2D" unique_id=675023561]
 
@@ -49,3 +50,6 @@ position = Vector2(0, -22)
 
 [node name="Ship" parent="." unique_id=2142630436 instance=ExtResource("2_8wwce")]
 position = Vector2(-161, 209)
+
+[node name="Ship2" parent="." unique_id=1784127879 instance=ExtResource("5_jww6g")]
+position = Vector2(-685, -214)

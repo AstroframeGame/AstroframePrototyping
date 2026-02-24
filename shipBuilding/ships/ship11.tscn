@@ -3,7 +3,9 @@
 [ext_resource type="Script" path="res://shipBuilding/ship.gd" id="1_rdjns"]
 [ext_resource type="PackedScene" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_uvqx3"]
 [ext_resource type="PackedScene" path="res://shipBuilding/rooms/piloting_1.tscn" id="3_3oeg7"]
+[ext_resource type="PackedScene" path="res://shipAI/prefabs/hud.tscn" id="3_hkbul"]
 [ext_resource type="Script" path="res://shipBuilding/room_scripts/piloting.gd" id="4_hkbul"]
+[ext_resource type="Script" path="res://shipAI/Scripts/ship_hud.gd" id="4_x4am1"]
 [ext_resource type="PackedScene" path="res://shipBuilding/rooms/reactor_4.tscn" id="5_x4am1"]
 [ext_resource type="Script" path="res://shipBuilding/room.gd" id="6_3lu6e"]
 [ext_resource type="PackedScene" path="res://shipBuilding/rooms/shields_3.tscn" id="7_eij6s"]
@@ -22,112 +24,113 @@
 tile_shape = 3
 tile_size = Vector2i(78, 90)
 
-[node name="Ship" type="RigidBody2D" unique_id=1784127879]
+[node name="ship11" type="RigidBody2D" unique_id=1442409601 node_paths=PackedStringArray("hud")]
+z_index = 1
+collision_mask = 257
 input_pickable = true
 gravity_scale = 0.0
+continuous_cd = 1
 script = ExtResource("1_rdjns")
+hud = NodePath("ShipHUD")
+max_hit_points = 1
+_hit_points = 1
 
-[node name="HexGrid" type="TileMapLayer" parent="." unique_id=711958440 instance=ExtResource("2_uvqx3")]
+[node name="HexGrid" type="TileMapLayer" parent="." unique_id=1277847278 instance=ExtResource("2_uvqx3")]
+enabled = false
 tile_set = SubResource("TileSet_xsh4c")
+collision_enabled = false
+navigation_enabled = false
 
-[node name="Piloting_1" type="CollisionPolygon2D" parent="." unique_id=966141484 instance=ExtResource("3_3oeg7")]
+[node name="Solid" type="CollisionPolygon2D" parent="." unique_id=181226543]
+
+[node name="ShipHUD" type="CanvasLayer" parent="." unique_id=532014552 instance=ExtResource("3_hkbul")]
+visible = false
+script = ExtResource("4_x4am1")
+
+[node name="Piloting_1" type="Node2D" parent="." unique_id=150588005 instance=ExtResource("3_3oeg7")]
 position = Vector2(0, -22.5)
-polygon = PackedVector2Array(0, -45.1, 39.1, -22.55, 39.1, 22.55, 0, 45.1, -39.1, 22.55, -39.1, -22.55)
 script = ExtResource("4_hkbul")
 
-[node name="Reactor_4" type="CollisionPolygon2D" parent="." unique_id=920192434 instance=ExtResource("5_x4am1")]
+[node name="Reactor_4" type="Node2D" parent="." unique_id=542255097 instance=ExtResource("5_x4am1")]
 position = Vector2(-78, 112.5)
-polygon = PackedVector2Array(39.1, -157.55, 39.1, -112.54232, 78.1, -90.05, 78.1, -44.950005, 39.1, -22.457672, 39.1, 22.550003, 0, 45.1, -39.1, 22.550003, -39.1, -22.457672, -78.1, -44.950005, -78.1, -90.05, -39.1, -112.54232, -39.1, -157.55, 0, -180.1)
 script = ExtResource("6_3lu6e")
 
-[node name="Shields_3" type="CollisionPolygon2D" parent="." unique_id=2001158516 instance=ExtResource("7_eij6s")]
+[node name="Shields_3" type="Node2D" parent="." unique_id=1633765650 instance=ExtResource("7_eij6s")]
 position = Vector2(78, 112.5)
-polygon = PackedVector2Array(78.1, -90.05, 78.1, -44.950005, 39.1, -22.457672, 39.1, 22.550003, 0, 45.1, -39.1, 22.550003, -39.1, -22.457672, -78.1, -44.950005, -78.1, -90.05, -39, -112.6, 0, -90.10767, 39, -112.6)
 script = ExtResource("8_v0bg3")
 
-[node name="Turret_4" type="CollisionPolygon2D" parent="." unique_id=1864384847 instance=ExtResource("9_porie")]
+[node name="Turret_4" type="Node2D" parent="." unique_id=1336280051 instance=ExtResource("9_porie")]
 position = Vector2(39, -90)
 rotation = 2.0943952
-polygon = PackedVector2Array(78.1, -90.05, 78.1, -44.950005, 39.1, -22.457672, 39.1, 22.550003, 0, 45.1, -39.1, 22.550003, -39.1, -22.457672, -78.1, -44.950005, -78.1, -90.05, -39, -112.6, 0, -90.10767, 39, -112.6)
 script = ExtResource("10_7bddp")
 
-[node name="Cannon" type="CollisionPolygon2D" parent="." unique_id=170986718 instance=ExtResource("11_3xo6p")]
+[node name="Cannon" type="Node2D" parent="." unique_id=195129740 instance=ExtResource("11_3xo6p")]
 position = Vector2(-117, -90)
 rotation = 2.0943952
-polygon = PackedVector2Array(117.1, -22.550003, 117.1, 22.550003, 78, 45.1, 39, 22.607674, 0, 45.1, -39.1, 22.550003, -39.1, -22.550003, 0, -45.1, 39, -22.607674, 78, -45.1)
 script = ExtResource("12_0oaqx")
 
-[node name="Airlock_1" type="CollisionPolygon2D" parent="." unique_id=948172483 instance=ExtResource("13_1m714")]
+[node name="Airlock_1" type="Node2D" parent="." unique_id=2084884563 instance=ExtResource("13_1m714")]
 position = Vector2(-39, -90)
-polygon = PackedVector2Array(0, -45.1, 39.1, -22.55, 39.1, 22.55, 0, 45.1, -39.1, 22.55, -39.1, -22.55)
 script = ExtResource("14_vbc6v")
 
-[node name="@CollisionPolygon2D@45" type="CollisionPolygon2D" parent="." unique_id=1452385649 instance=ExtResource("13_1m714")]
+[node name="_CollisionPolygon2D_45" type="Node2D" parent="." unique_id=99079422 instance=ExtResource("13_1m714")]
 position = Vector2(0, 112.5)
-polygon = PackedVector2Array(0, -45.1, 39.1, -22.55, 39.1, 22.55, 0, 45.1, -39.1, 22.55, -39.1, -22.55)
 script = ExtResource("14_vbc6v")
 
-[node name="Engines_2" type="CollisionPolygon2D" parent="." unique_id=120470860 instance=ExtResource("15_sxn0w")]
+[node name="Engines_2" type="Node2D" parent="." unique_id=1685651061 instance=ExtResource("15_sxn0w")]
 position = Vector2(-39, 180)
-polygon = PackedVector2Array(117.1, -22.550003, 117.1, 22.550003, 78, 45.1, 39, 22.607674, 0, 45.1, -39.1, 22.550003, -39.1, -22.550003, 0, -45.1, 39, -22.607674, 78, -45.1)
 script = ExtResource("16_r22f3")
 
-[node name="Hull_1" type="CollisionPolygon2D" parent="." unique_id=1413932245 instance=ExtResource("17_tr8wo")]
+[node name="Hull_1" type="Node2D" parent="." unique_id=284853880 instance=ExtResource("17_tr8wo")]
 position = Vector2(156, -22.5)
 rotation = 5.2359877
-polygon = PackedVector2Array(0, -45.1, 39.1, -22.55, 39.1, 22.55, 0, 45.1, -39.1, 22.55, -39.1, -22.55)
 script = ExtResource("6_3lu6e")
 
-[node name="@CollisionPolygon2D@46" type="CollisionPolygon2D" parent="." unique_id=599079080 instance=ExtResource("17_tr8wo")]
+[node name="_CollisionPolygon2D_46" type="Node2D" parent="." unique_id=871580591 instance=ExtResource("17_tr8wo")]
 position = Vector2(-78, -157.5)
 rotation = 5.2359877
-polygon = PackedVector2Array(0, -45.1, 39.1, -22.55, 39.1, 22.55, 0, 45.1, -39.1, 22.55, -39.1, -22.55)
 script = ExtResource("6_3lu6e")
 
-[node name="@CollisionPolygon2D@47" type="CollisionPolygon2D" parent="." unique_id=2106069601 instance=ExtResource("17_tr8wo")]
+[node name="_CollisionPolygon2D_47" type="Node2D" parent="." unique_id=1865960932 instance=ExtResource("17_tr8wo")]
 position = Vector2(0, -157.5)
 rotation = 5.2359877
-polygon = PackedVector2Array(0, -45.1, 39.1, -22.55, 39.1, 22.55, 0, 45.1, -39.1, 22.55, -39.1, -22.55)
 script = ExtResource("6_3lu6e")
 
-[node name="@CollisionPolygon2D@48" type="CollisionPolygon2D" parent="." unique_id=329218544 instance=ExtResource("17_tr8wo")]
+[node name="_CollisionPolygon2D_48" type="Node2D" parent="." unique_id=817341666 instance=ExtResource("17_tr8wo")]
 position = Vector2(78, -157.5)
 rotation = 5.2359877
-polygon = PackedVector2Array(0, -45.1, 39.1, -22.55, 39.1, 22.55, 0, 45.1, -39.1, 22.55, -39.1, -22.55)
 script = ExtResource("6_3lu6e")
 
-[node name="@CollisionPolygon2D@49" type="CollisionPolygon2D" parent="." unique_id=307442646 instance=ExtResource("17_tr8wo")]
+[node name="_CollisionPolygon2D_49" type="Node2D" parent="." unique_id=705769280 instance=ExtResource("17_tr8wo")]
 position = Vector2(117, 180)
 rotation = 5.2359877
-polygon = PackedVector2Array(0, -45.1, 39.1, -22.55, 39.1, 22.55, 0, 45.1, -39.1, 22.55, -39.1, -22.55)
 script = ExtResource("6_3lu6e")
 
-[node name="@CollisionPolygon2D@50" type="CollisionPolygon2D" parent="." unique_id=1382299948 instance=ExtResource("17_tr8wo")]
+[node name="_CollisionPolygon2D_50" type="Node2D" parent="." unique_id=1957404272 instance=ExtResource("17_tr8wo")]
 position = Vector2(156, 112.5)
 rotation = 5.2359877
-polygon = PackedVector2Array(0, -45.1, 39.1, -22.55, 39.1, 22.55, 0, 45.1, -39.1, 22.55, -39.1, -22.55)
 script = ExtResource("6_3lu6e")
 
-[node name="@CollisionPolygon2D@51" type="CollisionPolygon2D" parent="." unique_id=923274063 instance=ExtResource("17_tr8wo")]
+[node name="_CollisionPolygon2D_51" type="Node2D" parent="." unique_id=1533526425 instance=ExtResource("17_tr8wo")]
 position = Vector2(195, 45)
 rotation = 5.2359877
-polygon = PackedVector2Array(0, -45.1, 39.1, -22.55, 39.1, 22.55, 0, 45.1, -39.1, 22.55, -39.1, -22.55)
 script = ExtResource("6_3lu6e")
 
-[node name="@CollisionPolygon2D@52" type="CollisionPolygon2D" parent="." unique_id=5623722 instance=ExtResource("17_tr8wo")]
+[node name="_CollisionPolygon2D_52" type="Node2D" parent="." unique_id=1025405199 instance=ExtResource("17_tr8wo")]
 position = Vector2(-117, 180)
 rotation = 5.2359877
-polygon = PackedVector2Array(0, -45.1, 39.1, -22.55, 39.1, 22.55, 0, 45.1, -39.1, 22.55, -39.1, -22.55)
 script = ExtResource("6_3lu6e")
 
-[node name="@CollisionPolygon2D@53" type="CollisionPolygon2D" parent="." unique_id=991316174 instance=ExtResource("17_tr8wo")]
+[node name="_CollisionPolygon2D_53" type="Node2D" parent="." unique_id=1939074591 instance=ExtResource("17_tr8wo")]
 position = Vector2(-156, 112.5)
 rotation = 5.2359877
-polygon = PackedVector2Array(0, -45.1, 39.1, -22.55, 39.1, 22.55, 0, 45.1, -39.1, 22.55, -39.1, -22.55)
 script = ExtResource("6_3lu6e")
 
-[node name="@CollisionPolygon2D@54" type="CollisionPolygon2D" parent="." unique_id=1345567801 instance=ExtResource("17_tr8wo")]
+[node name="_CollisionPolygon2D_54" type="Node2D" parent="." unique_id=970570968 instance=ExtResource("17_tr8wo")]
 position = Vector2(-195, 45)
 rotation = 5.2359877
-polygon = PackedVector2Array(0, -45.1, 39.1, -22.55, 39.1, 22.55, 0, 45.1, -39.1, 22.55, -39.1, -22.55)
 script = ExtResource("6_3lu6e")
+
+[node name="Walls" type="StaticBody2D" parent="." unique_id=121783655]
+collision_layer = 16
+collision_mask = 0
