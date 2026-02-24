@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://bfcvwgyqwu34t"]
+
+[node name="Asteroid" type="StaticBody2D" unique_id=553772809]
+position = Vector2(191, -36)
+collision_layer = 256
+collision_mask = 0
+
+[node name="Ground" type="Polygon2D" parent="." unique_id=1596826809]
+position = Vector2(-192, 35)
+color = Color(0.4677382, 0.46773827, 0.4677382, 1)
+polygon = PackedVector2Array(19, -155, 248, -98, 361, 98, 62, 182, -98, 141, -171, -31)
+uv = PackedVector2Array(-144, -50.799995, 27.200012, 33.999992, -25.626099, 208.0552, -305.75037, 199.75525)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=751916271]
+polygon = PackedVector2Array(-171, -119, 56, -65, 167, 134, -131, 216, -291, 176, -363, 2)

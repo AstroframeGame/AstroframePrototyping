@@ -1,14 +1,6 @@
 class_name Wasp
 extends Smart_Ship
 
-'''
-state enter/exit conditions
-if abs(wrapf(_target_angle - global_rotation, -PI, PI)) <= 0.03:
-	current_state = _State.FLEEING
-	
-latching_position = target.to_local(piloting.global_position)
-'''
-
 func _ready() -> void:
 	super()
 	_aligning_speed_scalar = 400
@@ -32,7 +24,7 @@ func _on_detection_range_body_exited(body: Node2D) -> void:
 		state_machine.change_state(state_machine.idle_state)
 
 func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector2) -> void:
-	compute_safe_vel(safe_velocity)
+	cache_safe_vel(safe_velocity)
 
 func _on_navigation_agent_2d_navigation_finished() -> void:
 	state_machine.change_state(state_machine.align_state)

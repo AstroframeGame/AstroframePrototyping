@@ -10,6 +10,7 @@ radius = 8.0
 z_index = 7
 collision_layer = 64
 collision_mask = 12336
+mass = 0.001
 gravity_scale = 0.0
 continuous_cd = 1
 contact_monitor = true

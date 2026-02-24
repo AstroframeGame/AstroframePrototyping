@@ -372,7 +372,7 @@ func update_colliders() -> void:
 		print("Fallback: ", name, " creating solid")
 	
 	collision_layer = 16 # Ship exterior layer
-	collision_mask = 16 #ship exterior layer
+	collision_mask = 4368 # (5) ship exterior + (9) environment + (13) + environment obstacle
 	area.collision_layer = 3 # ship interior
 	area.collision_mask = 3 # prob doesnt matter since it shouldnt be monitoring
 	area.monitoring = false
