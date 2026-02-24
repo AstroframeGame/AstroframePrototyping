@@ -56,9 +56,9 @@ func ground_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> 
 
 #region Piloting
 func initialize_ship():
-	separate_islands()
 	update_occupied_cells()
 	update_colliders()
+	separate_islands()
 	calc_center_of_mass()
 	check_hud()
 	
