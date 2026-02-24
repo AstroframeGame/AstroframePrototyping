@@ -4,6 +4,7 @@ extends Node
 # use this node as a library to save or load a ship
 
 func save_tscn(ship : Node, save_path : String, save_name : String) -> void:
+	ship.name = save_name
 	# this is important for prefabing.
 	for child in ship.get_children(true):
 		child.owner = ship
@@ -24,7 +25,7 @@ func load_tscn(save_path : String, save_name : String) -> Node:
 	if not ResourceLoader.exists(path):
 		print_debug("Failed to open tscn at "+ path)
 		return
-
+	
 	var ship = load(path).instantiate()
 	return ship
 

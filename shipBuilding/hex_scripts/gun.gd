@@ -24,6 +24,7 @@ func shoot(damage : int):
 	# removed parent velocity room.ship.linear_velocity
 	proj.initialize(gunSprite, Vector2.ZERO, projectileSpeed, Vector2.from_angle(gunSprite.global_rotation), marker_2d.global_position, damage)
 	proj.add_collision_exception_with(room.ship)
+	proj.add_collision_exception_with(room.ship.get_node("Walls"))
 	proj.owner_ship = room.ship
 	
 	# get multiplayer manager instead

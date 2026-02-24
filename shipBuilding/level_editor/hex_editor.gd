@@ -13,17 +13,15 @@ var current_mode: Mode = Mode.VIEW
 var undo: UndoRedo = UndoRedo.new()
 var _prefab_index: int = -1
 
+signal on_room_add()
+signal on_room_destroy()
+
 func _ready() -> void:
 	room_picker.on_clicked.connect(_on_room_prefab_selected)
 	mode_dropdown.item_selected.connect(_on_mode_selected)
 	ship.room_clicked.connect(_on_ship_room_clicked)
 	undo.max_steps = 10
-	
-	for child in ship.get_children():
-		if child is Room:
-			var cell = ship.world_to_grid(child.global_position)
-			var rot = int(round(child.rotation / (PI / 3.0)))
-			ship.add_room(child, cell, rot)
+	on_room_add.emit()
 
 func _process(_delta: float) -> void:
 	if current_mode == Mode.ADD and preview_instance:
@@ -91,6 +89,7 @@ func _attempt_place(cell: Vector2i) -> void:
 	undo.add_do_reference(new_room)
 	undo.add_undo_method(ship.remove_room.bind(new_room))
 	undo.commit_action()
+	on_room_add.emit()
 
 func _attempt_destroy(room: Room) -> void:
 	var cell = ship.world_to_grid(room.global_position)
@@ -101,6 +100,7 @@ func _attempt_destroy(room: Room) -> void:
 	undo.add_undo_method(ship.add_room.bind(room, cell, rot))
 	undo.add_undo_reference(room)
 	undo.commit_action()
+	on_room_destroy.emit()
 
 func _on_room_prefab_selected(index: int) -> void:
 	_prefab_index = index
