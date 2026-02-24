@@ -54,43 +54,43 @@ func compute_safe_vel(safe_velocity:Vector2):
 #endregion
 
 #region State Processes
-#func update_state():
-	#pass
-#func process_state():
-	#match current_state:
-		#_State.IDLE:
-			#sit_idle()
-		#_State.APPROACHING:
-			#approach_target()
-		#_State.ALIGNING:
-			#align()
-		#_State.FLANKING:
-			#flank()
-		#_State.FLEEING:
-			#flee()
+func update_state():
+	pass
+func process_state():
+	match current_state:
+		_State.IDLE:
+			sit_idle()
+		_State.APPROACHING:
+			approach_target()
+		_State.ALIGNING:
+			align()
+		_State.FLANKING:
+			flank()
+		_State.FLEEING:
+			flee()
 
-#func sit_idle():
-	#print("%s idling" % [name])
-	#pass
-#
-#func approach_target():
-	#print("%s approaching" % [name])
-	#face_target(target.get_piloting().global_position, false)
-	#linear_velocity += look_dir.normalized() * engines.standard_thrust * engines.power_level
-	#linear_velocity /= mass
-#
-#func align():
-	#print("%s aligning" % [name])
-	#face_target(target.get_piloting().global_position, true)
-	#global_position = target.to_global(latching_position)
-#
-#func flee():
-	#print("%s fleeing" % [name])
-	#face_target(target.get_piloting().global_position, true)
-	#linear_velocity -= look_dir.normalized() * engines.standard_thrust * engines.power_level
-	#linear_velocity /= mass
-#
-#func flank():
-	#print("%s flanking" % [name])
-	#pass
+func sit_idle():
+	print("%s idling" % [name])
+	pass
+
+func approach_target():
+	print("%s approaching" % [name])
+	face_target(target.get_piloting().global_position, false)
+	linear_velocity += look_dir.normalized() * engines.standard_thrust * engines.power_level
+	linear_velocity /= mass
+
+func align():
+	print("%s aligning" % [name])
+	face_target(target.get_piloting().global_position, true)
+	global_position = target.to_global(latching_position)
+
+func flee():
+	print("%s fleeing" % [name])
+	face_target(target.get_piloting().global_position, true)
+	linear_velocity -= look_dir.normalized() * engines.standard_thrust * engines.power_level
+	linear_velocity /= mass
+
+func flank():
+	print("%s flanking" % [name])
+	pass
 #endregion 

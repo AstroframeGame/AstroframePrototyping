@@ -4,8 +4,13 @@
 [ext_resource type="Texture2D" uid="uid://blw3cf71ki3n1" path="res://encounter/grid_black_1024x1024.png" id="3_nhcgg"]
 [ext_resource type="Script" uid="uid://ckvkvmc3ju7xr" path="res://shipMovement/scrolling_bg.gd" id="4_8rdp5"]
 [ext_resource type="PackedScene" uid="uid://b5hikq1i2xtpw" path="res://shipBuilding/ships/player_ship.tscn" id="5_nhcgg"]
-[ext_resource type="PackedScene" uid="uid://biexdduqulqnx" path="res://shipBuilding/ships/wasp.tscn" id="7_jrc0m"]
+[ext_resource type="PackedScene" uid="uid://cxfdk3i3ew4wb" path="res://shipBuilding/ships/wasp.tscn" id="7_jrc0m"]
 [ext_resource type="FontFile" uid="uid://bvhs72w1tp2uu" path="res://hub/fonts/Ethnocentric-Regular.otf" id="8_8rdp5"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_ypqrf"]
+vertices = PackedVector2Array(4213.297, -1788.3906, 4683.5703, 1423.9531, -1909.7422, 1992.7266, -586.8672, -2013.6484)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-594, -2024, 4222, -1798, 4695, 1433, -1924, 2004)])
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vo3si"]
 shader = ExtResource("2_vrncs")
@@ -20,6 +25,10 @@ default_font = ExtResource("8_8rdp5")
 default_font_size = 72
 
 [node name="ShipAi" type="Node2D" unique_id=2125256018]
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=1512586561]
+visible = false
+navigation_polygon = SubResource("NavigationPolygon_ypqrf")
 
 [node name="Background" type="CanvasLayer" parent="." unique_id=1843354278]
 layer = -2
@@ -40,16 +49,6 @@ power_links = {
 NodePath("Reactor_2(1)/OutputHex/OutClickArea"): NodePath("Engines_2/InputHex/InClickArea"),
 NodePath("Reactor_2(1)/OutputHex3/OutClickArea"): NodePath("Engines_2/InputHex2/InClickArea"),
 NodePath("Reactor_2/OutputHex/OutClickArea"): NodePath("Cannon/InputHex/InClickArea")
-}
-max_hit_points = 0
-_hit_points = 0
-
-[node name="Wasp2" parent="." unique_id=1617027269 node_paths=PackedStringArray("power_links") instance=ExtResource("7_jrc0m")]
-position = Vector2(2375, 263)
-power_links = {
-NodePath("../Wasp/Reactor_2(1)/OutputHex/OutClickArea"): NodePath("../Wasp/Engines_2/InputHex/InClickArea"),
-NodePath("../Wasp/Reactor_2(1)/OutputHex3/OutClickArea"): NodePath("../Wasp/Engines_2/InputHex2/InClickArea"),
-NodePath("../Wasp/Reactor_2/OutputHex/OutClickArea"): NodePath("../Wasp/Cannon/InputHex/InClickArea")
 }
 max_hit_points = 0
 _hit_points = 0

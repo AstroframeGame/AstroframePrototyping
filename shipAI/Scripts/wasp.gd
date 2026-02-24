@@ -20,29 +20,6 @@ func _physics_process(_delta: float) -> void:
 		if state_machine.current_state != state_machine.flee_state:
 			state_machine.change_state(state_machine.flee_state)
 			return
-	
-	if not nav_agent.is_navigation_finished():
-		nav_agent.get_next_path_position()
-		
-	
-	#update_state()
-	#process_state()
-	
-#func update_state() -> void:
-	#if target == null:
-		#current_state = _State.IDLE
-		#return
-	#if current_state == _State.FLEEING:
-		#return
-	#if not nav_agent.is_navigation_finished():
-		#current_state = _State.APPROACHING
-		#return
-	#if current_state == _State.APPROACHING:
-		#latching_position = target.to_local(piloting.global_position)
-		#current_state = _State.ALIGNING
-	#elif current_state == _State.ALIGNING:
-		#if abs(wrapf(_target_angle - global_rotation, -PI, PI)) <= 0.03:
-				#current_state = _State.FLEEING
 
 func _on_detection_range_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player_ship"):
