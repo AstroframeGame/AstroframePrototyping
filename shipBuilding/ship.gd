@@ -4,12 +4,15 @@ extends RigidBody2D
 signal room_clicked(room: Room, button_index: int)
 signal on_airlock_interaction(interactor : PlayerCharacter, is_inside : bool) # called from airlock
 signal ship_destroyed
+signal on_hit()
 
 const flight_deadzone = 0.05 #screen %
 const HEX_GRID_PREFAB = preload("res://shipBuilding/prefabs/hex_grid.tscn")
-@onready var grid: TileMapLayer # set in update colliders
-var occupied_cells: Dictionary[Vector2i, Room] = {} # only calculated in ship_building
 
+@onready var grid: TileMapLayer # set in update colliders
+@export var hud : ShipHud = null
+
+var occupied_cells: Dictionary[Vector2i, Room] = {} # only calculated in ship_building
 @export var power_links : Dictionary[PowerOutHex, PowerInHex]
 
 @export var max_hit_points : int = 0
@@ -21,16 +24,10 @@ var hit_points : int:
 		if value < _hit_points:
 			on_hit.emit()
 		_hit_points = value
-signal on_hit()
 
-@export var hud : ShipHud = null
 
 func _ready() -> void:
-	separate_islands()
-	update_occupied_cells()
-	update_colliders()
-	calc_center_of_mass()
-	check_hud()
+	initialize_ship()
 	
 	on_airlock_interaction.connect(set_exterior_visible)
 	on_hit.connect(hud.update_hp_bar)
@@ -47,6 +44,14 @@ func ground_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> 
 			room_clicked.emit(room, event.button_index)
 
 #region Piloting
+func initialize_ship():
+	separate_islands()
+	update_occupied_cells()
+	update_colliders()
+	calc_center_of_mass()
+	check_hud()
+	
+
 func get_engines() -> Engines:
 	for r in get_children():
 		if r is Engines:
@@ -83,18 +88,20 @@ func handle_input(_event : InputEvent):
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	var engines :Engines = get_engines()
 	var piloting : Piloting = get_piloting()
+	var pushing : bool = get_players_pushing().size() > 0
+	var delta = state.step
 	
 	if engines and piloting:
 		state.angular_velocity = piloting.get_goal_angular_velocity()
 		var goal_vel :Vector2 = piloting.get_goal_velocity(state.linear_velocity)
-		var delta = state.step
 		if not piloting.is_idling():
 			state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * state.inverse_mass * delta)
-		else:
-			state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * state.inverse_mass * engines.drag_multiplier * delta)
-	else:
+	elif pushing:
 		apply_push_rotation(state)
 		apply_push_velocity(state)
+	elif engines: # autodrag
+		state.angular_velocity = lerp(state.angular_velocity, 0.0, state.inverse_mass * engines.drag_multiplier * delta)
+		state.linear_velocity = lerp(state.linear_velocity, Vector2.ZERO, engines.get_thrust() * state.inverse_mass * engines.drag_multiplier * delta)
 
 func calc_center_of_mass():
 	var hex_mass = 2.0
@@ -511,7 +518,6 @@ func apply_push_velocity(state : PhysicsDirectBodyState2D) -> void:
 	var players = get_players_pushing()
 	if players.is_empty():
 		return
-	
 	for p in players:
 		if p.push_brake:
 			state.linear_velocity = lerp(state.linear_velocity, Vector2.ZERO, p.thrust_accel * state.inverse_mass * 0.2 * state.step)
@@ -520,19 +526,10 @@ func apply_push_velocity(state : PhysicsDirectBodyState2D) -> void:
 
 func apply_push_rotation(state : PhysicsDirectBodyState2D) -> void:
 	var delta = state.step
-	var engines = get_engines()
-	var push_rot = get_push_rotation(state)
-	if abs(push_rot) > 0.01:
-		state.angular_velocity = lerp(state.angular_velocity, push_rot, 5.0 * delta)
-	else:
-		var drag = engines.drag_multiplier if engines else 2.0
-		state.angular_velocity = lerp(state.angular_velocity, 0.0, drag * delta)
-
-func get_push_rotation(state : PhysicsDirectBodyState2D) -> float:
+	var push_rot = 0.0
 	var players = get_players_pushing()
 	if players.is_empty():
-		return 0.0
-	
+		return
 	var total_rot_input = 0.0
 	for p in players:
 		var look_dir = InputHelper.mouse_center_offset_deadzone(flight_deadzone)
@@ -540,8 +537,9 @@ func get_push_rotation(state : PhysicsDirectBodyState2D) -> float:
 		if not InputHelper.using_mouse:
 			rot_amount = InputHelper.controller_look.x
 		total_rot_input += rot_amount * p.rotate_speed
-		
-	return (total_rot_input * state.inverse_mass) * 0.1
+	push_rot = (total_rot_input * state.inverse_mass) * 0.1
+	if abs(push_rot) > 0.01:
+		state.angular_velocity = lerp(state.angular_velocity, push_rot, 5.0 * delta)
 #endregion
 
 #region merging
@@ -707,9 +705,7 @@ func apply_merged_rooms(pushed_ship: Ship, snap_data: Dictionary) -> void:
 			
 			add_room(duplicate_room, merged_cell, merged_rotation_index)
 			
-	update_colliders()
-	calc_center_of_mass()
-	check_hud()
+	initialize_ship()
 	pushed_ship.queue_free()
 #endregion
 
@@ -737,7 +733,7 @@ func get_total_room_count() -> int:
 	return total_rooms
 
 func detach_room_to_new_ship(target_room: Room, push_direction: Vector2) -> void:
-	var detached_ship_instance = SHIP_PREFAB.instantiate()
+	var detached_ship_instance : Ship = SHIP_PREFAB.instantiate()
 	get_parent().add_child(detached_ship_instance)
 	
 	var separation_offset = push_direction * 25.0
@@ -755,13 +751,8 @@ func detach_room_to_new_ship(target_room: Room, push_direction: Vector2) -> void
 	
 	separate_islands()
 	
-	update_colliders()
-	calc_center_of_mass()
-	check_hud()
-	
-	detached_ship_instance.update_colliders()
-	detached_ship_instance.calc_center_of_mass()
-	detached_ship_instance.check_hud()
+	initialize_ship()
+	detached_ship_instance.initialize_ship()
 #endregion
 
 #region islands
@@ -800,12 +791,10 @@ func separate_islands() -> void:
 		print_debug("Warning, Separating islands on ship")
 		for i in range(1, islands.size()):
 			_spawn_island_ship(islands[i])
-		update_colliders()
-		calc_center_of_mass()
-		check_hud()
+		initialize_ship()
 
 func _spawn_island_ship(island_rooms: Array) -> void:
-	var new_ship = SHIP_PREFAB.instantiate()
+	var new_ship :Ship = SHIP_PREFAB.instantiate()
 	get_parent().add_child(new_ship)
 	
 	new_ship.global_transform = global_transform
@@ -818,7 +807,5 @@ func _spawn_island_ship(island_rooms: Array) -> void:
 		remove_room(room)
 		new_ship.add_room(room, pos, rot)
 		
-	new_ship.update_colliders()
-	new_ship.calc_center_of_mass()
-	new_ship.check_hud()
+	new_ship.initialize_ship()
 #endregion
