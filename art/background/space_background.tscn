@@ -20,6 +20,8 @@ shader_parameter/camera_rotation = 0.0
 shader_parameter/noise_frequency = 0.002
 shader_parameter/star_density = 0.998
 shader_parameter/star_scale = 0.2
+shader_parameter/noise_parallax = 1.0
+shader_parameter/star_parallax = 0.2
 
 [node name="SpaceBackground" type="ColorRect" unique_id=1650344788]
 z_index = -10
