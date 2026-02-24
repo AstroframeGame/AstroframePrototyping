@@ -16,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://c856slvu6oqjm" path="res://hub/menu_icons/icons8-mute-64.png" id="11_wm4ra"]
 [ext_resource type="Script" uid="uid://cwdlnpq52j4tm" path="res://hub/mute_button.gd" id="12_6jnk7"]
 [ext_resource type="Theme" uid="uid://d0o0krm245a4q" path="res://hub/ui-themes/unstyled.tres" id="13_h8dj6"]
+[ext_resource type="Texture2D" uid="uid://cjtj7xo6f6waa" path="res://shipBuilding/icons/torus.png" id="17_qui64"]
 
 [sub_resource type="Environment" id="Environment_21dlm"]
 background_mode = 3
@@ -221,6 +222,7 @@ text = "Back"
 [node name="Profiling" type="CanvasLayer" parent="." unique_id=1820677988]
 
 [node name="fps" type="Label" parent="Profiling" unique_id=1807193106]
+visible = false
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -230,6 +232,20 @@ grow_horizontal = 0
 theme = ExtResource("13_h8dj6")
 text = "fps"
 script = ExtResource("3_6ebxt")
+
+[node name="AssetLoadProgress" type="TextureProgressBar" parent="Profiling" unique_id=2072545746]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -64.0
+offset_top = -64.0
+grow_horizontal = 0
+grow_vertical = 0
+value = 50.0
+nine_patch_stretch = true
+texture_progress = ExtResource("17_qui64")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1798994774]
 environment = SubResource("Environment_21dlm")

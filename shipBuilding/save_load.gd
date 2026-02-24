@@ -25,7 +25,7 @@ func load_tscn(save_path : String, save_name : String) -> Node:
 	if not ResourceLoader.exists(path):
 		print_debug("Failed to open tscn at "+ path)
 		return
-
+	
 	var ship = load(path).instantiate()
 	return ship
 
