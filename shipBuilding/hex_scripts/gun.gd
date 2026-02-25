@@ -29,3 +29,4 @@ func shoot(damage : int):
 	
 	# get multiplayer manager instead
 	ProjectileManager.add_child(proj)
+	$ShootSFX.play(0.11)
