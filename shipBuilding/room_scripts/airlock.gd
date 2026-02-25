@@ -1,12 +1,13 @@
 class_name Airlock
 extends Room
 
-func _ready() -> void:
-	super._ready()
+#func _ready() -> void:
+	#super._ready()
 
-func on_door_interact(player : Player):
-	print(player.ship_in, ship)
-	if player.ship_in == ship:
+func on_door_interact(player : PlayerCharacter):
+	if player.ship == ship:
 		player.on_ship_exit()
+		ship.on_airlock_interaction.emit(player, false)
 	else:
 		player.on_ship_enter(ship)
+		ship.on_airlock_interaction.emit(player, true)

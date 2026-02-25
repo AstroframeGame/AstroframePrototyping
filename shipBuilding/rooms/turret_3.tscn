@@ -3,10 +3,14 @@
 [ext_resource type="Script" uid="uid://dl084kee34c5w" path="res://shipBuilding/room_scripts/turret.gd" id="1_wiatt"]
 [ext_resource type="PackedScene" uid="uid://88c51udovr1" path="res://shipBuilding/hexes/gun_hex.tscn" id="2_x6sbh"]
 [ext_resource type="PackedScene" uid="uid://dmgvcp6y668bi" path="res://shipBuilding/hexes/input_hex.tscn" id="3_bucqc"]
+[ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="5_wiatt"]
 [ext_resource type="PackedScene" uid="uid://dtg3tqh28wihx" path="res://shipBuilding/hexes/seat_hex.tscn" id="5_xg7mo"]
+[ext_resource type="Texture2D" uid="uid://h7n0dwcqcea8" path="res://shipBuilding/icons/turret.png" id="6_x6sbh"]
 
-[node name="Turret_4" type="CollisionPolygon2D" unique_id=1864384847]
-polygon = PackedVector2Array(0, 0, 0, 0, 0, 0)
+[sub_resource type="CircleShape2D" id="CircleShape2D_bucqc"]
+radius = 613.11743
+
+[node name="Turret_3" type="Node2D" unique_id=1336280051]
 script = ExtResource("1_wiatt")
 
 [node name="Gun" parent="." unique_id=406052502 instance=ExtResource("2_x6sbh")]
@@ -28,3 +32,41 @@ offset_right = 29.0
 offset_bottom = -32.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Turret"
+
+[node name="DetectionRange" type="Area2D" parent="." unique_id=280376039]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRange" unique_id=233078241]
+shape = SubResource("CircleShape2D_bucqc")
+debug_color = Color(0.81960785, 0.35686275, 0.5058824, 0)
+
+[node name="Roof" type="Node2D" parent="." unique_id=475660757]
+visible = false
+
+[node name="Hex3" type="Sprite2D" parent="Roof" unique_id=495697975]
+modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
+position = Vector2(39, -67.5)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5_wiatt")
+
+[node name="Hex5" type="Sprite2D" parent="Roof" unique_id=176818977]
+modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
+position = Vector2(-39, -67.5)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5_wiatt")
+
+[node name="Hex4" type="Sprite2D" parent="Roof" unique_id=371794833]
+modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5_wiatt")
+
+[node name="Sprite" type="Sprite2D" parent="Roof/Hex4" unique_id=400846750]
+modulate = Color(0, 0, 0, 1)
+rotation = -1.5707964
+scale = Vector2(0.235, 0.235)
+texture = ExtResource("6_x6sbh")
+
+[connection signal="body_entered" from="DetectionRange" to="." method="_on_detection_range_body_entered"]
+[connection signal="body_exited" from="DetectionRange" to="." method="_on_detection_range_body_exited"]
+
+[editable path="Gun"]

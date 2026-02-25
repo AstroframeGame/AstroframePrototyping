@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://ipbt6kkxpxax"]
+
+[ext_resource type="Shader" uid="uid://byhs5u1pst1nw" path="res://shipMovement/grid.gdshader" id="1_d5y60"]
+[ext_resource type="Texture2D" uid="uid://blw3cf71ki3n1" path="res://encounter/grid_black_1024x1024.png" id="2_nfn6j"]
+[ext_resource type="Script" uid="uid://ckvkvmc3ju7xr" path="res://shipMovement/scrolling_bg.gd" id="3_iuspw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1ntoy"]
+shader = ExtResource("1_d5y60")
+shader_parameter/grid_texture = ExtResource("2_nfn6j")
+shader_parameter/camera_offset = Vector2(0, 0)
+shader_parameter/camera_zoom = 1.0
+shader_parameter/camera_rotation = 0.0
+shader_parameter/texture_scale = Vector2(0.001, 0.001)
+
+[node name="A1Pirates" type="Node2D" unique_id=1629925302]
+
+[node name="Background" type="CanvasLayer" parent="." unique_id=2115964000]
+layer = -2
+
+[node name="GridBackground" type="ColorRect" parent="Background" unique_id=1463666742]
+z_index = -10
+material = SubResource("ShaderMaterial_1ntoy")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_iuspw")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="." unique_id=681024461]
+offset_left = 152.0
+offset_top = 93.0
+offset_right = 260.0
+offset_bottom = 115.0
+text = "A_1_PIRATES"

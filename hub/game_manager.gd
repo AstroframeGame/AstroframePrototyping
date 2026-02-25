@@ -1,52 +1,54 @@
 extends Node
+class_name GameManager
 
-@export_file("*.tscn") var scene_paths: Array[String]
-@export var loading_screen_scene: PackedScene
+@onready var multiplayer_manager: MultiplayerManager = $"../MultiplayerManager"
 
-@onready var scene_list: VBoxContainer = $"../UI/SceneList/ScrollContainer/SceneList"
 @onready var load_progress: TextureProgressBar = $"../UI/Loading/LoadProgress"
 
-var current_scene : Node
+var current_scene : Node2D
+@onready var menus : MenuManager = $"../UI"
+
+signal game_start(world : Node2D)
+signal game_quit()
 
 func _ready() -> void:
-	$"../UI/Loading".visible = false
-	$"../UI/InGame".visible = false
-	$"../UI/SceneList".visible = true
+	menus.open_menu("Main")
+	# load settings
+	# settings include whether or not game is muted
+	# debug setting it muted for now
+	MusicManager.muted = true
+	MusicManager.play_menu()
 	
-	for path in scene_paths:
-		var btn = Button.new()
-		var name_source = path
-		if path.begins_with("uid://"):
-			var id = ResourceUID.text_to_id(path)
-			name_source = ResourceUID.get_id_path(id)
-		btn.text = name_source.get_file().get_basename()
-		btn.pressed.connect(_on_btn_pressed.bind(path))
-		scene_list.add_child(btn)
-
-func _on_btn_pressed(path: String) -> void:
-	load_scene(path)
-
 func load_scene(path : String)->void:
-	$"../UI/Loading".visible = true
-	$"../UI/SceneList".visible = false
-	ResourceLoader.load_threaded_request(path)
-	var progress = []
-	var status = ResourceLoader.load_threaded_get_status(path, progress)
-	
-	while status != ResourceLoader.THREAD_LOAD_LOADED:
-		await get_tree().process_frame
-		status = ResourceLoader.load_threaded_get_status(path, progress)
-		load_progress.value = progress[0]
-	#$Control/Label.text = str(int(progress[0] * 100)) + "%"
-	
-	if status == ResourceLoader.THREAD_LOAD_LOADED:
-		var packed_scene = ResourceLoader.load_threaded_get(path)
-		$"../UI/Loading".visible = false
-		$"../UI/InGame".visible = true
-		current_scene = packed_scene.instantiate()
-		add_child(current_scene)
+	var packed_scene = await menus.load_scene(path)
+	menus.open_menu("Game")
+	current_scene = packed_scene.instantiate()
+	add_child(current_scene)
+	if current_scene.name == "ShipBuilding" or current_scene.name == "EncounterSelection":
+		return # skip the player on building scene and on encounter selector scene
+	game_start.emit(current_scene)
+	MusicManager.play_gameplay()
+
+func start_game():
+	pass
+
+func new_game():
+	pass
+
+func load_game():
+	pass
+
+func open_ship_editor():
+	load_scene("res://shipBuilding/ship_building.tscn")
 
 func quit_to_list():
-	current_scene.queue_free()
-	$"../UI/SceneList".visible = true
-	$"../UI/InGame".visible = false
+	game_quit.emit()
+	if current_scene:
+		current_scene.queue_free()
+	menus.open_menu("Main")
+	MusicManager.play_menu()
+
+func quit_application():
+	get_tree().quit()
+
+@onready var dialogue_runner: DialougeRunner = $"../UI/Game/DialogueRunner"

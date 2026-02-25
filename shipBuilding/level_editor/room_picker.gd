@@ -4,7 +4,7 @@ var rooms_path = "res://shipBuilding/rooms/"
 var room_prefabs : Array[PackedScene] # autofills from the rooms folder.
 
 var button_prefab = preload("res://shipBuilding/prefabs/room_button.tscn")
-@onready var button_parent: VBoxContainer = $ScrollContainer/VBoxContainer
+@onready var button_parent: VBoxContainer = $VBoxContainer
 
 signal on_clicked(prefab_index : int)
 

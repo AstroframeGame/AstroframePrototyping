@@ -1,11 +1,12 @@
 [gd_scene format=3 uid="uid://dffynorp3oc0l"]
 
-[ext_resource type="Script" uid="uid://vo6mtf68wgee" path="res://shipBuilding/room.gd" id="1_5bstv"]
+[ext_resource type="Script" uid="uid://fr42tlimyfad" path="res://shipBuilding/room_scripts/shields.gd" id="1_43tt2"]
+[ext_resource type="PackedScene" uid="uid://ddufh33lvtb2a" path="res://shipBuilding/fx/shield/shield.tscn" id="3_43tt2"]
+[ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="4_ixx2e"]
 [ext_resource type="PackedScene" uid="uid://dmgvcp6y668bi" path="res://shipBuilding/hexes/input_hex.tscn" id="5_mqtj2"]
 
-[node name="Shields_3" type="CollisionPolygon2D" unique_id=2001158516]
-polygon = PackedVector2Array(0, 0, 0, 0, 0, 0)
-script = ExtResource("1_5bstv")
+[node name="Shields_3" type="Node2D" unique_id=1633765650]
+script = ExtResource("1_43tt2")
 
 [node name="InputHex" parent="." unique_id=56559507 instance=ExtResource("5_mqtj2")]
 self_modulate = Color(0.70980394, 0.7882353, 1, 1)
@@ -25,3 +26,26 @@ offset_right = 29.0
 offset_bottom = -32.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Shields"
+
+[node name="Shield" parent="." unique_id=386750233 instance=ExtResource("3_43tt2")]
+position = Vector2(0, -45)
+
+[node name="Roof" type="Node2D" parent="." unique_id=1583828134]
+visible = false
+
+[node name="Hex3" type="Sprite2D" parent="Roof" unique_id=644852332]
+modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
+position = Vector2(39, -67.5)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_ixx2e")
+
+[node name="Hex5" type="Sprite2D" parent="Roof" unique_id=774467404]
+modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
+position = Vector2(-39, -67.5)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_ixx2e")
+
+[node name="Hex4" type="Sprite2D" parent="Roof" unique_id=636165179]
+modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_ixx2e")

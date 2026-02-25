@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://c80teck1ccmdv"]
+
+[ext_resource type="Script" uid="uid://vo6mtf68wgee" path="res://shipBuilding/room.gd" id="1_hwksq"]
+[ext_resource type="PackedScene" uid="uid://8j8lbkqti4qs" path="res://shipBuilding/hexes/output_hex.tscn" id="2_o680r"]
+[ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="3_o680r"]
+
+[node name="Reactor_2" type="Node2D" unique_id=542255097]
+script = ExtResource("1_hwksq")
+
+[node name="OutputHex" parent="." unique_id=918919785 instance=ExtResource("2_o680r")]
+self_modulate = Color(0.5764706, 0.7490196, 0.62352943, 1)
+position = Vector2(78, 0)
+
+[node name="OutputHex3" parent="." unique_id=141695422 instance=ExtResource("2_o680r")]
+self_modulate = Color(0.5764706, 0.7490196, 0.62352943, 1)
+
+[node name="Label" type="Label" parent="." unique_id=416234820]
+offset_left = 10.0
+offset_top = -25.0
+offset_right = 70.0
+offset_bottom = -2.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Reactor"
+
+[node name="Roof" type="Node2D" parent="." unique_id=611740249]
+visible = false
+
+[node name="Hex3" type="Sprite2D" parent="Roof" unique_id=291981905]
+modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
+position = Vector2(78, 0)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_o680r")
+
+[node name="Hex4" type="Sprite2D" parent="Roof" unique_id=1896699226]
+modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_o680r")

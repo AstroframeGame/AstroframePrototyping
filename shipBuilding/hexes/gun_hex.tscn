@@ -11,8 +11,13 @@ script = ExtResource("2_jn67f")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=879061294]
 modulate = Color(0, 0, 0, 1)
-rotation = 2.6179938
+rotation = -1.5707964
 scale = Vector2(0.235, 0.235)
 texture = ExtResource("3_xan1q")
 
+[node name="Marker2D" type="Marker2D" parent="Sprite" unique_id=1542278814]
+position = Vector2(229.09433, -5.3136444)
+
 [node name="Timer" type="Timer" parent="." unique_id=1871114995]
+wait_time = 0.5
+one_shot = true

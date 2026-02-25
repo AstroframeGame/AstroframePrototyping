@@ -1,7 +1,7 @@
 class_name EditorSaveManager
 extends Node
 
-@onready var save_name: LineEdit = $"../UI/SaveLoad/SaveName"
+@onready var save_name: LineEdit = $"../UI/Options/SaveName"
 @onready var ship: Ship = $"../Ship"
 @onready var save_load: SaveLoad = $"../SaveLoad"
 @onready var hex_editor: HexEditor = $"../HexEditor"
@@ -9,11 +9,13 @@ extends Node
 var save_path = "res://shipBuilding/ships/"
 const ship_prefab = preload("res://shipBuilding/prefabs/ship.tscn")
 
+signal on_post_load()
+
 func _ready() -> void:
-	$"../UI/SaveLoad/Savetscn".pressed.connect(save_tscn)
-	$"../UI/SaveLoad/Loadtscn".pressed.connect(load_tscn)
-	$"../UI/SaveLoad/Savejson".pressed.connect(save_json)
-	$"../UI/SaveLoad/Loadjson".pressed.connect(load_json)
+	$"../UI/Options/HBoxContainer/Save/Savetscn".pressed.connect(save_tscn)
+	$"../UI/Options/HBoxContainer/Save/Savejson".pressed.connect(save_json)
+	$"../UI/Options/HBoxContainer/Load/Loadtscn".pressed.connect(load_tscn)
+	$"../UI/Options/HBoxContainer/Load/Loadjson".pressed.connect(load_json)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("editor_save"):
@@ -30,6 +32,7 @@ func load_tscn() -> void:
 		print("Load failed.")
 		return
 	_replace_ship(new_ship)
+	on_post_load.emit()
 
 func save_json() -> void:
 	save_load.save_json(ship, save_path, save_name.text)
@@ -38,6 +41,7 @@ func load_json() -> void:
 	var new_ship = ship_prefab.instantiate()
 	_replace_ship(new_ship)
 	save_load.load_json(save_path, save_name.text, new_ship)
+	on_post_load.emit()
 
 func _replace_ship(new_ship: Node) -> void:
 	ship.get_parent().add_child(new_ship)

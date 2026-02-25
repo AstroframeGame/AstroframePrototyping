@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bqk32mlg665ud"
-path="res://.godot/imported/RoundedSquare.png-3bc2e9726d30af55732742ffe5bf44aa.ctex"
+uid="uid://vmjyp74wcr11"
+path="res://.godot/imported/crosshair113.png-ba912019fa4658c57588bf00f359bb3e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://hub/RoundedSquare.png"
-dest_files=["res://.godot/imported/RoundedSquare.png-3bc2e9726d30af55732742ffe5bf44aa.ctex"]
+source_file="res://shipMovement/cursors/crosshair113.png"
+dest_files=["res://.godot/imported/crosshair113.png-ba912019fa4658c57588bf00f359bb3e.ctex"]
 
 [params]
 

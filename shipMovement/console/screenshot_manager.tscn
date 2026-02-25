@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://crx4ktvfwjrs5"]
+
+[ext_resource type="Script" uid="uid://mgvu8ua5amgt" path="res://shipMovement/console/screenshot_manager.gd" id="1_v5g6f"]
+
+[node name="ScreenshotManager" type="Node" unique_id=40887060]
+script = ExtResource("1_v5g6f")

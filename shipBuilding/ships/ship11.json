@@ -1,0 +1,167 @@
+{
+	"name": "Ship",
+	"rooms": [
+		{
+			"grid_pos": [
+				-1,
+				-1
+			],
+			"id": "piloting_1",
+			"name": "Piloting_1",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				-2,
+				1
+			],
+			"id": "reactor_4",
+			"name": "Reactor_4",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				0,
+				1
+			],
+			"id": "shields_3",
+			"name": "Shields_3",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				0,
+				-2
+			],
+			"id": "turret_3",
+			"name": "Turret_4",
+			"rot_index": 2
+		},
+		{
+			"grid_pos": [
+				-2,
+				-2
+			],
+			"id": "cannon",
+			"name": "Cannon",
+			"rot_index": 2
+		},
+		{
+			"grid_pos": [
+				-1,
+				-2
+			],
+			"id": "airlock_1",
+			"name": "Airlock_1",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				-1,
+				1
+			],
+			"id": "airlock_1",
+			"name": "@CollisionPolygon2D@45",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				-1,
+				2
+			],
+			"id": "engines_2",
+			"name": "Engines_2",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				1,
+				-1
+			],
+			"id": "hull_1",
+			"name": "Hull_1",
+			"rot_index": 5
+		},
+		{
+			"grid_pos": [
+				-2,
+				-3
+			],
+			"id": "hull_1",
+			"name": "@CollisionPolygon2D@46",
+			"rot_index": 5
+		},
+		{
+			"grid_pos": [
+				-1,
+				-3
+			],
+			"id": "hull_1",
+			"name": "@CollisionPolygon2D@47",
+			"rot_index": 5
+		},
+		{
+			"grid_pos": [
+				0,
+				-3
+			],
+			"id": "hull_1",
+			"name": "@CollisionPolygon2D@48",
+			"rot_index": 5
+		},
+		{
+			"grid_pos": [
+				1,
+				2
+			],
+			"id": "hull_1",
+			"name": "@CollisionPolygon2D@49",
+			"rot_index": 5
+		},
+		{
+			"grid_pos": [
+				1,
+				1
+			],
+			"id": "hull_1",
+			"name": "@CollisionPolygon2D@50",
+			"rot_index": 5
+		},
+		{
+			"grid_pos": [
+				2,
+				0
+			],
+			"id": "hull_1",
+			"name": "@CollisionPolygon2D@51",
+			"rot_index": 5
+		},
+		{
+			"grid_pos": [
+				-2,
+				2
+			],
+			"id": "hull_1",
+			"name": "@CollisionPolygon2D@52",
+			"rot_index": 5
+		},
+		{
+			"grid_pos": [
+				-3,
+				1
+			],
+			"id": "hull_1",
+			"name": "@CollisionPolygon2D@53",
+			"rot_index": 5
+		},
+		{
+			"grid_pos": [
+				-3,
+				0
+			],
+			"id": "hull_1",
+			"name": "@CollisionPolygon2D@54",
+			"rot_index": 5
+		}
+	]
+}

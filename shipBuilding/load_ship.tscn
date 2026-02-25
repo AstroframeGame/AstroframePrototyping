@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://d37m1h0nl2dsh"]
+
+[ext_resource type="Script" path="res://shipBuilding/level_editor/load_ship.gd" id="1_e8svg"]
+[ext_resource type="Script" uid="uid://qknmsuin5gwv" path="res://shipBuilding/save_load.gd" id="2_e0hwh"]
+
+[node name="LoadShip" type="VBoxContainer" unique_id=975251339]
+offset_left = -281.0
+offset_top = -288.0
+offset_right = -109.0
+offset_bottom = -187.0
+script = ExtResource("1_e8svg")
+
+[node name="SaveName" type="LineEdit" parent="." unique_id=1460788208]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+placeholder_text = "ship name"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1085565019]
+layout_mode = 2
+
+[node name="LoadJson" type="Button" parent="HBoxContainer" unique_id=1689498243]
+layout_mode = 2
+text = "Load Json"
+
+[node name="LoadTscn" type="Button" parent="HBoxContainer" unique_id=464816149]
+layout_mode = 2
+text = "Load Tscn"
+
+[node name="Target" type="Sprite2D" parent="." unique_id=611655132]
+position = Vector2(87, -302)
+scale = Vector2(0.07, 0.07)
+
+[node name="SaveLoad" type="Node" parent="." unique_id=27274874]
+script = ExtResource("2_e0hwh")

@@ -1,0 +1,149 @@
+{
+	"name": "_RigidBody2D_77",
+	"rooms": [
+		{
+			"grid_pos": [
+				0,
+				2
+			],
+			"id": "engines_2",
+			"name": "Engines_2",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				2,
+				2
+			],
+			"id": "engines_2",
+			"name": "_Node2D_76",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				-1,
+				1
+			],
+			"id": "airlock_1",
+			"name": "Airlock_1",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				3,
+				1
+			],
+			"id": "airlock_1",
+			"name": "_Node2D_77",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				0,
+				1
+			],
+			"id": "reactor_4",
+			"name": "Reactor_4",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				2,
+				1
+			],
+			"id": "reactor_4",
+			"name": "_Node2D_78",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				1,
+				1
+			],
+			"id": "airlock_1",
+			"name": "_Node2D_79",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				1,
+				-1
+			],
+			"id": "airlock_1",
+			"name": "_Node2D_80",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				-1,
+				-2
+			],
+			"id": "turret_3",
+			"name": "Turret_3",
+			"rot_index": 2
+		},
+		{
+			"grid_pos": [
+				4,
+				-2
+			],
+			"id": "turret_3",
+			"name": "_Node2D_81",
+			"rot_index": 4
+		},
+		{
+			"grid_pos": [
+				2,
+				-2
+			],
+			"id": "shields_3",
+			"name": "Shields_3",
+			"rot_index": 5
+		},
+		{
+			"grid_pos": [
+				-1,
+				-3
+			],
+			"id": "reactor_2",
+			"name": "Reactor_2",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				0,
+				-4
+			],
+			"id": "cannon",
+			"name": "Cannon",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				2,
+				-4
+			],
+			"id": "cannon",
+			"name": "_Node2D_82",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				3,
+				-3
+			],
+			"id": "airlock_1",
+			"name": "_Node2D_83",
+			"rot_index": 4
+		},
+		{
+			"grid_pos": [
+				2,
+				-3
+			],
+			"id": "piloting_1",
+			"name": "Piloting_1",
+			"rot_index": 0
+		}
+	]
+}
