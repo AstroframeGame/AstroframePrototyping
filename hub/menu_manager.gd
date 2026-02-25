@@ -6,7 +6,8 @@ extends Node
 
 func _ready() -> void:
 	for n in get_children():
-		n.visible = false
+		if n is CanvasLayer:
+			n.visible = false
 	get_node(open).visible = true
 
 func is_open(menu_name : String):
@@ -36,7 +37,8 @@ func load_scene(scene_path):
 	var packed_scene = ResourceLoader.load_threaded_get(scene_path)
 	return packed_scene
 
-func load_scene_in_bg(scene_path):
+@onready var asset_load_progress: TextureProgressBar = $"../Profiling/AssetLoadProgress"
+func load_asset(scene_path):
 	ResourceLoader.load_threaded_request(scene_path)
 	var progress = []
 	var status = ResourceLoader.load_threaded_get_status(scene_path, progress)
@@ -44,7 +46,9 @@ func load_scene_in_bg(scene_path):
 	while status != ResourceLoader.THREAD_LOAD_LOADED: 
 		await get_tree().process_frame
 		status = ResourceLoader.load_threaded_get_status(scene_path, progress)
-	
+		asset_load_progress.visible = true
+		asset_load_progress.value = progress[0] * 100
+	asset_load_progress.visible = false
 	var packed_scene = ResourceLoader.load_threaded_get(scene_path)
 	return packed_scene
 

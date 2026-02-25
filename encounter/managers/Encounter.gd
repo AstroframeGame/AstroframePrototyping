@@ -3,10 +3,22 @@ extends Node
 
 var enc_base_dir: String
 
-var player: Node				# reference to player (used for polling distance to npc ships, TEMP)
 var location: String			# location key
 var settings: Dictionary		# encounter settings (prereqs, rewards, etc)
 var reward_zone: Vector2		# where in the scene to put reward (using instead of player position)
+
+# reference to player (used for polling distance to npc ships, TEMP)
+var player_spawn: Vector2:
+	set(value):
+		player_spawn = value
+		if player and player_spawn:
+			player.global_position = player_spawn
+
+var player: Node:
+	set(value):
+		player = value
+		if player and player_spawn:
+			player.global_position = player_spawn
 
 # objectives
 var obj_panel: Label:
@@ -60,7 +72,7 @@ func _process(_delta):
 	# may be best to replace with signals, see notes in 0_1_DEMO.gd
 	if not player:
 		player = get_parent().multiplayer_manager.my_player
-		player.global_position = $Ship.global_position
+		#player.global_position = $Ship.global_position
 		
 	if not obj_panel:
 		obj_panel = get_parent().multiplayer_manager.my_player_system.find_child("PlayerUI").find_child("ScannerPanel").find_child("Content")

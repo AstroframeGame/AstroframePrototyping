@@ -10,7 +10,10 @@ var rot_index : int:
 		return int(round(rotation / (PI / 3.0)))
 var grid_pos : Vector2i:
 	get:
-		return ship.world_to_grid(global_position)
+		if ship:
+			return ship.world_to_grid(global_position)
+		print_debug(name, " has no ship")
+		return global_position
 
 @warning_ignore("unused_signal") # used in ship
 signal on_power_level_change(room : Room)
@@ -43,7 +46,7 @@ func get_out_hexes() -> Array[PowerOutHex]:
 
 # not sure how durability is going to work, but probably once a room takes enough damage, it becomes
 # inoperable or breaks
-@export var durability = 40
+@export var durability = 10
 #export for debugging
 @export var augments : Array[Augment]
 
