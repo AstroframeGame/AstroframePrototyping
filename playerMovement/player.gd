@@ -86,6 +86,9 @@ func _ready() -> void:
 		if has_node("MultiplayerSynchronizer"):
 			$MultiplayerSynchronizer.set_multiplayer_authority(1)
 			
+		if has_node("Grapple"):
+			$Grapple.set_multiplayer_authority(1)
+			
 		print("Initializing player ", name, " in Multiplayer...")
 		print("   Player ", owner_id, 
 		" | Local ID: ", multiplayer.get_unique_id(), 
