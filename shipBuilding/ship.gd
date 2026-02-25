@@ -493,17 +493,39 @@ func take_damage(amount:int, pos_ws : Vector2):
 func death_check():
 	if hit_points > 0:
 		return 
-		
+	death_explosion()
+	
+func death_explosion():
+	var rooms: Array[Room] = []
 	for child in get_children():
 		if child is Room:
-			explosion(child.global_position)
-			var dir = center_of_mass - child.position
-			detach_room_to_new_ship(child, dir)
-			
-	ship_destroyed.emit()
-	await get_tree().process_frame
-	queue_free()
+			rooms.append(child)
+	
+	for room in rooms:
+		var push_dir = (room.global_position - to_global(center_of_mass)).normalized()
+		
+		var debris_ship: Ship = SHIP_PREFAB.instantiate()
+		get_parent().add_child(debris_ship)
+		
+		# Match current state
+		debris_ship.global_transform = global_transform
+		debris_ship.linear_velocity = linear_velocity
+		debris_ship.angular_velocity = angular_velocity + randf_range(-2.0, 2.0)
+		
+		var grid_pos = room.grid_pos
+		var rot_index = room.rot_index
+		var pos = room.global_position
+		remove_room(room)
+		debris_ship.add_room.call_deferred(room, grid_pos, rot_index)
+		
+		var explosion_impulse = randf_range(20.0, 100.0)
+		debris_ship.apply_central_impulse(push_dir * explosion_impulse)
+		
+		debris_ship.initialize_ship()
+		explosion(pos)
 
+	ship_destroyed.emit()
+	queue_free()
 #endregion
 
 #region InteriorExterior
