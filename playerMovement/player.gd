@@ -16,7 +16,6 @@ the player is over ground, hence whether to use air movement or ground movement
 @export var thrust_accel = 800
 @export var rotate_speed = 10
 
-# Players are currently unable to collide. This is intended.  
 @export_flags_2d_physics var interior_layer
 @export_flags_2d_physics var interior_mask
 @export_flags_2d_physics var exterior_layer
@@ -49,6 +48,7 @@ var ship : Ship
 
 @onready var ground_check: Area2D = $GroundCheck
 @onready var interact_check: Area2D = $InteractCheck
+@onready var multiplayer_manager : MultiplayerManager = $".."
 
 @onready var grapple: Grapple = $Grapple
 
@@ -65,6 +65,7 @@ var grounded : bool:
 ## ====== Multiplayer START ======
 
 var is_multiplayer: bool = false
+var ship_pushed: bool = false
 var input_dir := Vector2.ZERO
 var target_pos := Vector2.ZERO
 var target_vel := Vector2.ZERO
@@ -73,22 +74,26 @@ var owner_id: int
 ## ======  Multiplayer END  ======
 
 func _ready() -> void:
+	ground_check.body_entered.connect(on_ground)
+	ground_check.body_exited.connect(on_unground)
+	ground_check.area_entered.connect(on_ground)
+	ground_check.area_exited.connect(on_unground)
 	
 	## ====== Multiplayer START ======
-	
+
 	if multiplayer.has_multiplayer_peer():
 		is_multiplayer = true
 		owner_id = name.to_int()
 		target_pos = global_position
-		
+
 		await get_tree().process_frame
-		
+
 		if has_node("MultiplayerSynchronizer"):
 			$MultiplayerSynchronizer.set_multiplayer_authority(1)
-			
+
 		if has_node("Grapple"):
 			$Grapple.set_multiplayer_authority(1)
-			
+
 		print("Initializing player ", name, " in Multiplayer...")
 		print("   Player ", owner_id, 
 		" | Local ID: ", multiplayer.get_unique_id(), 
@@ -96,13 +101,8 @@ func _ready() -> void:
 	else:
 		$NamerTag.text = ""
 		print("Initializing player in Singleplayer")
-	
+
 	## ======  Multiplayer END  ======
-	
-	ground_check.body_entered.connect(on_ground)
-	ground_check.body_exited.connect(on_unground)
-	ground_check.area_entered.connect(on_ground)
-	ground_check.area_exited.connect(on_unground)
 	
 	if ship:
 		on_ship_enter(ship)
@@ -111,12 +111,18 @@ func _ready() -> void:
 
 
 func _physics_process(delta):
-	
-	# Authority lands on player on singleplayer mode
 	if is_multiplayer_authority():
 		apply_ground_body_transform()
 		input_dir = input_dir.normalized().rotated(global_rotation)
-		if seat:
+		if ship_pushed: ## Action for movement
+			if pushing:
+				pushing = false
+			else:
+				pushing = ground_body != null and ground_body is Ship and ship == null
+		push_dir = input_dir
+		#print(ground_body != null , ground_body is Ship , ship == null , Input.is_action_pressed("ship_push"))
+		
+		if seat or pushing:
 			velocity = Vector2.ZERO # ship vel added later
 			handgun.holster()
 		elif grapple.wants_grapple():
@@ -125,79 +131,56 @@ func _physics_process(delta):
 			# remove rotation?
 			#rotate(Input.get_axis("rotate_left","rotate_right") * rotate_speed * delta)
 			velocity = input_dir * walk_speed
-	var direction = Input.get_vector("left", "right", "up", "down")
-	direction = direction.normalized().rotated(global_rotation)
-	if Input.is_action_just_pressed("ship_push"):
-		if pushing:
-			pushing = false
 		else:
-			pushing = ground_body != null and ground_body is Ship and ship == null
-	push_dir = direction
-	push_brake = Input.is_action_pressed("brake")
-	#print(ground_body != null , ground_body is Ship , ship == null , Input.is_action_pressed("ship_push"))
-	
-	if seat or pushing:
-		velocity = Vector2.ZERO # ship vel added later
-		handgun.holster()
-	elif grapple.wants_grapple():
-		velocity = grapple.velocity(delta)
-	elif grounded:
-		# remove rotation?
-		#rotate(Input.get_axis("rotate_left","rotate_right") * rotate_speed * delta)
-		velocity = direction * walk_speed
-	else:
-		ground_body = null
-		var goal_vel = Vector2.ZERO
-		if Input.is_action_pressed("brake"):
-			velocity = velocity.move_toward(Vector2.ZERO, thrust_accel * delta)
-		else:
-			if Input.is_action_pressed("brake"):
-				velocity -= velocity.normalized() * thrust_accel * delta
+			ground_body = null
+			var goal_vel = Vector2.ZERO
+			if push_brake:
+				velocity = velocity.move_toward(Vector2.ZERO, thrust_accel * delta)
 			else:
-				velocity += input_dir * thrust_accel * delta
+				goal_vel = velocity + input_dir * thrust_move
+				velocity = velocity.move_toward(goal_vel, thrust_accel * delta)
+		
 		move_and_slide()
 		
-		## ====== Multiplayer START ======
-
+		
 		for i in range(get_slide_collision_count()):
 			var collision = get_slide_collision(i)
 			var collider = collision.get_collider()
-		
+
 			if collider is RigidBody2D:
-				var push_dir = -collision.get_normal()
-				var impulse = push_dir * 200 * delta
+				var force_dir = -collision.get_normal()
+				var impulse = force_dir * 200 * delta
 				collider.apply_central_impulse(impulse)
 		
-		sync_state.rpc(global_position, velocity)
+		sync_state(global_position, velocity)
 		
-		## ======  Multiplayer END  ======
 	
-	else: 
-		global_position = global_position.lerp(target_pos, 0.25)
-		velocity = target_vel
-
-## ====== Multiplayer START ======
-
 func _process(delta: float) -> void:
 	var is_local_player = multiplayer.get_unique_id() == owner_id
-	
+
 	if is_local_player:
 		var dir = Input.get_vector("left", "right", "up", "down")
-		
+		var is_braking = Input.is_action_pressed("brake")
+		var pushed = Input.is_action_just_pressed("ship_push")
+
 		if is_multiplayer_authority():
 			input_dir = dir
+			push_brake = is_braking
+			ship_pushed = pushed
 		else:
-			send_input.rpc_id(1, dir)
+			send_input.rpc_id(1, dir, is_braking, pushed)
 
 @rpc("any_peer", "call_remote", "reliable")
-func send_input(dir: Vector2):
+func send_input(dir: Vector2, is_braking: bool, pushed: bool):
 	var sender_id = multiplayer.get_remote_sender_id()
 	if sender_id != owner_id:
 		push_warning("Player %d tried to control player %d" % [sender_id, owner_id])
 		return
-		
+
 	input_dir = dir
-	
+	push_brake = is_braking
+	ship_pushed = pushed
+
 @rpc("authority", "call_remote", "unreliable")
 func sync_state(pos: Vector2, vel: Vector2):
 	if not is_multiplayer_authority():

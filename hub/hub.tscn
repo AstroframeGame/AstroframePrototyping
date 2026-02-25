@@ -146,6 +146,7 @@ text = "Join"
 
 [node name="IDPrompt" type="LineEdit" parent="UI/Main/VBoxContainer/Multiplayer" unique_id=2096278151]
 layout_mode = 2
+
 [node name="Editor" type="Button" parent="UI/Main/VBoxContainer" unique_id=1870370267]
 layout_mode = 2
 text = "Ship Editor"
