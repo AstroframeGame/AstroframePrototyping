@@ -269,12 +269,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event.is_action_pressed("player_shoot"):
 			shooting = true
 			
-		if event.is_action_pressed("holster_handgun"):
+		if event.is_action_just_pressed("holster_handgun"):
 			if seat:
 				return
 			holstered = true
 			
-		if event.is_action_pressed("interact"):
+		if event.is_action_just_pressed("interact"):
 			interacting = true
 			
 		if seat and seat.room.has_method("handle_input"):
