@@ -6,6 +6,15 @@ uniform vec2 camera_offset;
 uniform float camera_zoom = 1.0;
 uniform float camera_rotation = 0.0;
 uniform float noise_frequency = 0.002;
+uniform float star_density = 0.998;
+uniform float star_scale = 0.2;
+
+uniform float noise_parallax : hint_range(0.0, 2.0) = 1.0;
+uniform float star_parallax : hint_range(0.0, 2.0) = 0.2;
+
+float hash(vec2 p) {
+	return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
+}
 
 vec3 permute(vec3 x) { return mod(((x*34.0)+1.0)*x, 289.0); }
 
@@ -38,11 +47,20 @@ void fragment() {
 	float c = cos(camera_rotation);
 	float s = sin(camera_rotation);
 	vec2 rotated_pos = vec2(pixel_pos.x * c - pixel_pos.y * s, pixel_pos.x * s + pixel_pos.y * c);
-	vec2 world_pos = (rotated_pos / camera_zoom) + camera_offset;
 	
-	float noise_val = snoise(world_pos * noise_frequency);
+	vec2 base_screen_pos = rotated_pos / camera_zoom;
+	
+	vec2 noise_world_pos = base_screen_pos + (camera_offset * noise_parallax);
+	vec2 star_world_pos = base_screen_pos + (camera_offset * star_parallax);
+	
+	float noise_val = snoise(noise_world_pos * noise_frequency);
 	float normalized_noise = noise_val * 0.5 + 0.5;
 	
 	vec4 gradient_color = texture(color_gradient, vec2(normalized_noise, 0.0));
-	COLOR = gradient_color;
+	
+	float star1 = step(star_density, hash(floor(star_world_pos * star_scale)));
+	float star2 = step(star_density + 0.005, hash(floor(star_world_pos * star_scale * 2.0)));
+	float stars = clamp(star1 + star2, 0.0, 1.0);
+	
+	COLOR = gradient_color + vec4(vec3(stars), 0.0);
 }

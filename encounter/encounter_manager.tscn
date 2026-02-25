@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cawa4uqnnlqd"]
 
-[ext_resource type="Script" uid="uid://tjqjrp00ux16" path="res://encounter/encounter_selection.gd" id="1_lacgv"]
+[ext_resource type="Script" path="res://encounter/encounter_selection.gd" id="1_lacgv"]
 
 [node name="EncounterSelection" type="Node2D" unique_id=818246174]
 script = ExtResource("1_lacgv")

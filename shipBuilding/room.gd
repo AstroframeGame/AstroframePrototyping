@@ -46,7 +46,7 @@ func get_out_hexes() -> Array[PowerOutHex]:
 
 # not sure how durability is going to work, but probably once a room takes enough damage, it becomes
 # inoperable or breaks
-@export var durability = 40
+@export var durability = 10
 #export for debugging
 @export var augments : Array[Augment]
 

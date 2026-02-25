@@ -1,5 +1,6 @@
 extends Node
 
+@onready var hex_editor: HexEditor = $"../../../HexEditor"
 @onready var save_manager: EditorSaveManager = $"../../../SaveManager"
 var ship: Ship :
 	get:
@@ -13,6 +14,9 @@ func _ready() -> void:
 	$VBoxContainer/HBoxContainer4/CheckBox.toggled.connect(show_exterior)
 	
 	save_manager.on_post_load.connect(on_load)
+	var refresh = func (): show_exterior($VBoxContainer/HBoxContainer4/CheckBox.button_pressed)
+	hex_editor.on_room_add.connect(refresh)
+	hex_editor.on_room_destroy.connect(refresh)
 
 func on_load():
 	$VBoxContainer/HBoxContainer2/ShipName.text = ship.name
@@ -33,4 +37,5 @@ func set_team(team : int):
 	print("Team set ", team)
 	
 func show_exterior(hide : bool):
-	ship.set_exterior_visible(null, not hide)
+	if ship != null:
+		ship.set_exterior_visible(null, not hide)

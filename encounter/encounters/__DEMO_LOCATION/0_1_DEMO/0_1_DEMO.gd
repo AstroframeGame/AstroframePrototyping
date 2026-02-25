@@ -19,6 +19,7 @@ func _ready() -> void:
 	enc_base_dir = get_script().get_path().get_base_dir()
 	objective = "Destroy all pirate ships!"
 	reward_zone = $RewardZone.global_position
+	player_spawn = $PlayerSpawn.global_position
 	
 	# win state setup
 	for ship in to_kill:
