@@ -1,4 +1,8 @@
+class_name SettingsMenu
 extends MarginContainer
+
+const UNSTYLED = preload("res://hub/ui-themes/unstyled.tres")
+@onready var key_mouse_binds: VBoxContainer = $"SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer"
 
 #region Video
 func _on_resoluton_option_selected(index: int) -> void:
@@ -21,7 +25,18 @@ func _on_fullscreen_toggled(toggled_on: bool) -> void:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 		
 #region Accessibility
-
+func generate_remap_settings() -> void:
+	var input_map = InputMap.get_actions()
+	for action in input_map:
+		var btn = RemappableButton.new()
+		btn.theme = UNSTYLED
+		var name_source = path
+		if path.begins_with("uid://"):
+			var id = ResourceUID.text_to_id(path)
+			name_source = ResourceUID.get_id_path(id)
+		btn.text = name_source.get_file().get_basename()
+		btn.pressed.connect(_on_btn_pressed.bind(path))
+		add_child(btn)
 #endregion
 #endregion
 

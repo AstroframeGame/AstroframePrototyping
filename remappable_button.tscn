@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://bbkvq2af4uk37"]
+
+[ext_resource type="Script" uid="uid://cuvj0myf2ih6c" path="res://remappable_button.gd" id="1_4xl11"]
+
+[node name="RemappableButton" type="Button" unique_id=1320000494]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("1_4xl11")
