@@ -159,7 +159,6 @@ func _physics_process(delta):
 		if event_in_room != null and not is_interacting:
 			sync_room_inputs.rpc(event_in_room)
 		
-		move_and_slide()
 		
 		for i in range(get_slide_collision_count()):
 			var collision = get_slide_collision(i)
@@ -171,9 +170,7 @@ func _physics_process(delta):
 				collider.apply_central_impulse(impulse)
 		
 		sync_state(global_position, velocity)
-	else:
-		global_position = global_position.lerp(target_pos, 0.25)
-		velocity = target_vel
+		move_and_slide()
 	
 func _process(delta: float) -> void:
 	is_local_player = multiplayer.get_unique_id() == owner_id or not is_multiplayer
