@@ -17,6 +17,8 @@ const MAX_MERGE_DISTANCE: float = 600.0
 
 const SPARKS_PREFAB = preload("res://art/vfx/sparks.tscn")
 const SPARKS_SPEED_THRESH = 10
+const EXPLOSION_PREFAB = preload("res://art/vfx/explosion.tscn")
+const HIT_SHIP_VFX_PREFAB = preload("res://art/vfx/hit_ship_vfx.tscn")
 
 var grid: TileMapLayer:
 	get:
@@ -484,8 +486,9 @@ func check_hud():
 		add_child(hud)
 	hud.initialize() # @ Kevin remove?
 
-func take_damage(amount:int):
+func take_damage(amount:int, pos_ws : Vector2):
 	hit_points -= amount # property has callback that sets the hud to update
+	hit_vfx(pos_ws)
 
 func death_check():
 	if hit_points > 0:
@@ -834,6 +837,22 @@ func eval_sparks(state : PhysicsDirectBodyState2D):
 			var sparks : Node2D= SPARKS_PREFAB.instantiate()
 			sparks.global_position = pos
 			sparks.global_rotation = rot
-			sparks.emitting = true
+			sparks.restart()
 			ProjectileManager.add_child(sparks)
+
+func explosion(pos : Vector2):
+	var g = EXPLOSION_PREFAB.instantiate()
+	g.global_position = pos
+	for c in g.get_children():
+		if c is GPUParticles2D:
+			c.restart()
+	ProjectileManager.add_child(g)
+
+func hit_vfx(pos : Vector2):
+	var g = HIT_SHIP_VFX_PREFAB.instantiate()
+	g.global_position = pos
+	for c in g.get_children():
+		if c is GPUParticles2D:
+			c.restart()
+	ProjectileManager.add_child(g)
 #endregion
