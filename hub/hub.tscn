@@ -203,7 +203,38 @@ text = "Back to Menu"
 [node name="DialogueRunner" parent="UI/Game" unique_id=314417777 instance=ExtResource("5_g3elb")]
 
 [node name="Paused" type="CanvasLayer" parent="UI" unique_id=731175255]
-visible = false
+
+[node name="ColorRect" type="ColorRect" parent="UI/Paused" unique_id=337209217]
+anchors_preset = -1
+anchor_left = 0.423
+anchor_top = 0.338
+anchor_right = 0.574
+anchor_bottom = 0.681
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.14333999, 0.14333999, 0.14333999, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Paused" unique_id=930718572]
+anchors_preset = -1
+anchor_left = 0.423
+anchor_top = 0.33800003
+anchor_right = 0.574
+anchor_bottom = 0.68100005
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="ResumeGame" type="Button" parent="UI/Paused/VBoxContainer" unique_id=133924513]
+layout_mode = 2
+text = "Resume Game"
+
+[node name="Settings" type="Button" parent="UI/Paused/VBoxContainer" unique_id=751332293]
+layout_mode = 2
+text = "Settings"
+
+[node name="Exit" type="Button" parent="UI/Paused/VBoxContainer" unique_id=581449401]
+layout_mode = 2
+text = "Back to Menu"
 
 [node name="GameOver" type="CanvasLayer" parent="UI" unique_id=1769148514]
 visible = false
@@ -217,6 +248,7 @@ offset_bottom = 8.0
 text = "Back"
 
 [node name="Settings" type="CanvasLayer" parent="UI" unique_id=1322932418]
+visible = false
 
 [node name="SettingsMenu" parent="UI/Settings" unique_id=1472990964 instance=ExtResource("15_qui64")]
 
@@ -276,5 +308,8 @@ environment = SubResource("Environment_21dlm")
 [connection signal="pressed" from="UI/Main/VBoxContainer/Credits" to="UI" method="open_menu" binds= [&"Credits"]]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Quit" to="GameManager" method="quit_application"]
 [connection signal="pressed" from="UI/Game/Exit" to="GameManager" method="quit_to_list"]
+[connection signal="pressed" from="UI/Paused/VBoxContainer/ResumeGame" to="GameManager" method="resume_game"]
+[connection signal="pressed" from="UI/Paused/VBoxContainer/Settings" to="GameManager" method="_on_settings_pressed"]
+[connection signal="pressed" from="UI/Paused/VBoxContainer/Exit" to="GameManager" method="quit_to_list"]
 [connection signal="pressed" from="UI/Credits/Back" to="UI" method="menu_back"]
 [connection signal="pressed" from="UI/Settings/Back" to="GameManager" method="menu_back"]

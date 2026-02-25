@@ -7,6 +7,7 @@ class_name GameManager
 
 var current_scene : Node2D
 @onready var menus : MenuManager = $"../UI"
+var in_game : bool = false
 
 signal game_start(world : Node2D)
 signal game_quit()
@@ -22,6 +23,7 @@ func _ready() -> void:
 func load_scene(path : String)->void:
 	var packed_scene = await menus.load_scene(path)
 	menus.open_menu("Game")
+	in_game = true
 	current_scene = packed_scene.instantiate()
 	add_child(current_scene)
 	if current_scene.name == "ShipBuilding" or current_scene.name == "EncounterSelection":
@@ -46,6 +48,7 @@ func quit_to_list():
 	if current_scene:
 		current_scene.queue_free()
 	menus.open_menu("Main")
+	in_game = false
 	MusicManager.play_menu()
 
 func quit_application():
@@ -61,4 +64,10 @@ func _on_settings_pressed() -> void:
 # if playing, return to gameplay
 # if in main menu, back to main
 func menu_back():
-	menus.open_menu("Main")
+	if in_game:
+		menus.open_menu("Paused")
+	else:
+		quit_to_list()
+	
+func resume_game():
+	menus.open_menu("Game")
