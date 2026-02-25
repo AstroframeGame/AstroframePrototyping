@@ -67,7 +67,7 @@ func _process(_delta: float) -> void:
 	if is_local_player:
 		var grapple = false
 		var will_cancel = false
-		var mouse = InputHelper.get_look_position(global_transform, 1000)
+		var mouse = InputHelper.get_look_position(player, 1000)
 		
 		if Input.is_action_just_pressed("grapple"):
 			grapple = true
@@ -105,11 +105,11 @@ func sync_grapple(is_vis: bool, g_pos: Vector2):
 		set_point_position(0, Vector2.ZERO)
 		set_point_position(1, to_local(g_pos))	
 
-func fire_grapple(mouse_pos):
+func fire_grapple(m_pos):
 	var space_state = get_world_2d().direct_space_state
 	
 	var query = PhysicsPointQueryParameters2D.new()
-	query.position = mouse_pos
+	query.position = m_pos
 	query.exclude = [player]
 	query.collision_mask = collision_mask
 	query.collide_with_areas = true
@@ -118,6 +118,6 @@ func fire_grapple(mouse_pos):
 	var result = space_state.intersect_point(query)
 	if result:
 		attached_body = result[0].collider
-		attached_offset = attached_body.to_local(mouse_pos)
+		attached_offset = attached_body.to_local(m_pos)
 		is_grappling = true
 		

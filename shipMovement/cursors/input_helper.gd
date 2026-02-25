@@ -19,13 +19,24 @@ var mouse_center_offset : Vector2 :
 		var center = get_viewport().get_visible_rect().get_center()
 		return get_viewport().get_mouse_position() - center
 
-func get_look_position(player_global_transform : Transform2D, distance : float) -> Vector2:
+func get_look_position(player : PlayerCharacter, distance : float) -> Vector2:
 	if using_mouse:
 		return get_global_mouse_position()
 	else:
-		var pos = player_global_transform.get_origin()
-		var dir = look.rotated(player_global_transform.get_rotation())
-		return pos + dir * distance # switch to raycast
+		var pos = player.global_transform.get_origin()
+		var dir = look.rotated(player.global_transform.get_rotation())
+		var target_pos = pos + dir * distance 
+		
+		var space_state = get_viewport().get_world_2d().direct_space_state
+		var query = PhysicsRayQueryParameters2D.create(pos, target_pos, player.ground_check.collision_mask)
+		
+		query.exclude = [player.get_rid()] 
+
+		var result = space_state.intersect_ray(query)
+		
+		if result:
+			return result.position
+		return target_pos
 
 func mouse_center_offset_deadzone(percent : float = 0.05) -> Vector2:
 	var look_dir = mouse_center_offset
