@@ -13,8 +13,10 @@ const HEX_HEIGHT = 90
 const HEX_GRID_PREFAB = preload("res://shipBuilding/prefabs/hex_grid.tscn")
 const HUD = preload("res://shipAI/prefabs/hud.tscn")
 const SHIP_PREFAB = preload("res://shipBuilding/prefabs/ship.tscn")
-
 const MAX_MERGE_DISTANCE: float = 600.0
+
+const SPARKS_PREFAB = preload("res://art/vfx/sparks.tscn")
+const SPARKS_SPEED_THRESH = 10
 
 var grid: TileMapLayer:
 	get:
@@ -43,6 +45,10 @@ func _ready() -> void:
 	on_airlock_interaction.connect(set_exterior_visible)
 	on_hit.connect(hud.update_hp_bar)
 	on_hit.connect(death_check)
+	
+	# for sparks
+	contact_monitor = true
+	max_contacts_reported = 5
 	
 	z_index = 1
 
@@ -103,6 +109,8 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	elif engines: # autodrag
 		state.angular_velocity = lerp(state.angular_velocity, 0.0, state.inverse_mass * engines.drag_multiplier * delta)
 		state.linear_velocity = lerp(state.linear_velocity, Vector2.ZERO, engines.get_thrust() * state.inverse_mass * engines.drag_multiplier * delta)
+	
+	eval_sparks(state)
 
 func calc_center_of_mass():
 	var hex_mass = 2.0
@@ -811,4 +819,21 @@ func _spawn_island_ship(island_rooms: Array) -> void:
 		new_ship.add_room(room, pos, rot)
 		
 	new_ship.initialize_ship()
+#endregion
+
+#region vfx
+func eval_sparks(state : PhysicsDirectBodyState2D):
+	if not get_tree().get_frame() % 10 == 0:
+		return
+	for i in state.get_contact_count():
+		var pos = state.get_contact_collider_position(i)
+		var rot = state.get_contact_local_normal(i).angle()
+		var speed = state.get_velocity_at_local_position(to_local(pos)).length()
+		print(speed)
+		if speed > SPARKS_SPEED_THRESH:
+			var sparks : Node2D= SPARKS_PREFAB.instantiate()
+			sparks.global_position = pos
+			sparks.global_rotation = rot
+			sparks.emitting = true
+			ProjectileManager.add_child(sparks)
 #endregion
