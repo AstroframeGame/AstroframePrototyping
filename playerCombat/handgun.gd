@@ -11,6 +11,7 @@ var accuracy = 0.6
 var accur_low = 0.6
 var accur_high = 1.0
 var time_since_shot = 0
+var m_pos := Vector2.ZERO
 
 var damage = 5
 var bullet_speed = 500 # @Alejandro can you add types to all variables, so that they match the projectile init() parameters
@@ -22,7 +23,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if (!holstered):
-		look_at(get_global_mouse_position())
+		look_at(m_pos)
 	
 	time_since_shot += delta
 	if time_since_shot > 0.5:
@@ -49,7 +50,7 @@ func shoot_bullet() -> void:
 func holster() -> void:
 	visible = false
 	holstered = true
-
+	
 func unholster() -> void:
 	visible = true
 	holstered = false
