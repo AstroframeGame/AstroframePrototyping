@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://daae3tloj435m"]
 
-[ext_resource type="Script" uid="uid://bwvp5wfog61cs" path="res://shipAI/Scripts/ship_hud.gd" id="1_3rtup"]
+[ext_resource type="Script" uid="uid://bwvp5wfog61cs" path="res://shipAI/scripts/ship_hud.gd" id="1_3rtup"]
 [ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/ui_textures/RoundedSquare.png" id="2_b4o85"]
 
 [node name="ShipHUD" type="CanvasLayer" unique_id=532014552]

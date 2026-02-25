@@ -377,13 +377,6 @@ func update_colliders() -> void:
 		solid.owner = self
 		print("Fallback: ", name, " creating solid")
 	
-    # old
-	#collision_layer = 16 # Ship exterior layer
-	#collision_mask = 4368 # (5) ship exterior + (9) environment + (13) + environment obstacle
-	#area.collision_layer = 3 # ship interior
-	#area.collision_mask = 3 # prob doesnt matter since it shouldnt be monitoring
-	#area.monitoring = false
-	# new
 	walls.collision_layer = 16 # Ship exterior layer
 	walls.collision_mask = 0#16 #ship exterior layer
 	collision_layer = 1 # ship interior
@@ -522,7 +515,6 @@ func set_exterior_visible(_interactor : CharacterBody2D, entered : bool):
 	for r in get_children():
 		if r is Room:
 			r.roof.visible = not entered
-
 #endregion
 
 #region Pushing

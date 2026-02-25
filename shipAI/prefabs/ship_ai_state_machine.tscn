@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://ssf2l4bt2vby"]
 
-[ext_resource type="Script" uid="uid://cvveu1nnvctbu" path="res://shipAI/Scripts/state_machine.gd" id="1_n8v3i"]
-[ext_resource type="Script" uid="uid://dyj4bo1qd3faj" path="res://shipAI/Scripts/fsm states/idle.gd" id="2_0vlr2"]
-[ext_resource type="Script" uid="uid://bgvx3a8mt0woc" path="res://shipAI/Scripts/fsm states/approach.gd" id="3_pcgcr"]
-[ext_resource type="Script" uid="uid://bbdj0sgo00bcs" path="res://shipAI/Scripts/fsm states/align.gd" id="4_vapte"]
-[ext_resource type="Script" uid="uid://qs3k7akqqg4e" path="res://shipAI/Scripts/fsm states/flee.gd" id="5_8qgqj"]
+[ext_resource type="Script" uid="uid://cvveu1nnvctbu" path="res://shipAI/scripts/state_machine.gd" id="1_n8v3i"]
+[ext_resource type="Script" uid="uid://dyj4bo1qd3faj" path="res://shipAI/scripts/fsm states/idle.gd" id="2_0vlr2"]
+[ext_resource type="Script" uid="uid://bgvx3a8mt0woc" path="res://shipAI/scripts/fsm states/approach.gd" id="3_pcgcr"]
+[ext_resource type="Script" uid="uid://bbdj0sgo00bcs" path="res://shipAI/scripts/fsm states/align.gd" id="4_vapte"]
+[ext_resource type="Script" uid="uid://qs3k7akqqg4e" path="res://shipAI/scripts/fsm states/flee.gd" id="5_8qgqj"]
 
 [node name="StateMachine" type="Node" unique_id=1311461638 node_paths=PackedStringArray("idle_state", "approach_state", "align_state", "flee_state")]
 script = ExtResource("1_n8v3i")

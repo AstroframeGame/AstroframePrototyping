@@ -15,6 +15,7 @@ func _physics_process(_delta: float) -> void:
 
 func _on_detection_range_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player_ship"):
+		print("start timer")
 		detection_timer.start()
 	
 func _on_detection_range_body_exited(body: Node2D) -> void:

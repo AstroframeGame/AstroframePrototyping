@@ -8,7 +8,7 @@ extends Node
 @export var align_state : State
 @export var flee_state : State
 
-@onready var ship : Ship = $".."
+@onready var auto_pilot : Room = $".."
 @onready var nav_agent : NavigationAgent2D = $"../NavigationAgent2D"
 
 func _ready() -> void:

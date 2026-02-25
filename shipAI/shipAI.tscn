@@ -3,8 +3,8 @@
 [ext_resource type="Shader" path="res://shipMovement/grid.gdshader" id="2_vrncs"]
 [ext_resource type="Texture2D" uid="uid://blw3cf71ki3n1" path="res://encounter/grid_black_1024x1024.png" id="3_nhcgg"]
 [ext_resource type="Script" uid="uid://ckvkvmc3ju7xr" path="res://shipMovement/scrolling_bg.gd" id="4_8rdp5"]
-[ext_resource type="PackedScene" uid="uid://b5hikq1i2xtpw" path="res://shipBuilding/ships/player_ship.tscn" id="5_nhcgg"]
-[ext_resource type="PackedScene" uid="uid://cxfdk3i3ew4wb" path="res://shipBuilding/ships/wasp.tscn" id="7_jrc0m"]
+[ext_resource type="PackedScene" uid="uid://bo138uijiwdph" path="res://shipBuilding/ships/player_ship.tscn" id="5_nhcgg"]
+[ext_resource type="PackedScene" uid="uid://dbgkm073louoa" path="res://shipBuilding/ships/wasp.tscn" id="7_jrc0m"]
 [ext_resource type="PackedScene" uid="uid://bfcvwgyqwu34t" path="res://shipAI/prefabs/asteroid.tscn" id="7_vrncs"]
 [ext_resource type="FontFile" uid="uid://bvhs72w1tp2uu" path="res://hub/fonts/Ethnocentric-Regular.otf" id="8_8rdp5"]
 
@@ -45,18 +45,12 @@ mouse_filter = 1
 script = ExtResource("4_8rdp5")
 
 [node name="Wasp" parent="." unique_id=1784127879 node_paths=PackedStringArray("power_links") instance=ExtResource("7_jrc0m")]
-position = Vector2(2565, 578)
+position = Vector2(2492, 552)
 power_links = {
-NodePath("Reactor_2(1)/OutputHex/OutClickArea"): NodePath("Engines_2/InputHex/InClickArea"),
-NodePath("Reactor_2(1)/OutputHex3/OutClickArea"): NodePath("Engines_2/InputHex2/InClickArea"),
-NodePath("Reactor_2/OutputHex/OutClickArea"): NodePath("Cannon/InputHex/InClickArea")
-}
-
-[node name="Wasp2" parent="." unique_id=861524666 node_paths=PackedStringArray("power_links") instance=ExtResource("7_jrc0m")]
-position = Vector2(2692, 918)
-power_links = {
-NodePath("Reactor_2(1)/OutputHex/OutClickArea"): NodePath("Engines_2/InputHex/InClickArea"),
-NodePath("Reactor_2(1)/OutputHex3/OutClickArea"): NodePath("Engines_2/InputHex2/InClickArea"),
+NodePath("Reactor_4/OutputHex/OutClickArea"): NodePath("Engines_2/InputHex/InClickArea"),
+NodePath("Reactor_4/OutputHex2/OutClickArea"): NodePath("Engines_2/InputHex2/InClickArea"),
+NodePath("Reactor_4/OutputHex3/OutClickArea"): NodePath("Autopilot_1/InputHex/InClickArea"),
+NodePath("Reactor_4/OutputHex4/OutClickArea"): NodePath("Autopilot_1/InputHex2/InClickArea"),
 NodePath("Reactor_2/OutputHex/OutClickArea"): NodePath("Cannon/InputHex/InClickArea")
 }
 
@@ -70,8 +64,7 @@ NodePath("Reactor_4/OutputHex2/OutClickArea"): NodePath("Shields_3/InputHex3/InC
 max_hit_points = 0
 
 [node name="Asteroid" parent="." unique_id=553772809 instance=ExtResource("7_vrncs")]
-visible = false
-position = Vector2(-1808, -1146)
+position = Vector2(1731, 430)
 collision_layer = 4352
 collision_mask = 48
 
