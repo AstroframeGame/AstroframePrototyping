@@ -24,6 +24,8 @@ background_mode = 3
 glow_enabled = true
 glow_strength = 0.59
 glow_bloom = 0.27
+adjustment_enabled = true
+adjustment_saturation = 0.0
 
 [node name="Hub" type="Node2D" unique_id=2058136417]
 
@@ -215,7 +217,6 @@ offset_bottom = 8.0
 text = "Back"
 
 [node name="Settings" type="CanvasLayer" parent="UI" unique_id=1322932418]
-visible = false
 
 [node name="SettingsMenu" parent="UI/Settings" unique_id=1472990964 instance=ExtResource("15_qui64")]
 
@@ -225,8 +226,10 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -48.0
-offset_top = -30.0
+offset_left = -1275.0
+offset_top = -715.0
+offset_right = -1227.0
+offset_bottom = -685.0
 grow_horizontal = 0
 grow_vertical = 0
 size_flags_horizontal = 10

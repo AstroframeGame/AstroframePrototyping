@@ -36,16 +36,16 @@ func _on_fullscreen_toggled(toggled_on: bool) -> void:
 
 func _on_master_volume_changed(value: float) -> void:
 	var bus_index = AudioServer.get_bus_index("Master")
-	AudioServer.set_bus_volume_linear(bus_index, value)
+	AudioServer.set_bus_volume_linear(bus_index, value/100)
 	master_volume_percent.text = str(int(value)) + "%"
 
 func _on_music_volume_changed(value: float) -> void:
 	var bus_index = AudioServer.get_bus_index("Music")
-	AudioServer.set_bus_volume_linear(bus_index, value)
+	AudioServer.set_bus_volume_linear(bus_index, value/100)
 	music_volume_percent.text = str(int(value)) + "%"
 
 func _on_sfx_volume_changed(value: float) -> void:
 	var bus_index = AudioServer.get_bus_index("SFX")
-	AudioServer.set_bus_volume_linear(bus_index, value)
+	AudioServer.set_bus_volume_linear(bus_index, value/100)
 	sfx_volume_percent.text = str(int(value)) + "%"
 #endregion

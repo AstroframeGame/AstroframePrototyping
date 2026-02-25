@@ -11,12 +11,34 @@ font_size = 25
 [sub_resource type="LabelSettings" id="LabelSettings_0s764"]
 font_size = 25
 
+[sub_resource type="LabelSettings" id="LabelSettings_8fw5y"]
+font_size = 30
+
+[sub_resource type="LabelSettings" id="LabelSettings_4cpd3"]
+font_size = 25
+
+[sub_resource type="LabelSettings" id="LabelSettings_8kgxu"]
+font_size = 30
+
+[sub_resource type="LabelSettings" id="LabelSettings_qlnyf"]
+font_size = 25
+
+[sub_resource type="LabelSettings" id="LabelSettings_4x0vv"]
+font_size = 30
+
+[sub_resource type="LabelSettings" id="LabelSettings_ix240"]
+font_size = 25
+
 [node name="SettingsMenu" type="MarginContainer" unique_id=1472990964]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 150
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 150
+theme_override_constants/margin_bottom = 30
 script = ExtResource("1_iy5a8")
 
 [node name="SettingsTabs" type="TabContainer" parent="." unique_id=371460994]
@@ -119,6 +141,226 @@ metadata/_tab_index = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse" unique_id=799473965]
 layout_mode = 2
+
+[node name="Universal" type="Label" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer" unique_id=242385232]
+layout_mode = 2
+text = "Universal:"
+label_settings = SubResource("LabelSettings_8fw5y")
+
+[node name="Left" type="Label" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer" unique_id=1892764259]
+layout_mode = 2
+text = "Left: "
+label_settings = SubResource("LabelSettings_4cpd3")
+
+[node name="Button" type="Button" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer/Left" unique_id=2067300619]
+layout_mode = 0
+offset_left = 100.0
+offset_top = -3.0
+offset_right = 131.0
+offset_bottom = 27.0
+text = "A"
+
+[node name="Right" type="Label" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer" unique_id=1862619701]
+layout_mode = 2
+text = "Right:"
+label_settings = SubResource("LabelSettings_4cpd3")
+
+[node name="Button" type="Button" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer/Right" unique_id=348768766]
+layout_mode = 0
+offset_left = 100.0
+offset_top = -1.0
+offset_right = 131.0
+offset_bottom = 29.0
+text = "D"
+
+[node name="Up" type="Label" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer" unique_id=739835958]
+layout_mode = 2
+text = "Up:"
+label_settings = SubResource("LabelSettings_4cpd3")
+
+[node name="Button" type="Button" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer/Up" unique_id=1703825180]
+layout_mode = 0
+offset_left = 100.0
+offset_top = -1.0
+offset_right = 131.0
+offset_bottom = 29.0
+text = "W"
+
+[node name="Down" type="Label" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer" unique_id=1512584877]
+layout_mode = 2
+text = "Down:"
+label_settings = SubResource("LabelSettings_4cpd3")
+
+[node name="Button" type="Button" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer/Down" unique_id=372665163]
+layout_mode = 0
+offset_left = 100.0
+offset_right = 131.0
+offset_bottom = 30.0
+text = "S"
+
+[node name="Interact" type="Label" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer" unique_id=1120214809]
+layout_mode = 2
+text = "Interact:"
+label_settings = SubResource("LabelSettings_4cpd3")
+
+[node name="Button" type="Button" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer/Interact" unique_id=345013600]
+layout_mode = 0
+offset_left = 100.0
+offset_top = 1.0
+offset_right = 131.0
+offset_bottom = 31.0
+text = "F"
+
+[node name="Pause" type="Label" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer" unique_id=632974847]
+layout_mode = 2
+text = "Pause:"
+label_settings = SubResource("LabelSettings_4cpd3")
+
+[node name="Button" type="Button" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer/Pause" unique_id=905269886]
+layout_mode = 0
+offset_left = 100.0
+offset_top = 2.0
+offset_right = 137.0
+offset_bottom = 32.0
+text = "Esc"
+
+[node name="Dialogue" type="Label" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer" unique_id=1946417835]
+layout_mode = 2
+text = "Next:"
+label_settings = SubResource("LabelSettings_4cpd3")
+
+[node name="Button" type="Button" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer/Dialogue" unique_id=922251477]
+layout_mode = 0
+offset_left = 100.0
+offset_top = 3.0
+offset_right = 158.0
+offset_bottom = 33.0
+text = "Space"
+
+[node name="Spacing" type="Label" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer" unique_id=362141061]
+layout_mode = 2
+
+[node name="Player" type="Label" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer" unique_id=1960931284]
+layout_mode = 2
+text = "Player:"
+label_settings = SubResource("LabelSettings_8kgxu")
+
+[node name="Grapple" type="Label" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer" unique_id=2040108471]
+layout_mode = 2
+text = "Grapple:"
+label_settings = SubResource("LabelSettings_qlnyf")
+
+[node name="Button" type="Button" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer/Grapple" unique_id=696741067]
+layout_mode = 0
+offset_left = 115.0
+offset_top = 3.0
+offset_right = 173.0
+offset_bottom = 33.0
+text = "Mouse2"
+
+[node name="Push" type="Label" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer" unique_id=221177371]
+layout_mode = 2
+text = "Push:"
+label_settings = SubResource("LabelSettings_qlnyf")
+
+[node name="Button" type="Button" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer/Push" unique_id=1591533517]
+layout_mode = 0
+offset_left = 115.0
+offset_top = 3.0
+offset_right = 145.0
+offset_bottom = 33.0
+text = "R"
+
+[node name="Handgun" type="Label" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer" unique_id=981545218]
+layout_mode = 2
+text = "Handgun:"
+label_settings = SubResource("LabelSettings_4x0vv")
+
+[node name="Shoot2" type="Label" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer" unique_id=1090244815]
+layout_mode = 2
+text = "Shoot:"
+label_settings = SubResource("LabelSettings_qlnyf")
+
+[node name="Button" type="Button" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer/Shoot2" unique_id=526916874]
+layout_mode = 0
+offset_left = 115.0
+offset_top = 3.0
+offset_right = 173.0
+offset_bottom = 33.0
+text = "Mouse1"
+
+[node name="Holster" type="Label" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer" unique_id=643372985]
+layout_mode = 2
+text = "Holster:"
+label_settings = SubResource("LabelSettings_qlnyf")
+
+[node name="Button" type="Button" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer/Holster" unique_id=9791461]
+layout_mode = 0
+offset_left = 115.0
+offset_top = 3.0
+offset_right = 173.0
+offset_bottom = 33.0
+text = "H"
+
+[node name="Brake" type="Label" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer" unique_id=293367866]
+layout_mode = 2
+text = "Brake:"
+label_settings = SubResource("LabelSettings_qlnyf")
+
+[node name="Button" type="Button" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer/Brake" unique_id=596690985]
+layout_mode = 0
+offset_left = 115.0
+offset_top = 3.0
+offset_right = 173.0
+offset_bottom = 33.0
+text = "Space"
+
+[node name="RotateLeft" type="Label" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer" unique_id=1260448921]
+layout_mode = 2
+text = "Rotate(L):"
+label_settings = SubResource("LabelSettings_qlnyf")
+
+[node name="Button" type="Button" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer/RotateLeft" unique_id=797122158]
+layout_mode = 0
+offset_left = 115.0
+offset_top = 3.0
+offset_right = 173.0
+offset_bottom = 33.0
+text = "Q"
+
+[node name="RotateRight" type="Label" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer" unique_id=566910358]
+layout_mode = 2
+text = "Rotate(R):"
+label_settings = SubResource("LabelSettings_qlnyf")
+
+[node name="Button" type="Button" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer/RotateRight" unique_id=1504326002]
+layout_mode = 0
+offset_left = 115.0
+offset_top = 3.0
+offset_right = 173.0
+offset_bottom = 33.0
+text = "E"
+
+[node name="Spacing2" type="Label" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer" unique_id=1974635222]
+layout_mode = 2
+
+[node name="Ship" type="Label" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer" unique_id=182729342]
+layout_mode = 2
+text = "Ship:"
+label_settings = SubResource("LabelSettings_ix240")
+
+[node name="Shoot" type="Label" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer" unique_id=1782491264]
+layout_mode = 2
+text = "Shoot:"
+label_settings = SubResource("LabelSettings_qlnyf")
+
+[node name="Button" type="Button" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer/Shoot" unique_id=1885709295]
+layout_mode = 0
+offset_left = 115.0
+offset_top = 3.0
+offset_right = 173.0
+offset_bottom = 33.0
+text = "Mouse1"
 
 [node name="Controller" type="ScrollContainer" parent="SettingsTabs/Controls/ControlInterface" unique_id=232209291]
 visible = false
