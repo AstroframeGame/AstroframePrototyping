@@ -22,7 +22,7 @@ var grapple_position : Vector2:
 func wants_grapple():
 	if player.seat:
 		return false
-	return is_grappling
+	return is_grappling and is_instance_valid(attached_body)
 
 func velocity(delta : float):
 	if at_destination:
@@ -45,7 +45,6 @@ func _physics_process(_delta: float) -> void:
 		if will_grapple:
 			fire_grapple(mouse_pos)
 			will_grapple = false
-			is_grappling = true
 		
 		if not wants_grapple():
 			visible = false
@@ -59,8 +58,6 @@ func _physics_process(_delta: float) -> void:
 		set_point_position(1, to_local(grapple_position))
 		
 		sync_grapple.rpc(visible, grapple_position)
-
-		
 
 func _process(_delta: float) -> void:
 	var is_local_player = multiplayer.get_unique_id() == player.owner_id
@@ -120,4 +117,5 @@ func fire_grapple(m_pos):
 		attached_body = result[0].collider
 		attached_offset = attached_body.to_local(m_pos)
 		is_grappling = true
-		
+	else:
+		is_grappling = false
