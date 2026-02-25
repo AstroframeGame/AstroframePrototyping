@@ -159,6 +159,8 @@ func _physics_process(delta):
 		if event_in_room != null and not is_interacting:
 			sync_room_inputs.rpc(event_in_room)
 		
+		move_and_slide()
+		
 		for i in range(get_slide_collision_count()):
 			var collision = get_slide_collision(i)
 			var collider = collision.get_collider()
@@ -169,7 +171,6 @@ func _physics_process(delta):
 				collider.apply_central_impulse(impulse)
 		
 		sync_state(global_position, velocity)
-		move_and_slide()
 	else:
 		global_position = global_position.lerp(target_pos, 0.25)
 		velocity = target_vel
@@ -234,6 +235,7 @@ func sync_room_inputs(room_event: InputEvent):
 #endregion
 ## ======  Multiplayer END  ======
 
+#region InteractionManager
 # currently interacts with the first overlapping interactable area, but this can be changed to nearest, last, all, ect.
 func interact():
 	var interactable = get_interactable()
@@ -254,7 +256,9 @@ func get_interactable_hint() -> String:
 			return interactable.interact_hint()
 		return "Press [E] to interact with " + interactable.name
 	return ""
+#endregion
 
+#region UnhandledInputs
 func _unhandled_input(event: InputEvent) -> void:
 	if is_local_player:
 		var shooting = false
@@ -295,7 +299,8 @@ func send_unhandled_inputs(shooting: bool, holstered: bool, interacting: bool, r
 	is_holstered   = holstered
 	is_interacting = interacting
 	event_in_room  = room_input
-		
+#endregion	
+	
 #region grounding
 # called when ground check intersects with rb
 func on_ground(_body : Node2D):
