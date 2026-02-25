@@ -6,8 +6,6 @@
 line_spacing = 8.0
 font_size = 25
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_8fw5y"]
-
 [sub_resource type="LabelSettings" id="LabelSettings_0s764"]
 font_size = 25
 
@@ -75,7 +73,6 @@ offset_left = 141.0
 offset_top = 1.0
 offset_right = 185.0
 offset_bottom = 25.0
-icon = SubResource("ViewportTexture_8fw5y")
 
 [node name="Accessibility" type="Label" parent="SettingsTabs/Video/VBoxContainer" unique_id=20384348]
 layout_mode = 2
