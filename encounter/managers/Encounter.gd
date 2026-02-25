@@ -131,4 +131,4 @@ func _on_encounter_completed(enc_name: String):
 		r.set_deferred("global_position", reward_zone)
 	
 	# dialogue
-	start_dialogue("win", "winw")
+	start_dialogue("win", "win")

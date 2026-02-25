@@ -12,6 +12,9 @@ func _ready() -> void:
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.position = Vector2(-label.size.x / 2, y_offset)  
 	label.add_theme_color_override("font_color", color)
+	
+	if target:
+		target.tree_exited.connect(queue_free)
 
 func _process(_delta: float) -> void:
 	if not target: return
