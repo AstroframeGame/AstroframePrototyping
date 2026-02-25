@@ -263,18 +263,18 @@ func _unhandled_input(event: InputEvent) -> void:
 	if is_local_player:
 		var shooting = false
 		var holstered = false
-		var interacting = false
 		var room_input = null
+		var interacting = false
 		
 		if event.is_action_pressed("player_shoot"):
 			shooting = true
 			
-		if event.is_action_just_pressed("holster_handgun"):
+		if event.is_action_released("holster_handgun"):
 			if seat:
 				return
-			holstered = true
-			
-		if event.is_action_just_pressed("interact"):
+			holstered = true		
+	
+		if event.is_action_released("interact"):
 			interacting = true
 			
 		if seat and seat.room.has_method("handle_input"):
@@ -283,8 +283,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		if is_multiplayer_authority():
 			is_shooting    = shooting
 			is_holstered   = holstered
-			is_interacting = interacting
 			event_in_room  = room_input
+			is_interacting = interacting
 		else:
 			send_unhandled_inputs.rpc_id(1, shooting, holstered, interacting, room_input)
 	
