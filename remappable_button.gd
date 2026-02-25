@@ -24,9 +24,11 @@ const CONTROLLER_LABELS: Dictionary = {
 
 func _ready() -> void:
 	toggle_mode = true
+	toggled.connect(_toggled)
 	_toggled(false)
 	
 func _toggled(toggled_on: bool) -> void:
+	print("Toggled:", toggled_on)
 	if !action_name or !InputMap.has_action(action_name):
 		return
 		
@@ -45,7 +47,7 @@ func _toggled(toggled_on: bool) -> void:
 		else:
 			text = "New Button " + str(input.button_index)
 	
-	elif InputEventKey and is_keyboard_bind:
+	elif input is InputEventKey and is_keyboard_bind:
 		if input.physical_keycode != 0:
 			text = OS.get_keycode_string(input.physical_keycode)
 		else:
@@ -62,10 +64,5 @@ func _unhandled_input(event: InputEvent) -> void:
 			
 		InputMap.action_add_event(action_name, event)
 		event_index = InputMap.action_get_events(action_name).size()-1
-		button_pressed = false
-		release_focus()
-
-func _input(event: InputEvent) -> void:
-	if event is InputEventMouseButton:
 		button_pressed = false
 		release_focus()

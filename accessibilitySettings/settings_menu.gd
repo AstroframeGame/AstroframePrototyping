@@ -4,6 +4,9 @@ extends MarginContainer
 const UNSTYLED = preload("res://hub/ui-themes/unstyled.tres")
 @onready var key_mouse_binds: VBoxContainer = $"SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer"
 
+func _ready() -> void:
+	generate_remap_settings()
+
 #region Video
 func _on_resoluton_option_selected(index: int) -> void:
 	match index:
@@ -28,15 +31,22 @@ func _on_fullscreen_toggled(toggled_on: bool) -> void:
 func generate_remap_settings() -> void:
 	var input_map = InputMap.get_actions()
 	for action in input_map:
+		if action.get_slice("_", 0) == "ui":
+			continue
+		var horiz_box = HBoxContainer.new()
+		var lbl = Label.new()
+		lbl.text = action
 		var btn = RemappableButton.new()
+		btn.action_name = action
 		btn.theme = UNSTYLED
-		var name_source = path
-		if path.begins_with("uid://"):
-			var id = ResourceUID.text_to_id(path)
-			name_source = ResourceUID.get_id_path(id)
-		btn.text = name_source.get_file().get_basename()
-		btn.pressed.connect(_on_btn_pressed.bind(path))
-		add_child(btn)
+		var events = InputMap.action_get_events(action)
+		if events.size() > 0:
+			btn.text = events[0].as_text().get_slice(" - ", 0)
+		else:
+			btn.text = "No Binding"
+		horiz_box.add_child(lbl)
+		horiz_box.add_child(btn)
+		key_mouse_binds.add_child(horiz_box)
 #endregion
 #endregion
 
