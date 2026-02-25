@@ -16,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://c856slvu6oqjm" path="res://hub/menu_icons/icons8-mute-64.png" id="11_wm4ra"]
 [ext_resource type="Script" path="res://hub/mute_button.gd" id="12_6jnk7"]
 [ext_resource type="Theme" uid="uid://d0o0krm245a4q" path="res://hub/ui-themes/unstyled.tres" id="13_h8dj6"]
+[ext_resource type="PackedScene" uid="uid://c4c4q35vwjc06" path="res://accessibilitySettings/settings_menu.tscn" id="15_qui64"]
 [ext_resource type="Texture2D" uid="uid://cjtj7xo6f6waa" path="res://shipBuilding/icons/torus.png" id="17_qui64"]
 
 [sub_resource type="Environment" id="Environment_21dlm"]
@@ -23,6 +24,8 @@ background_mode = 3
 glow_enabled = true
 glow_strength = 0.59
 glow_bloom = 0.27
+adjustment_enabled = true
+adjustment_saturation = 0.0
 
 [node name="Hub" type="Node2D" unique_id=2058136417]
 
@@ -151,9 +154,9 @@ layout_mode = 2
 layout_mode = 2
 text = "Ship Editor"
 
-[node name="Options" type="Button" parent="UI/Main/VBoxContainer" unique_id=884632170]
+[node name="Settings" type="Button" parent="UI/Main/VBoxContainer" unique_id=884632170]
 layout_mode = 2
-text = "Options"
+text = "Settings"
 
 [node name="Credits" type="Button" parent="UI/Main/VBoxContainer" unique_id=1767168070]
 layout_mode = 2
@@ -219,23 +222,69 @@ text = "Back to Menu"
 [node name="DialogueRunner" parent="UI/Game" unique_id=314417777 instance=ExtResource("5_g3elb")]
 
 [node name="Paused" type="CanvasLayer" parent="UI" unique_id=731175255]
-visible = false
+
+[node name="ColorRect" type="ColorRect" parent="UI/Paused" unique_id=337209217]
+anchors_preset = -1
+anchor_left = 0.423
+anchor_top = 0.338
+anchor_right = 0.574
+anchor_bottom = 0.681
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.14333999, 0.14333999, 0.14333999, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Paused" unique_id=930718572]
+anchors_preset = -1
+anchor_left = 0.423
+anchor_top = 0.33800003
+anchor_right = 0.574
+anchor_bottom = 0.68100005
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="ResumeGame" type="Button" parent="UI/Paused/VBoxContainer" unique_id=133924513]
+layout_mode = 2
+text = "Resume Game"
+
+[node name="Settings" type="Button" parent="UI/Paused/VBoxContainer" unique_id=751332293]
+layout_mode = 2
+text = "Settings"
+
+[node name="Exit" type="Button" parent="UI/Paused/VBoxContainer" unique_id=581449401]
+layout_mode = 2
+text = "Back to Menu"
 
 [node name="GameOver" type="CanvasLayer" parent="UI" unique_id=1769148514]
 visible = false
 
 [node name="Credits" type="CanvasLayer" parent="UI" unique_id=2010810909]
+visible = false
 
 [node name="Back" type="Button" parent="UI/Credits" unique_id=1238051811]
 offset_right = 8.0
 offset_bottom = 8.0
 text = "Back"
 
-[node name="Options" type="CanvasLayer" parent="UI" unique_id=1322932418]
+[node name="Settings" type="CanvasLayer" parent="UI" unique_id=1322932418]
+visible = false
 
-[node name="Back" type="Button" parent="UI/Options" unique_id=1581757141]
-offset_right = 8.0
-offset_bottom = 8.0
+[node name="SettingsMenu" parent="UI/Settings" unique_id=1472990964 instance=ExtResource("15_qui64")]
+
+[node name="Back" type="Button" parent="UI/Settings" unique_id=1581757141]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1275.0
+offset_top = -715.0
+offset_right = -1227.0
+offset_bottom = -685.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 10
+size_flags_vertical = 10
 text = "Back"
 
 [node name="Profiling" type="CanvasLayer" parent="." unique_id=1820677988]
@@ -277,9 +326,12 @@ environment = SubResource("Environment_21dlm")
 [connection signal="pressed" from="UI/Main/VBoxContainer/Multiplayer/Join" to="MultiplayerManager" method="_on_join_pressed"]
 [connection signal="text_changed" from="UI/Main/VBoxContainer/Multiplayer/IDPrompt" to="MultiplayerManager" method="_on_id_prompt_text_changed"]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Editor" to="GameManager" method="open_ship_editor"]
-[connection signal="pressed" from="UI/Main/VBoxContainer/Options" to="UI" method="open_menu" binds= [&"Options"]]
+[connection signal="pressed" from="UI/Main/VBoxContainer/Settings" to="GameManager" method="_on_settings_pressed"]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Credits" to="UI" method="open_menu" binds= [&"Credits"]]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Quit" to="GameManager" method="quit_application"]
 [connection signal="pressed" from="UI/Game/Exit" to="GameManager" method="quit_to_list"]
+[connection signal="pressed" from="UI/Paused/VBoxContainer/ResumeGame" to="GameManager" method="resume_game"]
+[connection signal="pressed" from="UI/Paused/VBoxContainer/Settings" to="GameManager" method="_on_settings_pressed"]
+[connection signal="pressed" from="UI/Paused/VBoxContainer/Exit" to="GameManager" method="quit_to_list"]
 [connection signal="pressed" from="UI/Credits/Back" to="UI" method="menu_back"]
-[connection signal="pressed" from="UI/Options/Back" to="UI" method="menu_back"]
+[connection signal="pressed" from="UI/Settings/Back" to="GameManager" method="menu_back"]

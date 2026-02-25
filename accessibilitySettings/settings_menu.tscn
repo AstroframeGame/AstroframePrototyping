@@ -1,0 +1,215 @@
+[gd_scene format=3 uid="uid://c4c4q35vwjc06"]
+
+[ext_resource type="Script" uid="uid://d28qxycyg8erv" path="res://accessibilitySettings/settings_menu.gd" id="1_iy5a8"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_iy5a8"]
+line_spacing = 8.0
+font_size = 25
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_8fw5y"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_0s764"]
+font_size = 25
+
+[node name="SettingsMenu" type="MarginContainer" unique_id=1472990964]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 150
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 150
+theme_override_constants/margin_bottom = 30
+script = ExtResource("1_iy5a8")
+
+[node name="SettingsTabs" type="TabContainer" parent="." unique_id=371460994]
+layout_mode = 2
+current_tab = 0
+
+[node name="Video" type="ScrollContainer" parent="SettingsTabs" unique_id=631776720]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsTabs/Video" unique_id=869712687]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 2
+
+[node name="VideoSettings" type="Label" parent="SettingsTabs/Video/VBoxContainer" unique_id=1475454712]
+layout_mode = 2
+text = "Video Settings"
+label_settings = SubResource("LabelSettings_iy5a8")
+
+[node name="Resolution" type="Label" parent="SettingsTabs/Video/VBoxContainer" unique_id=2086551581]
+layout_mode = 2
+text = "Resolution :"
+
+[node name="ResolutonOptions" type="OptionButton" parent="SettingsTabs/Video/VBoxContainer/Resolution" unique_id=650981566]
+layout_mode = 0
+offset_left = 141.0
+offset_top = -3.0
+offset_right = 267.0
+offset_bottom = 27.0
+selected = 3
+allow_reselect = true
+item_count = 5
+popup/item_0/text = "3840x2160"
+popup/item_0/id = 0
+popup/item_1/text = "2560x1440"
+popup/item_1/id = 1
+popup/item_2/text = "1920x1080"
+popup/item_2/id = 2
+popup/item_3/text = "1280x720"
+popup/item_3/id = 3
+popup/item_4/text = "640x480"
+popup/item_4/id = 4
+
+[node name="Fullscreen" type="Label" parent="SettingsTabs/Video/VBoxContainer" unique_id=268502185]
+layout_mode = 2
+text = "Fullscreen:"
+
+[node name="CheckButton" type="CheckButton" parent="SettingsTabs/Video/VBoxContainer/Fullscreen" unique_id=1917449557]
+layout_mode = 0
+offset_left = 141.0
+offset_top = 1.0
+offset_right = 185.0
+offset_bottom = 25.0
+icon = SubResource("ViewportTexture_8fw5y")
+
+[node name="Accessibility" type="Label" parent="SettingsTabs/Video/VBoxContainer" unique_id=20384348]
+layout_mode = 2
+text = "Accessibility"
+label_settings = SubResource("LabelSettings_0s764")
+
+[node name="ColorblindFilter" type="Label" parent="SettingsTabs/Video/VBoxContainer" unique_id=1039094355]
+layout_mode = 2
+text = "Colorblind Filter:"
+
+[node name="ResolutonOptions" type="OptionButton" parent="SettingsTabs/Video/VBoxContainer/ColorblindFilter" unique_id=1201157121]
+layout_mode = 0
+offset_left = 141.0
+offset_top = -4.0
+offset_right = 280.0
+offset_bottom = 26.0
+selected = 0
+allow_reselect = true
+item_count = 5
+popup/item_0/text = "Off"
+popup/item_0/id = 0
+popup/item_1/text = "Deuteranopia"
+popup/item_1/id = 1
+popup/item_2/text = "Protanopia"
+popup/item_2/id = 2
+popup/item_3/text = "Tritanopia"
+popup/item_3/id = 3
+popup/item_4/text = "Grayscale "
+popup/item_4/id = 4
+
+[node name="Controls" type="ScrollContainer" parent="SettingsTabs" unique_id=1584863402]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="ControlInterface" type="TabContainer" parent="SettingsTabs/Controls" unique_id=1894931275]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+current_tab = 0
+
+[node name="Keyboard&Mouse" type="ScrollContainer" parent="SettingsTabs/Controls/ControlInterface" unique_id=859332339]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsTabs/Controls/ControlInterface/Keyboard&Mouse" unique_id=799473965]
+layout_mode = 2
+
+[node name="Controller" type="ScrollContainer" parent="SettingsTabs/Controls/ControlInterface" unique_id=232209291]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsTabs/Controls/ControlInterface/Controller" unique_id=1618115581]
+layout_mode = 2
+
+[node name="Audio" type="ScrollContainer" parent="SettingsTabs" unique_id=400956846]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsTabs/Audio" unique_id=1627292549]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 2
+
+[node name="MasterVolume" type="Label" parent="SettingsTabs/Audio/VBoxContainer" unique_id=1709581981]
+layout_mode = 2
+text = "Master Volume :"
+
+[node name="MasterVolumeSlider" type="HSlider" parent="SettingsTabs/Audio/VBoxContainer/MasterVolume" unique_id=576317482]
+layout_mode = 0
+offset_left = 184.0
+offset_right = 594.0
+offset_bottom = 24.0
+value = 80.0
+tick_count = 1
+ticks_on_borders = true
+ticks_position = 2
+
+[node name="MasterVolumePercent" type="Label" parent="SettingsTabs/Audio/VBoxContainer/MasterVolume" unique_id=1674117045]
+layout_mode = 0
+offset_left = 141.0
+offset_top = 1.0
+offset_right = 199.0
+offset_bottom = 23.0
+text = "80%"
+
+[node name="MusicVolume" type="Label" parent="SettingsTabs/Audio/VBoxContainer" unique_id=1258117038]
+layout_mode = 2
+text = "Music Volume :"
+
+[node name="MusicVolumeSlider" type="HSlider" parent="SettingsTabs/Audio/VBoxContainer/MusicVolume" unique_id=491158135]
+layout_mode = 0
+offset_left = 185.0
+offset_right = 595.0
+offset_bottom = 24.0
+value = 50.0
+tick_count = 1
+ticks_on_borders = true
+ticks_position = 2
+
+[node name="MusicVolumePercent" type="Label" parent="SettingsTabs/Audio/VBoxContainer/MusicVolume" unique_id=986212258]
+layout_mode = 0
+offset_left = 141.0
+offset_top = 1.0
+offset_right = 199.0
+offset_bottom = 23.0
+text = "50%"
+
+[node name="SfxVolume" type="Label" parent="SettingsTabs/Audio/VBoxContainer" unique_id=704334777]
+layout_mode = 2
+text = "SFX Volume :"
+
+[node name="SfxVolumeSlider" type="HSlider" parent="SettingsTabs/Audio/VBoxContainer/SfxVolume" unique_id=1064479773]
+layout_mode = 0
+offset_left = 185.0
+offset_right = 595.0
+offset_bottom = 24.0
+value = 50.0
+tick_count = 1
+ticks_on_borders = true
+ticks_position = 2
+
+[node name="SfxVolumePercent" type="Label" parent="SettingsTabs/Audio/VBoxContainer/SfxVolume" unique_id=863198383]
+layout_mode = 0
+offset_left = 141.0
+offset_top = 1.0
+offset_right = 199.0
+offset_bottom = 23.0
+text = "50%"
+
+[connection signal="item_selected" from="SettingsTabs/Video/VBoxContainer/Resolution/ResolutonOptions" to="." method="_on_resoluton_option_selected"]
+[connection signal="toggled" from="SettingsTabs/Video/VBoxContainer/Fullscreen/CheckButton" to="." method="_on_fullscreen_toggled"]
+[connection signal="value_changed" from="SettingsTabs/Audio/VBoxContainer/MasterVolume/MasterVolumeSlider" to="." method="_on_master_volume_changed"]
+[connection signal="value_changed" from="SettingsTabs/Audio/VBoxContainer/MusicVolume/MusicVolumeSlider" to="." method="_on_music_volume_changed"]
+[connection signal="value_changed" from="SettingsTabs/Audio/VBoxContainer/SfxVolume/SfxVolumeSlider" to="." method="_on_sfx_volume_changed"]
