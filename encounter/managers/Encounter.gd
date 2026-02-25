@@ -87,6 +87,9 @@ func preload_scene_dialogue():
 
 	for npc in npcs_with_dialogue:
 		dialogue[npc.name] = LevelStateManager.load_dictionary("%s/dialogue/%s.json" % [enc_base_dir, npc.name])
+		
+	# dialogue at win
+	dialogue["win"] = LevelStateManager.load_dictionary("%s/dialogue/%s.json" % [enc_base_dir, "win_blurb"])
 
 func start_dialogue(npc: String, cat: String)->void:
 	if dialogue[npc][cat].seen >= dialogue[npc][cat].limit:
@@ -124,5 +127,8 @@ func _on_encounter_completed(enc_name: String):
 	if rewards_granted: return
 	for reward in prepacked_rewards:
 		var r = reward.instantiate()
-		gm.current_scene.add_child(r)
-		r.global_position = reward_zone
+		gm.current_scene.call_deferred("add_child", r)
+		r.set_deferred("global_position", reward_zone)
+	
+	# dialogue
+	start_dialogue("win", "winw")
