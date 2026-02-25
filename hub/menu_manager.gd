@@ -57,3 +57,17 @@ func load_asset(scene_path):
 # if in main menu, back to main
 func menu_back():
 	open_menu("Main")
+
+
+func pause_game():
+	open_menu("Paused")
+func unpause_game():
+	open_menu("Game")
+func _unhandled_input(_event: InputEvent) -> void:
+	if not (is_open("Paused") or is_open("Game")):
+		return
+	if Input.is_action_just_pressed("pause"):
+		if is_open("Paused"):
+			unpause_game()
+		else:
+			pause_game()
