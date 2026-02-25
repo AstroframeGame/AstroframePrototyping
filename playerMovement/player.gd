@@ -274,13 +274,13 @@ func _unhandled_input(event: InputEvent) -> void:
 				return
 			holstered = true
 			was_holstering = true
-		elif event.is_action_released("holster_handgun") and was_holstering:
+		elif !event.is_action_pressed("holster_handgun") and was_holstering:
 			was_holstering = false
 	
 		if event.is_action_pressed("interact") and not was_interacting:
 			interacting = true
 			was_interacting = true
-		elif event.is_action_released("interact") and was_interacting:
+		elif !event.is_action_action("interact") and was_interacting:
 			was_interacting = false
 			
 		if seat and seat.room.has_method("handle_input"):
