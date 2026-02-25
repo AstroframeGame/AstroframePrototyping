@@ -28,7 +28,6 @@ func _ready() -> void:
 	_toggled(false)
 	
 func _toggled(toggled_on: bool) -> void:
-	print("Toggled:", toggled_on)
 	if !action_name or !InputMap.has_action(action_name):
 		return
 		
