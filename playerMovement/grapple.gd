@@ -51,7 +51,7 @@ func _physics_process(delta: float) -> void:
 			visible = false
 			attached_body = null
 			is_grappling = false
-			sync_grapple.rpc(visible, grapple_position, attached_body)
+			sync_grapple.rpc(visible, grapple_position)
 			return
 			
 		visible = true
@@ -96,7 +96,7 @@ func send_grapple(call_grapple: bool, is_cancelling: bool, m_position: Vector2):
 	if is_cancelling:
 		is_grappling = false
 	
-@rpc("any_peer", "call_remote", "unreliable")
+@rpc("authority", "call_remote", "unreliable")
 func sync_grapple(is_vis: bool, g_pos: Vector2):
 	visible = is_vis
 	is_grappling = is_vis
