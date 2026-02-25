@@ -1,12 +1,12 @@
-extends Node
+extends Node2D
 
 var using_mouse: bool = true
 
-var move: Vector2:
+var move : Vector2:
 	get:
 		return Input.get_vector("left", "right", "up", "down")
 
-var look: Vector2:
+var look : Vector2:
 	get:
 		return _look_delta
 
@@ -18,6 +18,14 @@ var mouse_center_offset : Vector2 :
 	get:
 		var center = get_viewport().get_visible_rect().get_center()
 		return get_viewport().get_mouse_position() - center
+
+func get_look_position(player_global_transform : Transform2D, distance : float) -> Vector2:
+	if using_mouse:
+		return get_global_mouse_position()
+	else:
+		var pos = player_global_transform.get_origin()
+		var dir = look.rotated(player_global_transform.get_rotation())
+		return pos + dir * distance # switch to raycast
 
 func mouse_center_offset_deadzone(percent : float = 0.05) -> Vector2:
 	var look_dir = mouse_center_offset

@@ -40,7 +40,7 @@ var at_destination:
 	get:
 		return global_position.distance_to(grapple_position) < min_grapple_dist
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if is_multiplayer_authority():
 		if will_grapple:
 			fire_grapple(mouse_pos)
@@ -67,7 +67,7 @@ func _process(_delta: float) -> void:
 	if is_local_player:
 		var grapple = false
 		var will_cancel = false
-		var mouse = get_global_mouse_position()
+		var mouse = InputHelper.get_look_position(global_transform, 1000)
 		
 		if Input.is_action_just_pressed("grapple"):
 			grapple = true

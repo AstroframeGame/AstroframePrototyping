@@ -140,9 +140,6 @@ func _physics_process(delta):
 				goal_vel = velocity + input_dir * thrust_move
 				velocity = velocity.move_toward(goal_vel, thrust_accel * delta)
 		
-		move_and_slide()
-		
-		
 		for i in range(get_slide_collision_count()):
 			var collision = get_slide_collision(i)
 			var collider = collision.get_collider()
@@ -154,8 +151,9 @@ func _physics_process(delta):
 		
 		sync_state(global_position, velocity)
 		
+		move_and_slide()
 	
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	var is_local_player = multiplayer.get_unique_id() == owner_id
 
 	if is_local_player:
