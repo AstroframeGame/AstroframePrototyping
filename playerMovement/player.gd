@@ -75,8 +75,10 @@ var input_dir := Vector2.ZERO
 var mouse_pos := Vector2.ZERO
 var ship_pushed: bool = false
 var is_shooting: bool = false
-var is_holstered: bool = false
+var is_holstering: bool = false
+var was_holstering: bool = false
 var is_interacting: bool = false
+var was_interacting: bool = false
 var event_in_room: InputEvent = null
 
 ## ======  Multiplayer END  ======
@@ -150,9 +152,7 @@ func _physics_process(delta):
 		
 		if is_shooting:
 			sync_shooting.rpc()
-		if is_holstered:
-			if seat:
-				return
+		if is_holstering and not seat:
 			sync_holstering.rpc()
 		if is_interacting:
 			sync_interacting.rpc()
@@ -269,20 +269,26 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event.is_action_pressed("player_shoot"):
 			shooting = true
 			
-		if event.is_action_released("holster_handgun"):
+		if event.is_action_pressed("holster_handgun") and not was_holstering:
 			if seat:
 				return
-			holstered = true		
+			holstered = true
+			was_holstering = true
+		elif event.is_action_released("holster_handgun") and was_holstering:
+			was_holstering = false
 	
-		if event.is_action_released("interact"):
+		if event.is_action_pressed("interact") and not was_interacting:
 			interacting = true
+			was_interacting = true
+		elif event.is_action_released("interact") and was_interacting:
+			was_interacting = false
 			
 		if seat and seat.room.has_method("handle_input"):
 			room_input = event
 			
 		if is_multiplayer_authority():
 			is_shooting    = shooting
-			is_holstered   = holstered
+			is_holstering   = holstered
 			event_in_room  = room_input
 			is_interacting = interacting
 		else:
@@ -296,7 +302,7 @@ func send_unhandled_inputs(shooting: bool, holstered: bool, interacting: bool, r
 		return
 	
 	is_shooting    = shooting
-	is_holstered   = holstered
+	is_holstering   = holstered
 	is_interacting = interacting
 	event_in_room  = room_input
 #endregion	
