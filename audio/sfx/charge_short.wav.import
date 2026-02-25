@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://b3f4m4hfikvo"
-path="res://.godot/imported/charge_short.wav-e0d3d5e4f5b797b2abca7f5b1e06dcac.sample"
+path="res://.godot/imported/charge_short.wav-61958c20b03b287ecfe4cfa8d1affaaf.sample"
 
 [deps]
 
-source_file="res://sfx/audio/charge_short.wav"
-dest_files=["res://.godot/imported/charge_short.wav-e0d3d5e4f5b797b2abca7f5b1e06dcac.sample"]
+source_file="res://audio/sfx/charge_short.wav"
+dest_files=["res://.godot/imported/charge_short.wav-61958c20b03b287ecfe4cfa8d1affaaf.sample"]
 
 [params]
 
