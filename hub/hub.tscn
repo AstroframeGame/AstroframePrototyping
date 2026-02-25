@@ -25,7 +25,6 @@ glow_enabled = true
 glow_strength = 0.59
 glow_bloom = 0.27
 adjustment_enabled = true
-adjustment_saturation = 0.0
 
 [node name="Hub" type="Node2D" unique_id=2058136417]
 
