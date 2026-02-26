@@ -13,6 +13,7 @@ class_name Shields
 @onready var shield: Sprite2D = $Shield
 
 func  _ready() -> void:
+	super._ready()
 	on_power_level_change.connect(on_power_change)
 	on_power_change(self)
 

@@ -669,7 +669,7 @@ func generate_ghost_preview() -> void:
 			room_duplicate.rotation = child_node.rotation
 			
 			for room_component in room_duplicate.get_children():
-				if not room_component is Hex:
+				if not (room_component is Hex or room_component is Sprite2D):
 					room_component.queue_free()
 
 func clear_ghost_preview() -> void:

@@ -15,10 +15,10 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_cyhtv")
 
 [node name="HullInterior" type="Sprite2D" parent="." unique_id=1692505313]
+scale = Vector2(0.47, 0.47)
 texture = ExtResource("3_n6m5t")
 
 [node name="Roof" type="Node2D" parent="." unique_id=94053732]
-visible = false
 
 [node name="Hex4" type="Sprite2D" parent="Roof" unique_id=57296638]
 visible = false
@@ -27,8 +27,10 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_cyhtv")
 
 [node name="HullExterior" type="Sprite2D" parent="Roof" unique_id=301551140]
+scale = Vector2(0.47, 0.47)
 texture = ExtResource("4_l7rt0")
 
 [node name="HullExteriorTeampatch" type="Sprite2D" parent="Roof" unique_id=1604113175]
-position = Vector2(0, -17.705)
+position = Vector2(0, -8.29)
+scale = Vector2(0.47, 0.47)
 texture = ExtResource("5_bi2yi")
