@@ -189,7 +189,9 @@ func _physics_process(delta):
 
 func _process(delta: float) -> void:
 	is_local_player = multiplayer.get_unique_id() == owner_id or not is_multiplayer
-
+	
+	visible = ship == multiplayer_manager.my_player.ship
+	
 	if is_local_player:
 		var dir = Input.get_vector("left", "right", "up", "down")
 		var is_braking = Input.is_action_pressed("brake")
@@ -204,7 +206,7 @@ func _process(delta: float) -> void:
 		else:
 			send_input.rpc_id(1, dir, m_pos, is_braking, pushed)
 
-#region Syncing Movement
+#region SyncingMovement
 @rpc("any_peer", "call_remote", "reliable")
 func send_input(dir: Vector2, m_pos: Vector2, is_braking: bool, pushed: bool):
 	var sender_id = multiplayer.get_remote_sender_id()
@@ -225,7 +227,7 @@ func sync_state(pos: Vector2, vel: Vector2, m_pos: Vector2):
 		mouse_pos = m_pos
 		
 #endregion
-#region Syncing Actions
+#region SyncingActions
 @rpc("authority", "call_local", "unreliable")
 func sync_shooting():
 	handgun.shoot_bullet()

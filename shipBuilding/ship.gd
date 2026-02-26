@@ -545,10 +545,7 @@ func my_character_inside() -> bool:
 func set_exterior_visible(_interactor : CharacterBody2D, entered : bool):
 	if not my_character_inside() and _interactor != null:
 		entered = false
-	
 	if _interactor.is_local_player:
-		_interactor.visible = not entered
-	
 		for r in get_children():
 			if r is Room:
 				r.roof.visible = not entered

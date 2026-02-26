@@ -28,13 +28,14 @@ signal player_disconnect() # player character might be null? what info is helpfu
 signal player_died()
 
 func _ready():
-	print("Steam init: ", Steam.steamInit(480, true))
+	var is_init = Steam.steamInit(480, true)
+	print("Steam init: ", is_init)
 	Steam.initRelayNetworkAccess()
 	user_name = Steam.getPersonaName()
-	if user_name:
+	if is_init:
 		print("   Account actualized: ", user_name)
 	else:
-		push_warning("   Steam failed to Initialize")
+		print("   Steam failed to Initialize")
 	Steam.lobby_created.connect(_on_lobby_created)
 	Steam.lobby_joined.connect(_on_lobby_joined)
 	
