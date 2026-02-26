@@ -1,7 +1,7 @@
 class_name Piloting
 extends Room
 
-@onready var seat: SeatInteractable = $SeatHex/SeatInteractable
+@onready var seat: SeatInteractable = $SeatHex
 
 #region MultiplayerGlobals&Ready
 

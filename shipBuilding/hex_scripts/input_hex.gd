@@ -1,8 +1,7 @@
-extends Area2D
+extends Hex
 class_name PowerInHex
 
-@onready var room : Room = $"../.."
-@onready var icon: Sprite2D = $"../Torus"
+@onready var icon: Sprite2D = $"Torus"
 
 signal on_clicked(power_hex)
 
@@ -15,7 +14,7 @@ var is_powered : bool:
 # called in add room
 func update_state():
 	if not icon:
-		icon = $"../Torus"
+		icon = $"Torus"
 	icon.self_modulate = Color("8effa8ff") if is_powered else Color("ec0083ff")
 	
 func _input_event(_viewport: Viewport, _event: InputEvent, _shape_idx: int) -> void:
