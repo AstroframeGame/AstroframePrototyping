@@ -5,8 +5,8 @@ extends Encounter
 @onready var to_kill: Array[Node] = [
 	pirate_destroyer,
 	$ships/pirates/PIRATE_FRIGATE,
-	$ships/pirates/PIRATE_FRIGATE2,
-	$ships/pirates/PIRATE_FRIGATE3
+	#$ships/pirates/PIRATE_FRIGATE2,
+	#$ships/pirates/PIRATE_FRIGATE3
 ]
 
 signal trigger_dialogue(npc: String, cat: String) 
@@ -17,7 +17,7 @@ func _ready() -> void:
 	# scene info
 	name = "0_1_DEMO"
 	enc_base_dir = get_script().get_path().get_base_dir()
-	objective = "Destroy all pirate ships!"
+	objective = "Destroy all \npirate ships!"
 	reward_zone = $RewardZone.global_position
 	player_spawn = $PlayerSpawn.global_position
 	
