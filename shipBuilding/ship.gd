@@ -13,8 +13,12 @@ const HEX_HEIGHT = 90
 const HEX_GRID_PREFAB = preload("res://shipBuilding/prefabs/hex_grid.tscn")
 const HUD = preload("res://shipAI/prefabs/hud.tscn")
 const SHIP_PREFAB = preload("res://shipBuilding/prefabs/ship.tscn")
-
 const MAX_MERGE_DISTANCE: float = 600.0
+
+const SPARKS_PREFAB = preload("res://art/vfx/sparks.tscn")
+const SPARKS_SPEED_THRESH = 10
+const EXPLOSION_PREFAB = preload("res://art/vfx/explosion.tscn")
+const HIT_SHIP_VFX_PREFAB = preload("res://art/vfx/hit_ship_vfx.tscn")
 
 var grid: TileMapLayer:
 	get:
@@ -43,6 +47,10 @@ func _ready() -> void:
 	on_airlock_interaction.connect(set_exterior_visible)
 	on_hit.connect(hud.update_hp_bar)
 	on_hit.connect(death_check)
+	
+	# for sparks
+	contact_monitor = true
+	max_contacts_reported = 5
 	
 	z_index = 1
 
@@ -127,8 +135,8 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	elif engines: # autodrag
 		state.angular_velocity = lerp(state.angular_velocity, 0.0, state.inverse_mass * engines.drag_multiplier * delta)
 		state.linear_velocity = lerp(state.linear_velocity, Vector2.ZERO, engines.get_thrust() * state.inverse_mass * engines.drag_multiplier * delta)
-		
 	
+	eval_sparks(state)
 
 func calc_center_of_mass():
 	var hex_mass = 2.0
@@ -506,15 +514,48 @@ func check_hud():
 		add_child(hud)
 	hud.initialize()
 
-func take_damage(amount:int):
+func take_damage(amount:int, pos_ws : Vector2):
 	hit_points -= amount # property has callback that sets the hud to update
+	hit_vfx(pos_ws)
 
 func death_check():
 	if hit_points > 0:
 		return 
+        
 	for pc in get_tree().get_nodes_in_group("player_controller"):
 		if pc.ship == self:
 			pc.update_layers(false)
+	death_explosion()
+	
+func death_explosion():
+	var rooms: Array[Room] = []
+	for child in get_children():
+		if child is Room:
+			rooms.append(child)
+	
+	for room in rooms:
+		var push_dir = (room.global_position - to_global(center_of_mass)).normalized()
+		
+		var debris_ship: Ship = SHIP_PREFAB.instantiate()
+		get_parent().add_child(debris_ship)
+		
+		# Match current state
+		debris_ship.global_transform = global_transform
+		debris_ship.linear_velocity = linear_velocity
+		debris_ship.angular_velocity = angular_velocity + randf_range(-2.0, 2.0)
+		
+		var grid_pos = room.grid_pos
+		var rot_index = room.rot_index
+		var pos = room.global_position
+		remove_room(room)
+		debris_ship.add_room.call_deferred(room, grid_pos, rot_index)
+		
+		var explosion_impulse = randf_range(20.0, 100.0)
+		debris_ship.apply_central_impulse(push_dir * explosion_impulse)
+		
+		debris_ship.initialize_ship()
+		explosion(pos)
+
 	ship_destroyed.emit()
 	queue_free()
 #endregion
@@ -833,4 +874,37 @@ func _spawn_island_ship(island_rooms: Array) -> void:
 		new_ship.add_room(room, pos, rot)
 		
 	new_ship.initialize_ship()
+#endregion
+
+#region vfx
+func eval_sparks(state : PhysicsDirectBodyState2D):
+	if not get_tree().get_frame() % 10 == 0:
+		return
+	for i in state.get_contact_count():
+		var pos = state.get_contact_collider_position(i)
+		var rot = state.get_contact_local_normal(i).angle()
+		var speed = state.get_velocity_at_local_position(to_local(pos)).length()
+		print(speed)
+		if speed > SPARKS_SPEED_THRESH:
+			var sparks : Node2D= SPARKS_PREFAB.instantiate()
+			sparks.global_position = pos
+			sparks.global_rotation = rot
+			sparks.restart()
+			ProjectileManager.add_child(sparks)
+
+func explosion(pos : Vector2):
+	var g = EXPLOSION_PREFAB.instantiate()
+	g.global_position = pos
+	for c in g.get_children():
+		if c is GPUParticles2D:
+			c.restart()
+	ProjectileManager.add_child(g)
+
+func hit_vfx(pos : Vector2):
+	var g = HIT_SHIP_VFX_PREFAB.instantiate()
+	g.global_position = pos
+	for c in g.get_children():
+		if c is GPUParticles2D:
+			c.restart()
+	ProjectileManager.add_child(g)
 #endregion

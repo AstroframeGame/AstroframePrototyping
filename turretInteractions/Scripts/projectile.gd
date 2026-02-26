@@ -24,7 +24,7 @@ func initialize(parent : Node2D, parent_velocity : Vector2, projectileSpeed : fl
 func _on_body_entered(body: Node) -> void:
 	#print(str(body) + " was hit")
 	if body.has_method("take_damage"):
-		body.take_damage(damage)
+		body.take_damage(damage, global_position)
 	queue_free()
 
 func _on_lifetime_timeout() -> void:

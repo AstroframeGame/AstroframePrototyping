@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://dnq5ry0tc24y"]
+
+[ext_resource type="Script" uid="uid://dgyst8eg670u4" path="res://accessibilitySettings/in_game_menu.gd" id="1_chtpf"]
+
+[node name="InGameMenu" type="MarginContainer" unique_id=2132689488]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -200.0
+offset_right = 150.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_chtpf")
+
+[node name="MenuButtons" type="VBoxContainer" parent="." unique_id=1430813855]
+layout_mode = 2
+alignment = 1
+
+[node name="Resume" type="Button" parent="MenuButtons" unique_id=2140315320]
+layout_mode = 2
+text = "Resume"
+
+[node name="Settings" type="Button" parent="MenuButtons" unique_id=1554160495]
+layout_mode = 2
+text = "Settings"
+
+[node name="Main Menu" type="Button" parent="MenuButtons" unique_id=1745910306]
+layout_mode = 2
+text = "Main Menu"

@@ -7,6 +7,8 @@
 z_index = 1
 input_pickable = true
 gravity_scale = 0.0
+contact_monitor = true
+max_contacts_reported = 5
 script = ExtResource("1_vm1wr")
 max_hit_points = 1
 
