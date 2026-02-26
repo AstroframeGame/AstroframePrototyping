@@ -147,7 +147,7 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 		var goal_vel :Vector2 = piloting.get_goal_velocity(state.linear_velocity)
 		if not piloting.is_idling():
 			state.linear_velocity = lerp(state.linear_velocity, goal_vel, get_thrust() * state.inverse_mass * delta)
-	elif engines and autopilot:
+	elif has_engines() and autopilot:
 		state.angular_velocity = autopilot.get_goal_angular_velocity()
 		var goal_vel :Vector2 = autopilot.get_goal_velocity(state.linear_velocity)
 		if not autopilot.is_idling():
