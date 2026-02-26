@@ -187,7 +187,7 @@ func _physics_process(delta):
 
 ## ====== Multiplayer START ======	
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	is_local_player = multiplayer.get_unique_id() == owner_id or not is_multiplayer
 	
 	visible = ship == multiplayer_manager.my_player.ship

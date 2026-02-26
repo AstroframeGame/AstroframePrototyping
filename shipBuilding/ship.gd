@@ -536,7 +536,6 @@ func death_explosion():
 #region InteriorExterior
 
 func my_character_inside() -> bool:
-	var multiplayer_manager = get_tree().root.find_child("MultiplayerManager", true, false)
 	if multiplayer_manager and multiplayer_manager.my_player:
 		return multiplayer_manager.my_player.ship == self
 	return false
