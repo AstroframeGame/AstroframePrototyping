@@ -7,21 +7,21 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_e5vo3"]
 radius = 34.0147
 
-[node name="DoorHex" type="Sprite2D" unique_id=1390897145]
+[node name="DoorInteractable" type="Area2D" unique_id=1512550952]
+collision_layer = 4
+collision_mask = 0
+input_pickable = false
+script = ExtResource("3_hulgd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1454017986]
+shape = SubResource("CircleShape2D_e5vo3")
+
+[node name="DoorHex" type="Sprite2D" parent="." unique_id=1390897145]
 modulate = Color(0.8617512, 0.7560671, 0.84178495, 1)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_w3q7q")
 
 [node name="Box" type="Sprite2D" parent="." unique_id=2020933968]
 modulate = Color(0.21950102, 0.21950102, 0.21950102, 1)
-scale = Vector2(0.475, 0.475)
+scale = Vector2(0.2375, 0.2375)
 texture = ExtResource("2_o4g5q")
-
-[node name="DoorInteractable" type="Area2D" parent="." unique_id=1512550952]
-collision_layer = 4
-collision_mask = 0
-input_pickable = false
-script = ExtResource("3_hulgd")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DoorInteractable" unique_id=1454017986]
-shape = SubResource("CircleShape2D_e5vo3")
