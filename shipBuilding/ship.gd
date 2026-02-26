@@ -119,7 +119,7 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 			state.angular_velocity = lerp(state.angular_velocity, 0.0, state.inverse_mass * engines.drag_multiplier * delta)
 			state.linear_velocity = lerp(state.linear_velocity, Vector2.ZERO, engines.get_thrust() * state.inverse_mass * engines.drag_multiplier * delta)
 		
-		eval_sparks(state)
+	eval_sparks(state)
 
 func calc_center_of_mass():
 	var hex_mass = 2.0
