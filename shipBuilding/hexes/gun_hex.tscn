@@ -11,10 +11,10 @@ radius = 44.04543
 
 [node name="Gun" type="Node2D" unique_id=566916134 node_paths=PackedStringArray("gunSprite", "barrel")]
 self_modulate = Color(1, 0.74509805, 0.70980394, 1)
-z_index = 10
+z_index = 12
 script = ExtResource("2_jn67f")
 gunSprite = NodePath("GunRot")
-barrel = NodePath("GunRot/Barrel")
+barrel = NodePath("GunRot/CannonGun/Barrel")
 
 [node name="GunHex" type="Sprite2D" parent="." unique_id=1045817067]
 visible = false
@@ -58,12 +58,14 @@ polygon = PackedVector2Array(-14, -56, 10, -56, 0, 0)
 
 [node name="CannonGun" type="Sprite2D" parent="GunRot" unique_id=1396216072]
 self_modulate = Color(0.12591082, 0.12591085, 0.12591079, 1)
-position = Vector2(0, -11)
+position = Vector2(11, 0)
+rotation = 1.5707964
 texture = ExtResource("4_xan1q")
 
-[node name="Barrel" type="Marker2D" parent="GunRot" unique_id=1898498682]
-position = Vector2(0, -37)
+[node name="Barrel" type="Marker2D" parent="GunRot/CannonGun" unique_id=1898498682]
+position = Vector2(0, -26)
 
 [node name="CannonCorecolor" type="Sprite2D" parent="GunRot" unique_id=741939693]
 self_modulate = Color(1, 0.66999996, 0.66999996, 1)
+rotation = 1.5707964
 texture = ExtResource("5_6y0jy")
