@@ -65,11 +65,21 @@ var grounded : bool:
 ## ====== Multiplayer START ======
 
 var is_multiplayer: bool = false
-var ship_pushed: bool = false
-var input_dir := Vector2.ZERO
-var target_pos := Vector2.ZERO
-var target_vel := Vector2.ZERO
+var is_local_player: bool = false
+
 var owner_id: int
+var target_vel := Vector2.ZERO
+var target_pos := Vector2.ZERO
+
+var input_dir := Vector2.ZERO
+var mouse_pos := Vector2.ZERO
+var ship_pushed: bool = false
+var is_shooting: bool = false
+var is_holstering: bool = false
+var was_holstering: bool = false
+var is_interacting: bool = false
+var was_interacting: bool = false
+var event_in_room: InputEvent = null
 
 ## ======  Multiplayer END  ======
 
@@ -140,6 +150,26 @@ func _physics_process(delta):
 				goal_vel = velocity + input_dir * thrust_move
 				velocity = velocity.move_toward(goal_vel, thrust_accel * delta)
 		
+		if is_shooting:
+			sync_shooting.rpc()
+		
+		if is_holstering and not seat and not was_holstering:
+			sync_holstering.rpc()
+			was_holstering = true
+		elif not is_holstering and was_holstering:
+			was_holstering = false
+			
+		if is_interacting and not was_interacting:
+			sync_interacting.rpc()
+			was_interacting = true
+		elif not is_interacting and was_interacting:
+			was_interacting = false
+			
+		if event_in_room != null and not is_interacting:
+			sync_room_inputs.rpc(event_in_room)
+		
+		move_and_slide()
+		
 		for i in range(get_slide_collision_count()):
 			var collision = get_slide_collision(i)
 			var collider = collision.get_collider()
@@ -149,50 +179,77 @@ func _physics_process(delta):
 				var impulse = force_dir * 200 * delta
 				collider.apply_central_impulse(impulse)
 		
-		sync_state(global_position, velocity)
-		
-		move_and_slide()
-	
-func _process(_delta: float) -> void:
-	var is_local_player = multiplayer.get_unique_id() == owner_id
+		sync_state.rpc(global_position, velocity)
+	else:
+		global_position = global_position.lerp(target_pos, 0.25)
+		velocity = target_vel
+
+## ====== Multiplayer START ======	
+
+func _process(delta: float) -> void:
+	is_local_player = multiplayer.get_unique_id() == owner_id or not is_multiplayer
 
 	if is_local_player:
 		var dir = Input.get_vector("left", "right", "up", "down")
 		var is_braking = Input.is_action_pressed("brake")
 		var pushed = Input.is_action_just_pressed("ship_push")
+		var m_pos = get_global_mouse_position()
 
 		if is_multiplayer_authority():
-			input_dir = dir
-			push_brake = is_braking
+			input_dir   = dir
+			push_brake  = is_braking
 			ship_pushed = pushed
+			mouse_pos   = m_pos
 		else:
-			send_input.rpc_id(1, dir, is_braking, pushed)
+			send_input.rpc_id(1, dir, m_pos, is_braking, pushed)
 
+#region Syncing Movement
 @rpc("any_peer", "call_remote", "reliable")
-func send_input(dir: Vector2, is_braking: bool, pushed: bool):
+func send_input(dir: Vector2, m_pos: Vector2, is_braking: bool, pushed: bool):
 	var sender_id = multiplayer.get_remote_sender_id()
 	if sender_id != owner_id:
 		push_warning("Player %d tried to control player %d" % [sender_id, owner_id])
 		return
 
-	input_dir = dir
-	push_brake = is_braking
+	input_dir   = dir
+	push_brake  = is_braking
 	ship_pushed = pushed
+	mouse_pos   = m_pos
 
 @rpc("authority", "call_remote", "unreliable")
 func sync_state(pos: Vector2, vel: Vector2):
 	if not is_multiplayer_authority():
 		target_pos = pos
 		target_vel = vel
+#endregion
+#region Syncing Actions
+@rpc("authority", "call_local", "unreliable")
+func sync_shooting():
+	handgun.shoot_bullet()
+
+@rpc("authority", "call_local", "unreliable")
+func sync_holstering():
+	handgun.toggle_holster()
+
+
+@rpc("authority", "call_local", "unreliable")
+func sync_interacting():
+	interact()
+
+@rpc("authority", "call_local", "unreliable")
+func sync_room_inputs(room_event: InputEvent):
+	seat.room.handle_input(room_event)
+#endregion
 
 ## ======  Multiplayer END  ======
 
+#region InteractionManager
 # currently interacts with the first overlapping interactable area, but this can be changed to nearest, last, all, ect.
 func interact():
 	var interactable = get_interactable()
 	if interactable:
 		interactable.interact(self)
-		#print_debug("Player interacted with ", interactable)
+		print_debug("[", multiplayer.get_unique_id(), "]: ", name, " interacted with ", interactable)
 			
 func get_interactable() -> Node2D:
 	for area in interact_check.get_overlapping_areas():
@@ -207,19 +264,51 @@ func get_interactable_hint() -> String:
 			return interactable.interact_hint()
 		return "Press [E] to interact with " + interactable.name
 	return ""
+#endregion
 
+#region UnhandledInputs
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("player_shoot"):
-		handgun.shoot_bullet()
-	if event.is_action_pressed("holster_handgun"):
-		if seat:
-			return
-		handgun.toggle_holster()
-	if event.is_action_pressed("interact"):
-		interact()
+	if is_local_player:
+		var shooting = false
+		var holstered = false
+		var room_input = null
+		var interacting = false
+		
+		if event.is_action_pressed("player_shoot"):
+			shooting = true
+			
+		if event.is_action_pressed("holster_handgun"):
+			if seat:
+				return
+			holstered = true
+	
+		if event.is_action_pressed("interact"):
+			interacting = true
+			
+		if seat and seat.room.has_method("handle_input"):
+			room_input = event
+			
+		if is_multiplayer_authority():
+			is_shooting    = shooting
+			is_holstering   = holstered
+			event_in_room  = room_input
+			is_interacting = interacting
+		else:
+			send_unhandled_inputs.rpc_id(1, shooting, holstered, interacting, room_input)
+	
+@rpc("any_peer", "call_remote", "unreliable")
+func send_unhandled_inputs(shooting: bool, holstered: bool, interacting: bool, room_input: InputEvent):
+	var sender_id = multiplayer.get_remote_sender_id()
+	if sender_id != owner_id:
+		push_warning("Player %d tried to control player %d" % [sender_id, owner_id])
 		return
-	if seat and seat.room.has_method("handle_input"):
-		seat.room.handle_input(event)
+	
+	is_shooting    = shooting
+	is_holstering   = holstered
+	is_interacting = interacting
+	event_in_room  = room_input
+#endregion	
+	
 #region grounding
 # called when ground check intersects with rb
 func on_ground(_body : Node2D):
@@ -255,6 +344,7 @@ func on_ship_enter(new_ship : Ship):
 	ship = new_ship
 	#print(name + " parent to ship")
 	update_layers(true)
+	
 
 func on_ship_exit():
 	# unground will be called when stops intersecting
