@@ -25,6 +25,10 @@ const HIT_SHIP_VFX_PREFAB = preload("res://art/vfx/hit_ship_vfx.tscn")
 @onready var multiplayer_manager: MultiplayerManager = get_tree().root.get_node("Hub/MultiplayerManager")
 var player: PlayerCharacter = null
 
+@onready var target_linear_velocity: Vector2 = Vector2.ZERO
+@onready var target_angular_velocity: float = 0.0
+@onready var target_transform: Transform2D = global_transform
+
 ## Multiplayer End
 
 var grid: TileMapLayer:
@@ -120,6 +124,24 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 			state.linear_velocity = lerp(state.linear_velocity, Vector2.ZERO, engines.get_thrust() * state.inverse_mass * engines.drag_multiplier * delta)
 		
 	eval_sparks(state)
+
+func _physics_process(delta: float) -> void:
+	if is_multiplayer_authority():
+		return
+	
+	global_transform = global_transform.interpolate_with(target_transform, 10.0 * delta)
+	linear_velocity = linear_velocity.lerp(target_linear_velocity, 10.0 * delta)
+	angular_velocity = lerp(angular_velocity, target_angular_velocity, 10.0 * delta)
+
+
+@rpc("authority", "call_remote", "unreliable")
+func sync_state(gt: Transform2D, lv: Vector2, av: float):
+	if is_multiplayer_authority():
+		return
+	
+	target_transform        = gt
+	target_linear_velocity  = lv
+	target_angular_velocity = av
 
 func calc_center_of_mass():
 	var hex_mass = 2.0
@@ -596,6 +618,9 @@ func _process(_delta: float) -> void:
 	#   clear_ghost_preview()
 	#   return
 	
+	if is_multiplayer_authority():
+		sync_state.rpc(global_transform, linear_velocity, angular_velocity)
+		
 	var pushers = get_players_pushing()
 	
 	if pushers.is_empty():

@@ -44,7 +44,7 @@ var seat : SeatInteractable :
 var ground_body : PhysicsBody2D
 var prev_ground_body_transform : Transform2D
 
-var ship : Ship
+var ship: Ship
 
 @onready var ground_check: Area2D = $GroundCheck
 @onready var interact_check: Area2D = $InteractCheck
