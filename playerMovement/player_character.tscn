@@ -25,6 +25,7 @@ default_color = Color(0, 0, 0, 1)
 script = ExtResource("2_me87i")
 
 [node name="Person" type="Sprite2D" parent="." unique_id=386810011]
+modulate = Color(0, 0, 0.6862745, 1)
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("2_3pww0")
 
