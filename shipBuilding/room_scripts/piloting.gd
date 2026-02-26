@@ -63,7 +63,9 @@ func _process(delta: float) -> void:
 @rpc("any_peer", "call_remote", "unreliable")
 func send_input(dir: Vector2, braking: bool):
 	var sender_id = multiplayer.get_remote_sender_id()
-	var driver_id = ship.player.owner_id
+	var driver_id = null
+	if ship and ship.player:
+		driver_id = ship.player.owner_id
 	if sender_id != driver_id:
 		push_warning("Player %d tried to control player %d" % [sender_id, driver_id])
 	input_dir = dir
