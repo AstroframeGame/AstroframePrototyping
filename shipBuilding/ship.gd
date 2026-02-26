@@ -122,7 +122,7 @@ func calc_center_of_mass():
 	for child in get_children():
 		if child is Room:
 			for hex in child.get_children():
-				if hex is Sprite2D:
+				if hex is Hex:
 					total_mass += hex_mass
 					weighted_pos_sum += (child.transform * hex.position) * hex_mass
 					
@@ -195,7 +195,7 @@ func get_cells_for_room(room: Node, center_cell: Vector2i, rot_index: int) -> Ar
 	var angle = rot_index * PI / 3.0
 	
 	for child in room.get_children():
-		if child is Sprite2D:
+		if child is Hex:
 			var rotated_offset = child.position.rotated(angle)
 			var target_cell = grid.local_to_map(grid.to_local(to_global(center_local + rotated_offset)))
 			if not target_cell in cells:
@@ -299,7 +299,7 @@ func update_colliders() -> void:
 			var room_transform = room.transform
 			
 			for room_child in room.get_children():
-				if room_child is Sprite2D:
+				if room_child is Hex:
 					var poly = base_hex.duplicate()
 					var sprite_pos = room_child.position
 					
