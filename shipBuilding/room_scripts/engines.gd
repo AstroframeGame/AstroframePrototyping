@@ -6,7 +6,6 @@ extends Room
 @export var forward_multiplier = 2
 # for back, and sides
 @export var standard_thrust = 1200
-@export var drag_multiplier = 0.01
 # for rotation
 @export var rotational_thrust = 0.2
 
