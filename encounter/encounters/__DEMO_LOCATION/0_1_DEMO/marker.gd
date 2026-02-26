@@ -6,7 +6,7 @@ extends Polygon2D
 @onready var screen_size = get_viewport_rect().size
 @onready var center = screen_size / 2
 @onready var padding = 75
-@onready var y_offset = -10
+@onready var y_offset = 4
 
 const FADE_MIN_DIST = 500
 const FADE_MAX_DIST = 3000
@@ -52,7 +52,7 @@ func _process(_delta: float) -> void:
 	var t = remap(dist, FADE_MIN_DIST, FADE_MAX_DIST, 1, 0)
 	var dist_mod = smoothstep(0, 1, clamp(t, 0, 1))
 	self_modulate.a = dist_mod
-	label.modulate.a = dist_mod
+	#label.modulate.a = dist_mod
 
 	# add text
 	if label.text == "" and target.get_meta("type"):

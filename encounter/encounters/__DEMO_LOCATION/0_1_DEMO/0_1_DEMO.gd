@@ -29,6 +29,7 @@ func _ready() -> void:
 	
 	faction_ship.set_meta("type", "Faction")
 	player_ship.set_meta("type", "Ship")
+	player_ship.connect("ship_destroyed", encounter_failed)
 	
 	# set npc metadata 
 	faction_ship.name = "0_1_FACTION_PATROL"
