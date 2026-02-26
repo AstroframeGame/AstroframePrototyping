@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/ui_textures/RoundedSquare.png" id="1_0p3lp"]
 [ext_resource type="Script" uid="uid://b8g4jci7uq4ut" path="res://playerMovement/player_camera.gd" id="2_camera"]
-[ext_resource type="Script" uid="uid://bmy54l1lxqu10" path="res://shipAI/Scripts/scanner_panel.gd" id="4_scanner"]
+[ext_resource type="Script" uid="uid://bmy54l1lxqu10" path="res://shipAI/scripts/scanner_panel.gd" id="4_scanner"]
 [ext_resource type="Theme" uid="uid://dj12nct3i1b1i" path="res://hub/ui-themes/header.tres" id="7_header_theme"]
 [ext_resource type="Theme" uid="uid://f1k0rdfg3btk" path="res://hub/ui-themes/default.tres" id="8_default_theme"]
 
@@ -70,3 +70,6 @@ text = "Defeat bandits"
 ignore_rotation = false
 editor_draw_limits = true
 script = ExtResource("2_camera")
+
+[node name="AudioListener2D" type="AudioListener2D" parent="Camera2D" unique_id=1642056824]
+current = true

@@ -46,6 +46,10 @@ func new_game():
 func load_game():
 	pass
 
+func open_singleplayer():
+	# demo scene
+	load_scene("res://encounter/encounters/__DEMO_LOCATION/0_1_DEMO/0_1_DEMO.tscn")
+
 func open_ship_editor():
 	load_scene("res://shipBuilding/ship_building.tscn")
 

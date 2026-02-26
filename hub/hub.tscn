@@ -131,9 +131,9 @@ offset_bottom = 170.8453
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Singleplayer" type="Button" parent="UI/Main/VBoxContainer" unique_id=1258526734]
+[node name="Play" type="Button" parent="UI/Main/VBoxContainer" unique_id=1258526734]
 layout_mode = 2
-text = "Singleplayer"
+text = "Play"
 
 [node name="Multiplayer" type="VBoxContainer" parent="UI/Main/VBoxContainer" unique_id=1771371660]
 layout_mode = 2
@@ -324,6 +324,7 @@ environment = SubResource("Environment_21dlm")
 [connection signal="pressed" from="UI/Main/VBoxContainer/Multiplayer/Host" to="MultiplayerManager" method="_on_host_pressed"]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Multiplayer/Join" to="MultiplayerManager" method="_on_join_pressed"]
 [connection signal="text_changed" from="UI/Main/VBoxContainer/Multiplayer/IDPrompt" to="MultiplayerManager" method="_on_id_prompt_text_changed"]
+[connection signal="pressed" from="UI/Main/VBoxContainer/Play" to="GameManager" method="open_singleplayer"]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Editor" to="GameManager" method="open_ship_editor"]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Settings" to="GameManager" method="_on_settings_pressed"]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Credits" to="UI" method="open_menu" binds= [&"Credits"]]

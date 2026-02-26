@@ -2,6 +2,10 @@
 
 [ext_resource type="Shader" uid="uid://2mixg6rsyvsx" path="res://shipBuilding/fx/shield/shield.gdshader" id="1_x5pi7"]
 [ext_resource type="Texture2D" uid="uid://bva3dm7d0f0lm" path="res://shipBuilding/icons/circle_big.png" id="2_x5pi7"]
+[ext_resource type="Script" uid="uid://bvbhg3bnkog0f" path="res://turretInteractions/Scripts/shield.gd" id="3_fybr4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_x5pi7"]
+radius = 500.68155
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xi3rp"]
 shader = ExtResource("1_x5pi7")
@@ -9,8 +13,15 @@ shader_parameter/glow_color = Color(0.39, 0.701, 1.827, 1)
 shader_parameter/intensity = 10.0
 shader_parameter/amount = 1.0
 
-[node name="Shield" type="Sprite2D" unique_id=386750233]
+[node name="Shield" type="StaticBody2D" unique_id=782683530]
+collision_layer = 8192
+collision_mask = 64
+script = ExtResource("3_fybr4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1049669852]
+visible = false
+shape = SubResource("CircleShape2D_x5pi7")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1004976113]
 material = SubResource("ShaderMaterial_xi3rp")
 texture = ExtResource("2_x5pi7")
-
-[node name="Creates collider as child of ship" type="Node" parent="." unique_id=401004221]

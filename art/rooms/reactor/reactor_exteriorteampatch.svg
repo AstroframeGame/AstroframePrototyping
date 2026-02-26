@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 74.19 110.19">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #d4d4d4;
+      }
+    </style>
+  </defs>
+  <g id="Exterior">
+    <g id="reactor_exteriorteampatch">
+      <path class="cls-1" d="M37,0h.19c1.66,0,3,1.34,3,3v3.19h-6.19v-3.19c0-1.66,1.34-3,3-3Z"/>
+      <path class="cls-1" d="M34,104h6.19v3.19c0,1.66-1.34,3-3,3h-.19c-1.66,0-3-1.34-3-3v-3.19h0Z"/>
+      <path class="cls-1" d="M71,52h.19c1.66,0,3,1.34,3,3v3.19h-6.19v-3.19c0-1.66,1.34-3,3-3Z" transform="translate(126.19 -16) rotate(90)"/>
+      <path class="cls-1" d="M3,52h.19c1.66,0,3,1.34,3,3v3.19H0v-3.19C0,53.34,1.34,52,3,52Z" transform="translate(-52 58.19) rotate(-90)"/>
+    </g>
+  </g>
+</svg>

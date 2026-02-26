@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 139.65 80.9">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #ababab;
+      }
+
+      .cls-2 {
+        fill: #808285;
+      }
+
+      .cls-3 {
+        fill: #6b6b6b;
+      }
+    </style>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <g id="aim_interior">
+      <g>
+        <polygon class="cls-2" points="69.83 60.67 69.83 20.22 34.91 0 0 20.22 0 60.67 34.91 80.9 69.83 60.67"/>
+        <polygon class="cls-1" points="63.5 57.01 63.5 23.89 34.91 7.33 6.33 23.89 6.33 57.01 34.91 73.57 63.5 57.01"/>
+        <polygon class="cls-3" points="69.83 20.22 69.83 60.67 32.46 60.67 11.02 40.45 32.46 20.22 69.83 20.22"/>
+      </g>
+      <g>
+        <polygon class="cls-2" points="69.83 20.22 69.83 60.67 104.74 80.9 139.65 60.67 139.65 20.22 104.74 0 69.83 20.22"/>
+        <polygon class="cls-1" points="76.15 23.89 76.15 57.01 104.74 73.57 133.32 57.01 133.32 23.89 104.74 7.33 76.15 23.89"/>
+        <polygon class="cls-3" points="69.83 60.67 69.83 20.22 107.19 20.22 128.63 40.45 107.19 60.67 69.83 60.67"/>
+      </g>
+    </g>
+  </g>
+</svg>

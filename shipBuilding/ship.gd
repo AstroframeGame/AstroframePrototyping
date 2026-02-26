@@ -19,6 +19,7 @@ const SPARKS_PREFAB = preload("res://art/vfx/sparks.tscn")
 const SPARKS_SPEED_THRESH = 10
 const EXPLOSION_PREFAB = preload("res://art/vfx/explosion.tscn")
 const HIT_SHIP_VFX_PREFAB = preload("res://art/vfx/hit_ship_vfx.tscn")
+const EXPLOSION_SFX_PREFAB = preload("res://audio/sfx_prefabs/explosion_sfx.tscn")
 
 ## Multiplayer Start
 
@@ -42,6 +43,7 @@ var ghost_preview: Node2D = null
 var occupied_cells: Dictionary[Vector2i, Room] = {} # only calculated in ship_building
 @export var power_links : Dictionary[PowerOutHex, PowerInHex]
 
+@export var drag_multiplier = 0.01
 @export var max_hit_points : int = 0
 @export var _hit_points : int = 0
 var hit_points : int:
@@ -88,9 +90,36 @@ func get_engines() -> Engines:
 		if r is Engines:
 			return r
 	return null
+func has_engines() -> bool:
+	return get_engines() != null
+func get_boost_thrust() -> float:
+	var o = 0
+	for r in get_children():
+		if r is Engines:
+			o += r.get_boost_thrust()
+	return o
+func get_thrust() -> float:
+	var o = 0
+	for r in get_children():
+		if r is Engines:
+			o += r.get_thrust()
+	return o
+func get_rotational_thrust() -> float:
+	var o = 0
+	for r in get_children():
+		if r is Engines:
+			o += r.get_rotational_thrust()
+	return o
+
 func get_piloting() -> Piloting:
 	for r in get_children():
 		if r is Piloting:
+			if r.is_active():
+				return r
+	return null
+func get_auto_piloting()->Autopilot:
+	for r in get_children():
+		if r is Autopilot:
 			if r.is_active():
 				return r
 	return null
@@ -100,6 +129,18 @@ func get_cannons() -> Array[Cannon]:
 		if r is Cannon:
 			cannons.append(r)
 	return cannons
+func get_shields()->Array[Shields_Room]:
+	var shields_rooms : Array[Shields_Room]
+	for r in get_children():
+		if r is Shields_Room:
+			shields_rooms.append(r)
+	return shields_rooms
+func get_active_shields()->Array[Shield]:
+	var shields : Array[Shield]
+	for s in get_shields():
+		if s.shield != null and s.shield.visible:
+			shields.append(s.shield)
+	return shields
 func get_players_from_manager() -> Array[PlayerCharacter]:
 	if multiplayer_manager:
 		return multiplayer_manager.players
@@ -107,22 +148,27 @@ func get_players_from_manager() -> Array[PlayerCharacter]:
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	if is_multiplayer_authority():
-		var engines :Engines = get_engines()
 		var piloting : Piloting = get_piloting()
+		var autopilot : Autopilot = get_auto_piloting()
 		var pushing : bool = get_players_pushing().size() > 0
 		var delta = state.step
 		
-		if engines and piloting:
+		if has_engines() and piloting:
 			state.angular_velocity = piloting.get_goal_angular_velocity()
-			var goal_vel: Vector2 = piloting.get_goal_velocity(state.linear_velocity)
+			var goal_vel :Vector2 = piloting.get_goal_velocity(state.linear_velocity)
 			if not piloting.is_idling():
-				state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * state.inverse_mass * delta)
+				state.linear_velocity = lerp(state.linear_velocity, goal_vel, get_thrust() * state.inverse_mass * delta)
+		elif has_engines() and autopilot:
+			state.angular_velocity = autopilot.get_goal_angular_velocity()
+			var goal_vel :Vector2 = autopilot.get_goal_velocity(state.linear_velocity)
+			if not autopilot.is_idling():
+				state.linear_velocity = lerp(state.linear_velocity, goal_vel, get_thrust() * state.inverse_mass * delta)
 		elif pushing:
 			apply_push_rotation(state)
 			apply_push_velocity(state)
-		elif engines: # autodrag
-			state.angular_velocity = lerp(state.angular_velocity, 0.0, state.inverse_mass * engines.drag_multiplier * delta)
-			state.linear_velocity = lerp(state.linear_velocity, Vector2.ZERO, engines.get_thrust() * state.inverse_mass * engines.drag_multiplier * delta)
+		elif has_engines(): # autodrag
+			state.angular_velocity = lerp(state.angular_velocity, 0.0, state.inverse_mass * drag_multiplier * delta)
+			state.linear_velocity = lerp(state.linear_velocity, Vector2.ZERO, get_thrust() * state.inverse_mass * drag_multiplier * delta)
 		
 	eval_sparks(state)
 
@@ -162,6 +208,10 @@ func calc_center_of_mass():
 	mass = total_mass
 	center_of_mass_mode = RigidBody2D.CENTER_OF_MASS_MODE_CUSTOM
 	center_of_mass = weighted_pos_sum / total_mass
+
+## return ship's center of mass as a global position
+func get_center()->Vector2:
+	return to_global(center_of_mass)
 
 func get_bounds_rect() -> Rect2:
 	var combined_rect = Rect2()
@@ -405,7 +455,6 @@ func update_colliders() -> void:
 		solid.owner = self
 		print("Fallback: ", name, " creating solid")
 	
-	
 	walls.collision_layer = 16 # Ship exterior layer
 	walls.collision_mask = 0#16 #ship exterior layer
 	collision_layer = 1 # ship interior
@@ -451,6 +500,15 @@ func get_avalible_power_out() -> Array[PowerOutHex]:
 				if not h.is_powering:
 					out.append(h)
 	return out
+
+func get_available_power_in() -> Array[PowerInHex]:
+	var _in: Array[PowerInHex] = []
+	for r in get_children():
+		if r is Room:
+			for h in r.get_in_hexes():
+				if not h.is_powered:
+					_in.append(h)
+	return _in
 
 func toggle_power(power_hex):
 	if not my_character_inside():
@@ -506,6 +564,7 @@ func remove_power_link_out(power_out : PowerOutHex):
 
 #region Health
 func check_hud():
+	max_hit_points = 0
 	for child in get_children():
 		if child is Room:
 			max_hit_points += child.durability
@@ -514,7 +573,7 @@ func check_hud():
 	if not hud:
 		hud = HUD.instantiate()
 		add_child(hud)
-	hud.initialize() # @ Kevin remove?
+	hud.initialize()
 
 func take_damage(amount:int, pos_ws : Vector2):
 	hit_points -= amount # property has callback that sets the hud to update
@@ -523,6 +582,10 @@ func take_damage(amount:int, pos_ws : Vector2):
 func death_check():
 	if hit_points > 0 or _is_dead:
 		return 
+		
+	for pc in get_tree().get_nodes_in_group("player_controller"):
+		if pc.ship == self:
+			pc.update_layers(false)
 	_is_dead = true
 	call_deferred("death_explosion")
 	
@@ -554,7 +617,11 @@ func death_explosion():
 		
 		debris_ship.initialize_ship()
 		explosion(pos)
-
+	
+	var explosion_sfx : AudioStreamPlayer2D = EXPLOSION_SFX_PREFAB.instantiate()
+	explosion_sfx.play_quantity(len(rooms))
+	ProjectileManager.add_child(explosion_sfx)
+	
 	ship_destroyed.emit()
 	queue_free()
 #endregion
@@ -679,7 +746,7 @@ func generate_ghost_preview() -> void:
 			room_duplicate.rotation = child_node.rotation
 			
 			for room_component in room_duplicate.get_children():
-				if not room_component is Hex:
+				if not (room_component is Hex or room_component is Sprite2D):
 					room_component.queue_free()
 
 func clear_ghost_preview() -> void:
@@ -887,6 +954,7 @@ func eval_sparks(state : PhysicsDirectBodyState2D):
 		var pos = state.get_contact_collider_position(i)
 		var rot = state.get_contact_local_normal(i).angle()
 		var speed = state.get_velocity_at_local_position(to_local(pos)).length()
+
 		if speed > SPARKS_SPEED_THRESH:
 			var sparks : Node2D= SPARKS_PREFAB.instantiate()
 			sparks.global_position = pos

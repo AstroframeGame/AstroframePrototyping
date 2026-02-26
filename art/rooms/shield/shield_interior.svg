@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.96 124.67">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #ababab;
+      }
+
+      .cls-2 {
+        fill: #bbb3d9;
+        stroke: #808285;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-3 {
+        fill: #6b6b6b;
+      }
+    </style>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <g id="shield_interior">
+      <g>
+        <polygon class="cls-3" points="61.48 53.42 61.48 17.81 30.74 0 0 17.81 0 53.42 30.74 71.23 61.48 53.42"/>
+        <polygon class="cls-3" points="122.96 53.42 122.96 17.81 92.22 0 61.48 17.81 61.48 53.42 92.22 71.23 122.96 53.42"/>
+        <polygon class="cls-3" points="92.22 106.86 92.22 71.25 61.48 53.44 30.74 71.25 30.74 106.86 61.48 124.67 92.22 106.86"/>
+      </g>
+      <g>
+        <polygon class="cls-1" points="54.79 49.54 54.79 21.68 30.74 7.75 6.69 21.68 6.69 49.54 30.74 63.47 54.79 49.54"/>
+        <polygon class="cls-1" points="116.27 49.54 116.27 21.68 92.22 7.75 68.17 21.68 68.17 49.54 92.22 63.47 116.27 49.54"/>
+        <polygon class="cls-1" points="85.53 102.99 85.53 75.12 61.48 61.19 37.43 75.12 37.43 102.99 61.48 116.92 85.53 102.99"/>
+      </g>
+      <rect class="cls-2" x="48.45" y="44.31" width="44.97" height="7.27" transform="translate(-14.47 41.89) rotate(-30)"/>
+      <rect class="cls-2" x="29.54" y="44.31" width="44.97" height="7.27" transform="translate(73.11 115.48) rotate(-150)"/>
+      <rect class="cls-2" x="39" y="66.85" width="44.97" height="7.27" transform="translate(-9 131.96) rotate(-90)"/>
+    </g>
+  </g>
+</svg>
