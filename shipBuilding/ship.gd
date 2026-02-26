@@ -32,6 +32,7 @@ var ghost_preview: Node2D = null
 var occupied_cells: Dictionary[Vector2i, Room] = {} # only calculated in ship_building
 @export var power_links : Dictionary[PowerOutHex, PowerInHex]
 
+@export var drag_multiplier = 0.01
 @export var max_hit_points : int = 0
 @export var _hit_points : int = 0
 var hit_points : int:
@@ -78,6 +79,27 @@ func get_engines() -> Engines:
 		if r is Engines:
 			return r
 	return null
+func has_engines() -> bool:
+	return get_engines() != null
+func get_boost_thrust() -> float:
+	var o = 0
+	for r in get_children():
+		if r is Engines:
+			o += r.get_boost_thrust()
+	return o
+func get_thrust() -> float:
+	var o = 0
+	for r in get_children():
+		if r is Engines:
+			o += r.get_thrust()
+	return o
+func get_rotational_thrust() -> float:
+	var o = 0
+	for r in get_children():
+		if r is Engines:
+			o += r.get_rotational_thrust()
+	return o
+
 func get_piloting() -> Piloting:
 	for r in get_children():
 		if r is Piloting:
@@ -115,28 +137,27 @@ func get_players_from_manager() -> Array[PlayerCharacter]:
 	return []
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
-	var engines :Engines = get_engines()
 	var piloting : Piloting = get_piloting()
 	var autopilot : Autopilot = get_auto_piloting()
 	var pushing : bool = get_players_pushing().size() > 0
 	var delta = state.step
 	
-	if engines and piloting:
+	if has_engines() and piloting:
 		state.angular_velocity = piloting.get_goal_angular_velocity()
 		var goal_vel :Vector2 = piloting.get_goal_velocity(state.linear_velocity)
 		if not piloting.is_idling():
-			state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * state.inverse_mass * delta)
+			state.linear_velocity = lerp(state.linear_velocity, goal_vel, get_thrust() * state.inverse_mass * delta)
 	elif engines and autopilot:
 		state.angular_velocity = autopilot.get_goal_angular_velocity()
 		var goal_vel :Vector2 = autopilot.get_goal_velocity(state.linear_velocity)
 		if not autopilot.is_idling():
-			state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * state.inverse_mass * delta)
+			state.linear_velocity = lerp(state.linear_velocity, goal_vel, get_thrust() * state.inverse_mass * delta)
 	elif pushing:
 		apply_push_rotation(state)
 		apply_push_velocity(state)
-	elif engines: # autodrag
-		state.angular_velocity = lerp(state.angular_velocity, 0.0, state.inverse_mass * engines.drag_multiplier * delta)
-		state.linear_velocity = lerp(state.linear_velocity, Vector2.ZERO, engines.get_thrust() * state.inverse_mass * engines.drag_multiplier * delta)
+	elif has_engines(): # autodrag
+		state.angular_velocity = lerp(state.angular_velocity, 0.0, state.inverse_mass * drag_multiplier * delta)
+		state.linear_velocity = lerp(state.linear_velocity, Vector2.ZERO, get_thrust() * state.inverse_mass * drag_multiplier * delta)
 	
 	eval_sparks(state)
 
