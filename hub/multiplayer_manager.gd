@@ -156,8 +156,11 @@ func _add_player_local(id: int):
 	var is_owner = id == multiplayer.get_unique_id()
 	if is_owner:
 		player_char.get_node("NamerTag").text = user_name
-		my_player = player_char
 		var player_system = PLAYER_SYSTEM_PREFAB.instantiate()
+		
+		my_player = player_char
+		my_player_system = player_system
+		
 		add_child(player_system, true)
 	
 	

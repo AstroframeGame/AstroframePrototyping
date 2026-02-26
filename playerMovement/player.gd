@@ -48,7 +48,7 @@ var ship : Ship
 
 @onready var ground_check: Area2D = $GroundCheck
 @onready var interact_check: Area2D = $InteractCheck
-#@onready var multiplayer_manager : MultiplayerManager = $"..."
+@onready var multiplayer_manager : MultiplayerManager = $"../.."
 
 @onready var grapple: Grapple = $Grapple
 
@@ -62,8 +62,8 @@ var grounded : bool:
 
 @onready var handgun: PlayerGun = $handgun
 
+#region MultiplayerGlobals
 ## ====== Multiplayer START ======
-
 var is_multiplayer: bool = false
 var is_local_player: bool = false
 
@@ -80,9 +80,10 @@ var was_holstering: bool = false
 var is_interacting: bool = false
 var was_interacting: bool = false
 var event_in_room: InputEvent = null
-
 ## ======  Multiplayer END  ======
+#endregion
 
+#region ReadyFunction
 func _ready() -> void:
 	ground_check.body_entered.connect(on_ground)
 	ground_check.body_exited.connect(on_unground)
@@ -118,7 +119,7 @@ func _ready() -> void:
 		on_ship_enter(ship)
 	else:
 		on_ship_exit()
-
+#endregion
 
 func _physics_process(delta):
 	if is_multiplayer_authority():
@@ -179,7 +180,7 @@ func _physics_process(delta):
 				var impulse = force_dir * 200 * delta
 				collider.apply_central_impulse(impulse)
 		
-		sync_state.rpc(global_position, velocity)
+		sync_state.rpc(global_position, velocity, mouse_pos)
 	else:
 		global_position = global_position.lerp(target_pos, 0.25)
 		velocity = target_vel
@@ -217,10 +218,12 @@ func send_input(dir: Vector2, m_pos: Vector2, is_braking: bool, pushed: bool):
 	mouse_pos   = m_pos
 
 @rpc("authority", "call_remote", "unreliable")
-func sync_state(pos: Vector2, vel: Vector2):
+func sync_state(pos: Vector2, vel: Vector2, m_pos: Vector2):
 	if not is_multiplayer_authority():
 		target_pos = pos
 		target_vel = vel
+		mouse_pos = m_pos
+		
 #endregion
 #region Syncing Actions
 @rpc("authority", "call_local", "unreliable")
@@ -371,7 +374,6 @@ func update_layers(inside : bool):
 		ground_check.collision_mask = exterior_ground_mask
 		z_index = 12
 #endregion
-
 
 func take_damage(damage : int):
 	health -= damage
