@@ -37,21 +37,6 @@ position = Vector2(-39, -67.5)
 [node name="InputHex3" parent="." unique_id=1828517898 instance=ExtResource("5_mqtj2")]
 self_modulate = Color(0.70980394, 0.7882353, 1, 1)
 
-[node name="Label" type="Label" parent="." unique_id=705777749]
-offset_left = -26.0
-offset_top = -55.0
-offset_right = 29.0
-offset_bottom = -32.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Shields"
-
-[node name="Shield" parent="." unique_id=386750233 instance=ExtResource("3_43tt2")]
-visible = false
-position = Vector2(0, -45)
-
-[node name="CollisionShape2D" parent="Shield" index="0" unique_id=1049669852]
-disabled = true
-
 [node name="Roof" type="Node2D" parent="." unique_id=1583828134]
 visible = false
 
@@ -96,7 +81,12 @@ scale = Vector2(0.6, 0.6)
 texture = ExtResource("9_wxemh")
 
 [node name="Shield" parent="." unique_id=386750233 instance=ExtResource("3_43tt2")]
+visible = false
 position = Vector2(0, -45)
+
+[node name="CollisionShape2D" parent="Shield" index="0" unique_id=1049669852]
+disabled = true
+
 [node name="RechargeTimer" type="Timer" parent="." unique_id=676478285]
 wait_time = 2.5
 one_shot = true
