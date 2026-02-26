@@ -196,12 +196,10 @@ func _process(delta: float) -> void:
 		var m_pos = get_global_mouse_position()
 
 		if is_multiplayer_authority():
-			input_dir = dir
-			push_brake = is_braking
+			input_dir   = dir
+			push_brake  = is_braking
 			ship_pushed = pushed
-			mouse_pos = m_pos
-			if has_node("handgun"):
-				$handgun.m_pos = mouse_pos
+			mouse_pos   = m_pos
 		else:
 			send_input.rpc_id(1, dir, m_pos, is_braking, pushed)
 
@@ -213,12 +211,10 @@ func send_input(dir: Vector2, m_pos: Vector2, is_braking: bool, pushed: bool):
 		push_warning("Player %d tried to control player %d" % [sender_id, owner_id])
 		return
 
-	input_dir = dir
-	push_brake = is_braking
+	input_dir   = dir
+	push_brake  = is_braking
 	ship_pushed = pushed
-	mouse_pos = m_pos
-	if has_node("handgun"):
-		$handgun.m_pos = mouse_pos
+	mouse_pos   = m_pos
 
 @rpc("authority", "call_remote", "unreliable")
 func sync_state(pos: Vector2, vel: Vector2):

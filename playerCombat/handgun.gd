@@ -22,6 +22,7 @@ func _ready() -> void:
 	holster()
 
 func _process(delta: float) -> void:
+	m_pos = player.mouse_pos
 	if (!holstered):
 		look_at(m_pos)
 	
