@@ -35,9 +35,9 @@ position = Vector2(-59, 359)
 color = Color(0.14622876, 0.14622876, 0.14622873, 1)
 polygon = PackedVector2Array(-16908, -19155, 16156, -19155, 19946, -13965, 20910, 15062, 15150, 20950, -19794, 20566, -23762, 16214, -24658, -15530, -18642, -18986, -18386, -15146, -22226, -12202, -20178, 14678, -17106, 17494, 12206, 18134, 18990, 13142, 16814, -12970, 12206, -17194, -18052, -15301, -18528, -16791, -18221, -19340, -17024, -19201)
 
-[node name="temp HUD" type="CanvasLayer" parent="." unique_id=1470133338]
+[node name="markers" type="CanvasLayer" parent="." unique_id=1470133338]
 
-[node name="faction_ship_marker" type="Polygon2D" parent="temp HUD" unique_id=1654820679 node_paths=PackedStringArray("target")]
+[node name="faction_ship_marker" type="Polygon2D" parent="markers" unique_id=1654820679 node_paths=PackedStringArray("target")]
 position = Vector2(-2688, -331)
 scale = Vector2(3, 3)
 color = Color(0.46838838, 1, 0.56368905, 1)
@@ -45,13 +45,19 @@ polygon = PackedVector2Array(0, 3, 3, 0, 0, -3, -3, 0)
 script = ExtResource("9_76my7")
 target = NodePath("../../ships/FACTION_PATROL")
 
-[node name="Label" type="Label" parent="temp HUD/faction_ship_marker" unique_id=641273740]
+[node name="Label" type="Label" parent="markers/faction_ship_marker" unique_id=641273740]
 offset_right = 40.0
 offset_bottom = 23.0
 theme_override_fonts/font = ExtResource("3_7ytpk")
 theme_override_font_sizes/font_size = 6
 
-[node name="pirate_ship_marker" type="Polygon2D" parent="temp HUD" unique_id=1814700100 node_paths=PackedStringArray("target")]
+[node name="Line2D" type="Line2D" parent="markers/faction_ship_marker" unique_id=1397705001]
+points = PackedVector2Array(0, 3, 3, 0, 0, -3, -3, 0)
+closed = true
+width = 0.5
+default_color = Color(0.46666667, 1, 0.5647059, 1)
+
+[node name="pirate_ship_marker" type="Polygon2D" parent="markers" unique_id=1814700100 node_paths=PackedStringArray("target")]
 position = Vector2(-10752, -1324)
 scale = Vector2(3, 3)
 color = Color(0.84932995, 0.00019059777, 0.012585228, 1)
@@ -59,13 +65,20 @@ polygon = PackedVector2Array(0, 3, 3, 0, 0, -3, -3, 0)
 script = ExtResource("9_76my7")
 target = NodePath("../../ships/pirates/PIRATE_DESTROYER")
 
-[node name="Label" type="Label" parent="temp HUD/pirate_ship_marker" unique_id=126003076]
+[node name="Label" type="Label" parent="markers/pirate_ship_marker" unique_id=126003076]
 offset_right = 40.0
 offset_bottom = 23.0
 theme_override_fonts/font = ExtResource("3_7ytpk")
 theme_override_font_sizes/font_size = 6
+metadata/_edit_use_anchors_ = true
 
-[node name="pirate_ship_marker2" type="Polygon2D" parent="temp HUD" unique_id=877550194 node_paths=PackedStringArray("target")]
+[node name="Line2D" type="Line2D" parent="markers/pirate_ship_marker" unique_id=1169486565]
+points = PackedVector2Array(0, 3, 3, 0, 0, -3, -3, 0)
+closed = true
+width = 0.5
+default_color = Color(0.8509804, 0, 0.011764706, 1)
+
+[node name="pirate_ship_marker2" type="Polygon2D" parent="markers" unique_id=877550194 node_paths=PackedStringArray("target")]
 position = Vector2(-10752, -1324)
 scale = Vector2(3, 3)
 color = Color(0.84932995, 0.00019059777, 0.012585228, 1)
@@ -73,11 +86,17 @@ polygon = PackedVector2Array(0, 3, 3, 0, 0, -3, -3, 0)
 script = ExtResource("9_76my7")
 target = NodePath("../../ships/pirates/PIRATE_FRIGATE")
 
-[node name="Label" type="Label" parent="temp HUD/pirate_ship_marker2" unique_id=563215922]
+[node name="Label" type="Label" parent="markers/pirate_ship_marker2" unique_id=563215922]
 offset_right = 40.0
 offset_bottom = 23.0
 theme_override_fonts/font = ExtResource("3_7ytpk")
 theme_override_font_sizes/font_size = 6
+
+[node name="Line2D" type="Line2D" parent="markers/pirate_ship_marker2" unique_id=1261872453]
+points = PackedVector2Array(0, 3, 3, 0, 0, -3, -3, 0)
+closed = true
+width = 0.5
+default_color = Color(0.84932995, 0.00019059777, 0.012585228, 1)
 
 [node name="Background" type="CanvasLayer" parent="." unique_id=1933024674]
 layer = -2
