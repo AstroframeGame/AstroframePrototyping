@@ -63,11 +63,12 @@ func _on_lobby_created(result: int, lobby_id: int):
 		host_steam_id = multiplayer.get_unique_id()
 		
 		print("\n=== HOST SETUP ===")
-		print("   Lobby created, lobby id: ", lobby_id)
+		print("   Lobby created, lobby id copied to clipboard: ", lobby_id)
 		print("   Steam.getSteamID(): ", Steam.getSteamID())
 		print("   multiplayer.get_unique_id(): ", multiplayer.get_unique_id())
 		print("   Using host_steam_id: ", host_steam_id)
-		
+		DisplayServer.clipboard_set(str(lobby_id))
+	
 		_add_player_local(host_steam_id)
 
 func _on_lobby_joined(lobby_id: int, perms: int, locked: bool, response: int):
