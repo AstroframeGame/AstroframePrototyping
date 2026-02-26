@@ -1,13 +1,6 @@
 extends Room
 class_name Shields_Room
 
-'''
-* shield holds take_damage & health
-* when shield dies, it stays down
-* start a timer based on recharge_speed
-* when timer ends, shield comes back up
-'''
-
 #@export var recharge_speed = 30
 @export var recharge_speeds := [-1, 7.5, 5, 2.5]
 @export var max_shield_durability = 100

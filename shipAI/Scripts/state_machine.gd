@@ -5,7 +5,7 @@ extends Node
 
 @export var idle_state : State
 @export var approach_state : State
-@export var align_state : State
+@export var sting_state : State
 @export var flee_state : State
 
 @onready var auto_pilot : Room = $".."
@@ -13,9 +13,9 @@ extends Node
 func _ready() -> void:
 	current_state = idle_state
 
-#func _physics_process(delta: float) -> void:
-	#if current_state:
-		#current_state.process_state_physics(delta)
+func state_is_equal(comparison:State):
+	if current_state != null:
+		return current_state == comparison
 
 func change_state(new_state:State):
 	if current_state != null:
