@@ -174,7 +174,9 @@ func _physics_process(delta):
 	else:
 		global_position = global_position.lerp(target_pos, 0.25)
 		velocity = target_vel
-	
+
+## ====== Multiplayer START ======	
+
 func _process(delta: float) -> void:
 	is_local_player = multiplayer.get_unique_id() == owner_id or not is_multiplayer
 
@@ -233,6 +235,7 @@ func sync_interacting():
 func sync_room_inputs(room_event: InputEvent):
 	seat.room.handle_input(room_event)
 #endregion
+
 ## ======  Multiplayer END  ======
 
 #region InteractionManager
@@ -241,7 +244,7 @@ func interact():
 	var interactable = get_interactable()
 	if interactable:
 		interactable.interact(self)
-		#print_debug("Player interacted with ", interactable)
+		print_debug("Player interacted with ", interactable)
 			
 func get_interactable() -> Node2D:
 	for area in interact_check.get_overlapping_areas():
