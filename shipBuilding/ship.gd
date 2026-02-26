@@ -19,6 +19,7 @@ const SPARKS_PREFAB = preload("res://art/vfx/sparks.tscn")
 const SPARKS_SPEED_THRESH = 10
 const EXPLOSION_PREFAB = preload("res://art/vfx/explosion.tscn")
 const HIT_SHIP_VFX_PREFAB = preload("res://art/vfx/hit_ship_vfx.tscn")
+const EXPLOSION_SFX_PREFAB = preload("res://audio/sfx_prefabs/explosion_sfx.tscn")
 
 var _is_dead: bool = false
 
@@ -588,7 +589,11 @@ func death_explosion():
 		
 		debris_ship.initialize_ship()
 		explosion(pos)
-
+	
+	var explosion_sfx : AudioStreamPlayer2D = EXPLOSION_SFX_PREFAB.instantiate()
+	explosion_sfx.play_quantity(len(rooms))
+	ProjectileManager.add_child(explosion_sfx)
+	
 	ship_destroyed.emit()
 	queue_free()
 #endregion
