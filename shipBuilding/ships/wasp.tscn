@@ -1,74 +1,174 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://dbgkm073louoa"]
 
-[ext_resource type="Script" path="res://shipBuilding/ship.gd" id="1_h2hkk"]
-[ext_resource type="PackedScene" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_8tr5f"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/piloting_1.tscn" id="3_c0h5q"]
-[ext_resource type="Script" path="res://shipAI/Scripts/ship_hud.gd" id="4_4bx2r"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/engines_2.tscn" id="4_qu3rs"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/cannon.tscn" id="5_3mynv"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/reactor_2.tscn" id="6_0m1te"]
-[ext_resource type="Script" path="res://shipBuilding/room_scripts/piloting.gd" id="6_q42ym"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/airlock_1.tscn" id="7_gcu0p"]
-[ext_resource type="Script" path="res://shipBuilding/room_scripts/engines.gd" id="8_3mu6t"]
-[ext_resource type="PackedScene" path="res://shipAI/prefabs/hud.tscn" id="8_6o2g8"]
-[ext_resource type="Script" path="res://shipBuilding/room_scripts/cannon.gd" id="10_xlr1c"]
-[ext_resource type="Script" path="res://shipBuilding/room.gd" id="12_cnlkx"]
-[ext_resource type="Script" path="res://shipBuilding/room_scripts/airlock.gd" id="14_uvts2"]
+[ext_resource type="Script" uid="uid://bsurseo1hgudf" path="res://shipBuilding/ship.gd" id="1_ouj27"]
+[ext_resource type="PackedScene" uid="uid://c2n7netp00xn6" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_8tr5f"]
+[ext_resource type="PackedScene" uid="uid://cebf4gqkt7jib" path="res://shipBuilding/rooms/engines_2.tscn" id="4_qu3rs"]
+[ext_resource type="PackedScene" uid="uid://bmfrsjjfduwqn" path="res://shipBuilding/rooms/cannon.tscn" id="5_3mynv"]
+[ext_resource type="PackedScene" uid="uid://c80teck1ccmdv" path="res://shipBuilding/rooms/reactor_2.tscn" id="6_0m1te"]
+[ext_resource type="PackedScene" uid="uid://daae3tloj435m" path="res://shipAI/prefabs/hud.tscn" id="8_6o2g8"]
+[ext_resource type="PackedScene" uid="uid://opemmrmus70s" path="res://shipBuilding/rooms/autopilot_1.tscn" id="9_3mu6t"]
+[ext_resource type="PackedScene" uid="uid://cplmkay6ecshy" path="res://shipBuilding/rooms/reactor_4.tscn" id="9_q42ym"]
+[ext_resource type="PackedScene" uid="uid://dir8uoqft75m0" path="res://shipBuilding/rooms/airlock_1.tscn" id="14_uvts2"]
+[ext_resource type="PackedScene" uid="uid://8plbkd62xtgy" path="res://shipBuilding/rooms/hull_1.tscn" id="16_wj75a"]
 
 [sub_resource type="TileSet" id="TileSet_xsh4c"]
 tile_shape = 3
 tile_size = Vector2i(78, 90)
 
-[node name="wasp" type="RigidBody2D" unique_id=1442409601 node_paths=PackedStringArray("hud")]
+[sub_resource type="Curve" id="Curve_w1q65"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3btjd"]
+radius = 50.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6vmsa"]
+radius = 1500.0
+
+[node name="Wasp" type="RigidBody2D" unique_id=1784127879 node_paths=PackedStringArray("hud", "power_links") groups=["pirate_ship"]]
 z_index = 1
 collision_mask = 257
 input_pickable = true
+mass = 28.0
 gravity_scale = 0.0
+center_of_mass_mode = 1
+center_of_mass = Vector2(39, -22.507141)
 continuous_cd = 1
-script = ExtResource("1_h2hkk")
-hud = NodePath("ShipHUD")
-max_hit_points = 1
-_hit_points = 1
+script = ExtResource("1_ouj27")
+hud = NodePath("HUD")
+power_links = {
+NodePath("Reactor_4/OutputHex/OutClickArea"): NodePath("Engines_2/InputHex/InClickArea"),
+NodePath("Reactor_4/OutputHex2/OutClickArea"): NodePath("Engines_2/InputHex2/InClickArea"),
+NodePath("Reactor_4/OutputHex3/OutClickArea"): NodePath("Autopilot_1/InputHex/InClickArea"),
+NodePath("Reactor_4/OutputHex4/OutClickArea"): NodePath("Autopilot_1/InputHex2/InClickArea"),
+NodePath("Reactor_2/OutputHex/OutClickArea"): NodePath("Cannon/InputHex/InClickArea")
+}
 
-[node name="HexGrid" type="TileMapLayer" parent="." unique_id=1277847278 instance=ExtResource("2_8tr5f")]
-enabled = false
+[node name="HexGrid" parent="." unique_id=1277847278 instance=ExtResource("2_8tr5f")]
 tile_set = SubResource("TileSet_xsh4c")
-collision_enabled = false
-navigation_enabled = false
 
-[node name="Solid" type="CollisionPolygon2D" parent="." unique_id=412115384]
+[node name="Solid" type="CollisionPolygon2D" parent="." unique_id=1349294769]
+polygon = PackedVector2Array(117.1, -180.05, 117.1, -135.04233, 156.1, -112.55, 156.1, -67.54232, 195.1, -45.050003, 195.1, 0.05000305, 156.1, 22.54232, 156.1, 67.55, 117.1, 90.04232, 117.1, 135.05, 78, 157.6, 39, 135.10767, 0, 157.6, -39.1, 135.05, -39.1, 90.06659, -78.05775, 67.549995, -78.07881, 22.52884, -117.05774, 7.6293945e-06, -117.07886, -45.13658, -78.1, -67.64102, -78.1, -112.55001, -39.1, -135.04233, -39.1, -180.05, 0, -202.6, 39, -180.10767, 78, -202.6)
 
-[node name="ShipHUD" type="CanvasLayer" parent="." unique_id=532014552 instance=ExtResource("8_6o2g8")]
-visible = false
-script = ExtResource("4_4bx2r")
+[node name="Engines_2" parent="." unique_id=644485313 instance=ExtResource("4_qu3rs")]
+position = Vector2(0, 112.5)
+rotational_thrust = 0.1
 
-[node name="Piloting_1" type="Node2D" parent="." unique_id=150588005 instance=ExtResource("3_c0h5q")]
-position = Vector2(0, -22.5)
-script = ExtResource("6_q42ym")
+[node name="Trail2D" parent="Engines_2" index="0" unique_id=900554177]
+position = Vector2(0, -112.5)
+points = PackedVector2Array(1, 160.5, 1, 160.5, 1, 160.5, 1, 160.5, 1, 160.5, 1, 160.5, 1, 160.5, 1, 160.5, 1, 160.5, 1, 160.5, 1, 160.5, 1, 160.5, 1, 160.5, 1, 160.5, 1, 160.5, 1, 160.5, 1, 160.5, 1, 160.5, 1, 160.5, 1, 160.5)
+width_curve = SubResource("Curve_w1q65")
 
-[node name="Engines_2" type="Node2D" parent="." unique_id=1685651061 instance=ExtResource("4_qu3rs")]
+[node name="Trail2D2" parent="Engines_2" index="1" unique_id=748199960]
+position = Vector2(0, -112.5)
+points = PackedVector2Array(78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5)
+width_curve = SubResource("Curve_w1q65")
+
+[node name="Torus" parent="Engines_2/InputHex" parent_id_path=PackedInt32Array(644485313, 56559507) index="0" unique_id=1576327734]
+self_modulate = Color(0.5568628, 1, 0.65882355, 1)
+
+[node name="CollisionShape2D" parent="Engines_2/InputHex/InClickArea" parent_id_path=PackedInt32Array(644485313, 56559507, 1345779495) index="0" unique_id=1907011775]
+shape = SubResource("CircleShape2D_3btjd")
+
+[node name="Torus" parent="Engines_2/InputHex2" parent_id_path=PackedInt32Array(644485313, 1301971830) index="0" unique_id=1576327734]
+self_modulate = Color(0.5568628, 1, 0.65882355, 1)
+
+[node name="CollisionShape2D" parent="Engines_2/InputHex2/InClickArea" parent_id_path=PackedInt32Array(644485313, 1301971830, 1345779495) index="0" unique_id=1907011775]
+shape = SubResource("CircleShape2D_3btjd")
+
+[node name="Reactor_4" parent="." unique_id=542255097 instance=ExtResource("9_q42ym")]
+position = Vector2(117, 45)
+
+[node name="Dot" parent="Reactor_4/OutputHex" parent_id_path=PackedInt32Array(542255097, 918919785) index="0" unique_id=1337296878]
+self_modulate = Color(0.5568628, 1, 0.65882355, 1)
+
+[node name="Dot" parent="Reactor_4/OutputHex2" parent_id_path=PackedInt32Array(542255097, 1974966309) index="0" unique_id=1337296878]
+self_modulate = Color(0.5568628, 1, 0.65882355, 1)
+
+[node name="Dot" parent="Reactor_4/OutputHex3" parent_id_path=PackedInt32Array(542255097, 141695422) index="0" unique_id=1337296878]
+self_modulate = Color(0.5568628, 1, 0.65882355, 1)
+
+[node name="Dot" parent="Reactor_4/OutputHex4" parent_id_path=PackedInt32Array(542255097, 2039007662) index="0" unique_id=1337296878]
+self_modulate = Color(0.5568628, 1, 0.65882355, 1)
+
+[node name="HUD" parent="." unique_id=1679167778 instance=ExtResource("8_6o2g8")]
+
+[node name="Reactor_2" parent="." unique_id=1280046819 instance=ExtResource("6_0m1te")]
 position = Vector2(-39, 45)
-script = ExtResource("8_3mu6t")
+rotation = 4.1887903
 
-[node name="Cannon" type="Node2D" parent="." unique_id=195129740 instance=ExtResource("5_3mynv")]
+[node name="Dot" parent="Reactor_2/OutputHex" parent_id_path=PackedInt32Array(1280046819, 918919785) index="0" unique_id=1337296878]
+self_modulate = Color(0.5568628, 1, 0.65882355, 1)
+
+[node name="Dot" parent="Reactor_2/OutputHex3" parent_id_path=PackedInt32Array(1280046819, 141695422) index="0" unique_id=1337296878]
+self_modulate = Color(0.9254902, 0, 0.5137255, 1)
+
+[node name="Autopilot_1" parent="." unique_id=1685651061 instance=ExtResource("9_3mu6t")]
+position = Vector2(39, 45)
+rotation = 4.1887903
+
+[node name="DetectionArea" parent="Autopilot_1" index="0" unique_id=1004850489]
+position = Vector2(36, -12.1230755)
+
+[node name="CollisionShape2D" parent="Autopilot_1/DetectionArea" index="0" unique_id=750292326]
+shape = SubResource("CircleShape2D_6vmsa")
+
+[node name="NavigationObstacle2D" parent="Autopilot_1" index="2" unique_id=265383484]
+position = Vector2(36, -12.1230755)
+
+[node name="Torus" parent="Autopilot_1/InputHex" parent_id_path=PackedInt32Array(1685651061, 56559507) index="0" unique_id=1576327734]
+self_modulate = Color(0.5568628, 1, 0.65882355, 1)
+
+[node name="CollisionShape2D" parent="Autopilot_1/InputHex/InClickArea" parent_id_path=PackedInt32Array(1685651061, 56559507, 1345779495) index="0" unique_id=1907011775]
+shape = SubResource("CircleShape2D_3btjd")
+
+[node name="Torus" parent="Autopilot_1/InputHex2" parent_id_path=PackedInt32Array(1685651061, 1301971830) index="0" unique_id=1576327734]
+self_modulate = Color(0.5568628, 1, 0.65882355, 1)
+
+[node name="CollisionShape2D" parent="Autopilot_1/InputHex2/InClickArea" parent_id_path=PackedInt32Array(1685651061, 1301971830, 1345779495) index="0" unique_id=1907011775]
+shape = SubResource("CircleShape2D_3btjd")
+
+[node name="StateMachine" parent="Autopilot_1" index="8" unique_id=734480293 node_paths=PackedStringArray("current_state")]
+current_state = NodePath("Idle")
+
+[node name="Cannon" parent="." unique_id=195129740 instance=ExtResource("5_3mynv")]
 position = Vector2(39, -90)
 rotation = 3.1415927
-script = ExtResource("10_xlr1c")
 
-[node name="Reactor_2(1)" type="Node2D" parent="." unique_id=542255097 instance=ExtResource("6_0m1te")]
-position = Vector2(117, -90)
-rotation = 2.0943952
-script = ExtResource("12_cnlkx")
+[node name="Torus" parent="Cannon/InputHex" parent_id_path=PackedInt32Array(195129740, 56559507) index="0" unique_id=1576327734]
+self_modulate = Color(0.5568628, 1, 0.65882355, 1)
 
-[node name="Airlock_1" type="Node2D" parent="." unique_id=2084884563 instance=ExtResource("7_gcu0p")]
+[node name="CollisionShape2D" parent="Cannon/InputHex/InClickArea" parent_id_path=PackedInt32Array(195129740, 56559507, 1345779495) index="0" unique_id=1907011775]
+shape = SubResource("CircleShape2D_3btjd")
+
+[node name="Timer" parent="Cannon/Gun" parent_id_path=PackedInt32Array(195129740, 783557809) index="1" unique_id=1871114995]
+wait_time = 0.2
+
+[node name="Airlock_1" parent="." unique_id=2084884563 instance=ExtResource("14_uvts2")]
 position = Vector2(0, -157.5)
-script = ExtResource("14_uvts2")
 
-[node name="Reactor_2" type="Node2D" parent="." unique_id=221612237 instance=ExtResource("6_0m1te")]
-position = Vector2(-117, -90)
-rotation = 1.0471976
-script = ExtResource("12_cnlkx")
+[node name="Hull_1" parent="." unique_id=284853880 instance=ExtResource("16_wj75a")]
+position = Vector2(78, -157.5)
 
-[node name="Walls" type="StaticBody2D" parent="." unique_id=1505044431]
+[node name="Walls" type="StaticBody2D" parent="." unique_id=1690657942]
 collision_layer = 16
 collision_mask = 0
+
+[editable path="Engines_2"]
+[editable path="Engines_2/InputHex"]
+[editable path="Engines_2/InputHex2"]
+[editable path="Reactor_4"]
+[editable path="Reactor_4/OutputHex"]
+[editable path="Reactor_4/OutputHex2"]
+[editable path="Reactor_4/OutputHex3"]
+[editable path="Reactor_4/OutputHex4"]
+[editable path="Reactor_2"]
+[editable path="Reactor_2/OutputHex"]
+[editable path="Reactor_2/OutputHex3"]
+[editable path="Autopilot_1"]
+[editable path="Autopilot_1/InputHex"]
+[editable path="Autopilot_1/InputHex2"]
+[editable path="Autopilot_1/StateMachine"]
+[editable path="Cannon"]
+[editable path="Cannon/InputHex"]
+[editable path="Cannon/Gun"]

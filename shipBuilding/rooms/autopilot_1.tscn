@@ -1,11 +1,40 @@
 [gd_scene format=3 uid="uid://opemmrmus70s"]
 
-[ext_resource type="Script" uid="uid://byqsdjgqvjiln" path="res://shipBuilding/room_scripts/engines.gd" id="1_6vmsa"]
+[ext_resource type="Script" uid="uid://buhnd6xp4fxmw" path="res://shipBuilding/room_scripts/autopilot.gd" id="1_6vmsa"]
 [ext_resource type="PackedScene" uid="uid://dmgvcp6y668bi" path="res://shipBuilding/hexes/input_hex.tscn" id="3_hb6cb"]
 [ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="4_2b160"]
+[ext_resource type="PackedScene" uid="uid://ssf2l4bt2vby" path="res://shipAI/prefabs/ship_ai_state_machine.tscn" id="4_6vmsa"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6vmsa"]
 
 [node name="Autopilot_1" type="Node2D" unique_id=1685651061]
 script = ExtResource("1_6vmsa")
+
+[node name="DetectionArea" type="Area2D" parent="." unique_id=1004850489]
+visible = false
+collision_layer = 2048
+collision_mask = 17
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=750292326]
+shape = SubResource("CircleShape2D_6vmsa")
+debug_color = Color(0.8039216, 0.46666667, 0, 0)
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1248595606]
+path_desired_distance = 100.0
+target_desired_distance = 700.0
+path_max_distance = 150.0
+avoidance_enabled = true
+radius = 218.2
+debug_enabled = true
+debug_path_custom_color = Color(1, 0, 0, 1)
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="." unique_id=265383484]
+visible = false
+radius = 10.0
+
+[node name="DetectionTimer" type="Timer" parent="." unique_id=1974215504]
+wait_time = 2.5
+one_shot = true
 
 [node name="InputHex" parent="." unique_id=56559507 instance=ExtResource("3_hb6cb")]
 self_modulate = Color(0.7490196, 0.7254902, 0.5764706, 1)
@@ -35,3 +64,5 @@ texture = ExtResource("4_2b160")
 modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_2b160")
+
+[node name="StateMachine" parent="." unique_id=734480293 instance=ExtResource("4_6vmsa")]

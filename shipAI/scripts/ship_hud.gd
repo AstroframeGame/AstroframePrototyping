@@ -8,7 +8,6 @@ var ship : Ship:
 @onready var healthbar : TextureProgressBar = $HPBar
 @onready var health_label : Label = $HPBar/Label
 
-# @Kevin change to ready?
 func initialize() -> void:
 	healthbar.max_value = ship.max_hit_points
 	health_label.text = str(ship.max_hit_points)
