@@ -74,6 +74,12 @@ func get_piloting() -> Piloting:
 			if r.is_active():
 				return r
 	return null
+func get_auto_piloting()->Autopilot:
+	for r in get_children():
+		if r is Autopilot:
+			if r.is_active():
+				return r
+	return null
 func get_cannons() -> Array[Cannon]:
 	var cannons : Array[Cannon]
 	for r in get_children():
@@ -101,6 +107,7 @@ func get_players_from_manager() -> Array[PlayerCharacter]:
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	var engines :Engines = get_engines()
 	var piloting : Piloting = get_piloting()
+	var autopilot : Autopilot = get_auto_piloting()
 	var pushing : bool = get_players_pushing().size() > 0
 	var delta = state.step
 	
@@ -109,12 +116,19 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 		var goal_vel :Vector2 = piloting.get_goal_velocity(state.linear_velocity)
 		if not piloting.is_idling():
 			state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * state.inverse_mass * delta)
+	elif engines and autopilot:
+		state.angular_velocity = autopilot.get_goal_angular_velocity()
+		var goal_vel :Vector2 = autopilot.get_goal_velocity(state.linear_velocity)
+		if not autopilot.is_idling():
+			state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * state.inverse_mass * delta)
 	elif pushing:
 		apply_push_rotation(state)
 		apply_push_velocity(state)
 	elif engines: # autodrag
 		state.angular_velocity = lerp(state.angular_velocity, 0.0, state.inverse_mass * engines.drag_multiplier * delta)
 		state.linear_velocity = lerp(state.linear_velocity, Vector2.ZERO, engines.get_thrust() * state.inverse_mass * engines.drag_multiplier * delta)
+		
+	
 
 func calc_center_of_mass():
 	var hex_mass = 2.0
@@ -134,6 +148,10 @@ func calc_center_of_mass():
 	mass = total_mass
 	center_of_mass_mode = RigidBody2D.CENTER_OF_MASS_MODE_CUSTOM
 	center_of_mass = weighted_pos_sum / total_mass
+
+## return ship's center of mass as a global position
+func get_center()->Vector2:
+	return to_global(center_of_mass)
 
 func get_bounds_rect() -> Rect2:
 	var combined_rect = Rect2()
@@ -477,6 +495,7 @@ func remove_power_link_out(power_out : PowerOutHex):
 
 #region Health
 func check_hud():
+	max_hit_points = 0
 	for child in get_children():
 		if child is Room:
 			max_hit_points += child.durability

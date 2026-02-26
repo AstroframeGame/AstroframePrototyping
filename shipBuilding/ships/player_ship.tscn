@@ -23,7 +23,7 @@ input_pickable = true
 gravity_scale = 0.0
 continuous_cd = 1
 script = ExtResource("1_p0yqi")
-hud = NodePath("ShipHUD")
+hud = NodePath("HUD")
 max_hit_points = 1
 _hit_points = 1
 
@@ -32,7 +32,7 @@ tile_set = SubResource("TileSet_xsh4c")
 
 [node name="Solid" type="CollisionPolygon2D" parent="." unique_id=282445814]
 
-[node name="ShipHUD" parent="." unique_id=532014552 instance=ExtResource("15_pe0wh")]
+[node name="HUD" parent="." unique_id=532014552 instance=ExtResource("15_pe0wh")]
 
 [node name="Engines_2" parent="." unique_id=1685651061 instance=ExtResource("3_7bs0d")]
 position = Vector2(117, 45)

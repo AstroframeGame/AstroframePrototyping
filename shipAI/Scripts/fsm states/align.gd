@@ -1,13 +1,10 @@
 extends State
 
-func enter_state():
-	super()
-	ship = controller.ship
-	target = ship.target
-
 func process_state_physics(_delta:float):
-	ship.face_target(target.global_position, true)
-	ship.global_position = target.to_global(ship.latching_position)
-	if abs(wrapf(ship._target_angle - ship.global_rotation, -PI, PI)) <= 0.19:
-		for cannon in ship.get_cannons():
-			cannon.gun.shoot(5)
+	print("aligning")
+	auto_pilot.goal_direction = Vector2(0,0)
+	#ship.face_target(target_ship.get_center(), true)
+	#ship.global_position = target_ship.to_global(ship.latching_position)
+	#if abs(wrapf(ship._target_angle - ship.global_rotation, -PI, PI)) <= 0.19:
+		#for cannon in ship.get_cannons():
+			#cannon.gun.shoot(5)

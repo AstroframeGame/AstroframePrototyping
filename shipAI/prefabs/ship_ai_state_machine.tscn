@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://bbdj0sgo00bcs" path="res://shipAI/scripts/fsm states/align.gd" id="4_vapte"]
 [ext_resource type="Script" uid="uid://qs3k7akqqg4e" path="res://shipAI/scripts/fsm states/flee.gd" id="5_8qgqj"]
 
-[node name="StateMachine" type="Node" unique_id=1311461638 node_paths=PackedStringArray("idle_state", "approach_state", "align_state", "flee_state")]
+[node name="StateMachine" type="Node" unique_id=734480293 node_paths=PackedStringArray("idle_state", "approach_state", "align_state", "flee_state")]
 script = ExtResource("1_n8v3i")
 idle_state = NodePath("Idle")
 approach_state = NodePath("Approach")

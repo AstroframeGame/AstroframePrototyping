@@ -23,7 +23,7 @@ point_count = 2
 radius = 50.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6vmsa"]
-radius = 1000.0
+radius = 1500.0
 
 [node name="Wasp" type="RigidBody2D" unique_id=1784127879 node_paths=PackedStringArray("hud", "power_links") groups=["pirate_ship"]]
 z_index = 1
@@ -43,8 +43,6 @@ NodePath("Reactor_4/OutputHex3/OutClickArea"): NodePath("Autopilot_1/InputHex/In
 NodePath("Reactor_4/OutputHex4/OutClickArea"): NodePath("Autopilot_1/InputHex2/InClickArea"),
 NodePath("Reactor_2/OutputHex/OutClickArea"): NodePath("Cannon/InputHex/InClickArea")
 }
-max_hit_points = 280
-_hit_points = 280
 
 [node name="HexGrid" parent="." unique_id=1277847278 instance=ExtResource("2_8tr5f")]
 tile_set = SubResource("TileSet_xsh4c")
@@ -54,6 +52,7 @@ polygon = PackedVector2Array(117.1, -180.05, 117.1, -135.04233, 156.1, -112.55, 
 
 [node name="Engines_2" parent="." unique_id=644485313 instance=ExtResource("4_qu3rs")]
 position = Vector2(0, 112.5)
+rotational_thrust = 0.1
 
 [node name="Trail2D" parent="Engines_2" index="0" unique_id=900554177]
 position = Vector2(0, -112.5)
@@ -129,7 +128,7 @@ self_modulate = Color(0.5568628, 1, 0.65882355, 1)
 [node name="CollisionShape2D" parent="Autopilot_1/InputHex2/InClickArea" parent_id_path=PackedInt32Array(1685651061, 1301971830, 1345779495) index="0" unique_id=1907011775]
 shape = SubResource("CircleShape2D_3btjd")
 
-[node name="StateMachine" parent="Autopilot_1" index="8" unique_id=1311461638 node_paths=PackedStringArray("current_state")]
+[node name="StateMachine" parent="Autopilot_1" index="8" unique_id=734480293 node_paths=PackedStringArray("current_state")]
 current_state = NodePath("Idle")
 
 [node name="Cannon" parent="." unique_id=195129740 instance=ExtResource("5_3mynv")]

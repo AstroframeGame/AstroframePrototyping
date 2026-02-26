@@ -92,4 +92,14 @@ theme = SubResource("Theme_vo3si")
 text = "Ship AI"
 horizontal_alignment = 1
 
+[node name="Wasp2" parent="." unique_id=120792361 node_paths=PackedStringArray("power_links") instance=ExtResource("7_jrc0m")]
+position = Vector2(2997, 809)
+power_links = {
+NodePath("Reactor_4/OutputHex/OutClickArea"): NodePath("Engines_2/InputHex/InClickArea"),
+NodePath("Reactor_4/OutputHex2/OutClickArea"): NodePath("Engines_2/InputHex2/InClickArea"),
+NodePath("Reactor_4/OutputHex3/OutClickArea"): NodePath("Autopilot_1/InputHex/InClickArea"),
+NodePath("Reactor_4/OutputHex4/OutClickArea"): NodePath("Autopilot_1/InputHex2/InClickArea"),
+NodePath("Reactor_2/OutputHex/OutClickArea"): NodePath("Cannon/InputHex/InClickArea")
+}
+
 [editable path="Asteroid"]

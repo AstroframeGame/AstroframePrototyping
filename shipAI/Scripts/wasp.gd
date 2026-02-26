@@ -3,7 +3,6 @@ extends Smart_Ship
 
 func _ready() -> void:
 	super()
-	_aligning_speed_scalar = 400
 
 func _physics_process(_delta: float) -> void:
 	if not engines or not piloting or not target:
