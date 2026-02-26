@@ -853,7 +853,6 @@ func eval_sparks(state : PhysicsDirectBodyState2D):
 		var pos = state.get_contact_collider_position(i)
 		var rot = state.get_contact_local_normal(i).angle()
 		var speed = state.get_velocity_at_local_position(to_local(pos)).length()
-		print(speed)
 		if speed > SPARKS_SPEED_THRESH:
 			var sparks : Node2D= SPARKS_PREFAB.instantiate()
 			sparks.global_position = pos
