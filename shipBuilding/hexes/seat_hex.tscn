@@ -8,6 +8,7 @@
 radius = 45.0
 
 [node name="SeatInteractable" type="Area2D" unique_id=1518965603]
+z_index = 3
 collision_layer = 4
 collision_mask = 0
 input_pickable = false
@@ -17,6 +18,7 @@ script = ExtResource("3_oti5s")
 shape = SubResource("CircleShape2D_woerx")
 
 [node name="SeatHex" type="Sprite2D" parent="." unique_id=1095300556]
+visible = false
 texture = ExtResource("1_0p63v")
 
 [node name="SeatSprite" type="Sprite2D" parent="." unique_id=1314824806]

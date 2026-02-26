@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.68 80.07">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <g id="reactor_torus">
+    <g id="reactor_torus-2" data-name="reactor_torus">
+      <circle class="cls-1" cx="32.34" cy="1.5" r="1.5"/>
+      <circle class="cls-1" cx="63.18" cy="40.04" r="1.5"/>
+      <circle class="cls-1" cx="1.5" cy="40.04" r="1.5"/>
+      <circle class="cls-1" cx="32.34" cy="78.57" r="1.5"/>
+    </g>
+  </g>
+</svg>

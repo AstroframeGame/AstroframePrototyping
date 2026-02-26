@@ -9,6 +9,7 @@ class_name Shields_Room
 @onready var recharge_timer : Timer = $RechargeTimer
 
 func  _ready() -> void:
+	super._ready()
 	on_power_level_change.connect(on_power_change)
 	shield.on_shield_broken.connect(recharge_shield)
 	recharge_timer.timeout.connect(deploy_shield)

@@ -5,6 +5,7 @@ extends Room
 var targets_in_range : Array[Ship] = []
 
 func _ready() -> void:
+	super._ready()
 	# pair to a nearby aim augment if available
 	if ship:
 		pair_augments(Aim_Augment)
