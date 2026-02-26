@@ -18,7 +18,7 @@ texture = ExtResource("2_hajiv")
 
 [node name="InClickArea" type="Area2D" parent="." unique_id=1345779495]
 z_index = 100
-collision_layer = 8
+collision_layer = 12
 collision_mask = 0
 script = ExtResource("3_hajiv")
 

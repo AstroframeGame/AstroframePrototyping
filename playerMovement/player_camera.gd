@@ -41,6 +41,7 @@ func _physics_process(delta: float) -> void:
 		global_rotation = lerp_angle(global_rotation, player.ship.global_rotation, rot_smooth * delta)
 		zoom_goal = ship_flight_zoom
 	elif player:
+		rot_smooth = 5.0
 		global_position = global_position.lerp(player.global_position, pos_smooth * delta)
 		global_rotation = lerp_angle(global_rotation, player.global_rotation, rot_smooth * delta)
 		zoom_goal = player_zoom

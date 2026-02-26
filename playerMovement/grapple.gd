@@ -22,7 +22,7 @@ var grapple_position : Vector2:
 func wants_grapple():
 	if player.seat:
 		return false
-	return is_grappling
+	return is_grappling and is_instance_valid(attached_body)
 
 func velocity(delta : float):
 	if at_destination:
@@ -40,12 +40,11 @@ var at_destination:
 	get:
 		return global_position.distance_to(grapple_position) < min_grapple_dist
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if is_multiplayer_authority():
 		if will_grapple:
 			fire_grapple(mouse_pos)
 			will_grapple = false
-			is_grappling = true
 		
 		if not wants_grapple():
 			visible = false
@@ -60,14 +59,12 @@ func _physics_process(delta: float) -> void:
 		
 		sync_grapple.rpc(visible, grapple_position)
 
-		
-
 func _process(_delta: float) -> void:
 	var is_local_player = multiplayer.get_unique_id() == player.owner_id
 	if is_local_player:
 		var grapple = false
 		var will_cancel = false
-		var mouse = get_global_mouse_position()
+		var mouse = InputHelper.get_look_position(player, 1000)
 		
 		if Input.is_action_just_pressed("grapple"):
 			grapple = true
@@ -105,11 +102,11 @@ func sync_grapple(is_vis: bool, g_pos: Vector2):
 		set_point_position(0, Vector2.ZERO)
 		set_point_position(1, to_local(g_pos))	
 
-func fire_grapple(mouse_pos):
+func fire_grapple(m_pos):
 	var space_state = get_world_2d().direct_space_state
 	
 	var query = PhysicsPointQueryParameters2D.new()
-	query.position = mouse_pos
+	query.position = m_pos
 	query.exclude = [player]
 	query.collision_mask = collision_mask
 	query.collide_with_areas = true
@@ -118,6 +115,7 @@ func fire_grapple(mouse_pos):
 	var result = space_state.intersect_point(query)
 	if result:
 		attached_body = result[0].collider
-		attached_offset = attached_body.to_local(mouse_pos)
+		attached_offset = attached_body.to_local(m_pos)
 		is_grappling = true
-		
+	else:
+		is_grappling = false
