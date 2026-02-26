@@ -4,6 +4,9 @@
 [ext_resource type="Script" uid="uid://ctti6jygujj6i" path="res://shipBuilding/hex_scripts/gun.gd" id="2_jn67f"]
 [ext_resource type="Texture2D" uid="uid://h7n0dwcqcea8" path="res://shipBuilding/icons/turret.png" id="3_xan1q"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_jjod8"]
+radius = 44.04543
+
 [node name="GunHex" type="Sprite2D" unique_id=884138192]
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_jjod8")
@@ -22,10 +25,10 @@ position = Vector2(229.09433, -5.3136444)
 wait_time = 0.5
 one_shot = true
 
-[node name="ShieldCheck" type="Area2D" parent="." unique_id=318951157]
-visible = false
-collision_layer = 16
-collision_mask = 8192
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1789063521]
+collision_layer = 0
+collision_mask = 2
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ShieldCheck" unique_id=648905998]
-polygon = PackedVector2Array(-12, -58, 10, -58, 0, -2)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=804731342]
+shape = SubResource("CircleShape2D_jjod8")
+debug_color = Color(0.67, 0.4623, 0.5903817, 0.83137256)
