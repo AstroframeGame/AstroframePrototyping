@@ -16,7 +16,7 @@ func _ready() -> void:
 	detection_timer.timeout.connect(on_player_detected)
 	nav_agent.velocity_computed.connect(on_safe_vel_computed,1)
 	nav_agent.navigation_finished.connect(on_navigation_finished)
-	#on_power_level_change.connect()
+	on_power_level_change.connect(on_power_change,1)
 	
 	# TODO: these need to be based on ship size
 	nav_obstacle.radius = 220
@@ -88,9 +88,7 @@ func on_safe_vel_computed(safe_velocity:Vector2):
 		if ship:
 			if ship.hit_points < float(ship.max_hit_points)/2:
 				state_machine.change_state(state_machine.flee_state)
-				
-	# DEBUG:
-	#print(get_ray_collisions())
+
 
 func on_navigation_finished():
 	if not is_active():
@@ -100,19 +98,19 @@ func on_navigation_finished():
 		state_machine.change_state(state_machine.sting_state)
 #endregion
 
-#region Player Detection
+#region Target Aquisition~
 var target_candidate : Ship
 func on_body_entered(body:Node2D):
 	if not is_active():
 		return
-	if body.is_in_group("player_ship"):
+	if body is Ship and body.is_in_group("player_ship"):
 		target_candidate = body
 		detection_timer.start()
 		
 func on_body_exited(body:Node2D):
 	if not is_active():
 		return
-	if body.is_in_group("player_ship"):
+	if body is Ship and body.is_in_group("player_ship"):
 		target_ship = null
 		detection_timer.stop()
 		if ship.get_engines():
@@ -127,6 +125,14 @@ func on_player_detected():
 	target_candidate = null
 	if ship.get_engines():
 		state_machine.change_state(state_machine.approach_state)
+
+func on_power_change(_room):
+	if not is_active():
+		return
+	for body : Node2D in detection_area.get_overlapping_bodies():
+		if body.is_in_group("player_ship"):
+			target_candidate = body
+			detection_timer.start()
 
 #endregion
 
