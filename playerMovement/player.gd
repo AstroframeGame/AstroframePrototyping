@@ -48,7 +48,7 @@ var ship : Ship
 
 @onready var ground_check: Area2D = $GroundCheck
 @onready var interact_check: Area2D = $InteractCheck
-#@onready var multiplayer_manager : MultiplayerManager = $"..."
+@onready var multiplayer_manager : MultiplayerManager = $"../.."
 
 @onready var grapple: Grapple = $Grapple
 
@@ -62,8 +62,8 @@ var grounded : bool:
 
 @onready var handgun: PlayerGun = $handgun
 
+#region MultiplayerGlobals
 ## ====== Multiplayer START ======
-
 var is_multiplayer: bool = false
 var is_local_player: bool = false
 
@@ -80,9 +80,10 @@ var was_holstering: bool = false
 var is_interacting: bool = false
 var was_interacting: bool = false
 var event_in_room: InputEvent = null
-
 ## ======  Multiplayer END  ======
+#endregion
 
+#region ReadyFunction
 func _ready() -> void:
 	ground_check.body_entered.connect(on_ground)
 	ground_check.body_exited.connect(on_unground)
@@ -118,7 +119,7 @@ func _ready() -> void:
 		on_ship_enter(ship)
 	else:
 		on_ship_exit()
-
+#endregion
 
 func _physics_process(delta):
 	if is_multiplayer_authority():
@@ -371,7 +372,6 @@ func update_layers(inside : bool):
 		ground_check.collision_mask = exterior_ground_mask
 		z_index = 12
 #endregion
-
 
 func take_damage(damage : int):
 	health -= damage
