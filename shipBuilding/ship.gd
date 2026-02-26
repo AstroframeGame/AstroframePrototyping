@@ -20,6 +20,12 @@ const SPARKS_SPEED_THRESH = 10
 const EXPLOSION_PREFAB = preload("res://art/vfx/explosion.tscn")
 const HIT_SHIP_VFX_PREFAB = preload("res://art/vfx/hit_ship_vfx.tscn")
 
+## Multiplayer Start
+
+@onready var multiplayer_manager: MultiplayerManager = get_tree().root.get_node("Hub/MultiplayerManager")
+
+## Multiplayer End
+
 var grid: TileMapLayer:
 	get:
 		return get_node("HexGrid")
@@ -89,7 +95,6 @@ func get_cannons() -> Array[Cannon]:
 			cannons.append(r)
 	return cannons
 func get_players_from_manager() -> Array[PlayerCharacter]:
-	var multiplayer_manager :MultiplayerManager= get_tree().root.get_node("Hub/MultiplayerManager")
 	if multiplayer_manager:
 		return multiplayer_manager.players
 	return []
@@ -540,11 +545,13 @@ func my_character_inside() -> bool:
 func set_exterior_visible(_interactor : CharacterBody2D, entered : bool):
 	if not my_character_inside() and _interactor != null:
 		entered = false
-	for r in get_children():
-		if r is Room:
-			r.roof.visible = not entered
-	if _interactor is PlayerCharacter and not _interactor.is_local_player:
+	
+	if _interactor.is_local_player:
 		_interactor.visible = not entered
+	
+		for r in get_children():
+			if r is Room:
+				r.roof.visible = not entered
 
 #endregion
 
