@@ -7,15 +7,17 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_jjod8"]
 radius = 44.04543
 
-[node name="GunHex" type="Sprite2D" unique_id=884138192]
+[node name="GunHex" type="Node2D" unique_id=1922844830]
+script = ExtResource("2_jn67f")
+
+[node name="GunHex" type="Sprite2D" parent="." unique_id=884138192]
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_jjod8")
-script = ExtResource("2_jn67f")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=879061294]
 modulate = Color(0, 0, 0, 1)
 rotation = -1.5707964
-scale = Vector2(0.235, 0.235)
+scale = Vector2(0.1175, 0.1175)
 texture = ExtResource("3_xan1q")
 
 [node name="Marker2D" type="Marker2D" parent="Sprite" unique_id=1542278814]
@@ -26,6 +28,7 @@ wait_time = 0.5
 one_shot = true
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1789063521]
+scale = Vector2(0.5, 0.5)
 collision_layer = 0
 collision_mask = 2
 
@@ -35,6 +38,7 @@ debug_color = Color(0.67, 0.4623, 0.5903817, 0.83137256)
 
 [node name="ShieldCheck" type="Area2D" parent="." unique_id=1973377845]
 visible = false
+scale = Vector2(0.5, 0.5)
 collision_layer = 34
 collision_mask = 8192
 input_pickable = false
