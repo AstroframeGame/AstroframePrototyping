@@ -100,17 +100,19 @@ func on_navigation_finished():
 
 #region Target Aquisition~
 var target_candidate : Ship
-func on_body_entered(body:Node2D):
+func on_body_entered(body):
 	if not is_active():
 		return
 	if body is Ship and body.is_in_group("player_ship"):
 		target_candidate = body
 		detection_timer.start()
 		
-func on_body_exited(body:Node2D):
+func on_body_exited(body):
 	if not is_active():
 		return
-	if body is Ship and body.is_in_group("player_ship"):
+	if not is_instance_valid(body):
+		return
+	if body.is_in_group("player_ship"):
 		target_ship = null
 		detection_timer.stop()
 		if ship.get_engines():
@@ -128,6 +130,8 @@ func on_player_detected():
 
 func on_power_change(_room):
 	if not is_active():
+		target_ship = null
+		state_machine.change_state(state_machine.idle_state)
 		return
 	for body : Node2D in detection_area.get_overlapping_bodies():
 		if body.is_in_group("player_ship"):

@@ -34,12 +34,17 @@ func _physics_process(delta: float) -> void:
 		global_rotation = lerp_angle(global_rotation, player.ship.global_rotation, rot_smooth * delta)
 		zoom_goal = ship_zoom
 	elif seat and (seat.room is Piloting or seat.room is Turret):
-		var offset_px = get_viewport_rect().size * ship_flight_offset
-		offset_px += Vector2(0,seat.room.ship.get_bounds_rect().size.y/2)
-		var pos = player.ship.to_global(player.ship.center_of_mass) + offset_px.rotated(player.ship.global_rotation)
-		global_position = global_position.lerp(pos, pos_smooth * delta)
-		global_rotation = lerp_angle(global_rotation, player.ship.global_rotation, rot_smooth * delta)
-		zoom_goal = ship_flight_zoom
+		if not is_instance_valid(player.ship):
+			global_position = global_position.lerp(player.global_position, pos_smooth * delta)
+			global_rotation = lerp_angle(global_rotation, player.global_rotation, rot_smooth * delta)
+			zoom_goal = player_zoom
+		else:
+			var offset_px = get_viewport_rect().size * ship_flight_offset
+			offset_px += Vector2(0,seat.room.ship.get_bounds_rect().size.y/2)
+			var pos = player.ship.to_global(player.ship.center_of_mass) + offset_px.rotated(player.ship.global_rotation)
+			global_position = global_position.lerp(pos, pos_smooth * delta)
+			global_rotation = lerp_angle(global_rotation, player.ship.global_rotation, rot_smooth * delta)
+			zoom_goal = ship_flight_zoom
 	elif player:
 		global_position = global_position.lerp(player.global_position, pos_smooth * delta)
 		global_rotation = lerp_angle(global_rotation, player.global_rotation, rot_smooth * delta)
