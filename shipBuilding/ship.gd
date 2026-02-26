@@ -543,7 +543,7 @@ func set_exterior_visible(_interactor : CharacterBody2D, entered : bool):
 	for r in get_children():
 		if r is Room:
 			r.roof.visible = not entered
-	if _interactor is PlayerCharacter :
+	if _interactor is PlayerCharacter and not _interactor.is_local_player:
 		_interactor.visible = not entered
 
 #endregion
