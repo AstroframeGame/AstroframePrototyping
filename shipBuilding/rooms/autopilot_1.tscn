@@ -25,7 +25,6 @@ target_desired_distance = 700.0
 path_max_distance = 150.0
 avoidance_enabled = true
 radius = 218.2
-debug_enabled = true
 debug_path_custom_color = Color(1, 0, 0, 1)
 
 [node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="." unique_id=265383484]
