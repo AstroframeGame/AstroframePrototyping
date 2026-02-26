@@ -61,6 +61,7 @@ var grounded : bool:
 
 
 @onready var handgun: PlayerGun = $handgun
+@onready var polyphonic_sfx_player: PolyphonicSfxPlayer = $PolyphonicSfxPlayer
 
 func _ready() -> void:
 	ground_check.body_entered.connect(on_ground)
@@ -208,4 +209,5 @@ func update_layers(inside : bool):
 func take_damage(damage : int):
 	health -= damage
 	print("Damage Taken! Player now at %s health" % health)
+	polyphonic_sfx_player.play_sfx("hurt")
 	

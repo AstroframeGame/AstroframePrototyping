@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://ceua3nmkvn7eh"]
+
+[ext_resource type="Script" uid="uid://yogd0qamh321" path="res://audio/sfx/PolyphonicAudio/polyphonic_sfx_player.gd" id="1_rnbx3"]
+[ext_resource type="Script" uid="uid://b8hbmcvoy8eg3" path="res://audio/sfx/PolyphonicAudio/audio_library.gd" id="2_a0348"]
+
+[sub_resource type="Resource" id="Resource_31t2r"]
+script = ExtResource("2_a0348")
+metadata/_custom_type_script = "uid://b8hbmcvoy8eg3"
+
+[node name="PolyphonicSfxPlayer" type="AudioStreamPlayer2D" unique_id=905011835]
+script = ExtResource("1_rnbx3")
+audio_library = SubResource("Resource_31t2r")

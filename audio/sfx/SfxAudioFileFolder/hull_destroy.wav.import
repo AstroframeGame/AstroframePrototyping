@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://cf2d4iuyddyyi"
-path="res://.godot/imported/hull_destroy.wav-96ca976960e27a4393f4ab7a8325eed8.sample"
+path="res://.godot/imported/hull_destroy.wav-eec471152a3cfbe17088981ddf96aa0f.sample"
 
 [deps]
 
-source_file="res://audio/sfx/hull_destroy.wav"
-dest_files=["res://.godot/imported/hull_destroy.wav-96ca976960e27a4393f4ab7a8325eed8.sample"]
+source_file="res://audio/sfx/SfxAudioFileFolder/hull_destroy.wav"
+dest_files=["res://.godot/imported/hull_destroy.wav-eec471152a3cfbe17088981ddf96aa0f.sample"]
 
 [params]
 

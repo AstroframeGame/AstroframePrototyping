@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://demsalypjbqwa"
-path="res://.godot/imported/engine_loop.wav-125b4e59341accbeeea89459158c844b.sample"
+path="res://.godot/imported/engine_loop.wav-6b340a2790ae7a4d92be6fb06b977faf.sample"
 
 [deps]
 
-source_file="res://audio/sfx/engine_loop.wav"
-dest_files=["res://.godot/imported/engine_loop.wav-125b4e59341accbeeea89459158c844b.sample"]
+source_file="res://audio/sfx/SfxAudioFileFolder/engine_loop.wav"
+dest_files=["res://.godot/imported/engine_loop.wav-6b340a2790ae7a4d92be6fb06b977faf.sample"]
 
 [params]
 

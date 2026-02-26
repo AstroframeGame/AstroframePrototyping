@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://rd2icmsyju1m"
-path="res://.godot/imported/energy_hum.wav-f2608f8f7fe17584c16abdcf92125b57.sample"
+path="res://.godot/imported/energy_hum.wav-80b5a8a787de886754dd55b1cc333ecd.sample"
 
 [deps]
 
-source_file="res://audio/sfx/energy_hum.wav"
-dest_files=["res://.godot/imported/energy_hum.wav-f2608f8f7fe17584c16abdcf92125b57.sample"]
+source_file="res://audio/sfx/SfxAudioFileFolder/energy_hum.wav"
+dest_files=["res://.godot/imported/energy_hum.wav-80b5a8a787de886754dd55b1cc333ecd.sample"]
 
 [params]
 

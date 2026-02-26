@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://dfr50nstloqkh"
-path="res://.godot/imported/engine_start.wav-9f230f256f3219fcbfb25d681a7614f6.sample"
+path="res://.godot/imported/engine_start.wav-69455145c502ca90408220f9920bfb97.sample"
 
 [deps]
 
-source_file="res://audio/sfx/engine_start.wav"
-dest_files=["res://.godot/imported/engine_start.wav-9f230f256f3219fcbfb25d681a7614f6.sample"]
+source_file="res://audio/sfx/SfxAudioFileFolder/engine_start.wav"
+dest_files=["res://.godot/imported/engine_start.wav-69455145c502ca90408220f9920bfb97.sample"]
 
 [params]
 
