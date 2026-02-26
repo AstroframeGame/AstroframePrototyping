@@ -527,7 +527,6 @@ func death_check():
 	for pc in get_tree().get_nodes_in_group("player_controller"):
 		if pc.ship == self:
 			pc.update_layers(false)
-	death_explosion()
 	_is_dead = true
 	call_deferred("death_explosion")
 	

@@ -37,11 +37,7 @@ continuous_cd = 1
 script = ExtResource("1_ouj27")
 hud = NodePath("HUD")
 power_links = {
-NodePath("Reactor_4/OutputHex/OutClickArea"): NodePath("Engines_2/InputHex/InClickArea"),
-NodePath("Reactor_4/OutputHex2/OutClickArea"): NodePath("Engines_2/InputHex2/InClickArea"),
-NodePath("Reactor_4/OutputHex3/OutClickArea"): NodePath("Autopilot_1/InputHex/InClickArea"),
-NodePath("Reactor_4/OutputHex4/OutClickArea"): NodePath("Autopilot_1/InputHex2/InClickArea"),
-NodePath("Reactor_2/OutputHex/OutClickArea"): NodePath("Cannon/InputHex/InClickArea")
+null: null
 }
 
 [node name="HexGrid" parent="." unique_id=1277847278 instance=ExtResource("2_8tr5f")]
@@ -64,31 +60,31 @@ position = Vector2(0, -112.5)
 points = PackedVector2Array(78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5, 78, 156.5)
 width_curve = SubResource("Curve_w1q65")
 
-[node name="Torus" parent="Engines_2/InputHex" parent_id_path=PackedInt32Array(644485313, 56559507) index="0" unique_id=1576327734]
-self_modulate = Color(0.5568628, 1, 0.65882355, 1)
-
-[node name="CollisionShape2D" parent="Engines_2/InputHex/InClickArea" parent_id_path=PackedInt32Array(644485313, 56559507, 1345779495) index="0" unique_id=1907011775]
+[node name="CollisionShape2D" parent="Engines_2/InputHex" parent_id_path=PackedInt32Array(644485313, 56559507) index="1" unique_id=1907011775]
 shape = SubResource("CircleShape2D_3btjd")
 
-[node name="Torus" parent="Engines_2/InputHex2" parent_id_path=PackedInt32Array(644485313, 1301971830) index="0" unique_id=1576327734]
+[node name="Torus" parent="Engines_2/InputHex" parent_id_path=PackedInt32Array(644485313, 56559507) index="2" unique_id=1576327734]
 self_modulate = Color(0.5568628, 1, 0.65882355, 1)
 
-[node name="CollisionShape2D" parent="Engines_2/InputHex2/InClickArea" parent_id_path=PackedInt32Array(644485313, 1301971830, 1345779495) index="0" unique_id=1907011775]
+[node name="CollisionShape2D" parent="Engines_2/InputHex2" parent_id_path=PackedInt32Array(644485313, 1301971830) index="1" unique_id=1907011775]
 shape = SubResource("CircleShape2D_3btjd")
+
+[node name="Torus" parent="Engines_2/InputHex2" parent_id_path=PackedInt32Array(644485313, 1301971830) index="2" unique_id=1576327734]
+self_modulate = Color(0.5568628, 1, 0.65882355, 1)
 
 [node name="Reactor_4" parent="." unique_id=542255097 instance=ExtResource("9_q42ym")]
 position = Vector2(117, 45)
 
-[node name="Dot" parent="Reactor_4/OutputHex" parent_id_path=PackedInt32Array(542255097, 918919785) index="0" unique_id=1337296878]
+[node name="Dot" parent="Reactor_4/OutputHex" parent_id_path=PackedInt32Array(542255097, 918919785) index="1" unique_id=1337296878]
 self_modulate = Color(0.5568628, 1, 0.65882355, 1)
 
-[node name="Dot" parent="Reactor_4/OutputHex2" parent_id_path=PackedInt32Array(542255097, 1974966309) index="0" unique_id=1337296878]
+[node name="Dot" parent="Reactor_4/OutputHex2" parent_id_path=PackedInt32Array(542255097, 1974966309) index="1" unique_id=1337296878]
 self_modulate = Color(0.5568628, 1, 0.65882355, 1)
 
-[node name="Dot" parent="Reactor_4/OutputHex3" parent_id_path=PackedInt32Array(542255097, 141695422) index="0" unique_id=1337296878]
+[node name="Dot" parent="Reactor_4/OutputHex3" parent_id_path=PackedInt32Array(542255097, 141695422) index="1" unique_id=1337296878]
 self_modulate = Color(0.5568628, 1, 0.65882355, 1)
 
-[node name="Dot" parent="Reactor_4/OutputHex4" parent_id_path=PackedInt32Array(542255097, 2039007662) index="0" unique_id=1337296878]
+[node name="Dot" parent="Reactor_4/OutputHex4" parent_id_path=PackedInt32Array(542255097, 2039007662) index="1" unique_id=1337296878]
 self_modulate = Color(0.5568628, 1, 0.65882355, 1)
 
 [node name="HUD" parent="." unique_id=1679167778 instance=ExtResource("8_6o2g8")]
@@ -97,10 +93,10 @@ self_modulate = Color(0.5568628, 1, 0.65882355, 1)
 position = Vector2(-39, 45)
 rotation = 4.1887903
 
-[node name="Dot" parent="Reactor_2/OutputHex" parent_id_path=PackedInt32Array(1280046819, 918919785) index="0" unique_id=1337296878]
+[node name="Dot" parent="Reactor_2/OutputHex" parent_id_path=PackedInt32Array(1280046819, 918919785) index="1" unique_id=1337296878]
 self_modulate = Color(0.5568628, 1, 0.65882355, 1)
 
-[node name="Dot" parent="Reactor_2/OutputHex3" parent_id_path=PackedInt32Array(1280046819, 141695422) index="0" unique_id=1337296878]
+[node name="Dot" parent="Reactor_2/OutputHex3" parent_id_path=PackedInt32Array(1280046819, 141695422) index="1" unique_id=1337296878]
 self_modulate = Color(0.9254902, 0, 0.5137255, 1)
 
 [node name="Autopilot_1" parent="." unique_id=1685651061 instance=ExtResource("9_3mu6t")]
@@ -116,17 +112,17 @@ shape = SubResource("CircleShape2D_6vmsa")
 [node name="NavigationObstacle2D" parent="Autopilot_1" index="2" unique_id=265383484]
 position = Vector2(36, -12.1230755)
 
-[node name="Torus" parent="Autopilot_1/InputHex" parent_id_path=PackedInt32Array(1685651061, 56559507) index="0" unique_id=1576327734]
-self_modulate = Color(0.5568628, 1, 0.65882355, 1)
-
-[node name="CollisionShape2D" parent="Autopilot_1/InputHex/InClickArea" parent_id_path=PackedInt32Array(1685651061, 56559507, 1345779495) index="0" unique_id=1907011775]
+[node name="CollisionShape2D" parent="Autopilot_1/InputHex" parent_id_path=PackedInt32Array(1685651061, 56559507) index="1" unique_id=1907011775]
 shape = SubResource("CircleShape2D_3btjd")
 
-[node name="Torus" parent="Autopilot_1/InputHex2" parent_id_path=PackedInt32Array(1685651061, 1301971830) index="0" unique_id=1576327734]
+[node name="Torus" parent="Autopilot_1/InputHex" parent_id_path=PackedInt32Array(1685651061, 56559507) index="2" unique_id=1576327734]
 self_modulate = Color(0.5568628, 1, 0.65882355, 1)
 
-[node name="CollisionShape2D" parent="Autopilot_1/InputHex2/InClickArea" parent_id_path=PackedInt32Array(1685651061, 1301971830, 1345779495) index="0" unique_id=1907011775]
+[node name="CollisionShape2D" parent="Autopilot_1/InputHex2" parent_id_path=PackedInt32Array(1685651061, 1301971830) index="1" unique_id=1907011775]
 shape = SubResource("CircleShape2D_3btjd")
+
+[node name="Torus" parent="Autopilot_1/InputHex2" parent_id_path=PackedInt32Array(1685651061, 1301971830) index="2" unique_id=1576327734]
+self_modulate = Color(0.5568628, 1, 0.65882355, 1)
 
 [node name="StateMachine" parent="Autopilot_1" index="8" unique_id=734480293 node_paths=PackedStringArray("current_state")]
 current_state = NodePath("Idle")
@@ -135,11 +131,11 @@ current_state = NodePath("Idle")
 position = Vector2(39, -90)
 rotation = 3.1415927
 
-[node name="Torus" parent="Cannon/InputHex" parent_id_path=PackedInt32Array(195129740, 56559507) index="0" unique_id=1576327734]
-self_modulate = Color(0.5568628, 1, 0.65882355, 1)
-
-[node name="CollisionShape2D" parent="Cannon/InputHex/InClickArea" parent_id_path=PackedInt32Array(195129740, 56559507, 1345779495) index="0" unique_id=1907011775]
+[node name="CollisionShape2D" parent="Cannon/InputHex" parent_id_path=PackedInt32Array(195129740, 56559507) index="1" unique_id=1907011775]
 shape = SubResource("CircleShape2D_3btjd")
+
+[node name="Torus" parent="Cannon/InputHex" parent_id_path=PackedInt32Array(195129740, 56559507) index="2" unique_id=1576327734]
+self_modulate = Color(0.5568628, 1, 0.65882355, 1)
 
 [node name="Timer" parent="Cannon/Gun" parent_id_path=PackedInt32Array(195129740, 783557809) index="1" unique_id=1871114995]
 wait_time = 0.2
