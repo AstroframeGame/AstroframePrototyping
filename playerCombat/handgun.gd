@@ -5,7 +5,7 @@ extends Sprite2D
 @onready var marker_2d: Marker2D = $Marker2D
 @onready var gunSprite : Sprite2D = $"."
 @onready var polyphonic_sfx_player: PolyphonicSfxPlayer = $"../PolyphonicSfxPlayer"
-
+@onready var shield_check : Area2D = $ShieldCheck
 
 const bullet = preload("res://turretInteractions/Prefabs/projectile.tscn")
 
@@ -42,6 +42,9 @@ func shoot_bullet() -> void:
 	var new_bullet : Projectile = bullet.instantiate()
 	new_bullet.initialize(gunSprite, player.velocity, bullet_speed, Vector2.from_angle(gunSprite.global_rotation + randf_range(-bullet_spread, bullet_spread)), marker_2d.global_position, damage)
 	new_bullet.collision_mask = player.collision_mask
+	for body in shield_check.get_overlapping_bodies():
+		if body is Shield:
+			new_bullet.add_collision_exception_with(body)
 	
 	time_since_shot = 0
 	accuracy = min(accuracy + (0.05), accur_high)

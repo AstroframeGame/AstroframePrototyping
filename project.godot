@@ -239,6 +239,8 @@ ship_push={
 2d_physics/layer_7="Projectiles"
 2d_physics/layer_9="Enviroment"
 2d_physics/layer_13="EnviromentObstacle"
+2d_physics/layer_14="Shields"
+2d_physics/layer_16="Layer 16"
 avoidance/layer_1="Ships"
 avoidance/layer_2="Environment"
 

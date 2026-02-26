@@ -38,3 +38,12 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=804731342]
 shape = SubResource("CircleShape2D_jjod8")
 debug_color = Color(0.67, 0.4623, 0.5903817, 0.83137256)
+
+[node name="ShieldCheck" type="Area2D" parent="." unique_id=1973377845]
+visible = false
+collision_layer = 34
+collision_mask = 8192
+input_pickable = false
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ShieldCheck" unique_id=273303073]
+polygon = PackedVector2Array(-14, -56, 10, -56, 0, 0)

@@ -206,7 +206,7 @@ func update_layers(inside : bool):
 #endregion
 
 
-func take_damage(damage : int):
+func take_damage(damage : int, _vfx_pos:Vector2):
 	health -= damage
 	print("Damage Taken! Player now at %s health" % health)
 	polyphonic_sfx_player.play_sfx("hurt")
