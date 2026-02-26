@@ -55,7 +55,7 @@ func get_goal_velocity(current_velocity: Vector2) -> Vector2:
 	var engines = ship.get_engines()
 	if not engines:
 		return Vector2.ZERO
-	
+
 	var goal_vel = Vector2.ZERO
 	goal_vel = current_velocity + movement_goal_direction
 	goal_vel = goal_vel.normalized() * min(goal_vel.length(), engines.get_max_speed())
@@ -76,6 +76,9 @@ func get_goal_angular_velocity() -> float:
 
 
 func on_safe_vel_computed(safe_velocity:Vector2):
+	if not is_active():
+		return
+	
 	safe_vel = safe_velocity
 	if state_machine.current_state:
 		state_machine.current_state.process_state_physics(0.0)
@@ -89,6 +92,9 @@ func on_safe_vel_computed(safe_velocity:Vector2):
 	#print(get_ray_collisions())
 
 func on_navigation_finished():
+	if not is_active():
+		return
+		
 	if ship.get_engines():
 		state_machine.change_state(state_machine.sting_state)
 #endregion
@@ -96,11 +102,15 @@ func on_navigation_finished():
 #region Player Detection
 var target_candidate : Ship
 func on_body_entered(body:Node2D):
+	if not is_active():
+		return
 	if body.is_in_group("player_ship"):
 		target_candidate = body
 		detection_timer.start()
 		
 func on_body_exited(body:Node2D):
+	if not is_active():
+		return
 	if body.is_in_group("player_ship"):
 		target_ship = null
 		detection_timer.stop()
@@ -110,6 +120,8 @@ func on_body_exited(body:Node2D):
 		target_candidate = null
 		
 func on_player_detected():
+	if not is_active():
+		return
 	target_ship = target_candidate
 	target_candidate = null
 	if ship.get_engines():
@@ -121,8 +133,9 @@ func on_player_detected():
 var rays : Array[RayCast2D] = []
 
 func draw_rays(amount:int, length:float, fan_angle:float):
+	if ship == null:
+		return
 	var step_angle = fan_angle / (amount-1)
-	print(ship.global_rotation_degrees)
 	var start_angle = -(fan_angle-global_rotation_degrees)/2 + 90
 	
 	for i in range(amount):
@@ -137,6 +150,8 @@ func draw_rays(amount:int, length:float, fan_angle:float):
 
 func get_ray_collisions()->Array[Node2D]:
 	var collisions : Array[Node2D]
+	if ship == null:
+		return collisions
 	for ray in rays:
 		if ray.is_colliding():
 			collisions.append(ray.get_collider())
