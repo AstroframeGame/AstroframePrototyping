@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://dcvakqukxcs44"]
+
+[node name="Warp" type="Node2D" unique_id=1974595199]
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=1368872093]
+position = Vector2(1.8189894e-12, 1.9073486e-06)
+scale = Vector2(5.4362497, 5.4362497)
+color = Color(0, 0, 0, 0.21960784)
+polygon = PackedVector2Array(0, -50, -100, 0, -100, 100, 0, 150, 100, 100, 100, 0)
+
+[node name="Label" type="Label" parent="." unique_id=827789111]
+offset_left = -912.0
+offset_top = -252.0
+offset_right = -369.0
+offset_bottom = -113.0
+text = "- add buttons to warp
+- reveal new buttons on encounter completion (where applicable)
+
+narrative enc. completion --> reveal next narrative encounters on map
+scan --> add new misc. encounter locations"
