@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 87.06 100.53">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: gray;
+      }
+
+      .cls-2 {
+        fill: #ababab;
+      }
+    </style>
+  </defs>
+  <g id="Interior">
+    <g id="airlock_interior">
+      <polygon class="cls-1" points="43.53 0 0 25.13 0 75.4 43.53 100.53 87.06 75.4 87.06 25.13 43.53 0"/>
+      <rect class="cls-2" x="20.98" y="27.71" width="45.11" height="45.11"/>
+    </g>
+  </g>
+</svg>

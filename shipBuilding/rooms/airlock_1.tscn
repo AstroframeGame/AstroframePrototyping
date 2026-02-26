@@ -4,16 +4,40 @@
 [ext_resource type="PackedScene" uid="uid://clyn58uoj7ooi" path="res://shipBuilding/hexes/door_hex.tscn" id="2_eprgn"]
 [ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="3_r60ym"]
 [ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/ui_textures/RoundedSquare.png" id="4_fyg8x"]
+[ext_resource type="Texture2D" uid="uid://odhdvp80136v" path="res://art/rooms/airlock/airlock_interior.svg" id="5_gv7tu"]
+[ext_resource type="Texture2D" uid="uid://812xrt30k2vm" path="res://art/rooms/airlock/airlock_exterior.svg" id="6_1mlnf"]
+[ext_resource type="Texture2D" uid="uid://ck8xop7vs0gp6" path="res://art/rooms/airlock/airlock_exteriorteampatch.svg" id="7_adnkj"]
+[ext_resource type="Texture2D" uid="uid://bogw3b5jdxnxd" path="res://art/rooms/airlock/airlock_hatch.svg" id="8_qrm32"]
 
 [node name="Airlock_1" type="Node2D" unique_id=2084884563]
 script = ExtResource("1_r60ym")
 
 [node name="DoorHex" parent="." unique_id=1390897145 instance=ExtResource("2_eprgn")]
 
+[node name="Label" type="Label" parent="." unique_id=1223719285]
+offset_left = -27.0
+offset_top = -31.0
+offset_right = 28.0
+offset_bottom = -8.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Airlock"
+
+[node name="AirlockInterior" type="Sprite2D" parent="." unique_id=1510220738]
+scale = Vector2(0.425, 0.425)
+texture = ExtResource("5_gv7tu")
+
 [node name="Roof" type="Node2D" parent="." unique_id=1494223740]
-visible = false
+
+[node name="AirlockExterior" type="Sprite2D" parent="Roof" unique_id=1388869186]
+scale = Vector2(0.425, 0.425)
+texture = ExtResource("6_1mlnf")
+
+[node name="AirlockExteriorteampatch" type="Sprite2D" parent="Roof" unique_id=2134349200]
+scale = Vector2(0.425, 0.425)
+texture = ExtResource("7_adnkj")
 
 [node name="Hex4" type="Sprite2D" parent="Roof" unique_id=2116210467]
+visible = false
 modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("3_r60ym")
@@ -23,12 +47,8 @@ modulate = Color(0.21950102, 0.21950102, 0.21950102, 1)
 scale = Vector2(0.475, 0.475)
 texture = ExtResource("4_fyg8x")
 
-[node name="Label" type="Label" parent="." unique_id=1223719285]
-offset_left = -27.0
-offset_top = -31.0
-offset_right = 28.0
-offset_bottom = -8.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Airlock"
+[node name="AirlockHatch" type="Sprite2D" parent="." unique_id=2124018771]
+scale = Vector2(0.37, 0.37)
+texture = ExtResource("8_qrm32")
 
 [editable path="DoorHex"]
