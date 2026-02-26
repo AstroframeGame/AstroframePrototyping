@@ -16,6 +16,7 @@ func _ready() -> void:
 	detection_timer.timeout.connect(on_player_detected)
 	nav_agent.velocity_computed.connect(on_safe_vel_computed,1)
 	nav_agent.navigation_finished.connect(on_navigation_finished)
+	#on_power_level_change.connect()
 	
 	# TODO: these need to be based on ship size
 	nav_obstacle.radius = 220

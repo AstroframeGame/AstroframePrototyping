@@ -451,6 +451,15 @@ func get_avalible_power_out() -> Array[PowerOutHex]:
 					out.append(h)
 	return out
 
+func get_available_power_in() -> Array[PowerInHex]:
+	var _in: Array[PowerInHex] = []
+	for r in get_children():
+		if r is Room:
+			for h in r.get_in_hexes():
+				if not h.is_powered:
+					_in.append(h)
+	return _in
+
 func toggle_power(power_hex):
 	if not my_character_inside():
 		return
