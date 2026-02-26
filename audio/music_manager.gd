@@ -9,14 +9,17 @@ var _tween: Tween
 signal on_mute_state_change(state : bool) # audioserver takes a frame to update.
 var muted : bool :
 	set(value):
-		var bus_index = AudioServer.get_bus_index("Master")
+		var bus_index = AudioServer.get_bus_index("Music")
 		AudioServer.set_bus_mute(bus_index, value)
 		on_mute_state_change.emit(value)
 	get:
-		var bus_index = AudioServer.get_bus_index("Master")
+		var bus_index = AudioServer.get_bus_index("Music")
 		return AudioServer.is_bus_mute(bus_index)
 
 func play_menu():
+	menu.bus = "Music"
+	ambient.bus = "Music"
+	tense.bus = "Music"
 	_crossfade(menu, [ambient, tense])
 
 func play_gameplay():
