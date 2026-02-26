@@ -6,4 +6,4 @@ maybe thisll have something someday
 
 func enter_state():
 	super()
-	auto_pilot.goal_direction = Vector2(0,0)
+	auto_pilot.movement_goal_direction = Vector2(0,0)

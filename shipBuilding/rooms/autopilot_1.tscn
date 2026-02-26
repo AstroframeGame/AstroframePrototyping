@@ -11,6 +11,7 @@
 script = ExtResource("1_6vmsa")
 
 [node name="DetectionArea" type="Area2D" parent="." unique_id=1004850489]
+visible = false
 collision_layer = 2048
 collision_mask = 17
 
@@ -28,6 +29,7 @@ debug_enabled = true
 debug_path_custom_color = Color(1, 0, 0, 1)
 
 [node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="." unique_id=265383484]
+visible = false
 radius = 10.0
 
 [node name="DetectionTimer" type="Timer" parent="." unique_id=1974215504]

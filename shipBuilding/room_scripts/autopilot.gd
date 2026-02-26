@@ -20,10 +20,11 @@ func _ready() -> void:
 	# TODO: these need to be based on ship size
 	nav_obstacle.radius = 220
 	nav_agent.radius = 220
-	nav_agent.max_speed = ship.get_engines().max_speed
 	_detection_shape.shape.radius = 1500
 	
 	if ship:
+		if ship.get_engines():
+			nav_agent.max_speed = ship.get_engines().max_speed
 		detection_area.global_position = ship.get_center()
 		nav_obstacle.global_position = ship.get_center()
 
@@ -43,18 +44,20 @@ func distance_to_target()->float:
 #endregion
 
 #region Movement
-var goal_direction : Vector2
+var movement_goal_direction : Vector2
+var rotation_goal_direction : Vector2
 var safe_vel : Vector2
+var latching_position : Vector2
 func get_goal_velocity(current_velocity: Vector2) -> Vector2:
 	var engines = ship.get_engines()
 	if not engines:
 		return Vector2.ZERO
 	
 	var goal_vel = Vector2.ZERO
-	if goal_direction.length() > 0.1:
-		if goal_direction.y > 0:
-			goal_direction.y *= engines.forward_multiplier
-		goal_vel = current_velocity + goal_direction.rotated(ship.global_rotation) #+ safe_vel
+	if movement_goal_direction.length() > 0.1:
+		if movement_goal_direction.y > 0:
+			movement_goal_direction.y *= engines.forward_multiplier
+		goal_vel = current_velocity + movement_goal_direction.rotated(ship.global_rotation) #+ safe_vel
 		goal_vel = goal_vel.normalized() * min(goal_vel.length(), engines.get_max_speed())
 	return goal_vel
 
@@ -66,7 +69,7 @@ func get_goal_angular_velocity() -> float:
 	if not target_ship:
 		return 0.0
 		
-	var goal_rotation = (ship.get_center() - target_ship.get_center()).angle()
+	var goal_rotation = (ship.get_center() - target_ship.get_center()).angle() - PI/2
 	var delta_rotation = goal_rotation - ship.global_rotation
 	
 	var rot_input = sign(delta_rotation)
