@@ -244,7 +244,7 @@ func interact():
 	var interactable = get_interactable()
 	if interactable:
 		interactable.interact(self)
-		print_debug(name, " interacted with ", interactable)
+		print_debug("[", multiplayer.get_unique_id(), "]: ", name, " interacted with ", interactable)
 			
 func get_interactable() -> Node2D:
 	for area in interact_check.get_overlapping_areas():
