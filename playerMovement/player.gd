@@ -152,10 +152,19 @@ func _physics_process(delta):
 		
 		if is_shooting:
 			sync_shooting.rpc()
-		if is_holstering and not seat:
+		
+		if is_holstering and not seat and not was_holstering:
 			sync_holstering.rpc()
-		if is_interacting:
+			was_holstering = true
+		elif not is_holstering and was_holstering:
+			was_holstering = false
+			
+		if is_interacting and not was_interacting:
 			sync_interacting.rpc()
+			was_interacting = true
+		elif not is_interacting and was_interacting:
+			was_interacting = false
+			
 		if event_in_room != null and not is_interacting:
 			sync_room_inputs.rpc(event_in_room)
 		
@@ -272,19 +281,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event.is_action_pressed("player_shoot"):
 			shooting = true
 			
-		if event.is_action_pressed("holster_handgun") and not was_holstering:
+		if event.is_action_pressed("holster_handgun"):
 			if seat:
 				return
 			holstered = true
-			was_holstering = true
-		elif !event.is_action_pressed("holster_handgun") and was_holstering:
-			was_holstering = false
 	
-		if event.is_action_pressed("interact") and not was_interacting:
+		if event.is_action_pressed("interact"):
 			interacting = true
-			was_interacting = true
-		elif !event.is_action_pressed("interact") and was_interacting:
-			was_interacting = false
 			
 		if seat and seat.room.has_method("handle_input"):
 			room_input = event
