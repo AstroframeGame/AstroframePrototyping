@@ -1,11 +1,9 @@
 class_name DoorInteractable
-extends Area2D
+extends Hex
 
 '''
 If the player interacts with this door, the room decides what happens.
 '''
-
-@onready var room : Room = $"../.."
 
 func interact_hint() -> String:
 	return "[E] to Sit Down"
