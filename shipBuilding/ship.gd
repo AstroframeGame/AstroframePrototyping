@@ -20,6 +20,8 @@ const SPARKS_SPEED_THRESH = 10
 const EXPLOSION_PREFAB = preload("res://art/vfx/explosion.tscn")
 const HIT_SHIP_VFX_PREFAB = preload("res://art/vfx/hit_ship_vfx.tscn")
 
+var _is_dead: bool = false
+
 var grid: TileMapLayer:
 	get:
 		return get_node("HexGrid")
@@ -491,9 +493,10 @@ func take_damage(amount:int, pos_ws : Vector2):
 	hit_vfx(pos_ws)
 
 func death_check():
-	if hit_points > 0:
+	if hit_points > 0 or _is_dead:
 		return 
-	death_explosion()
+	_is_dead = true
+	call_deferred("death_explosion")
 	
 func death_explosion():
 	var rooms: Array[Room] = []
@@ -516,7 +519,7 @@ func death_explosion():
 		var rot_index = room.rot_index
 		var pos = room.global_position
 		remove_room(room)
-		debris_ship.add_room.call_deferred(room, grid_pos, rot_index)
+		debris_ship.add_room(room, grid_pos, rot_index)
 		
 		var explosion_impulse = randf_range(20.0, 100.0)
 		debris_ship.apply_central_impulse(push_dir * explosion_impulse)
