@@ -1,9 +1,8 @@
 class_name GunHex
-extends Sprite2D
+extends Hex
 
 const PROJECTILE = preload("uid://devin6bdbcbay") # funny uid lol
 
-@onready var room : Room = $".."
 @onready var gunSprite : Sprite2D = $Sprite
 @onready var shield_check : Area2D = $ShieldCheck
 @onready var marker_2d: Marker2D = $Sprite/Marker2D

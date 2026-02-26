@@ -9,6 +9,7 @@ func _ready() -> void:
 		if n is CanvasLayer:
 			n.visible = false
 	get_node(open).visible = true
+	InputHelper.switch_input_device.connect(focus_first_button)
 
 func is_open(menu_name : String):
 	return open == NodePath(menu_name)
@@ -20,7 +21,27 @@ func open_menu(menu_name : String):
 	get_node(open).visible = true
 	if menu_name == "Main": # can be done more cleanly
 		CursorManager.reset_cursor()
+	if not is_open("Game"):
+		focus_first_button()
 	
+func focus_first_button() -> void:
+	if InputHelper.using_mouse:
+		return
+	var current_menu = get_node_or_null(open)
+	if current_menu:
+		var first_button = _find_first_button(current_menu)
+		if first_button:
+			first_button.grab_focus()
+
+func _find_first_button(node: Node) -> Button:
+	for child in node.get_children():
+		if child is Button and child.is_visible_in_tree() and not child.disabled and child.focus_mode != Control.FOCUS_NONE:
+			return child
+		var found = _find_first_button(child)
+		if found:
+			return found
+	return null
+		
 # returns packed_scene
 func load_scene(scene_path):
 	open_menu("Loading")
@@ -61,8 +82,10 @@ func menu_back():
 
 func pause_game():
 	open_menu("Paused")
+	focus_first_button()
 func unpause_game():
 	open_menu("Game")
+	#focus_first_button()
 func _unhandled_input(_event: InputEvent) -> void:
 	if not (is_open("Paused") or is_open("Game")):
 		return
