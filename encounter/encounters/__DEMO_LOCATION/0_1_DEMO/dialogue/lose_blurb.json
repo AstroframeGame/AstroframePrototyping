@@ -1,0 +1,10 @@
+{
+	"name": "ME",
+	"lose": {
+		"limit": 1,
+		"seen": 0,
+		"neutral": [
+			"Ack...! \\ They got me. \\ Try again?"
+		]
+	}
+}

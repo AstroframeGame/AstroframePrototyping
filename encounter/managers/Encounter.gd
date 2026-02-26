@@ -90,6 +90,7 @@ func preload_scene_dialogue():
 		
 	# dialogue at win
 	dialogue["win"] = LevelStateManager.load_dictionary("%s/dialogue/%s.json" % [enc_base_dir, "win_blurb"])
+	dialogue["lose"] = LevelStateManager.load_dictionary("%s/dialogue/%s.json" % [enc_base_dir, "lose_blurb"])
 
 func start_dialogue(npc: String, cat: String)->void:
 	if dialogue[npc][cat].seen >= dialogue[npc][cat].limit:
@@ -132,3 +133,6 @@ func _on_encounter_completed(enc_name: String):
 	
 	# dialogue
 	start_dialogue("win", "win")
+
+func encounter_failed():
+	start_dialogue("lose", "lose")
