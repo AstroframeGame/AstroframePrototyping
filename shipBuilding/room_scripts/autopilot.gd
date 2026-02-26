@@ -55,7 +55,6 @@ func get_goal_velocity(current_velocity: Vector2) -> Vector2:
 		return Vector2.ZERO
 	
 	var goal_vel = Vector2.ZERO
-	#goal_vel = current_velocity + movement_goal_direction.rotated(ship.global_rotation) #+ safe_vel
 	goal_vel = current_velocity + movement_goal_direction
 	goal_vel = goal_vel.normalized() * min(goal_vel.length(), engines.get_max_speed())
 	return goal_vel
@@ -67,9 +66,7 @@ func get_goal_angular_velocity() -> float:
 		return 0.0
 	if not target_ship:
 		return 0.0
-		
-	#var goal_rotation = (ship.get_center() - target_ship.get_center()).angle() - PI/2
-	#var delta_rotation = goal_rotation - ship.global_rotation
+
 	var delta_rotation = rotation_goal_direction - ship.global_rotation
 	
 	var rot_input = sign(delta_rotation)
@@ -81,11 +78,14 @@ func on_safe_vel_computed(safe_velocity:Vector2):
 	if state_machine.current_state:
 		state_machine.current_state.process_state_physics(0.0)
 	# hijacking this for tick-ly updates
-	if ship.hit_points < float(ship.max_hit_points)/2 and state_machine.current_state != state_machine.flee_state:
-		state_machine.change_state(state_machine.flee_state)
+	if state_machine.current_state != state_machine.flee_state:
+		if ship:
+			if ship.hit_points < float(ship.max_hit_points)/2:
+				state_machine.change_state(state_machine.flee_state)
 
 func on_navigation_finished():
-	state_machine.change_state(state_machine.sting_state)
+	if ship.get_engines():
+		state_machine.change_state(state_machine.sting_state)
 #endregion
 
 #region Player Detection
@@ -99,13 +99,15 @@ func on_body_exited(body:Node2D):
 	if body.is_in_group("player_ship"):
 		target_ship = null
 		detection_timer.stop()
-		state_machine.change_state(state_machine.idle_state)
+		if ship.get_engines():
+			state_machine.change_state(state_machine.idle_state)
 	if body == target_candidate:
 		target_candidate = null
 		
 func on_player_detected():
 	target_ship = target_candidate
 	target_candidate = null
-	state_machine.change_state(state_machine.approach_state)
+	if ship.get_engines():
+		state_machine.change_state(state_machine.approach_state)
 
 #endregion
