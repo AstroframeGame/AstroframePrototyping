@@ -23,6 +23,7 @@ const HIT_SHIP_VFX_PREFAB = preload("res://art/vfx/hit_ship_vfx.tscn")
 ## Multiplayer Start
 
 @onready var multiplayer_manager: MultiplayerManager = get_tree().root.get_node("Hub/MultiplayerManager")
+var player: PlayerCharacter = null
 
 ## Multiplayer End
 
@@ -100,24 +101,25 @@ func get_players_from_manager() -> Array[PlayerCharacter]:
 	return []
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
-	var engines :Engines = get_engines()
-	var piloting : Piloting = get_piloting()
-	var pushing : bool = get_players_pushing().size() > 0
-	var delta = state.step
-	
-	if engines and piloting:
-		state.angular_velocity = piloting.get_goal_angular_velocity()
-		var goal_vel :Vector2 = piloting.get_goal_velocity(state.linear_velocity)
-		if not piloting.is_idling():
-			state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * state.inverse_mass * delta)
-	elif pushing:
-		apply_push_rotation(state)
-		apply_push_velocity(state)
-	elif engines: # autodrag
-		state.angular_velocity = lerp(state.angular_velocity, 0.0, state.inverse_mass * engines.drag_multiplier * delta)
-		state.linear_velocity = lerp(state.linear_velocity, Vector2.ZERO, engines.get_thrust() * state.inverse_mass * engines.drag_multiplier * delta)
-	
-	eval_sparks(state)
+	if is_multiplayer_authority():
+		var engines :Engines = get_engines()
+		var piloting : Piloting = get_piloting()
+		var pushing : bool = get_players_pushing().size() > 0
+		var delta = state.step
+		
+		if engines and piloting:
+			state.angular_velocity = piloting.get_goal_angular_velocity()
+			var goal_vel: Vector2 = piloting.get_goal_velocity(state.linear_velocity)
+			if not piloting.is_idling():
+				state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * state.inverse_mass * delta)
+		elif pushing:
+			apply_push_rotation(state)
+			apply_push_velocity(state)
+		elif engines: # autodrag
+			state.angular_velocity = lerp(state.angular_velocity, 0.0, state.inverse_mass * engines.drag_multiplier * delta)
+			state.linear_velocity = lerp(state.linear_velocity, Vector2.ZERO, engines.get_thrust() * state.inverse_mass * engines.drag_multiplier * delta)
+		
+		eval_sparks(state)
 
 func calc_center_of_mass():
 	var hex_mass = 2.0

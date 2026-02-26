@@ -51,10 +51,7 @@ Todo
 [node name="Ship" parent="." unique_id=1037901965 instance=ExtResource("1_hqjgw")]
 position = Vector2(591, -258)
 
-[node name="Ship9" parent="." unique_id=1784127879 node_paths=PackedStringArray("power_links") instance=ExtResource("4_5mvu2")]
+[node name="Ship9" parent="." unique_id=1784127879 instance=ExtResource("4_5mvu2")]
 position = Vector2(17, -271)
-power_links = {
-null: null
-}
 
 [editable path="Ship"]
