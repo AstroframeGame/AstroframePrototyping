@@ -10,11 +10,15 @@ extends Room
 
 var target_ship : Ship
 
+var movement_goal_direction : Vector2
+var rotation_goal_direction : float
+var safe_vel : Vector2
+var latching_position : Vector2
+
 func _ready() -> void:
 	detection_area.body_entered.connect(on_body_entered,1)
 	detection_area.body_exited.connect(on_body_exited,1)
 	detection_timer.timeout.connect(on_player_detected)
-	nav_agent.velocity_computed.connect(on_safe_vel_computed,1)
 	nav_agent.navigation_finished.connect(on_navigation_finished)
 	on_power_level_change.connect(on_power_change,1)
 	
@@ -30,6 +34,14 @@ func _ready() -> void:
 		nav_obstacle.global_position = ship.get_center()
 		
 	draw_rays(8,1500,180)
+
+func _physics_process(delta: float) -> void:
+	if state_machine.current_state:
+		state_machine.current_state.process_state_physics(delta)
+	if state_machine.current_state != state_machine.flee_state:
+		if ship:
+			if ship.hit_points < float(ship.max_hit_points)/2:
+				state_machine.change_state(state_machine.flee_state)
 
 func shoot_all_cannons():
 	for cannon in ship.get_cannons():
@@ -47,11 +59,6 @@ func distance_to_target()->float:
 #endregion
 
 #region Movement
-var movement_goal_direction : Vector2
-var rotation_goal_direction : float
-var safe_vel : Vector2
-var latching_position : Vector2
-
 func get_goal_velocity(current_velocity: Vector2) -> Vector2:
 	var engines = ship.get_engines()
 	if not engines:
@@ -62,7 +69,6 @@ func get_goal_velocity(current_velocity: Vector2) -> Vector2:
 	goal_vel = goal_vel.normalized() * min(goal_vel.length(), engines.get_max_speed())
 	return goal_vel
 
-# clamp this to +/- 100
 func get_goal_angular_velocity() -> float:
 	var engines = ship.get_engines()
 	if not engines:
@@ -74,21 +80,6 @@ func get_goal_angular_velocity() -> float:
 	
 	var rot_input = sign(delta_rotation)
 	return rot_input * engines.get_rotational_thrust()
-
-
-func on_safe_vel_computed(safe_velocity:Vector2):
-	if not is_active():
-		return
-	
-	safe_vel = safe_velocity
-	if state_machine.current_state:
-		state_machine.current_state.process_state_physics(0.0)
-	# hijacking this for tick-ly updates
-	if state_machine.current_state != state_machine.flee_state:
-		if ship:
-			if ship.hit_points < float(ship.max_hit_points)/2:
-				state_machine.change_state(state_machine.flee_state)
-
 
 func on_navigation_finished():
 	if not is_active():
