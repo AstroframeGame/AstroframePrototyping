@@ -10,6 +10,8 @@ var ship : Ship:
 
 # @Kevin change to ready?
 func initialize() -> void:
+	healthbar = $HPBar
+	health_label = $HPBar/Label
 	healthbar.max_value = ship.max_hit_points
 	health_label.text = str(ship.max_hit_points)
 	update_hp_bar()
