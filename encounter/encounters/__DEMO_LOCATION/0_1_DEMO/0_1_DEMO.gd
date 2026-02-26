@@ -1,5 +1,6 @@
 extends Encounter
 
+@onready var player_ship: Node = $Ship
 @onready var faction_ship: Node = $ships/FACTION_PATROL
 @onready var pirate_destroyer: Node = $ships/pirates/PIRATE_DESTROYER
 @onready var to_kill: Array[Node] = [
@@ -27,6 +28,7 @@ func _ready() -> void:
 		ship.set_meta("type", "Pirate")
 	
 	faction_ship.set_meta("type", "Faction")
+	player_ship.set_meta("type", "Ship")
 	
 	# set npc metadata 
 	faction_ship.name = "0_1_FACTION_PATROL"

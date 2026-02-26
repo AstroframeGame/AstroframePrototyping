@@ -98,6 +98,24 @@ closed = true
 width = 0.5
 default_color = Color(0.84932995, 0.00019059777, 0.012585228, 1)
 
+[node name="player_ship_marker" type="Polygon2D" parent="markers" unique_id=1943319407 node_paths=PackedStringArray("target")]
+position = Vector2(-2688, -331)
+scale = Vector2(3, 3)
+polygon = PackedVector2Array(0, 3, 3, 0, 0, -3, -3, 0)
+script = ExtResource("9_76my7")
+target = NodePath("../../Ship")
+
+[node name="Label" type="Label" parent="markers/player_ship_marker" unique_id=1000054493]
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_fonts/font = ExtResource("3_7ytpk")
+theme_override_font_sizes/font_size = 6
+
+[node name="Line2D" type="Line2D" parent="markers/player_ship_marker" unique_id=1094143873]
+points = PackedVector2Array(0, 3, 3, 0, 0, -3, -3, 0)
+closed = true
+width = 0.5
+
 [node name="Background" type="CanvasLayer" parent="." unique_id=1933024674]
 layer = -2
 
