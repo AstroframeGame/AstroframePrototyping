@@ -27,6 +27,8 @@ func _ready() -> void:
 			nav_agent.max_speed = ship.get_engines().max_speed
 		detection_area.global_position = ship.get_center()
 		nav_obstacle.global_position = ship.get_center()
+		
+	draw_rays(8,1500,180)
 
 func shoot_all_cannons():
 	for cannon in ship.get_cannons():
@@ -82,6 +84,9 @@ func on_safe_vel_computed(safe_velocity:Vector2):
 		if ship:
 			if ship.hit_points < float(ship.max_hit_points)/2:
 				state_machine.change_state(state_machine.flee_state)
+				
+	# DEBUG:
+	#print(get_ray_collisions())
 
 func on_navigation_finished():
 	if ship.get_engines():
@@ -110,4 +115,30 @@ func on_player_detected():
 	if ship.get_engines():
 		state_machine.change_state(state_machine.approach_state)
 
+#endregion
+
+#region Avoidance
+var rays : Array[RayCast2D] = []
+
+func draw_rays(amount:int, length:float, fan_angle:float):
+	var step_angle = fan_angle / (amount-1)
+	print(ship.global_rotation_degrees)
+	var start_angle = -(fan_angle-global_rotation_degrees)/2 + 90
+	
+	for i in range(amount):
+		var ray = RayCast2D.new()
+		add_child(ray)
+		var angle = deg_to_rad(start_angle + (i*step_angle))
+		ray.target_position = Vector2(cos(angle), sin(angle)) * length
+		ray.global_position = ship.get_center()
+		ray.add_exception(ship)
+		ray.collision_mask = ship.collision_mask
+		rays.append(ray)
+
+func get_ray_collisions()->Array[Node2D]:
+	var collisions : Array[Node2D]
+	for ray in rays:
+		if ray.is_colliding():
+			collisions.append(ray.get_collider())
+	return collisions
 #endregion

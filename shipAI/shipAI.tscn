@@ -45,7 +45,7 @@ mouse_filter = 1
 script = ExtResource("4_8rdp5")
 
 [node name="Wasp" parent="." unique_id=1784127879 node_paths=PackedStringArray("power_links") instance=ExtResource("7_jrc0m")]
-position = Vector2(2492, 552)
+position = Vector2(2010, 297)
 power_links = {
 NodePath("Reactor_4/OutputHex/OutClickArea"): NodePath("Engines_2/InputHex/InClickArea"),
 NodePath("Reactor_4/OutputHex2/OutClickArea"): NodePath("Engines_2/InputHex2/InClickArea"),
