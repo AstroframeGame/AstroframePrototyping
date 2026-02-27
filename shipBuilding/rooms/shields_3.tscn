@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://fr42tlimyfad" path="res://shipBuilding/room_scripts/shields.gd" id="1_43tt2"]
 [ext_resource type="PackedScene" uid="uid://ddufh33lvtb2a" path="res://shipBuilding/fx/shield/shield.tscn" id="3_43tt2"]
+[ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="4_ixx2e"]
 [ext_resource type="PackedScene" uid="uid://dmgvcp6y668bi" path="res://shipBuilding/hexes/input_hex.tscn" id="5_mqtj2"]
 
 [node name="Shields_3" type="Node2D" unique_id=1633765650]
@@ -27,4 +28,34 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Shields"
 
 [node name="Shield" parent="." unique_id=386750233 instance=ExtResource("3_43tt2")]
+visible = false
 position = Vector2(0, -45)
+
+[node name="CollisionShape2D" parent="Shield" index="0" unique_id=1049669852]
+disabled = true
+
+[node name="Roof" type="Node2D" parent="." unique_id=1583828134]
+visible = false
+
+[node name="Hex3" type="Sprite2D" parent="Roof" unique_id=644852332]
+modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
+position = Vector2(39, -67.5)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_ixx2e")
+
+[node name="Hex5" type="Sprite2D" parent="Roof" unique_id=774467404]
+modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
+position = Vector2(-39, -67.5)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_ixx2e")
+
+[node name="Hex4" type="Sprite2D" parent="Roof" unique_id=636165179]
+modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_ixx2e")
+
+[node name="RechargeTimer" type="Timer" parent="." unique_id=676478285]
+wait_time = 2.5
+one_shot = true
+
+[editable path="Shield"]

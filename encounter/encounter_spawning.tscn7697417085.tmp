@@ -1,0 +1,175 @@
+[gd_scene format=3 uid="uid://bu4afq3jf34w3"]
+
+[ext_resource type="Script" uid="uid://c0gtg58u3r8qv" path="res://encounter/UIX.gd" id="1_ai0lq"]
+[ext_resource type="Script" uid="uid://4gkdjixe8mwp" path="res://encounter/demo.gd" id="2_cfqrh"]
+[ext_resource type="Script" uid="uid://c8uc60l6cdtfb" path="res://encounter/classes/EncounterManager.gd" id="2_r6a0w"]
+[ext_resource type="Script" uid="uid://dgrb8reljfmtp" path="res://encounter/classes/npc_ship.gd" id="3_r6a0w"]
+[ext_resource type="PackedScene" uid="uid://dcpfkpex6ovaa" path="res://playerMovement/player_system.tscn" id="4_r6a0w"]
+[ext_resource type="Script" uid="uid://bva8ntoqrodhg" path="res://encounter/classes/player_state.gd" id="5_r6a0w"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_sdpd5"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4nkm3"]
+radius = 20.0
+height = 40.0
+
+[node name="Encounter" type="Node2D" unique_id=199438915]
+script = ExtResource("2_r6a0w")
+
+[node name="Name" type="Label" parent="." unique_id=577902416]
+offset_left = -881.0
+offset_top = -202.0
+offset_right = -749.0
+offset_bottom = -179.0
+text = "Encounter"
+
+[node name="Instructions" type="Label" parent="." unique_id=1408067564]
+offset_left = -879.0
+offset_top = -170.0
+offset_right = -402.0
+offset_bottom = -121.0
+text = "This should be an example of what a scripted event looks like.
+Later we will procedurally generate these."
+
+[node name="Todo" type="Label" parent="." unique_id=656205597]
+offset_left = -885.0
+offset_top = -119.0
+offset_right = -451.0
+offset_bottom = 112.0
+text = "To add
+- jumping between sectors
+- win state?
+- factions, relationships"
+
+[node name="Controls" type="Label" parent="." unique_id=1110694306]
+offset_left = -293.0
+offset_top = 422.0
+offset_right = -133.0
+offset_bottom = 505.0
+text = "SPACE to warp"
+
+[node name="DemoManager" type="Node2D" parent="." unique_id=56591053 node_paths=PackedStringArray("sector_a", "sector_b", "npc_ship", "player")]
+script = ExtResource("2_cfqrh")
+sector_a = NodePath("SectorA")
+sector_b = NodePath("SectorB")
+npc_ship = NodePath("../NPC ship")
+player = NodePath("../PlayerSystem")
+
+[node name="SectorA" type="Area2D" parent="DemoManager" unique_id=913171553]
+position = Vector2(305, 154)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="DemoManager/SectorA" unique_id=1324879259]
+position = Vector2(15, -111.00001)
+scale = Vector2(2.0795455, 1.8958334)
+polygon = PackedVector2Array(3, 2, -46, 3, -79, 50, -46, 107, 6, 107, 31, 51)
+
+[node name="Polygon2D" type="Polygon2D" parent="DemoManager/SectorA" unique_id=545690598]
+position = Vector2(671, 326)
+color = Color(0.6313726, 0, 0, 0.16862746)
+polygon = PackedVector2Array(-76, -222, 91, -221, 193, -113, 148, 165, -137, 201, -246, 21)
+
+[node name="SectorB" type="Area2D" parent="DemoManager" unique_id=969737157]
+position = Vector2(976, 480)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="DemoManager/SectorB" unique_id=652812023]
+z_index = -15
+position = Vector2(53, -135)
+scale = Vector2(2.3977273, 2.5267856)
+polygon = PackedVector2Array(2.165863, 2, -46.834137, 3, -79.83414, 50, -46.834137, 107, 5.165863, 107, 30.165863, 51)
+
+[node name="Polygon2D" type="Polygon2D" parent="DemoManager/SectorB" unique_id=1401675982]
+position = Vector2(-723, -342)
+color = Color(0, 0, 0.39215687, 0.16862746)
+polygon = PackedVector2Array(-191, -81, 55, -203, 227, -74, 220, 149, -60, 232, -192, 122)
+
+[node name="NPC ship" type="CharacterBody2D" parent="." unique_id=1282886032 node_paths=PackedStringArray("sector_a", "sector_b", "npc_ship", "player_ship")]
+position = Vector2(1039, 396)
+script = ExtResource("3_r6a0w")
+sector_a = NodePath("../DemoManager/SectorA")
+sector_b = NodePath("../DemoManager/SectorB")
+npc_ship = NodePath(".")
+player_ship = NodePath("")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="NPC ship" unique_id=523428886]
+position = Vector2(1, 6)
+scale = Vector2(65, 65)
+mesh = SubResource("BoxMesh_sdpd5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NPC ship" unique_id=1920195078]
+position = Vector2(0, 2)
+shape = SubResource("CapsuleShape2D_4nkm3")
+
+[node name="PlayerSystem" parent="." unique_id=809182662 instance=ExtResource("4_r6a0w")]
+
+[node name="StateManager" type="Node2D" parent="PlayerSystem" unique_id=1295249985]
+script = ExtResource("5_r6a0w")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1914100709]
+
+[node name="EncounterSelector" type="Control" parent="CanvasLayer" unique_id=525699141 node_paths=PackedStringArray("sector_b", "player", "npc_ship")]
+layout_mode = 3
+anchor_left = 0.009000001
+anchor_top = 0.028
+anchor_right = 0.009000001
+anchor_bottom = 0.028
+offset_left = 179.632
+offset_top = -16.144001
+offset_right = 246.632
+offset_bottom = 27.855999
+script = ExtResource("1_ai0lq")
+sector_b = NodePath("../../DemoManager/SectorB")
+player = NodePath("../../PlayerSystem")
+npc_ship = NodePath("../../NPC ship")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/EncounterSelector" unique_id=1230210940]
+layout_mode = 0
+offset_left = -178.0
+offset_top = 46.0
+offset_right = -5.0
+offset_bottom = 170.0
+
+[node name="LocationContainer" type="HBoxContainer" parent="CanvasLayer/EncounterSelector/VBoxContainer" unique_id=1239855403]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/EncounterSelector/VBoxContainer/LocationContainer" unique_id=2133180282]
+layout_mode = 2
+text = "Warp to location: "
+
+[node name="LocationDropdown" type="OptionButton" parent="CanvasLayer/EncounterSelector/VBoxContainer/LocationContainer" unique_id=1473551288]
+layout_mode = 2
+
+[node name="EncounterContainer" type="VBoxContainer" parent="CanvasLayer/EncounterSelector/VBoxContainer" unique_id=1004999844]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/EncounterSelector/VBoxContainer/EncounterContainer" unique_id=431870001]
+visible = false
+layout_mode = 2
+text = "Completed encounters:"
+
+[node name="EncounterDropdown" type="ItemList" parent="CanvasLayer/EncounterSelector/VBoxContainer/EncounterContainer" unique_id=1856581846]
+visible = false
+layout_mode = 2
+select_mode = 1
+auto_width = true
+auto_height = true
+
+[node name="ItemContainer" type="VBoxContainer" parent="CanvasLayer/EncounterSelector/VBoxContainer" unique_id=529479159]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/EncounterSelector/VBoxContainer/ItemContainer" unique_id=1085604449]
+layout_mode = 2
+text = "Items:"
+
+[node name="ItemDropdown" type="ItemList" parent="CanvasLayer/EncounterSelector/VBoxContainer/ItemContainer" unique_id=1037414252]
+layout_mode = 2
+select_mode = 1
+auto_width = true
+auto_height = true
+
+[node name="ResultLabel" type="Label" parent="CanvasLayer/EncounterSelector/VBoxContainer" unique_id=947395178]
+layout_mode = 2
+
+[node name="ConfirmButton" type="Button" parent="CanvasLayer/EncounterSelector/VBoxContainer" unique_id=400342167]
+layout_mode = 2
+text = "Confirm"

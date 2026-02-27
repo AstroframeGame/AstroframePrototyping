@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://daae3tloj435m"]
+
+[ext_resource type="Script" uid="uid://bwvp5wfog61cs" path="res://shipAI/scripts/ship_hud.gd" id="1_3rtup"]
+[ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/ui_textures/RoundedSquare.png" id="2_b4o85"]
+
+[node name="ShipHUD" type="CanvasLayer" unique_id=532014552]
+visible = false
+script = ExtResource("1_3rtup")
+
+[node name="Panel" type="Panel" parent="." unique_id=278467729]
+offset_left = 427.0
+offset_top = 18.0
+offset_right = 467.0
+offset_bottom = 58.0
+scale = Vector2(7.4810667, 1)
+
+[node name="HPBar" type="TextureProgressBar" parent="." unique_id=1156022866]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -213.0
+offset_top = -342.0
+offset_right = 87.0
+offset_bottom = -302.0
+grow_horizontal = 2
+grow_vertical = 2
+value = 100.0
+nine_patch_stretch = true
+stretch_margin_left = 20
+stretch_margin_top = 20
+stretch_margin_right = 20
+stretch_margin_bottom = 20
+texture_progress = ExtResource("2_b4o85")
+tint_progress = Color(0.6162979, 0.8811128, 0.67287827, 1)
+
+[node name="Label" type="Label" parent="HPBar" unique_id=861636281]
+layout_mode = 0
+offset_left = 140.0
+offset_top = 8.0
+offset_right = 180.0
+offset_bottom = 31.0
+theme_override_colors/font_color = Color(0, 0.23921569, 1, 1)
+text = "100"

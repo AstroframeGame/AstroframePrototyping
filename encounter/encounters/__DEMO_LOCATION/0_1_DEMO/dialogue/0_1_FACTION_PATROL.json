@@ -1,0 +1,11 @@
+{
+	"name": "PATROL COMMAND",
+	"greeting": {
+		"limit": 1,
+		"seen": 0,
+		"neutral": [
+			"WARNING! \\ Pirates in the area. \\ Be wary, citizen.",
+			"Hello, citizen... \\ There's some trouble in the sector. \\ Pirates! Not far from here."
+		]
+	}
+}

@@ -1,28 +1,77 @@
 [gd_scene format=3 uid="uid://ci700nfmrtxsd"]
 
-[node name="ShipAi" type="Node2D"]
+[ext_resource type="PackedScene" uid="uid://c7h5fcycvrbqe" path="res://art/background/space_background.tscn" id="1_jrc0m"]
+[ext_resource type="PackedScene" uid="uid://bo138uijiwdph" path="res://shipBuilding/ships/player_ship.tscn" id="5_nhcgg"]
+[ext_resource type="PackedScene" uid="uid://dbgkm073louoa" path="res://shipBuilding/ships/wasp.tscn" id="7_jrc0m"]
+[ext_resource type="PackedScene" uid="uid://bfcvwgyqwu34t" path="res://shipAI/prefabs/asteroid.tscn" id="7_vrncs"]
+[ext_resource type="FontFile" uid="uid://bvhs72w1tp2uu" path="res://hub/fonts/Ethnocentric-Regular.otf" id="8_8rdp5"]
 
-[node name="Name" type="Label" parent="."]
-offset_left = 203.0
-offset_top = 118.0
-offset_right = 335.0
-offset_bottom = 141.0
-text = "ShipAI"
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_ypqrf"]
+vertices = PackedVector2Array(4213.297, -1788.3906, 4683.5703, 1423.9531, -1909.7422, 1992.7266, -586.8672, -2013.6484)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-594, -2024, 4222, -1798, 4695, 1433, -1924, 2004)])
 
-[node name="Instructions" type="Label" parent="."]
-offset_left = 125.0
-offset_top = 152.0
-offset_right = 477.0
-offset_bottom = 201.0
-text = "Test out pathfinding and avoidance
-make the enemy ship pull up alongside your ship and shoot at it."
+[sub_resource type="Theme" id="Theme_vo3si"]
+default_font = ExtResource("8_8rdp5")
+default_font_size = 72
 
-[node name="Todo" type="Label" parent="."]
-offset_left = 168.0
-offset_top = 222.0
-offset_right = 602.0
-offset_bottom = 453.0
-text = "To add
-- add combat
-- add dummy for AI to shoot at
-- make the ai kinda smart"
+[node name="ShipAi" type="Node2D" unique_id=2125256018]
+
+[node name="Background" type="CanvasLayer" parent="." unique_id=903625141]
+layer = -2
+
+[node name="SpaceBackground" parent="Background" unique_id=1650344788 instance=ExtResource("1_jrc0m")]
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=1512586561]
+visible = false
+navigation_polygon = SubResource("NavigationPolygon_ypqrf")
+
+[node name="Wasp" parent="." unique_id=1784127879 node_paths=PackedStringArray("power_links") instance=ExtResource("7_jrc0m")]
+position = Vector2(2010, 297)
+power_links = {
+NodePath("Reactor_4/OutputHex/OutClickArea"): NodePath("Engines_2/InputHex/InClickArea"),
+NodePath("Reactor_4/OutputHex2/OutClickArea"): NodePath("Engines_2/InputHex2/InClickArea"),
+NodePath("Reactor_4/OutputHex3/OutClickArea"): NodePath("Autopilot_1/InputHex/InClickArea"),
+NodePath("Reactor_4/OutputHex4/OutClickArea"): NodePath("Autopilot_1/InputHex2/InClickArea"),
+NodePath("Reactor_2/OutputHex/OutClickArea"): NodePath("Cannon/InputHex/InClickArea")
+}
+
+[node name="PlayerShip" parent="." unique_id=1510963782 node_paths=PackedStringArray("power_links") instance=ExtResource("5_nhcgg")]
+position = Vector2(163, 227)
+collision_mask = 272
+power_links = {
+NodePath("Reactor_4/OutputHex/OutClickArea"): NodePath("Cannon/InputHex/InClickArea"),
+NodePath("Reactor_4/OutputHex2/OutClickArea"): NodePath("Shields_3/InputHex3/InClickArea")
+}
+max_hit_points = 0
+
+[node name="Asteroid" parent="." unique_id=553772809 instance=ExtResource("7_vrncs")]
+position = Vector2(1731, 430)
+collision_layer = 4352
+collision_mask = 48
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="Asteroid" unique_id=1867728949]
+position = Vector2(-178, 43)
+radius = 252.4
+
+[node name="NavigationObstacle2D2" type="NavigationObstacle2D" parent="Asteroid" unique_id=1275880916]
+position = Vector2(29, 73)
+radius = 232.85
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=797339890]
+
+[node name="SceneName" type="Label" parent="HUD" unique_id=1911240410]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -603.0
+offset_top = 649.0
+offset_right = -226.0
+offset_bottom = 717.0
+grow_horizontal = 2
+scale = Vector2(0.60738903, 0.632619)
+theme = SubResource("Theme_vo3si")
+text = "Ship AI"
+horizontal_alignment = 1
+
+[editable path="Asteroid"]

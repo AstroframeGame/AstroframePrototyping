@@ -9,29 +9,17 @@ func _ready() -> void:
 	if ship:
 		pair_augments(Aim_Augment)
 
-# THIS SHOULD BE IN THE INPUT SINGLETON
-var mouse_controller = "mouse"
-func _input(event)-> void:
-	if event is InputEventMouseMotion:
-		if event.relative.length() > 1:
-			mouse_controller = "mouse"
-	var look_dir_controller = Input.get_vector("ship_look_left","ship_look_right", "ship_look_down", "ship_look_up")
-	if look_dir_controller.length() > 0.1:
-		mouse_controller = "controller"
-
 func handle_input(event:InputEvent):
 	if not power_level > 0:
 		return
 	# mouse guided system
-	if event.is_action("ship_fire"):
-		gun.shoot()
+	if event.is_action_pressed("ship_fire"):
+		gun.shoot(10)
 		
-	if event is InputEventMouseMotion and mouse_controller == "mouse":
-		#_look_at_target_interpolated(gun.gunSprite, 5 * get_process_delta_time())
+	if InputHelper.using_mouse:
 		gun.gunSprite.look_at(get_global_mouse_position())
-	if mouse_controller == "controller":
-		var d = Input.get_vector("ship_look_left","ship_look_right", "ship_look_down", "ship_look_up")
-		d.x = -1 * d.x
+	else:
+		var d = InputHelper.controller_look
 		d = d.rotated(global_rotation)
 		gun.gunSprite.rotation = atan2(d.y, d.x)
 		

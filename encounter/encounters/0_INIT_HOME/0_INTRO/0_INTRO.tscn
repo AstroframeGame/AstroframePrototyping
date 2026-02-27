@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://dxrvojignopxd"]
+
+[ext_resource type="PackedScene" uid="uid://t48ysm6u8q54" path="res://art/background/grid_background.tscn" id="1_fiqt5"]
+
+[node name="0Intro" type="Node2D" unique_id=1760780257]
+
+[node name="Background" type="CanvasLayer" parent="." unique_id=1361030003]
+layer = -2
+
+[node name="GridBackground" parent="Background" unique_id=1650344788 instance=ExtResource("1_fiqt5")]
+
+[node name="Label" type="Label" parent="." unique_id=699669272]
+offset_left = 164.0
+offset_top = 105.0
+offset_right = 234.0
+offset_bottom = 127.0
+text = "0_INTRO"

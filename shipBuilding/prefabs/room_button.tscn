@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://fdqa02uc4vk1"]
+[gd_scene format=3 uid="uid://fdqa02uc4vk1"]
 
-[ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/RoundedSquare.png" id="1_o3le1"]
+[ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/ui_textures/RoundedSquare.png" id="1_o3le1"]
 
 [node name="BgButton" type="TextureButton"]
 self_modulate = Color(0, 0, 0, 0.25490198)
