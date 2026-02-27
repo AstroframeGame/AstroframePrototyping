@@ -242,7 +242,7 @@ func sync_interacting():
 	interact()
 
 @rpc("authority", "call_local", "unreliable")
-func sync_room_inputs(room_event):
+func sync_room_inputs(room_event: InputEvent):
 	seat.room.handle_input(room_event)
 #endregion
 
@@ -302,7 +302,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			send_unhandled_inputs.rpc_id(1, shooting, holstered, interacting, room_input)
 	
 @rpc("any_peer", "call_remote", "unreliable")
-func send_unhandled_inputs(shooting: bool, holstered: bool, interacting: bool, room_input):
+func send_unhandled_inputs(shooting: bool, holstered: bool, interacting: bool, room_input: InputEvent):
 	var sender_id = multiplayer.get_remote_sender_id()
 	if sender_id != owner_id:
 		push_warning("Player %d tried to control player %d" % [sender_id, owner_id])
