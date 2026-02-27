@@ -347,7 +347,10 @@ func fix_unsure_grounding():
 func on_ship_enter(new_ship : Ship):
 	on_ground(new_ship)
 	ship = new_ship
-	new_ship.player = self
+	if self not in new_ship.players:
+		new_ship.players.append(self)
+	else:
+		push_warning("[Player.gd]: {Warning}, player requested to enter ship when in ship")
 	rotation = ship.rotation
 	#print(name + " parent to ship")
 	update_layers(true)
@@ -356,8 +359,8 @@ func on_ship_enter(new_ship : Ship):
 func on_ship_exit():
 	# unground will be called when stops intersecting
 	#print(name + " parent to wordl")
-	if ship:
-		ship.player = null
+	if ship and self in ship.players:
+		ship.players.remove_at(ship.players.find(self))
 	ship = null
 	rotation = 0
 	update_layers(false)

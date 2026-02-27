@@ -23,8 +23,8 @@ const HIT_SHIP_VFX_PREFAB = preload("res://art/vfx/hit_ship_vfx.tscn")
 ## Multiplayer Start
 
 @onready var multiplayer_manager: MultiplayerManager = get_tree().root.get_node("Hub/MultiplayerManager")
-var player: PlayerCharacter = null
-
+var players: Array[PlayerCharacter]
+var driver: PlayerCharacter
 @onready var target_linear_velocity: Vector2 = Vector2.ZERO
 @onready var target_angular_velocity: float = 0.0
 @onready var target_transform: Transform2D = global_transform

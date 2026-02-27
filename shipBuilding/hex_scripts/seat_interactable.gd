@@ -22,6 +22,7 @@ func interact(player : PlayerCharacter) -> void:
 		player.seat = null
 		controlled_by = null
 	else:
+		print("Player Sat")
 		player.seat = self
 		controlled_by = player
 		player.global_position = global_position

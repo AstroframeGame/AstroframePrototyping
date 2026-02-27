@@ -48,17 +48,21 @@ func get_goal_velocity(current_velocity: Vector2) -> Vector2:
 	return goal_vel
 
 func _process(delta: float) -> void:
-	if ship and ship.player:
-		var is_local_player = multiplayer.get_unique_id() == ship.player.owner_id
-		if is_local_player:
-			var dir = Input.get_vector("left", "right", "up", "down")
-			var braking = Input.is_action_pressed("brake")
-			
-			if is_multiplayer_authority():
-				input_dir = dir
-				is_braking = braking
-			else:
-				send_input.rpc_id(1, dir, braking)
+	if !seat.controlled_by:
+		return
+	if not ship or not ship.players:
+		return
+	
+	var is_local_player = multiplayer.get_unique_id() == seat.controlled_by.owner_id
+	if is_local_player:
+		var dir = Input.get_vector("left", "right", "up", "down")
+		var braking = Input.is_action_pressed("brake")
+		
+		if is_multiplayer_authority():
+			input_dir = dir
+			is_braking = braking
+		else:
+			send_input.rpc_id(1, dir, braking)
 				
 @rpc("any_peer", "call_remote", "unreliable")
 func send_input(dir: Vector2, braking: bool):
