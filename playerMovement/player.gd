@@ -191,6 +191,8 @@ func _process(_delta: float) -> void:
 	is_local_player = multiplayer.get_unique_id() == owner_id or not is_multiplayer
 	
 	visible = ship == multiplayer_manager.my_player.ship
+	if ship:
+		rotation = ship.rotation
 	
 	if is_local_player:
 		var dir = Input.get_vector("left", "right", "up", "down")

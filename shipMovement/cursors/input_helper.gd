@@ -14,14 +14,14 @@ var controller_look : Vector2:
 	get:
 		return Input.get_vector("ship_look_left", "ship_look_right", "ship_look_up", "ship_look_down")
 
-var mouse_center_offset : Vector2 :
+var mouse_center_offset : Vector2:
 	get:
 		var center = get_viewport().get_visible_rect().get_center()
 		return get_viewport().get_mouse_position() - center
 
 func get_look_position(player : PlayerCharacter, distance : float) -> Vector2:
 	if using_mouse:
-		return get_global_mouse_position()
+		return player.mouse_pos
 	else:
 		var pos = player.global_transform.get_origin()
 		var dir = look.rotated(player.global_transform.get_rotation())

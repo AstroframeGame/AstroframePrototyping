@@ -125,6 +125,7 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 		
 	eval_sparks(state)
 
+#region ClientInterpolation
 func _physics_process(delta: float) -> void:
 	if is_multiplayer_authority():
 		return
@@ -132,7 +133,7 @@ func _physics_process(delta: float) -> void:
 	global_transform = global_transform.interpolate_with(target_transform, 10.0 * delta)
 	linear_velocity = linear_velocity.lerp(target_linear_velocity, 10.0 * delta)
 	angular_velocity = lerp(angular_velocity, target_angular_velocity, 10.0 * delta)
-
+#endregion
 
 @rpc("authority", "call_remote", "unreliable")
 func sync_state(gt: Transform2D, lv: Vector2, av: float):
