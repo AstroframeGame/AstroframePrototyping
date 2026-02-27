@@ -18,9 +18,9 @@ collision_layer = 0
 collision_mask = 0
 script = ExtResource("1_r0exs")
 interior_layer = 2
-interior_mask = 18
+interior_mask = 16
 exterior_layer = 32
-exterior_mask = 4128
+exterior_mask = 4096
 interior_ground_mask = 1
 exterior_ground_mask = 257
 

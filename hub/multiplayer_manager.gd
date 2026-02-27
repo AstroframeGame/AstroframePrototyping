@@ -180,6 +180,9 @@ func _add_player_local(id: int):
 	if !is_owner:
 		request_user.rpc_id(id)
 	
+	if !is_host:
+		await get_tree().process_frame
+	
 	player_char.process_mode = Node.PROCESS_MODE_ALWAYS
 
 @rpc("any_peer", "call_remote", "reliable")

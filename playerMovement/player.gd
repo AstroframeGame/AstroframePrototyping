@@ -348,6 +348,7 @@ func on_ship_enter(new_ship : Ship):
 	on_ground(new_ship)
 	ship = new_ship
 	new_ship.player = self
+	rotation = ship.rotation
 	#print(name + " parent to ship")
 	update_layers(true)
 	
@@ -358,6 +359,7 @@ func on_ship_exit():
 	if ship:
 		ship.player = null
 	ship = null
+	rotation = 0
 	update_layers(false)
 
 func apply_ground_body_transform():
