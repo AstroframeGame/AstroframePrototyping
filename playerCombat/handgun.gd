@@ -4,20 +4,19 @@ extends Sprite2D
 @onready var player: PlayerCharacter = $".."
 @onready var marker_2d: Marker2D = $Marker2D
 @onready var gunSprite : Sprite2D = $"."
-@onready var polyphonic_sfx_player: PolyphonicSfxPlayer = $"../PolyphonicSfxPlayer"
 @onready var shield_check : Area2D = $ShieldCheck
 
 const bullet = preload("res://turretInteractions/Prefabs/projectile.tscn")
 
-var accuracy = 0.6
-var accur_low = 0.6
-var accur_high = 1.0
-var time_since_shot = 0
+var accuracy: float = 0.6
+var accur_low: float = 0.6
+var accur_high: float = 1.0
+var time_since_shot: float = 0
 
-var damage = 5
+var damage: int = 5
 var bullet_speed: int = 500 # @Alejandro can you add types to all variables, so that they match the projectile init() parameters
 
-var holstered = false
+var holstered: bool = false
 
 func _ready() -> void:
 	holster()
@@ -48,7 +47,7 @@ func shoot_bullet() -> void:
 	
 	time_since_shot = 0
 	accuracy = min(accuracy + (0.05), accur_high)
-	polyphonic_sfx_player.play_sfx("laser_small")
+	SfxManager.play_sfx("laser_small")
 	ProjectileManager.add_child(new_bullet)
 		
 func holster() -> void:

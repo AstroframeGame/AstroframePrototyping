@@ -316,7 +316,6 @@ func remove_room(room: Room) -> void:
 		occupied_cells.erase(k)
 	
 	remove_child(room)
-
 #endregion
 
 #region Collisions
@@ -474,6 +473,7 @@ func toggle_power(power_hex):
 		else:
 			# turn on power
 			set_next_avalible_power_out(power_hex)
+			
 
 func set_next_avalible_power_out(power_in : PowerInHex) -> bool:
 	var power_outs = get_avalible_power_out()
@@ -490,6 +490,7 @@ func add_power_link(power_out : PowerOutHex, power_in : PowerInHex):
 	power_out.update_state()
 	power_in.update_state()
 	power_in.room.on_power_level_change.emit(power_in)
+	SfxManager.play_sfx("charge_short")
 	return true
 
 func remove_power_link_in(power_in : PowerInHex):
@@ -529,6 +530,7 @@ func check_hud():
 func take_damage(amount:int, pos_ws : Vector2):
 	hit_points -= amount # property has callback that sets the hud to update
 	hit_vfx(pos_ws)
+	SfxManager.play_sfx("explosion")
 
 func death_check():
 	if hit_points > 0 or _is_dead:
@@ -569,9 +571,8 @@ func death_explosion():
 		debris_ship.initialize_ship()
 		explosion(pos)
 	
-	var explosion_sfx : AudioStreamPlayer2D = EXPLOSION_SFX_PREFAB.instantiate()
-	explosion_sfx.play_quantity(len(rooms))
-	ProjectileManager.add_child(explosion_sfx)
+	SfxManager.play_sfx("hull_destroy")
+	
 	
 	ship_destroyed.emit()
 	queue_free()

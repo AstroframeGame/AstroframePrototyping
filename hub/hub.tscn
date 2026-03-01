@@ -18,6 +18,7 @@
 [ext_resource type="Theme" uid="uid://d0o0krm245a4q" path="res://hub/ui-themes/unstyled.tres" id="13_h8dj6"]
 [ext_resource type="PackedScene" uid="uid://c4c4q35vwjc06" path="res://accessibilitySettings/settings_menu.tscn" id="15_qui64"]
 [ext_resource type="Texture2D" uid="uid://cjtj7xo6f6waa" path="res://shipBuilding/icons/torus.png" id="17_qui64"]
+[ext_resource type="PackedScene" uid="uid://ceua3nmkvn7eh" path="res://audio/sfx/PolyphonicAudio/polyphonic_sfx_player.tscn" id="19_gjoju"]
 
 [sub_resource type="Environment" id="Environment_21dlm"]
 background_mode = 3
@@ -295,6 +296,8 @@ grow_vertical = 0
 value = 50.0
 nine_patch_stretch = true
 texture_progress = ExtResource("17_qui64")
+
+[node name="PolyphonicSfxPlayer" parent="." unique_id=905011835 instance=ExtResource("19_gjoju")]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1798994774]
 environment = SubResource("Environment_21dlm")

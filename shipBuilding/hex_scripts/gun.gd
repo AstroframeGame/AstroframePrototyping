@@ -36,4 +36,4 @@ func shoot(damage : int):
 			proj.add_collision_exception_with(body)
 	# get multiplayer manager instead
 	ProjectileManager.add_child(proj)
-	$ShootSFX.play(0.11)
+	SfxManager.play_sfx("laser_medium")

@@ -61,7 +61,7 @@ var grounded : bool:
 
 
 @onready var handgun: PlayerGun = $handgun
-@onready var polyphonic_sfx_player: PolyphonicSfxPlayer = $PolyphonicSfxPlayer
+var time_since_walk: float = 0
 
 func _ready() -> void:
 	ground_check.body_entered.connect(on_ground)
@@ -99,6 +99,9 @@ func _physics_process(delta):
 		# remove rotation?
 		#rotate(Input.get_axis("rotate_left","rotate_right") * rotate_speed * delta)
 		velocity = direction * walk_speed
+		if time_since_walk > 1.4 && (Input.is_action_pressed("left") || Input.is_action_pressed("right") || Input.is_action_pressed("up") || Input.is_action_pressed("down")):
+			SfxManager.play_sfx("walking")
+			time_since_walk = 0
 	else:
 		ground_body = null
 		var goal_vel = Vector2.ZERO
@@ -108,6 +111,7 @@ func _physics_process(delta):
 			goal_vel = velocity + direction * thrust_move
 			velocity = velocity.move_toward(goal_vel, thrust_accel * delta)
 	
+	time_since_walk += delta
 	move_and_slide()
 
 # currently interacts with the first overlapping interactable area, but this can be changed to nearest, last, all, ect.
@@ -209,5 +213,4 @@ func update_layers(inside : bool):
 func take_damage(damage : int, _vfx_pos:Vector2):
 	health -= damage
 	print("Damage Taken! Player now at %s health" % health)
-	polyphonic_sfx_player.play_sfx("hurt")
-	
+	SfxManager.play_sfx("hurt")

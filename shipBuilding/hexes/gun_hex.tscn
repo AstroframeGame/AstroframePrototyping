@@ -3,7 +3,6 @@
 [ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="1_jjod8"]
 [ext_resource type="Script" uid="uid://ctti6jygujj6i" path="res://shipBuilding/hex_scripts/gun.gd" id="2_jn67f"]
 [ext_resource type="Texture2D" uid="uid://h7n0dwcqcea8" path="res://shipBuilding/icons/turret.png" id="3_xan1q"]
-[ext_resource type="AudioStream" uid="uid://d3vwjgmajmayx" path="res://audio/sfx/SfxAudioFileFolder/laser_medium.wav" id="4_jn67f"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jjod8"]
 radius = 44.04543
@@ -25,11 +24,6 @@ position = Vector2(229.09433, -5.3136444)
 [node name="Timer" type="Timer" parent="." unique_id=1871114995]
 wait_time = 0.5
 one_shot = true
-
-[node name="ShootSFX" type="AudioStreamPlayer2D" parent="." unique_id=205647531]
-stream = ExtResource("4_jn67f")
-pitch_scale = 1.2
-max_polyphony = 4
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1789063521]
 collision_layer = 0

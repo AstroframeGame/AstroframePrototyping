@@ -34,6 +34,7 @@ InGameConsole="*uid://bu0k62p1icydm"
 ProjectileManager="*uid://d1vm8u2ei3vye"
 LevelStateManager="*uid://b86c7evw35fa2"
 MusicManager="*uid://b7tv0wcrra483"
+SfxManager="*uid://ceua3nmkvn7eh"
 
 [display]
 

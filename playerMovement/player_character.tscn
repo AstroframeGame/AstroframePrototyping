@@ -4,7 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://idculymd1355" path="res://playerMovement/person.png" id="2_3pww0"]
 [ext_resource type="Script" uid="uid://bh8epk5lqpukf" path="res://playerMovement/grapple.gd" id="2_me87i"]
 [ext_resource type="PackedScene" uid="uid://oar1of8mix7f" path="res://playerCombat/Handgun.tscn" id="3_me87i"]
-[ext_resource type="PackedScene" uid="uid://ceua3nmkvn7eh" path="res://audio/sfx/PolyphonicAudio/polyphonic_sfx_player.tscn" id="5_me87i"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qi68c"]
 
@@ -51,5 +50,3 @@ shape = SubResource("CircleShape2D_qi68c")
 
 [node name="handgun" parent="." unique_id=1166717209 instance=ExtResource("3_me87i")]
 z_index = 1
-
-[node name="PolyphonicSfxPlayer" parent="." unique_id=905011835 instance=ExtResource("5_me87i")]
