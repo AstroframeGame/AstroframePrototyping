@@ -1,0 +1,104 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://shipBuilding/ship.gd" id="1_6dfdm"]
+[ext_resource type="PackedScene" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_yafip"]
+[ext_resource type="PackedScene" path="res://shipAI/prefabs/hud.tscn" id="3_68kcj"]
+[ext_resource type="Script" path="res://shipAI/Scripts/ship_hud.gd" id="4_dqrfb"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/airlock_1.tscn" id="5_ebsi1"]
+[ext_resource type="Script" path="res://shipBuilding/room_scripts/airlock.gd" id="6_6e4e0"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/cannon.tscn" id="7_hiii4"]
+[ext_resource type="Script" path="res://shipBuilding/room_scripts/cannon.gd" id="8_l8lg2"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/reactor_2.tscn" id="9_wm14j"]
+[ext_resource type="Script" path="res://shipBuilding/room.gd" id="10_cjmfg"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/reactor_4.tscn" id="11_dqrfb"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/piloting_1.tscn" id="11_jrgtr"]
+[ext_resource type="Script" path="res://shipBuilding/room_scripts/piloting.gd" id="12_jv8nu"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/engines_2.tscn" id="13_68kcj"]
+[ext_resource type="Script" path="res://shipBuilding/room_scripts/engines.gd" id="14_dqrfb"]
+
+[sub_resource type="TileSet" id="TileSet_xsh4c"]
+tile_shape = 3
+tile_size = Vector2i(78, 90)
+
+[node name="Crashley" type="RigidBody2D" unique_id=1784127879 node_paths=PackedStringArray("hud")]
+z_index = 1
+collision_mask = 257
+input_pickable = true
+gravity_scale = 0.0
+sleeping = true
+continuous_cd = 1
+contact_monitor = true
+max_contacts_reported = 5
+script = ExtResource("1_6dfdm")
+hud = NodePath("ShipHUD")
+
+[node name="HexGrid" type="TileMapLayer" parent="." unique_id=1277847278 instance=ExtResource("2_yafip")]
+enabled = false
+tile_set = SubResource("TileSet_xsh4c")
+collision_enabled = false
+navigation_enabled = false
+
+[node name="Solid" type="CollisionPolygon2D" parent="." unique_id=451332648]
+
+[node name="ShipHUD" type="CanvasLayer" parent="." unique_id=532014552 instance=ExtResource("3_68kcj")]
+visible = false
+script = ExtResource("4_dqrfb")
+
+[node name="Walls" type="StaticBody2D" parent="." unique_id=853426518]
+collision_layer = 16
+collision_mask = 0
+
+[node name="Airlock_1" type="Node2D" parent="." unique_id=2084884563 instance=ExtResource("5_ebsi1")]
+position = Vector2(195, -90)
+script = ExtResource("6_6e4e0")
+
+[node name="Piloting_1" type="Node2D" parent="." unique_id=150588005 instance=ExtResource("11_jrgtr")]
+modulate = Color(0.89411765, 0.8627451, 0.5647059, 1)
+position = Vector2(234, -157.5)
+script = ExtResource("12_jv8nu")
+
+[node name="Cannon" type="Node2D" parent="." unique_id=195129740 instance=ExtResource("7_hiii4")]
+modulate = Color(1, 0.5882353, 0.5294118, 1)
+position = Vector2(156, -157.5)
+rotation = 5.2359877
+script = ExtResource("8_l8lg2")
+
+[node name="@Node2D@205" type="Node2D" parent="." unique_id=1174128983 instance=ExtResource("7_hiii4")]
+modulate = Color(1, 0.5882353, 0.5294118, 1)
+position = Vector2(273, -90)
+rotation = 2.0943952
+script = ExtResource("8_l8lg2")
+
+[node name="@Node2D@206" type="Node2D" parent="." unique_id=215556336 instance=ExtResource("7_hiii4")]
+modulate = Color(1, 0.5882353, 0.5294118, 1)
+position = Vector2(273, -225)
+rotation = 1.0471976
+script = ExtResource("8_l8lg2")
+
+[node name="@Node2D@207" type="Node2D" parent="." unique_id=1396437817 instance=ExtResource("7_hiii4")]
+modulate = Color(1, 0.5882353, 0.5294118, 1)
+position = Vector2(156, -22.5)
+rotation = 4.1887903
+script = ExtResource("8_l8lg2")
+
+[node name="Reactor_4" type="Node2D" parent="." unique_id=542255097 instance=ExtResource("11_dqrfb")]
+modulate = Color(0.7137255, 1, 0.5529412, 1)
+position = Vector2(78, 112.5)
+script = ExtResource("10_cjmfg")
+
+[node name="Reactor_2" type="Node2D" parent="." unique_id=187796402 instance=ExtResource("9_wm14j")]
+modulate = Color(0.7137255, 1, 0.5529412, 1)
+position = Vector2(156, 112.5)
+rotation = 5.2359877
+script = ExtResource("10_cjmfg")
+
+[node name="Engines_2" type="Node2D" parent="." unique_id=1685651061 instance=ExtResource("13_68kcj")]
+modulate = Color(0.89411765, 0.8627451, 0.5647059, 1)
+position = Vector2(-39, 45)
+rotation = 1.0471976
+script = ExtResource("14_dqrfb")
+
+[node name="@Node2D@208" type="Node2D" parent="." unique_id=1101845723 instance=ExtResource("13_68kcj")]
+modulate = Color(0.89411765, 0.8627451, 0.5647059, 1)
+position = Vector2(117, 180)
+script = ExtResource("14_dqrfb")
