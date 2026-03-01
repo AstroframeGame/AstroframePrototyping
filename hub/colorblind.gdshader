@@ -30,6 +30,14 @@ void fragment()
 	float S = (0.0299566 * tex.r) + (0.184309 * tex.g) + (1.46709 * tex.b);
 
 	float l, m, s;
+	
+	if (mode == 0) //Off
+	{
+		l = 1.0 * L + 0.0 * M + 0.0 * S;
+		m = 0.0 * L + 1.0 * M + 0.0 * S;
+		s = 0.0 * L + 0.0 * M + 1.0 * S;
+	}
+	
 	if (mode == 1) //Protanopia
 	{
 		l = 0.0 * L + 2.02344 * M + -2.52581 * S;
@@ -49,6 +57,13 @@ void fragment()
 		l = 1.0 * L + 0.0 * M + 0.0 * S;
     	m = 0.0 * L + 1.0 * M + 0.0 * S;
     	s = -0.395913 * L + 0.801109 * M + 0.0 * S;
+	}
+	
+	if (mode == 4) //Grayscale
+	{
+		l = 0.0 * L + 0.0 * M + 0.0 * S;
+    	m = 0.0 * L + 0.0 * M + 0.0 * S;
+    	s = 0.0 * L + 0.0 * M + 0.0 * S;
 	}
 	
 	vec4 error;
