@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 82.49 119.23">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: gray;
+      }
+
+      .cls-2 {
+        fill: #ababab;
+      }
+    </style>
+  </defs>
+  <g id="Base_Interior" data-name="Base Interior">
+    <g id="reactor_interior">
+      <g>
+        <polygon class="cls-1" points="41.25 0 20.62 11.95 20.62 35.84 41.25 47.79 61.87 35.84 61.87 11.95 41.25 0"/>
+        <polygon class="cls-1" points="61.87 35.72 41.25 47.67 41.25 71.56 61.87 83.51 82.49 71.56 82.49 47.67 61.87 35.72"/>
+        <polygon class="cls-1" points="20.62 35.72 0 47.67 0 71.56 20.62 83.51 41.25 71.56 41.25 47.67 20.62 35.72"/>
+        <polygon class="cls-1" points="41.25 71.44 20.62 83.39 20.62 107.28 41.25 119.23 61.87 107.28 61.87 83.39 41.25 71.44"/>
+      </g>
+      <g>
+        <polygon class="cls-2" points="41.25 8.48 23.56 18.73 23.56 39.22 41.25 49.47 58.94 39.22 58.94 18.73 41.25 8.48"/>
+        <polygon class="cls-2" points="58.94 39.12 41.25 49.37 41.25 69.86 58.94 80.11 76.63 69.86 76.63 49.37 58.94 39.12"/>
+        <polygon class="cls-2" points="23.56 39.12 5.87 49.37 5.87 69.86 23.56 80.11 41.25 69.86 41.25 49.37 23.56 39.12"/>
+        <polygon class="cls-2" points="41.25 69.76 23.56 80.01 23.56 100.5 41.25 110.75 58.94 100.5 58.94 80.01 41.25 69.76"/>
+      </g>
+    </g>
+  </g>
+</svg>

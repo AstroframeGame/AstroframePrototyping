@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 76.39 50.53">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #d4d4d4;
+      }
+    </style>
+  </defs>
+  <g id="Exterior">
+    <g id="airlock_exteriorteampatch">
+      <rect class="cls-1" x="70.97" y=".74" width="5.42" height="5.42"/>
+      <rect class="cls-1" x="0" width="5.42" height="5.42"/>
+      <rect class="cls-1" y="45.11" width="5.42" height="5.42"/>
+      <rect class="cls-1" x="70.97" y="45.11" width="5.42" height="5.42"/>
+    </g>
+  </g>
+</svg>
