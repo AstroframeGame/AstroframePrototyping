@@ -3,6 +3,7 @@ extends MarginContainer
 
 const UNSTYLED = preload("res://hub/ui-themes/unstyled.tres")
 @onready var key_mouse_binds: VBoxContainer = $"SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer"
+@onready var game_layer: CanvasLayer = $"../../Game"
 
 func _ready() -> void:
 	generate_remap_settings()
@@ -28,6 +29,13 @@ func _on_fullscreen_toggled(toggled_on: bool) -> void:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 		
 #region Accessibility
+func _on_filter_option_selected(index: int) -> void:
+	game_layer.set_color_mode(index)
+
+#endregion
+#endregion
+
+#region Controls
 func generate_remap_settings() -> void:
 	var input_map = InputMap.get_actions()
 	for action in input_map:
@@ -47,11 +55,6 @@ func generate_remap_settings() -> void:
 		horiz_box.add_child(lbl)
 		horiz_box.add_child(btn)
 		key_mouse_binds.add_child(horiz_box)
-#endregion
-#endregion
-
-#region Controls
-#REMAPABLE CONTROLS GO HERE......
 #endregion
 
 #region Audio

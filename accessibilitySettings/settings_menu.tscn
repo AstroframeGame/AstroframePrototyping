@@ -83,7 +83,7 @@ label_settings = SubResource("LabelSettings_0s764")
 layout_mode = 2
 text = "Colorblind Filter:"
 
-[node name="ResolutonOptions" type="OptionButton" parent="SettingsTabs/Video/VBoxContainer/ColorblindFilter" unique_id=1201157121]
+[node name="FilterOptions" type="OptionButton" parent="SettingsTabs/Video/VBoxContainer/ColorblindFilter" unique_id=1201157121]
 layout_mode = 0
 offset_left = 141.0
 offset_top = -4.0
@@ -94,10 +94,10 @@ allow_reselect = true
 item_count = 5
 popup/item_0/text = "Off"
 popup/item_0/id = 0
-popup/item_1/text = "Deuteranopia"
-popup/item_1/id = 1
-popup/item_2/text = "Protanopia"
-popup/item_2/id = 2
+popup/item_1/text = "Protanopia"
+popup/item_1/id = 2
+popup/item_2/text = "Deuteranopia"
+popup/item_2/id = 1
 popup/item_3/text = "Tritanopia"
 popup/item_3/id = 3
 popup/item_4/text = "Grayscale "
@@ -207,6 +207,7 @@ text = "50%"
 
 [connection signal="item_selected" from="SettingsTabs/Video/VBoxContainer/Resolution/ResolutonOptions" to="." method="_on_resoluton_option_selected"]
 [connection signal="toggled" from="SettingsTabs/Video/VBoxContainer/Fullscreen/CheckButton" to="." method="_on_fullscreen_toggled"]
+[connection signal="item_selected" from="SettingsTabs/Video/VBoxContainer/ColorblindFilter/FilterOptions" to="." method="_on_filter_option_selected"]
 [connection signal="value_changed" from="SettingsTabs/Audio/VBoxContainer/MasterVolume/MasterVolumeSlider" to="." method="_on_master_volume_changed"]
 [connection signal="value_changed" from="SettingsTabs/Audio/VBoxContainer/MusicVolume/MusicVolumeSlider" to="." method="_on_music_volume_changed"]
 [connection signal="value_changed" from="SettingsTabs/Audio/VBoxContainer/SfxVolume/SfxVolumeSlider" to="." method="_on_sfx_volume_changed"]
