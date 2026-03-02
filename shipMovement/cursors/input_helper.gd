@@ -1,6 +1,5 @@
 extends Node2D
 
-var using_mouse: bool = true
 @onready var multiplayer_manager: MultiplayerManager = get_tree().root.get_node("Hub/Multiplayer")
 var my_player: PlayerCharacter
 
