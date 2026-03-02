@@ -1,6 +1,8 @@
 extends Node2D
 
-@onready var multiplayer_manager: MultiplayerManager = get_tree().root.get_node("Hub/Multiplayer")
+#TODO: SYNC CONTROLLER INPUT
+
+@onready var multiplayer_manager: MultiplayerManager = get_tree().root.get_node("Hub/MultiplayerManager")
 var my_player: PlayerCharacter
 
 signal switch_input_device()

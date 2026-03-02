@@ -475,7 +475,7 @@ func _get_hex_poly() -> PackedVector2Array:
 #endregion
 
 #region Power
-func get_avalible_power_out() -> Array[PowerOutHex]:
+func get_available_power_out() -> Array[PowerOutHex]:
 	var out : Array[PowerOutHex] = []
 	for r in get_children():
 		if r is Room:
@@ -508,7 +508,7 @@ func toggle_power(power_hex):
 			set_next_avalible_power_out(power_hex)
 
 func set_next_avalible_power_out(power_in : PowerInHex) -> bool:
-	var power_outs = get_avalible_power_out()
+	var power_outs = get_available_power_out()
 	if power_outs.size() > 0:
 		var power_out = power_outs[0]
 		add_power_link(power_out, power_in)

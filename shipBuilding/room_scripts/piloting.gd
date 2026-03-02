@@ -67,13 +67,14 @@ func get_goal_velocity(current_velocity: Vector2) -> Vector2:
 		push_warning("[piloting.gd]: Client trying to control target velocity")
 		return Vector2.ZERO
 
+#region MultiplayerProcessing
 func _process(delta: float) -> void:
-	if !seat.controlled_by:
+	if not seat or not seat.controlled_by:
 		return
 	if not ship or not ship.players:
 		return
 	
-	var is_local_player = multiplayer.get_unique_id() == seat.controlled_by.owner_id
+	var is_local_player = seat.controlled_by.is_local_player
 	if is_local_player:
 		var dir = Input.get_vector("left", "right", "up", "down")
 		var braking = Input.is_action_pressed("brake")
@@ -89,13 +90,17 @@ func send_input(dir: Vector2, braking: bool):
 	var sender_id = multiplayer.get_remote_sender_id()
 	var driver_id = null
 	if seat and seat.controlled_by:
-		driver_id = seat.controlled_by.owner_id
+		driver_id = seat.controlled_by.owner_id	
+		if sender_id != driver_id:
+			push_warning("[piloting.gd]: Player %d tried to control player %d" % [sender_id, driver_id])
+			return
 	else:
 		push_warning("[piloting.gd]: Seat or Player in Seat are null")
-	if sender_id != driver_id:
-		push_warning("[piloting.gd]: Player %d tried to control player %d" % [sender_id, driver_id])
+		return
+
 	input_dir = dir
 	is_braking = braking
+#endregion
 
 func is_idling() -> bool:
 	var direction = Input.get_vector("left", "right", "up", "down")
@@ -118,3 +123,6 @@ func get_goal_angular_velocity() -> float:
 		
 func player_sit_interact(seated_player: PlayerCharacter):
 	ship.driver = seated_player
+
+func player_getup_interact():
+	ship.driver = null

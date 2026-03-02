@@ -1,8 +1,11 @@
 class_name Turret
 extends Room
-	
+
 @onready var gun : GunHex = $Gun
 var targets_in_range : Array[Ship] = []
+var controlled_by: PlayerCharacter
+
+var turret_damage: int = 10
 
 func _ready() -> void:
 	# pair to a nearby aim augment if available
@@ -10,19 +13,35 @@ func _ready() -> void:
 		pair_augments(Aim_Augment)
 
 func handle_input(event:InputEvent):
-	if not power_level > 0:
+	if not controlled_by:
 		return
-	# mouse guided system
-	if event.is_action_pressed("ship_fire"):
-		gun.shoot(10)
+	if controlled_by.is_local_player:
+		if not power_level > 0:
+			return
+		# mouse guided system
+		if event.is_action_pressed("ship_fire"):
+			if is_multiplayer_authority():
+				gun.shoot(turret_damage)
+				sync_shot.rpc(turret_damage)
+			else:
+				send_shot.rpc_id(1)
+
+@rpc("any_peer", "call_remote", "reliable")
+func send_shot():
+	var sender_id = multiplayer.get_remote_sender_id()
+	var ctrl_id = controlled_by.owner_id
+	if sender_id != ctrl_id:
+		push_warning("[piloting.gd]: Player %d tried to control player %d" % [sender_id, ctrl_id])
+		return
 		
-	if InputHelper.using_mouse:
-		gun.gunSprite.look_at(get_global_mouse_position())
-	else:
-		var d = InputHelper.controller_look
-		d = d.rotated(global_rotation)
-		gun.gunSprite.rotation = atan2(d.y, d.x)
-		
+	gun.shoot(turret_damage)
+	sync_shot.rpc(turret_damage)
+
+@rpc("authority", "call_remote", "unreliable")
+func sync_shot(dmg: int):
+	if not is_multiplayer_authority():
+		gun.shoot(dmg)
+
 func _on_detection_range_body_entered(body: Node2D) -> void:
 	if not body is Ship or body == ship:
 		return
@@ -51,3 +70,40 @@ func closest_target()->Ship:
 		if distance < closest.global_position.distance_to(global_position):
 			closest = target
 	return closest
+
+#region MultiplayerProcessing
+
+func _physics_process(delta: float) -> void:
+	super._physics_process(delta)
+	if not controlled_by:
+		return
+	if is_multiplayer_authority():
+		pass # keeping standard structure
+	else:
+		pass
+	gun.gunSprite.look_at(controlled_by.mouse_pos)
+	return # temporary, controller needs to be synced
+	if InputHelper.using_mouse:
+		gun.gunSprite.look_at(controlled_by.mouse_pos)
+	else:
+		var d = InputHelper.controller_look
+		d = d.rotated(global_rotation)
+		gun.gunSprite.rotation = atan2(d.y, d.x)
+
+func _process(delta: float) -> void:
+	if not controlled_by:
+		return
+	if controlled_by.is_local_player:
+		pass
+
+#endregion
+
+#region PlayerGetUp/Sit
+func player_sit_interact(player: PlayerCharacter):
+	controlled_by = player
+	print("[turret.gd]: Player sat on turret seat")
+
+func player_getup_interact():
+	controlled_by = null
+	print("[turret.gd]: Player got up from turret seat")
+#endregion
