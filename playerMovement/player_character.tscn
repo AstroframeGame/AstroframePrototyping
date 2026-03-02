@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://idculymd1355" path="res://playerMovement/person.png" id="2_3pww0"]
 [ext_resource type="Script" uid="uid://bh8epk5lqpukf" path="res://playerMovement/grapple.gd" id="2_me87i"]
 [ext_resource type="PackedScene" uid="uid://oar1of8mix7f" path="res://playerCombat/Handgun.tscn" id="3_me87i"]
+[ext_resource type="Script" uid="uid://da716glwbvt2l" path="res://multiplayer/status.gd" id="5_me87i"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qi68c"]
 
@@ -62,6 +63,16 @@ offset_right = 60.0
 offset_bottom = -36.0
 text = "Name"
 horizontal_alignment = 1
+
+[node name="Status" type="Label" parent="." unique_id=2124304674]
+offset_left = -60.0
+offset_top = -42.0
+offset_right = 59.0
+offset_bottom = -20.0
+theme_override_font_sizes/font_size = 10
+text = "Online"
+horizontal_alignment = 1
+script = ExtResource("5_me87i")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=538172019]
 replication_config = SubResource("SceneReplicationConfig_3pww0")

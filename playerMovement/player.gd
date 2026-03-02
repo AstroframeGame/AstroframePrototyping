@@ -206,6 +206,7 @@ func _process(_delta: float) -> void:
 			ship_pushed = pushed
 			mouse_pos   = m_pos
 		else:
+			input_dir = dir
 			send_input.rpc_id(1, dir, m_pos, is_braking, pushed)
 
 #region SyncingMovement
