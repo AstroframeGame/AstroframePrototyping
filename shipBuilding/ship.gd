@@ -175,6 +175,11 @@ func sync_m_state(gt: Transform2D, lv: Vector2, av: float):
 func sync_p_state(p_link_dict: Dictionary[PowerOutHex, PowerInHex]):
 	if not is_multiplayer_authority():
 		power_links = p_link_dict
+		
+@rpc("any_peer", "call_remote", "reliable")
+func send_p_input(hex: PowerInHex):
+	if is_multiplayer_authority():
+		toggle_power(hex)
 
 func calc_center_of_mass():
 	var hex_mass = 2.0
@@ -497,18 +502,22 @@ func get_available_power_in() -> Array[PowerInHex]:
 	return _in
 
 func toggle_power(power_hex):
-	if not my_character_inside():
-		return
-	#if power_hex is PowerOutHex && power_hex.is_powering:
-		## turn off power
-		#remove_power_link_out(power_hex)
-	if power_hex is PowerInHex:
-		if power_hex.is_powered:
-			# turn off power
-			remove_power_link_in(power_hex)
-		else:
-			# turn on power
-			set_available_power_out(power_hex)
+	if is_multiplayer_authority():
+		if not my_character_inside():
+			return
+		#if power_hex is PowerOutHex && power_hex.is_powering:
+			## turn off power
+			#remove_power_link_out(power_hex)
+		if power_hex is PowerInHex:
+			if power_hex.is_powered:
+				# turn off power
+				remove_power_link_in(power_hex)
+			else:
+				# turn on power
+				set_available_power_out(power_hex)
+		sync_p_state.rpc()
+	else:
+		send_p_input.rpc_id(1, power_hex)
 
 func set_available_power_out(power_in : PowerInHex) -> bool:
 	var power_outs = get_available_power_out()
