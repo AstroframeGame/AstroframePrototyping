@@ -510,7 +510,8 @@ func add_power_link(power_out : PowerOutHex, power_in : PowerInHex):
 	power_links[power_out] = power_in
 	power_out.update_state()
 	power_in.update_state()
-	power_in.room.on_power_level_change.emit(power_in)
+	if power_in.room:
+		power_in.room.on_power_level_change.emit(power_in)
 	return true
 
 func remove_power_link_in(power_in : PowerInHex):
@@ -532,6 +533,14 @@ func remove_power_link_out(power_out : PowerOutHex):
 		power_in.room.on_power_level_change.emit(power_in)
 		return true
 	return false
+	
+func pair_all_links():
+	for output_hex in get_avalible_power_out():
+		for input_hex in get_available_power_in():
+			power_links[output_hex] = input_hex
+			output_hex.update_state()
+			input_hex.update_state()
+			#add_power_link(output_hex, input_hex)
 #endregion
 
 #region Health

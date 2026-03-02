@@ -173,8 +173,13 @@ func fix_unsure_grounding():
 
 # called when enter airlock
 func on_ship_enter(new_ship : Ship):
+	var player_ship = get_tree().get_first_node_in_group("player_ship")
+	if player_ship:
+		player_ship.remove_from_group("player_ship")
+		
 	on_ground(new_ship)
 	ship = new_ship
+	ship.add_to_group("player_ship")
 	#print(name + " parent to ship")
 	update_layers(true)
 

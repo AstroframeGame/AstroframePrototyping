@@ -31,17 +31,12 @@ tile_size = Vector2i(78, 90)
 z_index = 1
 collision_mask = 257
 input_pickable = true
-mass = 38.0
 gravity_scale = 0.0
-center_of_mass_mode = 1
-center_of_mass = Vector2(117.00456, 94.7421)
 continuous_cd = 1
 contact_monitor = true
 max_contacts_reported = 5
 script = ExtResource("1_o10s1")
-hud = NodePath("@CanvasLayer@271")
-max_hit_points = 90
-_hit_points = 90
+hud = NodePath("ShipHUD")
 
 [node name="HexGrid" type="TileMapLayer" parent="." unique_id=1277847278 instance=ExtResource("2_8iwo8")]
 enabled = false
@@ -49,36 +44,30 @@ tile_set = SubResource("TileSet_xsh4c")
 collision_enabled = false
 navigation_enabled = false
 
-[node name="Solid" type="CollisionPolygon2D" parent="." unique_id=1532641597]
-polygon = PackedVector2Array(156.1, -112.55, 156.1, -67.54232, 195, -45.107674, 234, -67.6, 273.1, -45.050003, 273.1, 0.05000305, 234.1, 22.54232, 234.1, 67.35898, 273.12213, 89.88841, 273.10107, 134.90956, 312.07886, 157.4134, 312.05774, 202.54999, 272.97888, 225.1366, 234.00108, 202.63275, 195.1, 225.1166, 195.1, 270.05, 156, 292.6, 117, 270.10767, 78, 292.6, 38.9, 270.05, 38.9, 225.11658, -0.022239685, 202.6205, -39, 225.1, -78.1, 202.55, -78.1, 157.45, -39.0578, 134.93332, -39.078873, 89.91341, -0.0578537, 67.384605, -0.078811646, 22.578827, -39.057747, 0.049995422, -39.078873, -45.0866, -0.021125793, -67.6366, 38.97895, -45.095535, 77.9, -67.54232, 77.9, -112.55, 117, -135.1)
+[node name="Solid" type="CollisionPolygon2D" parent="." unique_id=1439192706]
 
 [node name="ShipHUD" type="CanvasLayer" parent="." unique_id=532014552 instance=ExtResource("3_4tim3")]
 visible = false
 script = ExtResource("4_qx2uo")
 
 [node name="Reactor_4" type="Node2D" parent="." unique_id=542255097 instance=ExtResource("5_vforq")]
-modulate = Color(0.7137255, 1, 0.5529412, 1)
 position = Vector2(117, 45)
 script = ExtResource("6_a6m3d")
 
 [node name="Shields_3" type="Node2D" parent="." unique_id=1633765650 instance=ExtResource("7_mdxd1")]
-modulate = Color(0.3137255, 0.85882354, 1, 1)
 position = Vector2(117, 180)
 script = ExtResource("8_m0q3o")
 
 [node name="Engines_2" type="Node2D" parent="." unique_id=1685651061 instance=ExtResource("9_7cdq2")]
-modulate = Color(0.89411765, 0.8627451, 0.5647059, 1)
 position = Vector2(78, 247.5)
 script = ExtResource("10_3ciaj")
 
 [node name="Cannon" type="Node2D" parent="." unique_id=195129740 instance=ExtResource("11_uvnnv")]
-modulate = Color(1, 0.5882353, 0.5294118, 1)
 position = Vector2(0, -22.5)
 rotation = 1.0471976
 script = ExtResource("12_jewad")
 
-[node name="_Node2D_56" type="Node2D" parent="." unique_id=550058356 instance=ExtResource("11_uvnnv")]
-modulate = Color(1, 0.5882353, 0.5294118, 1)
+[node name="_Node2D_56" type="Node2D" parent="." unique_id=1829854047 instance=ExtResource("11_uvnnv")]
 position = Vector2(0, 112.5)
 rotation = 1.0471976
 script = ExtResource("12_jewad")
@@ -88,12 +77,10 @@ position = Vector2(234, -22.5)
 script = ExtResource("14_3wgsv")
 
 [node name="Piloting_1" type="Node2D" parent="." unique_id=150588005 instance=ExtResource("15_o6ad7")]
-modulate = Color(0.89411765, 0.8627451, 0.5647059, 1)
 position = Vector2(195, 45)
 script = ExtResource("16_xvu5g")
 
 [node name="Turret_3" type="Node2D" parent="." unique_id=1336280051 node_paths=PackedStringArray("augments") instance=ExtResource("17_idn8p")]
-modulate = Color(1, 0.5882353, 0.5294118, 1)
 position = Vector2(273, 180)
 rotation = 5.2359877
 script = ExtResource("18_wmukx")
@@ -103,113 +90,93 @@ augments = [NodePath("../Aim_Augment_2")]
 position = Vector2(-39, 180)
 script = ExtResource("6_a6m3d")
 
-[node name="@CanvasLayer@271" type="CanvasLayer" parent="." unique_id=1563327473 instance=ExtResource("3_4tim3")]
-visible = false
-script = ExtResource("4_qx2uo")
-
-[node name="Walls" type="StaticBody2D" parent="." unique_id=606353619]
-collision_layer = 16
-collision_mask = 0
-
-[node name="@Node2D@272" type="Node2D" parent="." unique_id=1987492100 instance=ExtResource("9_7cdq2")]
-modulate = Color(0.89411765, 0.8627451, 0.5647059, 1)
+[node name="_Node2D_272" type="Node2D" parent="." unique_id=1596116030 instance=ExtResource("9_7cdq2")]
 position = Vector2(-78, 247.5)
 script = ExtResource("10_3ciaj")
 
-[node name="@Node2D@273" type="Node2D" parent="." unique_id=1484120877 instance=ExtResource("9_7cdq2")]
-modulate = Color(0.89411765, 0.8627451, 0.5647059, 1)
+[node name="_Node2D_273" type="Node2D" parent="." unique_id=906606237 instance=ExtResource("9_7cdq2")]
 position = Vector2(234, 247.5)
 script = ExtResource("10_3ciaj")
 
-[node name="@Node2D@274" type="Node2D" parent="." unique_id=532910737 instance=ExtResource("11_uvnnv")]
-modulate = Color(1, 0.5882353, 0.5294118, 1)
+[node name="_Node2D_274" type="Node2D" parent="." unique_id=242184194 instance=ExtResource("11_uvnnv")]
 position = Vector2(195, -90)
 script = ExtResource("12_jewad")
 
-[node name="@Node2D@275" type="Node2D" parent="." unique_id=1058299383 instance=ExtResource("11_uvnnv")]
-modulate = Color(1, 0.5882353, 0.5294118, 1)
+[node name="_Node2D_275" type="Node2D" parent="." unique_id=864887641 instance=ExtResource("11_uvnnv")]
 position = Vector2(273, 45)
 rotation = 1.0471976
 script = ExtResource("12_jewad")
 
-[node name="Reactor_2" type="Node2D" parent="." unique_id=1663864492 instance=ExtResource("20_o5sr0")]
-modulate = Color(0.7137255, 1, 0.5529412, 1)
+[node name="Reactor_2" type="Node2D" parent="." unique_id=99576067 instance=ExtResource("20_o5sr0")]
 position = Vector2(78, -157.5)
 rotation = 2.0943952
 script = ExtResource("6_a6m3d")
 
-[node name="@Node2D@276" type="Node2D" parent="." unique_id=321744665 instance=ExtResource("20_o5sr0")]
-modulate = Color(0.7137255, 1, 0.5529412, 1)
+[node name="_Node2D_276" type="Node2D" parent="." unique_id=1082690816 instance=ExtResource("20_o5sr0")]
 position = Vector2(156, -157.5)
 rotation = 4.1887903
 script = ExtResource("6_a6m3d")
 
-[node name="@Node2D@278" type="Node2D" parent="." unique_id=1940734434 instance=ExtResource("19_r218b")]
+[node name="_Node2D_278" type="Node2D" parent="." unique_id=1616652002 instance=ExtResource("19_r218b")]
 position = Vector2(-39, 45)
 rotation = 2.0943952
 script = ExtResource("6_a6m3d")
 
-[node name="@Node2D@279" type="Node2D" parent="." unique_id=1692386490 instance=ExtResource("19_r218b")]
+[node name="_Node2D_279" type="Node2D" parent="." unique_id=290884806 instance=ExtResource("19_r218b")]
 position = Vector2(234, -157.5)
 rotation = 2.0943952
 script = ExtResource("6_a6m3d")
 
-[node name="@Node2D@280" type="Node2D" parent="." unique_id=1041733642 instance=ExtResource("19_r218b")]
+[node name="_Node2D_280" type="Node2D" parent="." unique_id=1966257867 instance=ExtResource("19_r218b")]
 position = Vector2(312, -22.5)
 rotation = 2.0943952
 script = ExtResource("6_a6m3d")
 
-[node name="@Node2D@282" type="Node2D" parent="." unique_id=548665100 instance=ExtResource("9_7cdq2")]
-modulate = Color(0.89411765, 0.8627451, 0.5647059, 1)
+[node name="_Node2D_282" type="Node2D" parent="." unique_id=483846741 instance=ExtResource("9_7cdq2")]
 position = Vector2(-117, 315)
 script = ExtResource("10_3ciaj")
 
-[node name="@Node2D@283" type="Node2D" parent="." unique_id=448013480 instance=ExtResource("9_7cdq2")]
-modulate = Color(0.89411765, 0.8627451, 0.5647059, 1)
+[node name="_Node2D_283" type="Node2D" parent="." unique_id=1978389782 instance=ExtResource("9_7cdq2")]
 position = Vector2(39, 315)
 script = ExtResource("10_3ciaj")
 
-[node name="@Node2D@284" type="Node2D" parent="." unique_id=610502010 instance=ExtResource("9_7cdq2")]
-modulate = Color(0.89411765, 0.8627451, 0.5647059, 1)
+[node name="_Node2D_284" type="Node2D" parent="." unique_id=577240763 instance=ExtResource("9_7cdq2")]
 position = Vector2(195, 315)
 script = ExtResource("10_3ciaj")
 
-[node name="@Node2D@285" type="Node2D" parent="." unique_id=1519543485 instance=ExtResource("9_7cdq2")]
-modulate = Color(0.89411765, 0.8627451, 0.5647059, 1)
+[node name="_Node2D_285" type="Node2D" parent="." unique_id=2092845971 instance=ExtResource("9_7cdq2")]
 position = Vector2(351, 315)
 script = ExtResource("10_3ciaj")
 
-[node name="@Node2D@286" type="Node2D" parent="." unique_id=562834035 instance=ExtResource("7_mdxd1")]
-modulate = Color(0.3137255, 0.85882354, 1, 1)
+[node name="_Node2D_286" type="Node2D" parent="." unique_id=1777445367 instance=ExtResource("7_mdxd1")]
 position = Vector2(390, 247.5)
 script = ExtResource("8_m0q3o")
 
 [node name="Aim_Augment_2" type="Node2D" parent="." unique_id=1056768738 node_paths=PackedStringArray("target_rooms") instance=ExtResource("21_msl73")]
-modulate = Color(1, 0.5882353, 0.5294118, 1)
 position = Vector2(351, 45)
 rotation = 1.0471976
 script = ExtResource("22_qfh3e")
 target_rooms = [NodePath("../Turret_3")]
 
-[node name="@Node2D@288" type="Node2D" parent="." unique_id=1311407098 instance=ExtResource("21_msl73")]
-modulate = Color(1, 0.5882353, 0.5294118, 1)
+[node name="_Node2D_288" type="Node2D" parent="." unique_id=1298690390 instance=ExtResource("21_msl73")]
 position = Vector2(-156, 247.5)
 rotation = 2.0943952
 script = ExtResource("22_qfh3e")
 
-[node name="@Node2D@289" type="Node2D" parent="." unique_id=1943662526 instance=ExtResource("20_o5sr0")]
-modulate = Color(0.7137255, 1, 0.5529412, 1)
+[node name="_Node2D_289" type="Node2D" parent="." unique_id=1823815778 instance=ExtResource("20_o5sr0")]
 position = Vector2(546, 382.5)
 rotation = 4.1887903
 script = ExtResource("6_a6m3d")
 
-[node name="@Node2D@290" type="Node2D" parent="." unique_id=1520794060 instance=ExtResource("20_o5sr0")]
-modulate = Color(0.7137255, 1, 0.5529412, 1)
+[node name="_Node2D_290" type="Node2D" parent="." unique_id=540553019 instance=ExtResource("20_o5sr0")]
 position = Vector2(-234, 382.5)
 rotation = 4.1887903
 script = ExtResource("6_a6m3d")
 
-[node name="@Node2D@291" type="Node2D" parent="." unique_id=1683014951 instance=ExtResource("7_mdxd1")]
-modulate = Color(0.3137255, 0.85882354, 1, 1)
+[node name="_Node2D_291" type="Node2D" parent="." unique_id=655956354 instance=ExtResource("7_mdxd1")]
 position = Vector2(429, 450)
 script = ExtResource("8_m0q3o")
+
+[node name="Walls" type="StaticBody2D" parent="." unique_id=1429452277]
+collision_layer = 16
+collision_mask = 0

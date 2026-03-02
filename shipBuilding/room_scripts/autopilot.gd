@@ -16,6 +16,7 @@ var safe_vel : Vector2
 var latching_position : Vector2
 
 func _ready() -> void:
+	super()
 	detection_area.body_entered.connect(on_body_entered,1)
 	detection_area.body_exited.connect(on_body_exited,1)
 	detection_timer.timeout.connect(on_player_detected)
@@ -28,12 +29,14 @@ func _ready() -> void:
 	_detection_shape.shape.radius = 1500
 	
 	if ship:
+		ship.pair_all_links()
+		print("power links: "+str(ship.power_links))
 		if ship.get_engines():
 			nav_agent.max_speed = ship.get_engines().max_speed
 		detection_area.global_position = ship.get_center()
 		nav_obstacle.global_position = ship.get_center()
 		
-	draw_rays(8,1500,180)
+	#draw_rays(8,1500,180)
 
 func _physics_process(delta: float) -> void:
 	if state_machine.current_state:
