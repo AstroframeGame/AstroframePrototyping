@@ -191,7 +191,7 @@ func _physics_process(delta):
 func _process(_delta: float) -> void:
 	is_local_player = multiplayer.get_unique_id() == owner_id or not is_multiplayer
 	
-	visible = ship == multiplayer_manager.my_player.ship
+	visible = ship == multiplayer_manager.my_player.ship or multiplayer_manager.my_player.seat != null
 	if ship:
 		rotation = ship.rotation
 	
