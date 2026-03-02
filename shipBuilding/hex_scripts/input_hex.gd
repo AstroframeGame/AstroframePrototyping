@@ -29,3 +29,6 @@ func interact(_player : PlayerCharacter) -> void:
 	if not room.ship.my_character_inside():
 		return
 	on_clicked.emit(self)
+	
+func _physics_process(delta: float) -> void:
+	update_state()
