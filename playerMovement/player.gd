@@ -304,7 +304,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			
 		if is_multiplayer_authority():
 			is_shooting    = shooting
-			is_holstering   = holstered
+			is_holstering  = holstered
 			event_in_room  = room_input
 			is_interacting = interacting
 		else:
