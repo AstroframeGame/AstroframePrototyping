@@ -17,9 +17,27 @@ func _ready() -> void:
 
 # this method is searched by name from the player
 func handle_input(event:InputEvent):
-	if event.is_action_pressed("ship_fire"): #See turret.gd for ACTUAL firing
-		shoot_all_cannons()
-		return	
+	if not ship or not ship.driver:
+		return
+	if ship.driver.is_local_player:
+		var fire_bullet = event.is_action_pressed("ship_fire") #See turret.gd for ACTUAL firing
+		
+		if fire_bullet:
+			if is_multiplayer_authority():
+				shoot_all_cannons()
+			else:
+				send_shots.rpc_id(1)
+		
+		
+@rpc("any_peer", "call_remote", "reliable")
+func send_shots():
+	var sender_id = multiplayer.get_remote_sender_id()
+	var driver_id = ship.driver.owner_id
+	if sender_id != driver_id:
+		push_warning("[piloting.gd]: Player %d tried to control player %d" % [sender_id, driver_id])
+		return
+		
+	shoot_all_cannons()
 
 func shoot_all_cannons():
 	for child in ship.get_children():
