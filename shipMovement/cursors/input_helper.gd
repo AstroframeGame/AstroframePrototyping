@@ -4,6 +4,17 @@ var using_mouse: bool = true
 @onready var multiplayer_manager: MultiplayerManager = get_tree().root.get_node("Hub/Multiplayer")
 var my_player: PlayerCharacter
 
+signal switch_input_device()
+var _using_mouse : bool = true
+var using_mouse: bool :
+	get:
+		return _using_mouse
+	set(value):
+		if _using_mouse != value:
+			_using_mouse = value
+			_update_cursor_visibility()
+			switch_input_device.emit()
+
 var move : Vector2:
 	get:
 		return Input.get_vector("left", "right", "up", "down")
@@ -61,7 +72,6 @@ func _ready() -> void:
 		my_player = multiplayer_manager.my_player
 
 func _input(event: InputEvent) -> void:
-	var prev_mode = using_mouse
 	
 	if event is InputEventMouseMotion:
 		using_mouse = true
@@ -72,9 +82,6 @@ func _input(event: InputEvent) -> void:
 		if event is InputEventJoypadMotion and abs(event.axis_value) < 0.2:
 			return
 		using_mouse = false
-		
-	if prev_mode != using_mouse:
-		_update_cursor_visibility()
 
 func _process(_delta: float) -> void:
 	if not using_mouse:

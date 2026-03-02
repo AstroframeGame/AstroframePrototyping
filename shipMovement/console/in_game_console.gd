@@ -3,7 +3,7 @@ extends CanvasLayer
 @onready var v_box: VBoxContainer = $VBoxContainer
 
 func log_message(text: String):
-	print(text)
+	#print(text)
 	var label = Label.new()
 	label.text = text
 	label.modulate.a = 0

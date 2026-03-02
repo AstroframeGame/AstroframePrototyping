@@ -31,17 +31,15 @@ var power_level : int:
 func get_in_hexes() -> Array[PowerInHex]:
 	var hexes : Array[PowerInHex] = []
 	for h in get_children():
-		for c in h.get_children():
-			if c is PowerInHex:
-				hexes.append(c)
+		if h is PowerInHex:
+			hexes.append(h)
 	return hexes
 
 func get_out_hexes() -> Array[PowerOutHex]:
 	var hexes : Array[PowerOutHex] = []
 	for h in get_children():
-		for c in h.get_children():
-			if c is PowerOutHex:
-				hexes.append(c)
+		if h is PowerOutHex:
+			hexes.append(h)
 	return hexes
 
 # not sure how durability is going to work, but probably once a room takes enough damage, it becomes
