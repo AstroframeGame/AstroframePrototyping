@@ -5,6 +5,7 @@ const UNSTYLED = preload("res://hub/ui-themes/unstyled.tres")
 @onready var resolution_options: OptionButton = $SettingsTabs/Video/VBoxContainer/Resolution/ResolutionOptions
 @onready var key_mouse_binds: VBoxContainer = $"SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer"
 @onready var game_layer: CanvasLayer = $"../../Game"
+@onready var world_environment: WorldEnvironment = $"../../../WorldEnvironment"
 
 func _ready() -> void:
 	generate_remap_settings()
@@ -39,7 +40,8 @@ func _on_fullscreen_toggled(toggled_on: bool) -> void:
 	else:
 		get_window().set_mode(Window.MODE_WINDOWED)
 		center_screen()
-		
+
+@warning_ignore("integer_division")
 func center_screen():
 	var screen_center = DisplayServer.screen_get_position() + DisplayServer.screen_get_size() / 2
 	var window_scale = get_window().get_size_with_decorations() / 2
