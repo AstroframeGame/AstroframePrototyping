@@ -23,7 +23,6 @@ func interact(player : PlayerCharacter) -> void:
 		if room.has_method("player_getup_interact"):
 			room.player_getup_interact()
 	else:
-		print("Player Sat")
 		player.seat = self
 		controlled_by = player
 		player.global_position = global_position

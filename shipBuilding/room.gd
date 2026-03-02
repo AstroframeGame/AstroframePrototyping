@@ -8,7 +8,7 @@ var ship : Ship:
 var rot_index : int:
 	get:
 		return int(round(rotation / (PI / 3.0)))
-var grid_pos : Vector2i:
+var grid_pos : Vector2:
 	get:
 		if ship:
 			return ship.world_to_grid(global_position)

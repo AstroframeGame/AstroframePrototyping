@@ -120,9 +120,14 @@ func get_goal_angular_velocity() -> float:
 	else:
 		push_warning("[piloting.gd]: Client trying to control angular velocity")
 		return 0.0
-		
+
+#region PlayerSat
 func player_sit_interact(seated_player: PlayerCharacter):
 	ship.driver = seated_player
+	print("[piloting.gd]: Player sat on pilot seat")
+
 
 func player_getup_interact():
 	ship.driver = null
+	print("[piloting.gd]: Player got up from pilot seat")
+#endregion

@@ -165,13 +165,16 @@ func _physics_process(delta: float) -> void:
 #endregion
 
 @rpc("authority", "call_remote", "unreliable")
-func sync_state(gt: Transform2D, lv: Vector2, av: float):
-	if is_multiplayer_authority():
-		return
-	
-	target_transform        = gt
-	target_linear_velocity  = lv
-	target_angular_velocity = av
+func sync_m_state(gt: Transform2D, lv: Vector2, av: float):
+	if not is_multiplayer_authority():
+		target_transform        = gt
+		target_linear_velocity  = lv
+		target_angular_velocity = av
+
+@rpc("authority", "call_remote", "unreliable")
+func sync_p_state(p_link_dict: Dictionary[PowerOutHex, PowerInHex]):
+	if not is_multiplayer_authority():
+		power_links = p_link_dict
 
 func calc_center_of_mass():
 	var hex_mass = 2.0
@@ -505,9 +508,9 @@ func toggle_power(power_hex):
 			remove_power_link_in(power_hex)
 		else:
 			# turn on power
-			set_next_avalible_power_out(power_hex)
+			set_available_power_out(power_hex)
 
-func set_next_avalible_power_out(power_in : PowerInHex) -> bool:
+func set_available_power_out(power_in : PowerInHex) -> bool:
 	var power_outs = get_available_power_out()
 	if power_outs.size() > 0:
 		var power_out = power_outs[0]
@@ -668,7 +671,7 @@ func _process(_delta: float) -> void:
 	#   return
 	
 	if is_multiplayer_authority():
-		sync_state.rpc(global_transform, linear_velocity, angular_velocity)
+		sync_m_state.rpc(global_transform, linear_velocity, angular_velocity)
 		
 	var pushers = get_players_pushing()
 	
