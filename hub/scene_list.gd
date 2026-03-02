@@ -22,4 +22,7 @@ func _ready() -> void:
 
 func _on_btn_pressed(path: String) -> void:
 	#load_scene(path)
-	game_manager.load_scene(path)
+	if !multiplayer.has_multiplayer_peer():
+		game_manager.load_scene(path)
+	else:
+		game_manager.load_scenes_across_peers.rpc(path)

@@ -9,6 +9,10 @@ var attached_body : Node2D
 var attached_offset : Vector2
 var min_grapple_dist = 5
 
+var is_grappling := false
+var will_grapple: bool = false
+var mouse_pos: Vector2 = Vector2.ZERO
+
 var grapple_position : Vector2:
 	get:
 		if is_instance_valid(attached_body):
@@ -18,9 +22,7 @@ var grapple_position : Vector2:
 func wants_grapple():
 	if player.seat:
 		return false
-	if Input.is_action_pressed("grapple") and is_instance_valid(attached_body):
-		return true
-	return false
+	return is_grappling and is_instance_valid(attached_body)
 
 func velocity(delta : float):
 	if at_destination:
@@ -38,25 +40,73 @@ var at_destination:
 	get:
 		return global_position.distance_to(grapple_position) < min_grapple_dist
 
-func _process(_delta: float) -> void:
-	if Input.is_action_just_pressed("grapple"):
-		fire_grapple()
+func _physics_process(_delta: float) -> void:
+	if is_multiplayer_authority():
+		if will_grapple:
+			fire_grapple(mouse_pos)
+			will_grapple = false
 		
-	if not wants_grapple():
-		visible = false
-		attached_body = null
-		return
-	
-	visible = true
-	set_point_position(0, Vector2.ZERO)
-	set_point_position(1, to_local(grapple_position))
+		if not wants_grapple():
+			visible = false
+			attached_body = null
+			is_grappling = false
+			sync_grapple.rpc(visible, grapple_position)
+			return
+			
+		visible = true
+		set_point_position(0, Vector2.ZERO)
+		set_point_position(1, to_local(grapple_position))
+		
+		sync_grapple.rpc(visible, grapple_position)
 
-func fire_grapple():
+func _process(_delta: float) -> void:
+	var is_local_player = multiplayer.get_unique_id() == player.owner_id
+	if is_local_player:
+		var grapple = false
+		var will_cancel = false
+		var mouse = InputHelper.get_look_position(player, 1000)
+		
+		if Input.is_action_just_pressed("grapple"):
+			grapple = true
+		
+		if Input.is_action_just_released("grapple"):
+			will_cancel = true
+		
+		if is_multiplayer_authority():
+			will_grapple = grapple
+			mouse_pos = mouse
+			if will_cancel:
+				is_grappling = false
+		else:
+			send_grapple.rpc_id(1, grapple, will_cancel, mouse)
+			
+
+@rpc("any_peer", "call_remote", "reliable")
+func send_grapple(call_grapple: bool, is_cancelling: bool, m_position: Vector2):
+	var sender_id = multiplayer.get_remote_sender_id()
+	if sender_id != player.owner_id:
+		push_warning("Player %d tried to control player %d" % [sender_id, player.owner_id])
+		return
+		
+	will_grapple = call_grapple
+	mouse_pos = m_position
+	if is_cancelling:
+		is_grappling = false
+	
+@rpc("authority", "call_remote", "unreliable")
+func sync_grapple(is_vis: bool, g_pos: Vector2):
+	visible = is_vis
+	is_grappling = is_vis
+	
+	if is_vis:	
+		set_point_position(0, Vector2.ZERO)
+		set_point_position(1, to_local(g_pos))	
+
+func fire_grapple(m_pos):
 	var space_state = get_world_2d().direct_space_state
-	var mouse_pos = get_global_mouse_position()
 	
 	var query = PhysicsPointQueryParameters2D.new()
-	query.position = mouse_pos
+	query.position = m_pos
 	query.exclude = [player]
 	query.collision_mask = collision_mask
 	query.collide_with_areas = true
@@ -65,4 +115,7 @@ func fire_grapple():
 	var result = space_state.intersect_point(query)
 	if result:
 		attached_body = result[0].collider
-		attached_offset = attached_body.to_local(mouse_pos)
+		attached_offset = attached_body.to_local(m_pos)
+		is_grappling = true
+	else:
+		is_grappling = false
