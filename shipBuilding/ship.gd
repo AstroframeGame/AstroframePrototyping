@@ -64,6 +64,10 @@ func _ready() -> void:
 	max_contacts_reported = 5
 	
 	z_index = 1
+	
+	await get_tree().process_frame
+	if multiplayer.has_multiplayer_peer():
+		set_multiplayer_authority(1)
 
 func ground_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:

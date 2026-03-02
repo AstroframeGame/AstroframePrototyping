@@ -28,3 +28,4 @@ func _process(_delta: float) -> void:
 	ships_found.list = get_tree().get_nodes_in_group("pirate_ship")
 	ships_found.type = "Pirate"
 	content.text = ships_prompt
+	visible = get_tree().root.get_node("Hub/GameManager").get_child_count(true) >= 0

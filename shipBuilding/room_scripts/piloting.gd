@@ -30,20 +30,24 @@ func is_active() -> bool:
 	return seat.controlled_by != null
 
 func get_goal_velocity(current_velocity: Vector2) -> Vector2:
-	var engines = ship.get_engines()
-	if not engines:
-		return Vector2.ZERO
+	if is_multiplayer_authority():
+		var engines = ship.get_engines()
+		if not engines:
+			return Vector2.ZERO
+			
+		var direction = input_dir
+		var goal_vel = Vector2.ZERO
 		
-	var direction = input_dir
-	var goal_vel = Vector2.ZERO
-	
-	if !is_braking:
-		if direction.length() > 0.1:
-			if direction.y > 0:
-				direction.y *= engines.forward_multiplier
-			goal_vel = current_velocity + direction.rotated(ship.global_rotation)
-			goal_vel = goal_vel.normalized() * min(goal_vel.length(), engines.get_max_speed())
-	return goal_vel
+		if !is_braking:
+			if direction.length() > 0.1:
+				if direction.y > 0:
+					direction.y *= engines.forward_multiplier
+				goal_vel = current_velocity + direction.rotated(ship.global_rotation)
+				goal_vel = goal_vel.normalized() * min(goal_vel.length(), engines.get_max_speed())
+		return goal_vel
+	else:
+		push_warning("[piloting.gd]: Client trying to control target velocity")
+		return Vector2.ZERO
 
 func _process(delta: float) -> void:
 	if !seat.controlled_by:
@@ -66,10 +70,12 @@ func _process(delta: float) -> void:
 func send_input(dir: Vector2, braking: bool):
 	var sender_id = multiplayer.get_remote_sender_id()
 	var driver_id = null
-	if ship and ship.player:
-		driver_id = ship.player.owner_id
+	if seat and seat.controlled_by:
+		driver_id = seat.controlled_by.owner_id
+	else:
+		push_warning("[piloting.gd]: Seat or Player in Seat are null")
 	if sender_id != driver_id:
-		push_warning("Player %d tried to control player %d" % [sender_id, driver_id])
+		push_warning("[piloting.gd]: Player %d tried to control player %d" % [sender_id, driver_id])
 	input_dir = dir
 	is_braking = braking
 
@@ -78,12 +84,16 @@ func is_idling() -> bool:
 	return direction.length() <= 0.1 and not Input.is_action_pressed("brake")
 
 func get_goal_angular_velocity() -> float:
-	var engines = ship.get_engines()
-	if not engines:
+	if is_multiplayer_authority():
+		var engines = ship.get_engines()
+		if not engines:
+			return 0.0
+			
+		var rot_input = InputHelper.controller_look.x
+		if InputHelper.using_mouse:
+			rot_input = InputHelper.mouse_center_offset_deadzone(ship.FLIGHT_DEADZONE).x * 0.01
+			
+		return rot_input * engines.get_rotational_thrust()
+	else:
+		push_warning("[piloting.gd]: Client trying to control angular velocity")
 		return 0.0
-		
-	var rot_input = InputHelper.controller_look.x
-	if InputHelper.using_mouse:
-		rot_input = InputHelper.mouse_center_offset_deadzone(ship.FLIGHT_DEADZONE).x * 0.01
-		
-	return rot_input * engines.get_rotational_thrust()

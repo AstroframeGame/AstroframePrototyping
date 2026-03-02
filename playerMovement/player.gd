@@ -213,7 +213,7 @@ func _process(_delta: float) -> void:
 func send_input(dir: Vector2, m_pos: Vector2, is_braking: bool, pushed: bool):
 	var sender_id = multiplayer.get_remote_sender_id()
 	if sender_id != owner_id:
-		push_warning("Player %d tried to control player %d" % [sender_id, owner_id])
+		push_warning("[player.gd]: Player %d tried to control player %d" % [sender_id, owner_id])
 		return
 
 	input_dir   = dir

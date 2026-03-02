@@ -105,6 +105,7 @@ func _on_connected_to_server():
 func _on_connection_failed():
 	print("   Connection failed!")
 
+#region OnPeerJoin/Leave
 func _on_peer_connected(id):
 	print("\n=== PEER_CONNECTED ===")
 	print("   My multiplayer ID: ", multiplayer.get_unique_id())
@@ -143,7 +144,8 @@ func spawn_player(id: int):
 func remove_player(id: int):
 	if not is_host:
 		_remove_player(id)
-
+#endregion
+#region Adding Player Local
 func _add_player_local(id: int):
 	if $Players.has_node(str(id)):
 		return
@@ -206,11 +208,16 @@ func reply_w_user(user: String):
 		print("Setting User of ", id, " to ", user)
 		$Players.get_node(str(id)).get_node("NamerTag").text = user
 
+
 func _remove_player(id: int):
 	if !$Players.has_node(str(id)):
 		return
+	if id == 1:
+		game_manager.quit_to_list()
+		
 	$Players.get_node(str(id)).queue_free()
 	print("Removed player ", id)
+#endregion
 	
 func _on_host_pressed() -> void:
 	host_lobby()
