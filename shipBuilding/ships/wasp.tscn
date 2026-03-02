@@ -15,7 +15,7 @@
 tile_shape = 3
 tile_size = Vector2i(78, 90)
 
-[node name="wasp" type="RigidBody2D" unique_id=1442409601 node_paths=PackedStringArray("hud", "power_links")]
+[node name="wasp" type="RigidBody2D" unique_id=1442409601 node_paths=PackedStringArray("power_links") groups=["pirate_ship"]]
 z_index = 1
 collision_mask = 257
 input_pickable = true
@@ -27,7 +27,6 @@ continuous_cd = 1
 contact_monitor = true
 max_contacts_reported = 5
 script = ExtResource("1_jnoxt")
-hud = NodePath("")
 power_links = {
 NodePath("Reactor_4/OutputHex"): NodePath("Engines_2/InputHex"),
 NodePath("Reactor_4/OutputHex2"): NodePath("Engines_2/InputHex2"),

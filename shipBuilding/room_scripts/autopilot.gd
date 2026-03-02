@@ -30,7 +30,6 @@ func _ready() -> void:
 	
 	if ship:
 		ship.pair_all_links()
-		print("power links: "+str(ship.power_links))
 		if ship.get_engines():
 			nav_agent.max_speed = ship.get_engines().max_speed
 		detection_area.global_position = ship.get_center()
