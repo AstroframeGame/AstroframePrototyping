@@ -131,6 +131,7 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	if is_multiplayer_authority():
 		var engines :Engines = get_engines()
 		var piloting : Piloting = get_piloting()
+		var autopilot : Autopilot = get_auto_piloting()
 		var pushing : bool = get_players_pushing().size() > 0
 		var delta = state.step
 		
