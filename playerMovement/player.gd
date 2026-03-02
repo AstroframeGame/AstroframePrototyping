@@ -74,6 +74,7 @@ var target_pos := Vector2.ZERO
 
 var input_dir := Vector2.ZERO
 var mouse_pos := Vector2.ZERO
+var screen_mouse_pos := Vector2.ZERO
 var ship_pushed: bool = false
 var is_shooting: bool = false
 var is_holstering: bool = false
@@ -179,7 +180,7 @@ func _physics_process(delta):
 				var impulse = force_dir * 200 * delta
 				collider.apply_central_impulse(impulse)
 		
-		sync_state.rpc(global_position, velocity, mouse_pos)
+		sync_state.rpc(global_position, velocity, mouse_pos, screen_mouse_pos, input_dir)
 		move_and_slide()
 	else:
 		global_position = global_position.lerp(target_pos, 0.25)
@@ -199,35 +200,41 @@ func _process(_delta: float) -> void:
 		var is_braking = Input.is_action_pressed("brake")
 		var pushed = Input.is_action_just_pressed("ship_push")
 		var m_pos = get_global_mouse_position()
+		
+		var center = get_viewport().get_visible_rect().get_center()
+		var scrn_m_pos = get_viewport().get_mouse_position() - center
 
 		if is_multiplayer_authority():
-			input_dir   = dir
-			push_brake  = is_braking
-			ship_pushed = pushed
-			mouse_pos   = m_pos
+			input_dir        = dir
+			push_brake       = is_braking
+			ship_pushed      = pushed
+			mouse_pos        = m_pos
+			screen_mouse_pos = scrn_m_pos
 		else:
-			input_dir = dir
-			send_input.rpc_id(1, dir, m_pos, is_braking, pushed)
+			send_input.rpc_id(1, dir, m_pos, scrn_m_pos, is_braking, pushed)
 
 #region SyncingMovement
 @rpc("any_peer", "call_remote", "reliable")
-func send_input(dir: Vector2, m_pos: Vector2, is_braking: bool, pushed: bool):
+func send_input(dir: Vector2, m_pos: Vector2, scrn_m_pos: Vector2, is_braking: bool, pushed: bool):
 	var sender_id = multiplayer.get_remote_sender_id()
 	if sender_id != owner_id:
 		push_warning("[player.gd]: Player %d tried to control player %d" % [sender_id, owner_id])
 		return
 
-	input_dir   = dir
-	push_brake  = is_braking
-	ship_pushed = pushed
-	mouse_pos   = m_pos
+	input_dir        = dir
+	push_brake       = is_braking
+	ship_pushed      = pushed
+	mouse_pos        = m_pos
+	screen_mouse_pos = scrn_m_pos
 
 @rpc("authority", "call_remote", "unreliable")
-func sync_state(pos: Vector2, vel: Vector2, m_pos: Vector2):
+func sync_state(pos: Vector2, vel: Vector2, m_pos: Vector2, scrn_m_pos: Vector2, dir: Vector2):
 	if not is_multiplayer_authority():
 		target_pos = pos
 		target_vel = vel
 		mouse_pos = m_pos
+		screen_mouse_pos = scrn_m_pos
+		input_dir = dir
 		
 #endregion
 #region SyncingActions
@@ -238,7 +245,6 @@ func sync_shooting():
 @rpc("authority", "call_local", "unreliable")
 func sync_holstering():
 	handgun.toggle_holster()
-
 
 @rpc("authority", "call_local", "unreliable")
 func sync_interacting():

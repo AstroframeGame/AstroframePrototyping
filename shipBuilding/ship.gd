@@ -599,21 +599,22 @@ func apply_push_velocity(state : PhysicsDirectBodyState2D) -> void:
 			state.linear_velocity = lerp(state.linear_velocity, state.linear_velocity + p.push_dir, p.thrust_accel * state.inverse_mass * 0.2 * state.step)
 
 func apply_push_rotation(state : PhysicsDirectBodyState2D) -> void:
-	var delta = state.step
-	var push_rot = 0.0
-	var players = get_players_pushing()
-	if players.is_empty():
-		return
-	var total_rot_input = 0.0
-	for p in players:
-		var look_dir = InputHelper.mouse_center_offset_deadzone(FLIGHT_DEADZONE)
-		var rot_amount = look_dir.x * 0.01
-		if not InputHelper.using_mouse:
-			rot_amount = InputHelper.controller_look.x
-		total_rot_input += rot_amount * p.rotate_speed
-	push_rot = (total_rot_input * state.inverse_mass) * 0.1
-	if abs(push_rot) > 0.01:
-		state.angular_velocity = lerp(state.angular_velocity, push_rot, 5.0 * delta)
+	if is_multiplayer_authority():
+		var delta = state.step
+		var push_rot = 0.0
+		var players = get_players_pushing()
+		if players.is_empty():
+			return
+		var total_rot_input = 0.0
+		for p in players:
+			var look_dir = InputHelper.mouse_center_offset_deadzone(p, FLIGHT_DEADZONE)
+			var rot_amount = look_dir.x * 0.01
+			if not InputHelper.using_mouse:
+				rot_amount = InputHelper.controller_look.x
+			total_rot_input += rot_amount * p.rotate_speed
+		push_rot = (total_rot_input * state.inverse_mass) * 0.1
+		if abs(push_rot) > 0.01:
+			state.angular_velocity = lerp(state.angular_velocity, push_rot, 5.0 * delta)
 #endregion
 
 #region merging

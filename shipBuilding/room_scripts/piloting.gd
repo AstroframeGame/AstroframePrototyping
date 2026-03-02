@@ -91,9 +91,12 @@ func get_goal_angular_velocity() -> float:
 			
 		var rot_input = InputHelper.controller_look.x
 		if InputHelper.using_mouse:
-			rot_input = InputHelper.mouse_center_offset_deadzone(ship.FLIGHT_DEADZONE).x * 0.01
+			rot_input = InputHelper.mouse_center_offset_deadzone(ship.driver, ship.FLIGHT_DEADZONE).x * 0.01
 			
 		return rot_input * engines.get_rotational_thrust()
 	else:
 		push_warning("[piloting.gd]: Client trying to control angular velocity")
 		return 0.0
+		
+func player_sit_interact(seated_player: PlayerCharacter):
+	ship.driver = seated_player

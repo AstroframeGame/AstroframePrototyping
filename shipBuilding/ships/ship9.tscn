@@ -26,10 +26,7 @@ max_hit_points = 1
 _hit_points = 1
 
 [node name="HexGrid" parent="." unique_id=1277847278 instance=ExtResource("2_d42o2")]
-enabled = false
 tile_set = SubResource("TileSet_xsh4c")
-collision_enabled = false
-navigation_enabled = false
 
 [node name="Solid" type="CollisionPolygon2D" parent="." unique_id=1634005520]
 

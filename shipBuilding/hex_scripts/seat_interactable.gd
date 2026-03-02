@@ -27,3 +27,5 @@ func interact(player : PlayerCharacter) -> void:
 		controlled_by = player
 		player.global_position = global_position
 		#player.global_rotation = global_rotation # hack, may remove
+		if room.has_method("player_sit_interact"):
+			room.player_sit_interact(player)

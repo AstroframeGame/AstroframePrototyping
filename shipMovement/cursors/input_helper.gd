@@ -1,6 +1,8 @@
 extends Node2D
 
 var using_mouse: bool = true
+@onready var multiplayer_manager: MultiplayerManager = get_tree().root.get_node("Hub/Multiplayer")
+var my_player: PlayerCharacter
 
 var move : Vector2:
 	get:
@@ -38,8 +40,8 @@ func get_look_position(player : PlayerCharacter, distance : float) -> Vector2:
 			return result.position
 		return target_pos
 
-func mouse_center_offset_deadzone(percent : float = 0.05) -> Vector2:
-	var look_dir = mouse_center_offset
+func mouse_center_offset_deadzone(player: PlayerCharacter, percent : float = 0.05) -> Vector2:
+	var look_dir = player.screen_mouse_pos
 	var screen_width = get_viewport().get_visible_rect().size.x
 	var deadzone_px = screen_width * percent
 	
@@ -54,6 +56,9 @@ var _look_delta: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
 	_update_cursor_visibility()
+	await get_tree().process_frame
+	if multiplayer_manager:
+		my_player = multiplayer_manager.my_player
 
 func _input(event: InputEvent) -> void:
 	var prev_mode = using_mouse
