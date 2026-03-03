@@ -10,7 +10,10 @@ func can_interact() -> bool:
 	return room is Room
 	
 func interact_hint() -> String:
-	return "Exit Ship" if room.ship.my_character_inside() else "Enter Ship"
+	var inside = false
+	if room != null and room.ship != null and room.ship.my_character_inside():
+		inside = true
+	return "Exit Ship" if inside else "Enter Ship"
 
 func interact(player : PlayerCharacter) -> void:
 	if not can_interact():

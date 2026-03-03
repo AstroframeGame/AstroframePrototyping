@@ -12,10 +12,10 @@ func _process(_delta: float) -> void:
 func update_hint():
 	var actions : Array[String] = []
 	if player.ground_body != null and player.ground_body is Ship and player.ship == null and not player.pushing:
-		var place_hint = "["+ InputHelper.get_key_mapping("detach") + "] "+ " Detatch Room"
+		var place_hint = "["+ InputHelper.get_key_mapping("ship_push") + "] "+ " Detatch Room"
 		actions.append(place_hint)
 	if player.ground_body != null and player.ground_body is Ship and player.ship == null and player.pushing:
-		var place_hint = "["+ InputHelper.get_key_mapping("detach") + "] "+ " Let go of Room"
+		var place_hint = "["+ InputHelper.get_key_mapping("ship_push") + "] "+ " Let go of Room"
 		actions.append(place_hint)
 	if  player.ground_body != null and player.ground_body is Ship and player.ship == null and player.pushing:
 		var place_hint = "["+ InputHelper.get_key_mapping("interact") + "] "+ "Place Room"
