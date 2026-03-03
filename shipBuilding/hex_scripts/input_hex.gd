@@ -23,9 +23,13 @@ func _input_event(_viewport: Viewport, _event: InputEvent, _shape_idx: int) -> v
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		on_clicked.emit(self)
 
+
+func can_interact() -> bool:
+	return room is Room and room.ship.my_character_inside()
+func interact_hint() -> String:
+	return "Toggle Power " + ("Off" if is_powered else "On")
+	
 func interact(_player : PlayerCharacter) -> void:
-	if not room is Room:
-		return
-	if not room.ship.my_character_inside():
+	if not can_interact():
 		return
 	on_clicked.emit(self)

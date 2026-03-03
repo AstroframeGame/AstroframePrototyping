@@ -68,3 +68,10 @@ func _update_cursor_visibility() -> void:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	else:
 		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+
+func get_key_mapping(input_name : StringName) -> String:
+	var events : Array[InputEvent] = InputMap.action_get_events(input_name)
+	if events.size() > 0:
+		var event_text = events[0].as_text()
+		return event_text
+	return "UNBOUND"

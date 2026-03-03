@@ -24,7 +24,7 @@ the player is over ground, hence whether to use air movement or ground movement
 @export_flags_2d_physics var exterior_ground_mask
 
 # sync these
-var pushing #set in physics process
+var pushing :bool #set in physics process
 var push_dir
 var push_brake
 
@@ -118,6 +118,9 @@ func interact():
 			
 func get_interactable() -> Node2D:
 	for area in interact_check.get_overlapping_areas():
+		if area.has_method("can_interact"):
+			if not area.can_interact():
+				continue
 		if area.has_method("interact"):
 			return area
 	return null
@@ -127,7 +130,7 @@ func get_interactable_hint() -> String:
 	if interactable:
 		if interactable.has_method("interact_hint"):
 			return interactable.interact_hint()
-		return "Press [E] to interact with " + interactable.name
+		return "interact with " + interactable.name
 	return ""
 
 func _unhandled_input(event: InputEvent) -> void:
