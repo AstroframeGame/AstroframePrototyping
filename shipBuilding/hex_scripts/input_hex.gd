@@ -48,7 +48,7 @@ func interact(_player : PlayerCharacter) -> void:
 		if succeeded:
 			on_clicked.emit(_player, self)
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	update_state()
 	if not can_interact():
 		return

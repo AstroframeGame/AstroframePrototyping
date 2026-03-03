@@ -18,5 +18,5 @@ func update_state():
 		icon = $"Dot"
 	icon.self_modulate = Color("8effa8ff") if is_powering else Color("ec0083ff")
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	update_state()

@@ -684,10 +684,10 @@ func get_players_pushing() -> Array[PlayerCharacter]:
 	return pushing_players
 
 func apply_push_velocity(state : PhysicsDirectBodyState2D) -> void:
-	var players = get_players_pushing()
-	if players.is_empty():
+	var pushers = get_players_pushing()
+	if pushers.is_empty():
 		return
-	for p in players:
+	for p in pushers:
 		if p.push_brake:
 			state.linear_velocity = lerp(state.linear_velocity, Vector2.ZERO, p.thrust_accel * state.inverse_mass * 0.2 * state.step)
 		else:
@@ -697,11 +697,11 @@ func apply_push_rotation(state : PhysicsDirectBodyState2D) -> void:
 	if is_multiplayer_authority():
 		var delta = state.step
 		var push_rot = 0.0
-		var players = get_players_pushing()
-		if players.is_empty():
+		var pushers = get_players_pushing()
+		if pushers.is_empty():
 			return
 		var total_rot_input = 0.0
-		for p in players:
+		for p in pushers:
 			var look_dir = InputHelper.mouse_center_offset_deadzone(p, FLIGHT_DEADZONE)
 			var rot_amount = look_dir.x * 0.01
 			if not InputHelper.using_mouse:
