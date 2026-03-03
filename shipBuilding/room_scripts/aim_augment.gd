@@ -4,6 +4,7 @@ extends Augment
 var enemy_target : Ship
 
 func _ready()->void:
+	super._ready()
 	# for loading ship in new scene
 	if ship:
 		ship.update_occupied_cells()

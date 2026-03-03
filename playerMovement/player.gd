@@ -176,9 +176,20 @@ func fix_unsure_grounding():
 
 # called when enter airlock
 func on_ship_enter(new_ship : Ship):
+	var prev_ship = get_tree().get_first_node_in_group("player_ship")
+	if prev_ship:
+		prev_ship.remove_from_group("player_ship")
 	on_ground(new_ship)
 	ship = new_ship
-	#print(name + " parent to ship")
+	ship.add_to_group("player_ship")
+	# if ship is also pirate ship warn nearby pirates
+	var pirate_pilot = ship.get_auto_piloting()
+	if ship.is_in_group("pirate_ship") and pirate_pilot != null:
+		for body in pirate_pilot.detection_area.get_overlapping_bodies():
+			if body.is_in_group("pirate_ship") and body != ship:
+				body.get_auto_piloting().target_candidate = ship
+				body.get_auto_piloting().on_player_detected()
+				print("warned " + str(body))
 	update_layers(true)
 
 func on_ship_exit():

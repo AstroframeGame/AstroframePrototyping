@@ -20,6 +20,9 @@ signal on_power_level_change(room : Room)
 
 @onready var roof: Node2D = $Roof
 
+func _ready() -> void:
+	roof.z_index = 10
+
 var power_level : int:
 	get:
 		var in_hexes = 0

@@ -19,6 +19,7 @@ const SPARKS_PREFAB = preload("res://art/vfx/sparks.tscn")
 const SPARKS_SPEED_THRESH = 10
 const EXPLOSION_PREFAB = preload("res://art/vfx/explosion.tscn")
 const HIT_SHIP_VFX_PREFAB = preload("res://art/vfx/hit_ship_vfx.tscn")
+const EXPLOSION_SFX_PREFAB = preload("res://audio/sfx_prefabs/explosion_sfx.tscn")
 
 var _is_dead: bool = false
 
@@ -509,7 +510,8 @@ func add_power_link(power_out : PowerOutHex, power_in : PowerInHex):
 	power_links[power_out] = power_in
 	power_out.update_state()
 	power_in.update_state()
-	power_in.room.on_power_level_change.emit(power_in)
+	if power_in.room:
+		power_in.room.on_power_level_change.emit(power_in)
 	return true
 
 func remove_power_link_in(power_in : PowerInHex):
@@ -527,10 +529,18 @@ func remove_power_link_out(power_out : PowerOutHex):
 		var power_in = power_links[power_out]
 		power_links.erase(power_out)
 		power_out.update_state()
-		power_in.update_state()
-		power_in.room.on_power_level_change.emit(power_in)
+		if power_in:
+			power_in.update_state()
+			power_in.room.on_power_level_change.emit(power_in)
 		return true
 	return false
+	
+func pair_all_links():
+	for output_hex in get_avalible_power_out():
+		for input_hex in get_available_power_in():
+			power_links[output_hex] = input_hex
+			output_hex.update_state()
+			input_hex.update_state()
 #endregion
 
 #region Health
@@ -588,7 +598,11 @@ func death_explosion():
 		
 		debris_ship.initialize_ship()
 		explosion(pos)
-
+	
+	var explosion_sfx : AudioStreamPlayer2D = EXPLOSION_SFX_PREFAB.instantiate()
+	explosion_sfx.play_quantity(len(rooms))
+	ProjectileManager.add_child(explosion_sfx)
+	
 	ship_destroyed.emit()
 	queue_free()
 #endregion
@@ -709,7 +723,7 @@ func generate_ghost_preview() -> void:
 			room_duplicate.rotation = child_node.rotation
 			
 			for room_component in room_duplicate.get_children():
-				if not room_component is Hex:
+				if not (room_component is Hex or room_component is Sprite2D):
 					room_component.queue_free()
 
 func clear_ghost_preview() -> void:

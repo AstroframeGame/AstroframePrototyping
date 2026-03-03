@@ -85,3 +85,6 @@ script = ExtResource("5_57v7p")
 ignore_rotation = false
 editor_draw_limits = true
 script = ExtResource("2_camera")
+
+[node name="AudioListener2D" type="AudioListener2D" parent="Camera2D" unique_id=1642056824]
+current = true

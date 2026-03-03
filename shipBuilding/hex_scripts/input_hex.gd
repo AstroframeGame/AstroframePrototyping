@@ -18,6 +18,9 @@ func update_state():
 	icon.self_modulate = Color("8effa8ff") if is_powered else Color("ec0083ff")
 	
 func _input_event(_viewport: Viewport, _event: InputEvent, _shape_idx: int) -> void:
+	if not room.ship:
+		return
+	
 	if not room.ship.my_character_inside():
 		return
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):

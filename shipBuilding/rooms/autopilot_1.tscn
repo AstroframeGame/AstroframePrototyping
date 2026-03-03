@@ -65,3 +65,5 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_2b160")
 
 [node name="StateMachine" parent="." unique_id=734480293 instance=ExtResource("4_6vmsa")]
+
+[editable path="StateMachine"]
