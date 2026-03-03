@@ -25,6 +25,12 @@ func _ready():
 		btn.pressed.connect(_on_btn_pressed.bind(path))
 		encounter_list.add_child(btn)
 		
+	game_manager.game_quit.connect(_on_back_pressed)
+
+func _exit_tree() -> void:
+	for child in encounter_list.get_children():
+		child.queue_free()
+
 func _on_back_pressed() -> void:
 	back_btn.visible = false
 	encounter_list.visible = true

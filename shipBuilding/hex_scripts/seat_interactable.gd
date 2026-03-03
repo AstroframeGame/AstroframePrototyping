@@ -1,12 +1,11 @@
 class_name SeatInteractable
-extends Area2D
+extends Hex
 
 '''
 If the player interacts with this seat, it will set the player's seat to its room.
 Otherwise it will set the player's seat to null.
 '''
 
-@onready var room : Room = $"../.."
 var controlled_by : PlayerCharacter
 
 func interact_hint() -> String:
@@ -21,8 +20,12 @@ func interact(player : PlayerCharacter) -> void:
 	if player.seat == self:
 		player.seat = null
 		controlled_by = null
+		if room.has_method("player_getup_interact"):
+			room.player_getup_interact()
 	else:
 		player.seat = self
 		controlled_by = player
 		player.global_position = global_position
 		#player.global_rotation = global_rotation # hack, may remove
+		if room.has_method("player_sit_interact"):
+			room.player_sit_interact(player)

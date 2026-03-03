@@ -23,18 +23,20 @@ var is_in_scene: bool = false
 const PLAYER_SYSTEM_PREFAB = preload("res://playerMovement/player_system.tscn")
 const PLAYER_CHARACTER_PREFAB = preload("res://playerMovement/player_character.tscn")
 
-signal player_join(p : PlayerCharacter)
-signal player_disconnect() # player character might be null? what info is helpful after a player leaves
-signal player_died()
+# Avoid warnings for now
+#signal player_join(p : PlayerCharacter)
+#signal player_disconnect() # player character might be null? what info is helpful after a player leaves
+#signal player_died()
 
 func _ready():
-	print("Steam init: ", Steam.steamInit(480, true))
+	var is_init = Steam.steamInit(480, true)
+	print("Steam init: ", is_init)
 	Steam.initRelayNetworkAccess()
 	user_name = Steam.getPersonaName()
-	if user_name:
+	if is_init:
 		print("   Account actualized: ", user_name)
 	else:
-		push_warning("   Steam failed to Initialize")
+		print("   Steam failed to Initialize")
 	Steam.lobby_created.connect(_on_lobby_created)
 	Steam.lobby_joined.connect(_on_lobby_joined)
 	
@@ -42,13 +44,13 @@ func host_lobby():
 	Steam.createLobby(Steam.LobbyType.LOBBY_TYPE_PUBLIC, 16)
 	is_host = true
 	
-func join_lobby(lobby_id: int):
+func join_lobby(lob_id: int):
 	is_joining = true
-	Steam.joinLobby(lobby_id)
+	Steam.joinLobby(lob_id)
 
-func _on_lobby_created(result: int, lobby_id: int):
+func _on_lobby_created(result: int, lob_id: int):
 	if result == Steam.Result.RESULT_OK:
-		self.lobby_id = lobby_id
+		self.lobby_id = lob_id
 		
 		peer = SteamMultiplayerPeer.new()
 		peer.server_relay = true
@@ -63,20 +65,20 @@ func _on_lobby_created(result: int, lobby_id: int):
 		host_steam_id = multiplayer.get_unique_id()
 		
 		print("\n=== HOST SETUP ===")
-		print("   Lobby created, lobby id copied to clipboard: ", lobby_id)
+		print("   Lobby created, lobby id copied to clipboard: ", lob_id)
 		print("   Steam.getSteamID(): ", Steam.getSteamID())
 		print("   multiplayer.get_unique_id(): ", multiplayer.get_unique_id())
 		print("   Using host_steam_id: ", host_steam_id)
-		DisplayServer.clipboard_set(str(lobby_id))
+		DisplayServer.clipboard_set(str(lob_id))
 	
 		_add_player_local(host_steam_id)
 
-func _on_lobby_joined(lobby_id: int, perms: int, locked: bool, response: int):
+func _on_lobby_joined(lob_id: int, _perms: int, _locked: bool, _response: int):
 	if !is_joining:
 		return
 	
-	self.lobby_id = lobby_id
-	host_steam_id = Steam.getLobbyOwner(lobby_id)
+	self.lobby_id = lob_id
+	host_steam_id = Steam.getLobbyOwner(lob_id)
 	
 	peer = SteamMultiplayerPeer.new()
 	peer.server_relay = true
@@ -103,6 +105,7 @@ func _on_connected_to_server():
 func _on_connection_failed():
 	print("   Connection failed!")
 
+#region OnPeerJoin/Leave
 func _on_peer_connected(id):
 	print("\n=== PEER_CONNECTED ===")
 	print("   My multiplayer ID: ", multiplayer.get_unique_id())
@@ -141,7 +144,8 @@ func spawn_player(id: int):
 func remove_player(id: int):
 	if not is_host:
 		_remove_player(id)
-
+#endregion
+#region Adding Player Local
 func _add_player_local(id: int):
 	if $Players.has_node(str(id)):
 		return
@@ -178,6 +182,9 @@ func _add_player_local(id: int):
 	if !is_owner:
 		request_user.rpc_id(id)
 	
+	if !is_host:
+		await get_tree().process_frame
+	
 	player_char.process_mode = Node.PROCESS_MODE_ALWAYS
 
 @rpc("any_peer", "call_remote", "reliable")
@@ -201,11 +208,16 @@ func reply_w_user(user: String):
 		print("Setting User of ", id, " to ", user)
 		$Players.get_node(str(id)).get_node("NamerTag").text = user
 
+
 func _remove_player(id: int):
 	if !$Players.has_node(str(id)):
 		return
+	if id == 1:
+		game_manager.quit_to_list()
+		
 	$Players.get_node(str(id)).queue_free()
 	print("Removed player ", id)
+#endregion
 	
 func _on_host_pressed() -> void:
 	host_lobby()

@@ -1,8 +1,7 @@
-extends Area2D
+extends Hex
 class_name PowerOutHex
 
-@onready var room : Room = $"../.."
-@onready var icon: Sprite2D = $"../Dot"
+@onready var icon: Sprite2D = $"Dot"
 
 var is_powering : bool:
 	get:
@@ -16,5 +15,8 @@ func update_state():
 	# red   942532
 	# green 478d55
 	if not icon:
-		icon = $"../Dot"
+		icon = $"Dot"
 	icon.self_modulate = Color("8effa8ff") if is_powering else Color("ec0083ff")
+
+func _physics_process(delta: float) -> void:
+	update_state()

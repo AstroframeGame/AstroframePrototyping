@@ -44,7 +44,8 @@ var seat : SeatInteractable :
 var ground_body : PhysicsBody2D
 var prev_ground_body_transform : Transform2D
 
-var ship : Ship
+var ship: Ship
+
 
 @onready var ground_check: Area2D = $GroundCheck
 @onready var interact_check: Area2D = $InteractCheck
@@ -79,7 +80,8 @@ var is_holstering: bool = false
 var was_holstering: bool = false
 var is_interacting: bool = false
 var was_interacting: bool = false
-var event_in_room: InputEvent = null
+var screen_mouse_pos := Vector2.ZERO
+var event_in_room: StringName
 ## ======  Multiplayer END  ======
 #endregion
 
@@ -166,10 +168,8 @@ func _physics_process(delta):
 		elif not is_interacting and was_interacting:
 			was_interacting = false
 			
-		if event_in_room != null and not is_interacting:
+		if event_in_room != "" and not is_interacting:
 			sync_room_inputs.rpc(event_in_room)
-		
-		move_and_slide()
 		
 		for i in range(get_slide_collision_count()):
 			var collision = get_slide_collision(i)
@@ -180,52 +180,64 @@ func _physics_process(delta):
 				var impulse = force_dir * 200 * delta
 				collider.apply_central_impulse(impulse)
 		
-		sync_state.rpc(global_position, velocity, mouse_pos)
+		sync_state.rpc(global_position, velocity, mouse_pos, screen_mouse_pos, input_dir)
+		move_and_slide()
 	else:
 		global_position = global_position.lerp(target_pos, 0.25)
 		velocity = target_vel
 
 ## ====== Multiplayer START ======	
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	is_local_player = multiplayer.get_unique_id() == owner_id or not is_multiplayer
-
+	
+	visible = ship == multiplayer_manager.my_player.ship or multiplayer_manager.my_player.seat != null
+	if ship:
+		rotation = ship.rotation
+	
 	if is_local_player:
 		var dir = Input.get_vector("left", "right", "up", "down")
 		var is_braking = Input.is_action_pressed("brake")
 		var pushed = Input.is_action_just_pressed("ship_push")
 		var m_pos = get_global_mouse_position()
+		
+		var center = get_viewport().get_visible_rect().get_center()
+		var scrn_m_pos = get_viewport().get_mouse_position() - center
 
 		if is_multiplayer_authority():
-			input_dir   = dir
-			push_brake  = is_braking
-			ship_pushed = pushed
-			mouse_pos   = m_pos
+			input_dir        = dir
+			push_brake       = is_braking
+			ship_pushed      = pushed
+			mouse_pos        = m_pos
+			screen_mouse_pos = scrn_m_pos
 		else:
-			send_input.rpc_id(1, dir, m_pos, is_braking, pushed)
+			send_input.rpc_id(1, dir, m_pos, scrn_m_pos, is_braking, pushed)
 
-#region Syncing Movement
+#region SyncingMovement
 @rpc("any_peer", "call_remote", "reliable")
-func send_input(dir: Vector2, m_pos: Vector2, is_braking: bool, pushed: bool):
+func send_input(dir: Vector2, m_pos: Vector2, scrn_m_pos: Vector2, is_braking: bool, pushed: bool):
 	var sender_id = multiplayer.get_remote_sender_id()
 	if sender_id != owner_id:
-		push_warning("Player %d tried to control player %d" % [sender_id, owner_id])
+		push_warning("[player.gd]: Player %d tried to control player %d" % [sender_id, owner_id])
 		return
 
-	input_dir   = dir
-	push_brake  = is_braking
-	ship_pushed = pushed
-	mouse_pos   = m_pos
+	input_dir        = dir
+	push_brake       = is_braking
+	ship_pushed      = pushed
+	mouse_pos        = m_pos
+	screen_mouse_pos = scrn_m_pos
 
 @rpc("authority", "call_remote", "unreliable")
-func sync_state(pos: Vector2, vel: Vector2, m_pos: Vector2):
+func sync_state(pos: Vector2, vel: Vector2, m_pos: Vector2, scrn_m_pos: Vector2, dir: Vector2):
 	if not is_multiplayer_authority():
 		target_pos = pos
 		target_vel = vel
 		mouse_pos = m_pos
+		screen_mouse_pos = scrn_m_pos
+		input_dir = dir
 		
 #endregion
-#region Syncing Actions
+#region SyncingActions
 @rpc("authority", "call_local", "unreliable")
 func sync_shooting():
 	handgun.shoot_bullet()
@@ -234,14 +246,14 @@ func sync_shooting():
 func sync_holstering():
 	handgun.toggle_holster()
 
-
 @rpc("authority", "call_local", "unreliable")
 func sync_interacting():
 	interact()
 
 @rpc("authority", "call_local", "unreliable")
-func sync_room_inputs(room_event: InputEvent):
-	seat.room.handle_input(room_event)
+func sync_room_inputs(room_event: StringName):
+	if seat and seat.room:
+		seat.room.handle_input(room_event)
 #endregion
 
 ## ======  Multiplayer END  ======
@@ -274,7 +286,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if is_local_player:
 		var shooting = false
 		var holstered = false
-		var room_input = null
+		var room_input = ""
 		var interacting = false
 		
 		if event.is_action_pressed("player_shoot"):
@@ -289,18 +301,21 @@ func _unhandled_input(event: InputEvent) -> void:
 			interacting = true
 			
 		if seat and seat.room.has_method("handle_input"):
-			room_input = event
+			for a in InputMap.get_actions():
+				if event.is_action(a):
+					room_input = a
+					break
 			
 		if is_multiplayer_authority():
 			is_shooting    = shooting
-			is_holstering   = holstered
+			is_holstering  = holstered
 			event_in_room  = room_input
 			is_interacting = interacting
 		else:
 			send_unhandled_inputs.rpc_id(1, shooting, holstered, interacting, room_input)
 	
 @rpc("any_peer", "call_remote", "unreliable")
-func send_unhandled_inputs(shooting: bool, holstered: bool, interacting: bool, room_input: InputEvent):
+func send_unhandled_inputs(shooting: bool, holstered: bool, interacting: bool, room_input: StringName):
 	var sender_id = multiplayer.get_remote_sender_id()
 	if sender_id != owner_id:
 		push_warning("Player %d tried to control player %d" % [sender_id, owner_id])
@@ -345,6 +360,11 @@ func fix_unsure_grounding():
 func on_ship_enter(new_ship : Ship):
 	on_ground(new_ship)
 	ship = new_ship
+	if self not in new_ship.players:
+		new_ship.players.append(self)
+	else:
+		push_warning("[Player.gd]: {Warning}, player requested to enter ship when in ship")
+	rotation = ship.rotation
 	#print(name + " parent to ship")
 	update_layers(true)
 	
@@ -352,8 +372,11 @@ func on_ship_enter(new_ship : Ship):
 func on_ship_exit():
 	# unground will be called when stops intersecting
 	#print(name + " parent to wordl")
-	update_layers(false)
+	if ship and self in ship.players:
+		ship.players.remove_at(ship.players.find(self))
 	ship = null
+	rotation = 0
+	update_layers(false)
 
 func apply_ground_body_transform():
 	if is_instance_valid(ground_body):
@@ -375,7 +398,8 @@ func update_layers(inside : bool):
 		z_index = 12
 #endregion
 
-func take_damage(damage : int):
+
+func take_damage(damage : int, _vfx_pos:Vector2):
 	health -= damage
 	print("Damage Taken! Player now at %s health" % health)
 	

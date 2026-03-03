@@ -5,6 +5,7 @@ signal room_clicked(room: Room, button_index: int)
 signal on_airlock_interaction(interactor : PlayerCharacter, is_inside : bool) # called from airlock
 signal ship_destroyed
 signal on_hit()
+signal finished_power_process(succ: bool)
 
 const FLIGHT_DEADZONE = 0.05 #screen %
 const HEX_WIDTH = 78
@@ -19,6 +20,18 @@ const SPARKS_PREFAB = preload("res://art/vfx/sparks.tscn")
 const SPARKS_SPEED_THRESH = 10
 const EXPLOSION_PREFAB = preload("res://art/vfx/explosion.tscn")
 const HIT_SHIP_VFX_PREFAB = preload("res://art/vfx/hit_ship_vfx.tscn")
+
+## Multiplayer Start
+
+@onready var multiplayer_manager: MultiplayerManager = get_tree().root.get_node("Hub/MultiplayerManager")
+var players: Array[PlayerCharacter]
+var driver: PlayerCharacter
+@onready var target_linear_velocity: Vector2 = Vector2.ZERO
+@onready var target_angular_velocity: float = 0.0
+@onready var target_transform: Transform2D = global_transform
+
+## Multiplayer End
+var _is_dead: bool = false
 
 var grid: TileMapLayer:
 	get:
@@ -53,6 +66,10 @@ func _ready() -> void:
 	max_contacts_reported = 5
 	
 	z_index = 1
+	
+	await get_tree().process_frame
+	if multiplayer.has_multiplayer_peer():
+		set_multiplayer_authority(1)
 
 func ground_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
@@ -82,37 +99,78 @@ func get_piloting() -> Piloting:
 			if r.is_active():
 				return r
 	return null
+func get_auto_piloting()->Autopilot:
+	for r in get_children():
+		if r is Autopilot:
+			if r.is_active():
+				return r
+	return null
 func get_cannons() -> Array[Cannon]:
 	var cannons : Array[Cannon]
 	for r in get_children():
 		if r is Cannon:
 			cannons.append(r)
 	return cannons
+func get_shields()->Array[Shields_Room]:
+	var shields_rooms : Array[Shields_Room]
+	for r in get_children():
+		if r is Shields_Room:
+			shields_rooms.append(r)
+	return shields_rooms
+func get_active_shields()->Array[Shield]:
+	var shields : Array[Shield]
+	for s in get_shields():
+		if s.shield != null and s.shield.visible:
+			shields.append(s.shield)
+	return shields
 func get_players_from_manager() -> Array[PlayerCharacter]:
-	var multiplayer_manager :MultiplayerManager= get_tree().root.get_node("Hub/MultiplayerManager")
 	if multiplayer_manager:
 		return multiplayer_manager.players
 	return []
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
-	var engines :Engines = get_engines()
-	var piloting : Piloting = get_piloting()
-	var pushing : bool = get_players_pushing().size() > 0
-	var delta = state.step
-	
-	if engines and piloting:
-		state.angular_velocity = piloting.get_goal_angular_velocity()
-		var goal_vel :Vector2 = piloting.get_goal_velocity(state.linear_velocity)
-		if not piloting.is_idling():
-			state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * state.inverse_mass * delta)
-	elif pushing:
-		apply_push_rotation(state)
-		apply_push_velocity(state)
-	elif engines: # autodrag
-		state.angular_velocity = lerp(state.angular_velocity, 0.0, state.inverse_mass * engines.drag_multiplier * delta)
-		state.linear_velocity = lerp(state.linear_velocity, Vector2.ZERO, engines.get_thrust() * state.inverse_mass * engines.drag_multiplier * delta)
-	
+	if is_multiplayer_authority():
+		var engines :Engines = get_engines()
+		var piloting : Piloting = get_piloting()
+		var autopilot : Autopilot = get_auto_piloting()
+		var pushing : bool = get_players_pushing().size() > 0
+		var delta = state.step
+		
+		if engines and piloting:
+			state.angular_velocity = piloting.get_goal_angular_velocity()
+			var goal_vel: Vector2 = piloting.get_goal_velocity(state.linear_velocity)
+			if not piloting.is_idling():
+				state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * state.inverse_mass * delta)
+		elif engines and autopilot:
+			state.angular_velocity = autopilot.get_goal_angular_velocity()
+			var goal_vel :Vector2 = autopilot.get_goal_velocity(state.linear_velocity)
+			if not autopilot.is_idling():
+				state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * state.inverse_mass * delta)
+		elif pushing:
+			apply_push_rotation(state)
+			apply_push_velocity(state)
+		elif engines: # autodrag
+			state.angular_velocity = lerp(state.angular_velocity, 0.0, state.inverse_mass * engines.drag_multiplier * delta)
+			state.linear_velocity = lerp(state.linear_velocity, Vector2.ZERO, engines.get_thrust() * state.inverse_mass * engines.drag_multiplier * delta)
+		
 	eval_sparks(state)
+
+#region ClientInterpolation
+func _physics_process(delta: float) -> void:
+	if is_multiplayer_authority():
+		return
+	
+	global_transform = global_transform.interpolate_with(target_transform, 10.0 * delta)
+	linear_velocity = linear_velocity.lerp(target_linear_velocity, 10.0 * delta)
+	angular_velocity = lerp(angular_velocity, target_angular_velocity, 10.0 * delta)
+#endregion
+
+@rpc("authority", "call_remote", "unreliable")
+func sync_m_state(gt: Transform2D, lv: Vector2, av: float):
+	if not is_multiplayer_authority():
+		target_transform        = gt
+		target_linear_velocity  = lv
+		target_angular_velocity = av
 
 func calc_center_of_mass():
 	var hex_mass = 2.0
@@ -122,7 +180,7 @@ func calc_center_of_mass():
 	for child in get_children():
 		if child is Room:
 			for hex in child.get_children():
-				if hex is Sprite2D:
+				if hex is Hex:
 					total_mass += hex_mass
 					weighted_pos_sum += (child.transform * hex.position) * hex_mass
 					
@@ -132,6 +190,10 @@ func calc_center_of_mass():
 	mass = total_mass
 	center_of_mass_mode = RigidBody2D.CENTER_OF_MASS_MODE_CUSTOM
 	center_of_mass = weighted_pos_sum / total_mass
+
+## return ship's center of mass as a global position
+func get_center()->Vector2:
+	return to_global(center_of_mass)
 
 func get_bounds_rect() -> Rect2:
 	var combined_rect = Rect2()
@@ -195,7 +257,7 @@ func get_cells_for_room(room: Node, center_cell: Vector2i, rot_index: int) -> Ar
 	var angle = rot_index * PI / 3.0
 	
 	for child in room.get_children():
-		if child is Sprite2D:
+		if child is Hex:
 			var rotated_offset = child.position.rotated(angle)
 			var target_cell = grid.local_to_map(grid.to_local(to_global(center_local + rotated_offset)))
 			if not target_cell in cells:
@@ -299,7 +361,7 @@ func update_colliders() -> void:
 			var room_transform = room.transform
 			
 			for room_child in room.get_children():
-				if room_child is Sprite2D:
+				if room_child is Hex:
 					var poly = base_hex.duplicate()
 					var sprite_pos = room_child.position
 					
@@ -375,7 +437,6 @@ func update_colliders() -> void:
 		solid.owner = self
 		print("Fallback: ", name, " creating solid")
 	
-	
 	walls.collision_layer = 16 # Ship exterior layer
 	walls.collision_mask = 0#16 #ship exterior layer
 	collision_layer = 1 # ship interior
@@ -413,7 +474,7 @@ func _get_hex_poly() -> PackedVector2Array:
 #endregion
 
 #region Power
-func get_avalible_power_out() -> Array[PowerOutHex]:
+func get_available_power_out() -> Array[PowerOutHex]:
 	var out : Array[PowerOutHex] = []
 	for r in get_children():
 		if r is Room:
@@ -422,9 +483,21 @@ func get_avalible_power_out() -> Array[PowerOutHex]:
 					out.append(h)
 	return out
 
-func toggle_power(power_hex):
-	if not my_character_inside():
+func get_available_power_in() -> Array[PowerInHex]:
+	var _in: Array[PowerInHex] = []
+	for r in get_children():
+		if r is Room:
+			for h in r.get_in_hexes():
+				if not h.is_powered:
+					_in.append(h)
+	return _in
+
+func toggle_power(player, power_hex):
+	var is_auth = is_multiplayer_authority()
+	if not player.ship == self:
 		return
+		if is_auth:
+			send_signal_to_clients.rpc(false)
 	#if power_hex is PowerOutHex && power_hex.is_powering:
 		## turn off power
 		#remove_power_link_out(power_hex)
@@ -432,12 +505,16 @@ func toggle_power(power_hex):
 		if power_hex.is_powered:
 			# turn off power
 			remove_power_link_in(power_hex)
+			if is_auth:
+				send_signal_to_clients.rpc()
 		else:
 			# turn on power
-			set_next_avalible_power_out(power_hex)
+			set_available_power_out(power_hex)
+			if is_auth:
+				send_signal_to_clients.rpc()
 
-func set_next_avalible_power_out(power_in : PowerInHex) -> bool:
-	var power_outs = get_avalible_power_out()
+func set_available_power_out(power_in : PowerInHex) -> bool:
+	var power_outs = get_available_power_out()
 	if power_outs.size() > 0:
 		var power_out = power_outs[0]
 		add_power_link(power_out, power_in)
@@ -472,10 +549,22 @@ func remove_power_link_out(power_out : PowerOutHex):
 		power_in.room.on_power_level_change.emit(power_in)
 		return true
 	return false
+	
+	
+@rpc("authority", "call_remote", "unreliable")
+func sync_p_state(p_link_dict: Dictionary[PowerOutHex, PowerInHex]):
+	if not is_multiplayer_authority():
+		power_links = p_link_dict
+
+@rpc("authority", "call_local", "unreliable")
+func send_signal_to_clients(succ: bool = true):
+	if not is_multiplayer_authority():
+		finished_power_process.emit(succ)
 #endregion
 
 #region Health
 func check_hud():
+	max_hit_points = 0
 	for child in get_children():
 		if child is Room:
 			max_hit_points += child.durability
@@ -484,16 +573,21 @@ func check_hud():
 	if not hud:
 		hud = HUD.instantiate()
 		add_child(hud)
-	hud.initialize() # @ Kevin remove?
+	hud.initialize()
 
 func take_damage(amount:int, pos_ws : Vector2):
 	hit_points -= amount # property has callback that sets the hud to update
 	hit_vfx(pos_ws)
 
 func death_check():
-	if hit_points > 0:
+	if hit_points > 0 or _is_dead:
 		return 
-	death_explosion()
+		
+	for pc in get_tree().get_nodes_in_group("player_controller"):
+		if pc.ship == self:
+			pc.update_layers(false)
+	_is_dead = true
+	call_deferred("death_explosion")
 	
 func death_explosion():
 	var rooms: Array[Room] = []
@@ -516,7 +610,7 @@ func death_explosion():
 		var rot_index = room.rot_index
 		var pos = room.global_position
 		remove_room(room)
-		debris_ship.add_room.call_deferred(room, grid_pos, rot_index)
+		debris_ship.add_room(room, grid_pos, rot_index)
 		
 		var explosion_impulse = randf_range(20.0, 100.0)
 		debris_ship.apply_central_impulse(push_dir * explosion_impulse)
@@ -531,7 +625,6 @@ func death_explosion():
 #region InteriorExterior
 
 func my_character_inside() -> bool:
-	var multiplayer_manager = get_tree().root.find_child("MultiplayerManager", true, false)
 	if multiplayer_manager and multiplayer_manager.my_player:
 		return multiplayer_manager.my_player.ship == self
 	return false
@@ -540,11 +633,10 @@ func my_character_inside() -> bool:
 func set_exterior_visible(_interactor : CharacterBody2D, entered : bool):
 	if not my_character_inside() and _interactor != null:
 		entered = false
-	for r in get_children():
-		if r is Room:
-			r.roof.visible = not entered
-	if _interactor is PlayerCharacter :
-		_interactor.visible = not entered
+	if _interactor.is_local_player:
+		for r in get_children():
+			if r is Room:
+				r.roof.visible = not entered
 
 #endregion
 
@@ -567,21 +659,22 @@ func apply_push_velocity(state : PhysicsDirectBodyState2D) -> void:
 			state.linear_velocity = lerp(state.linear_velocity, state.linear_velocity + p.push_dir, p.thrust_accel * state.inverse_mass * 0.2 * state.step)
 
 func apply_push_rotation(state : PhysicsDirectBodyState2D) -> void:
-	var delta = state.step
-	var push_rot = 0.0
-	var players = get_players_pushing()
-	if players.is_empty():
-		return
-	var total_rot_input = 0.0
-	for p in players:
-		var look_dir = InputHelper.mouse_center_offset_deadzone(FLIGHT_DEADZONE)
-		var rot_amount = look_dir.x * 0.01
-		if not InputHelper.using_mouse:
-			rot_amount = InputHelper.controller_look.x
-		total_rot_input += rot_amount * p.rotate_speed
-	push_rot = (total_rot_input * state.inverse_mass) * 0.1
-	if abs(push_rot) > 0.01:
-		state.angular_velocity = lerp(state.angular_velocity, push_rot, 5.0 * delta)
+	if is_multiplayer_authority():
+		var delta = state.step
+		var push_rot = 0.0
+		var players = get_players_pushing()
+		if players.is_empty():
+			return
+		var total_rot_input = 0.0
+		for p in players:
+			var look_dir = InputHelper.mouse_center_offset_deadzone(p, FLIGHT_DEADZONE)
+			var rot_amount = look_dir.x * 0.01
+			if not InputHelper.using_mouse:
+				rot_amount = InputHelper.controller_look.x
+			total_rot_input += rot_amount * p.rotate_speed
+		push_rot = (total_rot_input * state.inverse_mass) * 0.1
+		if abs(push_rot) > 0.01:
+			state.angular_velocity = lerp(state.angular_velocity, push_rot, 5.0 * delta)
 #endregion
 
 #region merging
@@ -591,6 +684,9 @@ func _process(_delta: float) -> void:
 	#   clear_ghost_preview()
 	#   return
 	
+	if is_multiplayer_authority():
+		sync_m_state.rpc(global_transform, linear_velocity, angular_velocity)
+		
 	var pushers = get_players_pushing()
 	
 	if pushers.is_empty():
@@ -647,7 +743,7 @@ func generate_ghost_preview() -> void:
 			room_duplicate.rotation = child_node.rotation
 			
 			for room_component in room_duplicate.get_children():
-				if not room_component is Sprite2D:
+				if not room_component is Hex:
 					room_component.queue_free()
 
 func clear_ghost_preview() -> void:
@@ -855,7 +951,7 @@ func eval_sparks(state : PhysicsDirectBodyState2D):
 		var pos = state.get_contact_collider_position(i)
 		var rot = state.get_contact_local_normal(i).angle()
 		var speed = state.get_velocity_at_local_position(to_local(pos)).length()
-		print(speed)
+
 		if speed > SPARKS_SPEED_THRESH:
 			var sparks : Node2D= SPARKS_PREFAB.instantiate()
 			sparks.global_position = pos

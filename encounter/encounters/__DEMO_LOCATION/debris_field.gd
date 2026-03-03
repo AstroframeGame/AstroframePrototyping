@@ -1,7 +1,10 @@
 extends Node2D
 
 @export var nav_region: NavigationRegion2D
+
 @onready var field = $moving_field
+@onready var screen_size = get_viewport_rect().size
+@onready var center = screen_size / 2
 
 func _ready() -> void:
 	if nav_region:
@@ -27,6 +30,12 @@ func _process(_delta: float) -> void:
 	
 	# idle movement
 	for asteroid in field.get_children():
+		var screen_pos = get_viewport().get_canvas_transform() * asteroid.global_position
+		
+		# do not move if not on sceen
+		if not Rect2(Vector2.ZERO, screen_size).has_point(screen_pos):
+			continue
+		
 		asteroid.global_position += asteroid.velocity
 		if(
 			(asteroid.global_position.x > asteroid.start_pos.x + asteroid.movement_radius.x) or

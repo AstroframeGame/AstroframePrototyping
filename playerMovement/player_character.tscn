@@ -4,23 +4,21 @@
 [ext_resource type="Texture2D" uid="uid://idculymd1355" path="res://playerMovement/person.png" id="2_3pww0"]
 [ext_resource type="Script" uid="uid://bh8epk5lqpukf" path="res://playerMovement/grapple.gd" id="2_me87i"]
 [ext_resource type="PackedScene" uid="uid://oar1of8mix7f" path="res://playerCombat/Handgun.tscn" id="3_me87i"]
+[ext_resource type="Script" uid="uid://da716glwbvt2l" path="res://multiplayer/status.gd" id="5_me87i"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qi68c"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3pww0"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/replication_mode = 1
 
-[node name="PlayerCharacter" type="CharacterBody2D" unique_id=1589297424]
+[node name="PlayerCharacter" type="CharacterBody2D" unique_id=1589297424 groups=["player_controller"]]
 z_index = 1
 collision_layer = 0
 collision_mask = 0
 script = ExtResource("1_r0exs")
 interior_layer = 2
-interior_mask = 18
+interior_mask = 16
 exterior_layer = 32
-exterior_mask = 4128
+exterior_mask = 4096
 interior_ground_mask = 1
 exterior_ground_mask = 257
 
@@ -30,6 +28,7 @@ default_color = Color(0, 0, 0, 1)
 script = ExtResource("2_me87i")
 
 [node name="Person" type="Sprite2D" parent="." unique_id=386810011]
+modulate = Color(0, 0, 0.6862745, 1)
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("2_3pww0")
 
@@ -62,6 +61,16 @@ offset_right = 60.0
 offset_bottom = -36.0
 text = "Name"
 horizontal_alignment = 1
+
+[node name="Status" type="Label" parent="." unique_id=2124304674]
+offset_left = -60.0
+offset_top = -42.0
+offset_right = 59.0
+offset_bottom = -20.0
+theme_override_font_sizes/font_size = 10
+text = "Online"
+horizontal_alignment = 1
+script = ExtResource("5_me87i")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=538172019]
 replication_config = SubResource("SceneReplicationConfig_3pww0")
