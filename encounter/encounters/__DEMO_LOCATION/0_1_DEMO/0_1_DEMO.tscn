@@ -128,7 +128,6 @@ layer = -2
 
 [node name="PIRATE_DESTROYER" parent="ships/pirates" unique_id=1784127879 node_paths=PackedStringArray("power_links") instance=ExtResource("5_76my7")]
 position = Vector2(1280, 2726)
-scale = Vector2(3, 3)
 power_links = {
 NodePath("Reactor_4/OutputHex"): NodePath("Engines_2/InputHex"),
 NodePath("Reactor_4/OutputHex2"): NodePath("Engines_2/InputHex2"),
