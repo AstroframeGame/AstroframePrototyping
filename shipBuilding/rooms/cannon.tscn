@@ -24,7 +24,6 @@ texture = ExtResource("6_ru0ip")
 
 [node name="GunHex" parent="." unique_id=1922844830 instance=ExtResource("3_kgjcn")]
 self_modulate = Color(1, 1, 1, 1)
-z_index = 12
 
 [node name="Label" type="Label" parent="." unique_id=1178931816]
 offset_left = 28.0

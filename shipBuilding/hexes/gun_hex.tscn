@@ -3,11 +3,9 @@
 [ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="1_jjod8"]
 [ext_resource type="Script" uid="uid://ctti6jygujj6i" path="res://shipBuilding/hex_scripts/gun.gd" id="2_jn67f"]
 [ext_resource type="Texture2D" uid="uid://h7n0dwcqcea8" path="res://shipBuilding/icons/turret.png" id="3_xan1q"]
-
 [ext_resource type="AudioStream" uid="uid://d3vwjgmajmayx" path="res://audio/sfx/laser_medium.wav" id="4_jn67f"]
 [ext_resource type="Texture2D" uid="uid://2epe5aa0gd04" path="res://art/rooms/cannon/cannon_gun.svg" id="4_xan1q"]
 [ext_resource type="Texture2D" uid="uid://c66up32kleahj" path="res://art/rooms/cannon/cannon_corecolor.svg" id="5_6y0jy"]
-
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jjod8"]
 radius = 44.04543
