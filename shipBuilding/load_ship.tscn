@@ -1,34 +1,44 @@
 [gd_scene format=3 uid="uid://d37m1h0nl2dsh"]
 
-[ext_resource type="Script" path="res://shipBuilding/level_editor/load_ship.gd" id="1_e8svg"]
+[ext_resource type="Script" uid="uid://bqilmv7d358ci" path="res://shipBuilding/level_editor/load_ship.gd" id="1_e8svg"]
 [ext_resource type="Script" uid="uid://qknmsuin5gwv" path="res://shipBuilding/save_load.gd" id="2_e0hwh"]
+[ext_resource type="Texture2D" uid="uid://e756ov0aksfa" path="res://hub/menu_icons/icons8-wrench-64.png" id="2_sk4yu"]
 
-[node name="LoadShip" type="VBoxContainer" unique_id=975251339]
+[node name="LoadShip" type="CanvasLayer" unique_id=798571736]
+follow_viewport_enabled = true
+
+[node name="LoadShip" type="VBoxContainer" parent="." unique_id=975251339]
+z_index = 50
 offset_left = -281.0
 offset_top = -288.0
 offset_right = -109.0
 offset_bottom = -187.0
 script = ExtResource("1_e8svg")
 
-[node name="SaveName" type="LineEdit" parent="." unique_id=1460788208]
+[node name="Line2D" type="Line2D" parent="LoadShip" unique_id=440593655]
+position = Vector2(88, -1)
+points = PackedVector2Array(0, 16, 0, -299)
+width = 2.0
+
+[node name="Target" type="Sprite2D" parent="LoadShip" unique_id=611655132]
+position = Vector2(87, -302)
+texture = ExtResource("2_sk4yu")
+
+[node name="SaveName" type="LineEdit" parent="LoadShip" unique_id=1460788208]
 custom_minimum_size = Vector2(130, 0)
 layout_mode = 2
 placeholder_text = "ship name"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1085565019]
+[node name="HBoxContainer" type="HBoxContainer" parent="LoadShip" unique_id=1085565019]
 layout_mode = 2
 
-[node name="LoadJson" type="Button" parent="HBoxContainer" unique_id=1689498243]
+[node name="LoadJson" type="Button" parent="LoadShip/HBoxContainer" unique_id=1689498243]
 layout_mode = 2
 text = "Load Json"
 
-[node name="LoadTscn" type="Button" parent="HBoxContainer" unique_id=464816149]
+[node name="LoadTscn" type="Button" parent="LoadShip/HBoxContainer" unique_id=464816149]
 layout_mode = 2
 text = "Load Tscn"
 
-[node name="Target" type="Sprite2D" parent="." unique_id=611655132]
-position = Vector2(87, -302)
-scale = Vector2(0.07, 0.07)
-
-[node name="SaveLoad" type="Node" parent="." unique_id=27274874]
+[node name="SaveLoad" type="Node" parent="LoadShip" unique_id=27274874]
 script = ExtResource("2_e0hwh")

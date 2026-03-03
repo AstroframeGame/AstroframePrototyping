@@ -41,10 +41,10 @@ func _on_fullscreen_toggled(toggled_on: bool) -> void:
 		get_window().set_mode(Window.MODE_WINDOWED)
 		center_screen()
 
-@warning_ignore("integer_division")
 func center_screen():
+	@warning_ignore("integer_division")
 	var screen_center = DisplayServer.screen_get_position() + DisplayServer.screen_get_size() / 2
-	var window_scale = get_window().get_size_with_decorations() / 2
+	var window_scale = get_window().get_size_with_decorations() / 2.0
 	get_window().set_position(screen_center - window_scale)
 	
 #region Accessibility

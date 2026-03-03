@@ -8,6 +8,7 @@ var controlled_by: PlayerCharacter
 var turret_damage: int = 10
 
 func _ready() -> void:
+	super._ready()
 	# pair to a nearby aim augment if available
 	if ship:
 		pair_augments(Aim_Augment)

@@ -24,7 +24,7 @@ the player is over ground, hence whether to use air movement or ground movement
 @export_flags_2d_physics var exterior_ground_mask
 
 # sync these
-var pushing #set in physics process
+var pushing :bool #set in physics process
 var push_dir
 var push_brake
 
@@ -268,6 +268,9 @@ func interact():
 			
 func get_interactable() -> Node2D:
 	for area in interact_check.get_overlapping_areas():
+		if area.has_method("can_interact"):
+			if not area.can_interact():
+				continue
 		if area.has_method("interact"):
 			return area
 	return null
@@ -277,7 +280,7 @@ func get_interactable_hint() -> String:
 	if interactable:
 		if interactable.has_method("interact_hint"):
 			return interactable.interact_hint()
-		return "Press [E] to interact with " + interactable.name
+		return "interact with " + interactable.name
 	return ""
 #endregion
 
@@ -358,6 +361,9 @@ func fix_unsure_grounding():
 
 # called when enter airlock
 func on_ship_enter(new_ship : Ship):
+	var prev_ship = get_tree().get_first_node_in_group("player_ship")
+	if prev_ship:
+		prev_ship.remove_from_group("player_ship")
 	on_ground(new_ship)
 	ship = new_ship
 	if self not in new_ship.players:
@@ -366,6 +372,15 @@ func on_ship_enter(new_ship : Ship):
 		push_warning("[Player.gd]: {Warning}, player requested to enter ship when in ship")
 	rotation = ship.rotation
 	#print(name + " parent to ship")
+	ship.add_to_group("player_ship")
+	# if ship is also pirate ship warn nearby pirates
+	var pirate_pilot = ship.get_auto_piloting()
+	if ship.is_in_group("pirate_ship") and pirate_pilot != null:
+		for body in pirate_pilot.detection_area.get_overlapping_bodies():
+			if body.is_in_group("pirate_ship") and body != ship:
+				body.get_auto_piloting().target_candidate = ship
+				body.get_auto_piloting().on_player_detected()
+				print("warned " + str(body))
 	update_layers(true)
 	
 

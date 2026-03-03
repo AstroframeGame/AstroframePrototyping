@@ -6,13 +6,13 @@ extends Room
 @export var forward_multiplier = 2
 # for back, and sides
 @export var standard_thrust = 1200
-@export var drag_multiplier = 0.01
 # for rotation
 @export var rotational_thrust = 0.2
 
 @export var max_speed = 10000
 
 func _ready() -> void:
+	super._ready()
 	on_power_level_change.connect(on_power_changed)
 
 func get_boost_thrust() -> float:

@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://brxmh0aqirupx"]
+
+[ext_resource type="AudioStream" uid="uid://cmsp1jgm33b4m" path="res://audio/sfx/explosion.wav" id="1_otrph"]
+[ext_resource type="Script" uid="uid://ctvs2rvklrqyg" path="res://audio/sfx_prefabs/explosion_sfx.gd" id="2_7djx8"]
+
+[node name="ExplosionSFX" type="AudioStreamPlayer2D" unique_id=868344984]
+stream = ExtResource("1_otrph")
+pitch_scale = 0.9
+max_polyphony = 4
+script = ExtResource("2_7djx8")

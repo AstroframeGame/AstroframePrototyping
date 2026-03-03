@@ -21,6 +21,9 @@ signal on_power_level_change(room : Room)
 @onready var roof: Node2D = $Roof
 
 var m_power_level: int = 0
+func _ready() -> void:
+	roof.z_index = 10
+
 var power_level : int:
 	get:
 		if is_multiplayer_authority():

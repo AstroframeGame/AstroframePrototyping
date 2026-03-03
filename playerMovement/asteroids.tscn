@@ -1,10 +1,13 @@
 [gd_scene format=3 uid="uid://cftem25vj36a6"]
 
+[ext_resource type="Script" uid="uid://q26jtd2b8mya" path="res://encounter/encounters/__DEMO_LOCATION/asteroid.gd" id="1_mji14"]
+
 [node name="Asteroids" type="Node2D" unique_id=464769745]
 
 [node name="Asteroid" type="StaticBody2D" parent="." unique_id=1634458089]
 collision_layer = 256
 collision_mask = 0
+script = ExtResource("1_mji14")
 
 [node name="Ground" type="Polygon2D" parent="Asteroid" unique_id=193700796]
 color = Color(0.4677382, 0.46773827, 0.4677382, 1)
@@ -19,6 +22,7 @@ polygon = PackedVector2Array(-212.47482, -179.44968, 39.64998, -69.749756, 40.77
 position = Vector2(990, 50)
 collision_layer = 256
 collision_mask = 0
+script = ExtResource("1_mji14")
 
 [node name="Ground" type="Polygon2D" parent="Asteroid2" unique_id=738670908]
 color = Color(0.4677382, 0.46773827, 0.4677382, 1)
@@ -33,6 +37,7 @@ polygon = PackedVector2Array(-212.47482, -179.44968, 39.64998, -69.749756, 40.77
 position = Vector2(320, 656)
 collision_layer = 256
 collision_mask = 0
+script = ExtResource("1_mji14")
 
 [node name="Ground" type="Polygon2D" parent="Asteroid3" unique_id=2066395040]
 color = Color(0.4677382, 0.46773827, 0.4677382, 1)
@@ -47,6 +52,7 @@ polygon = PackedVector2Array(-212.47482, -179.44968, 39.64998, -69.749756, 40.77
 position = Vector2(1211, 636)
 collision_layer = 256
 collision_mask = 0
+script = ExtResource("1_mji14")
 
 [node name="Ground" type="Polygon2D" parent="Asteroid4" unique_id=1573401581]
 color = Color(0.4677382, 0.46773827, 0.4677382, 1)

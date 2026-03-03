@@ -3,9 +3,9 @@ extends Hex
 
 const PROJECTILE = preload("uid://devin6bdbcbay") # funny uid lol
 
-@onready var gunSprite : Sprite2D = $Sprite
+@export var gunSprite : Node2D
 @onready var shield_check : Area2D = $ShieldCheck
-@onready var marker_2d: Marker2D = $Sprite/Marker2D
+@export var barrel: Marker2D
 @onready var timer : Timer = $Timer
 @export var cooldown : float = 0.2
 
@@ -22,7 +22,7 @@ func shoot(damage : int):
 	
 	var proj : Projectile = PROJECTILE.instantiate()
 	# removed parent velocity room.ship.linear_velocity
-	proj.initialize(gunSprite, Vector2.ZERO, projectileSpeed, Vector2.from_angle(gunSprite.global_rotation), marker_2d.global_position, damage)
+	proj.initialize(gunSprite, Vector2.ZERO, projectileSpeed, Vector2.from_angle(gunSprite.global_rotation), barrel.global_position, damage)
 	proj.add_collision_exception_with(room.ship)
 	proj.add_collision_exception_with(room.ship.get_node("Walls"))
 	proj.owner_ship = room.ship
@@ -36,3 +36,4 @@ func shoot(damage : int):
 			proj.add_collision_exception_with(body)
 	# get multiplayer manager instead
 	ProjectileManager.add_child(proj)
+	$ShootSFX.play(0.11)

@@ -18,11 +18,24 @@ func update_state():
 	icon.self_modulate = Color("8effa8ff") if is_powered else Color("ec0083ff")
 	
 func _input_event(_viewport: Viewport, _event: InputEvent, _shape_idx: int) -> void:
+	if not room.ship:
+		return
+	
 	if not room.ship.my_character_inside():
 		return
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		on_clicked.emit(self)
 
+
+func can_interact() -> bool:
+	if room is Room:
+		if room.ship != null:
+			if room.ship.my_character_inside():
+				return true
+	return false
+func interact_hint() -> String:
+	return "Toggle Power " + ("Off" if is_powered else "On")
+	
 func interact(_player : PlayerCharacter) -> void:
 	if is_multiplayer_authority():
 		if not room is Room:
@@ -37,3 +50,6 @@ func interact(_player : PlayerCharacter) -> void:
 
 func _physics_process(delta: float) -> void:
 	update_state()
+	if not can_interact():
+		return
+	on_clicked.emit(self)
