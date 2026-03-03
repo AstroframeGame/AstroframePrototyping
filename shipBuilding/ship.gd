@@ -536,12 +536,11 @@ func remove_power_link_out(power_out : PowerOutHex):
 	return false
 	
 func pair_all_links():
-	for output_hex in get_avalible_power_out():
-		for input_hex in get_available_power_in():
-			add_power_link(output_hex, input_hex)
-			#power_links[output_hex] = input_hex
-			#output_hex.update_state()
-			#input_hex.update_state()
+	power_links.clear()
+	var power_in = get_available_power_in()
+	for h : PowerInHex in power_in:
+		set_next_avalible_power_out(h)
+	#print(name + " " + str(get_available_power_in()))
 #endregion
 
 #region Health
