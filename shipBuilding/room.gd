@@ -85,8 +85,8 @@ func pair_augments(augment_type:Variant)->void:
 
 func _physics_process(delta: float) -> void:
 	if is_multiplayer_authority():
-		var power = power_level
-		sync_power(power)
+		m_power_level = power_level
+		sync_power.rpc(m_power_level)
 		
 func _process(delta: float) -> void:
 	if not ship or not ship.driver:
