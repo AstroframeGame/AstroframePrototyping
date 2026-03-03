@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78 90">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: gray;
+      }
+
+      .cls-2 {
+        fill: #ababab;
+      }
+    </style>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <g id="cannon_interior">
+      <polygon class="cls-1" points="78 67.5 78 22.5 39 0 0 22.5 0 67.5 39 90 78 67.5"/>
+      <polygon id="interior_innerbase" class="cls-2" points="72.89 65.05 72.89 25.85 39.05 6.25 5.22 25.85 5.22 65.05 39.05 84.65 72.89 65.05"/>
+    </g>
+  </g>
+</svg>

@@ -1,7 +1,7 @@
 class_name Cannon
 extends Room
 
-@onready var gun : GunHex = $Gun
+@onready var gun : GunHex = $GunHex
 @export var damage = 20
 
 func shoot():
