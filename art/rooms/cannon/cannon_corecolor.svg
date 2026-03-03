@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27.78 24.06">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #f6f6f6;
+      }
+
+      .cls-2 {
+        fill: #e8e8e8;
+      }
+    </style>
+  </defs>
+  <g id="core">
+    <g id="cannon_corecolor">
+      <polygon id="turret_outercore" class="cls-2" points="20.84 0 6.95 0 0 12.03 6.95 24.06 20.84 24.06 27.78 12.03 20.84 0"/>
+      <polygon id="turret_innercore" class="cls-1" points="18.99 3.19 8.79 3.19 3.69 12.03 8.79 20.87 18.99 20.87 24.09 12.03 18.99 3.19"/>
+    </g>
+  </g>
+</svg>
