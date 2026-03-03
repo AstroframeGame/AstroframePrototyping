@@ -16,6 +16,7 @@ func handle_input(event: StringName):
 	if not controlled_by:
 		return
 	if controlled_by.is_local_player:
+		print("Power Level: ", power_level)
 		if not power_level > 0:
 			return
 		# mouse guided system
@@ -31,7 +32,7 @@ func send_shot():
 	var sender_id = multiplayer.get_remote_sender_id()
 	var ctrl_id = controlled_by.owner_id
 	if sender_id != ctrl_id:
-		push_warning("[piloting.gd]: Player %d tried to control player %d" % [sender_id, ctrl_id])
+		push_warning("[turret.gd]: Player %d tried to control player %d" % [sender_id, ctrl_id])
 		return
 		
 	gun.shoot(turret_damage)
