@@ -8,14 +8,18 @@ Otherwise it will set the player's seat to null.
 
 var controlled_by : PlayerCharacter
 
+
+func can_interact() -> bool:
+	if room is Room:
+		if room.ship != null:
+			if room.ship.my_character_inside():
+				return true
+	return false
 func interact_hint() -> String:
-	return "[E] to Sit Down"
+	return "Sit Down"
 
 func interact(player : PlayerCharacter) -> void:
-	if not room is Room:
-		print_debug("Warning : tried to interact with a seat with no asociated room. Discarding input.")
-		return
-	if not room.ship.my_character_inside():
+	if not can_interact():
 		return
 	if player.seat == self:
 		player.seat = null
