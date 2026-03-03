@@ -13,6 +13,7 @@ radius = 44.04543
 [node name="Gun" type="Node2D" unique_id=566916134 node_paths=PackedStringArray("gunSprite", "barrel")]
 self_modulate = Color(1, 0.74509805, 0.70980394, 1)
 z_index = 12
+rotation = -1.5707964
 script = ExtResource("2_jn67f")
 gunSprite = NodePath("GunRot")
 barrel = NodePath("GunRot/CannonGun/Barrel")
