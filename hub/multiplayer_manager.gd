@@ -29,7 +29,7 @@ const PLAYER_CHARACTER_PREFAB = preload("res://playerMovement/player_character.t
 #signal player_died()
 
 func _ready():
-	var is_init = Steam.steamInit(480, true)
+	var is_init = Steam.steamInit(4424670, true)
 	print("Steam init: ", is_init)
 	Steam.initRelayNetworkAccess()
 	user_name = Steam.getPersonaName()
@@ -70,7 +70,7 @@ func _on_lobby_created(result: int, lob_id: int):
 		print("   multiplayer.get_unique_id(): ", multiplayer.get_unique_id())
 		print("   Using host_steam_id: ", host_steam_id)
 		DisplayServer.clipboard_set(str(lob_id))
-	
+		InGameConsole.log_message("   Lobby created, lobby id copied to clipboard: "+ str(lob_id))
 		_add_player_local(host_steam_id)
 
 func _on_lobby_joined(lob_id: int, _perms: int, _locked: bool, _response: int):
