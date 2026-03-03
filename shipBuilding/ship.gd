@@ -538,9 +538,10 @@ func remove_power_link_out(power_out : PowerOutHex):
 func pair_all_links():
 	for output_hex in get_avalible_power_out():
 		for input_hex in get_available_power_in():
-			power_links[output_hex] = input_hex
-			output_hex.update_state()
-			input_hex.update_state()
+			add_power_link(output_hex, input_hex)
+			#power_links[output_hex] = input_hex
+			#output_hex.update_state()
+			#input_hex.update_state()
 #endregion
 
 #region Health
