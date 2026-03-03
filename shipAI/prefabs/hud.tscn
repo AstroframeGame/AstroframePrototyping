@@ -7,6 +7,7 @@
 load_path = "res://.godot/imported/RoundedSquare.png-a9c8bc080d6bb0f1116a6fbbf42f6bbf.ctex"
 
 [node name="ShipHUD" type="CanvasLayer" unique_id=532014552]
+visible = false
 script = ExtResource("1_3rtup")
 
 [node name="HPBar" type="TextureProgressBar" parent="." unique_id=1156022866]
