@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45.16 45.16">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: gray;
+      }
+
+      .cls-2 {
+        fill: none;
+        stroke: #231f20;
+        stroke-miterlimit: 10;
+        stroke-width: .25px;
+      }
+    </style>
+  </defs>
+  <g id="Reactor_Core" data-name="Reactor Core">
+    <g id="reactor2_outercore">
+      <circle class="cls-1" cx="22.58" cy="22.58" r="22.58"/>
+      <line class="cls-2" x1="45.16" y1="22.58" x2="40.97" y2="22.58"/>
+      <line class="cls-2" x1="3.95" y1="22.58" y2="22.58"/>
+      <line class="cls-2" x1="42.13" y1="11.29" x2="38.47" y2="13.41"/>
+      <line class="cls-2" x1="6.41" y1="31.92" x2="3.03" y2="33.87"/>
+      <line class="cls-2" x1="33.87" y1="3.03" x2="31.76" y2="6.69"/>
+      <line class="cls-2" x1="13.24" y1="38.75" x2="11.29" y2="42.13"/>
+      <line class="cls-2" x1="22.58" y1="4.19" x2="22.58"/>
+      <line class="cls-2" x1="22.58" y1="45.16" x2="22.58" y2="41.21"/>
+      <line class="cls-2" x1="13.35" y1="6.59" x2="11.29" y2="3.03"/>
+      <line class="cls-2" x1="33.87" y1="42.13" x2="31.86" y2="38.65"/>
+      <line class="cls-2" x1="6.51" y1="13.3" x2="3.03" y2="11.29"/>
+      <line class="cls-2" x1="42.13" y1="33.87" x2="38.57" y2="31.82"/>
+    </g>
+  </g>
+</svg>

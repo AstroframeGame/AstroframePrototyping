@@ -827,7 +827,7 @@ func apply_merged_rooms(pushed_ship: Ship, snap_data: Dictionary) -> void:
 #region detaching
 func process_room_detachment(active_pushers: Array) -> bool:
 	for pusher in active_pushers:
-		if Input.is_action_just_pressed("detach"):
+		if Input.is_action_just_pressed("ship_push"):
 			var projection_distance = 45.0
 			var contact_global_position = pusher.global_position + (pusher.push_dir * projection_distance)
 			var targeted_grid_cell = world_to_grid(contact_global_position)

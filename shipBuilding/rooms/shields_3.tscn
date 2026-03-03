@@ -91,4 +91,16 @@ position = Vector2(0, -33.74)
 scale = Vector2(0.6, 0.6)
 texture = ExtResource("9_wxemh")
 
+
+[node name="Shield" parent="." unique_id=386750233 instance=ExtResource("3_43tt2")]
+visible = false
+position = Vector2(0, -45)
+
+[node name="CollisionShape2D" parent="Shield" index="0" unique_id=1049669852]
+disabled = true
+
+[node name="RechargeTimer" type="Timer" parent="." unique_id=676478285]
+wait_time = 2.5
+one_shot = true
+
 [editable path="Shield"]

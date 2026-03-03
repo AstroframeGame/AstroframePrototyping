@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 156 90">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: gray;
+      }
+
+      .cls-2 {
+        fill: #ababab;
+      }
+
+      .cls-3 {
+        fill: #d4d4d4;
+      }
+    </style>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <g id="reactor2_interior">
+      <g>
+        <polygon class="cls-1" points="78 67.5 78 22.5 39 0 0 22.5 0 67.5 39 90 78 67.5"/>
+        <polygon class="cls-1" points="156 67.5 156 22.5 117 0 78 22.5 78 67.5 117 90 156 67.5"/>
+        <polygon class="cls-2" points="72.59 64.38 72.59 25.62 39 6.24 5.41 25.62 5.41 64.38 39 83.76 72.59 64.38"/>
+        <polygon class="cls-2" points="150.59 64.38 150.59 25.62 117 6.24 83.41 25.62 83.41 64.38 117 83.76 150.59 64.38"/>
+      </g>
+      <rect class="cls-3" x="38" y="44.34" width="80" height="1.32"/>
+    </g>
+  </g>
+</svg>

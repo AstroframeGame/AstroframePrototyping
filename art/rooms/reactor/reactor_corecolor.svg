@@ -3,18 +3,18 @@
   <defs>
     <style>
       .cls-1 {
-        fill: #abd9b4;
+        fill: #efefef;
       }
 
       .cls-2 {
-        fill: #eaf0ba;
+        fill: #dbdbdb;
       }
     </style>
   </defs>
   <g id="Core">
     <g id="reactor_corecolor">
-      <circle class="cls-1" cx="19.53" cy="19.53" r="19.53"/>
-      <circle class="cls-2" cx="19.53" cy="19.53" r="12.32"/>
+      <circle class="cls-2" cx="19.53" cy="19.53" r="19.53"/>
+      <circle class="cls-1" cx="19.53" cy="19.53" r="12.32"/>
     </g>
   </g>
 </svg>

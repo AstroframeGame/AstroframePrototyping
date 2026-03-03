@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="5_wiatt"]
 [ext_resource type="PackedScene" uid="uid://dtg3tqh28wihx" path="res://shipBuilding/hexes/seat_hex.tscn" id="5_xg7mo"]
 [ext_resource type="Texture2D" uid="uid://h7n0dwcqcea8" path="res://shipBuilding/icons/turret.png" id="6_x6sbh"]
+[ext_resource type="Texture2D" uid="uid://lbohp2c0m5ji" path="res://art/rooms/cannon/cannon_interior.svg" id="7_xg7mo"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_bucqc"]
 radius = 613.11743
@@ -13,8 +14,18 @@ radius = 613.11743
 [node name="Turret_3" type="Node2D" unique_id=1336280051]
 script = ExtResource("1_wiatt")
 
+[node name="CannonInterior" type="Sprite2D" parent="." unique_id=1820007868]
+texture = ExtResource("7_xg7mo")
+
+[node name="CannonInterior2" type="Sprite2D" parent="." unique_id=1621997722]
+position = Vector2(-39, -67.5)
+texture = ExtResource("7_xg7mo")
+
+[node name="CannonInterior3" type="Sprite2D" parent="." unique_id=1676904517]
+position = Vector2(39, -67.5)
+texture = ExtResource("7_xg7mo")
+
 [node name="Gun" parent="." unique_id=406052502 instance=ExtResource("2_x6sbh")]
-self_modulate = Color(1, 0.74509805, 0.70980394, 1)
 
 [node name="InputHex" parent="." unique_id=56559507 instance=ExtResource("3_bucqc")]
 self_modulate = Color(1, 0.74509805, 0.70980394, 1)
@@ -42,20 +53,24 @@ debug_color = Color(0.81960785, 0.35686275, 0.5058824, 0)
 
 [node name="Roof" type="Node2D" parent="." unique_id=475660757]
 visible = false
+z_index = 10
 
 [node name="Hex3" type="Sprite2D" parent="Roof" unique_id=495697975]
+visible = false
 modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
 position = Vector2(39, -67.5)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("5_wiatt")
 
 [node name="Hex5" type="Sprite2D" parent="Roof" unique_id=176818977]
+visible = false
 modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
 position = Vector2(-39, -67.5)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("5_wiatt")
 
 [node name="Hex4" type="Sprite2D" parent="Roof" unique_id=371794833]
+visible = false
 modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("5_wiatt")
@@ -65,6 +80,20 @@ modulate = Color(0, 0, 0, 1)
 rotation = -1.5707964
 scale = Vector2(0.235, 0.235)
 texture = ExtResource("6_x6sbh")
+
+[node name="CannonInterior" type="Sprite2D" parent="Roof" unique_id=30320217]
+modulate = Color(0.44313726, 0.44313726, 0.44313726, 1)
+texture = ExtResource("7_xg7mo")
+
+[node name="CannonInterior2" type="Sprite2D" parent="Roof" unique_id=683866355]
+modulate = Color(0.44313726, 0.44313726, 0.44313726, 1)
+position = Vector2(-39, -67.5)
+texture = ExtResource("7_xg7mo")
+
+[node name="CannonInterior3" type="Sprite2D" parent="Roof" unique_id=327270656]
+modulate = Color(0.44313726, 0.44313726, 0.44313726, 1)
+position = Vector2(39, -67.5)
+texture = ExtResource("7_xg7mo")
 
 [connection signal="body_entered" from="DetectionRange" to="." method="_on_detection_range_body_entered"]
 [connection signal="body_exited" from="DetectionRange" to="." method="_on_detection_range_body_exited"]
