@@ -25,7 +25,11 @@ func _input_event(_viewport: Viewport, _event: InputEvent, _shape_idx: int) -> v
 
 
 func can_interact() -> bool:
-	return room is Room and room.ship.my_character_inside()
+	if room is Room:
+		if room.ship != null:
+			if room.ship.my_character_inside():
+				return true
+	return false
 func interact_hint() -> String:
 	return "Toggle Power " + ("Off" if is_powered else "On")
 	
