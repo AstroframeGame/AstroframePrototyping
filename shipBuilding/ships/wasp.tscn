@@ -64,8 +64,14 @@ rotation = 4.1887903
 position = Vector2(39, -90)
 rotation = 3.1415927
 
+[node name="GunRot" parent="Cannon/GunHex" parent_id_path=PackedInt32Array(195129740, 1922844830) index="6" unique_id=558470100]
+rotation = -1.5707964
+
 [node name="Airlock_1" parent="." unique_id=2084884563 instance=ExtResource("14_uvts2")]
 position = Vector2(0, -157.5)
 
 [node name="Hull_1" parent="." unique_id=284853880 instance=ExtResource("16_wj75a")]
 position = Vector2(78, -157.5)
+
+[editable path="Cannon"]
+[editable path="Cannon/GunHex"]

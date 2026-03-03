@@ -12,12 +12,13 @@ func enter_state():
 	nav_agent = auto_pilot.nav_agent
 	target_ship = auto_pilot.target_ship
 	ship = auto_pilot.ship
-	if ship:
-		print(ship.name + " entered " + name)
+	#if ship:
+		#print(ship.name + " entered " + name)
 
 func exit_state():
-	if ship:
-		print(ship.name + " exited " + name)
+	#if ship:
+		#print(ship.name + " exited " + name)
+	pass
 	
 func process_state_physics(_delta:float):
 	pass

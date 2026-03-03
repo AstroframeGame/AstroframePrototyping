@@ -29,12 +29,13 @@ func _ready() -> void:
 	_detection_shape.shape.radius = 1500
 	
 	if ship:
-		ship.pair_all_links()
-		if ship.get_engines():
+		if ship.has_engines():
 			nav_agent.max_speed = ship.get_engines().max_speed
+		if ship.hit_points > 0:
+			ship.pair_all_links()
+			
 		detection_area.global_position = ship.get_center()
 		nav_obstacle.global_position = ship.get_center()
-		
 	#draw_rays(8,1500,180)
 
 func _physics_process(delta: float) -> void:
@@ -72,8 +73,7 @@ func get_goal_velocity(current_velocity: Vector2) -> Vector2:
 	return goal_vel
 
 func get_goal_angular_velocity() -> float:
-	var engines = ship.get_engines()
-	if not engines:
+	if not ship.has_engines():
 		return 0.0
 	if not target_ship:
 		return 0.0
@@ -81,13 +81,14 @@ func get_goal_angular_velocity() -> float:
 	var delta_rotation = rotation_goal_direction - ship.global_rotation
 	
 	var rot_input = sign(delta_rotation)
-	return rot_input * engines.get_rotational_thrust()
+	
+	return rot_input * ship.get_rotational_thrust()
 
 func on_navigation_finished():
 	if not is_active():
 		return
 		
-	if ship.get_engines():
+	if ship.has_engines():
 		state_machine.change_state(state_machine.sting_state)
 #endregion
 
@@ -108,7 +109,7 @@ func on_body_exited(body):
 	if body.is_in_group("player_ship"):
 		target_ship = null
 		detection_timer.stop()
-		if ship.get_engines():
+		if ship.has_engines():
 			state_machine.change_state(state_machine.idle_state)
 	if body == target_candidate:
 		target_candidate = null
@@ -118,7 +119,7 @@ func on_player_detected():
 		return
 	target_ship = target_candidate
 	target_candidate = null
-	if ship.get_engines():
+	if ship.has_engines():
 		state_machine.change_state(state_machine.approach_state)
 
 func on_power_change(_room):
