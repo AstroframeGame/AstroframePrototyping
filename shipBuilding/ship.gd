@@ -493,9 +493,11 @@ func get_available_power_in() -> Array[PowerInHex]:
 	return _in
 
 func toggle_power(player, power_hex):
+	var is_auth = is_multiplayer_authority()
 	if not player.ship == self:
 		return
-		send_signal_to_clients.rpc(false)
+		if is_auth:
+			send_signal_to_clients.rpc(false)
 	#if power_hex is PowerOutHex && power_hex.is_powering:
 		## turn off power
 		#remove_power_link_out(power_hex)
@@ -503,11 +505,13 @@ func toggle_power(player, power_hex):
 		if power_hex.is_powered:
 			# turn off power
 			remove_power_link_in(power_hex)
-			send_signal_to_clients.rpc()
+			if is_auth:
+				send_signal_to_clients.rpc()
 		else:
 			# turn on power
 			set_available_power_out(power_hex)
-			send_signal_to_clients.rpc()
+			if is_auth:
+				send_signal_to_clients.rpc()
 
 func set_available_power_out(power_in : PowerInHex) -> bool:
 	var power_outs = get_available_power_out()
