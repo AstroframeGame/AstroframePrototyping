@@ -37,8 +37,8 @@ MusicManager="*uid://b7tv0wcrra483"
 
 [display]
 
-window/size/viewport_width=1280
-window/size/viewport_height=720
+window/size/viewport_width=1920
+window/size/viewport_height=1080
 window/stretch/mode="viewport"
 
 [editor_plugins]
@@ -239,6 +239,8 @@ ship_push={
 2d_physics/layer_7="Projectiles"
 2d_physics/layer_9="Enviroment"
 2d_physics/layer_13="EnviromentObstacle"
+2d_physics/layer_14="Shields"
+2d_physics/layer_16="Layer 16"
 avoidance/layer_1="Ships"
 avoidance/layer_2="Environment"
 
