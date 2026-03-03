@@ -31,7 +31,7 @@ func interact(_player : PlayerCharacter) -> void:
 			return
 		on_clicked.emit(_player, self)
 	else:
-		var succeeded = room.ship.finished_power_process
+		var succeeded = await room.ship.finished_power_process
 		if succeeded:
 			on_clicked.emit(_player, self)
 
