@@ -16,11 +16,11 @@ func _ready() -> void:
 #endregion
 
 # this method is searched by name from the player
-func handle_input(event:InputEvent):
+func handle_input(event:StringName):
 	if not ship or not ship.driver:
 		return
 	if ship.driver.is_local_player:
-		var fire_bullet = event.is_action_pressed("ship_fire") #See turret.gd for ACTUAL firing
+		var fire_bullet = event == "ship_fire" #See turret.gd for ACTUAL firing
 		
 		if fire_bullet:
 			if is_multiplayer_authority():

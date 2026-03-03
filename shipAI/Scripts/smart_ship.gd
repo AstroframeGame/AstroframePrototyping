@@ -6,7 +6,7 @@ func _ready() -> void:
 	pair_all_links()
 
 func pair_all_links():
-	for output_hex in get_avalible_power_out():
+	for output_hex in get_available_power_out():
 		for input_hex in get_available_power_in():
 			if not input_hex.is_powered:
 				power_links[output_hex] = input_hex

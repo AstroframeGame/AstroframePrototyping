@@ -12,14 +12,14 @@ func _ready() -> void:
 	if ship:
 		pair_augments(Aim_Augment)
 
-func handle_input(event:InputEvent):
+func handle_input(event: StringName):
 	if not controlled_by:
 		return
 	if controlled_by.is_local_player:
 		if not power_level > 0:
 			return
 		# mouse guided system
-		if event.is_action_pressed("ship_fire"):
+		if event == "ship_fire":
 			if is_multiplayer_authority():
 				gun.shoot(turret_damage)
 				sync_shot.rpc(turret_damage)

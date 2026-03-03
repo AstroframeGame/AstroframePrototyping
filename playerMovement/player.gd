@@ -74,14 +74,14 @@ var target_pos := Vector2.ZERO
 
 var input_dir := Vector2.ZERO
 var mouse_pos := Vector2.ZERO
-var screen_mouse_pos := Vector2.ZERO
 var ship_pushed: bool = false
 var is_shooting: bool = false
 var is_holstering: bool = false
 var was_holstering: bool = false
 var is_interacting: bool = false
 var was_interacting: bool = false
-var event_in_room: InputEvent = null
+var screen_mouse_pos := Vector2.ZERO
+var event_in_room: StringName
 ## ======  Multiplayer END  ======
 #endregion
 
@@ -168,7 +168,7 @@ func _physics_process(delta):
 		elif not is_interacting and was_interacting:
 			was_interacting = false
 			
-		if event_in_room != null and not is_interacting:
+		if event_in_room != "" and not is_interacting:
 			sync_room_inputs.rpc(event_in_room)
 		
 		for i in range(get_slide_collision_count()):
@@ -251,7 +251,7 @@ func sync_interacting():
 	interact()
 
 @rpc("authority", "call_local", "unreliable")
-func sync_room_inputs(room_event: InputEvent):
+func sync_room_inputs(room_event: StringName):
 	seat.room.handle_input(room_event)
 #endregion
 
@@ -285,7 +285,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if is_local_player:
 		var shooting = false
 		var holstered = false
-		var room_input = null
+		var room_input = ""
 		var interacting = false
 		
 		if event.is_action_pressed("player_shoot"):
@@ -300,7 +300,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			interacting = true
 			
 		if seat and seat.room.has_method("handle_input"):
-			room_input = event
+			for a in InputMap.get_actions():
+				if event.is_action(a):
+					room_input = a
+					break
 			
 		if is_multiplayer_authority():
 			is_shooting    = shooting
@@ -311,7 +314,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			send_unhandled_inputs.rpc_id(1, shooting, holstered, interacting, room_input)
 	
 @rpc("any_peer", "call_remote", "unreliable")
-func send_unhandled_inputs(shooting: bool, holstered: bool, interacting: bool, room_input: InputEvent):
+func send_unhandled_inputs(shooting: bool, holstered: bool, interacting: bool, room_input: StringName):
 	var sender_id = multiplayer.get_remote_sender_id()
 	if sender_id != owner_id:
 		push_warning("Player %d tried to control player %d" % [sender_id, owner_id])

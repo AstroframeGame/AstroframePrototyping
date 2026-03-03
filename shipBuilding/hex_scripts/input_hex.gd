@@ -24,11 +24,19 @@ func _input_event(_viewport: Viewport, _event: InputEvent, _shape_idx: int) -> v
 		on_clicked.emit(self)
 
 func interact(_player : PlayerCharacter) -> void:
-	if not room is Room:
-		return
-	if not room.ship.my_character_inside():
-		return
-	on_clicked.emit(self)
-	
+	if is_multiplayer_authority():
+		if not room is Room:
+			return
+		if not room.ship.my_character_inside():
+			return
+		on_clicked.emit(self)
+	else:
+		var succeeded = await room.ship.finished_power_process
+		if succeeded:
+			on_clicked.emit(self)
+
+
+
+
 func _physics_process(delta: float) -> void:
 	update_state()

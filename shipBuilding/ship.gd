@@ -5,6 +5,7 @@ signal room_clicked(room: Room, button_index: int)
 signal on_airlock_interaction(interactor : PlayerCharacter, is_inside : bool) # called from airlock
 signal ship_destroyed
 signal on_hit()
+signal finished_power_process(succ: bool)
 
 const FLIGHT_DEADZONE = 0.05 #screen %
 const HEX_WIDTH = 78
@@ -170,16 +171,6 @@ func sync_m_state(gt: Transform2D, lv: Vector2, av: float):
 		target_transform        = gt
 		target_linear_velocity  = lv
 		target_angular_velocity = av
-
-@rpc("authority", "call_remote", "unreliable")
-func sync_p_state(p_link_dict: Dictionary[PowerOutHex, PowerInHex]):
-	if not is_multiplayer_authority():
-		power_links = p_link_dict
-		
-@rpc("any_peer", "call_remote", "reliable")
-func send_p_input(hex: PowerInHex):
-	if is_multiplayer_authority():
-		toggle_power(hex)
 
 func calc_center_of_mass():
 	var hex_mass = 2.0
@@ -505,6 +496,7 @@ func toggle_power(power_hex):
 	if is_multiplayer_authority():
 		if not my_character_inside():
 			return
+			send_signal_to_clients.rpc(false)
 		#if power_hex is PowerOutHex && power_hex.is_powering:
 			## turn off power
 			#remove_power_link_out(power_hex)
@@ -512,12 +504,11 @@ func toggle_power(power_hex):
 			if power_hex.is_powered:
 				# turn off power
 				remove_power_link_in(power_hex)
+				send_signal_to_clients.rpc()
 			else:
 				# turn on power
 				set_available_power_out(power_hex)
-		sync_p_state.rpc()
-	else:
-		send_p_input.rpc_id(1, power_hex)
+				send_signal_to_clients.rpc()
 
 func set_available_power_out(power_in : PowerInHex) -> bool:
 	var power_outs = get_available_power_out()
@@ -555,6 +546,16 @@ func remove_power_link_out(power_out : PowerOutHex):
 		power_in.room.on_power_level_change.emit(power_in)
 		return true
 	return false
+	
+	
+@rpc("authority", "call_remote", "unreliable")
+func sync_p_state(p_link_dict: Dictionary[PowerOutHex, PowerInHex]):
+	if not is_multiplayer_authority():
+		power_links = p_link_dict
+
+@rpc("authority", "call_local", "unreliable")
+func send_signal_to_clients(succ: bool = true):
+	finished_power_process.emit(succ)
 #endregion
 
 #region Health
