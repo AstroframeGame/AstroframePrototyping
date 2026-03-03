@@ -3,7 +3,7 @@ class_name PowerInHex
 
 @onready var icon: Sprite2D = $"Torus"
 
-signal on_clicked(power_hex)
+signal on_clicked(player: PlayerCharacter, power_hex: PowerInHex)
 
 var is_powered : bool:
 	get:
@@ -29,14 +29,11 @@ func interact(_player : PlayerCharacter) -> void:
 			return
 		if not room.ship.my_character_inside():
 			return
-		on_clicked.emit(self)
+		on_clicked.emit(_player, self)
 	else:
-		var succeeded = await room.ship.finished_power_process
+		var succeeded = room.ship.finished_power_process
 		if succeeded:
-			on_clicked.emit(self)
-
-
-
+			on_clicked.emit(_player, self)
 
 func _physics_process(delta: float) -> void:
 	update_state()

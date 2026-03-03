@@ -492,23 +492,22 @@ func get_available_power_in() -> Array[PowerInHex]:
 					_in.append(h)
 	return _in
 
-func toggle_power(power_hex):
-	if is_multiplayer_authority():
-		if not my_character_inside():
-			return
-			send_signal_to_clients.rpc(false)
-		#if power_hex is PowerOutHex && power_hex.is_powering:
-			## turn off power
-			#remove_power_link_out(power_hex)
-		if power_hex is PowerInHex:
-			if power_hex.is_powered:
-				# turn off power
-				remove_power_link_in(power_hex)
-				send_signal_to_clients.rpc()
-			else:
-				# turn on power
-				set_available_power_out(power_hex)
-				send_signal_to_clients.rpc()
+func toggle_power(player, power_hex):
+	if not player.ship == self:
+		return
+		send_signal_to_clients.rpc(false)
+	#if power_hex is PowerOutHex && power_hex.is_powering:
+		## turn off power
+		#remove_power_link_out(power_hex)
+	if power_hex is PowerInHex:
+		if power_hex.is_powered:
+			# turn off power
+			remove_power_link_in(power_hex)
+			send_signal_to_clients.rpc()
+		else:
+			# turn on power
+			set_available_power_out(power_hex)
+			send_signal_to_clients.rpc()
 
 func set_available_power_out(power_in : PowerInHex) -> bool:
 	var power_outs = get_available_power_out()
@@ -555,7 +554,8 @@ func sync_p_state(p_link_dict: Dictionary[PowerOutHex, PowerInHex]):
 
 @rpc("authority", "call_local", "unreliable")
 func send_signal_to_clients(succ: bool = true):
-	finished_power_process.emit(succ)
+	if not is_multiplayer_authority():
+		finished_power_process.emit(succ)
 #endregion
 
 #region Health
