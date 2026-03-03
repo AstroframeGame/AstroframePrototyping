@@ -252,7 +252,8 @@ func sync_interacting():
 
 @rpc("authority", "call_local", "unreliable")
 func sync_room_inputs(room_event: StringName):
-	seat.room.handle_input(room_event)
+	if seat and seat.room:
+		seat.room.handle_input(room_event)
 #endregion
 
 ## ======  Multiplayer END  ======
