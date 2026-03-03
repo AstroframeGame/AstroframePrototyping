@@ -589,7 +589,7 @@ func pair_all_links():
 	power_links.clear()
 	var power_in = get_available_power_in()
 	for h : PowerInHex in power_in:
-		set_next_avalible_power_out(h)
+		set_available_power_out(h)
 	#print(name + " " + str(get_available_power_in()))
 #endregion
 

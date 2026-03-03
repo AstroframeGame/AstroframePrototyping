@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://vo6mtf68wgee" path="res://shipBuilding/room.gd" id="1_rw5c6"]
 [ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="2_cyhtv"]
 [ext_resource type="Texture2D" uid="uid://bkvw1n3vjg8x2" path="res://art/rooms/hull/hull_interior.svg" id="3_n6m5t"]
-[ext_resource type="Script" path="res://shipBuilding/hex_scripts/hex.gd" id="3_rw5c6"]
+[ext_resource type="Script" uid="uid://1cm75aqsmkgn" path="res://shipBuilding/hex_scripts/hex.gd" id="3_rw5c6"]
 [ext_resource type="Texture2D" uid="uid://bvses8nyu1eqh" path="res://art/rooms/hull/hull_exterior.svg" id="4_l7rt0"]
 [ext_resource type="Texture2D" uid="uid://fxqda6l8d0tn" path="res://art/rooms/hull/hull_exterior_teampatch.svg" id="5_bi2yi"]
 
