@@ -68,3 +68,19 @@ func _update_cursor_visibility() -> void:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	else:
 		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+
+func get_key_mapping(input_name : StringName) -> String:
+	var event_index = 0 if using_mouse else 1
+	var events : Array[InputEvent] = InputMap.action_get_events(input_name)
+	if events.size() > 0:
+		var event_text = get_clean_name(events[event_index])
+		return event_text
+	return "UNBOUND"
+	
+func get_clean_name(event: InputEvent) -> String:
+	var text = event.as_text().replace(" (Physical)", "").replace(" - Physical", "")
+	if "xbox" in text.to_lower():
+		for part in text.split(","):
+			if "xbox" in part.to_lower():
+				return part.replacen("xbox", "").replace(")", "").strip_edges()
+	return text

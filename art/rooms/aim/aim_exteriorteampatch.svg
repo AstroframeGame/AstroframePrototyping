@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 133.34 26.55">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #d4d4d4;
+      }
+    </style>
+  </defs>
+  <g id="Exterior">
+    <g id="aim_exteriorteampatch">
+      <g>
+        <polygon class="cls-1" points="6.98 6.04 6.98 2.01 3.49 0 0 2.01 0 6.04 3.49 8.06 6.98 6.04"/>
+        <polygon class="cls-1" points="6.98 24.53 6.98 20.51 3.49 18.49 0 20.51 0 24.53 3.49 26.55 6.98 24.53"/>
+      </g>
+      <g>
+        <polygon class="cls-1" points="126.36 20.51 126.36 24.53 129.85 26.55 133.34 24.53 133.34 20.51 129.85 18.49 126.36 20.51"/>
+        <polygon class="cls-1" points="126.36 2.01 126.36 6.04 129.85 8.06 133.34 6.04 133.34 2.01 129.85 0 126.36 2.01"/>
+      </g>
+    </g>
+  </g>
+</svg>

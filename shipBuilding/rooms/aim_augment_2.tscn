@@ -3,16 +3,13 @@
 [ext_resource type="Script" uid="uid://crgm77ga0tu4f" path="res://shipBuilding/room_scripts/aim_augment.gd" id="1_jqip6"]
 [ext_resource type="PackedScene" uid="uid://dmgvcp6y668bi" path="res://shipBuilding/hexes/input_hex.tscn" id="2_xlycq"]
 [ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="3_jqip6"]
+[ext_resource type="Texture2D" uid="uid://ca8nd1hwh6s4o" path="res://art/rooms/aim/aim_corecolor.svg" id="4_s1ihw"]
+[ext_resource type="Texture2D" uid="uid://dxgsbqkviqdtw" path="res://art/rooms/aim/aim_exterior.svg" id="5_mkdoh"]
+[ext_resource type="Texture2D" uid="uid://wbeipiesfk4k" path="res://art/rooms/aim/aim_exteriorteampatch.svg" id="6_qmfie"]
+[ext_resource type="Texture2D" uid="uid://c6hr28f15ovd8" path="res://art/rooms/aim/aim_interior.svg" id="7_2aqm0"]
 
 [node name="Aim_Augment_2" type="Node2D" unique_id=1056768738]
 script = ExtResource("1_jqip6")
-
-[node name="InputHex" parent="." unique_id=56559507 instance=ExtResource("2_xlycq")]
-self_modulate = Color(1, 0.74509805, 0.70980394, 1)
-
-[node name="InputHex2" parent="." unique_id=825535142 instance=ExtResource("2_xlycq")]
-self_modulate = Color(1, 0.74509805, 0.70980394, 1)
-position = Vector2(78, 0)
 
 [node name="Label" type="Label" parent="." unique_id=1474880523]
 offset_left = 3.0
@@ -22,16 +19,46 @@ offset_bottom = -5.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Auto-aim"
 
+[node name="AimInterior" type="Sprite2D" parent="." unique_id=2115136637]
+position = Vector2(39.04, 0)
+scale = Vector2(0.53, 0.53)
+texture = ExtResource("7_2aqm0")
+
+[node name="InputHex" parent="." unique_id=56559507 instance=ExtResource("2_xlycq")]
+self_modulate = Color(1, 0.74509805, 0.70980394, 1)
+
+[node name="InputHex2" parent="." unique_id=825535142 instance=ExtResource("2_xlycq")]
+self_modulate = Color(1, 0.74509805, 0.70980394, 1)
+position = Vector2(78, 0)
+
 [node name="Roof" type="Node2D" parent="." unique_id=36153883]
 visible = false
 
 [node name="Hex3" type="Sprite2D" parent="Roof" unique_id=1627226535]
+visible = false
 modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
 position = Vector2(78, 0)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("3_jqip6")
 
 [node name="Hex4" type="Sprite2D" parent="Roof" unique_id=2078297214]
+visible = false
 modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("3_jqip6")
+
+[node name="AimExterior" type="Sprite2D" parent="Roof" unique_id=1745316949]
+position = Vector2(39.04, 0)
+scale = Vector2(0.53, 0.53)
+texture = ExtResource("5_mkdoh")
+
+[node name="AimExteriorteampatch" type="Sprite2D" parent="Roof" unique_id=968006742]
+position = Vector2(39.04, 0)
+scale = Vector2(0.53, 0.53)
+texture = ExtResource("6_qmfie")
+
+[node name="AimCorecolor" type="Sprite2D" parent="." unique_id=20652230]
+self_modulate = Color(1, 0.74509805, 0.70980394, 1)
+position = Vector2(39.04, 0)
+scale = Vector2(0.53, 0.53)
+texture = ExtResource("4_s1ihw")

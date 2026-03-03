@@ -2,7 +2,10 @@
 
 [ext_resource type="Script" uid="uid://vo6mtf68wgee" path="res://shipBuilding/room.gd" id="1_rw5c6"]
 [ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="2_cyhtv"]
+[ext_resource type="Texture2D" uid="uid://bkvw1n3vjg8x2" path="res://art/rooms/hull/hull_interior.svg" id="3_n6m5t"]
 [ext_resource type="Script" path="res://shipBuilding/hex_scripts/hex.gd" id="3_rw5c6"]
+[ext_resource type="Texture2D" uid="uid://bvses8nyu1eqh" path="res://art/rooms/hull/hull_exterior.svg" id="4_l7rt0"]
+[ext_resource type="Texture2D" uid="uid://fxqda6l8d0tn" path="res://art/rooms/hull/hull_exterior_teampatch.svg" id="5_bi2yi"]
 
 [node name="Hull_1" type="Node2D" unique_id=284853880]
 script = ExtResource("1_rw5c6")
@@ -13,10 +16,23 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_cyhtv")
 script = ExtResource("3_rw5c6")
 
+[node name="HullInterior" type="Sprite2D" parent="." unique_id=1692505313]
+scale = Vector2(0.47, 0.47)
+texture = ExtResource("3_n6m5t")
+
 [node name="Roof" type="Node2D" parent="." unique_id=94053732]
-visible = false
 
 [node name="Hex4" type="Sprite2D" parent="Roof" unique_id=57296638]
+visible = false
 modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_cyhtv")
+
+[node name="HullExterior" type="Sprite2D" parent="Roof" unique_id=301551140]
+scale = Vector2(0.47, 0.47)
+texture = ExtResource("4_l7rt0")
+
+[node name="HullExteriorTeampatch" type="Sprite2D" parent="Roof" unique_id=1604113175]
+position = Vector2(0, -8.29)
+scale = Vector2(0.47, 0.47)
+texture = ExtResource("5_bi2yi")

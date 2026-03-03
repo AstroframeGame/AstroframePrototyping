@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 39.06 39.06">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #efefef;
+      }
+
+      .cls-2 {
+        fill: #dbdbdb;
+      }
+    </style>
+  </defs>
+  <g id="Core">
+    <g id="reactor_corecolor">
+      <circle class="cls-2" cx="19.53" cy="19.53" r="19.53"/>
+      <circle class="cls-1" cx="19.53" cy="19.53" r="12.32"/>
+    </g>
+  </g>
+</svg>
