@@ -541,16 +541,20 @@ func sync_p_state(s_map: Dictionary[NodePath, NodePath]):
 	for out_path in s_map:
 		var out_hex = get_node(out_path) as PowerOutHex
 		var in_hex  = get_node(s_map[out_path]) as PowerInHex
+		
 		if out_hex is not PowerOutHex or in_hex is not PowerInHex:
 			push_warning("[ship.gd/sync_p_state()]: Out_Hex or In_Hex in sync_p_state.rpc() is not correct typing.")
+			return
+		
 		power_links[out_hex] = in_hex
-	
+		out_hex.update_state()
+		in_hex.update_state()
 
 # Makes all values of power links into NodePath for RPCing
 func power_links_to_path() -> Dictionary[NodePath, NodePath]:  
 	var s_map: Dictionary[NodePath, NodePath] = {}
 	for out_h in power_links:
-		s_map[out_h.get_path() as NodePath] = power_links[out_h].get_path() as NodePath
+		s_map[out_h.get_path()] = power_links[out_h].get_path()
 	return s_map
 
 func set_available_power_out(power_in : PowerInHex) -> bool:
