@@ -766,6 +766,10 @@ func _process(_delta: float) -> void:
 	#   clear_ghost_preview()
 	#   return
 	
+	var players_pushing = get_players_pushing()
+	if multiplayer_manager.my_player not in players_pushing:
+		clear_ghost_preview()
+	
 	if is_multiplayer_authority():
 		sync_m_state.rpc(global_transform, linear_velocity, angular_velocity)
 		
