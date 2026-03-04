@@ -19,6 +19,7 @@
 [ext_resource type="Script" uid="uid://dkw41dpjcbrwa" path="res://accessibilitySettings/colorblind_shader.gd" id="14_gjoju"]
 [ext_resource type="Shader" uid="uid://dv6l2vd0xplhh" path="res://hub/colorblind.gdshader" id="15_mmyqo"]
 [ext_resource type="PackedScene" uid="uid://c4c4q35vwjc06" path="res://accessibilitySettings/settings_menu.tscn" id="15_qui64"]
+[ext_resource type="Script" uid="uid://cw7don71np0bg" path="res://hub/credits.gd" id="17_bg8wc"]
 [ext_resource type="Texture2D" uid="uid://cjtj7xo6f6waa" path="res://shipBuilding/icons/torus.png" id="17_qui64"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gjoju"]
@@ -257,12 +258,32 @@ text = "Back to Menu"
 visible = false
 
 [node name="Credits" type="CanvasLayer" parent="UI" unique_id=2010810909]
-visible = false
 
 [node name="Back" type="Button" parent="UI/Credits" unique_id=1238051811]
 offset_right = 8.0
 offset_bottom = 8.0
 text = "Back"
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/Credits" unique_id=1116174233]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 100
+
+[node name="ScrollContainer" type="ScrollContainer" parent="UI/Credits/MarginContainer" unique_id=486330206]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Credits/MarginContainer/ScrollContainer" unique_id=1400553798]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+script = ExtResource("17_bg8wc")
 
 [node name="Settings" type="CanvasLayer" parent="UI" unique_id=1322932418]
 visible = false

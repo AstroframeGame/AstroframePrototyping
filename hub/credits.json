@@ -1,0 +1,40 @@
+{
+  "header": "Credits",
+  "Producer": "Logan Shehane",
+  "Narrative": "Raven Ruiz",
+  "Gameplay Programming": "Kevin Tan",
+  "Multiplayer Programming": "Tapesh Sankaran",
+  "Design Lead": "Raven Ruiz",
+  "Systems Programming": "Logan Shehane",
+  "DevOps Engineering": "Alejandro Montoreano",
+  "Acessability": "Alejandro Montoreano",
+  "Original Soundtrack": "Elliott Dionne",
+  "Room Art": "Kaushik Rajarathinam",
+  "VFX": "Logan Shehane",
+  "Ship AI": "Kevin Tan",
+  "Planning Assistance": "Yi Xie",
+  "Playtesters": [
+	"Ben",
+	"Jade Sells",
+	"Ayden Le",
+	"Nick",
+	"Hunter Kingsley",
+	"Alicia Landa",
+	"Justin Lam",
+	"Sean Massa",
+	"Phineas Asmelash",
+	"Jason Rangel-Martinez",
+	"Jim Lee",
+	"Braden Humphrey",
+    "Ashley Seward"
+  ],
+  "Icons": [
+	"[url=https://icons8.com/icon/YmmZ2YsHiv59/discord-new]Discord[/url] icon by [url=https://icons8.com]Icons8[/url]",
+	"[url=https://icons8.com/icon/3tC9EQumUAuq/github]GitHub[/url] icon by [url=https://icons8.com]Icons8[/url]",
+	"[url=https://icons8.com/icon/JnHXhz9KQ8RC/folder]Folder[/url] icon by [url=https://icons8.com]Icons8[/url]",
+	"[url=https://icons8.com/icon/9976/mute]Mute[/url] icon by [url=https://icons8.com]Icons8[/url]",
+	"[url=https://icons8.com/icon/9982/audio]Audio[/url] icon by [url=https://icons8.com]Icons8[/url]",
+	"[url=https://icons8.com/icon/35066/wrench]Wrench[/url] icon by [url=https://icons8.com]Icons8[/url]",
+    "[url=https://icons8.com/icon/10767/triangle-arrow]Triangle Arrow[/url] icon by [url=https://icons8.com]Icons8[/url]"
+  ]
+}
