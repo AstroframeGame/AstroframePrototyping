@@ -18,7 +18,12 @@ func _ready():
 			create_label(display_text)
 
 func create_label(text_content: String):
-	var label = Label.new()
-	label.text = text_content
-	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	add_child(label)
+	var rtf = RichTextLabel.new()
+	rtf.bbcode_enabled = true
+	rtf.text = text_content
+	rtf.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	rtf.fit_content = true
+	
+	rtf.scroll_active = false
+	rtf.meta_clicked.connect(OS.shell_open)
+	add_child(rtf)

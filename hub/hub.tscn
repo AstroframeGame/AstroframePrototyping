@@ -279,12 +279,9 @@ theme_override_constants/margin_bottom = 100
 [node name="ScrollContainer" type="ScrollContainer" parent="UI/Credits/MarginContainer" unique_id=486330206]
 layout_mode = 2
 
-[node name="CenterContainer" type="CenterContainer" parent="UI/Credits/MarginContainer/ScrollContainer" unique_id=1653837196]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Credits/MarginContainer/ScrollContainer" unique_id=1400553798]
 layout_mode = 2
 size_flags_horizontal = 3
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/Credits/MarginContainer/ScrollContainer/CenterContainer" unique_id=1400553798]
-layout_mode = 2
 alignment = 1
 script = ExtResource("17_bg8wc")
 
