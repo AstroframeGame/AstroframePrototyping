@@ -282,20 +282,26 @@ func get_interactable_hint() -> String:
 #endregion
 
 #region UnhandledInputs
+var shooting = false
+var holstered = false
 func _unhandled_input(event: InputEvent) -> void:
 	if is_local_player:
-		var shooting = false
-		var holstered = false
-		var room_input = ""
 		var interacting = false
+		var room_input = ""
 		
 		if event.is_action_pressed("player_shoot"):
 			shooting = true
-			
+		if event.is_action_released("player_shoot"):
+			shooting = false
+		
 		if event.is_action_pressed("holster_handgun"):
 			if seat:
 				return
 			holstered = true
+		if event.is_action_released("holster_handgun"):
+			if seat:
+				return
+			holstered = false
 	
 		if event.is_action_pressed("interact"):
 			interacting = true
