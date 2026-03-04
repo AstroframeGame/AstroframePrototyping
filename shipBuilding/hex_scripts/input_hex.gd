@@ -32,3 +32,6 @@ func interact(_player : PlayerCharacter) -> void:
 			room.ship.toggle_power(_player, self)
 		else:
 			room.ship.request_toggle_power.rpc_id(1, _player.get_path(), get_path())
+			
+func _process() -> void:
+	update_state()
