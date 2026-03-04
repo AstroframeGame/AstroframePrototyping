@@ -35,7 +35,7 @@ func send_shot():
 	if sender_id != ctrl_id:
 		push_warning("[turret.gd]: Player %d tried to control player %d" % [sender_id, ctrl_id])
 		return
-		
+	print("Client Sent Shot")
 	gun.shoot(turret_damage)
 	sync_shot.rpc(turret_damage)
 

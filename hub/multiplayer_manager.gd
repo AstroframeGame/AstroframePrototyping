@@ -3,7 +3,14 @@ class_name MultiplayerManager
 
 var my_player : PlayerCharacter # KEEP THIS
 var my_player_system : Node2D
-var players : Array[PlayerCharacter]
+var players : Array[PlayerCharacter]:
+	get:
+		var player_nodes = $Players.get_children()
+		var no_nodes: Array[PlayerCharacter] = []
+		for player in player_nodes:
+			if player is PlayerCharacter:
+				no_nodes.append(player)
+		return no_nodes
 
 var peer: SteamMultiplayerPeer
 var lobby_id: int = 0
@@ -59,6 +66,8 @@ func _on_lobby_created(result: int, lob_id: int):
 		
 		multiplayer.peer_connected.connect(_on_peer_connected)
 		multiplayer.peer_disconnected.connect(_on_peer_disconnected)
+		
+		game_manager.game_quit.connect(_on_game_quit)
 		
 		await get_tree().process_frame
 		
@@ -128,6 +137,19 @@ func _on_peer_connected(id):
 		$"../UI/Main/ScrollContainer".visible = false
 		print("Client: Not spawning (Server owns authority)")
 
+func _on_game_quit():
+	if is_host:
+		remove_all_players.rpc()
+		multiplayer.multiplayer_peer.close()
+	else:
+		remove_all_players()
+		multiplayer.multiplayer_peer.close()
+
+@rpc("authority", "call_local", "reliable")
+func remove_all_players():
+	for p in players:
+		_remove_player(p.owner_id)
+
 func _on_peer_disconnected(id):
 	print("Peer disconnected: ", id)
 	_remove_player(id)
@@ -161,7 +183,7 @@ func _add_player_local(id: int):
 	if is_owner:
 		player_char.get_node("NamerTag").text = user_name
 		var player_system = PLAYER_SYSTEM_PREFAB.instantiate()
-		
+		player_system.name = user_name + "_SYS"
 		my_player = player_char
 		my_player_system = player_system
 		
@@ -212,10 +234,12 @@ func reply_w_user(user: String):
 func _remove_player(id: int):
 	if !$Players.has_node(str(id)):
 		return
-	if id == 1:
-		game_manager.quit_to_list()
-		
-	$Players.get_node(str(id)).queue_free()
+	var player = $Players.get_node(str(id))
+	# redundant, but keeping for logic reasons
+	if player is PlayerCharacter and player.is_local_player:
+		if has_node(user_name + "_SYS"):
+			get_node(user_name + "_SYS").queue_free()
+	player.queue_free()
 	print("Removed player ", id)
 #endregion
 	
