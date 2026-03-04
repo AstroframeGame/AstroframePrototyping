@@ -920,7 +920,7 @@ func apply_merged_rooms(pushed_ship: Ship, snap_data: Dictionary) -> void:
 			add_room(duplicate_room, merged_cell, merged_rotation_index)
 			
 	initialize_ship()
-	pushed_ship.queue_free()
+	queue_free.call_deferred(pushed_ship)
 
 @rpc("any_peer", "call_remote", "reliable")	
 func send_detach(p_path: NodePath, dir: Vector2):
