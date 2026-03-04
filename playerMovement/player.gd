@@ -72,6 +72,7 @@ var owner_id: int
 var target_vel := Vector2.ZERO
 var target_pos := Vector2.ZERO
 
+var pushed: bool = false
 var input_dir := Vector2.ZERO
 var mouse_pos := Vector2.ZERO
 var ship_pushed: bool = false
@@ -128,6 +129,8 @@ func _physics_process(delta):
 		apply_ground_body_transform()
 		input_dir = input_dir.normalized().rotated(global_rotation)
 		if ship_pushed: ## Action for movement
+			pushed = false
+			print("\nR Pressed:\n ground_body: ", ground_body, "\n ship: ", ship, "\n")
 			if pushing:
 				pushing = false
 			else:
@@ -198,11 +201,11 @@ func _process(_delta: float) -> void:
 	if is_local_player:
 		var dir = Input.get_vector("left", "right", "up", "down")
 		var is_braking = Input.is_action_pressed("brake")
-		var pushed = Input.is_action_just_pressed("ship_push")
 		var m_pos = get_global_mouse_position()
-		
 		var center = get_viewport().get_visible_rect().get_center()
 		var scrn_m_pos = get_viewport().get_mouse_position() - center
+		
+		pushed = pushed or Input.is_action_just_pressed("ship_push")
 
 		if is_multiplayer_authority():
 			input_dir        = dir

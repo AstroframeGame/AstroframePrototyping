@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cbty45dswb5nj" path="res://hub/game_manager.gd" id="1_n4d7h"]
 [ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/ui_textures/RoundedSquare.png" id="2_1wrr7"]
 [ext_resource type="Script" uid="uid://c74xdls6fgqs3" path="res://hub/multiplayer_manager.gd" id="2_2qbsn"]
+[ext_resource type="Script" uid="uid://db01ydb8ojwqw" path="res://multiplayer/multiplayer_spawner.gd" id="2_bg8wc"]
 [ext_resource type="Script" uid="uid://io2qs57g5xic" path="res://hub/menu_manager.gd" id="2_nm8ur"]
 [ext_resource type="Script" uid="uid://y07ne4p2xbui" path="res://hub/scene_list.gd" id="3_1x5tx"]
 [ext_resource type="Script" uid="uid://cti2v7b51m68r" path="res://hub/fps_label.gd" id="3_6ebxt"]
@@ -37,6 +38,11 @@ adjustment_enabled = true
 
 [node name="GameManager" type="Node" parent="." unique_id=1643740730]
 script = ExtResource("1_n4d7h")
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="GameManager" unique_id=1782494171]
+_spawnable_scenes = PackedStringArray("uid://b4ety2cv40p6l")
+spawn_path = NodePath("..")
+script = ExtResource("2_bg8wc")
 
 [node name="MultiplayerManager" type="Node" parent="." unique_id=506980756]
 script = ExtResource("2_2qbsn")

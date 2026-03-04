@@ -5,7 +5,6 @@ signal room_clicked(room: Room, button_index: int)
 signal on_airlock_interaction(interactor : PlayerCharacter, is_inside : bool) # called from airlock
 signal ship_destroyed
 signal on_hit()
-signal finished_power_process(succ: bool)
 
 const FLIGHT_DEADZONE = 0.05 #screen %
 const HEX_WIDTH = 78
@@ -178,14 +177,14 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	
 	eval_sparks(state)
 
-#region ClientInterpolation
+#region ClientInterpolation/AuthSyncing
 func _physics_process(delta: float) -> void:
 	if is_multiplayer_authority():
-		return
-	
-	global_transform = global_transform.interpolate_with(target_transform, 10.0 * delta)
-	linear_velocity = linear_velocity.lerp(target_linear_velocity, 10.0 * delta)
-	angular_velocity = lerp(angular_velocity, target_angular_velocity, 10.0 * delta)
+		sync_m_state.rpc(global_transform, linear_velocity, angular_velocity)
+	else:
+		global_transform = global_transform.interpolate_with(target_transform, 10.0 * delta)
+		linear_velocity = linear_velocity.lerp(target_linear_velocity, 10.0 * delta)
+		angular_velocity = lerp(angular_velocity, target_angular_velocity, 10.0 * delta)
 #endregion
 
 @rpc("authority", "call_remote", "unreliable")
@@ -731,14 +730,15 @@ func get_players_pushing() -> Array[PlayerCharacter]:
 	return pushing_players
 
 func apply_push_velocity(state : PhysicsDirectBodyState2D) -> void:
-	var players = get_players_pushing()
-	if players.is_empty():
-		return
-	for p in players:
-		if p.push_brake:
-			state.linear_velocity = lerp(state.linear_velocity, Vector2.ZERO, p.thrust_accel * state.inverse_mass * 0.2 * state.step)
-		else:
-			state.linear_velocity = lerp(state.linear_velocity, state.linear_velocity + p.push_dir, p.thrust_accel * state.inverse_mass * 0.2 * state.step)
+	if is_multiplayer_authority():
+		var players = get_players_pushing()
+		if players.is_empty():
+			return
+		for p in players:
+			if p.push_brake:
+				state.linear_velocity = lerp(state.linear_velocity, Vector2.ZERO, p.thrust_accel * state.inverse_mass * 0.2 * state.step)
+			else:
+				state.linear_velocity = lerp(state.linear_velocity, state.linear_velocity + p.push_dir, p.thrust_accel * state.inverse_mass * 0.2 * state.step)
 
 func apply_push_rotation(state : PhysicsDirectBodyState2D) -> void:
 	if is_multiplayer_authority():
@@ -768,9 +768,6 @@ func _process(_delta: float) -> void:
 	 
 	if multiplayer_manager.my_player not in get_players_pushing():
 		clear_ghost_preview()
-	
-	if is_multiplayer_authority():
-		sync_m_state.rpc(global_transform, linear_velocity, angular_velocity)
 		
 	var pushers = get_players_pushing()
 	
@@ -792,12 +789,17 @@ func _process(_delta: float) -> void:
 		merge_target_ship.update_ghost_visuals(ghost_preview, snap_data)
 		
 		for p in pushers:
-			if Input.is_action_just_pressed("interact") and snap_data.is_valid:
-				merge_target_ship.apply_merged_rooms(self, snap_data)
-				clear_ghost_preview()
-				p.pushing = false
-				p.fix_unsure_grounding()
-				return
+			if p.is_local_player:
+				if Input.is_action_just_pressed("ship_push"):
+					if is_multiplayer_authority():
+						send_detach(p.get_path(), p.push_dir)
+					else:
+						send_detach.rpc_id(1, p.get_path(), p.push_dir)
+				if Input.is_action_just_pressed("interact") and snap_data.is_valid:
+					if is_multiplayer_authority():
+						send_merge(p.get_path(), merge_target_ship.get_path())
+					else:
+						send_merge.rpc_id(1, p.get_path(), merge_target_ship.get_path())
 	else:
 		clear_ghost_preview()
 
@@ -927,12 +929,43 @@ func apply_merged_rooms(pushed_ship: Ship, snap_data: Dictionary) -> void:
 			
 	initialize_ship()
 	pushed_ship.queue_free()
+
+@rpc("any_peer", "call_remote", "reliable")	
+func send_detach(p_path: NodePath, dir: Vector2):
+	if not is_multiplayer_authority():
+		return
+	var player = get_node_or_null(p_path)
+	if not player:
+		push_warning("[ship.gd/send_detach()]: Player path is incorrect")
+		return
+	process_room_detachment([player])
+
+@rpc("any_peer", "call_remote", "reliable")
+func send_merge(p: NodePath, ship: NodePath):
+	if not is_multiplayer_authority():
+		return
+	var target_ship = get_node_or_null(ship) as Ship
+	var player = get_node(p) as PlayerCharacter
+	if not player:
+		push_warning("[ship.gd/send_merge()]: Player path is incorrect")
+		return
+	if not target_ship:
+		push_warning("[ship.gd/send_merge()]: %d sent the wrong path for the target ship %d" % [player.owner_id, str(ship)])
+		return
+	
+	var snap_data = target_ship.calculate_snap_data(self)
+	if snap_data.is_valid:
+		target_ship.apply_merged_rooms(self, snap_data)
+		clear_ghost_preview()
+		player.pushing = false
+		player.fix_unsure_grounding()
+
 #endregion
 
 #region detaching
 func process_room_detachment(active_pushers: Array) -> bool:
 	for pusher in active_pushers:
-		if Input.is_action_just_pressed("ship_push"):
+		if pusher.pushing:
 			var projection_distance = 45.0
 			var contact_global_position = pusher.global_position + (pusher.push_dir * projection_distance)
 			var targeted_grid_cell = world_to_grid(contact_global_position)
@@ -952,7 +985,7 @@ func get_total_room_count() -> int:
 
 func detach_room_to_new_ship(target_room: Room, push_direction: Vector2) -> void:
 	var detached_ship_instance : Ship = SHIP_PREFAB.instantiate()
-	get_parent().add_child(detached_ship_instance)
+	get_parent().add_child(detached_ship_instance, true)
 	
 	var separation_offset = push_direction * 25.0
 	var separation_velocity = push_direction * 350.0
