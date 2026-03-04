@@ -180,7 +180,7 @@ func _physics_process(delta):
 				var impulse = force_dir * 200 * delta
 				collider.apply_central_impulse(impulse)
 		
-		sync_state.rpc(global_position, velocity, mouse_pos, screen_mouse_pos, input_dir)
+		sync_state.rpc(global_position, velocity, mouse_pos, screen_mouse_pos, input_dir, pushing)
 		move_and_slide()
 	else:
 		global_position = global_position.lerp(target_pos, 0.25)
@@ -228,13 +228,14 @@ func send_input(dir: Vector2, m_pos: Vector2, scrn_m_pos: Vector2, is_braking: b
 	screen_mouse_pos = scrn_m_pos
 
 @rpc("authority", "call_remote", "unreliable")
-func sync_state(pos: Vector2, vel: Vector2, m_pos: Vector2, scrn_m_pos: Vector2, dir: Vector2):
+func sync_state(pos: Vector2, vel: Vector2, m_pos: Vector2, scrn_m_pos: Vector2, dir: Vector2, push: bool):
 	if not is_multiplayer_authority():
-		target_pos = pos
-		target_vel = vel
-		mouse_pos = m_pos
+		target_pos       = pos
+		target_vel       = vel
+		mouse_pos        = m_pos
 		screen_mouse_pos = scrn_m_pos
-		input_dir = dir
+		input_dir        = dir
+		pushing          = push
 		
 #endregion
 #region SyncingActions
