@@ -128,6 +128,7 @@ func get_players_from_manager() -> Array[PlayerCharacter]:
 		return multiplayer_manager.players
 	return []
 
+#region Movement&Multiplayer
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	if is_multiplayer_authority():
 		var engines :Engines = get_engines()
@@ -171,6 +172,7 @@ func sync_m_state(gt: Transform2D, lv: Vector2, av: float):
 		target_transform        = gt
 		target_linear_velocity  = lv
 		target_angular_velocity = av
+#endregion
 
 func calc_center_of_mass():
 	var hex_mass = 2.0
