@@ -548,9 +548,9 @@ func sync_p_state(s_map: Dictionary[NodePath, NodePath]):
 
 # Makes all values of power links into NodePath for RPCing
 func power_links_to_path() -> Dictionary[NodePath, NodePath]:  
-	var s_map = {}
+	var s_map: Dictionary[NodePath, NodePath] = {}
 	for out_h in power_links:
-		s_map[out_h.get_path()] = power_links[out_h].get_path()
+		s_map[out_h.get_path() as NodePath] = power_links[out_h].get_path() as NodePath
 	return s_map
 
 func set_available_power_out(power_in : PowerInHex) -> bool:
