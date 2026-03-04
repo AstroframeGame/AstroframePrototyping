@@ -1,0 +1,75 @@
+{
+  "0_1_DEMO": {
+	"0_1_FACTION_PATROL": {
+	  "name": "Faction",
+	  "greeting": {
+		"neutral": [
+		  "test 1a",
+          "test 2a"
+		]
+	  },
+	  "aggro": {
+		"neutral": [
+          "test 3a"
+		]
+	  }
+	},
+	"0_1_PIRATE_DESTROYER": {
+	  "name": "Pirate",
+	  "aggro": {
+		"neutral": [
+		  "test 4a",
+		  "test 5a",
+          "test 6a"
+		]
+	  }
+	},
+	"YOU": {
+	  "name": "You",
+	  "win": {
+		"neutral": [
+          "won in english"
+		]
+	  },
+	  "lose": {
+		"neutral": [
+          "lost in english"
+		]
+	  }
+	}
+  },
+  "0_INTRO": {
+	"TEMP_NPC": {
+	  "name": "Temp",
+	  "greeting": {
+		"neutral": [
+		  "test test test 1 aaa",
+          "test test test 2 aaa"
+		]
+	  }
+	},
+	"ANOTHER_TEMP_NPC": {
+	  "name": "Also Temp",
+	  "greeting": {
+		"neutral": [
+		  "test test test 3 aaa",
+		  "test test test 4 aaa",
+          "test test test 5 aaa"
+		]
+	  }
+	},
+	"YOU": {
+	  "name": "You",
+	  "win": {
+		"neutral": [
+          "won in english"
+		]
+	  },
+	  "lose": {
+		"neutral": [
+          "lost in english"
+		]
+	  }
+	}
+  }
+}

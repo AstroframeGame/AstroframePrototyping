@@ -89,14 +89,14 @@ func preload_scene_dialogue():
 	dialouge_runner = gm.dialogue_runner
 
 	for npc in npcs_with_dialogue:
-		dialogue[npc.name] = LevelStateManager.load_dictionary("%s/dialogue/%s.json" % [enc_base_dir, npc.name])
+		dialogue[npc.name] = LevelStateManager.dialogue_dictionary[name][npc.name]
 		
 	# dialogue at win
-	dialogue["win"] = LevelStateManager.load_dictionary("%s/dialogue/%s.json" % [enc_base_dir, "win_blurb"])
-	dialogue["lose"] = LevelStateManager.load_dictionary("%s/dialogue/%s.json" % [enc_base_dir, "lose_blurb"])
+	dialogue["win"] = LevelStateManager.dialogue_dictionary[name]["YOU"]["win"]
+	dialogue["lose"] = LevelStateManager.dialogue_dictionary[name]["YOU"]["lose"]
 
 func start_dialogue(npc: String, cat: String)->void:
-	if dialogue[npc][cat].seen >= dialogue[npc][cat].limit:
+	if dialogue[npc][cat].has("seen"):
 		return
 	
 	# TODO: in the future, tune this with faction relatioship stats
@@ -106,7 +106,7 @@ func start_dialogue(npc: String, cat: String)->void:
 	var npc_dlg = parse_dialogue_to_array(dialogue[npc].name, random_pick)
 	if npc_dlg:
 		dialouge_runner.start(npc_dlg)
-	dialogue[npc][cat].seen += 1
+	dialogue[npc][cat].seen = true
 
 func parse_dialogue_to_array(npc: String, dlg: String):
 	var split = dlg.split("\\ ")
