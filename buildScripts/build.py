@@ -8,7 +8,7 @@ def build_and_zip(godot_bin, preset="astroframe-windows"):
     os.makedirs(build_dir, exist_ok=True)
     
     exe_path = os.path.join(build_dir, "AstroFramePrototyping.exe")
-    subprocess.run([godot_bin, "--headless", "--export-release", preset, exe_path], check=True)
+    subprocess.run([godot_bin, "--headless", "--export-release", "--verbose", preset, exe_path], check=True)
     
     shutil.make_archive(build_dir, 'zip', build_dir)
 

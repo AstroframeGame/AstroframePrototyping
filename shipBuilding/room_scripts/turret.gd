@@ -17,7 +17,6 @@ func handle_input(event: StringName):
 	if not controlled_by:
 		return
 	if controlled_by.is_local_player:
-		print("Power Level: ", power_level)
 		if not power_level > 0:
 			return
 		# mouse guided system
@@ -84,13 +83,14 @@ func _physics_process(delta: float) -> void:
 	else:
 		pass
 	gun.gunSprite.look_at(controlled_by.mouse_pos)
-	return # temporary, controller needs to be synced
-	if InputHelper.using_mouse:
-		gun.gunSprite.look_at(controlled_by.mouse_pos)
-	else:
-		var d = InputHelper.controller_look
-		d = d.rotated(global_rotation)
-		gun.gunSprite.rotation = atan2(d.y, d.x)
+	
+	if is_multiplayer_authority():
+		if InputHelper.using_mouse:
+			gun.gunSprite.look_at(controlled_by.mouse_pos)
+		else:
+			var d = InputHelper.controller_look
+			d = d.rotated(global_rotation)
+			gun.gunSprite.rotation = atan2(d.y, d.x)
 
 func _process(_delta: float) -> void:
 	if not controlled_by:

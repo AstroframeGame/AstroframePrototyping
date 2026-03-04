@@ -52,4 +52,3 @@ func _physics_process(_delta: float) -> void:
 	update_state()
 	if not can_interact():
 		return
-	on_clicked.emit(self)

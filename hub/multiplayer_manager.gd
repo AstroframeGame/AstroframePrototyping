@@ -81,6 +81,8 @@ func _on_lobby_created(result: int, lob_id: int):
 		DisplayServer.clipboard_set(str(lob_id))
 		InGameConsole.log_message("   Lobby created, lobby id copied to clipboard: "+ str(lob_id))
 		_add_player_local(host_steam_id)
+	else:
+		InGameConsole.log_message("Failed Steam result not OK.")
 
 func _on_lobby_joined(lob_id: int, _perms: int, _locked: bool, _response: int):
 	if !is_joining:
