@@ -136,7 +136,6 @@ func _physics_process(delta):
 			else:
 				pushing = ground_body != null and ground_body is Ship and ship == null
 		push_dir = input_dir
-		#print(ground_body != null , ground_body is Ship , ship == null , Input.is_action_pressed("ship_push"))
 		
 		if seat or pushing:
 			velocity = Vector2.ZERO # ship vel added later

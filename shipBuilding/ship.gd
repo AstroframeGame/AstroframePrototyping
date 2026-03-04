@@ -765,20 +765,12 @@ func _process(_delta: float) -> void:
 	# if not multiplayer auth: @Tapesh
 	#   clear_ghost_preview()
 	#   return
-	 
-	if multiplayer_manager.my_player not in get_players_pushing():
-		clear_ghost_preview()
-		
 	var pushers = get_players_pushing()
 	
-	if pushers.is_empty():
+	if multiplayer_manager.my_player not in get_players_pushing() or pushers.is_empty():
 		clear_ghost_preview()
 		return
-		
-	if process_room_detachment(pushers):
-		clear_ghost_preview()
-		return
-		
+
 	merge_target_ship = find_nearest_ship()
 	
 	if merge_target_ship:
@@ -938,7 +930,14 @@ func send_detach(p_path: NodePath, dir: Vector2):
 	if not player:
 		push_warning("[ship.gd/send_detach()]: Player path is incorrect")
 		return
-	process_room_detachment([player])
+	
+	var proj_dist = 45.0
+	var placeable_g_pos = player.global_position + (dir * proj_dist)
+	var targ_grid_cell = world_to_grid(placeable_g_pos)
+	var targ_room = occupied_cells.get(targ_grid_cell)
+	
+	if targ_room and get_total_room_count() > 1:
+		detach_room_to_new_ship(targ_room, dir)
 
 @rpc("any_peer", "call_remote", "reliable")
 func send_merge(p: NodePath, ship: NodePath):
