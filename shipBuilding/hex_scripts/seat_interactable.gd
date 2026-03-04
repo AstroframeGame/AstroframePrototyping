@@ -23,6 +23,8 @@ func interact(player : PlayerCharacter) -> void:
 		print_debug("Warning : tried to interact with a seat with no asociated room. Discarding input.")
 		return
 	if not room.ship.my_character_inside() and player.ship != room.ship:
+		return
+		
 	if not can_interact():
 		return
 	if player.seat == self:
