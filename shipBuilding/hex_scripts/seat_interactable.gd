@@ -17,6 +17,7 @@ func interact(player : PlayerCharacter) -> void:
 		return
 	if not room.ship.my_character_inside():
 		return
+	print("\n\nPlayer interacting with seat\n\n")
 	if player.seat == self:
 		player.seat = null
 		controlled_by = null
