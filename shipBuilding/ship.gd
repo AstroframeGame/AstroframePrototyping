@@ -499,15 +499,17 @@ func toggle_power(player: PlayerCharacter, power_hex: PowerInHex):
 			push_warning("[ship.gd/toggle_power()]: Player Path resulted in null, or they're not recorded as being in a ship")
 			return
 		
-		if power_hex is PowerInHex:
+		if power_hex:
 			if power_hex.is_powered:
 				remove_power_link_in(power_hex)
 			else:
 				set_available_power_out(power_hex)
+				
+			sync_p_state.rpc(power_links_to_path())
 		else:
 			push_warning("[ship.gd/toggle_power()]: power_hex", power_hex)
 		
-		sync_p_state.rpc(power_links_to_path())
+		
 
 ## Server only RPC
 @rpc("any_peer", "call_remote", "reliable")
@@ -518,12 +520,11 @@ func request_toggle_power(p_path: NodePath, h_path: NodePath):
 	var p_in_hex = get_node_or_null(h_path)
 	var sender_id = multiplayer.get_remote_sender_id()
 	var interactor = get_node_or_null(p_path)
-	if not interactor or not interactor.ship == self:
+	if not interactor or interactor.ship != self:
 		push_warning("[ship.gd/request_toggle_power()]: Player Path resulted in null, or they're not recorded as being in a ship")
 		return
-	var interactor_id = interactor.owner_id
-	if sender_id != interactor_id:
-		push_warning("[ship.gd/request_toggle_power()]: Player %d tried to control player %d" % [sender_id, interactor_id])
+	if sender_id != interactor.owner_id:
+		push_warning("[ship.gd/request_toggle_power()]: Player %d tried to control player %d" % [sender_id, interactor.owner_id])
 		return
 	
 	if p_in_hex is PowerInHex:
@@ -531,11 +532,13 @@ func request_toggle_power(p_path: NodePath, h_path: NodePath):
 			remove_power_link_in(p_in_hex)
 		else:
 			set_available_power_out(p_in_hex)
+			
+		sync_p_state.rpc(power_links_to_path())
 	else:
 		push_warning("[ship.gd/request_toggle_power()]: p_in_hex is wrong value: ", p_in_hex)
-	sync_p_state.rpc(power_links_to_path())
 	
-@rpc("authority", "call_remote", "reliable")
+	
+@rpc("authority", "call_local", "reliable")
 func sync_p_state(s_map: Dictionary[NodePath, NodePath]):
 	if is_multiplayer_authority():
 		return
@@ -549,8 +552,14 @@ func sync_p_state(s_map: Dictionary[NodePath, NodePath]):
 			return
 		
 		power_links[out_hex] = in_hex
-		out_hex.update_state()
-		in_hex.update_state()
+		
+		for child in get_children():
+			if child is Room:
+				child.on_power_level_change.emit(child)
+				
+				for hex in child.get_children():
+					if hex is Hex:
+						hex.update_state()
 
 # Makes all values of power links into NodePath for RPCing
 func power_links_to_path() -> Dictionary[NodePath, NodePath]:  
