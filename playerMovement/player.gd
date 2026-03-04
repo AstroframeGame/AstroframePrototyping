@@ -225,6 +225,8 @@ func send_input(dir: Vector2, m_pos: Vector2, scrn_m_pos: Vector2, is_braking: b
 		return
 
 	input_dir        = dir
+	push_dir         = dir
+	
 	push_brake       = is_braking
 	ship_pushed      = pushed
 	mouse_pos        = m_pos
