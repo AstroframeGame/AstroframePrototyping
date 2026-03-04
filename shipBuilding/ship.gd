@@ -537,10 +537,11 @@ func remove_power_link_out(power_out : PowerOutHex):
 	
 func pair_all_links():
 	power_links.clear()
+	
 	var power_in = get_available_power_in()
 	for h : PowerInHex in power_in:
+		await get_tree().process_frame
 		set_next_avalible_power_out(h)
-	#print(name + " " + str(get_available_power_in()))
 #endregion
 
 #region Health

@@ -39,6 +39,9 @@ func _ready() -> void:
 	#draw_rays(8,1500,180)
 
 func _physics_process(delta: float) -> void:
+	if not is_instance_valid(state_machine):
+		return
+	
 	if state_machine.current_state:
 		state_machine.current_state.process_state_physics(delta)
 	if state_machine.current_state != state_machine.flee_state:

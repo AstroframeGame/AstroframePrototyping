@@ -25,6 +25,8 @@ func handle_input(event:InputEvent):
 		gun.gunSprite.rotation = atan2(d.y, d.x)
 		
 func _on_detection_range_body_entered(body: Node2D) -> void:
+	if body is Ship and body.get_total_room_count() == 1:
+		return
 	if not body is Ship or body == ship:
 		return
 	var aim_aug = augment_in_list(Aim_Augment)

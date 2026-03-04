@@ -49,6 +49,18 @@ NodePath("Reactor_2/OutputHex3"): null,
 NodePath("Reactor_2/OutputHex"): NodePath("Cannon/InputHex")
 }
 
+[node name="test_full_auto" parent="." unique_id=1687035459 node_paths=PackedStringArray("power_links") instance=ExtResource("6_ypqrf")]
+position = Vector2(1029, -11)
+power_links = {
+NodePath("Reactor_2/OutputHex"): NodePath("Aim_Augment_2/InputHex"),
+NodePath("Reactor_2/OutputHex3"): NodePath("Aim_Augment_2/InputHex2"),
+NodePath("@Node2D@197/OutputHex"): NodePath("Autopilot_1/InputHex"),
+NodePath("@Node2D@197/OutputHex3"): NodePath("Autopilot_1/InputHex2"),
+NodePath("@Node2D@198/OutputHex"): NodePath("Turret_3/InputHex"),
+NodePath("@Node2D@198/OutputHex3"): NodePath("Engines_2/InputHex"),
+NodePath("@Node2D@199/OutputHex"): NodePath("Engines_2/InputHex2")
+}
+
 [node name="PlayerShip" parent="." unique_id=1510963782 node_paths=PackedStringArray("power_links") instance=ExtResource("5_nhcgg")]
 position = Vector2(163, 227)
 collision_mask = 272
@@ -84,18 +96,5 @@ scale = Vector2(0.60738903, 0.632619)
 theme = SubResource("Theme_vo3si")
 text = "Ship AI"
 horizontal_alignment = 1
-
-[node name="test_full_auto" parent="." unique_id=2081252958 node_paths=PackedStringArray("power_links") instance=ExtResource("6_ypqrf")]
-position = Vector2(1296, -54)
-power_links = {
-NodePath("Reactor_2/OutputHex"): NodePath("Engines_2/InputHex2"),
-NodePath("Reactor_2/OutputHex3"): NodePath("Engines_2/InputHex2"),
-NodePath("@Node2D@197/OutputHex"): NodePath("Engines_2/InputHex2"),
-NodePath("@Node2D@197/OutputHex3"): NodePath("Engines_2/InputHex2"),
-NodePath("@Node2D@198/OutputHex"): NodePath("Engines_2/InputHex2"),
-NodePath("@Node2D@198/OutputHex3"): NodePath("Engines_2/InputHex2"),
-NodePath("@Node2D@199/OutputHex"): NodePath("Engines_2/InputHex2"),
-NodePath("@Node2D@199/OutputHex3"): NodePath("Engines_2/InputHex2")
-}
 
 [editable path="Asteroid"]
