@@ -494,6 +494,7 @@ func get_available_power_in() -> Array[PowerInHex]:
 
 func toggle_power(player: PlayerCharacter, power_hex: PowerInHex):
 	if is_multiplayer_authority():
+		print("\n\nHello\n")
 		if not player or not player.ship == self:
 			push_warning("[ship.gd/toggle_power()]: Player Path resulted in null, or they're not recorded as being in a ship")
 			return
@@ -504,7 +505,8 @@ func toggle_power(player: PlayerCharacter, power_hex: PowerInHex):
 			else:
 				set_available_power_out(power_hex)
 		else:
-			push_warning("[ship.gd/request_toggle_power()]: power_hex", power_hex)
+			push_warning("[ship.gd/toggle_power()]: power_hex", power_hex)
+		
 		sync_p_state.rpc(power_links_to_path())
 
 ## Server only RPC
