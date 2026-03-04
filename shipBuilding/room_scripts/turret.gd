@@ -78,6 +78,9 @@ func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
 	if not controlled_by:
 		return
+	if not power_level > 0:
+		return
+		
 	if is_multiplayer_authority():
 		pass # keeping standard structure
 	else:

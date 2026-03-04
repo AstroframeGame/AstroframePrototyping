@@ -286,12 +286,12 @@ func get_interactable_hint() -> String:
 
 #region UnhandledInputs
 var shooting = false
-var holstered = false
+
 func _unhandled_input(event: InputEvent) -> void:
 	if is_local_player:
 		var interacting = false
 		var room_input = ""
-		
+		var holstered = false
 		if event.is_action_pressed("player_shoot"):
 			shooting = true
 		if event.is_action_released("player_shoot"):
@@ -301,10 +301,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			if seat:
 				return
 			holstered = true
-		if event.is_action_released("holster_handgun"):
-			if seat:
-				return
-			holstered = false
 	
 		if event.is_action_pressed("interact"):
 			interacting = true
@@ -323,7 +319,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		else:
 			send_unhandled_inputs.rpc_id(1, shooting, holstered, interacting, room_input)
 	
-@rpc("any_peer", "call_remote", "unreliable")
+@rpc("any_peer", "call_remote", "reliable")
 func send_unhandled_inputs(shooting: bool, holstered: bool, interacting: bool, room_input: StringName):
 	var sender_id = multiplayer.get_remote_sender_id()
 	if sender_id != owner_id:
