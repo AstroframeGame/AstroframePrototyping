@@ -555,10 +555,11 @@ func sync_p_state(s_map: Dictionary[NodePath, NodePath]):
 		
 		for child in get_children():
 			if child is Room:
-				child.on_power_level_change.emit(child)
-				
 				for hex in child.get_children():
-					if hex is Hex and hex.has_method("update_state"):
+					if hex is PowerInHex:
+						hex.update_state()
+						child.on_power_level_change.emit(hex)
+					elif hex is PowerOutHex:
 						hex.update_state()
 
 # Makes all values of power links into NodePath for RPCing
