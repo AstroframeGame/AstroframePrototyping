@@ -558,7 +558,7 @@ func sync_p_state(s_map: Dictionary[NodePath, NodePath]):
 				child.on_power_level_change.emit(child)
 				
 				for hex in child.get_children():
-					if hex is Hex:
+					if hex is Hex and hex.has_method("update_state"):
 						hex.update_state()
 
 # Makes all values of power links into NodePath for RPCing
