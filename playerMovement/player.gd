@@ -220,6 +220,10 @@ func update_layers(inside : bool):
 
 
 func take_damage(damage : int, _vfx_pos:Vector2):
+	if health - damage < 1:
+		print("player dead")
+		return
 	health -= damage
-	print("Damage Taken! Player now at %s health" % health)
+	print("player took %d damage" % [damage])
+	
 	

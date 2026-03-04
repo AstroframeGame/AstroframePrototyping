@@ -62,7 +62,7 @@ NodePath("@Node2D@199/OutputHex"): NodePath("Engines_2/InputHex2")
 }
 
 [node name="PlayerShip" parent="." unique_id=1510963782 node_paths=PackedStringArray("power_links") instance=ExtResource("5_nhcgg")]
-position = Vector2(163, 227)
+position = Vector2(-718, 770)
 collision_mask = 272
 power_links = {
 null: null

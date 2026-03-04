@@ -3,8 +3,12 @@ extends Augment
 
 var enemy_target : Ship
 
+func is_active()->bool:
+	return power_level == 2 and enemy_target
+
 func _ready()->void:
-	super._ready()
+	super()
+	
 	# for loading ship in new scene
 	if ship:
 		ship.update_occupied_cells()
@@ -12,7 +16,7 @@ func _ready()->void:
 
 func _process(_delta: float) -> void:
 	var chosen_turret : Turret
-	if power_level < 2 or enemy_target == null:
+	if not is_active():
 		return
 	if enemy_target.get_total_room_count()<=1:
 		return
@@ -27,4 +31,3 @@ func _process(_delta: float) -> void:
 	if chosen_turret:
 		chosen_turret.gun.gunSprite.look_at(enemy_target.global_position)
 		chosen_turret.gun.shoot(10)
-		
