@@ -492,26 +492,66 @@ func get_available_power_in() -> Array[PowerInHex]:
 					_in.append(h)
 	return _in
 
-func toggle_power(player, power_hex):
-	var is_auth = is_multiplayer_authority()
-	if not player.ship == self:
-		if is_auth:
-			send_signal_to_clients.rpc(false)
-		return
-	#if power_hex is PowerOutHex && power_hex.is_powering:
-		## turn off power
-		#remove_power_link_out(power_hex)
-	if power_hex is PowerInHex:
-		if power_hex.is_powered:
-			# turn off power
-			remove_power_link_in(power_hex)
-			if is_auth:
-				send_signal_to_clients.rpc()
+func toggle_power(player: PlayerCharacter, power_hex: PowerInHex):
+	if is_multiplayer_authority():
+		if not player or not player.ship == self:
+			push_warning("[ship.gd/toggle_power()]: Player Path resulted in null, or they're not recorded as being in a ship")
+			return
+		
+		if power_hex is PowerInHex:
+			if power_hex.is_powered:
+				remove_power_link_in(power_hex)
+			else:
+				set_available_power_out(power_hex)
 		else:
-			# turn on power
-			set_available_power_out(power_hex)
-			if is_auth:
-				send_signal_to_clients.rpc()
+			push_warning("[ship.gd/request_toggle_power()]: power_hex", power_hex)
+		sync_p_state.rpc(power_links_to_path())
+
+## Server only RPC
+@rpc("any_peer", "call_remote", "reliable")
+func request_toggle_power(p_path: NodePath, h_path: NodePath):
+	if not is_multiplayer_authority():
+		return
+	
+	var p_in_hex = get_node_or_null(h_path)
+	var sender_id = multiplayer.get_remote_sender_id()
+	var interactor = get_node_or_null(p_path)
+	if not interactor or not interactor.ship == self:
+		push_warning("[ship.gd/request_toggle_power()]: Player Path resulted in null, or they're not recorded as being in a ship")
+		return
+	var interactor_id = interactor.owner_id
+	if sender_id != interactor_id:
+		push_warning("[ship.gd/request_toggle_power()]: Player %d tried to control player %d" % [sender_id, interactor_id])
+		return
+	
+	if p_in_hex is PowerInHex:
+		if p_in_hex.is_powered:
+			remove_power_link_in(p_in_hex)
+		else:
+			set_available_power_out(p_in_hex)
+	else:
+		push_warning("[ship.gd/request_toggle_power()]: p_in_hex is wrong value: ", p_in_hex)
+	sync_p_state.rpc(power_links_to_path())
+	
+@rpc("authority", "call_remote", "reliable")
+func sync_p_state(s_map: Dictionary[NodePath, NodePath]):
+	if is_multiplayer_authority():
+		return
+	power_links.clear()
+	for out_path in s_map:
+		var out_hex = get_node(out_path) as PowerOutHex
+		var in_hex  = get_node(s_map[out_path]) as PowerInHex
+		if out_hex is not PowerOutHex or in_hex is not PowerInHex:
+			push_warning("[ship.gd/sync_p_state()]: Out_Hex or In_Hex in sync_p_state.rpc() is not correct typing.")
+		power_links[out_hex] = in_hex
+	
+
+# Makes all values of power links into NodePath for RPCing
+func power_links_to_path() -> Dictionary[NodePath, NodePath]:  
+	var s_map = {}
+	for out_h in power_links:
+		s_map[out_h.get_path()] = power_links[out_h].get_path()
+	return s_map
 
 func set_available_power_out(power_in : PowerInHex) -> bool:
 	var power_outs = get_available_power_out()
@@ -549,17 +589,6 @@ func remove_power_link_out(power_out : PowerOutHex):
 		power_in.room.on_power_level_change.emit(power_in)
 		return true
 	return false
-	
-	
-@rpc("authority", "call_remote", "unreliable")
-func sync_p_state(p_link_dict: Dictionary[PowerOutHex, PowerInHex]):
-	if not is_multiplayer_authority():
-		power_links = p_link_dict
-
-@rpc("authority", "call_local", "unreliable")
-func send_signal_to_clients(succ: bool = true):
-	if not is_multiplayer_authority():
-		finished_power_process.emit(succ)
 #endregion
 
 #region Health

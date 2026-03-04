@@ -10,6 +10,9 @@ var is_powered : bool:
 		if room and room.ship:
 			return room.ship.power_links.find_key(self) != null
 		return false
+	set(value):
+		is_powered = value
+		update_state()
 
 # called in add room
 func update_state():
@@ -24,16 +27,8 @@ func _input_event(_viewport: Viewport, _event: InputEvent, _shape_idx: int) -> v
 		on_clicked.emit(self)
 
 func interact(_player : PlayerCharacter) -> void:
-	if is_multiplayer_authority():
-		if not room is Room:
-			return
-		if not room.ship.my_character_inside():
-			return
-		on_clicked.emit(_player, self)
-	else:
-		var succeeded = await room.ship.finished_power_process
-		if succeeded:
-			on_clicked.emit(_player, self)
-
-func _physics_process(delta: float) -> void:
-	update_state()
+	if _player.is_local_player:
+		if is_multiplayer_authority():
+			room.ship.toggle_power(_player, self)
+		else:
+			room.ship.request_toggle_power.rpc_id(1, _player.get_path(), get_path())
