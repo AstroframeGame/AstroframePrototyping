@@ -1,5 +1,5 @@
 {
-	"name": "Ship",
+	"name": "ship11",
 	"rooms": [
 		{
 			"grid_pos": [
@@ -61,7 +61,7 @@
 				1
 			],
 			"id": "airlock_1",
-			"name": "@CollisionPolygon2D@45",
+			"name": "_CollisionPolygon2D_45",
 			"rot_index": 0
 		},
 		{
@@ -88,7 +88,7 @@
 				-3
 			],
 			"id": "hull_1",
-			"name": "@CollisionPolygon2D@46",
+			"name": "_CollisionPolygon2D_46",
 			"rot_index": 5
 		},
 		{
@@ -97,7 +97,7 @@
 				-3
 			],
 			"id": "hull_1",
-			"name": "@CollisionPolygon2D@47",
+			"name": "_CollisionPolygon2D_47",
 			"rot_index": 5
 		},
 		{
@@ -106,7 +106,7 @@
 				-3
 			],
 			"id": "hull_1",
-			"name": "@CollisionPolygon2D@48",
+			"name": "_CollisionPolygon2D_48",
 			"rot_index": 5
 		},
 		{
@@ -115,7 +115,7 @@
 				2
 			],
 			"id": "hull_1",
-			"name": "@CollisionPolygon2D@49",
+			"name": "_CollisionPolygon2D_49",
 			"rot_index": 5
 		},
 		{
@@ -124,7 +124,7 @@
 				1
 			],
 			"id": "hull_1",
-			"name": "@CollisionPolygon2D@50",
+			"name": "_CollisionPolygon2D_50",
 			"rot_index": 5
 		},
 		{
@@ -133,7 +133,7 @@
 				0
 			],
 			"id": "hull_1",
-			"name": "@CollisionPolygon2D@51",
+			"name": "_CollisionPolygon2D_51",
 			"rot_index": 5
 		},
 		{
@@ -142,7 +142,7 @@
 				2
 			],
 			"id": "hull_1",
-			"name": "@CollisionPolygon2D@52",
+			"name": "_CollisionPolygon2D_52",
 			"rot_index": 5
 		},
 		{
@@ -151,7 +151,7 @@
 				1
 			],
 			"id": "hull_1",
-			"name": "@CollisionPolygon2D@53",
+			"name": "_CollisionPolygon2D_53",
 			"rot_index": 5
 		},
 		{
@@ -160,7 +160,7 @@
 				0
 			],
 			"id": "hull_1",
-			"name": "@CollisionPolygon2D@54",
+			"name": "_CollisionPolygon2D_54",
 			"rot_index": 5
 		}
 	]

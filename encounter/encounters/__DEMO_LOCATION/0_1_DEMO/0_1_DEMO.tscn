@@ -19,6 +19,7 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(-15296, -15089, 14920, 
 script = ExtResource("1_3qilk")
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=1181661449]
+visible = false
 navigation_polygon = SubResource("NavigationPolygon_akvn3")
 
 [node name="border" type="StaticBody2D" parent="." unique_id=1125808482]
@@ -127,14 +128,25 @@ layer = -2
 
 [node name="PIRATE_DESTROYER" parent="ships/pirates" unique_id=1784127879 node_paths=PackedStringArray("power_links") instance=ExtResource("5_76my7")]
 position = Vector2(1280, 2726)
-scale = Vector2(3, 3)
 power_links = {
+NodePath("Reactor_4/OutputHex"): NodePath("Engines_2/InputHex"),
+NodePath("Reactor_4/OutputHex2"): NodePath("Engines_2/InputHex2"),
+NodePath("Reactor_4/OutputHex3"): NodePath("Autopilot_1/InputHex"),
+NodePath("Reactor_4/OutputHex4"): NodePath("Autopilot_1/InputHex2"),
+NodePath("Reactor_2/OutputHex3"): null,
+NodePath("Reactor_2/OutputHex"): NodePath("Cannon/InputHex"),
 null: null
 }
 
 [node name="PIRATE_FRIGATE" parent="ships/pirates" unique_id=428948172 node_paths=PackedStringArray("power_links") instance=ExtResource("5_76my7")]
 position = Vector2(427, 4273)
 power_links = {
+NodePath("Reactor_4/OutputHex"): NodePath("Engines_2/InputHex"),
+NodePath("Reactor_4/OutputHex2"): NodePath("Engines_2/InputHex2"),
+NodePath("Reactor_4/OutputHex3"): NodePath("Autopilot_1/InputHex"),
+NodePath("Reactor_4/OutputHex4"): NodePath("Autopilot_1/InputHex2"),
+NodePath("Reactor_2/OutputHex3"): null,
+NodePath("Reactor_2/OutputHex"): NodePath("Cannon/InputHex"),
 null: null
 }
 

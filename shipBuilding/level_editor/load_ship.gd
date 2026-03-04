@@ -24,7 +24,7 @@ func load_tscn() -> void:
 	_add_ship(new_ship)
 	
 func _add_ship(new_ship: Ship) -> void:
-	add_sibling(new_ship)
-	new_ship.get_parent().move_child(new_ship,5)
+	get_parent().add_sibling(new_ship)
+	new_ship.get_parent().move_child(new_ship,-1)
 	new_ship.global_position = $Target.global_position
 	

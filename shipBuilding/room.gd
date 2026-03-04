@@ -20,6 +20,7 @@ signal on_power_level_change(room : Room)
 
 @onready var roof: Node2D = $Roof
 
+
 var m_power_level: int = 0
 var power_level : int:
 	get:
@@ -31,6 +32,9 @@ var power_level : int:
 			return in_hexes
 		else:
 			return m_power_level
+
+func _ready() -> void:
+	roof.z_index = 10
 
 func get_in_hexes() -> Array[PowerInHex]:
 	var hexes : Array[PowerInHex] = []

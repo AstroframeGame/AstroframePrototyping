@@ -20,6 +20,7 @@ const SPARKS_PREFAB = preload("res://art/vfx/sparks.tscn")
 const SPARKS_SPEED_THRESH = 10
 const EXPLOSION_PREFAB = preload("res://art/vfx/explosion.tscn")
 const HIT_SHIP_VFX_PREFAB = preload("res://art/vfx/hit_ship_vfx.tscn")
+const EXPLOSION_SFX_PREFAB = preload("res://audio/sfx_prefabs/explosion_sfx.tscn")
 
 ## Multiplayer Start
 
@@ -43,6 +44,7 @@ var ghost_preview: Node2D = null
 var occupied_cells: Dictionary[Vector2i, Room] = {} # only calculated in ship_building
 @export var power_links : Dictionary[PowerOutHex, PowerInHex]
 
+@export var drag_multiplier = 0.01
 @export var max_hit_points : int = 0
 @export var _hit_points : int = 0
 var hit_points : int:
@@ -93,6 +95,27 @@ func get_engines() -> Engines:
 		if r is Engines:
 			return r
 	return null
+func has_engines() -> bool:
+	return get_engines() != null
+func get_boost_thrust() -> float:
+	var o = 0
+	for r in get_children():
+		if r is Engines:
+			o += r.get_boost_thrust()
+	return o
+func get_thrust() -> float:
+	var o = 0
+	for r in get_children():
+		if r is Engines:
+			o += r.get_thrust()
+	return o
+func get_rotational_thrust() -> float:
+	var o = 0
+	for r in get_children():
+		if r is Engines:
+			o += r.get_rotational_thrust()
+	return o
+
 func get_piloting() -> Piloting:
 	for r in get_children():
 		if r is Piloting:
@@ -131,29 +154,28 @@ func get_players_from_manager() -> Array[PlayerCharacter]:
 #region Movement&Multiplayer
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	if is_multiplayer_authority():
-		var engines :Engines = get_engines()
 		var piloting : Piloting = get_piloting()
 		var autopilot : Autopilot = get_auto_piloting()
 		var pushing : bool = get_players_pushing().size() > 0
 		var delta = state.step
 		
-		if engines and piloting:
+		if has_engines() and piloting:
 			state.angular_velocity = piloting.get_goal_angular_velocity()
-			var goal_vel: Vector2 = piloting.get_goal_velocity(state.linear_velocity)
+			var goal_vel :Vector2 = piloting.get_goal_velocity(state.linear_velocity)
 			if not piloting.is_idling():
-				state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * state.inverse_mass * delta)
-		elif engines and autopilot:
+				state.linear_velocity = lerp(state.linear_velocity, goal_vel, get_thrust() * state.inverse_mass * delta)
+		elif has_engines() and autopilot:
 			state.angular_velocity = autopilot.get_goal_angular_velocity()
 			var goal_vel :Vector2 = autopilot.get_goal_velocity(state.linear_velocity)
 			if not autopilot.is_idling():
-				state.linear_velocity = lerp(state.linear_velocity, goal_vel, engines.get_thrust() * state.inverse_mass * delta)
+				state.linear_velocity = lerp(state.linear_velocity, goal_vel, get_thrust() * state.inverse_mass * delta)
 		elif pushing:
 			apply_push_rotation(state)
 			apply_push_velocity(state)
-		elif engines: # autodrag
-			state.angular_velocity = lerp(state.angular_velocity, 0.0, state.inverse_mass * engines.drag_multiplier * delta)
-			state.linear_velocity = lerp(state.linear_velocity, Vector2.ZERO, engines.get_thrust() * state.inverse_mass * engines.drag_multiplier * delta)
-		
+		elif has_engines(): # autodrag
+			state.angular_velocity = lerp(state.angular_velocity, 0.0, state.inverse_mass * drag_multiplier * delta)
+			state.linear_velocity = lerp(state.linear_velocity, Vector2.ZERO, get_thrust() * state.inverse_mass * drag_multiplier * delta)
+	
 	eval_sparks(state)
 
 #region ClientInterpolation
@@ -585,7 +607,8 @@ func add_power_link(power_out : PowerOutHex, power_in : PowerInHex):
 	power_links[power_out] = power_in
 	power_out.update_state()
 	power_in.update_state()
-	power_in.room.on_power_level_change.emit(power_in)
+	if power_in.room:
+		power_in.room.on_power_level_change.emit(power_in)
 	return true
 
 func remove_power_link_in(power_in : PowerInHex):
@@ -603,10 +626,18 @@ func remove_power_link_out(power_out : PowerOutHex):
 		var power_in = power_links[power_out]
 		power_links.erase(power_out)
 		power_out.update_state()
-		power_in.update_state()
-		power_in.room.on_power_level_change.emit(power_in)
+		if power_in:
+			power_in.update_state()
+			power_in.room.on_power_level_change.emit(power_in)
 		return true
 	return false
+	
+func pair_all_links():
+	power_links.clear()
+	var power_in = get_available_power_in()
+	for h : PowerInHex in power_in:
+		set_next_avalible_power_out(h)
+	#print(name + " " + str(get_available_power_in()))
 #endregion
 
 #region Health
@@ -664,7 +695,11 @@ func death_explosion():
 		
 		debris_ship.initialize_ship()
 		explosion(pos)
-
+	
+	var explosion_sfx : AudioStreamPlayer2D = EXPLOSION_SFX_PREFAB.instantiate()
+	explosion_sfx.play_quantity(len(rooms))
+	ProjectileManager.add_child(explosion_sfx)
+	
 	ship_destroyed.emit()
 	queue_free()
 #endregion
@@ -790,7 +825,7 @@ func generate_ghost_preview() -> void:
 			room_duplicate.rotation = child_node.rotation
 			
 			for room_component in room_duplicate.get_children():
-				if not room_component is Hex:
+				if not (room_component is Hex or room_component is Sprite2D):
 					room_component.queue_free()
 
 func clear_ghost_preview() -> void:
@@ -894,7 +929,7 @@ func apply_merged_rooms(pushed_ship: Ship, snap_data: Dictionary) -> void:
 #region detaching
 func process_room_detachment(active_pushers: Array) -> bool:
 	for pusher in active_pushers:
-		if Input.is_action_just_pressed("detach"):
+		if Input.is_action_just_pressed("ship_push"):
 			var projection_distance = 45.0
 			var contact_global_position = pusher.global_position + (pusher.push_dir * projection_distance)
 			var targeted_grid_cell = world_to_grid(contact_global_position)
