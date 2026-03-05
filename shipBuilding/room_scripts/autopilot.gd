@@ -112,6 +112,8 @@ func on_body_entered(body):
 func on_body_exited(body):
 	if not is_active():
 		return
+	if not is_instance_valid(body):
+		return
 	if body.is_in_group("player_ship"):
 		target_ship = null
 		detection_timer.stop()

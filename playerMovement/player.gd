@@ -27,6 +27,7 @@ the player is over ground, hence whether to use air movement or ground movement
 var pushing :bool #set in physics process
 var push_dir
 var push_brake
+var can_move
 
 var _seat : SeatInteractable = null
 var seat : SeatInteractable :
@@ -68,15 +69,19 @@ func _ready() -> void:
 	ground_check.area_entered.connect(on_ground)
 	ground_check.area_exited.connect(on_unground)
 	
-	
 	if ship:
 		on_ship_enter(ship)
 	else:
 		on_ship_exit()
+		
+	can_move = true
 
 
 func _physics_process(delta):
 	apply_ground_body_transform()
+	
+	if not can_move:
+		return
 	
 	var direction = Input.get_vector("left", "right", "up", "down")
 	direction = direction.normalized().rotated(global_rotation)
@@ -220,10 +225,17 @@ func update_layers(inside : bool):
 
 
 func take_damage(damage : int, _vfx_pos:Vector2):
-	if health - damage < 1:
-		print("player dead")
+	if health < 0:
 		return
+	if health - damage < 0:
+		# TODO: make a better solution
+		can_move = false
+		var gm : GameManager = get_tree().root.get_node("Hub").get_node("GameManager")
+		gm.dialogue_runner.start([["You", "*ack"], ["You","*bleh"]])
+		await gm.dialogue_runner.on_dialogue_end
+		gm.load_scene("res://hub/hub.tscn")
+		
 	health -= damage
-	print("player took %d damage" % [damage])
+	print("player took %d damage & health is %d" % [damage, health])
 	
 	
