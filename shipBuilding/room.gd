@@ -87,12 +87,12 @@ func pair_augments(augment_type:Variant)->void:
 				
 #region MultiplayerProcessing
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if is_multiplayer_authority():
 		m_power_level = power_level
 		sync_power.rpc(m_power_level)
 		
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if not ship or not ship.driver:
 		return
 	

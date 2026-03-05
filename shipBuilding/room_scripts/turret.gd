@@ -86,7 +86,9 @@ func _physics_process(delta: float) -> void:
 	else:
 		pass
 	gun.gunSprite.look_at(controlled_by.mouse_pos)
+	print_debug("!!Reminder, Unreachable Code!!")
 	return # temporary, controller needs to be synced
+	@warning_ignore("unreachable_code")
 	if InputHelper.using_mouse:
 		gun.gunSprite.look_at(controlled_by.mouse_pos)
 	else:
@@ -94,7 +96,7 @@ func _physics_process(delta: float) -> void:
 		d = d.rotated(global_rotation)
 		gun.gunSprite.rotation = atan2(d.y, d.x)
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if not controlled_by:
 		return
 	if controlled_by.is_local_player:

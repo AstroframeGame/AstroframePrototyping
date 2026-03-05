@@ -217,7 +217,7 @@ func _process(_delta: float) -> void:
 
 #region SyncingMovement
 @rpc("any_peer", "call_remote", "reliable")
-func send_input(dir: Vector2, m_pos: Vector2, scrn_m_pos: Vector2, is_braking: bool, pushed: bool):
+func send_input(dir: Vector2, m_pos: Vector2, scrn_m_pos: Vector2, is_braking: bool, push: bool):
 	var sender_id = multiplayer.get_remote_sender_id()
 	if sender_id != owner_id:
 		push_warning("[player.gd]: Player %d tried to control player %d" % [sender_id, owner_id])
@@ -227,7 +227,7 @@ func send_input(dir: Vector2, m_pos: Vector2, scrn_m_pos: Vector2, is_braking: b
 	push_dir         = dir
 	
 	push_brake       = is_braking
-	ship_pushed      = pushed
+	ship_pushed      = push
 	mouse_pos        = m_pos
 	screen_mouse_pos = scrn_m_pos
 
@@ -325,13 +325,13 @@ func _unhandled_input(event: InputEvent) -> void:
 			send_unhandled_inputs.rpc_id(1, shooting, holstered, interacting, room_input)
 	
 @rpc("any_peer", "call_remote", "reliable")
-func send_unhandled_inputs(shooting: bool, holstered: bool, interacting: bool, room_input: StringName):
+func send_unhandled_inputs(shoot: bool, holstered: bool, interacting: bool, room_input: StringName):
 	var sender_id = multiplayer.get_remote_sender_id()
 	if sender_id != owner_id:
 		push_warning("Player %d tried to control player %d" % [sender_id, owner_id])
 		return
 	
-	is_shooting    = shooting
+	is_shooting    = shoot
 	is_holstering   = holstered
 	is_interacting = interacting
 	event_in_room  = room_input

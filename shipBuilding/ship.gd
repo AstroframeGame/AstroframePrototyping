@@ -78,7 +78,6 @@ func setup_multiplayer_spawner():
 	var m_spawner = MultiplayerSpawner.new()
 	m_spawner.name = "RoomSpawner"
 	
-	m_spawner.spawn_path = self.get_path()
 	
 	var room_scenes = [
 		"res://shipBuilding/rooms/aim_augment_2.tscn",
@@ -97,7 +96,8 @@ func setup_multiplayer_spawner():
 	for path in room_scenes:
 		m_spawner.add_spawnable_scene(path)
 	
-	add_child.call_deferred(m_spawner)
+	add_child(m_spawner)
+	m_spawner.spawn_path = self.get_path()
 
 func ground_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
@@ -759,8 +759,11 @@ func get_players_pushing() -> Array[PlayerCharacter]:
 			pushing_players.append(p)
 	return pushing_players
 
+
 func apply_push_velocity(state : PhysicsDirectBodyState2D) -> void:
 	if is_multiplayer_authority():
+		# no better name
+		@warning_ignore("shadowed_variable")
 		var players = get_players_pushing()
 		if players.is_empty():
 			return
@@ -774,6 +777,7 @@ func apply_push_rotation(state : PhysicsDirectBodyState2D) -> void:
 	if is_multiplayer_authority():
 		var delta = state.step
 		var push_rot = 0.0
+		@warning_ignore("shadowed_variable")
 		var players = get_players_pushing()
 		if players.is_empty():
 			return
@@ -949,7 +953,7 @@ func apply_merged_rooms(pushed_ship: Ship, snap_data: Dictionary) -> void:
 
 	pushed_ship.queue_free.call_deferred()
 
-@rpc("authority", "call_local", "reliable")
+@rpc("authority", "call_local", "reliable") @warning_ignore("unused_parameter")
 func sync_merge_action(r_name: String, cell: Vector2i, rot: int, transform_offset: Transform2D):
 	# TODO: need way to find room node globally if still on old ship
 	# or wait for Spawner to handle new node creation.
