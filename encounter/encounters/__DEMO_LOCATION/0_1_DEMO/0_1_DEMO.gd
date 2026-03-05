@@ -1,6 +1,6 @@
 extends Encounter
 
-@onready var player_ship: Node = $Ship
+@onready var player_ship: Node = $PlayerShip
 @onready var faction_ship: Node = $ships/FACTION_PATROL
 @onready var pirate_destroyer: Node = $ships/pirates/PIRATE_DESTROYER
 @onready var to_kill: Array[Node] = [
@@ -18,7 +18,6 @@ func _ready() -> void:
 	# scene info
 	name = "0_1_DEMO"
 	enc_base_dir = get_script().get_path().get_base_dir()
-	objective = "Destroy all \npirate ships!"
 	reward_zone = $RewardZone.global_position
 	player_spawn = $PlayerSpawn.global_position
 	
@@ -28,7 +27,7 @@ func _ready() -> void:
 		ship.set_meta("type", "Pirate")
 	
 	faction_ship.set_meta("type", "Faction")
-	player_ship.set_meta("type", "Ship")
+	player_ship.set_meta("type", "PlayerShip")
 	player_ship.connect("ship_destroyed", encounter_failed)
 	
 	# set npc metadata 

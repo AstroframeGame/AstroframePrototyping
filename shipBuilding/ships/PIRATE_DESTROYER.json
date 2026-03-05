@@ -1,0 +1,86 @@
+{
+	"name": "PIRATE_DESTROYER",
+	"rooms": [
+		{
+			"grid_pos": [
+				1,
+				0
+			],
+			"id": "reactor_4",
+			"name": "Reactor_4",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				1,
+				2
+			],
+			"id": "shields_3",
+			"name": "Shields_3",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				0,
+				3
+			],
+			"id": "engines_2",
+			"name": "Engines_2",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				-1,
+				-1
+			],
+			"id": "cannon",
+			"name": "Cannon",
+			"rot_index": 1
+		},
+		{
+			"grid_pos": [
+				-1,
+				1
+			],
+			"id": "cannon",
+			"name": "_Node2D_56",
+			"rot_index": 1
+		},
+		{
+			"grid_pos": [
+				2,
+				-1
+			],
+			"id": "airlock_1",
+			"name": "Airlock_1",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				2,
+				0
+			],
+			"id": "piloting_1",
+			"name": "Piloting_1",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				3,
+				2
+			],
+			"id": "turret_3",
+			"name": "Turret_3",
+			"rot_index": 5
+		},
+		{
+			"grid_pos": [
+				-1,
+				2
+			],
+			"id": "hull_1",
+			"name": "Hull_1",
+			"rot_index": 0
+		}
+	]
+}
