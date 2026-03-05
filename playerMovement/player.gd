@@ -200,7 +200,7 @@ func on_ship_enter(new_ship : Ship):
 		for body in pirate_pilot.detection_area.get_overlapping_bodies():
 			if body.is_in_group("pirate_ship") and body != ship:
 				body.get_auto_piloting().target_candidate = ship
-				body.get_auto_piloting().on_player_detected()
+				body.get_auto_piloting().on_player_ship_detected()
 				print("warned " + str(body))
 	update_layers(true)
 
