@@ -918,7 +918,7 @@ func apply_merged_rooms(pushed_ship: Ship, snap_data: Dictionary) -> void:
 @rpc("authority", "call_local", "reliable")
 func sync_rooms(room_path: NodePath, snap_data: Dictionary):
 	var room_node = get_node_or_null(room_path)
-	if not room_node:
+	if is_instance_valid(room_node):
 		push_warning("[ship.gd/sync_rooms()]: The Room path provided was incorrect")
 		return
 	var duplicate_room = room_node.duplicate()
@@ -934,7 +934,7 @@ func sync_rooms(room_path: NodePath, snap_data: Dictionary):
 @rpc("authority", "call_local", "reliable")
 func sync_init_and_free(ship_path: NodePath):
 	var ship = get_node_or_null(ship_path)
-	if not ship:
+	if is_instance_valid(ship): 
 		push_warning("[ship.gd/sync_init_and_free()]: The Ship path provided was incorrect")
 		return
 	initialize_ship()
@@ -945,7 +945,7 @@ func send_detach(p_path: NodePath, dir: Vector2):
 	if not is_multiplayer_authority():
 		return
 	var player = get_node_or_null(p_path)
-	if not player:
+	if is_instance_valid(player):
 		push_warning("[ship.gd/send_detach()]: Player path is incorrect")
 		return
 	
@@ -963,10 +963,10 @@ func send_merge(p: NodePath, ship: NodePath):
 		return
 	var target_ship = get_node_or_null(ship) as Ship
 	var player = get_node(p) as PlayerCharacter
-	if not player:
+	if is_instance_valid(player):
 		push_warning("[ship.gd/send_merge()]: Player path is incorrect")
 		return
-	if not target_ship:
+	if is_instance_valid(target_ship):
 		push_warning("[ship.gd/send_merge()]: %d sent the wrong path for the target ship %d" % [player.owner_id, str(ship)])
 		return
 	
