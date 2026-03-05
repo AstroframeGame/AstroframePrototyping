@@ -940,7 +940,7 @@ func sync_init_and_free(ship_path: NodePath):
 	initialize_ship()
 	ship.queue_free.call_deferred()
 
-@rpc("any_peer", "call_remote", "reliable")	
+@rpc("any_peer", "call_remote", "reliable")
 func send_detach(p_path: NodePath, dir: Vector2):
 	if not is_multiplayer_authority():
 		return
