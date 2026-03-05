@@ -1,5 +1,13 @@
 {
   "0_1_DEMO": {
+	"UI": {
+	  "name": "Objective",
+	  "UI_OBJECTIVE": {
+		"neutral": [
+          ""
+		]
+	  }
+	},
 	"0_1_FACTION_PATROL": {
 	  "name": "Faction",
 	  "greeting": {

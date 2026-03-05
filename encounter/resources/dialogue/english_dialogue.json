@@ -1,11 +1,19 @@
 {
   "0_1_DEMO": {
+	"UI": {
+	  "name": "Objective",
+	  "UI_OBJECTIVE": {
+		"neutral": [
+          "Defeat all pirates\nin the area!"
+		]
+	  }
+	},
 	"0_1_FACTION_PATROL": {
 	  "name": "Faction",
 	  "greeting": {
 		"neutral": [
-		  "test 1a",
-          "test 2a"
+		  "Warning! \\ There are pirates in the area. \\ Proceed with caution!",
+          "Hello, citizen. \\ There have been reports of pirates nearby... \\ Stay vigilent!"
 		]
 	  },
 	  "aggro": {
