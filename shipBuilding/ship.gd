@@ -20,6 +20,8 @@ const SPARKS_SPEED_THRESH = 10
 const EXPLOSION_PREFAB = preload("res://art/vfx/explosion.tscn")
 const HIT_SHIP_VFX_PREFAB = preload("res://art/vfx/hit_ship_vfx.tscn")
 const EXPLOSION_SFX_PREFAB = preload("res://audio/sfx_prefabs/explosion_sfx.tscn")
+const SFX_EXPLOSION = preload("res://audio/sfx/explosion.wav")
+const SFX_HULL_DESTROY = preload("res://audio/sfx/hull_destroy.wav")
 
 var _is_dead: bool = false
 
@@ -600,7 +602,8 @@ func death_explosion():
 		explosion(pos)
 	
 	var explosion_sfx : AudioStreamPlayer2D = EXPLOSION_SFX_PREFAB.instantiate()
-	explosion_sfx.play_quantity(len(rooms))
+	explosion_sfx.play_quantity(SFX_EXPLOSION, len(rooms))
+	explosion_sfx.global_position = global_position
 	ProjectileManager.add_child(explosion_sfx)
 	
 	ship_destroyed.emit()
@@ -954,4 +957,9 @@ func hit_vfx(pos : Vector2):
 		if c is GPUParticles2D:
 			c.restart()
 	ProjectileManager.add_child(g)
+	
+	var hit_sfx : AudioStreamPlayer2D = EXPLOSION_SFX_PREFAB.instantiate()
+	hit_sfx.play_quantity(SFX_HULL_DESTROY, 1)
+	hit_sfx.global_position = pos
+	ProjectileManager.add_child(hit_sfx)
 #endregion
