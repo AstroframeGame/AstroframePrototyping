@@ -2,6 +2,7 @@ extends AudioListener2D
 
 var player
 func _ready() -> void:
+	MusicManager.set_tense_mode(false)
 	var multiplayer_manager : MultiplayerManager = $"../../.."
 	player = multiplayer_manager.my_player
 	var check : Area2D = player.get_node("EnemyCheck")
