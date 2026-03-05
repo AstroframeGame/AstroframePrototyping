@@ -58,6 +58,7 @@ const SFX_POWER_UP = preload("res://audio/sfx/charge_short.wav")
 const SFX_POWER_DOWN = preload("res://audio/sfx/shields_down.wav")
 
 func play_sfx(fx):
+	return
 	if not sfx:
 		return
 	var polyphonic : AudioStreamPlaybackPolyphonic = sfx.get_stream_playback() as AudioStreamPlaybackPolyphonic
