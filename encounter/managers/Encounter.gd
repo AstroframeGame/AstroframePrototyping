@@ -95,7 +95,13 @@ func preload_scene_dialogue():
 	dialogue["win"] = LevelStateManager.dialogue_dictionary[name]["YOU"]["win"]
 	dialogue["lose"] = LevelStateManager.dialogue_dictionary[name]["YOU"]["lose"]
 
+	# objective text
+	dialogue["objective"] = LevelStateManager.dialogue_dictionary[name]["UI"]["UI_OBJECTIVE"]
+	objective = dialogue["objective"]["neutral"][0]
+
 func start_dialogue(npc: String, cat: String)->void:
+	if not dialogue.has(npc): return
+	if not dialogue[npc].has(cat): return
 	if dialogue[npc][cat].has("seen"):
 		return
 	
