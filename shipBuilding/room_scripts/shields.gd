@@ -42,6 +42,8 @@ func broken_sfx():
 func charge_sfx():
 	play_sfx(CHARGE_SHORT)
 func play_sfx(fx):
+	if not sfx:
+		return
 	var polyphonic : AudioStreamPlaybackPolyphonic = sfx.get_stream_playback() as AudioStreamPlaybackPolyphonic
 	if fx and polyphonic:
 		polyphonic.play_stream(fx, 0,0,1, AudioServer.PLAYBACK_TYPE_DEFAULT, "SFX")
