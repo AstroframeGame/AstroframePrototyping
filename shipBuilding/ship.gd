@@ -71,6 +71,33 @@ func _ready() -> void:
 	await get_tree().process_frame
 	if multiplayer.has_multiplayer_peer():
 		set_multiplayer_authority(1)
+		setup_multiplayer_spawner()
+
+## for pushing
+func setup_multiplayer_spawner():
+	var m_spawner = MultiplayerSpawner.new()
+	m_spawner.name = "RoomSpawner"
+	
+	m_spawner.spawn_path = self.get_path()
+	
+	var room_scenes = [
+		"res://shipBuilding/rooms/aim_augment_2.tscn",
+		"res://shipBuilding/rooms/airlock_1.tscn",
+		"res://shipBuilding/rooms/autopilot_1.tscn",
+		"res://shipBuilding/rooms/cannon.tscn",
+		"res://shipBuilding/rooms/engines_2.tscn",
+		"res://shipBuilding/rooms/hull_1.tscn",
+		"res://shipBuilding/rooms/piloting_1.tscn",
+		"res://shipBuilding/rooms/reactor_2.tscn",
+		"res://shipBuilding/rooms/reactor_4.tscn",
+		"res://shipBuilding/rooms/shields_3.tscn",
+		"res://shipBuilding/rooms/turret_3.tscn",
+	]
+	
+	for path in room_scenes:
+		m_spawner.add_spawnable_scene(path)
+	
+	add_child.call_deferred(m_spawner)
 
 func ground_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
@@ -349,6 +376,9 @@ func add_room(room: Room, cell: Vector2i, rot_index: int) -> void:
 		hex.update_state()
 	
 	room.get_node("Roof").visible = not my_character_inside()
+	
+	if room.get_parent() != self:
+		add_child.call_deferred(room, true)
 
 func remove_room(room: Room) -> void:
 	# remove power links
@@ -907,20 +937,23 @@ func update_ghost_visuals(ghost_container: Node2D, snap_data: Dictionary) -> voi
 	ghost_container.modulate = Color(0, 1, 0, 0.5) if snap_data.is_valid else Color(1, 0, 0, 0.5)
 
 func apply_merged_rooms(pushed_ship: Ship, snap_data: Dictionary) -> void:
+	if not is_multiplayer_authority(): return
+	
 	for room_node in pushed_ship.get_children():
 		if room_node is Room:
-			var duplicate_room = room_node.duplicate()
-			add_child(duplicate_room)
-			
-			duplicate_room.global_transform = snap_data.optimal_transform * room_node.global_transform
-			
-			var merged_cell = world_to_grid(duplicate_room.global_position)
-			var merged_rotation_index = posmod(room_node.rot_index + snap_data.rotation_index_offset, 6)
-			
-			add_room(duplicate_room, merged_cell, merged_rotation_index)
-			
-	initialize_ship()
+			var room_name = room_node.name
+			var merged_cell = world_to_grid(snap_data.optimal_transform * room_node.global_position)
+			var merged_rot = posmod(room_node.rot_index + snap_data.rotation_index_offset, 6)
+
+			sync_merge_action.rpc(room_name, merged_cell, merged_rot, snap_data.optimal_transform)
+
 	pushed_ship.queue_free.call_deferred()
+
+@rpc("authority", "call_local", "reliable")
+func sync_merge_action(r_name: String, cell: Vector2i, rot: int, transform_offset: Transform2D):
+	# TODO: need way to find room node globally if still on old ship
+	# or wait for Spawner to handle new node creation.
+	initialize_ship()
 
 @rpc("any_peer", "call_remote", "reliable")	
 func send_detach(p_path: NodePath, dir: Vector2):
