@@ -85,7 +85,7 @@ func _crossfade(to: AudioStreamPlayer, from: Array[AudioStreamPlayer]):
 	_tween.set_trans(Tween.TRANS_SINE)
 	
 	_tween.tween_property(to, "volume_db", 0.0, 2.0).set_ease(Tween.EASE_OUT)
-	
+	print("Crossfading to ", to.name, from)
 	for p in from:
 		if p.playing:
 			_tween.tween_property(p, "volume_db", -80.0, 2.0).set_ease(Tween.EASE_IN)
