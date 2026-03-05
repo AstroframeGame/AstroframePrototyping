@@ -745,12 +745,11 @@ func apply_push_rotation(state : PhysicsDirectBodyState2D) -> void:
 	if is_multiplayer_authority():
 		var delta = state.step
 		var push_rot = 0.0
-		@warning_ignore("shadowed_variable")
-		var players = get_players_pushing()
-		if players.is_empty():
+		var pushers = get_players_pushing()
+		if pushers.is_empty():
 			return
 		var total_rot_input = 0.0
-		for p in players:
+		for p in pushers:
 			var look_dir = InputHelper.mouse_center_offset_deadzone(p, FLIGHT_DEADZONE)
 			var rot_amount = look_dir.x * 0.01
 			if not InputHelper.using_mouse:
@@ -938,7 +937,7 @@ func sync_init_and_free(ship_path: NodePath):
 		push_warning("[ship.gd/sync_init_and_free()]: The Ship path provided was incorrect")
 		return
 	initialize_ship()
-	ship.queue_free.call_deferred()
+	ship.set_deferred("free", true)
 
 @rpc("any_peer", "call_remote", "reliable")
 func send_detach(p_path: NodePath, dir: Vector2):
