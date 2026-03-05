@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" path="res://shipBuilding/ships/player_ship.tscn" id="6_h1xkd"]
 [ext_resource type="Script" uid="uid://coswak26beue6" path="res://encounter/encounters/__DEMO_LOCATION/0_1_DEMO/marker.gd" id="9_76my7"]
 [ext_resource type="PackedScene" path="res://shipBuilding/ships/RESEARCH_VESSEL.tscn" id="10_7ytpk"]
-[ext_resource type="PackedScene" uid="uid://d3hfs7fdltayd" path="res://encounter/encounters/__DEMO_LOCATION/boundary.tscn" id="10_hrifk"]
+[ext_resource type="PackedScene" path="res://encounter/encounters/__DEMO_LOCATION/boundary.tscn" id="10_hrifk"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_akvn3"]
 vertices = PackedVector2Array(15042.953, 15250.023, -15286, 15315.969, -15286, -15079, 14910.039, -15079)
@@ -184,7 +184,7 @@ max_hit_points = 0
 _hit_points = 0
 
 [node name="FACTION_PATROL" parent="ships" unique_id=54830236 node_paths=PackedStringArray("power_links") instance=ExtResource("2_7k785")]
-position = Vector2(422, -605)
+position = Vector2(2782, 4091)
 power_links = {
 NodePath("Reactor_4/OutputHex"): NodePath("Engines_2/InputHex"),
 NodePath("Reactor_4/OutputHex2"): NodePath("Engines_2/InputHex2"),

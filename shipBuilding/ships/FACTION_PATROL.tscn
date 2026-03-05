@@ -21,17 +21,35 @@
 tile_shape = 3
 tile_size = Vector2i(78, 90)
 
-[node name="FACTION_PATROL" type="RigidBody2D" unique_id=1784127879 node_paths=PackedStringArray("hud")]
+[node name="FACTION_PATROL" type="RigidBody2D" unique_id=1784127879 node_paths=PackedStringArray("hud", "power_links")]
 z_index = 1
 collision_mask = 257
 input_pickable = true
+mass = 116.0
 gravity_scale = 0.0
-sleeping = true
+center_of_mass_mode = 1
+center_of_mass = Vector2(39, -50.431034)
 continuous_cd = 1
 contact_monitor = true
 max_contacts_reported = 5
 script = ExtResource("1_h7bsq")
-hud = NodePath("ShipHUD")
+hud = NodePath("@CanvasLayer@507")
+power_links = {
+NodePath("Reactor_4/OutputHex"): NodePath("Cannon/InputHex"),
+NodePath("Reactor_4/OutputHex2"): NodePath("@Node2D@311/InputHex"),
+NodePath("Reactor_4/OutputHex3"): NodePath("@Node2D@312/InputHex"),
+NodePath("Reactor_4/OutputHex4"): NodePath("@Node2D@313/InputHex"),
+NodePath("@Node2D@308/OutputHex"): NodePath("Engines_2/InputHex"),
+NodePath("@Node2D@308/OutputHex2"): NodePath("Engines_2/InputHex2"),
+NodePath("@Node2D@308/OutputHex3"): NodePath("@Node2D@314/InputHex"),
+NodePath("@Node2D@308/OutputHex4"): NodePath("@Node2D@314/InputHex2"),
+NodePath("@Node2D@309/OutputHex"): NodePath("@Node2D@315/InputHex"),
+NodePath("@Node2D@309/OutputHex2"): NodePath("@Node2D@316/InputHex"),
+NodePath("@Node2D@309/OutputHex3"): NodePath("Autopilot_1/InputHex"),
+NodePath("@Node2D@309/OutputHex4"): NodePath("Autopilot_1/InputHex2")
+}
+max_hit_points = 360
+_hit_points = 360
 
 [node name="HexGrid" type="TileMapLayer" parent="." unique_id=1277847278 instance=ExtResource("2_1ap7h")]
 enabled = false
@@ -40,8 +58,209 @@ collision_enabled = false
 navigation_enabled = false
 
 [node name="Solid" type="CollisionPolygon2D" parent="." unique_id=953242692]
+polygon = PackedVector2Array(78.07887, -517.5866, 78.0578, -472.56665, 117.1, -450.05, 117.1, -404.95, 78.1, -382.45767, 78.1, -337.54233, 117.1, -315.05, 117.1, -270.04233, 156, -247.60767, 195, -270.1, 234.1, -247.54999, 234.09999, -202.56659, 273.05774, -180.04999, 273.07877, -135.07886, 312.05774, -112.549995, 312.0788, -67.55455, 350.97882, -45.11989, 389.97888, -67.6366, 429.05774, -45.049995, 429.07877, -0.07885742, 468.05774, 22.450005, 468.07877, 67.421135, 507.05774, 89.950005, 507.07886, 135.0866, 468.02112, 157.6366, 428.94226, 135.04999, 428.9212, 90.07886, 390.0422, 67.60776, 351.02112, 90.1366, 312.0422, 67.60776, 273.1, 90.09105, 273.1, 135.05, 234.1, 157.54233, 234.1, 202.55, 195, 225.1, 156, 202.60767, 117, 225.1, 78, 202.60767, 39, 225.1, 0, 202.60767, -39, 225.1, -78, 202.60767, -117, 225.1, -156.1, 202.55, -156.1, 157.54231, -195.1, 135.04999, -195.1, 90.06659, -233.9578, 67.60776, -272.97888, 90.1366, -311.9578, 67.60776, -350.92123, 90.10331, -350.94226, 135.04999, -390.02112, 157.6366, -429.07886, 135.0866, -429.05774, 89.950005, -390.0578, 67.40901, -390.07886, 22.413406, -351.0578, -0.11540222, -351.07886, -45.0866, -312.02112, -67.6366, -273.02106, -45.095535, -234.0578, -67.56667, -234.07887, -112.58659, -195.05782, -135.1154, -195.07887, -180.0866, -156.1, -202.59105, -156.1, -247.55, -116.99999, -270.1, -77.99999, -247.60767, -39.1, -270.04233, -39.1, -315.05, -0.099998474, -337.54233, -0.099998474, -382.45767, -39.1, -404.95, -39.1, -450.05, -0.078804016, -472.55457, -0.057746887, -517.55, 39.021126, -540.1366)
 
 [node name="ShipHUD" type="CanvasLayer" parent="." unique_id=532014552 instance=ExtResource("3_2jyci")]
+visible = false
+script = ExtResource("4_tp7bo")
+
+[node name="Reactor_4" type="Node2D" parent="." unique_id=542255097 instance=ExtResource("5_t4jdx")]
+position = Vector2(39, -90)
+script = ExtResource("6_cpmsa")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@308" type="Node2D" parent="." unique_id=1992320543 instance=ExtResource("5_t4jdx")]
+position = Vector2(-39, 45)
+script = ExtResource("6_cpmsa")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@309" type="Node2D" parent="." unique_id=1584951848 instance=ExtResource("5_t4jdx")]
+position = Vector2(117, 45)
+script = ExtResource("6_cpmsa")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@310" type="Node2D" parent="." unique_id=11964767 instance=ExtResource("5_t4jdx")]
+position = Vector2(39, 180)
+script = ExtResource("6_cpmsa")
+original_color = Color(1, 1, 1, 1)
+
+[node name="Reactor_2" type="Node2D" parent="." unique_id=636099449 instance=ExtResource("7_bwxlt")]
+position = Vector2(0, -292.5)
+script = ExtResource("6_cpmsa")
+original_color = Color(1, 1, 1, 1)
+
+[node name="Cannon" type="Node2D" parent="." unique_id=195129740 instance=ExtResource("8_jcf0r")]
+position = Vector2(195, -225)
+rotation = 3.1415927
+script = ExtResource("9_askeo")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@311" type="Node2D" parent="." unique_id=1514701342 instance=ExtResource("8_jcf0r")]
+position = Vector2(-39, -225)
+rotation = 3.1415927
+script = ExtResource("9_askeo")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@312" type="Node2D" parent="." unique_id=1391755526 instance=ExtResource("8_jcf0r")]
+position = Vector2(312, -22.5)
+rotation = 3.1415927
+script = ExtResource("9_askeo")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@313" type="Node2D" parent="." unique_id=80295285 instance=ExtResource("8_jcf0r")]
+position = Vector2(-156, -22.5)
+rotation = 3.1415927
+script = ExtResource("9_askeo")
+original_color = Color(1, 1, 1, 1)
+
+[node name="Piloting_1" type="Node2D" parent="." unique_id=150588005 instance=ExtResource("10_xv61s")]
+position = Vector2(39, -360)
+script = ExtResource("11_6h42e")
+original_color = Color(1, 1, 1, 1)
+
+[node name="Engines_2" type="Node2D" parent="." unique_id=657414180 instance=ExtResource("14_cesqj")]
+position = Vector2(-117, 180)
+script = ExtResource("15_tmtya")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@314" type="Node2D" parent="." unique_id=1748166899 instance=ExtResource("14_cesqj")]
+position = Vector2(117, 180)
+script = ExtResource("15_tmtya")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@315" type="Node2D" parent="." unique_id=172612309 instance=ExtResource("8_jcf0r")]
+position = Vector2(-78, 112.5)
+rotation = 3.1415927
+script = ExtResource("9_askeo")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@316" type="Node2D" parent="." unique_id=531359499 instance=ExtResource("8_jcf0r")]
+position = Vector2(234, 112.5)
+rotation = 3.1415927
+script = ExtResource("9_askeo")
+original_color = Color(1, 1, 1, 1)
+
+[node name="Hull_1" type="Node2D" parent="." unique_id=284853880 instance=ExtResource("16_j3ojr")]
+position = Vector2(-117, 45)
+rotation = 3.1415927
+script = ExtResource("6_cpmsa")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@317" type="Node2D" parent="." unique_id=1432085519 instance=ExtResource("16_j3ojr")]
+position = Vector2(195, 45)
+rotation = 3.1415927
+script = ExtResource("6_cpmsa")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@318" type="Node2D" parent="." unique_id=1258119415 instance=ExtResource("16_j3ojr")]
+position = Vector2(-117, -90)
+rotation = 3.1415927
+script = ExtResource("6_cpmsa")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@319" type="Node2D" parent="." unique_id=1129771743 instance=ExtResource("16_j3ojr")]
+position = Vector2(-78, -157.5)
+rotation = 3.1415927
+script = ExtResource("6_cpmsa")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@320" type="Node2D" parent="." unique_id=1962044638 instance=ExtResource("16_j3ojr")]
+position = Vector2(156, -157.5)
+rotation = 3.1415927
+script = ExtResource("6_cpmsa")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@321" type="Node2D" parent="." unique_id=1408773258 instance=ExtResource("16_j3ojr")]
+position = Vector2(195, -90)
+rotation = 3.1415927
+script = ExtResource("6_cpmsa")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@322" type="Node2D" parent="." unique_id=2080909386 instance=ExtResource("16_j3ojr")]
+position = Vector2(-195, -90)
+rotation = 4.1887903
+script = ExtResource("6_cpmsa")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@323" type="Node2D" parent="." unique_id=880916619 instance=ExtResource("16_j3ojr")]
+position = Vector2(-156, -157.5)
+rotation = 4.1887903
+script = ExtResource("6_cpmsa")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@324" type="Node2D" parent="." unique_id=1061231143 instance=ExtResource("16_j3ojr")]
+position = Vector2(234, -157.5)
+rotation = 4.1887903
+script = ExtResource("6_cpmsa")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@325" type="Node2D" parent="." unique_id=1933141479 instance=ExtResource("16_j3ojr")]
+position = Vector2(273, -90)
+rotation = 4.1887903
+script = ExtResource("6_cpmsa")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@326" type="Node2D" parent="." unique_id=319786643 instance=ExtResource("16_j3ojr")]
+position = Vector2(-195, 45)
+rotation = 4.1887903
+script = ExtResource("6_cpmsa")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@327" type="Node2D" parent="." unique_id=349013394 instance=ExtResource("16_j3ojr")]
+position = Vector2(273, 45)
+rotation = 4.1887903
+script = ExtResource("6_cpmsa")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@328" type="Node2D" parent="." unique_id=1905273960 instance=ExtResource("16_j3ojr")]
+position = Vector2(-273, 45)
+rotation = 4.1887903
+script = ExtResource("6_cpmsa")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@329" type="Node2D" parent="." unique_id=1213282610 instance=ExtResource("16_j3ojr")]
+position = Vector2(351, 45)
+rotation = 4.1887903
+script = ExtResource("6_cpmsa")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@330" type="Node2D" parent="." unique_id=303670470 instance=ExtResource("16_j3ojr")]
+position = Vector2(429, 45)
+rotation = 4.1887903
+script = ExtResource("6_cpmsa")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@331" type="Node2D" parent="." unique_id=1826306787 instance=ExtResource("16_j3ojr")]
+position = Vector2(468, 112.5)
+rotation = 4.1887903
+script = ExtResource("6_cpmsa")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@332" type="Node2D" parent="." unique_id=1319465086 instance=ExtResource("16_j3ojr")]
+position = Vector2(390, -22.5)
+rotation = 4.1887903
+script = ExtResource("6_cpmsa")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@333" type="Node2D" parent="." unique_id=1976941569 instance=ExtResource("16_j3ojr")]
+position = Vector2(-312, -22.5)
+rotation = 4.1887903
+script = ExtResource("6_cpmsa")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@334" type="Node2D" parent="." unique_id=1809239104 instance=ExtResource("16_j3ojr")]
+position = Vector2(-351, 45)
+rotation = 4.1887903
+script = ExtResource("6_cpmsa")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@335" type="Node2D" parent="." unique_id=1908942911 instance=ExtResource("16_j3ojr")]
+position = Vector2(-390, 112.5)
+rotation = 5.2359877
+script = ExtResource("6_cpmsa")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@CanvasLayer@507" type="CanvasLayer" parent="." unique_id=1337649303 instance=ExtResource("3_2jyci")]
 visible = false
 script = ExtResource("4_tp7bo")
 
@@ -49,173 +268,13 @@ script = ExtResource("4_tp7bo")
 collision_layer = 16
 collision_mask = 0
 
-[node name="Reactor_4" type="Node2D" parent="." unique_id=542255097 instance=ExtResource("5_t4jdx")]
-position = Vector2(39, -90)
-script = ExtResource("6_cpmsa")
-
-[node name="@Node2D@308" type="Node2D" parent="." unique_id=1992320543 instance=ExtResource("5_t4jdx")]
-position = Vector2(-39, 45)
-script = ExtResource("6_cpmsa")
-
-[node name="@Node2D@309" type="Node2D" parent="." unique_id=1584951848 instance=ExtResource("5_t4jdx")]
-position = Vector2(117, 45)
-script = ExtResource("6_cpmsa")
-
-[node name="@Node2D@310" type="Node2D" parent="." unique_id=11964767 instance=ExtResource("5_t4jdx")]
-position = Vector2(39, 180)
-script = ExtResource("6_cpmsa")
-
-[node name="Reactor_2" type="Node2D" parent="." unique_id=636099449 instance=ExtResource("7_bwxlt")]
-position = Vector2(0, -292.5)
-script = ExtResource("6_cpmsa")
-
-[node name="Cannon" type="Node2D" parent="." unique_id=195129740 instance=ExtResource("8_jcf0r")]
-position = Vector2(195, -225)
-rotation = 3.1415927
-script = ExtResource("9_askeo")
-
-[node name="@Node2D@311" type="Node2D" parent="." unique_id=1514701342 instance=ExtResource("8_jcf0r")]
-position = Vector2(-39, -225)
-rotation = 3.1415927
-script = ExtResource("9_askeo")
-
-[node name="@Node2D@312" type="Node2D" parent="." unique_id=1391755526 instance=ExtResource("8_jcf0r")]
-position = Vector2(312, -22.5)
-rotation = 3.1415927
-script = ExtResource("9_askeo")
-
-[node name="@Node2D@313" type="Node2D" parent="." unique_id=80295285 instance=ExtResource("8_jcf0r")]
-position = Vector2(-156, -22.5)
-rotation = 3.1415927
-script = ExtResource("9_askeo")
-
-[node name="Piloting_1" type="Node2D" parent="." unique_id=150588005 instance=ExtResource("10_xv61s")]
-position = Vector2(39, -360)
-script = ExtResource("11_6h42e")
-
 [node name="Autopilot_1" type="Node2D" parent="." unique_id=1685651061 instance=ExtResource("12_skyyl")]
+self_modulate = Color(1, 1, 1, 0)
 position = Vector2(0, -427.5)
 script = ExtResource("13_6t4mw")
+original_color = Color(1, 1, 1, 1)
 
-[node name="Engines_2" type="Node2D" parent="." unique_id=657414180 instance=ExtResource("14_cesqj")]
-position = Vector2(-117, 180)
-script = ExtResource("15_tmtya")
-
-[node name="@Node2D@314" type="Node2D" parent="." unique_id=1748166899 instance=ExtResource("14_cesqj")]
-position = Vector2(117, 180)
-script = ExtResource("15_tmtya")
-
-[node name="@Node2D@315" type="Node2D" parent="." unique_id=172612309 instance=ExtResource("8_jcf0r")]
-position = Vector2(-78, 112.5)
-rotation = 3.1415927
-script = ExtResource("9_askeo")
-
-[node name="@Node2D@316" type="Node2D" parent="." unique_id=531359499 instance=ExtResource("8_jcf0r")]
-position = Vector2(234, 112.5)
-rotation = 3.1415927
-script = ExtResource("9_askeo")
-
-[node name="Hull_1" type="Node2D" parent="." unique_id=284853880 instance=ExtResource("16_j3ojr")]
-position = Vector2(-117, 45)
-rotation = 3.1415927
-script = ExtResource("6_cpmsa")
-
-[node name="@Node2D@317" type="Node2D" parent="." unique_id=1432085519 instance=ExtResource("16_j3ojr")]
-position = Vector2(195, 45)
-rotation = 3.1415927
-script = ExtResource("6_cpmsa")
-
-[node name="@Node2D@318" type="Node2D" parent="." unique_id=1258119415 instance=ExtResource("16_j3ojr")]
-position = Vector2(-117, -90)
-rotation = 3.1415927
-script = ExtResource("6_cpmsa")
-
-[node name="@Node2D@319" type="Node2D" parent="." unique_id=1129771743 instance=ExtResource("16_j3ojr")]
-position = Vector2(-78, -157.5)
-rotation = 3.1415927
-script = ExtResource("6_cpmsa")
-
-[node name="@Node2D@320" type="Node2D" parent="." unique_id=1962044638 instance=ExtResource("16_j3ojr")]
-position = Vector2(156, -157.5)
-rotation = 3.1415927
-script = ExtResource("6_cpmsa")
-
-[node name="@Node2D@321" type="Node2D" parent="." unique_id=1408773258 instance=ExtResource("16_j3ojr")]
-position = Vector2(195, -90)
-rotation = 3.1415927
-script = ExtResource("6_cpmsa")
-
-[node name="@Node2D@322" type="Node2D" parent="." unique_id=2080909386 instance=ExtResource("16_j3ojr")]
-position = Vector2(-195, -90)
-rotation = 4.1887903
-script = ExtResource("6_cpmsa")
-
-[node name="@Node2D@323" type="Node2D" parent="." unique_id=880916619 instance=ExtResource("16_j3ojr")]
-position = Vector2(-156, -157.5)
-rotation = 4.1887903
-script = ExtResource("6_cpmsa")
-
-[node name="@Node2D@324" type="Node2D" parent="." unique_id=1061231143 instance=ExtResource("16_j3ojr")]
-position = Vector2(234, -157.5)
-rotation = 4.1887903
-script = ExtResource("6_cpmsa")
-
-[node name="@Node2D@325" type="Node2D" parent="." unique_id=1933141479 instance=ExtResource("16_j3ojr")]
-position = Vector2(273, -90)
-rotation = 4.1887903
-script = ExtResource("6_cpmsa")
-
-[node name="@Node2D@326" type="Node2D" parent="." unique_id=319786643 instance=ExtResource("16_j3ojr")]
-position = Vector2(-195, 45)
-rotation = 4.1887903
-script = ExtResource("6_cpmsa")
-
-[node name="@Node2D@327" type="Node2D" parent="." unique_id=349013394 instance=ExtResource("16_j3ojr")]
-position = Vector2(273, 45)
-rotation = 4.1887903
-script = ExtResource("6_cpmsa")
-
-[node name="@Node2D@328" type="Node2D" parent="." unique_id=1905273960 instance=ExtResource("16_j3ojr")]
-position = Vector2(-273, 45)
-rotation = 4.1887903
-script = ExtResource("6_cpmsa")
-
-[node name="@Node2D@329" type="Node2D" parent="." unique_id=1213282610 instance=ExtResource("16_j3ojr")]
-position = Vector2(351, 45)
-rotation = 4.1887903
-script = ExtResource("6_cpmsa")
-
-[node name="@Node2D@330" type="Node2D" parent="." unique_id=303670470 instance=ExtResource("16_j3ojr")]
-position = Vector2(429, 45)
-rotation = 4.1887903
-script = ExtResource("6_cpmsa")
-
-[node name="@Node2D@331" type="Node2D" parent="." unique_id=1826306787 instance=ExtResource("16_j3ojr")]
-position = Vector2(468, 112.5)
-rotation = 4.1887903
-script = ExtResource("6_cpmsa")
-
-[node name="@Node2D@332" type="Node2D" parent="." unique_id=1319465086 instance=ExtResource("16_j3ojr")]
-position = Vector2(390, -22.5)
-rotation = 4.1887903
-script = ExtResource("6_cpmsa")
-
-[node name="@Node2D@333" type="Node2D" parent="." unique_id=1976941569 instance=ExtResource("16_j3ojr")]
-position = Vector2(-312, -22.5)
-rotation = 4.1887903
-script = ExtResource("6_cpmsa")
-
-[node name="@Node2D@334" type="Node2D" parent="." unique_id=1809239104 instance=ExtResource("16_j3ojr")]
-position = Vector2(-351, 45)
-rotation = 4.1887903
-script = ExtResource("6_cpmsa")
-
-[node name="@Node2D@335" type="Node2D" parent="." unique_id=1908942911 instance=ExtResource("16_j3ojr")]
-position = Vector2(-390, 112.5)
-rotation = 5.2359877
-script = ExtResource("6_cpmsa")
-
-[node name="@Node2D@336" type="Node2D" parent="." unique_id=593603790 instance=ExtResource("16_j3ojr")]
+[node name="@Node2D@511" type="Node2D" parent="." unique_id=1428454089 instance=ExtResource("16_j3ojr")]
 position = Vector2(39, -495)
-rotation = 5.2359877
 script = ExtResource("6_cpmsa")
+original_color = Color(1, 1, 1, 1)
