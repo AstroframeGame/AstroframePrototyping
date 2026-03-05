@@ -42,6 +42,7 @@ one_shot = true
 [node name="ShootSFX" type="AudioStreamPlayer2D" parent="." unique_id=205647531]
 stream = SubResource("AudioStreamPolyphonic_xan1q")
 pitch_scale = 1.2
+bus = &"SFX"
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=269095926]
 scale = Vector2(0.5, 0.5)

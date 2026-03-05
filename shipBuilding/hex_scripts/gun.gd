@@ -2,7 +2,7 @@ class_name GunHex
 extends Hex
 
 const PROJECTILE = preload("uid://devin6bdbcbay") # funny uid lol
-const SFX_LASER_MEDIUM = preload("res://audio/sfx/laser_medium.wav")
+const SFX_LASER_MEDIUM = preload("res://audio/sfx/SfxAudioFileFolder/laser_medium.wav")
 
 
 @export var gunSprite : Node2D

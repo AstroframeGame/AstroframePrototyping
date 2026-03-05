@@ -25,3 +25,5 @@ shape = SubResource("CircleShape2D_x5pi7")
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1004976113]
 material = SubResource("ShaderMaterial_xi3rp")
 texture = ExtResource("2_x5pi7")
+
+[node name="ShieldSFX" type="AudioStreamPlayer2D" parent="." unique_id=560681629]

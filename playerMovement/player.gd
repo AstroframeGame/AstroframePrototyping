@@ -63,6 +63,8 @@ var grounded : bool:
 @onready var handgun: PlayerGun = $handgun
 var time_since_walk: float = 0
 
+@onready var sfx: AudioStreamPlayer2D = $PlayerSFX
+
 func _ready() -> void:
 	ground_check.body_entered.connect(on_ground)
 	ground_check.body_exited.connect(on_unground)
@@ -74,6 +76,8 @@ func _ready() -> void:
 		on_ship_enter(ship)
 	else:
 		on_ship_exit()
+		
+	sfx.play()
 
 
 func _physics_process(delta):
@@ -100,7 +104,7 @@ func _physics_process(delta):
 		#rotate(Input.get_axis("rotate_left","rotate_right") * rotate_speed * delta)
 		velocity = direction * walk_speed
 		if time_since_walk > 1.4 && (Input.is_action_pressed("left") || Input.is_action_pressed("right") || Input.is_action_pressed("up") || Input.is_action_pressed("down")):
-			SfxManager.play_sfx("walking")
+			play_sfx(WALKING)
 			time_since_walk = 0
 	else:
 		ground_body = null
@@ -227,4 +231,13 @@ func update_layers(inside : bool):
 func take_damage(damage : int, _vfx_pos:Vector2):
 	health -= damage
 	print("Damage Taken! Player now at %s health" % health)
-	SfxManager.play_sfx("hurt")
+	play_sfx(HURT)
+
+
+const HURT = preload("res://audio/sfx/SfxAudioFileFolder/hurt.wav")
+const WALKING = preload("res://audio/sfx/SfxAudioFileFolder/walking.wav")
+
+func play_sfx(sound: AudioStream):
+	var polyphonic : AudioStreamPlaybackPolyphonic = sfx.get_stream_playback() as AudioStreamPlaybackPolyphonic
+	polyphonic.play_stream(sound, 0,0,1, AudioServer.PLAYBACK_TYPE_DEFAULT, "SFX")
+	

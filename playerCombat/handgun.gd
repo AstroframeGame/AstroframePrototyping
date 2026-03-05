@@ -5,6 +5,8 @@ extends Sprite2D
 @onready var marker_2d: Marker2D = $Marker2D
 @onready var gunSprite : Sprite2D = $"."
 @onready var shield_check : Area2D = $ShieldCheck
+const SFX_LASER_SMALL = preload("res://audio/sfx/SfxAudioFileFolder/laser_small.wav")
+
 
 const bullet = preload("res://turretInteractions/Prefabs/projectile.tscn")
 
@@ -20,6 +22,7 @@ var holstered: bool = false
 
 func _ready() -> void:
 	holster()
+	sfx.play()
 
 func _process(delta: float) -> void:
 	if (!holstered):
@@ -47,7 +50,7 @@ func shoot_bullet() -> void:
 	
 	time_since_shot = 0
 	accuracy = min(accuracy + (0.05), accur_high)
-	SfxManager.play_sfx("laser_small")
+	play_sfx()
 	ProjectileManager.add_child(new_bullet)
 		
 func holster() -> void:
@@ -66,3 +69,9 @@ func toggle_holster() -> void:
 		unholster()
 	else:
 		holster()
+
+@onready var sfx: AudioStreamPlayer2D = $ShootSFX
+
+func play_sfx():
+	var polyphonic : AudioStreamPlaybackPolyphonic = sfx.get_stream_playback() as AudioStreamPlaybackPolyphonic
+	polyphonic.play_stream(SFX_LASER_SMALL, 0,0,1, AudioServer.PLAYBACK_TYPE_DEFAULT, "SFX")

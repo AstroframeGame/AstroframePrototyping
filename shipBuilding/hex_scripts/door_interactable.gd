@@ -20,3 +20,9 @@ func interact(player : PlayerCharacter) -> void:
 		return
 	if room.has_method("on_door_interact"):
 		room.on_door_interact(player)
+
+@onready var sfx: AudioStreamPlayer2D = $ShieldSFX
+
+func play_sfx(sound: AudioStream):
+	var polyphonic : AudioStreamPlaybackPolyphonic = sfx.get_stream_playback() as AudioStreamPlaybackPolyphonic
+	polyphonic.play_stream(sound, 0,0,1, AudioServer.PLAYBACK_TYPE_DEFAULT, "SFX")

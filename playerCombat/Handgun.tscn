@@ -3,6 +3,8 @@
 [ext_resource type="Texture2D" uid="uid://c5tld5k1ocjf" path="res://playerCombat/betterHandGun.png" id="1_q2iuy"]
 [ext_resource type="Script" uid="uid://4knbbehw5qw5" path="res://playerCombat/handgun.gd" id="2_d3ixh"]
 
+[sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_q2iuy"]
+
 [node name="handgun" type="Sprite2D" unique_id=1166717209]
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("1_q2iuy")
@@ -19,3 +21,7 @@ collision_mask = 8192
 
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="ShieldCheck" unique_id=1381613988]
 polygon = PackedVector2Array(429.99997, -69.99999, 109.99999, -39.999996, 419.99997, 0)
+
+[node name="ShootSFX" type="AudioStreamPlayer2D" parent="." unique_id=848446547]
+stream = SubResource("AudioStreamPolyphonic_q2iuy")
+bus = &"SFX"

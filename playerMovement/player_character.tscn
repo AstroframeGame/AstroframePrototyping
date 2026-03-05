@@ -7,6 +7,8 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qi68c"]
 
+[sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_3pww0"]
+
 [node name="PlayerCharacter" type="CharacterBody2D" unique_id=1589297424 groups=["player_controller"]]
 z_index = 1
 collision_layer = 0
@@ -50,3 +52,7 @@ shape = SubResource("CircleShape2D_qi68c")
 
 [node name="handgun" parent="." unique_id=1166717209 instance=ExtResource("3_me87i")]
 z_index = 1
+
+[node name="PlayerSFX" type="AudioStreamPlayer2D" parent="." unique_id=18246643]
+stream = SubResource("AudioStreamPolyphonic_3pww0")
+bus = &"SFX"

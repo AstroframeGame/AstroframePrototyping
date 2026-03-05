@@ -5,6 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="3_1032q"]
 [ext_resource type="Texture2D" uid="uid://dgf3swdl8x1fl" path="res://art/rooms/piloting/piloting_interior.svg" id="3_xpqhk"]
 
+[sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_xpqhk"]
+
 [node name="Piloting_1" type="Node2D" unique_id=150588005]
 script = ExtResource("1_bq5al")
 
@@ -42,5 +44,8 @@ texture = ExtResource("3_1032q")
 [node name="PilotingInterior2" type="Sprite2D" parent="Roof" unique_id=838807614]
 modulate = Color(0.44313726, 0.44313726, 0.44313726, 1)
 texture = ExtResource("3_xpqhk")
+
+[node name="ThrustSFX" type="AudioStreamPlayer2D" parent="." unique_id=1788325776]
+stream = SubResource("AudioStreamPolyphonic_xpqhk")
 
 [editable path="SeatHex"]
