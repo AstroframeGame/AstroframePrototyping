@@ -77,4 +77,4 @@ func _on_trigger_dialogue(npc: String, cat: String) -> void:
 	start_dialogue(npc, cat)
 	if not spoke_to_researchers and npc == research_ship.name:
 		spoke_to_researchers = true
-		dialouge_runner.dialogue_completed.connect(start_next_objective, CONNECT_ONE_SHOT)
+		dialouge_runner.on_dialogue_end.connect(start_next_objective, CONNECT_ONE_SHOT)
