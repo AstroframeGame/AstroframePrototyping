@@ -79,3 +79,10 @@ func beacon_indication():
 
 	if (line.scale.x < min_scale) or (line.scale.x > max_scale):
 		scale_mod = -scale_mod
+
+func set_beacon(val: bool):
+	beacon_on = val
+	
+	if not beacon_on:	# reset size
+		line.scale = Vector2(3, 3);
+		fill.scale = Vector2(3, 3);

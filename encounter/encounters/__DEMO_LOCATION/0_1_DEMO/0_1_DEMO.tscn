@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" path="res://shipBuilding/ships/FACTION_PATROL.tscn" id="2_7k785"]
 [ext_resource type="PackedScene" uid="uid://c7h5fcycvrbqe" path="res://art/background/space_background.tscn" id="2_onbk5"]
 [ext_resource type="FontFile" uid="uid://c0d43w7ej3xae" path="res://hub/fonts/Anta-Regular - MSDF.ttf" id="3_7ytpk"]
-[ext_resource type="PackedScene" path="res://shipBuilding/ships/wasp.tscn" id="5_76my7"]
+[ext_resource type="PackedScene" uid="uid://incqv8bu0v2n" path="res://shipBuilding/ships/wasp.tscn" id="5_76my7"]
 [ext_resource type="PackedScene" uid="uid://choyif0n5w2jj" path="res://encounter/encounters/__DEMO_LOCATION/debris_field.tscn" id="5_smosv"]
 [ext_resource type="PackedScene" path="res://shipBuilding/ships/player_ship.tscn" id="6_h1xkd"]
 [ext_resource type="Script" uid="uid://coswak26beue6" path="res://encounter/encounters/__DEMO_LOCATION/0_1_DEMO/marker.gd" id="9_76my7"]
@@ -116,6 +116,30 @@ points = PackedVector2Array(0, 3, 3, 0, 0, -3, -3, 0)
 closed = true
 width = 0.5
 
+[node name="research_ship_marker2" type="Node2D" parent="markers" unique_id=2591856 node_paths=PackedStringArray("target")]
+script = ExtResource("9_76my7")
+target = NodePath("../../ships/RESEARCH_SATELLITE")
+metadata/_edit_group_ = true
+
+[node name="Fill" type="Polygon2D" parent="markers/research_ship_marker2" unique_id=263767788]
+scale = Vector2(3, 3)
+color = Color(0.46838838, 1, 0.56368905, 1)
+polygon = PackedVector2Array(0, 3, 3, 0, 0, -3, -3, 0)
+
+[node name="Label" type="Label" parent="markers/research_ship_marker2" unique_id=361471014]
+offset_right = 1.0
+offset_bottom = 8.0
+theme_override_fonts/font = ExtResource("3_7ytpk")
+theme_override_font_sizes/font_size = 14
+text = "Researchers"
+
+[node name="Line2D" type="Line2D" parent="markers/research_ship_marker2" unique_id=1599261625]
+scale = Vector2(3, 3)
+points = PackedVector2Array(0, 3, 3, 0, 0, -3, -3, 0)
+closed = true
+width = 0.5
+default_color = Color(0.46666667, 1, 0.5647059, 1)
+
 [node name="Background" type="CanvasLayer" parent="." unique_id=1933024674]
 layer = -2
 
@@ -127,6 +151,9 @@ layer = -2
 
 [node name="PIRATE_DESTROYER" parent="ships/pirates" unique_id=1784127879 node_paths=PackedStringArray("power_links") instance=ExtResource("5_76my7")]
 position = Vector2(1280, 2726)
+mass = 1.0
+center_of_mass_mode = 0
+center_of_mass = Vector2(0, 0)
 power_links = {
 NodePath("Reactor_4/OutputHex"): NodePath("Engines_2/InputHex"),
 NodePath("Reactor_4/OutputHex2"): NodePath("Engines_2/InputHex2"),
@@ -136,9 +163,14 @@ NodePath("Reactor_2/OutputHex3"): null,
 NodePath("Reactor_2/OutputHex"): NodePath("Cannon/InputHex"),
 null: null
 }
+max_hit_points = 0
+_hit_points = 0
 
 [node name="PIRATE_FRIGATE" parent="ships/pirates" unique_id=428948172 node_paths=PackedStringArray("power_links") instance=ExtResource("5_76my7")]
 position = Vector2(427, 4273)
+mass = 1.0
+center_of_mass_mode = 0
+center_of_mass = Vector2(0, 0)
 power_links = {
 NodePath("Reactor_4/OutputHex"): NodePath("Engines_2/InputHex"),
 NodePath("Reactor_4/OutputHex2"): NodePath("Engines_2/InputHex2"),
@@ -148,9 +180,21 @@ NodePath("Reactor_2/OutputHex3"): null,
 NodePath("Reactor_2/OutputHex"): NodePath("Cannon/InputHex"),
 null: null
 }
+max_hit_points = 0
+_hit_points = 0
 
-[node name="FACTION_PATROL" parent="ships" unique_id=54830236 instance=ExtResource("2_7k785")]
-position = Vector2(251, -1354)
+[node name="FACTION_PATROL" parent="ships" unique_id=54830236 node_paths=PackedStringArray("power_links") instance=ExtResource("2_7k785")]
+position = Vector2(422, -605)
+power_links = {
+NodePath("Reactor_4/OutputHex"): NodePath("Engines_2/InputHex"),
+NodePath("Reactor_4/OutputHex2"): NodePath("Engines_2/InputHex2"),
+NodePath("Reactor_4/OutputHex3"): NodePath("@Node2D@313/InputHex"),
+NodePath("Reactor_4/OutputHex4"): null,
+null: null
+}
+
+[node name="RESEARCH_SATELLITE" parent="ships" unique_id=1537409978 instance=ExtResource("10_7ytpk")]
+position = Vector2(-1700, -46)
 
 [node name="PlayerShip" parent="." unique_id=1431510437 node_paths=PackedStringArray("power_links") instance=ExtResource("6_h1xkd")]
 position = Vector2(-2669, -538)
@@ -175,8 +219,5 @@ position = Vector2(272, 3295)
 position = Vector2(-2740, -315)
 
 [node name="Boundary" parent="." unique_id=1160689408 instance=ExtResource("10_hrifk")]
-
-[node name="RESEARCH_SATELLITE" parent="." unique_id=1537409978 instance=ExtResource("10_7ytpk")]
-position = Vector2(-1700, -46)
 
 [connection signal="trigger_dialogue" from="." to="." method="start_dialogue"]

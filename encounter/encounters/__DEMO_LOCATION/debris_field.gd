@@ -2,15 +2,13 @@ extends Node2D
 
 @export var nav_region: NavigationRegion2D
 
+@onready var spawn_path = $spawn_path
 @onready var field = $moving_field
 @onready var screen_size = get_viewport_rect().size
 @onready var center = screen_size / 2
 
 func _ready() -> void:
-	if nav_region:
-		print(nav_region.get_bounds())
-
-	# set up movement direction, limits
+	# set up movement direction and limits for asteroids
 	for asteroid in field.get_children():
 		asteroid.start_pos = asteroid.global_position
 		asteroid.velocity = Vector2(

@@ -1,0 +1,86 @@
+{
+	"name": "player_ship",
+	"rooms": [
+		{
+			"grid_pos": [
+				1,
+				-2
+			],
+			"id": "engines_2",
+			"name": "@Node2D@516",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				1,
+				-3
+			],
+			"id": "piloting_1",
+			"name": "Piloting_1",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				1,
+				-4
+			],
+			"id": "reactor_2",
+			"name": "Reactor_2",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				-1,
+				-3
+			],
+			"id": "cannon",
+			"name": "Cannon",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				2,
+				-3
+			],
+			"id": "airlock_1",
+			"name": "Airlock_1",
+			"rot_index": 3
+		},
+		{
+			"grid_pos": [
+				3,
+				-3
+			],
+			"id": "hull_1",
+			"name": "Hull_1",
+			"rot_index": 3
+		},
+		{
+			"grid_pos": [
+				1,
+				-5
+			],
+			"id": "hull_1",
+			"name": "@Node2D@517",
+			"rot_index": 3
+		},
+		{
+			"grid_pos": [
+				3,
+				-4
+			],
+			"id": "hull_1",
+			"name": "@Node2D@518",
+			"rot_index": 3
+		},
+		{
+			"grid_pos": [
+				0,
+				-4
+			],
+			"id": "hull_1",
+			"name": "@Node2D@519",
+			"rot_index": 3
+		}
+	]
+}

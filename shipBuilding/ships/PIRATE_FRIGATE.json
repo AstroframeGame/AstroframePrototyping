@@ -1,0 +1,59 @@
+{
+	"name": "PIRATE_FRIGATE",
+	"rooms": [
+		{
+			"grid_pos": [
+				1,
+				0
+			],
+			"id": "engines_2",
+			"name": "Engines_2",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				1,
+				-2
+			],
+			"id": "reactor_2",
+			"name": "Reactor_2",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				-1,
+				-1
+			],
+			"id": "turret_3",
+			"name": "Turret_3",
+			"rot_index": 1
+		},
+		{
+			"grid_pos": [
+				1,
+				-1
+			],
+			"id": "piloting_1",
+			"name": "Piloting_1",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				3,
+				-1
+			],
+			"id": "cannon",
+			"name": "Cannon",
+			"rot_index": 3
+		},
+		{
+			"grid_pos": [
+				3,
+				-2
+			],
+			"id": "airlock_1",
+			"name": "Airlock_1",
+			"rot_index": 3
+		}
+	]
+}

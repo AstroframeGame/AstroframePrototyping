@@ -21,19 +21,18 @@ var player: Node:
 			player.global_position = player_spawn
 
 # objectives
+var obj_number = -1
 var obj_panel: Label:
 	set(value):
 		obj_panel = value
 		if obj_panel and objective != "":
 			obj_panel.text = objective
-			print("text set to: ", obj_panel.text)
 
 var objective: String:
 	set(value):
 		objective = value
 		if obj_panel:
 			obj_panel.text = value
-			print("text set to: ", obj_panel.text)
 
 var npcs_with_dialogue: Array	# defined in child, npcs with dialogue
 var dialogue: Dictionary		# hold dictionary for quick lookup 
@@ -72,7 +71,6 @@ func _process(_delta):
 	# may be best to replace with signals, see notes in 0_1_DEMO.gd
 	if not player:
 		player = get_parent().multiplayer_manager.my_player
-		#player.global_position = $Ship.global_position
 		
 	if not obj_panel:
 		obj_panel = get_parent().multiplayer_manager.my_player_system.find_child("PlayerUI").find_child("ScannerPanel").find_child("Content")
@@ -88,13 +86,10 @@ func preload_scene_dialogue():
 	for npc in npcs_with_dialogue:
 		dialogue[npc.name] = LevelStateManager.dialogue_dictionary[name][npc.name]
 		
-	# dialogue at win
-	dialogue["win"] = LevelStateManager.dialogue_dictionary[name]["YOU"]["win"]
-	dialogue["lose"] = LevelStateManager.dialogue_dictionary[name]["YOU"]["lose"]
+	dialogue["YOU"] = LevelStateManager.dialogue_dictionary[name]["YOU"]
 
 	# objective text
 	dialogue["objective"] = LevelStateManager.dialogue_dictionary[name]["UI"]["UI_OBJECTIVE"]
-	objective = dialogue["objective"]["neutral"][0]
 
 func start_dialogue(npc: String, cat: String)->void:
 	if not dialogue.has(npc): return
@@ -138,7 +133,12 @@ func _on_encounter_completed(enc_name: String):
 		r.set_deferred("global_position", reward_zone)
 	
 	# dialogue
-	start_dialogue("win", "win")
+	start_dialogue("YOU", "win")
 
 func encounter_failed():
-	start_dialogue("lose", "lose")
+	start_dialogue("YOU", "lose")
+
+func start_next_objective():
+	obj_number += 1
+	if(obj_number < dialogue["objective"]["neutral"].size()):
+		objective = dialogue["objective"]["neutral"][obj_number]

@@ -1,68 +1,43 @@
 {
   "0_1_DEMO": {
-	"UI": {
-	  "name": "Objective",
-	  "UI_OBJECTIVE": {
-		"neutral": [
-          "Defeat all pirates\nin the area!"
-		]
-	  }
-	},
 	"0_1_FACTION_PATROL": {
 	  "name": "Faction",
 	  "greeting": {
 		"neutral": [
 		  "Warning! \\ There are pirates in the area. \\ Proceed with caution!",
-          "Hello, citizen. \\ There have been reports of pirates nearby... \\ Stay vigilent!"
-		]
-	  },
-	  "aggro": {
-		"neutral": [
+		  "Hello, citizen. \\ There have been reports of pirates nearby... \\ Stay vigilent!",
           "test 3a"
 		]
 	  }
 	},
 	"0_1_PIRATE_DESTROYER": {
 	  "name": "Pirate",
-	  "aggro": {
+	  "greeting": {
 		"neutral": [
 		  "test 4a",
-		  "test 5a",
+          "test 5a"
+		]
+	  },
+	  "aggro": {
+		"neutral": [
           "test 6a"
 		]
 	  }
 	},
-	"YOU": {
-	  "name": "You",
-	  "win": {
-		"neutral": [
-          "won in english"
-		]
-	  },
-	  "lose": {
-		"neutral": [
-          "lost in english"
-		]
-	  }
-	}
-  },
-  "0_INTRO": {
-	"TEMP_NPC": {
-	  "name": "Temp",
+	"0_1_RESEARCHERS": {
+	  "name": "Researchers",
 	  "greeting": {
 		"neutral": [
-		  "test test test 1 aaa",
-          "test test test 2 aaa"
+          "Help! \\ Help! Heeeeeeelllllp! \\ Pirates! Pirates close by! \\ We're just here to survey the asteroid belt, we don't have any weapons! \\ There's an Aurala patrol close by, but well...you know. Useless bunch... \\ Please! Help us! Take some shields and an extra reactor, if you need... \\ Get rid of those pirates and you can keep it all!"
 		]
 	  }
 	},
-	"ANOTHER_TEMP_NPC": {
-	  "name": "Also Temp",
-	  "greeting": {
+	"UI": {
+	  "name": "Objective",
+	  "UI_OBJECTIVE": {
 		"neutral": [
-		  "test test test 3 aaa",
-		  "test test test 4 aaa",
-          "test test test 5 aaa"
+		  "Talk to the researchers",
+          "Defeat all pirates in the area!"
 		]
 	  }
 	},
