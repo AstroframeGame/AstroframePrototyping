@@ -85,10 +85,9 @@ func get_goal_angular_velocity() -> float:
 		return 0.0
 	if not target_ship:
 		return 0.0
-
+		
 	var delta_rotation = rotation_goal - ship.global_rotation
-	
-	var rot_input = sign(delta_rotation)
+	var rot_input = sign(delta_rotation) / 2
 	
 	return rot_input * ship.get_rotational_thrust()
 

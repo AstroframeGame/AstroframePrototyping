@@ -2,7 +2,6 @@
 
 [ext_resource type="PackedScene" uid="uid://c7h5fcycvrbqe" path="res://art/background/space_background.tscn" id="1_jrc0m"]
 [ext_resource type="PackedScene" path="res://shipBuilding/ships/player_ship.tscn" id="5_nhcgg"]
-[ext_resource type="PackedScene" uid="uid://b50c1gq8xsg28" path="res://shipBuilding/ships/test_full_auto.tscn" id="6_ypqrf"]
 [ext_resource type="PackedScene" uid="uid://incqv8bu0v2n" path="res://shipBuilding/ships/wasp.tscn" id="7_jrc0m"]
 [ext_resource type="PackedScene" uid="uid://bfcvwgyqwu34t" path="res://shipAI/prefabs/asteroid.tscn" id="7_vrncs"]
 [ext_resource type="FontFile" uid="uid://bvhs72w1tp2uu" path="res://hub/fonts/Ethnocentric-Regular.otf" id="8_8rdp5"]
@@ -49,20 +48,8 @@ NodePath("Reactor_2/OutputHex3"): null,
 NodePath("Reactor_2/OutputHex"): NodePath("Cannon/InputHex")
 }
 
-[node name="test_full_auto" parent="." unique_id=1687035459 node_paths=PackedStringArray("power_links") instance=ExtResource("6_ypqrf")]
-position = Vector2(557, 348)
-power_links = {
-NodePath("Reactor_2/OutputHex"): NodePath("Aim_Augment_2/InputHex"),
-NodePath("Reactor_2/OutputHex3"): NodePath("Aim_Augment_2/InputHex2"),
-NodePath("@Node2D@197/OutputHex"): NodePath("Autopilot_1/InputHex"),
-NodePath("@Node2D@197/OutputHex3"): NodePath("Autopilot_1/InputHex2"),
-NodePath("@Node2D@198/OutputHex"): NodePath("Turret_3/InputHex"),
-NodePath("@Node2D@198/OutputHex3"): NodePath("Engines_2/InputHex"),
-NodePath("@Node2D@199/OutputHex"): NodePath("Engines_2/InputHex2")
-}
-
 [node name="PlayerShip" parent="." unique_id=1510963782 node_paths=PackedStringArray("power_links") instance=ExtResource("5_nhcgg")]
-position = Vector2(-718, 770)
+position = Vector2(265, 432)
 collision_mask = 272
 power_links = {
 null: null

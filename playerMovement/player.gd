@@ -235,7 +235,7 @@ func take_damage(damage : int, _vfx_pos:Vector2):
 	if health <= 0:
 		return
 	if health - damage <= 0:
-		# TODO: make a better solution
+		# TODO: switch game over to original plan
 		input_enabled = false
 		var gm : GameManager = get_tree().root.get_node("Hub").get_node("GameManager")
 		gm.dialogue_runner.start([["You", "*ack"], ["You","*bleh"]])
