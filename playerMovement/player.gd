@@ -27,7 +27,7 @@ the player is over ground, hence whether to use air movement or ground movement
 var pushing :bool #set in physics process
 var push_dir
 var push_brake
-var can_move
+var input_enabled
 
 var _seat : SeatInteractable = null
 var seat : SeatInteractable :
@@ -74,13 +74,13 @@ func _ready() -> void:
 	else:
 		on_ship_exit()
 		
-	can_move = true
+	input_enabled = true
 
 
 func _physics_process(delta):
 	apply_ground_body_transform()
 	
-	if not can_move:
+	if not input_enabled:
 		return
 	
 	var direction = Input.get_vector("left", "right", "up", "down")
@@ -116,6 +116,8 @@ func _physics_process(delta):
 
 # currently interacts with the first overlapping interactable area, but this can be changed to nearest, last, all, ect.
 func interact():
+	if not input_enabled:
+		return
 	var interactable = get_interactable()
 	if interactable:
 		interactable.interact(self)
@@ -139,6 +141,8 @@ func get_interactable_hint() -> String:
 	return ""
 
 func _unhandled_input(event: InputEvent) -> void:
+	if not input_enabled:
+		return
 	if event.is_action_pressed("player_shoot"):
 		handgun.shoot_bullet()
 	if event.is_action_pressed("holster_handgun"):
@@ -150,6 +154,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if seat and seat.room.has_method("handle_input"):
 		seat.room.handle_input(event)
+	# debugging
+	if event.is_action_pressed("seppuku"):
+		seppuku()
 #region grounding
 # called when ground check intersects with rb
 func on_ground(_body : Node2D):
@@ -225,17 +232,18 @@ func update_layers(inside : bool):
 
 
 func take_damage(damage : int, _vfx_pos:Vector2):
-	if health < 0:
+	if health <= 0:
 		return
-	if health - damage < 0:
+	if health - damage <= 0:
 		# TODO: make a better solution
-		can_move = false
+		input_enabled = false
 		var gm : GameManager = get_tree().root.get_node("Hub").get_node("GameManager")
 		gm.dialogue_runner.start([["You", "*ack"], ["You","*bleh"]])
 		await gm.dialogue_runner.on_dialogue_end
-		gm.load_scene("res://hub/hub.tscn")
+		gm.quit_to_list()
+		gm.menus.open_menu("GameOver")
 		
 	health -= damage
-	print("player took %d damage & health is %d" % [damage, health])
-	
-	
+
+func seppuku():
+	take_damage(999, global_position)

@@ -221,6 +221,7 @@ text = "Back to Menu"
 [node name="DialogueRunner" parent="UI/Game" unique_id=314417777 instance=ExtResource("5_g3elb")]
 
 [node name="Paused" type="CanvasLayer" parent="UI" unique_id=731175255]
+visible = false
 
 [node name="ColorRect" type="ColorRect" parent="UI/Paused" unique_id=337209217]
 anchors_preset = -1
@@ -255,9 +256,39 @@ layout_mode = 2
 text = "Back to Menu"
 
 [node name="GameOver" type="CanvasLayer" parent="UI" unique_id=1769148514]
-visible = false
+
+[node name="ColorRect" type="ColorRect" parent="UI/GameOver" unique_id=2142903202]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.14333999, 0.14333999, 0.14333999, 1)
+
+[node name="Back" type="Button" parent="UI/GameOver" unique_id=981177889]
+offset_right = 48.0
+offset_bottom = 30.0
+text = "Back"
+
+[node name="Label" type="Label" parent="UI/GameOver" unique_id=1485857924]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -188.5
+offset_top = -69.5
+offset_right = 188.5
+offset_bottom = 69.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("5_h3v4x")
+text = "Game
+Over"
+horizontal_alignment = 1
 
 [node name="Credits" type="CanvasLayer" parent="UI" unique_id=2010810909]
+visible = false
 
 [node name="Back" type="Button" parent="UI/Credits" unique_id=1238051811]
 offset_right = 8.0
@@ -341,5 +372,6 @@ environment = SubResource("Environment_21dlm")
 [connection signal="pressed" from="UI/Paused/VBoxContainer/ResumeGame" to="GameManager" method="resume_game"]
 [connection signal="pressed" from="UI/Paused/VBoxContainer/Settings" to="GameManager" method="_on_settings_pressed"]
 [connection signal="pressed" from="UI/Paused/VBoxContainer/Exit" to="GameManager" method="quit_to_list"]
+[connection signal="pressed" from="UI/GameOver/Back" to="UI" method="menu_back"]
 [connection signal="pressed" from="UI/Credits/Back" to="UI" method="menu_back"]
 [connection signal="pressed" from="UI/Settings/Back" to="GameManager" method="menu_back"]
