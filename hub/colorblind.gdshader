@@ -1,4 +1,6 @@
 /*
+Adapted from Finnder's shader: https://godotshaders.com/shader/colorblind-shader-4-4-1/
+
 Colorblindness correction shader with adjustable intensity. Can correct for:
 * Protanopia (Greatly reduced reds)
 * Deuteranopia (Greatly reduced greens)
