@@ -35,8 +35,11 @@ const PLAYER_CHARACTER_PREFAB = preload("res://playerMovement/player_character.t
 #signal player_disconnect() # player character might be null? what info is helpful after a player leaves
 #signal player_died()
 
-func _ready():
-	var is_init = Steam.steamInit(480, true)
+func _ready(): 
+	#          Astroframe: 4420390
+	# Astroframe Playtest: 4424670
+	#            Spacewar: 480
+	var is_init = Steam.steamInit(480, true) 
 	print("Steam init: ", is_init)
 	Steam.initRelayNetworkAccess()
 	user_name = Steam.getPersonaName()

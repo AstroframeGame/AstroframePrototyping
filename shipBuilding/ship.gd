@@ -731,6 +731,7 @@ func get_players_pushing() -> Array[PlayerCharacter]:
 
 func apply_push_velocity(state : PhysicsDirectBodyState2D) -> void:
 	if is_multiplayer_authority():
+		@warning_ignore("shadowed_variable")
 		var players = get_players_pushing()
 		if players.is_empty():
 			return
@@ -744,6 +745,7 @@ func apply_push_rotation(state : PhysicsDirectBodyState2D) -> void:
 	if is_multiplayer_authority():
 		var delta = state.step
 		var push_rot = 0.0
+		@warning_ignore("shadowed_variable")
 		var players = get_players_pushing()
 		if players.is_empty():
 			return
@@ -909,18 +911,34 @@ func update_ghost_visuals(ghost_container: Node2D, snap_data: Dictionary) -> voi
 func apply_merged_rooms(pushed_ship: Ship, snap_data: Dictionary) -> void:
 	for room_node in pushed_ship.get_children():
 		if room_node is Room:
-			var duplicate_room = room_node.duplicate()
-			add_child(duplicate_room)
-			
-			duplicate_room.global_transform = snap_data.optimal_transform * room_node.global_transform
-			
-			var merged_cell = world_to_grid(duplicate_room.global_position)
-			var merged_rotation_index = posmod(room_node.rot_index + snap_data.rotation_index_offset, 6)
-			
-			add_room(duplicate_room, merged_cell, merged_rotation_index)
-			
+			sync_rooms.rpc(room_node.get_path(), snap_data)
+	
+	sync_init_and_free.rpc(pushed_ship.get_path())
+
+@rpc("authority", "call_local", "reliable")
+func sync_rooms(room_path: NodePath, snap_data: Dictionary):
+	var room_node = get_node_or_null(room_path)
+	if not room_node:
+		push_warning("[ship.gd/sync_rooms()]: The Room path provided was incorrect")
+		return
+	var duplicate_room = room_node.duplicate()
+	add_child(duplicate_room)
+	
+	duplicate_room.global_transform = snap_data.optimal_transform * room_node.global_transform
+	
+	var merged_cell = world_to_grid(duplicate_room.global_position)
+	var merged_rotation_index = posmod(room_node.rot_index + snap_data.rotation_index_offset, 6)
+	
+	add_room(duplicate_room, merged_cell, merged_rotation_index)
+	
+@rpc("authority", "call_local", "reliable")
+func sync_init_and_free(ship_path: NodePath):
+	var ship = get_node_or_null(ship_path)
+	if not ship:
+		push_warning("[ship.gd/sync_init_and_free()]: The Ship path provided was incorrect")
+		return
 	initialize_ship()
-	pushed_ship.queue_free.call_deferred()
+	ship.queue_free.call_deferred()
 
 @rpc("any_peer", "call_remote", "reliable")	
 func send_detach(p_path: NodePath, dir: Vector2):

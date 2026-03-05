@@ -68,7 +68,7 @@ func get_goal_velocity(current_velocity: Vector2) -> Vector2:
 		return Vector2.ZERO
 
 #region MultiplayerProcessing
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if not seat or not seat.controlled_by:
 		return
 	if not ship or not ship.players:
