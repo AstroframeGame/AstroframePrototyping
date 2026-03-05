@@ -1,83 +1,221 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://shipBuilding/ship.gd" id="1_1ap7h"]
-[ext_resource type="PackedScene" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_2jyci"]
-[ext_resource type="PackedScene" path="res://shipAI/prefabs/hud.tscn" id="3_tp7bo"]
-[ext_resource type="Script" path="res://shipAI/Scripts/ship_hud.gd" id="4_t4jdx"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/engines_2.tscn" id="5_cpmsa"]
-[ext_resource type="Script" path="res://shipBuilding/room_scripts/engines.gd" id="6_bwxlt"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/reactor_4.tscn" id="7_jcf0r"]
-[ext_resource type="Script" path="res://shipBuilding/room.gd" id="8_askeo"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/reactor_2.tscn" id="9_xv61s"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/turret_3.tscn" id="10_6h42e"]
-[ext_resource type="Script" path="res://shipBuilding/room_scripts/turret.gd" id="11_skyyl"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/piloting_1.tscn" id="12_6t4mw"]
-[ext_resource type="Script" path="res://shipBuilding/room_scripts/piloting.gd" id="13_cesqj"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/cannon.tscn" id="14_tmtya"]
-[ext_resource type="Script" path="res://shipBuilding/room_scripts/cannon.gd" id="15_j3ojr"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/airlock_1.tscn" id="16_rshpf"]
-[ext_resource type="Script" path="res://shipBuilding/room_scripts/airlock.gd" id="17_8hker"]
+[ext_resource type="Script" path="res://shipBuilding/ship.gd" id="1_h7bsq"]
+[ext_resource type="PackedScene" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_1ap7h"]
+[ext_resource type="PackedScene" path="res://shipAI/prefabs/hud.tscn" id="3_2jyci"]
+[ext_resource type="Script" path="res://shipAI/Scripts/ship_hud.gd" id="4_tp7bo"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/reactor_4.tscn" id="5_t4jdx"]
+[ext_resource type="Script" path="res://shipBuilding/room.gd" id="6_cpmsa"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/reactor_2.tscn" id="7_bwxlt"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/cannon.tscn" id="8_jcf0r"]
+[ext_resource type="Script" path="res://shipBuilding/room_scripts/cannon.gd" id="9_askeo"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/piloting_1.tscn" id="10_xv61s"]
+[ext_resource type="Script" path="res://shipBuilding/room_scripts/piloting.gd" id="11_6h42e"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/autopilot_1.tscn" id="12_skyyl"]
+[ext_resource type="Script" path="res://shipBuilding/room_scripts/autopilot.gd" id="13_6t4mw"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/engines_2.tscn" id="14_cesqj"]
+[ext_resource type="Script" path="res://shipBuilding/room_scripts/engines.gd" id="15_tmtya"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/hull_1.tscn" id="16_j3ojr"]
 
 [sub_resource type="TileSet" id="TileSet_xsh4c"]
 tile_shape = 3
 tile_size = Vector2i(78, 90)
 
-[node name="FACTION_PATROL" type="RigidBody2D" unique_id=1442409601 node_paths=PackedStringArray("hud")]
+[node name="FACTION_PATROL" type="RigidBody2D" unique_id=1784127879 node_paths=PackedStringArray("hud")]
 z_index = 1
 collision_mask = 257
 input_pickable = true
 gravity_scale = 0.0
+sleeping = true
 continuous_cd = 1
 contact_monitor = true
 max_contacts_reported = 5
-script = ExtResource("1_1ap7h")
+script = ExtResource("1_h7bsq")
 hud = NodePath("ShipHUD")
 
-[node name="HexGrid" type="TileMapLayer" parent="." unique_id=1277847278 instance=ExtResource("2_2jyci")]
+[node name="HexGrid" type="TileMapLayer" parent="." unique_id=1277847278 instance=ExtResource("2_1ap7h")]
 enabled = false
 tile_set = SubResource("TileSet_xsh4c")
 collision_enabled = false
 navigation_enabled = false
 
-[node name="Solid" type="CollisionPolygon2D" parent="." unique_id=1766869101]
+[node name="Solid" type="CollisionPolygon2D" parent="." unique_id=953242692]
 
-[node name="ShipHUD" type="CanvasLayer" parent="." unique_id=532014552 instance=ExtResource("3_tp7bo")]
+[node name="ShipHUD" type="CanvasLayer" parent="." unique_id=532014552 instance=ExtResource("3_2jyci")]
 visible = false
-script = ExtResource("4_t4jdx")
+script = ExtResource("4_tp7bo")
 
-[node name="Engines_2" type="Node2D" parent="." unique_id=1685651061 instance=ExtResource("5_cpmsa")]
-position = Vector2(-39, 45)
-script = ExtResource("6_bwxlt")
-
-[node name="_Node2D_86" type="Node2D" parent="." unique_id=1839802603 instance=ExtResource("5_cpmsa")]
-position = Vector2(117, 45)
-script = ExtResource("6_bwxlt")
-
-[node name="Reactor_4" type="Node2D" parent="." unique_id=542255097 instance=ExtResource("7_jcf0r")]
-position = Vector2(78, -22.5)
-script = ExtResource("8_askeo")
-
-[node name="Reactor_2" type="Node2D" parent="." unique_id=1979192055 instance=ExtResource("9_xv61s")]
-position = Vector2(39, -225)
-script = ExtResource("8_askeo")
-
-[node name="Turret_3" type="Node2D" parent="." unique_id=1336280051 instance=ExtResource("10_6h42e")]
-position = Vector2(-39, -90)
-script = ExtResource("11_skyyl")
-
-[node name="Piloting_1" type="Node2D" parent="." unique_id=150588005 instance=ExtResource("12_6t4mw")]
-position = Vector2(156, -157.5)
-script = ExtResource("13_cesqj")
-
-[node name="Cannon" type="Node2D" parent="." unique_id=195129740 instance=ExtResource("14_tmtya")]
-position = Vector2(234, -157.5)
-rotation = 2.0943952
-script = ExtResource("15_j3ojr")
-
-[node name="Airlock_1" type="Node2D" parent="." unique_id=2084884563 instance=ExtResource("16_rshpf")]
-position = Vector2(78, -292.5)
-script = ExtResource("17_8hker")
-
-[node name="Walls" type="StaticBody2D" parent="." unique_id=1431009940]
+[node name="Walls" type="StaticBody2D" parent="." unique_id=1536589530]
 collision_layer = 16
 collision_mask = 0
+
+[node name="Reactor_4" type="Node2D" parent="." unique_id=542255097 instance=ExtResource("5_t4jdx")]
+position = Vector2(39, -90)
+script = ExtResource("6_cpmsa")
+
+[node name="@Node2D@308" type="Node2D" parent="." unique_id=1992320543 instance=ExtResource("5_t4jdx")]
+position = Vector2(-39, 45)
+script = ExtResource("6_cpmsa")
+
+[node name="@Node2D@309" type="Node2D" parent="." unique_id=1584951848 instance=ExtResource("5_t4jdx")]
+position = Vector2(117, 45)
+script = ExtResource("6_cpmsa")
+
+[node name="@Node2D@310" type="Node2D" parent="." unique_id=11964767 instance=ExtResource("5_t4jdx")]
+position = Vector2(39, 180)
+script = ExtResource("6_cpmsa")
+
+[node name="Reactor_2" type="Node2D" parent="." unique_id=636099449 instance=ExtResource("7_bwxlt")]
+position = Vector2(0, -292.5)
+script = ExtResource("6_cpmsa")
+
+[node name="Cannon" type="Node2D" parent="." unique_id=195129740 instance=ExtResource("8_jcf0r")]
+position = Vector2(195, -225)
+rotation = 3.1415927
+script = ExtResource("9_askeo")
+
+[node name="@Node2D@311" type="Node2D" parent="." unique_id=1514701342 instance=ExtResource("8_jcf0r")]
+position = Vector2(-39, -225)
+rotation = 3.1415927
+script = ExtResource("9_askeo")
+
+[node name="@Node2D@312" type="Node2D" parent="." unique_id=1391755526 instance=ExtResource("8_jcf0r")]
+position = Vector2(312, -22.5)
+rotation = 3.1415927
+script = ExtResource("9_askeo")
+
+[node name="@Node2D@313" type="Node2D" parent="." unique_id=80295285 instance=ExtResource("8_jcf0r")]
+position = Vector2(-156, -22.5)
+rotation = 3.1415927
+script = ExtResource("9_askeo")
+
+[node name="Piloting_1" type="Node2D" parent="." unique_id=150588005 instance=ExtResource("10_xv61s")]
+position = Vector2(39, -360)
+script = ExtResource("11_6h42e")
+
+[node name="Autopilot_1" type="Node2D" parent="." unique_id=1685651061 instance=ExtResource("12_skyyl")]
+position = Vector2(0, -427.5)
+script = ExtResource("13_6t4mw")
+
+[node name="Engines_2" type="Node2D" parent="." unique_id=657414180 instance=ExtResource("14_cesqj")]
+position = Vector2(-117, 180)
+script = ExtResource("15_tmtya")
+
+[node name="@Node2D@314" type="Node2D" parent="." unique_id=1748166899 instance=ExtResource("14_cesqj")]
+position = Vector2(117, 180)
+script = ExtResource("15_tmtya")
+
+[node name="@Node2D@315" type="Node2D" parent="." unique_id=172612309 instance=ExtResource("8_jcf0r")]
+position = Vector2(-78, 112.5)
+rotation = 3.1415927
+script = ExtResource("9_askeo")
+
+[node name="@Node2D@316" type="Node2D" parent="." unique_id=531359499 instance=ExtResource("8_jcf0r")]
+position = Vector2(234, 112.5)
+rotation = 3.1415927
+script = ExtResource("9_askeo")
+
+[node name="Hull_1" type="Node2D" parent="." unique_id=284853880 instance=ExtResource("16_j3ojr")]
+position = Vector2(-117, 45)
+rotation = 3.1415927
+script = ExtResource("6_cpmsa")
+
+[node name="@Node2D@317" type="Node2D" parent="." unique_id=1432085519 instance=ExtResource("16_j3ojr")]
+position = Vector2(195, 45)
+rotation = 3.1415927
+script = ExtResource("6_cpmsa")
+
+[node name="@Node2D@318" type="Node2D" parent="." unique_id=1258119415 instance=ExtResource("16_j3ojr")]
+position = Vector2(-117, -90)
+rotation = 3.1415927
+script = ExtResource("6_cpmsa")
+
+[node name="@Node2D@319" type="Node2D" parent="." unique_id=1129771743 instance=ExtResource("16_j3ojr")]
+position = Vector2(-78, -157.5)
+rotation = 3.1415927
+script = ExtResource("6_cpmsa")
+
+[node name="@Node2D@320" type="Node2D" parent="." unique_id=1962044638 instance=ExtResource("16_j3ojr")]
+position = Vector2(156, -157.5)
+rotation = 3.1415927
+script = ExtResource("6_cpmsa")
+
+[node name="@Node2D@321" type="Node2D" parent="." unique_id=1408773258 instance=ExtResource("16_j3ojr")]
+position = Vector2(195, -90)
+rotation = 3.1415927
+script = ExtResource("6_cpmsa")
+
+[node name="@Node2D@322" type="Node2D" parent="." unique_id=2080909386 instance=ExtResource("16_j3ojr")]
+position = Vector2(-195, -90)
+rotation = 4.1887903
+script = ExtResource("6_cpmsa")
+
+[node name="@Node2D@323" type="Node2D" parent="." unique_id=880916619 instance=ExtResource("16_j3ojr")]
+position = Vector2(-156, -157.5)
+rotation = 4.1887903
+script = ExtResource("6_cpmsa")
+
+[node name="@Node2D@324" type="Node2D" parent="." unique_id=1061231143 instance=ExtResource("16_j3ojr")]
+position = Vector2(234, -157.5)
+rotation = 4.1887903
+script = ExtResource("6_cpmsa")
+
+[node name="@Node2D@325" type="Node2D" parent="." unique_id=1933141479 instance=ExtResource("16_j3ojr")]
+position = Vector2(273, -90)
+rotation = 4.1887903
+script = ExtResource("6_cpmsa")
+
+[node name="@Node2D@326" type="Node2D" parent="." unique_id=319786643 instance=ExtResource("16_j3ojr")]
+position = Vector2(-195, 45)
+rotation = 4.1887903
+script = ExtResource("6_cpmsa")
+
+[node name="@Node2D@327" type="Node2D" parent="." unique_id=349013394 instance=ExtResource("16_j3ojr")]
+position = Vector2(273, 45)
+rotation = 4.1887903
+script = ExtResource("6_cpmsa")
+
+[node name="@Node2D@328" type="Node2D" parent="." unique_id=1905273960 instance=ExtResource("16_j3ojr")]
+position = Vector2(-273, 45)
+rotation = 4.1887903
+script = ExtResource("6_cpmsa")
+
+[node name="@Node2D@329" type="Node2D" parent="." unique_id=1213282610 instance=ExtResource("16_j3ojr")]
+position = Vector2(351, 45)
+rotation = 4.1887903
+script = ExtResource("6_cpmsa")
+
+[node name="@Node2D@330" type="Node2D" parent="." unique_id=303670470 instance=ExtResource("16_j3ojr")]
+position = Vector2(429, 45)
+rotation = 4.1887903
+script = ExtResource("6_cpmsa")
+
+[node name="@Node2D@331" type="Node2D" parent="." unique_id=1826306787 instance=ExtResource("16_j3ojr")]
+position = Vector2(468, 112.5)
+rotation = 4.1887903
+script = ExtResource("6_cpmsa")
+
+[node name="@Node2D@332" type="Node2D" parent="." unique_id=1319465086 instance=ExtResource("16_j3ojr")]
+position = Vector2(390, -22.5)
+rotation = 4.1887903
+script = ExtResource("6_cpmsa")
+
+[node name="@Node2D@333" type="Node2D" parent="." unique_id=1976941569 instance=ExtResource("16_j3ojr")]
+position = Vector2(-312, -22.5)
+rotation = 4.1887903
+script = ExtResource("6_cpmsa")
+
+[node name="@Node2D@334" type="Node2D" parent="." unique_id=1809239104 instance=ExtResource("16_j3ojr")]
+position = Vector2(-351, 45)
+rotation = 4.1887903
+script = ExtResource("6_cpmsa")
+
+[node name="@Node2D@335" type="Node2D" parent="." unique_id=1908942911 instance=ExtResource("16_j3ojr")]
+position = Vector2(-390, 112.5)
+rotation = 5.2359877
+script = ExtResource("6_cpmsa")
+
+[node name="@Node2D@336" type="Node2D" parent="." unique_id=593603790 instance=ExtResource("16_j3ojr")]
+position = Vector2(39, -495)
+rotation = 5.2359877
+script = ExtResource("6_cpmsa")

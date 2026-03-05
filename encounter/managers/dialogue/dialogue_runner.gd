@@ -2,8 +2,7 @@ extends Control
 class_name DialougeRunner
 
 const DIALOUGE_END = -1
-
-signal on_dialogue_end()
+signal dialogue_completed
 
 @export var dialouge = [
 	["Maera","test text"],
@@ -70,7 +69,7 @@ func start(new_dialouge):
 	eval_next()
 	
 func end():
-	on_dialogue_end.emit()
+	dialogue_completed.emit()
 	visible = false
 
 func _input(_event: InputEvent) -> void:

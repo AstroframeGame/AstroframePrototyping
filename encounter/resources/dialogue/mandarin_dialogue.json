@@ -1,5 +1,29 @@
 {
   "0_1_DEMO": {
+	"0_1_FACTION_PATROL": {
+	  "name": "Faction",
+	  "greeting": {
+		"neutral": [
+		  "test 1c",
+		  "test 2c",
+          "test 3c"
+		]
+	  }
+	},
+	"0_1_PIRATE_DESTROYER": {
+	  "name": "Pirate",
+	  "greeting": {
+		"neutral": [
+		  "test 4c",
+          "test 5c"
+		]
+	  },
+	  "aggro": {
+		"neutral": [
+          "test 6c"
+		]
+	  }
+	},
 	"UI": {
 	  "name": "Objective",
 	  "UI_OBJECTIVE": {
@@ -8,30 +32,6 @@
 		]
 	  }
 	},
-	"0_1_FACTION_PATROL": {
-	  "name": "Faction",
-	  "greeting": {
-		"neutral": [
-		  "test 1c",
-          "test 2c"
-		]
-	  },
-	  "aggro": {
-		"neutral": [
-          "test 3c"
-		]
-	  }
-	},
-	"0_1_PIRATE_DESTROYER": {
-	  "name": "Pirate",
-	  "aggro": {
-		"neutral": [
-		  "test 4c",
-		  "test 5c",
-          "test 6c"
-		]
-	  }
-	},
 	"YOU": {
 	  "name": "You",
 	  "win": {
@@ -44,38 +44,12 @@
           "lost in mandarin"
 		]
 	  }
-	}
-  },
-  "0_INTRO": {
-	"TEMP_NPC": {
-	  "name": "Temp",
+	},
+	"0_1_RESEARCHERS": {
+	  "name": "Researchers",
 	  "greeting": {
 		"neutral": [
-		  "test test test 1 ccc",
-          "test test test 2 ccc"
-		]
-	  }
-	},
-	"ANOTHER_TEMP_NPC": {
-	  "name": "Also Temp",
-	  "greeting": {
-		"neutral": [
-		  "test test test 3 ccc",
-		  "test test test 4 ccc",
-          "test test test 5 ccc"
-		]
-	  }
-	},
-	"YOU": {
-	  "name": "You",
-	  "win": {
-		"neutral": [
-          "won in mandarin"
-		]
-	  },
-	  "lose": {
-		"neutral": [
-          "lost in mandarin"
+          "TODO"
 		]
 	  }
 	}

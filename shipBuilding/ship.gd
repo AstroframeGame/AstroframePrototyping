@@ -5,6 +5,7 @@ signal room_clicked(room: Room, button_index: int)
 signal on_airlock_interaction(interactor : PlayerCharacter, is_inside : bool) # called from airlock
 signal ship_destroyed
 signal on_hit()
+signal set_beacon(value: bool)
 
 const FLIGHT_DEADZONE = 0.05 #screen %
 const HEX_WIDTH = 78

@@ -1,0 +1,293 @@
+{
+	"name": "RESEARCH_VESSEL",
+	"rooms": [
+		{
+			"grid_pos": [
+				1,
+				1
+			],
+			"id": "reactor_4",
+			"name": "Reactor_4",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				1,
+				-2
+			],
+			"id": "reactor_2",
+			"name": "Reactor_2",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				2,
+				2
+			],
+			"id": "reactor_2",
+			"name": "_Node2D_506",
+			"rot_index": 3
+		},
+		{
+			"grid_pos": [
+				0,
+				-1
+			],
+			"id": "piloting_1",
+			"name": "Piloting_1",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				2,
+				-1
+			],
+			"id": "airlock_1",
+			"name": "Airlock_1",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				-1,
+				1
+			],
+			"id": "shields_3",
+			"name": "Shields_3",
+			"rot_index": 1
+		},
+		{
+			"grid_pos": [
+				2,
+				1
+			],
+			"id": "shields_3",
+			"name": "_Node2D_507",
+			"rot_index": 1
+		},
+		{
+			"grid_pos": [
+				1,
+				-3
+			],
+			"id": "shields_3",
+			"name": "_Node2D_508",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				0,
+				-2
+			],
+			"id": "hull_1",
+			"name": "Hull_1",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				3,
+				-2
+			],
+			"id": "hull_1",
+			"name": "_Node2D_509",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				-1,
+				-1
+			],
+			"id": "hull_1",
+			"name": "_Node2D_510",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				3,
+				-1
+			],
+			"id": "hull_1",
+			"name": "_Node2D_511",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				-1,
+				0
+			],
+			"id": "hull_1",
+			"name": "_Node2D_512",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				4,
+				0
+			],
+			"id": "hull_1",
+			"name": "_Node2D_513",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				-2,
+				1
+			],
+			"id": "hull_1",
+			"name": "_Node2D_514",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				4,
+				1
+			],
+			"id": "hull_1",
+			"name": "_Node2D_515",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				-2,
+				-1
+			],
+			"id": "hull_1",
+			"name": "_Node2D_516",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				4,
+				-1
+			],
+			"id": "hull_1",
+			"name": "_Node2D_517",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				-2,
+				0
+			],
+			"id": "hull_1",
+			"name": "_Node2D_518",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				5,
+				0
+			],
+			"id": "hull_1",
+			"name": "_Node2D_519",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				-3,
+				-1
+			],
+			"id": "hull_1",
+			"name": "_Node2D_520",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				5,
+				-1
+			],
+			"id": "hull_1",
+			"name": "_Node2D_521",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				-1,
+				2
+			],
+			"id": "hull_1",
+			"name": "_Node2D_522",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				0,
+				2
+			],
+			"id": "hull_1",
+			"name": "_Node2D_523",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				3,
+				2
+			],
+			"id": "hull_1",
+			"name": "_Node2D_524",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				4,
+				2
+			],
+			"id": "hull_1",
+			"name": "_Node2D_525",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				1,
+				3
+			],
+			"id": "hull_1",
+			"name": "_Node2D_526",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				1,
+				4
+			],
+			"id": "engines_2",
+			"name": "Engines_2",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				-2,
+				3
+			],
+			"id": "shields_3",
+			"name": "_Node2D_527",
+			"rot_index": 5
+		},
+		{
+			"grid_pos": [
+				5,
+				3
+			],
+			"id": "shields_3",
+			"name": "_Node2D_528",
+			"rot_index": 5
+		},
+		{
+			"grid_pos": [
+				-2,
+				-2
+			],
+			"id": "airlock_1",
+			"name": "_Node2D_529",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				5,
+				-2
+			],
+			"id": "airlock_1",
+			"name": "_Node2D_530",
+			"rot_index": 0
+		}
+	]
+}

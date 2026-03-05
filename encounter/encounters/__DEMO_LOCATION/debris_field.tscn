@@ -1,11 +1,20 @@
 [gd_scene format=3 uid="uid://choyif0n5w2jj"]
 
+[ext_resource type="Script" uid="uid://b0hi7cnj2u5p6" path="res://encounter/encounters/__DEMO_LOCATION/debris_field.gd" id="1_hrvmv"]
 [ext_resource type="Script" uid="uid://q26jtd2b8mya" path="res://encounter/encounters/__DEMO_LOCATION/asteroid.gd" id="1_y83ev"]
 
+[sub_resource type="Curve2D" id="Curve2D_mbkcb"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -21235, 15899, 0, 0, 0, 0, -18589, 7721, 0, 0, 0, 0, -18909, -1340, 0, 0, 0, 0, -15061, -9678, 0, 0, 0, 0, -10651, -13848, 0, 0, 0, 0, -3194, -15451, 0, 0, 0, 0, 8592, -16173, 0, 0, 0, 0, 13724, -14730, 0, 0, 0, 0, 16209, -7674, 0, 0, 0, 0, 13563, 4754, 0, 0, 0, 0, 12361, 11970, 0, 0, 0, 0, 2338, 13574, 0, 0, 0, 0, -6482, 13414, 0, 0, 0, 0, -12255, 9004, 0, 0, 0, 0, -12896, -57, 0, 0, 0, 0, -10250, -5589, 0, 0, 0, 0, -5359, -8876, 0, 0, 0, 0, 2579, -9438, 0, 0, 0, 0, 8592, -9678, 0, 0, 0, 0, 11238, -3665, 0, 0, 0, 0, 9634, 4754, 0, 0, 0, 0, 3380, 9565, 0, 0, 0, 0, -3996, 8603, 0, 0, 0, 0, -6802, 3952, 0, 0, 0, 0, -3916, -2622, 0, 0, 0, 0, 2819, -3585)
+}
+point_count = 26
+
 [node name="DynamicField" type="Node2D" unique_id=1358330800]
+script = ExtResource("1_hrvmv")
 
 [node name="moving_field" type="Node2D" parent="." unique_id=1339212741]
-position = Vector2(64, 59)
+position = Vector2(-1060, -3313)
+rotation = 0.4216372
 metadata/_edit_group_ = true
 
 [node name="asteroid" type="StaticBody2D" parent="moving_field" unique_id=774652611]
@@ -700,8 +709,9 @@ rotation = -1.2793263
 polygon = PackedVector2Array(68.15494, -40.14856, 113.542206, 34.134644, 63.782806, 111.264404, -30.951782, 87.48709, -20.30243, 10.991394, -1.0567627, -65.183426)
 
 [node name="asteroid46" type="StaticBody2D" parent="moving_field" unique_id=1170750990]
-position = Vector2(173, 554)
+position = Vector2(152.31113, 508.17163)
 rotation = -0.07504923
+scale = Vector2(0.99999994, 0.99999994)
 script = ExtResource("1_y83ev")
 metadata/_edit_group_ = true
 
@@ -855,3 +865,20 @@ polygon = PackedVector2Array(68.15494, -40.14856, 113.542206, 34.134644, 63.7828
 visible = false
 rotation = -1.2793263
 polygon = PackedVector2Array(68.15494, -40.14856, 113.542206, 34.134644, 63.782806, 111.264404, -30.951782, 87.48709, -20.30243, 10.991394, -1.0567627, -65.183426)
+
+[node name="border" type="StaticBody2D" parent="." unique_id=1369318668]
+position = Vector2(59, -359)
+metadata/_edit_group_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="border" unique_id=156470582]
+visible = false
+position = Vector2(-6.021919, 85.9575)
+polygon = PackedVector2Array(-16908, -19155, 16156, -19155, 19946, -13965, 20910, 15062, 15150, 20950, -19794, 20566, -23762, 16214, -24658, -15530, -18642, -18986, -18386, -15146, -22226, -12202, -20178, 14678, -17106, 17494, 12206, 18134, 18990, 13142, 16814, -12970, 12206, -17194, -18052, -15301, -18528, -16791, -18221, -19340, -17024, -19201)
+
+[node name="temp border" type="Polygon2D" parent="border" unique_id=1984601949]
+position = Vector2(-59, 359)
+color = Color(0.14509805, 0.14509805, 0.14509805, 0.1764706)
+polygon = PackedVector2Array(-16908, -19155, 16156, -19155, 19946, -13965, 20910, 15062, 15150, 20950, -19794, 20566, -23762, 16214, -24658, -15530, -18642, -18986, -18386, -15146, -22226, -12202, -20178, 14678, -17106, 17494, 12206, 18134, 18990, 13142, 16814, -12970, 12206, -17194, -18052, -15301, -18528, -16791, -18221, -19340, -17024, -19201)
+
+[node name="spawn_path" type="Path2D" parent="." unique_id=1453406200]
+curve = SubResource("Curve2D_mbkcb")
