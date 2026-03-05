@@ -60,7 +60,7 @@ func shoot_all_cannons():
 
 #region Getters
 func is_active() -> bool:
-	return not ship.get_piloting() and power_level == 2
+	return ship and not ship.get_piloting() and power_level == 2
 
 func is_idling() -> bool:
 	return state_machine.current_state == state_machine.idle_state
