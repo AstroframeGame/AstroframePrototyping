@@ -19,6 +19,7 @@ func handle_input(event: StringName):
 	if controlled_by.is_local_player:
 		print("Power Level: ", power_level)
 		if not power_level > 0:
+			blink_red()
 			return
 		# mouse guided system
 		if event == "ship_fire":
@@ -44,6 +45,8 @@ func sync_shot(dmg: int):
 		gun.shoot(dmg)
 
 func _on_detection_range_body_entered(body: Node2D) -> void:
+	if body is Ship and body.get_total_room_count() == 1:
+		return
 	if not body is Ship or body == ship:
 		return
 	var aim_aug = augment_in_list(Aim_Augment)
@@ -63,6 +66,8 @@ func _on_detection_range_body_exited(body: Node2D) -> void:
 	if body == augments[aim_aug].enemy_target:
 		if targets_in_range.size() > 0:
 			augments[aim_aug].enemy_target = closest_target()
+		else:
+			augments[aim_aug].enemy_target = null
 
 func closest_target()->Ship:
 	var closest = targets_in_range[0]

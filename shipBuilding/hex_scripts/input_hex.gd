@@ -14,8 +14,17 @@ var is_powered : bool:
 		is_powered = value
 		update_state()
 
+# do not use this for reference
+var _was_powered = false
+
 # called in add room
 func update_state():
+	if _was_powered != is_powered:
+		if is_powered:
+			play_sfx(SFX_POWER_UP)
+		else:
+			play_sfx(SFX_POWER_DOWN)
+		_was_powered = is_powered
 	if not icon:
 		icon = $"Torus"
 	icon.self_modulate = Color("8effa8ff") if is_powered else Color("ec0083ff")
@@ -45,3 +54,20 @@ func interact(_player : PlayerCharacter) -> void:
 			room.ship.toggle_power(_player, self)
 		else:
 			room.ship.request_toggle_power.rpc_id(1, _player.get_path(), get_path())
+
+func _ready() -> void:
+	sfx.play()
+
+@onready var sfx: AudioStreamPlayer2D = $AudioStreamPlayer2D
+const SFX_POWER_UP = preload("res://audio/sfx/charge_short.wav")
+const SFX_POWER_DOWN = preload("res://audio/sfx/shields_down.wav")
+
+func play_sfx(_fx):
+	return
+	#if not sfx:
+		#return
+	#var polyphonic : AudioStreamPlaybackPolyphonic = sfx.get_stream_playback() as AudioStreamPlaybackPolyphonic
+	#if _fx and polyphonic:
+		#polyphonic.play_stream(_fx, 0,0,1, AudioServer.PLAYBACK_TYPE_DEFAULT, "SFX")
+	#else:
+		#push_warning("SFX tried to play but was not loaded")

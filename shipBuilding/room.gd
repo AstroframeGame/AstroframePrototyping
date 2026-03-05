@@ -1,6 +1,24 @@
 class_name Room
 extends Node2D
 
+@warning_ignore("unused_signal") # used in ship
+signal on_power_level_change(room : Room)
+
+@export var durability = 10
+@export var original_color : Color
+@onready var roof: Node2D = $Roof
+
+var blink_sfx_timer : Timer
+
+func _ready() -> void:
+	roof.z_index = 10
+	original_color = modulate
+	blink_sfx_timer = Timer.new()
+	blink_sfx_timer.wait_time = 0.4
+	blink_sfx_timer.one_shot = true
+	add_child(blink_sfx_timer)
+
+#region Getters
 var ship : Ship:
 	get:
 		return get_parent() as Ship
@@ -14,13 +32,9 @@ var grid_pos : Vector2:
 			return ship.world_to_grid(global_position)
 		print_debug(name, " has no ship")
 		return global_position
+#endregion
 
-@warning_ignore("unused_signal") # used in ship
-signal on_power_level_change(room : Room)
-
-@onready var roof: Node2D = $Roof
-
-
+#region Power
 var m_power_level: int = 0
 var power_level : int:
 	get:
@@ -49,13 +63,10 @@ func get_out_hexes() -> Array[PowerOutHex]:
 		if h is PowerOutHex:
 			hexes.append(h)
 	return hexes
+#endregion
 
-# not sure how durability is going to work, but probably once a room takes enough damage, it becomes
-# inoperable or breaks
-@export var durability = 10
-#export for debugging
+#region Upgrading / Augmentation
 @export var augments : Array[Augment]
-
 ## return index of augment in Augments Array
 func augment_in_list(type:Variant)->int:
 	for augment in augments:
@@ -103,4 +114,15 @@ func _process(_delta: float) -> void:
 func sync_power(power: int):
 	if not is_multiplayer_authority():
 		m_power_level = power
+#endregion
+
+#region VFX
+func blink_red():
+	if blink_sfx_timer.time_left>0:
+		return
+	blink_sfx_timer.start()
+	modulate = Color.PALE_VIOLET_RED
+	await blink_sfx_timer.timeout
+	modulate = original_color
+	blink_sfx_timer.start()
 #endregion

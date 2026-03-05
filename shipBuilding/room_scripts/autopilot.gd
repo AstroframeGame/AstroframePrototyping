@@ -11,7 +11,8 @@ extends Room
 var target_ship : Ship
 
 var movement_goal_direction : Vector2
-var rotation_goal_direction : float
+## goal rotation in radians
+var rotation_goal : float
 var safe_vel : Vector2
 var latching_position : Vector2
 
@@ -19,7 +20,7 @@ func _ready() -> void:
 	super()
 	detection_area.body_entered.connect(on_body_entered,1)
 	detection_area.body_exited.connect(on_body_exited,1)
-	detection_timer.timeout.connect(on_player_detected)
+	detection_timer.timeout.connect(on_player_ship_detected)
 	nav_agent.navigation_finished.connect(on_navigation_finished)
 	on_power_level_change.connect(on_power_change,1)
 	
@@ -39,12 +40,19 @@ func _ready() -> void:
 	#draw_rays(8,1500,180)
 
 func _physics_process(delta: float) -> void:
-	if state_machine.current_state:
-		state_machine.current_state.process_state_physics(delta)
+	if not is_instance_valid(state_machine):
+		return
+	if not state_machine.current_state:
+		return
+	if not is_active():
+		clear_targetting()
+		return
+		
+	state_machine.current_state.process_state_physics(delta)
+	
 	if state_machine.current_state != state_machine.flee_state:
-		if ship:
-			if ship.hit_points < float(ship.max_hit_points)/2:
-				state_machine.change_state(state_machine.flee_state)
+		if ship and ship.hit_points < float(ship.max_hit_points)/2:
+			state_machine.change_state(state_machine.flee_state)
 
 func shoot_all_cannons():
 	for cannon in ship.get_cannons():
@@ -52,7 +60,7 @@ func shoot_all_cannons():
 
 #region Getters
 func is_active() -> bool:
-	return power_level > 1
+	return ship and not ship.get_piloting() and power_level == 2
 
 func is_idling() -> bool:
 	return state_machine.current_state == state_machine.idle_state
@@ -77,10 +85,9 @@ func get_goal_angular_velocity() -> float:
 		return 0.0
 	if not target_ship:
 		return 0.0
-
-	var delta_rotation = rotation_goal_direction - ship.global_rotation
-	
-	var rot_input = sign(delta_rotation)
+		
+	var delta_rotation = rotation_goal - ship.global_rotation
+	var rot_input = sign(delta_rotation) / 2
 	
 	return rot_input * ship.get_rotational_thrust()
 
@@ -114,7 +121,7 @@ func on_body_exited(body):
 	if body == target_candidate:
 		target_candidate = null
 		
-func on_player_detected():
+func on_player_ship_detected():
 	if not is_active():
 		return
 	target_ship = target_candidate
@@ -124,13 +131,19 @@ func on_player_detected():
 
 func on_power_change(_room):
 	if not is_active():
-		target_ship = null
-		state_machine.change_state(state_machine.idle_state)
+		clear_targetting()
 		return
 	for body : Node2D in detection_area.get_overlapping_bodies():
 		if body.is_in_group("player_ship"):
 			target_candidate = body
 			detection_timer.start()
+
+func clear_targetting():
+	target_candidate = null
+	target_ship = null
+	movement_goal_direction = Vector2.ZERO
+	rotation_goal = rotation
+	state_machine.change_state(state_machine.idle_state)
 
 #endregion
 

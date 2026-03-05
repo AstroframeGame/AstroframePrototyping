@@ -6,11 +6,12 @@ extends Room
 
 func shoot():
 	if is_multiplayer_authority():
-		if power_level > 0:
-			gun.shoot(damage)
-			sync_shooting.rpc(damage)
+		gun.shoot(damage)
+		sync_shooting.rpc(damage)
 
 @rpc("authority", "call_remote", "reliable")
 func sync_shooting(dmg: int):
-	if not is_multiplayer_authority():
-		gun.shoot(dmg)
+	if power_level > 0:
+		gun.shoot(damage)
+	else:
+		blink_red()

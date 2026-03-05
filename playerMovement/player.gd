@@ -27,6 +27,7 @@ the player is over ground, hence whether to use air movement or ground movement
 var pushing :bool #set in physics process
 var push_dir
 var push_brake
+var input_enabled
 
 var _seat : SeatInteractable = null
 var seat : SeatInteractable :
@@ -275,6 +276,8 @@ func sync_room_inputs(room_event: StringName):
 #region InteractionManager
 # currently interacts with the first overlapping interactable area, but this can be changed to nearest, last, all, ect.
 func interact():
+	if not input_enabled:
+		return
 	var interactable = get_interactable()
 	if interactable:
 		interactable.interact(self)
@@ -395,7 +398,7 @@ func on_ship_enter(new_ship : Ship):
 		for body in pirate_pilot.detection_area.get_overlapping_bodies():
 			if body.is_in_group("pirate_ship") and body != ship:
 				body.get_auto_piloting().target_candidate = ship
-				body.get_auto_piloting().on_player_detected()
+				body.get_auto_piloting().on_player_ship_detected()
 				print("warned " + str(body))
 	update_layers(true)
 	
@@ -431,6 +434,18 @@ func update_layers(inside : bool):
 
 
 func take_damage(damage : int, _vfx_pos:Vector2):
+	if health <= 0:
+		return
+	if health - damage <= 0:
+		# TODO: switch game over to original plan
+		input_enabled = false
+		var gm : GameManager = get_tree().root.get_node("Hub").get_node("GameManager")
+		gm.dialogue_runner.start([["You", "*ack"], ["You","*bleh"]])
+		await gm.dialogue_runner.on_dialogue_end
+		gm.quit_to_list()
+		gm.menus.open_menu("GameOver")
+		
 	health -= damage
-	print("Damage Taken! Player now at %s health" % health)
-	
+
+func seppuku():
+	take_damage(999, global_position)

@@ -1,6 +1,7 @@
 class_name Shield
 extends StaticBody2D
 
+signal on_shield_started()
 signal on_shield_broken()
 
 @onready var collider = $CollisionShape2D
@@ -10,6 +11,8 @@ var durability : int
 
 ## smooth this later with a coroutine
 func set_active(is_active : bool):
+	if not visible and is_active:
+		on_shield_started.emit()
 	visible = is_active
 	collider.disabled = not is_active
 
