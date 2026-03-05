@@ -937,7 +937,10 @@ func sync_init_and_free(ship_path: NodePath):
 		push_warning("[ship.gd/sync_init_and_free()]: The Ship path provided was incorrect")
 		return
 	initialize_ship()
-	ship.set_deferred("free", true)
+	
+	await get_tree().process_frame
+	if is_instance_valid(ship):
+		ship.queue_free()
 
 @rpc("any_peer", "call_remote", "reliable")
 func send_detach(p_path: NodePath, dir: Vector2):
