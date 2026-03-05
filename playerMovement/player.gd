@@ -181,8 +181,16 @@ func _physics_process(delta):
 				var force_dir = -collision.get_normal()
 				var impulse = force_dir * 200 * delta
 				collider.apply_central_impulse(impulse)
-		
-		sync_state.rpc(global_position, velocity, mouse_pos, screen_mouse_pos, input_dir, pushing)
+		var sync_dict = {
+			"global_position"       : global_position,
+			"velocity"              : velocity,
+			"global_mouse_position" : mouse_pos,
+			"screen_mouse_position" : screen_mouse_pos,
+			"input_directory"       : input_dir,
+			"pushing_check"         : pushing,
+			"client_push_check"     : pushed,
+		}
+		sync_state.rpc(sync_dict)
 		move_and_slide()
 	else:
 		global_position = global_position.lerp(target_pos, 0.25)
@@ -231,15 +239,16 @@ func send_input(dir: Vector2, m_pos: Vector2, scrn_m_pos: Vector2, is_braking: b
 	screen_mouse_pos = scrn_m_pos
 
 @rpc("authority", "call_remote", "unreliable")
-func sync_state(pos: Vector2, vel: Vector2, m_pos: Vector2, scrn_m_pos: Vector2, dir: Vector2, push: bool):
+func sync_state(sync_dict: Dictionary):
 	if not is_multiplayer_authority():
-		target_pos       = pos
-		target_vel       = vel
-		mouse_pos        = m_pos
-		screen_mouse_pos = scrn_m_pos
-		input_dir        = dir
-		push_dir         = dir
-		pushing          = push
+		target_pos       = sync_dict.global_position
+		target_vel       = sync_dict.velocity
+		mouse_pos        = sync_dict.global_mouse_position
+		screen_mouse_pos = sync_dict.screen_mouse_position
+		input_dir        = sync_dict.input_directory
+		push_dir         = sync_dict.input_directory
+		pushing          = sync_dict.pushing_check
+		pushed           = sync_dict.client_push_check
 		
 #endregion
 #region SyncingActions
