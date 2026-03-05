@@ -45,4 +45,6 @@ func shoot(damage : int):
 
 func play_sfx():
 	var polyphonic : AudioStreamPlaybackPolyphonic = sfx.get_stream_playback() as AudioStreamPlaybackPolyphonic
-	polyphonic.play_stream(SFX_LASER_MEDIUM, 0,0,1, AudioServer.PLAYBACK_TYPE_DEFAULT, "SFX")
+	var pitch_mod = randf_range(-0.2,0.2)
+	var volume_mod = randf_range(-2,2)
+	polyphonic.play_stream(SFX_LASER_MEDIUM, 0,volume_mod,1.2 + pitch_mod, AudioServer.PLAYBACK_TYPE_DEFAULT, "SFX")
