@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://bkibqvfep8px0"]
 
+[ext_resource type="PackedScene" uid="uid://t48ysm6u8q54" path="res://art/background/grid_background.tscn" id="1_q8ivf"]
 [ext_resource type="Script" uid="uid://bdw1f2ciyocp4" path="res://shipBuilding/level_editor/hex_editor.gd" id="1_sx6es"]
 [ext_resource type="Script" uid="uid://duvfp0c112n5d" path="res://shipBuilding/level_editor/room_picker.gd" id="2_8axvm"]
 [ext_resource type="Theme" uid="uid://dj12nct3i1b1i" path="res://hub/ui-themes/header.tres" id="3_gbgp8"]
@@ -7,25 +8,17 @@
 [ext_resource type="Script" uid="uid://c27ia4wg58upb" path="res://shipBuilding/ship_meta_data_editor.gd" id="4_q8ivf"]
 [ext_resource type="PackedScene" uid="uid://b4ety2cv40p6l" path="res://shipBuilding/prefabs/ship.tscn" id="4_qoir8"]
 [ext_resource type="Script" uid="uid://dh4g6jyrhqp2w" path="res://shipBuilding/level_editor/editor_cam.gd" id="5_ujx4f"]
+[ext_resource type="Theme" uid="uid://2b3w3cdm6v0b" path="res://hub/ui-themes/title.tres" id="7_8axvm"]
 [ext_resource type="Script" uid="uid://qknmsuin5gwv" path="res://shipBuilding/save_load.gd" id="7_q4pwh"]
 [ext_resource type="Script" uid="uid://su5njmd4c8e2" path="res://shipBuilding/level_editor/editor_save_manager.gd" id="8_gbgp8"]
+[ext_resource type="Theme" uid="uid://d0o0krm245a4q" path="res://hub/ui-themes/unstyled.tres" id="11_idfod"]
 
 [node name="ShipBuilding" type="Node2D" unique_id=1332591370]
 
-[node name="Name" type="Label" parent="." unique_id=1348804384]
-offset_left = -271.0
-offset_top = -225.0
-offset_right = -139.0
-offset_bottom = -202.0
-text = "ShipBuilding"
+[node name="Background" type="CanvasLayer" parent="." unique_id=1501893970]
+layer = -2
 
-[node name="Instructions" type="Label" parent="." unique_id=1952220908]
-offset_left = -275.0
-offset_top = -193.0
-offset_right = -10.0
-offset_bottom = -144.0
-text = "This is a ship level editor.
-Middle mouse to pan."
+[node name="GridBackground" parent="Background" unique_id=1650344788 instance=ExtResource("1_q8ivf")]
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1182429860]
 
@@ -98,7 +91,7 @@ text = "JSON"
 [node name="TabContainer" type="TabContainer" parent="UI" unique_id=1391215081]
 anchors_preset = 9
 anchor_bottom = 1.0
-offset_top = 89.0
+offset_top = 189.0
 offset_right = 336.0
 grow_vertical = 2
 current_tab = 0
@@ -217,6 +210,31 @@ popup/item_5/text = "TERRANU"
 popup/item_5/id = 5
 popup/item_6/text = "AXUU"
 popup/item_6/id = 6
+
+[node name="Controls" type="Label" parent="UI" unique_id=1095174006]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -171.0
+offset_top = -22.0
+offset_right = 171.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("11_idfod")
+text = "Middle Mouse Pan, CTRL Z, CTRL Shift Z"
+horizontal_alignment = 1
+
+[node name="Title" type="Label" parent="UI" unique_id=410313121]
+offset_left = 8.0
+offset_top = 102.0
+offset_right = 720.0
+offset_bottom = 241.0
+scale = Vector2(0.5, 0.5)
+theme = ExtResource("7_8axvm")
+text = "AstroFrame
+Ship Editor"
 
 [node name="HexEditor" type="Node" parent="." unique_id=1998897616]
 script = ExtResource("1_sx6es")
