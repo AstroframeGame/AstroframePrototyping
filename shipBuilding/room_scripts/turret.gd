@@ -86,7 +86,6 @@ func _physics_process(delta: float) -> void:
 	else:
 		pass
 	gun.gunSprite.look_at(controlled_by.mouse_pos)
-	print_debug("!!Reminder, Unreachable Code!!")
 	return # temporary, controller needs to be synced
 	@warning_ignore("unreachable_code")
 	if InputHelper.using_mouse:
