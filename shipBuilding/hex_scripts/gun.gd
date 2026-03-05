@@ -2,6 +2,8 @@ class_name GunHex
 extends Hex
 
 const PROJECTILE = preload("uid://devin6bdbcbay") # funny uid lol
+const SFX_LASER_MEDIUM = preload("res://audio/sfx/laser_medium.wav")
+
 
 @export var gunSprite : Node2D
 @onready var shield_check : Area2D = $ShieldCheck
@@ -14,6 +16,7 @@ const PROJECTILE = preload("uid://devin6bdbcbay") # funny uid lol
 
 func _ready():
 	timer.wait_time = cooldown
+	sfx.play() # start the sfx
 
 func shoot(damage : int):
 	if timer.time_left > 0:
@@ -36,4 +39,12 @@ func shoot(damage : int):
 			proj.add_collision_exception_with(body)
 	# get multiplayer manager instead
 	ProjectileManager.add_child(proj)
-	$ShootSFX.play(0.11)
+	play_sfx()
+
+@onready var sfx: AudioStreamPlayer2D = $ShootSFX
+
+func play_sfx():
+	var polyphonic : AudioStreamPlaybackPolyphonic = sfx.get_stream_playback() as AudioStreamPlaybackPolyphonic
+	var pitch_mod = randf_range(-0.2,0.2)
+	var volume_mod = randf_range(-2,2)
+	polyphonic.play_stream(SFX_LASER_MEDIUM, 0,volume_mod,1.2 + pitch_mod, AudioServer.PLAYBACK_TYPE_DEFAULT, "SFX")

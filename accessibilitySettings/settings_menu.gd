@@ -8,9 +8,16 @@ const UNSTYLED = preload("res://hub/ui-themes/unstyled.tres")
 @onready var world_environment: WorldEnvironment = $"../../../WorldEnvironment"
 
 func _ready() -> void:
+	set_dev_settings()
 	generate_remap_settings()
 	generate_resolution_options()
 
+func set_dev_settings():
+	if "dev" in OS.get_cmdline_args():
+		_on_fullscreen_toggled(false)
+		get_window().set_size(Vector2(1152,648))
+		center_screen()
+	
 
 #region Video
 var resolutions = {
@@ -44,7 +51,7 @@ func _on_fullscreen_toggled(toggled_on: bool) -> void:
 func center_screen():
 	@warning_ignore("integer_division")
 	var screen_center = DisplayServer.screen_get_position() + DisplayServer.screen_get_size() / 2
-	var window_scale = get_window().get_size_with_decorations() / 2.0
+	var window_scale = Vector2i(get_window().get_size_with_decorations() / 2.0)
 	get_window().set_position(screen_center - window_scale)
 	
 #region Accessibility

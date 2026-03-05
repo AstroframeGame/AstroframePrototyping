@@ -21,6 +21,8 @@ const SPARKS_SPEED_THRESH = 10
 const EXPLOSION_PREFAB = preload("res://art/vfx/explosion.tscn")
 const HIT_SHIP_VFX_PREFAB = preload("res://art/vfx/hit_ship_vfx.tscn")
 const EXPLOSION_SFX_PREFAB = preload("res://audio/sfx_prefabs/explosion_sfx.tscn")
+const SFX_EXPLOSION = preload("res://audio/sfx/explosion.wav")
+const SFX_HULL_DESTROY = preload("res://audio/sfx/hull_destroy.wav")
 
 var _is_dead: bool = false
 
@@ -101,7 +103,6 @@ func get_rotational_thrust() -> float:
 		if r is Engines:
 			o += r.get_rotational_thrust()
 	return o
-
 func get_piloting() -> Piloting:
 	for r in get_children():
 		if r is Piloting:
@@ -538,10 +539,11 @@ func remove_power_link_out(power_out : PowerOutHex):
 	
 func pair_all_links():
 	power_links.clear()
+	
 	var power_in = get_available_power_in()
 	for h : PowerInHex in power_in:
+		await get_tree().process_frame
 		set_next_avalible_power_out(h)
-	#print(name + " " + str(get_available_power_in()))
 #endregion
 
 #region Health
@@ -559,6 +561,9 @@ func check_hud():
 
 func take_damage(amount:int, pos_ws : Vector2):
 	hit_points -= amount # property has callback that sets the hud to update
+	if get_active_shields().is_empty():
+		for shield in get_shields():
+			shield.blink_red()
 	hit_vfx(pos_ws)
 
 func death_check():
@@ -601,7 +606,8 @@ func death_explosion():
 		explosion(pos)
 	
 	var explosion_sfx : AudioStreamPlayer2D = EXPLOSION_SFX_PREFAB.instantiate()
-	explosion_sfx.play_quantity(len(rooms))
+	explosion_sfx.play_quantity(SFX_EXPLOSION, len(rooms))
+	explosion_sfx.global_position = global_position
 	ProjectileManager.add_child(explosion_sfx)
 	
 	ship_destroyed.emit()
@@ -955,4 +961,9 @@ func hit_vfx(pos : Vector2):
 		if c is GPUParticles2D:
 			c.restart()
 	ProjectileManager.add_child(g)
+	
+	var hit_sfx : AudioStreamPlayer2D = EXPLOSION_SFX_PREFAB.instantiate()
+	hit_sfx.play_quantity(SFX_HULL_DESTROY, 1)
+	hit_sfx.global_position = pos
+	ProjectileManager.add_child(hit_sfx)
 #endregion

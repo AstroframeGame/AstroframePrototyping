@@ -17,7 +17,7 @@ func _ready() -> void:
 	# load settings
 	# settings include whether or not game is muted
 	# debug setting it muted for now
-	MusicManager.muted = true
+	MusicManager.muted = "dev" in OS.get_cmdline_args()
 	MusicManager.play_menu()
 	
 func load_scene(path : String)->void:

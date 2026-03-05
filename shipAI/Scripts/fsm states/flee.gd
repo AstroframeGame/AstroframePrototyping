@@ -9,4 +9,4 @@ func process_state_physics(_delta:float):
 		if ship:
 			dir_vector = ship.transform.x
 	auto_pilot.movement_goal_direction = (dir_vector).normalized()
-	auto_pilot.rotation_goal_direction = (dir_vector).angle() + PI/2
+	auto_pilot.rotation_goal = (dir_vector).angle() + PI/2

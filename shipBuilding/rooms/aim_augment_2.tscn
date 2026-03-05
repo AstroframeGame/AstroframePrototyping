@@ -35,14 +35,12 @@ position = Vector2(78, 0)
 visible = false
 
 [node name="Hex3" type="Sprite2D" parent="Roof" unique_id=1627226535]
-visible = false
 modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
 position = Vector2(78, 0)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("3_jqip6")
 
 [node name="Hex4" type="Sprite2D" parent="Roof" unique_id=2078297214]
-visible = false
 modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("3_jqip6")
