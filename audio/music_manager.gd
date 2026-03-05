@@ -4,7 +4,8 @@ extends Node
 @onready var ambient: AudioStreamPlayer = $GameAmbient
 @onready var tense: AudioStreamPlayer = $GameTense
 
-var _tween: Tween
+var _transition_tween: Tween
+var _tensity_tween: Tween
 
 signal on_mute_state_change(state : bool) # audioserver takes a frame to update.
 var muted : bool :
@@ -35,13 +36,13 @@ func change_level_music(new_ambient: AudioStream, new_tense: AudioStream, fade_t
 	if ambient.stream == new_ambient and tense.stream == new_tense:
 		return
 
-	if _tween: _tween.kill()
-	_tween = create_tween()
+	if _transition_tween: _transition_tween.kill()
+	_transition_tween = create_tween()
 	
-	_tween.parallel().tween_property(ambient, "volume_db", -80.0, fade_time)
-	_tween.parallel().tween_property(tense, "volume_db", -80.0, fade_time)
+	_transition_tween.parallel().tween_property(ambient, "volume_db", -80.0, fade_time)
+	_transition_tween.parallel().tween_property(tense, "volume_db", -80.0, fade_time)
 	
-	_tween.tween_callback(func(): _swap_tracks(new_ambient, new_tense, fade_time))
+	_transition_tween.tween_callback(func(): _swap_tracks(new_ambient, new_tense, fade_time))
 
 func _swap_tracks(new_ambient: AudioStream, new_tense: AudioStream, fade_time: float):
 	ambient.stop()
@@ -56,36 +57,35 @@ func _swap_tracks(new_ambient: AudioStream, new_tense: AudioStream, fade_time: f
 	ambient.volume_db = -80.0
 	tense.volume_db = -80.0
 	
-	if _tween: _tween.kill()
-	_tween = create_tween()
+	if _transition_tween: _transition_tween.kill()
+	_transition_tween = create_tween()
 	
-	_tween.tween_property(ambient, "volume_db", 0.0, fade_time)
+	_transition_tween.tween_property(ambient, "volume_db", 0.0, fade_time)
 
 func set_tense_mode(is_tense: bool):
-	if _tween: _tween.kill()
-	_tween = create_tween()
+	if _tensity_tween: _tensity_tween.kill()
+	_tensity_tween = create_tween()
 	
 	var a_vol = -80.0 if is_tense else 0.0
 	var t_vol = 0.0 if is_tense else -80.0
 	
-	_tween.set_parallel(true)
-	_tween.set_trans(Tween.TRANS_SINE)
-	_tween.tween_property(ambient, "volume_db", a_vol, 1.0).set_ease(Tween.EASE_IN_OUT)
-	_tween.tween_property(tense, "volume_db", t_vol, 1.0).set_ease(Tween.EASE_IN_OUT)
+	_tensity_tween.set_parallel(true)
+	_tensity_tween.set_trans(Tween.TRANS_SINE)
+	_tensity_tween.tween_property(ambient, "volume_db", a_vol, 1.0).set_ease(Tween.EASE_IN_OUT)
+	_tensity_tween.tween_property(tense, "volume_db", t_vol, 1.0).set_ease(Tween.EASE_IN_OUT)
 
 func _crossfade(to: AudioStreamPlayer, from: Array[AudioStreamPlayer]):
-	if _tween: _tween.kill()
-	_tween = create_tween()
+	if _transition_tween: _transition_tween.kill()
+	_transition_tween = create_tween()
 	
 	if not to.playing: 
 		to.volume_db = -80.0
 		to.play()
 	
-	_tween.set_parallel(true)
-	_tween.set_trans(Tween.TRANS_SINE)
+	_transition_tween.set_parallel(true)
+	_transition_tween.set_trans(Tween.TRANS_SINE)
 	
-	_tween.tween_property(to, "volume_db", 0.0, 2.0).set_ease(Tween.EASE_OUT)
-	print("Crossfading to ", to.name, from)
+	_transition_tween.tween_property(to, "volume_db", 0.0, 2.0).set_ease(Tween.EASE_OUT)
 	for p in from:
 		if p.playing:
-			_tween.tween_property(p, "volume_db", -80.0, 2.0).set_ease(Tween.EASE_IN)
+			_transition_tween.tween_property(p, "volume_db", -80.0, 2.0).set_ease(Tween.EASE_IN)
