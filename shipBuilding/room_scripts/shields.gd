@@ -3,7 +3,7 @@ class_name Shields_Room
 
 #@export var recharge_speed = 30
 @export var recharge_speeds := [-1, 7.5, 5, 2.5]
-@export var max_shield_durability = [100,100,150,200]
+@export var max_shield_durability := [100,100,150,200]
 
 @onready var shield: Shield = $Shield
 @onready var recharge_timer : Timer = $RechargeTimer

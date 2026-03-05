@@ -102,7 +102,6 @@ func get_rotational_thrust() -> float:
 		if r is Engines:
 			o += r.get_rotational_thrust()
 	return o
-
 func get_piloting() -> Piloting:
 	for r in get_children():
 		if r is Piloting:
@@ -561,6 +560,9 @@ func check_hud():
 
 func take_damage(amount:int, pos_ws : Vector2):
 	hit_points -= amount # property has callback that sets the hud to update
+	if get_active_shields().is_empty():
+		for shield in get_shields():
+			shield.blink_red()
 	hit_vfx(pos_ws)
 
 func death_check():

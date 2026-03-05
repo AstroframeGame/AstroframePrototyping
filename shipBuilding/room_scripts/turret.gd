@@ -12,6 +12,7 @@ func _ready() -> void:
 
 func handle_input(event:InputEvent):
 	if not power_level > 0:
+		blink_red()
 		return
 	# mouse guided system
 	if event.is_action_pressed("ship_fire"):

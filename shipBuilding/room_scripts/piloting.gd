@@ -20,10 +20,11 @@ func is_active() -> bool:
 
 func get_goal_velocity(current_velocity: Vector2) -> Vector2:
 	var engines = ship.get_engines()
-	if not engines:
-		return Vector2.ZERO
 		
 	var direction = Input.get_vector("left", "right", "up", "down")
+	if direction.length() > 0.1 and engines.power_level==0:
+		engines.blink_red()
+		return Vector2.ZERO
 	
 	if Input.is_action_pressed("brake"):
 		return Vector2.ZERO
@@ -42,11 +43,11 @@ func is_idling() -> bool:
 
 func get_goal_angular_velocity() -> float:
 	var engines = ship.get_engines()
-	if not engines:
+	if engines.power_level == 0:
+		engines.blink_red()
 		return 0.0
 		
 	var rot_input = InputHelper.controller_look.x
 	if InputHelper.using_mouse:
-		rot_input = InputHelper.mouse_center_offset_deadzone(ship.FLIGHT_DEADZONE).x * 0.01
-		
+		rot_input = InputHelper.mouse_center_offset_deadzone(ship.FLIGHT_DEADZONE).x * 0.01  
 	return rot_input * engines.get_rotational_thrust()
