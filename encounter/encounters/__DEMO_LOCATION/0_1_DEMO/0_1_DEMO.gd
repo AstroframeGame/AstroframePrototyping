@@ -27,8 +27,12 @@ func _ready() -> void:
 	for ship in to_kill:
 		ship.connect( "ship_destroyed", win_check.bind() )	# when target destroyed, check for win
 		ship.set_meta("type", "Pirate")
+		ship.set_aggro.emit(true)	# pirate ships start aggro
 	
 	faction_ship.set_meta("type", "Faction")
+	faction_ship.connect("on_hit", set_ship_aggro.bind(faction_ship, true)) # faction ship will aggro if you fire on them
+	faction_ship.set_aggro.emit(false)	# faction ship starts friendly
+	
 	player_ship.set_meta("type", "PlayerShip")
 	player_ship.connect("ship_destroyed", encounter_failed)
 	
@@ -78,3 +82,6 @@ func _on_trigger_dialogue(npc: String, cat: String) -> void:
 	if not spoke_to_researchers and npc == research_ship.name:
 		spoke_to_researchers = true
 		dialouge_runner.on_dialogue_end.connect(start_next_objective, CONNECT_ONE_SHOT)
+
+func set_ship_aggro(ship: Node, val: bool):
+	ship.set_aggro.emit(val, player_ship)

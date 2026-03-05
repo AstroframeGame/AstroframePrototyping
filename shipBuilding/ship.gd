@@ -6,6 +6,7 @@ signal on_airlock_interaction(interactor : PlayerCharacter, is_inside : bool) # 
 signal ship_destroyed
 signal on_hit()
 signal set_beacon(value: bool)
+signal set_aggro(val: bool)
 
 const FLIGHT_DEADZONE = 0.05 #screen %
 const HEX_WIDTH = 78

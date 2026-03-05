@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b6vnbwkbboq7g"]
 
 [ext_resource type="Script" uid="uid://ci51s5x2ase5i" path="res://encounter/encounters/__DEMO_LOCATION/0_1_DEMO/0_1_DEMO.gd" id="1_3qilk"]
-[ext_resource type="PackedScene" path="res://shipBuilding/ships/FACTION_PATROL.tscn" id="2_7k785"]
+[ext_resource type="PackedScene" uid="uid://wv88dd5di8gl" path="res://shipBuilding/ships/FACTION_PATROL.tscn" id="2_7k785"]
 [ext_resource type="PackedScene" uid="uid://c7h5fcycvrbqe" path="res://art/background/space_background.tscn" id="2_onbk5"]
 [ext_resource type="FontFile" uid="uid://c0d43w7ej3xae" path="res://hub/fonts/Anta-Regular - MSDF.ttf" id="3_7ytpk"]
 [ext_resource type="PackedScene" uid="uid://incqv8bu0v2n" path="res://shipBuilding/ships/wasp.tscn" id="5_76my7"]
@@ -183,18 +183,33 @@ null: null
 max_hit_points = 0
 _hit_points = 0
 
-[node name="FACTION_PATROL" parent="ships" unique_id=54830236 node_paths=PackedStringArray("power_links") instance=ExtResource("2_7k785")]
-position = Vector2(2782, 4091)
+[node name="FACTION_PATROL" parent="ships" unique_id=54830236 node_paths=PackedStringArray("hud", "power_links") instance=ExtResource("2_7k785")]
+position = Vector2(-3741, 530)
+mass = 1.0
+center_of_mass_mode = 0
+center_of_mass = Vector2(0, 0)
+sleeping = true
+hud = NodePath("ShipHUD")
 power_links = {
 NodePath("Reactor_4/OutputHex"): NodePath("Engines_2/InputHex"),
 NodePath("Reactor_4/OutputHex2"): NodePath("Engines_2/InputHex2"),
 NodePath("Reactor_4/OutputHex3"): NodePath("@Node2D@313/InputHex"),
 NodePath("Reactor_4/OutputHex4"): null,
+NodePath("@Node2D@308/OutputHex"): NodePath("Engines_2/InputHex"),
+NodePath("@Node2D@308/OutputHex2"): NodePath("Engines_2/InputHex2"),
+NodePath("@Node2D@308/OutputHex3"): NodePath("@Node2D@314/InputHex"),
+NodePath("@Node2D@308/OutputHex4"): NodePath("@Node2D@314/InputHex2"),
+NodePath("@Node2D@309/OutputHex"): NodePath("@Node2D@315/InputHex"),
+NodePath("@Node2D@309/OutputHex2"): NodePath("@Node2D@316/InputHex"),
+NodePath("@Node2D@309/OutputHex3"): NodePath("Autopilot_1/InputHex"),
+NodePath("@Node2D@309/OutputHex4"): NodePath("Autopilot_1/InputHex2"),
 null: null
 }
+max_hit_points = 0
+_hit_points = 0
 
 [node name="RESEARCH_SATELLITE" parent="ships" unique_id=1537409978 instance=ExtResource("10_7ytpk")]
-position = Vector2(-1700, -46)
+position = Vector2(2130, -1273)
 
 [node name="PlayerShip" parent="." unique_id=1431510437 node_paths=PackedStringArray("power_links") instance=ExtResource("6_h1xkd")]
 position = Vector2(-2669, -538)
