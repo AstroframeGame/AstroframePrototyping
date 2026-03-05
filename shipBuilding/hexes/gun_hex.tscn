@@ -3,41 +3,77 @@
 [ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="1_jjod8"]
 [ext_resource type="Script" uid="uid://ctti6jygujj6i" path="res://shipBuilding/hex_scripts/gun.gd" id="2_jn67f"]
 [ext_resource type="Texture2D" uid="uid://h7n0dwcqcea8" path="res://shipBuilding/icons/turret.png" id="3_xan1q"]
+[ext_resource type="Texture2D" uid="uid://2epe5aa0gd04" path="res://art/rooms/cannon/cannon_gun.svg" id="4_xan1q"]
+[ext_resource type="Texture2D" uid="uid://c66up32kleahj" path="res://art/rooms/cannon/cannon_corecolor.svg" id="5_6y0jy"]
+
+[sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_xan1q"]
+polyphony = 4
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jjod8"]
 radius = 44.04543
 
-[node name="GunHex" type="Sprite2D" unique_id=884138192]
+[node name="Gun" type="Node2D" unique_id=566916134 node_paths=PackedStringArray("gunSprite", "barrel")]
+self_modulate = Color(1, 0.74509805, 0.70980394, 1)
+z_index = 12
+rotation = -1.5707964
+script = ExtResource("2_jn67f")
+gunSprite = NodePath("GunRot")
+barrel = NodePath("GunRot/CannonGun/Barrel")
+
+[node name="GunHex" type="Sprite2D" parent="." unique_id=1045817067]
+visible = false
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_jjod8")
-script = ExtResource("2_jn67f")
 
-[node name="Sprite" type="Sprite2D" parent="." unique_id=879061294]
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1385920748]
+visible = false
 modulate = Color(0, 0, 0, 1)
 rotation = -1.5707964
-scale = Vector2(0.235, 0.235)
+scale = Vector2(0.1175, 0.1175)
 texture = ExtResource("3_xan1q")
 
-[node name="Marker2D" type="Marker2D" parent="Sprite" unique_id=1542278814]
+[node name="Marker2D" type="Marker2D" parent="Sprite" unique_id=619247280]
 position = Vector2(229.09433, -5.3136444)
 
-[node name="Timer" type="Timer" parent="." unique_id=1871114995]
+[node name="Timer" type="Timer" parent="." unique_id=120189023]
 wait_time = 0.5
 one_shot = true
 
-[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1789063521]
+[node name="ShootSFX" type="AudioStreamPlayer2D" parent="." unique_id=205647531]
+stream = SubResource("AudioStreamPolyphonic_xan1q")
+pitch_scale = 1.2
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=269095926]
+scale = Vector2(0.5, 0.5)
 collision_layer = 0
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=804731342]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=605589748]
 shape = SubResource("CircleShape2D_jjod8")
 debug_color = Color(0.67, 0.4623, 0.5903817, 0.83137256)
 
-[node name="ShieldCheck" type="Area2D" parent="." unique_id=1973377845]
+[node name="ShieldCheck" type="Area2D" parent="." unique_id=420863186]
 visible = false
+scale = Vector2(0.5, 0.5)
 collision_layer = 34
 collision_mask = 8192
 input_pickable = false
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ShieldCheck" unique_id=273303073]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ShieldCheck" unique_id=1381467738]
 polygon = PackedVector2Array(-14, -56, 10, -56, 0, 0)
+
+[node name="GunRot" type="Node2D" parent="." unique_id=558470100]
+
+[node name="CannonGun" type="Sprite2D" parent="GunRot" unique_id=1396216072]
+self_modulate = Color(0.12591082, 0.12591085, 0.12591079, 1)
+position = Vector2(11, 0)
+rotation = 1.5707964
+texture = ExtResource("4_xan1q")
+
+[node name="Barrel" type="Marker2D" parent="GunRot/CannonGun" unique_id=1898498682]
+position = Vector2(0, -26)
+
+[node name="CannonCorecolor" type="Sprite2D" parent="GunRot" unique_id=741939693]
+self_modulate = Color(1, 0.66999996, 0.66999996, 1)
+rotation = 1.5707964
+texture = ExtResource("5_6y0jy")

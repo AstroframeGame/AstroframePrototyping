@@ -2,8 +2,7 @@ extends State
 
 func process_state_physics(_delta:float):
 	if not target_ship:
-		auto_pilot.movement_goal_direction = Vector2(0,0)
-		auto_pilot.rotation_goal_direction = 0
+		controller.change_state(controller.idle_state)
 		return
 	
 	var latching_dir = target_ship.to_global(auto_pilot.latching_position) - ship.get_center()

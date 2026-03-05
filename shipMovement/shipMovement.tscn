@@ -44,9 +44,9 @@ Todo
 - fix stutter
 - how will player be able to interact with power if their mouse is looking around?"
 
-[node name="Asteroids" parent="." unique_id=464769745 instance=ExtResource("1_g0kr4")]
-
 [node name="LoadShip" parent="." unique_id=975251339 instance=ExtResource("2_6pyit")]
+
+[node name="Asteroids" parent="." unique_id=464769745 instance=ExtResource("1_g0kr4")]
 
 [node name="Ship" parent="." unique_id=1037901965 instance=ExtResource("1_hqjgw")]
 position = Vector2(591, -258)

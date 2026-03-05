@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78 90">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: gray;
+      }
+
+      .cls-2 {
+        fill: #ababab;
+      }
+    </style>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <g id="piloting_interior">
+      <polygon class="cls-1" points="78 67.5 78 22.5 39 0 0 22.5 0 67.5 39 90 78 67.5"/>
+      <polygon class="cls-2" points="70.8 63.34 70.8 26.66 39 8.31 7.2 26.66 7.2 63.34 39 81.69 70.8 63.34"/>
+    </g>
+  </g>
+</svg>

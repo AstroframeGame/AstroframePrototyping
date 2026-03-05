@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://choyif0n5w2jj"]
 
-[ext_resource type="Script" path="res://encounter/encounters/__DEMO_LOCATION/asteroid.gd" id="1_y83ev"]
+[ext_resource type="Script" uid="uid://q26jtd2b8mya" path="res://encounter/encounters/__DEMO_LOCATION/asteroid.gd" id="1_y83ev"]
 
 [node name="DynamicField" type="Node2D" unique_id=1358330800]
 

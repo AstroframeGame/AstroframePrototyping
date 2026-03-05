@@ -3,6 +3,7 @@ extends Room
 
 # define an instance of the room type that the augment should target
 @export var target_rooms : Array[Room]
+@export var target_room : Room
 
 # func to fill out target_rooms
 func find_target_rooms(augment_type: Variant, target_type: Variant):

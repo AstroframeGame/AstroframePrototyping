@@ -9,7 +9,7 @@ radius = 500.68155
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xi3rp"]
 shader = ExtResource("1_x5pi7")
-shader_parameter/glow_color = Color(0.39, 0.701, 1.827, 1)
+shader_parameter/glow_color = Color(0.65278155, 0.45313925, 1.3745651, 1)
 shader_parameter/intensity = 10.0
 shader_parameter/amount = 1.0
 

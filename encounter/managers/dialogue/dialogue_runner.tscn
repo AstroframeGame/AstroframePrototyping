@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://df01kfwope6hn"]
 
 [ext_resource type="Script" uid="uid://bvxhdv6cof60u" path="res://encounter/managers/dialogue/dialogue_runner.gd" id="1_20mt6"]
-[ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/ui_textures/RoundedSquare.png" id="2_enw8j"]
+[ext_resource type="Texture2D" uid="uid://bfknaix65fust" path="res://hub/ui_textures/sci_fi_frame.svg" id="2_munst"]
 [ext_resource type="Theme" uid="uid://dj12nct3i1b1i" path="res://hub/ui-themes/header.tres" id="3_ghpxn"]
 [ext_resource type="Theme" uid="uid://f1k0rdfg3btk" path="res://hub/ui-themes/default.tres" id="4_ghpxn"]
 
@@ -27,18 +27,18 @@ anchor_bottom = 1.0
 offset_top = -157.0
 offset_right = 581.0
 grow_vertical = 0
-texture = ExtResource("2_enw8j")
-patch_margin_left = 20
-patch_margin_top = 20
-patch_margin_right = 20
-patch_margin_bottom = 20
+texture = ExtResource("2_munst")
+patch_margin_left = 100
+patch_margin_top = 100
+patch_margin_right = 100
+patch_margin_bottom = 100
 
 [node name="NameLabel" type="RichTextLabel" parent="Background" unique_id=1072052103]
 layout_mode = 0
-offset_left = 17.0
-offset_top = 18.0
-offset_right = 322.0
-offset_bottom = 52.0
+offset_left = 50.0
+offset_top = 19.0
+offset_right = 355.0
+offset_bottom = 53.0
 theme = ExtResource("3_ghpxn")
 text = "Name"
 scroll_active = false
@@ -50,5 +50,23 @@ anchor_left = 0.036000002
 anchor_top = 0.39100003
 anchor_right = 0.952
 anchor_bottom = 0.822
+offset_left = 33.0
+offset_top = 1.0
+offset_right = 2.8880005
+offset_bottom = 1.0
 theme = ExtResource("4_ghpxn")
 text = "Text"
+
+[node name="DialougeHint" type="Label" parent="Background" unique_id=1409082652]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.11800001
+anchor_top = 0.90200007
+anchor_right = 0.11800001
+anchor_bottom = 0.90200007
+offset_left = -5.5580063
+offset_top = -24.40001
+offset_right = 61.441994
+offset_bottom = -2.4000092
+text = "[G] To continue"

@@ -27,10 +27,10 @@ collision_mask = 257
 input_pickable = true
 gravity_scale = 0.0
 continuous_cd = 1
+contact_monitor = true
+max_contacts_reported = 5
 script = ExtResource("1_aarjm")
 hud = NodePath("ShipHUD")
-max_hit_points = 1
-_hit_points = 1
 
 [node name="HexGrid" type="TileMapLayer" parent="." unique_id=1277847278 instance=ExtResource("2_a5786")]
 enabled = false
@@ -38,7 +38,7 @@ tile_set = SubResource("TileSet_xsh4c")
 collision_enabled = false
 navigation_enabled = false
 
-[node name="Solid" type="CollisionPolygon2D" parent="." unique_id=520139163]
+[node name="Solid" type="CollisionPolygon2D" parent="." unique_id=1637728247]
 
 [node name="ShipHUD" type="CanvasLayer" parent="." unique_id=532014552 instance=ExtResource("3_5rboh")]
 visible = false
@@ -70,6 +70,6 @@ script = ExtResource("14_wdicq")
 position = Vector2(156, -157.5)
 script = ExtResource("16_o0sc7")
 
-[node name="Walls" type="StaticBody2D" parent="." unique_id=1161477992]
+[node name="Walls" type="StaticBody2D" parent="." unique_id=1294562301]
 collision_layer = 16
 collision_mask = 0

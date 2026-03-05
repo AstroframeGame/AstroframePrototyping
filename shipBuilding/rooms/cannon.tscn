@@ -5,6 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://88c51udovr1" path="res://shipBuilding/hexes/gun_hex.tscn" id="3_kgjcn"]
 [ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="4_khiwb"]
 [ext_resource type="Texture2D" uid="uid://h7n0dwcqcea8" path="res://shipBuilding/icons/turret.png" id="5_kgjcn"]
+[ext_resource type="Texture2D" uid="uid://lbohp2c0m5ji" path="res://art/rooms/cannon/cannon_interior.svg" id="6_ru0ip"]
+[ext_resource type="Texture2D" uid="uid://sdwpdbrbmo7b" path="res://art/rooms/cannon/cannon_gunbase.svg" id="8_wft3n"]
 
 [node name="Cannon" type="Node2D" unique_id=195129740]
 script = ExtResource("1_khiwb")
@@ -13,8 +15,15 @@ script = ExtResource("1_khiwb")
 self_modulate = Color(1, 0.74509805, 0.70980394, 1)
 position = Vector2(78, 0)
 
-[node name="Gun" parent="." unique_id=783557809 instance=ExtResource("3_kgjcn")]
-self_modulate = Color(1, 0.74509805, 0.70980394, 1)
+[node name="CannonInterior" type="Sprite2D" parent="." unique_id=729157931]
+texture = ExtResource("6_ru0ip")
+
+[node name="CannonInterior2" type="Sprite2D" parent="." unique_id=1602977237]
+position = Vector2(78, 0)
+texture = ExtResource("6_ru0ip")
+
+[node name="GunHex" parent="." unique_id=1922844830 instance=ExtResource("3_kgjcn")]
+self_modulate = Color(1, 1, 1, 1)
 
 [node name="Label" type="Label" parent="." unique_id=1178931816]
 offset_left = 28.0
@@ -26,14 +35,17 @@ text = "Cannon"
 
 [node name="Roof" type="Node2D" parent="." unique_id=817312567]
 visible = false
+z_index = 10
 
 [node name="Hex3" type="Sprite2D" parent="Roof" unique_id=2125824710]
+visible = false
 modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
 position = Vector2(78, 0)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_khiwb")
 
 [node name="Hex4" type="Sprite2D" parent="Roof" unique_id=480311978]
+visible = false
 modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_khiwb")
@@ -44,4 +56,16 @@ rotation = -1.5707964
 scale = Vector2(0.235, 0.235)
 texture = ExtResource("5_kgjcn")
 
-[editable path="Gun"]
+[node name="CannonInterior" type="Sprite2D" parent="Roof" unique_id=946122764]
+modulate = Color(0.44136548, 0.4413655, 0.4413655, 1)
+texture = ExtResource("6_ru0ip")
+
+[node name="CannonGunbase" type="Sprite2D" parent="Roof/CannonInterior" unique_id=1357957686]
+visible = false
+position = Vector2(0, 2)
+texture = ExtResource("8_wft3n")
+
+[node name="CannonInterior2" type="Sprite2D" parent="Roof" unique_id=102144432]
+modulate = Color(0.44136548, 0.4413655, 0.4413655, 1)
+position = Vector2(78, 0)
+texture = ExtResource("6_ru0ip")
