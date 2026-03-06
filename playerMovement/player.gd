@@ -98,6 +98,7 @@ func _ready() -> void:
 
 	if multiplayer.has_multiplayer_peer():
 		is_multiplayer = true
+		input_enabled = true
 		owner_id = name.to_int()
 		target_pos = global_position
 
@@ -166,6 +167,7 @@ func _physics_process(delta):
 			was_holstering = false
 			
 		if is_interacting and not was_interacting:
+			print("Multiplayer Approved Interacting")
 			sync_interacting.rpc()
 			was_interacting = true
 		elif not is_interacting and was_interacting:
@@ -276,9 +278,11 @@ func sync_room_inputs(room_event: StringName):
 #region InteractionManager
 # currently interacts with the first overlapping interactable area, but this can be changed to nearest, last, all, ect.
 func interact():
+	print("\n=== REACHED INTERACT() ===\n")
 	if not input_enabled:
 		return
 	var interactable = get_interactable()
+	print("   Interactable: ", interactable)
 	if interactable:
 		interactable.interact(self)
 		print_debug("[", multiplayer.get_unique_id(), "]: ", name, " interacted with ", interactable)
@@ -309,6 +313,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		var interacting = false
 		var room_input = ""
 		var holstered = false
+		
 		if event.is_action_pressed("player_shoot"):
 			shooting = true
 		if event.is_action_released("player_shoot"):
@@ -321,6 +326,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 		if event.is_action_pressed("interact"):
 			interacting = true
+			print("Pushed interact")
 			
 		if seat and seat.room.has_method("handle_input"):
 			for a in InputMap.get_actions():
@@ -380,12 +386,15 @@ func fix_unsure_grounding():
 
 # called when enter airlock
 func on_ship_enter(new_ship : Ship):
+	print("\n=== REACHED SHIP_ENTER ===\n")
 	var prev_ship = get_tree().get_first_node_in_group("player_ship")
 	if prev_ship:
+		print("Previous ship exists, removing from group")
 		prev_ship.remove_from_group("player_ship")
 	on_ground(new_ship)
 	ship = new_ship
 	if self not in new_ship.players:
+		print("   Appended self into ship.players")
 		new_ship.players.append(self)
 	else:
 		push_warning("[Player.gd]: {Warning}, player requested to enter ship when in ship")

@@ -74,8 +74,6 @@ func _process(_delta: float) -> void:
 	if not ship or not ship.players:
 		return
 		
-
-	
 	var is_local_player = seat.controlled_by.is_local_player
 	if is_local_player:
 		var dir = Input.get_vector("left", "right", "up", "down")
@@ -84,8 +82,7 @@ func _process(_delta: float) -> void:
 		var engines = ship.get_engines()
 		if dir.length() > 0.1 and engines.power_level==0:	
 			engines.blink_red()
-			return Vector2.ZERO		
-		
+			return
 		
 		if is_multiplayer_authority():
 			input_dir = dir

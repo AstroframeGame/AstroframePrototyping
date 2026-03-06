@@ -590,7 +590,8 @@ func sync_p_state(s_map: Dictionary[NodePath, NodePath]):
 func power_links_to_path() -> Dictionary[NodePath, NodePath]:  
 	var s_map: Dictionary[NodePath, NodePath] = {}
 	for out_h in power_links:
-		s_map[out_h.get_path()] = power_links[out_h].get_path()
+		if out_h:
+			s_map[out_h.get_path()] = power_links[out_h].get_path()
 	return s_map
 
 func set_available_power_out(power_in : PowerInHex) -> bool:

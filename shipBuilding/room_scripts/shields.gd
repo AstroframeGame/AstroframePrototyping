@@ -27,9 +27,21 @@ func  _ready() -> void:
 	shield.durability = max_shield_durability[0]
 
 func on_power_change(_room):
-	if recharge_timer.time_left <= 0:
-		shield.set_active(power_level > 0)
-	shield.durability = max_shield_durability[power_level]
+	if is_multiplayer_authority():
+		if recharge_timer.time_left <= 0:
+			shield.set_active(power_level > 0)
+		shield.durability = max_shield_durability[power_level]
+		
+		sync_power_change.rpc(shield.get_path())
+
+@rpc("authority", "call_local", "reliable")
+func sync_power_change(sh: NodePath):
+	if not is_multiplayer_authority():
+		var shield_node = get_node_or_null(sh) as Shield
+		if not shield_node:
+			push_warning("[shields.gd/power_change()]: Shield path is incorrect.")
+			return
+		shield = shield_node
 
 func recharge_shield():
 	recharge_timer.start(recharge_speeds[power_level])

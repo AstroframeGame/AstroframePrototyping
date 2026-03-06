@@ -47,9 +47,6 @@ var power_level : int:
 		else:
 			return m_power_level
 
-func _ready() -> void:
-	roof.z_index = 10
-
 func get_in_hexes() -> Array[PowerInHex]:
 	var hexes : Array[PowerInHex] = []
 	for h in get_children():
