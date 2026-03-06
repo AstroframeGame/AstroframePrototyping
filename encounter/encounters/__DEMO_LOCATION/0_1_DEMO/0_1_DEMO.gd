@@ -30,8 +30,9 @@ func _ready() -> void:
 		ship.set_aggro.emit(true)	# pirate ships start aggro
 	
 	faction_ship.set_meta("type", "Faction")
-	faction_ship.connect("on_hit", set_ship_aggro.bind(faction_ship, true)) # faction ship will aggro if you fire on them
 	faction_ship.set_aggro.emit(false)	# faction ship starts friendly
+	faction_ship.connect("on_hit", set_ship_aggro.bind(faction_ship, true)) # faction ship will aggro if you fire on them
+	var check = faction_ship.get_auto_piloting()
 	
 	player_ship.set_meta("type", "PlayerShip")
 	player_ship.connect("ship_destroyed", encounter_failed)
@@ -47,6 +48,7 @@ func _ready() -> void:
 	npcs_with_dialogue.push_back(research_ship)
 	
 	research_ship.connect("set_beacon", $markers/research_ship_marker2.set_beacon)
+	research_ship.connect("on_hit", _on_trigger_dialogue.bind(research_ship.name, "aggro"))
 	research_ship.set_beacon.emit(true)
 	
 	got_objective.connect(start_next_objective)
@@ -64,7 +66,8 @@ func _process(delta: float) -> void:
 	# is there a way to add an invisible field (radar, in range of ship sensors) around ships, 
 	#	so when player enters it, a signal is emitted? 
 	if faction_ship and player.global_position.distance_to(faction_ship.global_position) < 1000:
-		trigger_dialogue.emit(faction_ship.name, "greeting")
+		if not faction_ship.get_auto_piloting():
+			trigger_dialogue.emit(faction_ship.name, "greeting")
 	elif pirate_destroyer and player.global_position.distance_to(pirate_destroyer.global_position) < 1000:
 		trigger_dialogue.emit(pirate_destroyer.name, "greeting")
 	elif research_ship and player.global_position.distance_to(research_ship.global_position) < 1000:
@@ -84,4 +87,5 @@ func _on_trigger_dialogue(npc: String, cat: String) -> void:
 		dialouge_runner.on_dialogue_end.connect(start_next_objective, CONNECT_ONE_SHOT)
 
 func set_ship_aggro(ship: Node, val: bool):
+	trigger_dialogue.emit(ship.name, "aggro")
 	ship.set_aggro.emit(val, player_ship)

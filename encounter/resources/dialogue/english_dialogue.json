@@ -5,8 +5,12 @@
 	  "greeting": {
 		"neutral": [
 		  "Warning! \\ There are pirates in the area. \\ Proceed with caution!",
-		  "Hello, citizen. \\ There have been reports of pirates nearby... \\ Stay vigilent!",
-          "test 3a"
+          "Hello, citizen. \\ There have been reports of pirates nearby... \\ Stay vigilent!"
+		]
+	  },
+	  "aggro": {
+		"neutral": [
+          "Aggression is not tolerated."
 		]
 	  }
 	},
@@ -14,13 +18,8 @@
 	  "name": "Pirate",
 	  "greeting": {
 		"neutral": [
-		  "test 4a",
-          "test 5a"
-		]
-	  },
-	  "aggro": {
-		"neutral": [
-          "test 6a"
+		  "Hello, there... \\ What a lovely ship you have.",
+          "You! \\ Yeah, you! Come a little closer..."
 		]
 	  }
 	},
@@ -28,7 +27,20 @@
 	  "name": "Researchers",
 	  "greeting": {
 		"neutral": [
-          "Help! \\ Help! Heeeeeeelllllp! \\ Pirates! Pirates close by! \\ We're just here to survey the asteroid belt, we don't have any weapons! \\ There's an Aurala patrol close by, but well...you know. Useless bunch... \\ Please! Help us! Take some shields and an extra reactor, if you need... \\ Get rid of those pirates and you can keep it all!"
+          "Help! \\ Help! Heeeeeeelllllp! \\ There are pirates! Pirates close by! \\ We're just here to survey the asteroid belt, we don't have any weapons! And that Aurala patrol won't do anything... \\ Please! Help us! Take some shields and an extra reactor, if you need..."
+		]
+	  },
+	  "win": {
+		"neutral": [
+          "You've saved us! \\ Thank you so much! \\ You know what? Keep the shields, if you want. The reactors, too. We're constantly making more of this stuff, anyways. \\ Farewell, traveler!"
+		]
+	  },
+	  "aggro": {
+		"max": "INF",
+		"neutral": [
+		  "No! Please! ",
+		  "We're unarmed!",
+          "WHY??"
 		]
 	  }
 	},
@@ -45,12 +57,16 @@
 	  "name": "You",
 	  "win": {
 		"neutral": [
-          "won in english"
+		  "Got 'em all! \\ Now, where to next...?",
+		  "Sayonara, pirate scum. \\ Now, where to next...?",
+          "Better luck next time, pirates. \\ Now, where to next...?"
 		]
 	  },
 	  "lose": {
 		"neutral": [
-          "lost in english"
+		  "ACK! \\ They got me. \\ Try again...?",
+		  "NOOO! \\ My ship... \\ Try again...?",
+          "Ouch! \\ That could have gone better... \\ Try again...?"
 		]
 	  }
 	}

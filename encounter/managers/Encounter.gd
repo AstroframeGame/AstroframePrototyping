@@ -95,7 +95,23 @@ func start_dialogue(npc: String, cat: String)->void:
 	if not dialogue.has(npc): return
 	if not dialogue[npc].has(cat): return
 	if dialogue[npc][cat].has("seen"):
-		return
+		# check against max if max exists
+		if dialogue[npc][cat].has("max"):
+			if typeof(dialogue[npc][cat].max) == TYPE_STRING:
+				# handle infinity
+				if dialogue[npc][cat].max == "INF":
+					dialogue[npc][cat].max = INF
+				# if it's an unrecognized string, default to 1
+				# TODO: log a warning here
+				else:
+					dialogue[npc][cat].max = 1
+			
+			if dialogue[npc][cat].seen >= dialogue[npc][cat].max:
+				return
+			
+			dialogue[npc][cat].seen += 1
+		else:	# if max DNE, assume max is one
+			return
 	
 	# TODO: in the future, tune this with faction relatioship stats
 	var temp = "neutral" 
@@ -104,7 +120,8 @@ func start_dialogue(npc: String, cat: String)->void:
 	var npc_dlg = parse_dialogue_to_array(dialogue[npc].name, random_pick)
 	if npc_dlg:
 		dialouge_runner.start(npc_dlg)
-	dialogue[npc][cat].seen = true
+
+	dialogue[npc][cat].seen = 1
 
 func parse_dialogue_to_array(npc: String, dlg: String):
 	var split = dlg.split("\\ ")
