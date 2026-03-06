@@ -7,6 +7,8 @@ extends Encounter
 @onready var to_kill: Array[Node] = [
 	pirate_destroyer,
 	$ships/pirates/PIRATE_FRIGATE,
+	$ships/pirates/PIRATE_FRIGATE2,
+	$ships/pirates/PIRATE_FRIGATE3,
 ]
 
 var spoke_to_researchers = false
