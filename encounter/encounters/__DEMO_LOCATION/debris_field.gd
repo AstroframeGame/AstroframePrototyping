@@ -32,6 +32,7 @@ func _process(_delta: float) -> void:
 	
 	# idle movement
 	for asteroid in asteroids:
+		if not is_instance_valid(asteroid): continue
 		var screen_pos = get_viewport().get_canvas_transform() * asteroid.global_position
 		
 		# do not move if not on sceen

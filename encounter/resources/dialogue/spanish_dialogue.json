@@ -12,6 +12,11 @@
 		"neutral": [
           "TODO"
 		]
+	  },
+	  "win": {
+		"neutral": [
+          "TODO"
+		]
 	  }
 	},
 	"0_1_PIRATE_DESTROYER": {
@@ -66,6 +71,25 @@
 		"neutral": [
 		  "TODO",
 		  "TODO",
+          "TODO"
+		]
+	  },
+	  "PIRATE_KILLED": {
+		"max": 4,
+		"neutral": [
+		  "TODO",
+		  "TODO",
+		  "TODO",
+          "TODO"
+		]
+	  },
+	  "RESEARCHERS_KILLED": {
+		"neutral": [
+          "TODO"
+		]
+	  },
+	  "FACTION_KILLED": {
+		"neutral": [
           "TODO"
 		]
 	  }
