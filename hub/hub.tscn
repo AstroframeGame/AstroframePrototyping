@@ -20,7 +20,7 @@
 [ext_resource type="Script" uid="uid://dkw41dpjcbrwa" path="res://accessibilitySettings/colorblind_shader.gd" id="14_gjoju"]
 [ext_resource type="Shader" uid="uid://dv6l2vd0xplhh" path="res://hub/colorblind.gdshader" id="15_mmyqo"]
 [ext_resource type="PackedScene" uid="uid://c4c4q35vwjc06" path="res://accessibilitySettings/settings_menu.tscn" id="15_qui64"]
-[ext_resource type="Script" path="res://hub/credits.gd" id="17_bg8wc"]
+[ext_resource type="Script" uid="uid://cw7don71np0bg" path="res://hub/credits.gd" id="17_bg8wc"]
 [ext_resource type="Texture2D" uid="uid://cjtj7xo6f6waa" path="res://shipBuilding/icons/torus.png" id="17_qui64"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gjoju"]
@@ -90,6 +90,7 @@ offset_right = 189.0
 offset_bottom = 231.0
 grow_horizontal = 2
 theme = ExtResource("5_h3v4x")
+theme_override_font_sizes/font_size = 90
 text = "Astro
 Frame"
 horizontal_alignment = 1
@@ -141,22 +142,27 @@ grow_vertical = 2
 
 [node name="Play" type="Button" parent="UI/Main/VBoxContainer" unique_id=1258526734]
 layout_mode = 2
+theme_override_font_sizes/font_size = 50
 text = "Play"
 
 [node name="Editor" type="Button" parent="UI/Main/VBoxContainer" unique_id=1870370267]
 layout_mode = 2
+theme_override_font_sizes/font_size = 50
 text = "Ship Editor"
 
 [node name="Settings" type="Button" parent="UI/Main/VBoxContainer" unique_id=884632170]
 layout_mode = 2
+theme_override_font_sizes/font_size = 50
 text = "Settings"
 
 [node name="Credits" type="Button" parent="UI/Main/VBoxContainer" unique_id=1767168070]
 layout_mode = 2
+theme_override_font_sizes/font_size = 50
 text = "Credits"
 
 [node name="Quit" type="Button" parent="UI/Main/VBoxContainer" unique_id=1337628528]
 layout_mode = 2
+theme_override_font_sizes/font_size = 50
 text = "Quit"
 
 [node name="Mute" type="TextureButton" parent="UI/Main" unique_id=1165849993]
@@ -205,6 +211,7 @@ stretch_margin_bottom = 20
 texture_progress = ExtResource("2_1wrr7")
 
 [node name="Game" type="CanvasLayer" parent="UI" unique_id=1739083757]
+visible = false
 script = ExtResource("14_gjoju")
 
 [node name="AccessibilityShaderColorRect" type="ColorRect" parent="UI/Game" unique_id=1371836710]
@@ -261,6 +268,7 @@ layout_mode = 2
 text = "Back to Menu"
 
 [node name="GameOver" type="CanvasLayer" parent="UI" unique_id=1769148514]
+visible = false
 
 [node name="ColorRect" type="ColorRect" parent="UI/GameOver" unique_id=2142903202]
 anchors_preset = 15
