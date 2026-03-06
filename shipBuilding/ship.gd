@@ -20,8 +20,8 @@ const SPARKS_SPEED_THRESH = 10
 const EXPLOSION_PREFAB = preload("res://art/vfx/explosion.tscn")
 const HIT_SHIP_VFX_PREFAB = preload("res://art/vfx/hit_ship_vfx.tscn")
 const EXPLOSION_SFX_PREFAB = preload("res://audio/sfx_prefabs/explosion_sfx.tscn")
-const SFX_EXPLOSION = preload("res://audio/sfx/explosion.wav")
-const SFX_HULL_DESTROY = preload("res://audio/sfx/hull_destroy.wav")
+const SFX_EXPLOSION = preload("res://audio/sfx/SfxAudioFileFolder/explosion.wav")
+const SFX_HULL_DESTROY = preload("res://audio/sfx/SfxAudioFileFolder/hull_destroy.wav")
 
 var _is_dead: bool = false
 

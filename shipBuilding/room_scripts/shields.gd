@@ -9,8 +9,8 @@ class_name Shields_Room
 @onready var recharge_timer : Timer = $RechargeTimer
 
 @onready var sfx: AudioStreamPlayer2D = $AudioStreamPlayer2D
-const SHIELDS_DOWN = preload("res://audio/sfx/shields_down.wav")
-const CHARGE_SHORT = preload("res://audio/sfx/charge_short.wav")
+const SHIELDS_DOWN = preload("res://audio/sfx/SfxAudioFileFolder/shields_down.wav")
+const CHARGE_SHORT = preload("res://audio/sfx/SfxAudioFileFolder/charge_short.wav")
 
 
 func  _ready() -> void:

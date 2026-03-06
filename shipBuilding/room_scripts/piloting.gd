@@ -3,6 +3,7 @@ extends Room
 
 @onready var seat: SeatInteractable = $SeatHex
 var THRUST_LOOP = preload("res://audio/sfx/SfxAudioFileFolder/engine_loop.wav")
+
 # this method is searched by name from the player
 func handle_input(event:InputEvent):
 	if event.is_action_pressed("ship_fire"): #See turret.gd for ACTUAL firing
@@ -24,21 +25,26 @@ func get_goal_velocity(current_velocity: Vector2) -> Vector2:
 		
 	var direction = Input.get_vector("left", "right", "up", "down")
 	
+	if Input.is_action_pressed("up"):
+		if !sfx.playing && ship.linear_velocity.length() > 170.0:
+				print(ship.linear_velocity.length())
+				sfx.play()
+				play_sfx(THRUST_LOOP)
+	
 	if Input.is_action_pressed("brake"):
+		sfx.stop()
 		return Vector2.ZERO
+	
+	if Input.is_action_just_released("up"):
+		sfx.stop()
 		
 	var goal_vel = Vector2.ZERO
 	if direction.length() > 0.1:
-		if direction.y > 0:
+		if direction.y < 0:
 			direction.y *= engines.forward_multiplier
+
 		goal_vel = current_velocity + direction.rotated(ship.global_rotation)
 		goal_vel = goal_vel.normalized() * min(goal_vel.length(), engines.get_max_speed())
-		if current_velocity > (goal_vel.normalized() * engines.get_max_speed()) / 4 || current_velocity < -(goal_vel.normalized() * engines.get_max_speed()) / 4:
-			if !sfx.playing:
-				sfx.play()
-				play_sfx(THRUST_LOOP)
-		else:
-			sfx.stop()
 	return goal_vel
 
 func is_idling() -> bool:

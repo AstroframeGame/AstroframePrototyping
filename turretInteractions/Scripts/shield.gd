@@ -3,16 +3,11 @@ extends StaticBody2D
 
 signal on_shield_started()
 signal on_shield_broken()
-#var SHIELDS_UP = preload("res://audio/sfx/SfxAudioFileFolder/charge_short.wav")
-var SHIELDS_DOWN = preload("res://audio/sfx/SfxAudioFileFolder/shields_down.wav")
 
 @onready var collider = $CollisionShape2D
 @onready var ship = $"../.."
 
 var durability : int
-
-func _ready() -> void:
-	sfx.play()
 
 ## smooth this later with a coroutine
 func set_active(is_active : bool):
@@ -30,10 +25,3 @@ func _process(_delta: float) -> void:
 		set_active(false)
 		on_shield_broken.emit()
 		durability = 0
-		play_sfx(SHIELDS_DOWN)
-
-@onready var sfx: AudioStreamPlayer2D = $ShieldSFX
-
-func play_sfx(sound: AudioStream):
-	var polyphonic : AudioStreamPlaybackPolyphonic = sfx.get_stream_playback() as AudioStreamPlaybackPolyphonic
-	polyphonic.play_stream(sound, 0,0,1, AudioServer.PLAYBACK_TYPE_DEFAULT, "SFX")

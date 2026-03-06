@@ -54,8 +54,8 @@ func _ready() -> void:
 	sfx.play()
 
 @onready var sfx: AudioStreamPlayer2D = $AudioStreamPlayer2D
-const SFX_POWER_UP = preload("res://audio/sfx/charge_short.wav")
-const SFX_POWER_DOWN = preload("res://audio/sfx/shields_down.wav")
+const SFX_POWER_UP = preload("res://audio/sfx/SfxAudioFileFolder/charge_short.wav")
+const SFX_POWER_DOWN = preload("res://audio/sfx/SfxAudioFileFolder/shields_down.wav")
 
 func play_sfx(fx):
 	if not sfx:
