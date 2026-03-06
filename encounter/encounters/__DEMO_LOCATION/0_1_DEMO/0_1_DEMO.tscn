@@ -4,8 +4,9 @@
 [ext_resource type="PackedScene" uid="uid://wv88dd5di8gl" path="res://shipBuilding/ships/FACTION_PATROL.tscn" id="2_7k785"]
 [ext_resource type="PackedScene" uid="uid://c7h5fcycvrbqe" path="res://art/background/space_background.tscn" id="2_onbk5"]
 [ext_resource type="FontFile" uid="uid://c0d43w7ej3xae" path="res://hub/fonts/Anta-Regular - MSDF.ttf" id="3_7ytpk"]
-[ext_resource type="PackedScene" uid="uid://incqv8bu0v2n" path="res://shipBuilding/ships/wasp.tscn" id="5_76my7"]
+[ext_resource type="PackedScene" path="res://shipBuilding/ships/PIRATE_DESTROYER.tscn" id="5_hrifk"]
 [ext_resource type="PackedScene" uid="uid://choyif0n5w2jj" path="res://encounter/encounters/__DEMO_LOCATION/debris_field.tscn" id="5_smosv"]
+[ext_resource type="PackedScene" path="res://shipBuilding/ships/PIRATE_FRIGATE.tscn" id="6_7ytpk"]
 [ext_resource type="PackedScene" path="res://shipBuilding/ships/player_ship.tscn" id="6_h1xkd"]
 [ext_resource type="Script" uid="uid://coswak26beue6" path="res://encounter/encounters/__DEMO_LOCATION/0_1_DEMO/marker.gd" id="9_76my7"]
 [ext_resource type="PackedScene" path="res://shipBuilding/ships/RESEARCH_VESSEL.tscn" id="10_7ytpk"]
@@ -23,6 +24,51 @@ visible = false
 navigation_polygon = SubResource("NavigationPolygon_akvn3")
 
 [node name="markers" type="CanvasLayer" parent="." unique_id=1470133338]
+
+[node name="player_ship_marker" type="Node2D" parent="markers" unique_id=108410469 node_paths=PackedStringArray("target")]
+script = ExtResource("9_76my7")
+target = NodePath("../../PlayerShip")
+metadata/_edit_group_ = true
+
+[node name="Fill" type="Polygon2D" parent="markers/player_ship_marker" unique_id=1943319407]
+scale = Vector2(3, 3)
+polygon = PackedVector2Array(0, 3, 3, 0, 0, -3, -3, 0)
+
+[node name="Label" type="Label" parent="markers/player_ship_marker" unique_id=1000054493]
+offset_right = 1.0
+offset_bottom = 8.0
+theme_override_fonts/font = ExtResource("3_7ytpk")
+theme_override_font_sizes/font_size = 14
+
+[node name="Line2D" type="Line2D" parent="markers/player_ship_marker" unique_id=1094143873]
+scale = Vector2(3, 3)
+points = PackedVector2Array(0, 3, 3, 0, 0, -3, -3, 0)
+closed = true
+width = 0.5
+
+[node name="research_ship_marker2" type="Node2D" parent="markers" unique_id=2591856 node_paths=PackedStringArray("target")]
+script = ExtResource("9_76my7")
+target = NodePath("../../ships/RESEARCH_SATELLITE")
+metadata/_edit_group_ = true
+
+[node name="Fill" type="Polygon2D" parent="markers/research_ship_marker2" unique_id=263767788]
+scale = Vector2(3, 3)
+color = Color(0.46838838, 1, 0.56368905, 1)
+polygon = PackedVector2Array(0, 3, 3, 0, 0, -3, -3, 0)
+
+[node name="Label" type="Label" parent="markers/research_ship_marker2" unique_id=361471014]
+offset_right = 1.0
+offset_bottom = 8.0
+theme_override_fonts/font = ExtResource("3_7ytpk")
+theme_override_font_sizes/font_size = 14
+text = "Researchers"
+
+[node name="Line2D" type="Line2D" parent="markers/research_ship_marker2" unique_id=1599261625]
+scale = Vector2(3, 3)
+points = PackedVector2Array(0, 3, 3, 0, 0, -3, -3, 0)
+closed = true
+width = 0.5
+default_color = Color(0.46666667, 1, 0.5647059, 1)
 
 [node name="faction_ship_marker" type="Node2D" parent="markers" unique_id=1220038703 node_paths=PackedStringArray("target")]
 script = ExtResource("9_76my7")
@@ -94,50 +140,51 @@ closed = true
 width = 0.5
 default_color = Color(0.84932995, 0.00019059777, 0.012585228, 1)
 
-[node name="player_ship_marker" type="Node2D" parent="markers" unique_id=108410469 node_paths=PackedStringArray("target")]
+[node name="pirate_ship_marker3" type="Node2D" parent="markers" unique_id=2076396630 node_paths=PackedStringArray("target")]
 script = ExtResource("9_76my7")
-target = NodePath("../../PlayerShip")
+target = NodePath("../../ships/pirates/PIRATE_FRIGATE2")
 metadata/_edit_group_ = true
 
-[node name="Fill" type="Polygon2D" parent="markers/player_ship_marker" unique_id=1943319407]
+[node name="Fill" type="Polygon2D" parent="markers/pirate_ship_marker3" unique_id=917654284]
 scale = Vector2(3, 3)
+color = Color(0.84932995, 0.00019059777, 0.012585228, 1)
 polygon = PackedVector2Array(0, 3, 3, 0, 0, -3, -3, 0)
 
-[node name="Label" type="Label" parent="markers/player_ship_marker" unique_id=1000054493]
+[node name="Label" type="Label" parent="markers/pirate_ship_marker3" unique_id=479003654]
 offset_right = 1.0
 offset_bottom = 8.0
 theme_override_fonts/font = ExtResource("3_7ytpk")
 theme_override_font_sizes/font_size = 14
 
-[node name="Line2D" type="Line2D" parent="markers/player_ship_marker" unique_id=1094143873]
+[node name="Line2D" type="Line2D" parent="markers/pirate_ship_marker3" unique_id=1322101025]
 scale = Vector2(3, 3)
 points = PackedVector2Array(0, 3, 3, 0, 0, -3, -3, 0)
 closed = true
 width = 0.5
+default_color = Color(0.84932995, 0.00019059777, 0.012585228, 1)
 
-[node name="research_ship_marker2" type="Node2D" parent="markers" unique_id=2591856 node_paths=PackedStringArray("target")]
+[node name="pirate_ship_marker4" type="Node2D" parent="markers" unique_id=1580480562 node_paths=PackedStringArray("target")]
 script = ExtResource("9_76my7")
-target = NodePath("../../ships/RESEARCH_SATELLITE")
+target = NodePath("../../ships/pirates/PIRATE_FRIGATE3")
 metadata/_edit_group_ = true
 
-[node name="Fill" type="Polygon2D" parent="markers/research_ship_marker2" unique_id=263767788]
+[node name="Fill" type="Polygon2D" parent="markers/pirate_ship_marker4" unique_id=1858337983]
 scale = Vector2(3, 3)
-color = Color(0.46838838, 1, 0.56368905, 1)
+color = Color(0.84932995, 0.00019059777, 0.012585228, 1)
 polygon = PackedVector2Array(0, 3, 3, 0, 0, -3, -3, 0)
 
-[node name="Label" type="Label" parent="markers/research_ship_marker2" unique_id=361471014]
+[node name="Label" type="Label" parent="markers/pirate_ship_marker4" unique_id=1983932670]
 offset_right = 1.0
 offset_bottom = 8.0
 theme_override_fonts/font = ExtResource("3_7ytpk")
 theme_override_font_sizes/font_size = 14
-text = "Researchers"
 
-[node name="Line2D" type="Line2D" parent="markers/research_ship_marker2" unique_id=1599261625]
+[node name="Line2D" type="Line2D" parent="markers/pirate_ship_marker4" unique_id=439584139]
 scale = Vector2(3, 3)
 points = PackedVector2Array(0, 3, 3, 0, 0, -3, -3, 0)
 closed = true
 width = 0.5
-default_color = Color(0.46666667, 1, 0.5647059, 1)
+default_color = Color(0.84932995, 0.00019059777, 0.012585228, 1)
 
 [node name="Background" type="CanvasLayer" parent="." unique_id=1933024674]
 layer = -2
@@ -148,73 +195,51 @@ layer = -2
 
 [node name="pirates" type="Node" parent="ships" unique_id=961397819]
 
-[node name="PIRATE_DESTROYER" parent="ships/pirates" unique_id=1784127879 node_paths=PackedStringArray("power_links") instance=ExtResource("5_76my7")]
-position = Vector2(-2491, 3471)
-mass = 1.0
-center_of_mass_mode = 0
-center_of_mass = Vector2(0, 0)
+[node name="PIRATE_DESTROYER" parent="ships/pirates" unique_id=1442409601 node_paths=PackedStringArray("power_links") instance=ExtResource("5_hrifk")]
+power_links = {
+NodePath("Reactor_4/OutputHex"): NodePath("Shields_3/InputHex"),
+NodePath("Reactor_4/OutputHex2"): NodePath("Shields_3/InputHex2"),
+NodePath("Reactor_4/OutputHex3"): NodePath("Shields_3/InputHex3"),
+NodePath("Reactor_4/OutputHex4"): NodePath("Engines_2/InputHex"),
+NodePath("Reactor_2/OutputHex"): NodePath("Engines_2/InputHex2"),
+NodePath("Reactor_2/OutputHex3"): NodePath("@Node2D@446/InputHex"),
+NodePath("@Node2D@450/OutputHex"): NodePath("@Node2D@446/InputHex2"),
+NodePath("@Node2D@450/OutputHex3"): NodePath("Cannon/InputHex"),
+NodePath("@Node2D@470/OutputHex"): NodePath("@Node2D@458/InputHex"),
+NodePath("@Node2D@470/OutputHex3"): NodePath("@Node2D@460/InputHex"),
+NodePath("@Node2D@472/OutputHex"): NodePath("@Node2D@467/InputHex"),
+NodePath("@Node2D@472/OutputHex3"): NodePath("Autopilot_1/InputHex")
+}
+
+[node name="PIRATE_FRIGATE" parent="ships/pirates" unique_id=2080664896 node_paths=PackedStringArray("power_links") instance=ExtResource("6_7ytpk")]
 power_links = {
 NodePath("Reactor_4/OutputHex"): NodePath("Engines_2/InputHex"),
 NodePath("Reactor_4/OutputHex2"): NodePath("Engines_2/InputHex2"),
-NodePath("Reactor_4/OutputHex3"): NodePath("Autopilot_1/InputHex"),
-NodePath("Reactor_4/OutputHex4"): NodePath("Autopilot_1/InputHex2"),
-NodePath("Reactor_2/OutputHex3"): null,
-NodePath("Reactor_2/OutputHex"): NodePath("Cannon/InputHex"),
-null: null
+NodePath("Reactor_4/OutputHex3"): NodePath("Cannon/InputHex"),
+NodePath("Reactor_4/OutputHex4"): NodePath("@Node2D@374/InputHex"),
+NodePath("Reactor_2/OutputHex"): NodePath("Autopilot_1/InputHex"),
+NodePath("Reactor_2/OutputHex3"): NodePath("Autopilot_1/InputHex2")
 }
-max_hit_points = 0
-_hit_points = 0
 
-[node name="PIRATE_FRIGATE" parent="ships/pirates" unique_id=428948172 node_paths=PackedStringArray("power_links") instance=ExtResource("5_76my7")]
-position = Vector2(2711, 4658)
-mass = 1.0
-center_of_mass_mode = 0
-center_of_mass = Vector2(0, 0)
-power_links = {
-NodePath("Reactor_4/OutputHex"): NodePath("Engines_2/InputHex"),
-NodePath("Reactor_4/OutputHex2"): NodePath("Engines_2/InputHex2"),
-NodePath("Reactor_4/OutputHex3"): NodePath("Autopilot_1/InputHex"),
-NodePath("Reactor_4/OutputHex4"): NodePath("Autopilot_1/InputHex2"),
-NodePath("Reactor_2/OutputHex3"): null,
-NodePath("Reactor_2/OutputHex"): NodePath("Cannon/InputHex"),
-null: null
-}
-max_hit_points = 0
-_hit_points = 0
-
-[node name="PIRATE_FRIGATE2" parent="ships/pirates" unique_id=1442409601 node_paths=PackedStringArray("power_links") instance=ExtResource("5_76my7")]
-position = Vector2(5541, 2241)
-mass = 1.0
-center_of_mass_mode = 0
-center_of_mass = Vector2(0, 0)
+[node name="PIRATE_FRIGATE2" parent="ships/pirates" unique_id=1257467124 node_paths=PackedStringArray("power_links") instance=ExtResource("6_7ytpk")]
 power_links = {
 NodePath("../PIRATE_FRIGATE/Reactor_4/OutputHex"): NodePath("../PIRATE_FRIGATE/Engines_2/InputHex"),
 NodePath("../PIRATE_FRIGATE/Reactor_4/OutputHex2"): NodePath("../PIRATE_FRIGATE/Engines_2/InputHex2"),
-NodePath("../PIRATE_FRIGATE/Reactor_4/OutputHex3"): NodePath("../PIRATE_FRIGATE/Autopilot_1/InputHex"),
-NodePath("../PIRATE_FRIGATE/Reactor_4/OutputHex4"): NodePath("../PIRATE_FRIGATE/Autopilot_1/InputHex2"),
-NodePath("../PIRATE_FRIGATE/Reactor_2/OutputHex3"): null,
-NodePath("../PIRATE_FRIGATE/Reactor_2/OutputHex"): NodePath("../PIRATE_FRIGATE/Cannon/InputHex"),
-null: null
+NodePath("../PIRATE_FRIGATE/Reactor_4/OutputHex3"): NodePath("../PIRATE_FRIGATE/Cannon/InputHex"),
+NodePath("../PIRATE_FRIGATE/Reactor_4/OutputHex4"): NodePath("../PIRATE_FRIGATE/@Node2D@374/InputHex"),
+NodePath("../PIRATE_FRIGATE/Reactor_2/OutputHex"): NodePath("../PIRATE_FRIGATE/Autopilot_1/InputHex"),
+NodePath("../PIRATE_FRIGATE/Reactor_2/OutputHex3"): NodePath("../PIRATE_FRIGATE/Autopilot_1/InputHex2")
 }
-max_hit_points = 0
-_hit_points = 0
 
-[node name="PIRATE_FRIGATE3" parent="ships/pirates" unique_id=1723093511 node_paths=PackedStringArray("power_links") instance=ExtResource("5_76my7")]
-position = Vector2(4231, -206)
-mass = 1.0
-center_of_mass_mode = 0
-center_of_mass = Vector2(0, 0)
+[node name="PIRATE_FRIGATE3" parent="ships/pirates" unique_id=162832040 node_paths=PackedStringArray("power_links") instance=ExtResource("6_7ytpk")]
 power_links = {
 NodePath("../PIRATE_FRIGATE/Reactor_4/OutputHex"): NodePath("../PIRATE_FRIGATE/Engines_2/InputHex"),
 NodePath("../PIRATE_FRIGATE/Reactor_4/OutputHex2"): NodePath("../PIRATE_FRIGATE/Engines_2/InputHex2"),
-NodePath("../PIRATE_FRIGATE/Reactor_4/OutputHex3"): NodePath("../PIRATE_FRIGATE/Autopilot_1/InputHex"),
-NodePath("../PIRATE_FRIGATE/Reactor_4/OutputHex4"): NodePath("../PIRATE_FRIGATE/Autopilot_1/InputHex2"),
-NodePath("../PIRATE_FRIGATE/Reactor_2/OutputHex3"): null,
-NodePath("../PIRATE_FRIGATE/Reactor_2/OutputHex"): NodePath("../PIRATE_FRIGATE/Cannon/InputHex"),
-null: null
+NodePath("../PIRATE_FRIGATE/Reactor_4/OutputHex3"): NodePath("../PIRATE_FRIGATE/Cannon/InputHex"),
+NodePath("../PIRATE_FRIGATE/Reactor_4/OutputHex4"): NodePath("../PIRATE_FRIGATE/@Node2D@374/InputHex"),
+NodePath("../PIRATE_FRIGATE/Reactor_2/OutputHex"): NodePath("../PIRATE_FRIGATE/Autopilot_1/InputHex"),
+NodePath("../PIRATE_FRIGATE/Reactor_2/OutputHex3"): NodePath("../PIRATE_FRIGATE/Autopilot_1/InputHex2")
 }
-max_hit_points = 0
-_hit_points = 0
 
 [node name="FACTION_PATROL" parent="ships" unique_id=54830236 node_paths=PackedStringArray("hud", "power_links") instance=ExtResource("2_7k785")]
 position = Vector2(2884, -5850)
