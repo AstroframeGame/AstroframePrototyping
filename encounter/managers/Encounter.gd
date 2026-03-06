@@ -6,6 +6,7 @@ var enc_base_dir: String
 var location: String			# location key
 var settings: Dictionary		# encounter settings (prereqs, rewards, etc)
 var reward_zone: Vector2		# where in the scene to put reward (using instead of player position)
+var won: bool
 
 # reference to player (used for polling distance to npc ships, TEMP)
 var player_spawn: Vector2:
@@ -141,6 +142,7 @@ func preload_rewards():
 
 func _on_encounter_completed(enc_name: String):
 	objective = "Complete!"
+	won = true
 	
 	# update LSM
 	LevelStateManager.completed_encounters.push_front(enc_name)

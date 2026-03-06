@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://ci700nfmrtxsd"]
 
 [ext_resource type="PackedScene" uid="uid://c7h5fcycvrbqe" path="res://art/background/space_background.tscn" id="1_jrc0m"]
-[ext_resource type="PackedScene" uid="uid://bo138uijiwdph" path="res://shipBuilding/ships/player_ship.tscn" id="5_nhcgg"]
-[ext_resource type="PackedScene" uid="uid://dbgkm073louoa" path="res://shipBuilding/ships/wasp.tscn" id="7_jrc0m"]
+[ext_resource type="PackedScene" path="res://shipBuilding/ships/_player_ship.tscn" id="5_nhcgg"]
+[ext_resource type="PackedScene" uid="uid://incqv8bu0v2n" path="res://shipBuilding/ships/wasp.tscn" id="7_jrc0m"]
 [ext_resource type="PackedScene" uid="uid://bfcvwgyqwu34t" path="res://shipAI/prefabs/asteroid.tscn" id="7_vrncs"]
 [ext_resource type="FontFile" uid="uid://bvhs72w1tp2uu" path="res://hub/fonts/Ethnocentric-Regular.otf" id="8_8rdp5"]
 
