@@ -2,10 +2,9 @@ class_name SettingsMenu
 extends MarginContainer
 
 const UNSTYLED = preload("res://hub/ui-themes/unstyled.tres")
-@onready var resolution_options: OptionButton = $SettingsTabs/Video/VBoxContainer/Resolution/ResolutionOptions
+@onready var resolution_options: OptionButton = $SettingsTabs/Video/VBoxContainer/HBoxContainer/Resolution/ResolutionOptions
 @onready var key_mouse_binds: VBoxContainer = $"SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer"
 @onready var game_layer: CanvasLayer = $"../../Game"
-@onready var world_environment: WorldEnvironment = $"../../../WorldEnvironment"
 
 func _ready() -> void:
 	generate_remap_settings()
