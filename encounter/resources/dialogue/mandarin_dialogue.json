@@ -4,9 +4,13 @@
 	  "name": "Faction",
 	  "greeting": {
 		"neutral": [
-		  "test 1c",
-		  "test 2c",
-          "test 3c"
+		  "TODO",
+          "TODO"
+		]
+	  },
+	  "aggro": {
+		"neutral": [
+          "TODO"
 		]
 	  }
 	},
@@ -14,34 +18,8 @@
 	  "name": "Pirate",
 	  "greeting": {
 		"neutral": [
-		  "test 4c",
-          "test 5c"
-		]
-	  },
-	  "aggro": {
-		"neutral": [
-          "test 6c"
-		]
-	  }
-	},
-	"UI": {
-	  "name": "Objective",
-	  "UI_OBJECTIVE": {
-		"neutral": [
-          ""
-		]
-	  }
-	},
-	"YOU": {
-	  "name": "You",
-	  "win": {
-		"neutral": [
-          "won in mandarin"
-		]
-	  },
-	  "lose": {
-		"neutral": [
-          "lost in mandarin"
+		  "TODO",
+          "TODO"
 		]
 	  }
 	},
@@ -49,6 +27,45 @@
 	  "name": "Researchers",
 	  "greeting": {
 		"neutral": [
+          "TODO"
+		]
+	  },
+	  "win": {
+		"neutral": [
+          "TODO"
+		]
+	  },
+	  "aggro": {
+		"max": "INF",
+		"neutral": [
+		  "TODO",
+		  "TODO",
+          "TODO"
+		]
+	  }
+	},
+	"UI": {
+	  "name": "Objective",
+	  "UI_OBJECTIVE": {
+		"neutral": [
+		  "TODO",
+          "TODO"
+		]
+	  }
+	},
+	"YOU": {
+	  "name": "You",
+	  "win": {
+		"neutral": [
+		  "TODO",
+		  "TODO",
+          "TODO"
+		]
+	  },
+	  "lose": {
+		"neutral": [
+		  "TODO",
+		  "TODO",
           "TODO"
 		]
 	  }
