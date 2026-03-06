@@ -1,24 +1,16 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://dtt1juvtkx0kk"]
 
-[ext_resource type="Script" path="res://shipBuilding/ship.gd" id="1_n2ldv"]
-[ext_resource type="PackedScene" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_wwity"]
-[ext_resource type="PackedScene" path="res://shipAI/prefabs/hud.tscn" id="3_8f6gn"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/reactor_4.tscn" id="3_kedgr"]
-[ext_resource type="Script" path="res://shipAI/Scripts/ship_hud.gd" id="4_kedgr"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/shields_3.tscn" id="5_t1h16"]
-[ext_resource type="Script" path="res://shipBuilding/room.gd" id="6_8f6gn"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/engines_2.tscn" id="7_igv8q"]
-[ext_resource type="Script" path="res://shipBuilding/room_scripts/shields.gd" id="8_t1h16"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/cannon.tscn" id="9_off7m"]
-[ext_resource type="Script" path="res://shipBuilding/room_scripts/engines.gd" id="10_7vb13"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/airlock_1.tscn" id="11_i63tk"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/reactor_2.tscn" id="11_kedgr"]
-[ext_resource type="Script" path="res://shipBuilding/room_scripts/cannon.gd" id="12_igv8q"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/piloting_1.tscn" id="13_u88gc"]
-[ext_resource type="Script" path="res://shipBuilding/room_scripts/airlock.gd" id="14_t6nsi"]
-[ext_resource type="Script" path="res://shipBuilding/room_scripts/piloting.gd" id="16_off7m"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/autopilot_1.tscn" id="18_8f6gn"]
-[ext_resource type="Script" path="res://shipBuilding/room_scripts/autopilot.gd" id="19_t1h16"]
+[ext_resource type="Script" uid="uid://bsurseo1hgudf" path="res://shipBuilding/ship.gd" id="1_n2ldv"]
+[ext_resource type="PackedScene" uid="uid://c2n7netp00xn6" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_wwity"]
+[ext_resource type="PackedScene" uid="uid://daae3tloj435m" path="res://shipAI/prefabs/hud.tscn" id="3_8f6gn"]
+[ext_resource type="PackedScene" uid="uid://cplmkay6ecshy" path="res://shipBuilding/rooms/reactor_4.tscn" id="3_kedgr"]
+[ext_resource type="PackedScene" uid="uid://dffynorp3oc0l" path="res://shipBuilding/rooms/shields_3.tscn" id="5_t1h16"]
+[ext_resource type="PackedScene" uid="uid://cebf4gqkt7jib" path="res://shipBuilding/rooms/engines_2.tscn" id="7_igv8q"]
+[ext_resource type="PackedScene" uid="uid://bmfrsjjfduwqn" path="res://shipBuilding/rooms/cannon.tscn" id="9_off7m"]
+[ext_resource type="PackedScene" uid="uid://dir8uoqft75m0" path="res://shipBuilding/rooms/airlock_1.tscn" id="11_i63tk"]
+[ext_resource type="PackedScene" uid="uid://c80teck1ccmdv" path="res://shipBuilding/rooms/reactor_2.tscn" id="11_kedgr"]
+[ext_resource type="PackedScene" uid="uid://qteo7ksf47a4" path="res://shipBuilding/rooms/piloting_1.tscn" id="13_u88gc"]
+[ext_resource type="PackedScene" uid="uid://opemmrmus70s" path="res://shipBuilding/rooms/autopilot_1.tscn" id="18_8f6gn"]
 
 [sub_resource type="TileSet" id="TileSet_xsh4c"]
 tile_shape = 3
@@ -55,106 +47,83 @@ NodePath("@Node2D@472/OutputHex3"): NodePath("Autopilot_1/InputHex")
 max_hit_points = 90
 _hit_points = 90
 
-[node name="HexGrid" type="TileMapLayer" parent="." unique_id=1277847278 instance=ExtResource("2_wwity")]
-enabled = false
+[node name="HexGrid" parent="." unique_id=1277847278 instance=ExtResource("2_wwity")]
 tile_set = SubResource("TileSet_xsh4c")
-collision_enabled = false
-navigation_enabled = false
 
 [node name="Solid" type="CollisionPolygon2D" parent="." unique_id=1268539135]
 polygon = PackedVector2Array(156.1, -112.55, 156.1, -67.54232, 195, -45.107674, 234, -67.6, 273.1, -45.050003, 273.1, 0.05000305, 234.1, 22.54232, 234.1, 67.35898, 273.12213, 89.88841, 273.10107, 134.90956, 312.07886, 157.4134, 312.05774, 202.54999, 272.97888, 225.1366, 234.00108, 202.63275, 195.1, 225.1166, 195.1, 270.05, 156, 292.6, 117, 270.10767, 78, 292.6, 38.9, 270.05, 38.9, 225.11658, -0.022239685, 202.6205, -39, 225.1, -78.1, 202.55, -78.1, 157.45, -39.0578, 134.93332, -39.078873, 89.91341, -0.0578537, 67.384605, -0.078811646, 22.578827, -39.057747, 0.049995422, -39.078873, -45.0866, -0.021125793, -67.6366, 38.97895, -45.095535, 77.9, -67.54232, 77.9, -112.55, 117, -135.1)
 
-[node name="ShipHUD" type="CanvasLayer" parent="." unique_id=532014552 instance=ExtResource("3_8f6gn")]
-visible = false
-script = ExtResource("4_kedgr")
+[node name="ShipHUD" parent="." unique_id=532014552 instance=ExtResource("3_8f6gn")]
 
-[node name="Reactor_4" type="Node2D" parent="." unique_id=542255097 instance=ExtResource("3_kedgr")]
+[node name="Reactor_4" parent="." unique_id=542255097 instance=ExtResource("3_kedgr")]
 position = Vector2(117, 45)
-script = ExtResource("6_8f6gn")
 original_color = Color(1, 1, 1, 1)
 
-[node name="Shields_3" type="Node2D" parent="." unique_id=1633765650 instance=ExtResource("5_t1h16")]
+[node name="Shields_3" parent="." unique_id=1633765650 instance=ExtResource("5_t1h16")]
 position = Vector2(117, 180)
-script = ExtResource("8_t1h16")
 original_color = Color(1, 1, 1, 1)
 
-[node name="@CanvasLayer@443" type="CanvasLayer" parent="." unique_id=108855856 instance=ExtResource("3_8f6gn")]
-visible = false
-script = ExtResource("4_kedgr")
+[node name="@CanvasLayer@443" parent="." unique_id=108855856 instance=ExtResource("3_8f6gn")]
 
 [node name="Walls" type="StaticBody2D" parent="." unique_id=2035364278]
 collision_layer = 16
 collision_mask = 0
 
-[node name="Engines_2" type="Node2D" parent="." unique_id=1685651061 instance=ExtResource("7_igv8q")]
+[node name="Engines_2" parent="." unique_id=1685651061 instance=ExtResource("7_igv8q")]
 position = Vector2(0, 247.5)
-script = ExtResource("10_7vb13")
 original_color = Color(1, 1, 1, 1)
 
-[node name="@Node2D@446" type="Node2D" parent="." unique_id=1548702145 instance=ExtResource("7_igv8q")]
+[node name="@Node2D@446" parent="." unique_id=1548702145 instance=ExtResource("7_igv8q")]
 position = Vector2(156, 247.5)
-script = ExtResource("10_7vb13")
 original_color = Color(1, 1, 1, 1)
 
-[node name="Reactor_2" type="Node2D" parent="." unique_id=275090074 instance=ExtResource("11_kedgr")]
+[node name="Reactor_2" parent="." unique_id=275090074 instance=ExtResource("11_kedgr")]
 position = Vector2(-39, 180)
-script = ExtResource("6_8f6gn")
 original_color = Color(1, 1, 1, 1)
 
-[node name="@Node2D@450" type="Node2D" parent="." unique_id=810465328 instance=ExtResource("11_kedgr")]
+[node name="@Node2D@450" parent="." unique_id=810465328 instance=ExtResource("11_kedgr")]
 position = Vector2(195, 180)
-script = ExtResource("6_8f6gn")
 original_color = Color(1, 1, 1, 1)
 
-[node name="Airlock_1" type="Node2D" parent="." unique_id=2084884563 instance=ExtResource("11_i63tk")]
+[node name="Airlock_1" parent="." unique_id=2084884563 instance=ExtResource("11_i63tk")]
 position = Vector2(39, 45)
-script = ExtResource("14_t6nsi")
 original_color = Color(1, 1, 1, 1)
 
-[node name="Piloting_1" type="Node2D" parent="." unique_id=150588005 instance=ExtResource("13_u88gc")]
+[node name="Piloting_1" parent="." unique_id=150588005 instance=ExtResource("13_u88gc")]
 position = Vector2(195, 45)
-script = ExtResource("16_off7m")
 original_color = Color(1, 1, 1, 1)
 
-[node name="Cannon" type="Node2D" parent="." unique_id=195129740 instance=ExtResource("9_off7m")]
+[node name="Cannon" parent="." unique_id=195129740 instance=ExtResource("9_off7m")]
 position = Vector2(0, 112.5)
 rotation = 3.1415927
-script = ExtResource("12_igv8q")
 original_color = Color(1, 1, 1, 1)
 
-[node name="@Node2D@458" type="Node2D" parent="." unique_id=1661982562 instance=ExtResource("9_off7m")]
+[node name="@Node2D@458" parent="." unique_id=1661982562 instance=ExtResource("9_off7m")]
 position = Vector2(312, 112.5)
 rotation = 3.1415927
-script = ExtResource("12_igv8q")
 original_color = Color(1, 1, 1, 1)
 
-[node name="@Node2D@460" type="Node2D" parent="." unique_id=88160311 instance=ExtResource("9_off7m")]
+[node name="@Node2D@460" parent="." unique_id=88160311 instance=ExtResource("9_off7m")]
 position = Vector2(-39, 45)
 rotation = 3.1415927
-script = ExtResource("12_igv8q")
 original_color = Color(1, 1, 1, 1)
 
-[node name="@Node2D@467" type="Node2D" parent="." unique_id=147965059 instance=ExtResource("9_off7m")]
+[node name="@Node2D@467" parent="." unique_id=147965059 instance=ExtResource("9_off7m")]
 position = Vector2(351, 45)
 rotation = 3.1415927
-script = ExtResource("12_igv8q")
 original_color = Color(1, 1, 1, 1)
 
-[node name="@Node2D@470" type="Node2D" parent="." unique_id=1312993972 instance=ExtResource("11_kedgr")]
+[node name="@Node2D@470" parent="." unique_id=1312993972 instance=ExtResource("11_kedgr")]
 position = Vector2(195, -90)
 rotation = 1.0471976
-script = ExtResource("6_8f6gn")
 original_color = Color(1, 1, 1, 1)
 
-[node name="@Node2D@472" type="Node2D" parent="." unique_id=358788801 instance=ExtResource("11_kedgr")]
+[node name="@Node2D@472" parent="." unique_id=358788801 instance=ExtResource("11_kedgr")]
 position = Vector2(39, -90)
 rotation = 2.0943952
-script = ExtResource("6_8f6gn")
 original_color = Color(1, 1, 1, 1)
 
-[node name="Autopilot_1" type="Node2D" parent="." unique_id=831837916 instance=ExtResource("18_8f6gn")]
-self_modulate = Color(1, 1, 1, 0)
+[node name="Autopilot_1" parent="." unique_id=831837916 instance=ExtResource("18_8f6gn")]
 position = Vector2(156, -157.5)
 rotation = 3.1415927
-script = ExtResource("19_t1h16")
 original_color = Color(1, 1, 1, 1)
