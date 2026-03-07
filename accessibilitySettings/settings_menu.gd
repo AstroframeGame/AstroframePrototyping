@@ -7,7 +7,6 @@ const UNSTYLED = preload("res://hub/ui-themes/unstyled.tres")
 @onready var game_layer: CanvasLayer = $"../../Game"
 
 func _ready() -> void:
-	get_window().set_size(DisplayServer.screen_get_size())
 	set_dev_settings()
 	generate_remap_settings()
 	generate_resolution_options()
