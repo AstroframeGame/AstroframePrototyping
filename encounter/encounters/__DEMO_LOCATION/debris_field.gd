@@ -30,6 +30,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if asteroids.size() == 0: return
 	
+	var moving = 0
 	# idle movement
 	for asteroid in asteroids:
 		if not is_instance_valid(asteroid): continue
@@ -39,6 +40,7 @@ func _process(_delta: float) -> void:
 		if not Rect2(Vector2.ZERO, screen_size).has_point(screen_pos):
 			continue
 		
+		moving+=1
 		asteroid.global_position += asteroid.velocity
 		if(
 			(asteroid.global_position.x > asteroid.start_pos.x + asteroid.movement_radius.x) or
@@ -52,3 +54,4 @@ func _process(_delta: float) -> void:
 			(asteroid.rotation < asteroid.start_rot - asteroid.rotation_limit)
 		):
 			asteroid.rotation_velocity = -asteroid.rotation_velocity
+	print(moving)
