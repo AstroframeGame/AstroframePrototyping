@@ -1,6 +1,5 @@
 extends Encounter
 
-@onready var player_ship: Node = $PlayerShip
 @onready var research_ship: Node = $ships/RESEARCH_SATELLITE
 @onready var faction_ship: Node = $ships/FACTION_PATROL
 @onready var pirate_destroyer: Node = $ships/pirates/PIRATE_DESTROYER
@@ -12,130 +11,74 @@ extends Encounter
 ]
 
 var spoke_to_researchers = false
-var queued_dialogue: Dictionary
-signal trigger_dialogue(npc: String, cat: String) 
-signal got_objective()
-
 var dead_pirates = 0
-const GET_QUEUED_DIALOGUE = "$GET_QUEUED$"
 
 func _ready() -> void:	
+	player_ship = $PlayerShip
+	
 	# scene info
 	name = "0_1_DEMO"
 	enc_base_dir = get_script().get_path().get_base_dir()
 	reward_zone = $RewardZone.global_position
 	player_spawn = $PlayerSpawn.global_position
 	
+	got_objective.connect(start_next_objective)
+	trigger_dialogue.connect(_on_trigger_dialogue)
+	
+	player_ship.set_meta("type", "PlayerShip")
+	player_ship.connect("ship_destroyed", encounter_failed)
+
+	#region NPC SETUP 
 	# pirate ships setup
+	pirate_destroyer.name = "0_1_PIRATE_DESTROYER"
 	for ship in to_kill:
 		ship.connect( "ship_destroyed", win_check.bind() )	# when target destroyed, check for win
 		ship.connect( "ship_destroyed", _on_trigger_dialogue.bind("YOU", "PIRATE_KILLED") )
 		ship.set_meta("type", "Pirate")
 		ship.set_aggro.emit(true)	# pirate ships start aggro
 	
-	# set npc metadata 
+	# faction ship setup
 	faction_ship.name = "0_1_FACTION_PATROL"
-	pirate_destroyer.name = "0_1_PIRATE_DESTROYER"
-	research_ship.name = "0_1_RESEARCHERS"
-	
-	# prep dialogue
-	npcs_with_dialogue.push_back(faction_ship)
-	npcs_with_dialogue.push_back(pirate_destroyer)
-	npcs_with_dialogue.push_back(research_ship)
-	
-	queued_dialogue[faction_ship.name] = "greeting"
-	queued_dialogue[pirate_destroyer.name] = "greeting"
-	queued_dialogue[research_ship.name] = "greeting"
-
-	
 	faction_ship.set_meta("type", "Faction")
 	faction_ship.set_aggro.emit(false)	# faction ship starts friendly
-	faction_ship.connect("on_hit", set_ship_aggro.bind(faction_ship, true)) # faction ship will aggro if you fire on them
+	faction_ship.connect("on_hit", set_ship_aggro.bind(faction_ship, true)) # faction ship will aggro if you fire on them	
 	
-	### DIALOGUE SETUP ###
-	# faction ship
-	faction_ship.connect( "ship_destroyed", _on_trigger_dialogue.bind("YOU", "FACTION_KILLED") )
-	var fs = faction_ship.get_any_auto_piloting();
-	if fs:
-		fs.detection_area.body_entered.connect(
-			func(body): 
-				if body and body is Ship and body.is_in_group("player_ship"):
-					if is_instance_valid(faction_ship):
-						trigger_dialogue.emit(faction_ship.name)
-		)	
-	
-	# pirate destroyer
-	var ps = pirate_destroyer.get_any_auto_piloting();
-	if ps:
-		ps.detection_area.body_entered.connect(
-			func(body): 
-				if body and body is Ship and body.is_in_group("player_ship"):
-					if is_instance_valid(pirate_destroyer):
-						trigger_dialogue.emit(pirate_destroyer.name)
-		)	
-		
-	# research ship
-	var rs = research_ship.get_any_auto_piloting();
-	if rs:
-		rs.detection_area.body_entered.connect(
-			func(body): 
-				if body and body is Ship and body.is_in_group("player_ship"):
-					if is_instance_valid(research_ship):
-						trigger_dialogue.emit(research_ship.name)
-		)	
-
-	
-	player_ship.set_meta("type", "PlayerShip")
-	player_ship.connect("ship_destroyed", encounter_failed)
-	
+	# research ship setup
+	research_ship.name = "0_1_RESEARCHERS"
 	research_ship.connect("set_beacon", $markers/research_ship_marker2.set_beacon)
+	research_ship.set_beacon.emit(true)
+	research_ship.set_aggro.emit(false)
 	research_ship.connect("on_hit", _on_trigger_dialogue.bind(research_ship.name, "aggro"))
 	research_ship.connect( "ship_destroyed", _on_trigger_dialogue.bind("YOU", "RESEARCHERS_KILLED") )
-	research_ship.set_beacon.emit(true)
 	
-	got_objective.connect(start_next_objective)
-	trigger_dialogue.connect(_on_trigger_dialogue)
+	# dialogue setup for all speaking npcs
+	dialogue_setup([
+		{ "ship": pirate_destroyer	, "init_dialogue": "greeting"},
+		{ "ship": faction_ship		, "init_dialogue": "greeting"},
+		{ "ship": research_ship		, "init_dialogue": "greeting"},
+	])
+	#endregion
 	
 	# finish with parent setup
 	super._ready()
 	start_next_objective()
-
-func _process(delta: float) -> void:
-	super._process(delta)
-	
-	# poll for dialogue
-	# TODO: replace with signals?
-	# is there a way to add an invisible field (radar, in range of ship sensors) around ships, 
-	#	so when player enters it, a signal is emitted? 
-	#if faction_ship and player.global_position.distance_to(faction_ship.global_position) < 1000:
-		#if not faction_ship.get_auto_piloting():
-	#elif pirate_destroyer and player.global_position.distance_to(pirate_destroyer.global_position) < 1000:
-		#trigger_dialogue.emit(pirate_destroyer.name, queued_dialogue[pirate_destroyer.name])
-	#elif research_ship and player.global_position.distance_to(research_ship.global_position) < 1000:
-		#trigger_dialogue.emit(research_ship.name, queued_dialogue[research_ship.name])
-		#research_ship.set_beacon.emit(false)
 
 func win_check() -> void:
 	print("pirate ship died")
 	dead_pirates += 1
 	if dead_pirates >= to_kill.size():
 		encounter_completed.emit(name)
-
-func _on_trigger_dialogue(npc: String, cat: String = GET_QUEUED_DIALOGUE) -> void:
-	if cat == GET_QUEUED_DIALOGUE:
-		cat = queued_dialogue[npc]
-
-	start_dialogue(npc, cat)
-	if not won and not spoke_to_researchers and npc == research_ship.name:
-		spoke_to_researchers = true
-		dialouge_runner.on_dialogue_end.connect(start_next_objective, CONNECT_ONE_SHOT)
-
-func set_ship_aggro(ship: Node, val: bool):
-	trigger_dialogue.emit(ship.name, "aggro")
-	ship.set_aggro.emit(val, player_ship)
 	
 func _on_encounter_completed(_name):
 	super._on_encounter_completed(name)
 	
 	if is_instance_valid(faction_ship): queued_dialogue[faction_ship.name] = "win"
 	if is_instance_valid(research_ship): queued_dialogue[research_ship.name] = "win"
+
+func _on_trigger_dialogue(npc: String, cat: String = GET_QUEUED_DIALOGUE) -> void:
+	super._on_trigger_dialogue(npc, cat)
+	
+	if not won and not spoke_to_researchers:
+		if research_ship and npc == research_ship.name:
+			spoke_to_researchers = true
+			dialouge_runner.on_dialogue_end.connect(start_next_objective, CONNECT_ONE_SHOT)

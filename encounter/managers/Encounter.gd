@@ -1,12 +1,20 @@
 class_name Encounter
 extends Node
 
-var enc_base_dir: String
+var player_ship: Node
 
+var enc_base_dir: String
 var location: String			# location key
 var settings: Dictionary		# encounter settings (prereqs, rewards, etc)
 var reward_zone: Vector2		# where in the scene to put reward (using instead of player position)
 var won: bool
+
+var queued_dialogue: Dictionary
+signal trigger_dialogue(npc: String, cat: String) 
+signal got_objective()
+
+const GET_QUEUED_DIALOGUE = "$GET_QUEUED$"
+const NULL_DIALOGUE = "$NULL$"
 
 # reference to player (used for polling distance to npc ships, TEMP)
 var player_spawn: Vector2:
@@ -157,6 +165,10 @@ func _on_encounter_completed(enc_name: String):
 	# dialogue
 	start_dialogue("YOU", "win")
 
+func set_ship_aggro(ship: Node, val: bool):
+	trigger_dialogue.emit(ship.name, "aggro")
+	ship.set_aggro.emit(val, player_ship)
+
 func encounter_failed():
 	start_dialogue("YOU", "lose")
 
@@ -164,3 +176,28 @@ func start_next_objective():
 	obj_number += 1
 	if(obj_number < dialogue["objective"]["neutral"].size()):
 		objective = dialogue["objective"]["neutral"][obj_number]
+
+func dialogue_setup(npc_ships: Array[Dictionary]):
+	for npc in npc_ships:
+		npcs_with_dialogue.push_back(npc.ship)
+		
+		# start dialogue queue for this ship
+		if npc.init_dialogue != NULL_DIALOGUE:
+			queued_dialogue[npc.ship.name] = npc.init_dialogue
+		
+		# connect signal to trigger dialogue
+		var ap = npc.ship.get_any_auto_piloting();
+		if ap:
+			ap.detection_area.body_entered.connect(
+				func(body): 
+					if body and body is Ship and body.is_in_group("player_ship"):
+						if is_instance_valid(npc.ship):
+							trigger_dialogue.emit(npc.ship.name, GET_QUEUED_DIALOGUE)
+			)
+
+func _on_trigger_dialogue(npc: String, cat: String = GET_QUEUED_DIALOGUE) -> void:
+	if cat == GET_QUEUED_DIALOGUE:		# default to queued dialog
+		if not queued_dialogue.has(npc): return		# TODO: put a warning here
+		cat = queued_dialogue[npc]
+
+	start_dialogue(npc, cat)

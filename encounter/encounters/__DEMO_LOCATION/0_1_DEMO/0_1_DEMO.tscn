@@ -282,8 +282,18 @@ null: null
 max_hit_points = 0
 _hit_points = 0
 
-[node name="RESEARCH_SATELLITE" parent="ships" unique_id=1537409978 instance=ExtResource("10_7ytpk")]
+[node name="RESEARCH_SATELLITE" parent="ships" unique_id=1537409978 node_paths=PackedStringArray("power_links") instance=ExtResource("10_7ytpk")]
 position = Vector2(-5268, -9995)
+power_links = {
+NodePath("Reactor_4/OutputHex"): NodePath("Shields_3/InputHex"),
+NodePath("Reactor_4/OutputHex2"): NodePath("Shields_3/InputHex2"),
+NodePath("Reactor_4/OutputHex3"): NodePath("Shields_3/InputHex3"),
+NodePath("Reactor_4/OutputHex4"): NodePath("_Node2D_507/InputHex"),
+NodePath("Reactor_2/OutputHex"): NodePath("_Node2D_507/InputHex2"),
+NodePath("Reactor_2/OutputHex3"): NodePath("_Node2D_507/InputHex3"),
+NodePath("_Node2D_506/OutputHex"): NodePath("_Node2D_508/InputHex"),
+NodePath("_Node2D_506/OutputHex3"): NodePath("_Node2D_508/InputHex2")
+}
 
 [node name="DynamicField" parent="." unique_id=1358330800 node_paths=PackedStringArray("nav_region") instance=ExtResource("5_smosv")]
 position = Vector2(-1235, 1051)
