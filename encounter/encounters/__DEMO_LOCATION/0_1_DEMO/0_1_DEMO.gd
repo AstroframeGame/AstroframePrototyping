@@ -17,6 +17,7 @@ signal trigger_dialogue(npc: String, cat: String)
 signal got_objective()
 
 var dead_pirates = 0
+const GET_QUEUED_DIALOGUE = "$GET_QUEUED$"
 
 func _ready() -> void:	
 	# scene info
@@ -25,25 +26,12 @@ func _ready() -> void:
 	reward_zone = $RewardZone.global_position
 	player_spawn = $PlayerSpawn.global_position
 	
-	# win state setup
+	# pirate ships setup
 	for ship in to_kill:
 		ship.connect( "ship_destroyed", win_check.bind() )	# when target destroyed, check for win
 		ship.connect( "ship_destroyed", _on_trigger_dialogue.bind("YOU", "PIRATE_KILLED") )
 		ship.set_meta("type", "Pirate")
 		ship.set_aggro.emit(true)	# pirate ships start aggro
-	
-	faction_ship.set_meta("type", "Faction")
-	faction_ship.set_aggro.emit(false)	# faction ship starts friendly
-	faction_ship.connect("on_hit", set_ship_aggro.bind(faction_ship, true)) # faction ship will aggro if you fire on them
-	faction_ship.connect( "ship_destroyed", _on_trigger_dialogue.bind("YOU", "FACTION_KILLED") )
-	
-	player_ship.set_meta("type", "PlayerShip")
-	player_ship.connect("ship_destroyed", encounter_failed)
-	
-	research_ship.connect("set_beacon", $markers/research_ship_marker2.set_beacon)
-	research_ship.connect("on_hit", _on_trigger_dialogue.bind(research_ship.name, "aggro"))
-	research_ship.connect( "ship_destroyed", _on_trigger_dialogue.bind("YOU", "RESEARCHERS_KILLED") )
-	research_ship.set_beacon.emit(true)
 	
 	# set npc metadata 
 	faction_ship.name = "0_1_FACTION_PATROL"
@@ -58,6 +46,52 @@ func _ready() -> void:
 	queued_dialogue[faction_ship.name] = "greeting"
 	queued_dialogue[pirate_destroyer.name] = "greeting"
 	queued_dialogue[research_ship.name] = "greeting"
+
+	
+	faction_ship.set_meta("type", "Faction")
+	faction_ship.set_aggro.emit(false)	# faction ship starts friendly
+	faction_ship.connect("on_hit", set_ship_aggro.bind(faction_ship, true)) # faction ship will aggro if you fire on them
+	
+	### DIALOGUE SETUP ###
+	# faction ship
+	faction_ship.connect( "ship_destroyed", _on_trigger_dialogue.bind("YOU", "FACTION_KILLED") )
+	var fs = faction_ship.get_any_auto_piloting();
+	if fs:
+		fs.detection_area.body_entered.connect(
+			func(body): 
+				if body and body is Ship and body.is_in_group("player_ship"):
+					if is_instance_valid(faction_ship):
+						trigger_dialogue.emit(faction_ship.name)
+		)	
+	
+	# pirate destroyer
+	var ps = pirate_destroyer.get_any_auto_piloting();
+	if ps:
+		ps.detection_area.body_entered.connect(
+			func(body): 
+				if body and body is Ship and body.is_in_group("player_ship"):
+					if is_instance_valid(pirate_destroyer):
+						trigger_dialogue.emit(pirate_destroyer.name)
+		)	
+		
+	# research ship
+	var rs = research_ship.get_any_auto_piloting();
+	if rs:
+		rs.detection_area.body_entered.connect(
+			func(body): 
+				if body and body is Ship and body.is_in_group("player_ship"):
+					if is_instance_valid(research_ship):
+						trigger_dialogue.emit(research_ship.name)
+		)	
+
+	
+	player_ship.set_meta("type", "PlayerShip")
+	player_ship.connect("ship_destroyed", encounter_failed)
+	
+	research_ship.connect("set_beacon", $markers/research_ship_marker2.set_beacon)
+	research_ship.connect("on_hit", _on_trigger_dialogue.bind(research_ship.name, "aggro"))
+	research_ship.connect( "ship_destroyed", _on_trigger_dialogue.bind("YOU", "RESEARCHERS_KILLED") )
+	research_ship.set_beacon.emit(true)
 	
 	got_objective.connect(start_next_objective)
 	trigger_dialogue.connect(_on_trigger_dialogue)
@@ -73,14 +107,13 @@ func _process(delta: float) -> void:
 	# TODO: replace with signals?
 	# is there a way to add an invisible field (radar, in range of ship sensors) around ships, 
 	#	so when player enters it, a signal is emitted? 
-	if faction_ship and player.global_position.distance_to(faction_ship.global_position) < 1000:
-		if not faction_ship.get_auto_piloting():
-			trigger_dialogue.emit(faction_ship.name, queued_dialogue[faction_ship.name])
-	elif pirate_destroyer and player.global_position.distance_to(pirate_destroyer.global_position) < 1000:
-		trigger_dialogue.emit(pirate_destroyer.name, queued_dialogue[pirate_destroyer.name])
-	elif research_ship and player.global_position.distance_to(research_ship.global_position) < 1000:
-		trigger_dialogue.emit(research_ship.name, queued_dialogue[research_ship.name])
-		research_ship.set_beacon.emit(false)
+	#if faction_ship and player.global_position.distance_to(faction_ship.global_position) < 1000:
+		#if not faction_ship.get_auto_piloting():
+	#elif pirate_destroyer and player.global_position.distance_to(pirate_destroyer.global_position) < 1000:
+		#trigger_dialogue.emit(pirate_destroyer.name, queued_dialogue[pirate_destroyer.name])
+	#elif research_ship and player.global_position.distance_to(research_ship.global_position) < 1000:
+		#trigger_dialogue.emit(research_ship.name, queued_dialogue[research_ship.name])
+		#research_ship.set_beacon.emit(false)
 
 func win_check() -> void:
 	print("pirate ship died")
@@ -88,7 +121,10 @@ func win_check() -> void:
 	if dead_pirates >= to_kill.size():
 		encounter_completed.emit(name)
 
-func _on_trigger_dialogue(npc: String, cat: String) -> void:
+func _on_trigger_dialogue(npc: String, cat: String = GET_QUEUED_DIALOGUE) -> void:
+	if cat == GET_QUEUED_DIALOGUE:
+		cat = queued_dialogue[npc]
+
 	start_dialogue(npc, cat)
 	if not won and not spoke_to_researchers and npc == research_ship.name:
 		spoke_to_researchers = true

@@ -146,6 +146,11 @@ func get_auto_piloting()->Autopilot:
 			if r.is_active():
 				return r
 	return null
+func get_any_auto_piloting()->Autopilot:	# gets inactive, too
+	for r in get_children():
+		if r is Autopilot:
+				return r
+	return null
 func get_cannons() -> Array[Cannon]:
 	var cannons : Array[Cannon]
 	for r in get_children():

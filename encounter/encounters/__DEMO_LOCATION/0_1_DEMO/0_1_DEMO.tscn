@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://wv88dd5di8gl" path="res://shipBuilding/ships/FACTION_PATROL.tscn" id="2_7k785"]
 [ext_resource type="PackedScene" uid="uid://c7h5fcycvrbqe" path="res://art/background/space_background.tscn" id="2_onbk5"]
 [ext_resource type="FontFile" uid="uid://c0d43w7ej3xae" path="res://hub/fonts/Anta-Regular - MSDF.ttf" id="3_7ytpk"]
-[ext_resource type="PackedScene" path="res://shipBuilding/ships/PIRATE_DESTROYER.tscn" id="5_hrifk"]
+[ext_resource type="PackedScene" uid="uid://dtt1juvtkx0kk" path="res://shipBuilding/ships/PIRATE_DESTROYER.tscn" id="5_hrifk"]
 [ext_resource type="PackedScene" uid="uid://choyif0n5w2jj" path="res://encounter/encounters/__DEMO_LOCATION/debris_field.tscn" id="5_smosv"]
 [ext_resource type="PackedScene" path="res://shipBuilding/ships/PIRATE_FRIGATE.tscn" id="6_7ytpk"]
 [ext_resource type="Script" uid="uid://coswak26beue6" path="res://encounter/encounters/__DEMO_LOCATION/0_1_DEMO/marker.gd" id="9_76my7"]
@@ -25,8 +25,9 @@ navigation_polygon = SubResource("NavigationPolygon_akvn3")
 
 [node name="markers" type="CanvasLayer" parent="." unique_id=1470133338]
 
-[node name="player_ship_marker" type="Node2D" parent="markers" unique_id=108410469]
+[node name="player_ship_marker" type="Node2D" parent="markers" unique_id=108410469 node_paths=PackedStringArray("target")]
 script = ExtResource("9_76my7")
+target = NodePath("../../PlayerShip")
 metadata/_edit_group_ = true
 
 [node name="Fill" type="Polygon2D" parent="markers/player_ship_marker" unique_id=1943319407]
