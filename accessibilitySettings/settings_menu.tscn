@@ -4,10 +4,13 @@
 
 [sub_resource type="LabelSettings" id="LabelSettings_iy5a8"]
 line_spacing = 8.0
-font_size = 25
+font_size = 55
+
+[sub_resource type="LabelSettings" id="LabelSettings_8fw5y"]
+font_size = 35
 
 [sub_resource type="LabelSettings" id="LabelSettings_0s764"]
-font_size = 25
+font_size = 45
 
 [node name="SettingsMenu" type="MarginContainer" unique_id=1472990964]
 anchors_preset = 15
@@ -23,6 +26,7 @@ script = ExtResource("1_iy5a8")
 
 [node name="SettingsTabs" type="TabContainer" parent="." unique_id=371460994]
 layout_mode = 2
+theme_override_font_sizes/font_size = 40
 current_tab = 0
 
 [node name="Video" type="ScrollContainer" parent="SettingsTabs" unique_id=631776720]
@@ -39,44 +43,57 @@ layout_mode = 2
 text = "Video Settings"
 label_settings = SubResource("LabelSettings_iy5a8")
 
-[node name="Resolution" type="Label" parent="SettingsTabs/Video/VBoxContainer" unique_id=2086551581]
+[node name="HBoxContainer" type="HBoxContainer" parent="SettingsTabs/Video/VBoxContainer" unique_id=1357988450]
+layout_mode = 2
+
+[node name="Resolution" type="Label" parent="SettingsTabs/Video/VBoxContainer/HBoxContainer" unique_id=2086551581]
 layout_mode = 2
 text = "Resolution :"
+label_settings = SubResource("LabelSettings_8fw5y")
 
-[node name="ResolutionOptions" type="OptionButton" parent="SettingsTabs/Video/VBoxContainer/Resolution" unique_id=650981566]
+[node name="ResolutionOptions" type="OptionButton" parent="SettingsTabs/Video/VBoxContainer/HBoxContainer/Resolution" unique_id=650981566]
 layout_mode = 0
-offset_left = 141.0
-offset_top = -3.0
-offset_right = 267.0
-offset_bottom = 27.0
+offset_left = 186.0
+offset_right = 283.0
+offset_bottom = 42.0
 allow_reselect = true
 
-[node name="Fullscreen" type="Label" parent="SettingsTabs/Video/VBoxContainer" unique_id=268502185]
+[node name="HBoxContainer2" type="HBoxContainer" parent="SettingsTabs/Video/VBoxContainer" unique_id=1553771850]
+layout_mode = 2
+
+[node name="Fullscreen" type="Label" parent="SettingsTabs/Video/VBoxContainer/HBoxContainer2" unique_id=268502185]
 layout_mode = 2
 text = "Fullscreen:"
+label_settings = SubResource("LabelSettings_8fw5y")
 
-[node name="CheckButton" type="CheckButton" parent="SettingsTabs/Video/VBoxContainer/Fullscreen" unique_id=1917449557]
+[node name="CheckButton" type="CheckButton" parent="SettingsTabs/Video/VBoxContainer/HBoxContainer2/Fullscreen" unique_id=1917449557]
 layout_mode = 0
-offset_left = 141.0
+offset_left = 172.0
 offset_top = 1.0
-offset_right = 185.0
+offset_right = 216.0
 offset_bottom = 25.0
+scale = Vector2(2, 2)
 
 [node name="Accessibility" type="Label" parent="SettingsTabs/Video/VBoxContainer" unique_id=20384348]
 layout_mode = 2
 text = "Accessibility"
 label_settings = SubResource("LabelSettings_0s764")
 
-[node name="ColorblindFilter" type="Label" parent="SettingsTabs/Video/VBoxContainer" unique_id=1039094355]
+[node name="HBoxContainer3" type="HBoxContainer" parent="SettingsTabs/Video/VBoxContainer" unique_id=2026196322]
+layout_mode = 2
+
+[node name="ColorblindFilter" type="Label" parent="SettingsTabs/Video/VBoxContainer/HBoxContainer3" unique_id=1039094355]
 layout_mode = 2
 text = "Colorblind Filter:"
+label_settings = SubResource("LabelSettings_8fw5y")
 
-[node name="FilterOptions" type="OptionButton" parent="SettingsTabs/Video/VBoxContainer/ColorblindFilter" unique_id=1201157121]
+[node name="FilterOptions" type="OptionButton" parent="SettingsTabs/Video/VBoxContainer/HBoxContainer3/ColorblindFilter" unique_id=1201157121]
 layout_mode = 0
-offset_left = 141.0
-offset_top = -4.0
-offset_right = 280.0
-offset_bottom = 26.0
+offset_left = 259.0
+offset_top = 1.0
+offset_right = 398.0
+offset_bottom = 31.0
+scale = Vector2(1.5, 1.5)
 selected = 0
 allow_reselect = true
 item_count = 5
@@ -193,9 +210,9 @@ offset_right = 199.0
 offset_bottom = 23.0
 text = "50%"
 
-[connection signal="item_selected" from="SettingsTabs/Video/VBoxContainer/Resolution/ResolutionOptions" to="." method="_on_resolution_option_selected"]
-[connection signal="toggled" from="SettingsTabs/Video/VBoxContainer/Fullscreen/CheckButton" to="." method="_on_fullscreen_toggled"]
-[connection signal="item_selected" from="SettingsTabs/Video/VBoxContainer/ColorblindFilter/FilterOptions" to="." method="_on_filter_option_selected"]
+[connection signal="item_selected" from="SettingsTabs/Video/VBoxContainer/HBoxContainer/Resolution/ResolutionOptions" to="." method="_on_resolution_option_selected"]
+[connection signal="toggled" from="SettingsTabs/Video/VBoxContainer/HBoxContainer2/Fullscreen/CheckButton" to="." method="_on_fullscreen_toggled"]
+[connection signal="item_selected" from="SettingsTabs/Video/VBoxContainer/HBoxContainer3/ColorblindFilter/FilterOptions" to="." method="_on_filter_option_selected"]
 [connection signal="value_changed" from="SettingsTabs/Audio/VBoxContainer/MasterVolume/MasterVolumeSlider" to="." method="_on_master_volume_changed"]
 [connection signal="value_changed" from="SettingsTabs/Audio/VBoxContainer/MusicVolume/MusicVolumeSlider" to="." method="_on_music_volume_changed"]
 [connection signal="value_changed" from="SettingsTabs/Audio/VBoxContainer/SfxVolume/SfxVolumeSlider" to="." method="_on_sfx_volume_changed"]
