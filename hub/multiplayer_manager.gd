@@ -63,6 +63,8 @@ func _ready():
 	Steam.lobby_created.connect(_on_lobby_created)
 	Steam.lobby_joined.connect(_on_lobby_joined)
 	
+	multiplayer.server_disconnected.connect(_on_server_disconnected)
+	
 	game_manager.game_start.connect(_on_game_start)
 
 #region Host & Join
@@ -198,25 +200,26 @@ func _on_peer_connected(id):
 		$"../UI/Main/ScrollContainer".visible = false
 		print("Client: Not spawning (Server owns authority)")
 
-func _on_game_quit():
-	if is_host:
-		remove_all_players.rpc()
-		multiplayer.multiplayer_peer.close()
-	else:
-		remove_all_players()
-		multiplayer.multiplayer_peer.close()
-
-@rpc("authority", "call_local", "reliable")
-func remove_all_players():
-	for p in players:
-		_remove_player(p.owner_id)
-
 func _on_peer_disconnected(id):
 	print("Peer disconnected: ", id)
 	_remove_player(id)
 	
 	if is_host:
+		_remove_player(id)
 		remove_player.rpc(id)
+	else:
+		if id == multiplayer.get_unique_id():
+			_remove_player(id)
+
+func _on_server_disconnected():
+	game_manager.quit_to_list()
+	for player in players:
+		_remove_player(player.owner_id)
+
+@rpc("authority", "call_local", "reliable")
+func remove_all_players():
+	for p in players:
+		_remove_player(p.owner_id)
 
 @rpc("any_peer", "call_local", "reliable")
 func spawn_player(id: int):
@@ -227,6 +230,14 @@ func spawn_player(id: int):
 func remove_player(id: int):
 	if not is_host:
 		_remove_player(id)
+
+func _on_game_quit():
+	if is_host:
+		remove_all_players.rpc()
+		multiplayer.multiplayer_peer.close()
+	else:
+		remove_all_players()
+		multiplayer.multiplayer_peer.close()
 #endregion
 
 #region Adding & Removing Player Local
@@ -292,15 +303,18 @@ func reply_w_user(user: String):
 		print("Setting User of ", id, " to ", user)
 		$Players.get_node(str(id)).get_node("NamerTag").text = user
 
-
 func _remove_player(id: int):
 	if !$Players.has_node(str(id)):
 		return
+	
 	var player = $Players.get_node(str(id))
-	# redundant, but keeping for logic reasons
-	if player is PlayerCharacter and player.is_local_player:
-		if has_node(user_name + "_SYS"):
-			get_node(user_name + "_SYS").queue_free()
+	
+	var is_local_player = id == multiplayer.get_unique_id()
+	if is_local_player:
+		if is_instance_valid(my_player_system):
+			my_player_system.queue_free()
+			my_player_system = null
+	
 	player.queue_free()
 	print("Removed player ", id)
 #endregion
