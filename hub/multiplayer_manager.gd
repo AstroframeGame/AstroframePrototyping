@@ -94,7 +94,6 @@ func _add_solo_player():
 	
 	add_child(player_system, true)
 	
-	
 	print("✓ Spawned player locally")
 
 func _on_lobby_created(result: int, lob_id: int):
