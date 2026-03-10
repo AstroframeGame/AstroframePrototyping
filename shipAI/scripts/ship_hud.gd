@@ -18,8 +18,10 @@ func initialize() -> void:
 		ship.on_airlock_interaction.connect(toggle_hud, ConnectFlags.CONNECT_DEFERRED)
 
 func toggle_hud(_interactor, is_inside : bool):
-	var turn_hud_on = is_inside and _interactor.is_local_player
-	visible = turn_hud_on
+	if not _interactor.is_local_player:
+		return
+		
+	visible = is_inside
 		
 func update_hp_bar():
 	healthbar.value = ship.hit_points
