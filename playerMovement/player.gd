@@ -95,26 +95,29 @@ func _ready() -> void:
 	ground_check.area_exited.connect(on_unground)
 	
 	## ====== Multiplayer START ======
+	
+	is_multiplayer = multiplayer_manager.is_multiplayer
+	input_enabled = true
+	target_pos = global_position
+	
+	await get_tree().process_frame
 
-	if multiplayer.has_multiplayer_peer():
-		is_multiplayer = true
-		input_enabled = true
+	if has_node("MultiplayerSynchronizer"):
+		$MultiplayerSynchronizer.set_multiplayer_authority(1)
+
+	if has_node("Grapple"):
+		$Grapple.set_multiplayer_authority(1)
+	
+	if is_multiplayer:
 		owner_id = name.to_int()
-		target_pos = global_position
-
-		await get_tree().process_frame
-
-		if has_node("MultiplayerSynchronizer"):
-			$MultiplayerSynchronizer.set_multiplayer_authority(1)
-
-		if has_node("Grapple"):
-			$Grapple.set_multiplayer_authority(1)
 
 		print("Initializing player ", name, " in Multiplayer...")
 		print("   Player ", owner_id, 
 		" | Local ID: ", multiplayer.get_unique_id(), 
 		" | Authority: ", get_multiplayer_authority())
 	else:
+		owner_id = 1
+		
 		$NamerTag.text = ""
 		print("Initializing player in Singleplayer")
 

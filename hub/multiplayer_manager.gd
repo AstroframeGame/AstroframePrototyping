@@ -11,6 +11,9 @@ var players : Array[PlayerCharacter]:
 			if player is PlayerCharacter:
 				no_nodes.append(player)
 		return no_nodes
+var is_multiplayer: bool:
+	get:
+		return multiplayer.multiplayer_peer is not OfflineMultiplayerPeer
 
 var peer: SteamMultiplayerPeer
 var lobby_id: int = 0
@@ -61,9 +64,8 @@ func join_lobby(lob_id: int):
 	Steam.joinLobby(lob_id)
 
 func _on_game_start(game_scene: Node2D):
-	var is_multiplayer = multiplayer.has_multiplayer_peer()
 	print("\n=== ENTERING GAME ===")
-	if not is_multiplayer or not is_host:
+	if not is_multiplayer:
 		print("Starting on singleplayer...")
 		_add_solo_player()
 
