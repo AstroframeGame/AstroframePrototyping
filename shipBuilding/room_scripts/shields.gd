@@ -22,6 +22,7 @@ func  _ready() -> void:
 	on_power_level_change.connect(on_power_change)
 	shield.on_shield_broken.connect(recharge_shield)
 	recharge_timer.timeout.connect(deploy_shield)
+	
 	on_power_change(self)
 	
 	shield.durability = max_shield_durability[0]

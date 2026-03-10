@@ -17,7 +17,7 @@ var lobby_id: int = 0
 var host_steam_id: int = 0
 var is_host: bool = false
 var is_joining: bool = false
-var user_name: String
+var user_name: String = "Local"
 var buff_user: String
 var curr_scene_path: String
 var is_in_scene: bool = false
@@ -42,13 +42,15 @@ func _ready():
 	var is_init = Steam.steamInit(480, true) 
 	print("Steam init: ", is_init)
 	Steam.initRelayNetworkAccess()
-	user_name = Steam.getPersonaName()
 	if is_init:
+		user_name = Steam.getPersonaName()
 		print("   Account actualized: ", user_name)
 	else:
 		print("   Steam failed to Initialize")
 	Steam.lobby_created.connect(_on_lobby_created)
 	Steam.lobby_joined.connect(_on_lobby_joined)
+	
+	game_manager.game_start.connect(_on_game_start)
 	
 func host_lobby():
 	Steam.createLobby(Steam.LobbyType.LOBBY_TYPE_PUBLIC, 16)
@@ -57,6 +59,43 @@ func host_lobby():
 func join_lobby(lob_id: int):
 	is_joining = true
 	Steam.joinLobby(lob_id)
+
+func _on_game_start(game_scene: Node2D):
+	var is_multiplayer = multiplayer.has_multiplayer_peer()
+	print("\n=== ENTERING GAME ===")
+	if not is_multiplayer or not is_host:
+		print("Starting on singleplayer...")
+		_add_solo_player()
+
+func _add_solo_player():
+	if $Players.has_node("1"):
+		print("Already a player, not adding player.")
+		return
+	
+	var player_char = PLAYER_CHARACTER_PREFAB.instantiate()
+
+	player_char.name = "1"
+	player_char.set_multiplayer_authority(1)
+	
+	my_player = player_char
+	
+	$Players.add_child(player_char, true)
+	
+	if user_name == "Local":
+		player_char.get_node("NamerTag").text = ""
+	else:
+		player_char.get_node("NamerTag").text = user_name
+		
+	var player_system = PLAYER_SYSTEM_PREFAB.instantiate()
+	
+	my_player_system = player_system
+	
+	player_system.name = user_name + "_SYS"
+	
+	add_child(player_system, true)
+	
+	
+	print("✓ Spawned player locally")
 
 func _on_lobby_created(result: int, lob_id: int):
 	if result == Steam.Result.RESULT_OK:
