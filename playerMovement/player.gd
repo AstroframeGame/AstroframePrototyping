@@ -117,6 +117,7 @@ func _ready() -> void:
 		" | Authority: ", get_multiplayer_authority())
 	else:
 		owner_id = 1
+		is_local_player = false
 		
 		$NamerTag.text = ""
 		print("Initializing player in Singleplayer")

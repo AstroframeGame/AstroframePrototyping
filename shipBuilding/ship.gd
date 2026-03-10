@@ -663,14 +663,15 @@ func take_damage(amount:int, pos_ws : Vector2):
 	hit_vfx(pos_ws)
 
 func death_check():
-	if hit_points > 0 or _is_dead:
-		return 
-		
-	for pc in get_tree().get_nodes_in_group("player_controller"):
-		if pc.ship == self:
-			pc.update_layers(false)
-	_is_dead = true
-	call_deferred("death_explosion")
+	if is_multiplayer_authority():
+		if hit_points > 0 or _is_dead:
+			return 
+			
+		for pc in get_tree().get_nodes_in_group("player_controller"):
+			if pc.ship == self:
+				pc.update_layers(false)
+		_is_dead = true
+		call_deferred("death_explosion")
 	
 func death_explosion():
 	var rooms: Array[Room] = []
