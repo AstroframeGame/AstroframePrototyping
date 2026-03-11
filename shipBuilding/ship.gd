@@ -719,9 +719,6 @@ func sync_explosion_impulse(room_path: NodePath, dir: Vector2, r_av: float, r_im
 		
 	var debris_ship: Ship = SHIP_PREFAB.instantiate()
 	get_parent().add_child(debris_ship)
-	debris_ship.global_transform = global_transform
-	debris_ship.linear_velocity = linear_velocity
-	debris_ship.angular_velocity = angular_velocity + r_av
 	
 	var grid_pos = room.grid_pos
 	var rot_index = room.rot_index
@@ -729,8 +726,13 @@ func sync_explosion_impulse(room_path: NodePath, dir: Vector2, r_av: float, r_im
 	remove_room(room)
 	debris_ship.add_room(room, grid_pos, rot_index)
 	
+	debris_ship.global_transform = global_transform
+	
 	var explosion_impulse = r_imp
-	debris_ship.apply_central_impulse(dir * explosion_impulse)
+	if is_multiplayer_authority():
+		debris_ship.apply_central_impulse(dir * explosion_impulse)
+		debris_ship.linear_velocity = linear_velocity
+		debris_ship.angular_velocity = angular_velocity + r_av
 	
 	debris_ship.initialize_ship()
 	explosion(pos)
