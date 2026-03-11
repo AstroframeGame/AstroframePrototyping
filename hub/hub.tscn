@@ -157,6 +157,7 @@ text = "Host"
 
 [node name="Join" type="Button" parent="UI/Main/VBoxContainer/Multiplayer" unique_id=1183886268]
 layout_mode = 2
+disabled = true
 text = "Join"
 
 [node name="IDPrompt" type="LineEdit" parent="UI/Main/VBoxContainer/Multiplayer" unique_id=2096278151]

@@ -104,6 +104,8 @@ func initialize_ship():
 	calc_center_of_mass()
 	check_hud()
 	
+	if multiplayer.is_server():
+		set_multiplayer_authority(1)
 
 func get_engines() -> Engines:
 	for r in get_children():
@@ -714,28 +716,31 @@ func death_explosion():
 func sync_explosion_impulse(room_path: NodePath, dir: Vector2, r_av: float, r_imp: float):
 	var room = get_node_or_null(room_path) as Room
 	if not is_instance_valid(room):
-		push_warning("[ship.gd/sync_explosion_impulse()]: Room path was not valid")
 		return
 		
 	var debris_ship: Ship = SHIP_PREFAB.instantiate()
 	get_parent().add_child(debris_ship)
 	
+	debris_ship.global_transform = global_transform
+	debris_ship.linear_velocity = linear_velocity
+	debris_ship.angular_velocity = angular_velocity
+	
 	var grid_pos = room.grid_pos
 	var rot_index = room.rot_index
-	var pos = room.global_position
 	remove_room(room)
 	debris_ship.add_room(room, grid_pos, rot_index)
 	
-	debris_ship.global_transform = global_transform
-	
-	var explosion_impulse = r_imp
 	if is_multiplayer_authority():
-		debris_ship.apply_central_impulse(dir * explosion_impulse)
-		debris_ship.linear_velocity = linear_velocity
-		debris_ship.angular_velocity = angular_velocity + r_av
-	
+		debris_ship.angular_velocity += r_av
+		debris_ship.apply_central_impulse(dir * r_imp)
+	else:
+		debris_ship.freeze = true 
+		debris_ship.target_transform = debris_ship.global_transform
+		debris_ship.target_linear_velocity = debris_ship.linear_velocity
+		debris_ship.target_angular_velocity = debris_ship.angular_velocity
+
 	debris_ship.initialize_ship()
-	explosion(pos)
+	explosion(room.global_position)
 	
 @rpc("authority", "call_local", "reliable")
 func sync_death():
