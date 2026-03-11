@@ -734,7 +734,6 @@ func sync_explosion_impulse(room_path: NodePath, dir: Vector2, r_av: float, r_im
 		debris_ship.angular_velocity += r_av
 		debris_ship.apply_central_impulse(dir * r_imp)
 	else:
-		debris_ship.freeze = true 
 		debris_ship.target_transform = debris_ship.global_transform
 		debris_ship.target_linear_velocity = debris_ship.linear_velocity
 		debris_ship.target_angular_velocity = debris_ship.angular_velocity
