@@ -703,9 +703,9 @@ func death_explosion():
 	
 	for room in rooms:
 		var push_dir = (room.global_position - to_global(center_of_mass)).normalized()
-		var anglular_velocity = randf_range(-2.0, 2.0)
+		var ang_vel = randf_range(-2.0, 2.0)
 		var impulse = randf_range(20.0, 100.0)
-		sync_explosion_impulse.rpc(room.get_path(), push_dir, angular_velocity, impulse)
+		sync_explosion_impulse.rpc(room.get_path(), push_dir, ang_vel, impulse)
 	
 	sync_death_vfx.rpc(len(rooms))
 	sync_death.rpc()
