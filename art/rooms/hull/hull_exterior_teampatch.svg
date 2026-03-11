@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 82.12 78.53">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #d4d4d4;
+      }
+    </style>
+  </defs>
+  <g id="Exterior">
+    <g id="hull_exterior_teampatch">
+      <polygon class="cls-1" points="53.93 7.57 53.93 7.44 41.09 0 28.25 7.44 28.25 7.57 33.62 4.47 36.23 8.98 41.09 6.16 45.95 8.98 48.56 4.47 53.93 7.57"/>
+      <polygon class="cls-1" points=".14 56.2 .02 56.27 0 71.11 12.86 78.51 12.98 78.44 7.61 75.34 10.21 70.83 5.33 68.03 5.35 62.41 .14 62.4 .14 56.2"/>
+      <polygon class="cls-1" points="69.14 78.46 69.26 78.53 82.12 71.13 82.1 56.29 81.98 56.22 81.98 62.42 76.77 62.43 76.78 68.05 71.91 70.85 74.51 75.36 69.14 78.46"/>
+    </g>
+  </g>
+</svg>

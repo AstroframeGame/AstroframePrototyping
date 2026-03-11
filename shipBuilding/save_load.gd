@@ -63,8 +63,10 @@ func save_json(ship : Node, save_path : String, save_name : String) -> void:
 		file.store_string(json_string)
 		file.close()
 		print("Saved JSON to: " + path)
+		InGameConsole.log_message("Saved JSON to: " + path)
 	else:
 		push_error("Failed to save file: " + path)
+		InGameConsole.log_message("Failed to save file: " + path)
 
 # ship must be pre initialized. ship should be empty.
 func load_json(save_path : String, save_name : String, ship : Ship) -> Node:
@@ -81,6 +83,7 @@ func load_json(save_path : String, save_name : String, ship : Ship) -> Node:
 	var data = JSON.parse_string(json_string)
 	if data == null:
 		push_error("Failed to parse JSON from: " + path)
+		InGameConsole.log_message("Failed to parse JSON from: " + path)
 		return
 	
 	if data.has("name"):
@@ -105,6 +108,8 @@ func load_json(save_path : String, save_name : String, ship : Ship) -> Node:
 				ship.add_room(room_instance, cell, rot_index)
 			else:
 				push_warning("Could not find room prefab: " + prefab_path)
+				InGameConsole.log_message("Could not find room prefab: " + prefab_path)
 				
 	print("Loaded ship from: " + path)
+	InGameConsole.log_message("Loaded ship from: " + path)
 	return ship

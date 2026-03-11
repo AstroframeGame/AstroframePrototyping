@@ -17,7 +17,7 @@ func _ready() -> void:
 	# load settings
 	# settings include whether or not game is muted
 	# debug setting it muted for now
-	MusicManager.muted = true
+	MusicManager.muted = "dev" in OS.get_cmdline_args()
 	MusicManager.play_menu()
 	
 func load_scene(path : String)->void:
@@ -45,6 +45,15 @@ func new_game():
 
 func load_game():
 	pass
+
+func open_singleplayer():
+	# demo scene
+	var is_multiplayer = multiplayer_manager.is_multiplayer
+	var path = "res://encounter/encounters/__DEMO_LOCATION/0_1_DEMO/0_1_DEMO.tscn"
+	if not is_multiplayer:
+		load_scene(path)
+	else:
+		load_scenes_across_peers.rpc(path)
 
 func open_ship_editor():
 	load_scene("res://shipBuilding/ship_building.tscn")

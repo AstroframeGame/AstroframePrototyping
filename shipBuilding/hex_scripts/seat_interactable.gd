@@ -1,28 +1,49 @@
 class_name SeatInteractable
-extends Area2D
+extends Hex
 
 '''
 If the player interacts with this seat, it will set the player's seat to its room.
 Otherwise it will set the player's seat to null.
 '''
 
-@onready var room : Room = $"../.."
 var controlled_by : PlayerCharacter
 
+
+func can_interact() -> bool:
+	if room is Room:
+		if room.ship != null:
+			if room.ship.my_character_inside():
+				return true
+	return false
 func interact_hint() -> String:
-	return "[E] to Sit Down"
+	return "Sit Down"
 
 func interact(player : PlayerCharacter) -> void:
-	if not room is Room:
-		print_debug("Warning : tried to interact with a seat with no asociated room. Discarding input.")
+	if is_multiplayer_authority():
+		if not room is Room:
+			print_debug("Warning : tried to interact with a seat with no asociated room. Discarding input.")
+			return
+		if not room.ship.my_character_inside() and player.ship != room.ship:
+			return
+
+		sync_interact.rpc(player.get_path())
+
+@rpc("any_peer", "call_local", "reliable")
+func sync_interact(player_path: NodePath):
+	var player = get_node_or_null(player_path)
+	if not player:
+		push_warning("[seat.gd/sync_interact()]: Authority sent unrecognizable path")
 		return
-	if not room.ship.my_character_inside():
-		return
+	
 	if player.seat == self:
 		player.seat = null
 		controlled_by = null
+		if room.has_method("player_getup_interact"):
+			room.player_getup_interact()
 	else:
 		player.seat = self
 		controlled_by = player
 		player.global_position = global_position
-		#player.global_rotation = global_rotation # hack, may remove
+		if room.has_method("player_sit_interact"):
+			room.player_sit_interact(player)
+		

@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://cr6brw3ygqp2"]
+[gd_scene format=3 uid="uid://choyif0n5w2jj"]
 
 [ext_resource type="Script" uid="uid://q26jtd2b8mya" path="res://encounter/encounters/__DEMO_LOCATION/asteroid.gd" id="1_y83ev"]
 
@@ -7,7 +7,6 @@
 [node name="moving_field" type="Node2D" parent="." unique_id=1339212741]
 position = Vector2(64, 59)
 metadata/_edit_group_ = true
-metadata/_edit_lock_ = true
 
 [node name="asteroid" type="StaticBody2D" parent="moving_field" unique_id=774652611]
 position = Vector2(59, -359)
@@ -410,6 +409,437 @@ visible = false
 rotation = -1.2793263
 polygon = PackedVector2Array(100.7428, -12.525589, 149.79028, 50.95935, 139.14099, 127.45505, -26.913086, 166.27594, -78.01648, 70.607544, -8.092957, -44.97226)
 
+[node name="asteroid28" type="StaticBody2D" parent="moving_field" unique_id=1299027848]
+position = Vector2(1864, -182)
+rotation = -0.15358883
+script = ExtResource("1_y83ev")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="moving_field/asteroid28" unique_id=1757679688]
+color = Color(0.46666667, 0.46666667, 0.46666667, 1)
+polygon = PackedVector2Array(68, -20, 118, 58, 90, 170, -67, 228, -132, 70, -45, -49)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="moving_field/asteroid28" unique_id=394635892]
+visible = false
+position = Vector2(-6.021919, 85.9575)
+polygon = PackedVector2Array(74.02192, -105.9575, 124.02192, -27.957497, 96.02192, 84.0425, -60.97808, 142.04251, -125.97808, -15.957497, -38.97808, -134.95749)
+
+[node name="asteroid29" type="StaticBody2D" parent="moving_field" unique_id=1150791239]
+position = Vector2(1316, 206.99988)
+rotation = -0.35255656
+script = ExtResource("1_y83ev")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="moving_field/asteroid29" unique_id=819307135]
+color = Color(0.46666667, 0.46666667, 0.46666667, 1)
+polygon = PackedVector2Array(36, -13, 38, 78, 18, 143, -49, 182, -83, 139, -52, 50)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="moving_field/asteroid29" unique_id=1540835771]
+visible = false
+polygon = PackedVector2Array(36, -13, 38, 78, 18, 143, -49, 182, -83, 139, -52, 50)
+
+[node name="asteroid30" type="StaticBody2D" parent="moving_field" unique_id=894377573]
+position = Vector2(1054, -889)
+rotation = 1.0506883
+script = ExtResource("1_y83ev")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="moving_field/asteroid30" unique_id=1036834701]
+rotation = -1.2793263
+color = Color(0.46666667, 0.46666667, 0.46666667, 1)
+polygon = PackedVector2Array(100.7428, -12.525589, 149.79028, 50.95935, 139.14099, 127.45505, -26.913086, 166.27594, -78.01648, 70.607544, -8.092957, -44.97226)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="moving_field/asteroid30" unique_id=696923958]
+visible = false
+rotation = -1.2793263
+polygon = PackedVector2Array(100.7428, -12.525589, 149.79028, 50.95935, 139.14099, 127.45505, -26.913086, 166.27594, -78.01648, 70.607544, -8.092957, -44.97226)
+
+[node name="asteroid31" type="StaticBody2D" parent="moving_field" unique_id=2092050807]
+position = Vector2(1999, -1198)
+rotation = -0.90408045
+scale = Vector2(0.83, 0.83)
+skew = -0.19024086
+script = ExtResource("1_y83ev")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="moving_field/asteroid31" unique_id=1836482543]
+rotation = -1.2793263
+color = Color(0.46666667, 0.46666667, 0.46666667, 1)
+polygon = PackedVector2Array(51.880646, -3.0655518, 117.62515, 49.40979, 96.26111, 160.52045, 21.748291, 196.47653, -41.703003, 129.31308, -59.522064, 33.258484)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="moving_field/asteroid31" unique_id=341212648]
+visible = false
+rotation = -1.2793263
+polygon = PackedVector2Array(51.880646, -3.0655518, 117.62515, 49.40979, 96.26111, 160.52045, 21.748291, 196.47653, -41.703003, 129.31308, -59.522064, 33.258484)
+
+[node name="asteroid32" type="StaticBody2D" parent="moving_field" unique_id=168712194]
+position = Vector2(1749.3429, -784.9487)
+rotation = 2.6162486
+scale = Vector2(0.99999994, 1)
+skew = 0.5340706
+script = ExtResource("1_y83ev")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="moving_field/asteroid32" unique_id=1913165509]
+rotation = -1.2793263
+color = Color(0.46666667, 0.46666667, 0.46666667, 1)
+polygon = PackedVector2Array(68.15494, -40.14856, 113.542206, 34.134644, 63.782806, 111.264404, -30.951782, 87.48709, -20.30243, 10.991394, -1.0567627, -65.183426)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="moving_field/asteroid32" unique_id=303002911]
+visible = false
+rotation = -1.2793263
+polygon = PackedVector2Array(68.15494, -40.14856, 113.542206, 34.134644, 63.782806, 111.264404, -30.951782, 87.48709, -20.30243, 10.991394, -1.0567627, -65.183426)
+
+[node name="asteroid33" type="StaticBody2D" parent="moving_field" unique_id=2064172103]
+position = Vector2(2327, -554)
+rotation = -0.28274325
+script = ExtResource("1_y83ev")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="moving_field/asteroid33" unique_id=1755473035]
+color = Color(0.46666667, 0.46666667, 0.46666667, 1)
+polygon = PackedVector2Array(68, -20, 118, 58, 90, 170, -67, 228, -132, 70, -45, -49)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="moving_field/asteroid33" unique_id=1492379376]
+visible = false
+position = Vector2(-6.021919, 85.9575)
+polygon = PackedVector2Array(74.02192, -105.9575, 124.02192, -27.957497, 96.02192, 84.0425, -60.97808, 142.04251, -125.97808, -15.957497, -38.97808, -134.95749)
+
+[node name="asteroid34" type="StaticBody2D" parent="moving_field" unique_id=1927958976]
+position = Vector2(1981, -1620.9999)
+rotation = -1.45735
+scale = Vector2(0.99999994, 0.99999994)
+script = ExtResource("1_y83ev")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="moving_field/asteroid34" unique_id=1390627321]
+color = Color(0.46666667, 0.46666667, 0.46666667, 1)
+polygon = PackedVector2Array(36, -13, 38, 78, 18, 143, -49, 182, -83, 139, -52, 50)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="moving_field/asteroid34" unique_id=2027637055]
+visible = false
+polygon = PackedVector2Array(36, -13, 38, 78, 18, 143, -49, 182, -83, 139, -52, 50)
+
+[node name="asteroid35" type="StaticBody2D" parent="moving_field" unique_id=398088859]
+position = Vector2(2539, -1318)
+rotation = -2.0786872
+script = ExtResource("1_y83ev")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="moving_field/asteroid35" unique_id=1537104577]
+rotation = -1.2793263
+color = Color(0.46666667, 0.46666667, 0.46666667, 1)
+polygon = PackedVector2Array(100.7428, -12.525589, 149.79028, 50.95935, 139.14099, 127.45505, -26.913086, 166.27594, -78.01648, 70.607544, -8.092957, -44.97226)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="moving_field/asteroid35" unique_id=1227519799]
+visible = false
+rotation = -1.2793263
+polygon = PackedVector2Array(100.7428, -12.525589, 149.79028, 50.95935, 139.14099, 127.45505, -26.913086, 166.27594, -78.01648, 70.607544, -8.092957, -44.97226)
+
+[node name="asteroid36" type="StaticBody2D" parent="moving_field" unique_id=1325045028]
+position = Vector2(1190, -256.99988)
+rotation = 1.6510814
+script = ExtResource("1_y83ev")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="moving_field/asteroid36" unique_id=1808391783]
+rotation = -1.2793263
+color = Color(0.46666667, 0.46666667, 0.46666667, 1)
+polygon = PackedVector2Array(68.15494, -40.14856, 113.542206, 34.134644, 63.782806, 111.264404, -30.951782, 87.48709, -20.30243, 10.991394, -1.0567627, -65.183426)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="moving_field/asteroid36" unique_id=1263127952]
+visible = false
+rotation = -1.2793263
+polygon = PackedVector2Array(68.15494, -40.14856, 113.542206, 34.134644, 63.782806, 111.264404, -30.951782, 87.48709, -20.30243, 10.991394, -1.0567627, -65.183426)
+
+[node name="asteroid37" type="StaticBody2D" parent="moving_field" unique_id=1622118744]
+position = Vector2(1747, 599.00024)
+rotation = -2.284636
+scale = Vector2(0.7699999, 0.7699999)
+skew = -0.17453289
+script = ExtResource("1_y83ev")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="moving_field/asteroid37" unique_id=401520653]
+color = Color(0.46666667, 0.46666667, 0.46666667, 1)
+polygon = PackedVector2Array(68, -20, 118, 58, 90, 170, -67, 228, -132, 70, -45, -49)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="moving_field/asteroid37" unique_id=1014977140]
+visible = false
+position = Vector2(-6.021919, 85.9575)
+polygon = PackedVector2Array(74.02192, -105.9575, 124.02192, -27.957497, 96.02192, 84.0425, -60.97808, 142.04251, -125.97808, -15.957497, -38.97808, -134.95749)
+
+[node name="asteroid38" type="StaticBody2D" parent="moving_field" unique_id=925981710]
+position = Vector2(3001, -1426.0001)
+rotation = 2.2026055
+scale = Vector2(1.8550001, 1.855)
+skew = -0.39269912
+script = ExtResource("1_y83ev")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="moving_field/asteroid38" unique_id=1001362727]
+color = Color(0.46666667, 0.46666667, 0.46666667, 1)
+polygon = PackedVector2Array(36, -13, 38, 78, 18, 143, -49, 182, -83, 139, -52, 50)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="moving_field/asteroid38" unique_id=2142870593]
+visible = false
+polygon = PackedVector2Array(36, -13, 38, 78, 18, 143, -49, 182, -83, 139, -52, 50)
+
+[node name="asteroid39" type="StaticBody2D" parent="moving_field" unique_id=1493950556]
+position = Vector2(-640.99976, 749)
+rotation = 1.3055061
+script = ExtResource("1_y83ev")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="moving_field/asteroid39" unique_id=1935522243]
+rotation = -1.2793263
+color = Color(0.46666667, 0.46666667, 0.46666667, 1)
+polygon = PackedVector2Array(100.7428, -12.525589, 149.79028, 50.95935, 139.14099, 127.45505, -26.913086, 166.27594, -78.01648, 70.607544, -8.092957, -44.97226)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="moving_field/asteroid39" unique_id=1605530849]
+visible = false
+rotation = -1.2793263
+polygon = PackedVector2Array(100.7428, -12.525589, 149.79028, 50.95935, 139.14099, 127.45505, -26.913086, 166.27594, -78.01648, 70.607544, -8.092957, -44.97226)
+
+[node name="asteroid40" type="StaticBody2D" parent="moving_field" unique_id=2070163528]
+position = Vector2(589.0001, -943)
+rotation = -0.07504923
+scale = Vector2(1, 1.0000001)
+skew = -0.53407073
+script = ExtResource("1_y83ev")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="moving_field/asteroid40" unique_id=729722729]
+rotation = -1.2793263
+color = Color(0.46666667, 0.46666667, 0.46666667, 1)
+polygon = PackedVector2Array(51.880646, -3.0655518, 117.62515, 49.40979, 96.26111, 160.52045, 21.748291, 196.47653, -41.703003, 129.31308, -59.522064, 33.258484)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="moving_field/asteroid40" unique_id=1455637220]
+visible = false
+rotation = -1.2793263
+polygon = PackedVector2Array(51.880646, -3.0655518, 117.62515, 49.40979, 96.26111, 160.52045, 21.748291, 196.47653, -41.703003, 129.31308, -59.522064, 33.258484)
+
+[node name="asteroid41" type="StaticBody2D" parent="moving_field" unique_id=1403736823]
+position = Vector2(2035, -898.9999)
+rotation = 2.0647244
+scale = Vector2(0.9999999, 0.9999999)
+skew = -0.13962638
+script = ExtResource("1_y83ev")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="moving_field/asteroid41" unique_id=405583451]
+rotation = -1.2793263
+color = Color(0.46666667, 0.46666667, 0.46666667, 1)
+polygon = PackedVector2Array(68.15494, -40.14856, 113.542206, 34.134644, 63.782806, 111.264404, -30.951782, 87.48709, -20.30243, 10.991394, -1.0567627, -65.183426)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="moving_field/asteroid41" unique_id=1838650699]
+visible = false
+rotation = -1.2793263
+polygon = PackedVector2Array(68.15494, -40.14856, 113.542206, 34.134644, 63.782806, 111.264404, -30.951782, 87.48709, -20.30243, 10.991394, -1.0567627, -65.183426)
+
+[node name="asteroid42" type="StaticBody2D" parent="moving_field" unique_id=298600384]
+position = Vector2(880.0001, 519)
+rotation = 1.1676253
+script = ExtResource("1_y83ev")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="moving_field/asteroid42" unique_id=1517483637]
+color = Color(0.46666667, 0.46666667, 0.46666667, 1)
+polygon = PackedVector2Array(68, -20, 118, 58, 90, 170, -67, 228, -132, 70, -45, -49)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="moving_field/asteroid42" unique_id=750926296]
+visible = false
+position = Vector2(-6.021919, 85.9575)
+polygon = PackedVector2Array(74.02192, -105.9575, 124.02192, -27.957497, 96.02192, 84.0425, -60.97808, 142.04251, -125.97808, -15.957497, -38.97808, -134.95749)
+
+[node name="asteroid43" type="StaticBody2D" parent="moving_field" unique_id=760890003]
+position = Vector2(-60.000122, 1183)
+rotation = -0.6283186
+scale = Vector2(0.9999999, 0.9999999)
+script = ExtResource("1_y83ev")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="moving_field/asteroid43" unique_id=2110659103]
+color = Color(0.46666667, 0.46666667, 0.46666667, 1)
+polygon = PackedVector2Array(36, -13, 38, 78, 18, 143, -49, 182, -83, 139, -52, 50)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="moving_field/asteroid43" unique_id=48325013]
+visible = false
+polygon = PackedVector2Array(36, -13, 38, 78, 18, 143, -49, 182, -83, 139, -52, 50)
+
+[node name="asteroid44" type="StaticBody2D" parent="moving_field" unique_id=2112387554]
+position = Vector2(3008, -782)
+rotation = 2.6860619
+script = ExtResource("1_y83ev")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="moving_field/asteroid44" unique_id=25452287]
+rotation = -1.2793263
+color = Color(0.46666667, 0.46666667, 0.46666667, 1)
+polygon = PackedVector2Array(100.7428, -12.525589, 149.79028, 50.95935, 139.14099, 127.45505, -26.913086, 166.27594, -78.01648, 70.607544, -8.092957, -44.97226)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="moving_field/asteroid44" unique_id=1237299033]
+visible = false
+rotation = -1.2793263
+polygon = PackedVector2Array(100.7428, -12.525589, 149.79028, 50.95935, 139.14099, 127.45505, -26.913086, 166.27594, -78.01648, 70.607544, -8.092957, -44.97226)
+
+[node name="asteroid45" type="StaticBody2D" parent="moving_field" unique_id=800254651]
+position = Vector2(419, -272.00006)
+rotation = 1.0978122
+script = ExtResource("1_y83ev")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="moving_field/asteroid45" unique_id=146795227]
+rotation = -1.2793263
+color = Color(0.46666667, 0.46666667, 0.46666667, 1)
+polygon = PackedVector2Array(68.15494, -40.14856, 113.542206, 34.134644, 63.782806, 111.264404, -30.951782, 87.48709, -20.30243, 10.991394, -1.0567627, -65.183426)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="moving_field/asteroid45" unique_id=1838244754]
+visible = false
+rotation = -1.2793263
+polygon = PackedVector2Array(68.15494, -40.14856, 113.542206, 34.134644, 63.782806, 111.264404, -30.951782, 87.48709, -20.30243, 10.991394, -1.0567627, -65.183426)
+
+[node name="asteroid46" type="StaticBody2D" parent="moving_field" unique_id=1170750990]
+position = Vector2(173, 554)
+rotation = -0.07504923
+script = ExtResource("1_y83ev")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="moving_field/asteroid46" unique_id=83757241]
+color = Color(0.46666667, 0.46666667, 0.46666667, 1)
+polygon = PackedVector2Array(68, -20, 118, 58, 90, 170, -67, 228, -132, 70, -45, -49)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="moving_field/asteroid46" unique_id=494250714]
+visible = false
+position = Vector2(-6.021919, 85.9575)
+polygon = PackedVector2Array(74.02192, -105.9575, 124.02192, -27.957497, 96.02192, 84.0425, -60.97808, 142.04251, -125.97808, -15.957497, -38.97808, -134.95749)
+
+[node name="asteroid47" type="StaticBody2D" parent="moving_field" unique_id=535306266]
+position = Vector2(-1007, 1088)
+rotation = 0.06283181
+script = ExtResource("1_y83ev")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="moving_field/asteroid47" unique_id=322816698]
+color = Color(0.46666667, 0.46666667, 0.46666667, 1)
+polygon = PackedVector2Array(36, -13, 38, 78, 18, 143, -49, 182, -83, 139, -52, 50)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="moving_field/asteroid47" unique_id=43328418]
+visible = false
+polygon = PackedVector2Array(36, -13, 38, 78, 18, 143, -49, 182, -83, 139, -52, 50)
+
+[node name="asteroid48" type="StaticBody2D" parent="moving_field" unique_id=138442255]
+position = Vector2(-667, 1329)
+rotation = 1.5742868
+script = ExtResource("1_y83ev")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="moving_field/asteroid48" unique_id=737174128]
+rotation = -1.2793263
+color = Color(0.46666667, 0.46666667, 0.46666667, 1)
+polygon = PackedVector2Array(100.7428, -12.525589, 149.79028, 50.95935, 139.14099, 127.45505, -26.913086, 166.27594, -78.01648, 70.607544, -8.092957, -44.97226)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="moving_field/asteroid48" unique_id=354128541]
+visible = false
+rotation = -1.2793263
+polygon = PackedVector2Array(100.7428, -12.525589, 149.79028, 50.95935, 139.14099, 127.45505, -26.913086, 166.27594, -78.01648, 70.607544, -8.092957, -44.97226)
+
+[node name="asteroid49" type="StaticBody2D" parent="moving_field" unique_id=1531465095]
+position = Vector2(-649, 46.999878)
+rotation = -0.21467549
+script = ExtResource("1_y83ev")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="moving_field/asteroid49" unique_id=10039624]
+rotation = -1.2793263
+color = Color(0.46666667, 0.46666667, 0.46666667, 1)
+polygon = PackedVector2Array(51.880646, -3.0655518, 117.62515, 49.40979, 96.26111, 160.52045, 21.748291, 196.47653, -41.703003, 129.31308, -59.522064, 33.258484)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="moving_field/asteroid49" unique_id=1604811800]
+visible = false
+rotation = -1.2793263
+polygon = PackedVector2Array(51.880646, -3.0655518, 117.62515, 49.40979, 96.26111, 160.52045, 21.748291, 196.47653, -41.703003, 129.31308, -59.522064, 33.258484)
+
+[node name="asteroid50" type="StaticBody2D" parent="moving_field" unique_id=950236149]
+position = Vector2(-984.9995, 1469.9998)
+rotation = -0.07504923
+scale = Vector2(0.9999999, 0.9999999)
+script = ExtResource("1_y83ev")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="moving_field/asteroid50" unique_id=126767361]
+rotation = -1.2793263
+color = Color(0.46666667, 0.46666667, 0.46666667, 1)
+polygon = PackedVector2Array(68.15494, -40.14856, 113.542206, 34.134644, 63.782806, 111.264404, -30.951782, 87.48709, -20.30243, 10.991394, -1.0567627, -65.183426)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="moving_field/asteroid50" unique_id=2050529458]
+visible = false
+rotation = -1.2793263
+polygon = PackedVector2Array(68.15494, -40.14856, 113.542206, 34.134644, 63.782806, 111.264404, -30.951782, 87.48709, -20.30243, 10.991394, -1.0567627, -65.183426)
+
+[node name="asteroid51" type="StaticBody2D" parent="moving_field" unique_id=1712287666]
+position = Vector2(648.0001, 75.00006)
+rotation = -0.6963864
+scale = Vector2(0.89, 0.89)
+script = ExtResource("1_y83ev")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="moving_field/asteroid51" unique_id=1422596615]
+color = Color(0.46666667, 0.46666667, 0.46666667, 1)
+polygon = PackedVector2Array(68, -20, 118, 58, 90, 170, -67, 228, -132, 70, -45, -49)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="moving_field/asteroid51" unique_id=872095949]
+visible = false
+position = Vector2(-6.021919, 85.9575)
+polygon = PackedVector2Array(74.02192, -105.9575, 124.02192, -27.957497, 96.02192, 84.0425, -60.97808, 142.04251, -125.97808, -15.957497, -38.97808, -134.95749)
+
+[node name="asteroid52" type="StaticBody2D" parent="moving_field" unique_id=777310682]
+position = Vector2(-346.00024, 95)
+rotation = -0.9040805
+scale = Vector2(0.9999999, 0.9999999)
+script = ExtResource("1_y83ev")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="moving_field/asteroid52" unique_id=1562022961]
+color = Color(0.46666667, 0.46666667, 0.46666667, 1)
+polygon = PackedVector2Array(36, -13, 38, 78, 18, 143, -49, 182, -83, 139, -52, 50)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="moving_field/asteroid52" unique_id=768369589]
+visible = false
+polygon = PackedVector2Array(36, -13, 38, 78, 18, 143, -49, 182, -83, 139, -52, 50)
+
+[node name="asteroid53" type="StaticBody2D" parent="moving_field" unique_id=863139126]
+position = Vector2(-752.3445, 1836.678)
+rotation = -0.35255656
+script = ExtResource("1_y83ev")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="moving_field/asteroid53" unique_id=242582640]
+rotation = -1.2793263
+color = Color(0.46666667, 0.46666667, 0.46666667, 1)
+polygon = PackedVector2Array(100.7428, -12.525589, 149.79028, 50.95935, 139.14099, 127.45505, -26.913086, 166.27594, -78.01648, 70.607544, -8.092957, -44.97226)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="moving_field/asteroid53" unique_id=640673238]
+visible = false
+rotation = -1.2793263
+polygon = PackedVector2Array(100.7428, -12.525589, 149.79028, 50.95935, 139.14099, 127.45505, -26.913086, 166.27594, -78.01648, 70.607544, -8.092957, -44.97226)
+
+[node name="asteroid54" type="StaticBody2D" parent="moving_field" unique_id=1327502512]
+position = Vector2(-1012.00024, 806.0001)
+rotation = 1.3735741
+script = ExtResource("1_y83ev")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="moving_field/asteroid54" unique_id=498420562]
+rotation = -1.2793263
+color = Color(0.46666667, 0.46666667, 0.46666667, 1)
+polygon = PackedVector2Array(68.15494, -40.14856, 113.542206, 34.134644, 63.782806, 111.264404, -30.951782, 87.48709, -20.30243, 10.991394, -1.0567627, -65.183426)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="moving_field/asteroid54" unique_id=848457243]
+visible = false
+rotation = -1.2793263
+polygon = PackedVector2Array(68.15494, -40.14856, 113.542206, 34.134644, 63.782806, 111.264404, -30.951782, 87.48709, -20.30243, 10.991394, -1.0567627, -65.183426)
+
 [node name="asteroid27" type="StaticBody2D" parent="moving_field" unique_id=2115690544]
 position = Vector2(1566.0001, 27)
 rotation = 0.46076694
@@ -422,440 +852,6 @@ color = Color(0.46666667, 0.46666667, 0.46666667, 1)
 polygon = PackedVector2Array(68.15494, -40.14856, 113.542206, 34.134644, 63.782806, 111.264404, -30.951782, 87.48709, -20.30243, 10.991394, -1.0567627, -65.183426)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="moving_field/asteroid27" unique_id=306546850]
-visible = false
-rotation = -1.2793263
-polygon = PackedVector2Array(68.15494, -40.14856, 113.542206, 34.134644, 63.782806, 111.264404, -30.951782, 87.48709, -20.30243, 10.991394, -1.0567627, -65.183426)
-
-[node name="static_field" type="Node2D" parent="." unique_id=1681863395]
-position = Vector2(1938, -527)
-rotation = 2.984513
-
-[node name="asteroid" type="StaticBody2D" parent="static_field" unique_id=1299027848]
-position = Vector2(73.076416, -397.46173)
-rotation = 3.1450834
-script = ExtResource("1_y83ev")
-metadata/_edit_group_ = true
-
-[node name="Polygon2D" type="Polygon2D" parent="static_field/asteroid" unique_id=1757679688]
-color = Color(0.46666667, 0.46666667, 0.46666667, 1)
-polygon = PackedVector2Array(68, -20, 118, 58, 90, 170, -67, 228, -132, 70, -45, -49)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="static_field/asteroid" unique_id=394635892]
-visible = false
-position = Vector2(-6.021919, 85.9575)
-polygon = PackedVector2Array(74.02192, -105.9575, 124.02192, -27.957497, 96.02192, 84.0425, -60.97808, 142.04251, -125.97808, -15.957497, -38.97808, -134.95749)
-
-[node name="asteroid2" type="StaticBody2D" parent="static_field" unique_id=1150791239]
-position = Vector2(675.18256, -695.9463)
-rotation = 2.9461157
-script = ExtResource("1_y83ev")
-metadata/_edit_group_ = true
-
-[node name="Polygon2D" type="Polygon2D" parent="static_field/asteroid2" unique_id=819307135]
-color = Color(0.46666667, 0.46666667, 0.46666667, 1)
-polygon = PackedVector2Array(36, -13, 38, 78, 18, 143, -49, 182, -83, 139, -52, 50)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="static_field/asteroid2" unique_id=1540835771]
-visible = false
-polygon = PackedVector2Array(36, -13, 38, 78, 18, 143, -49, 182, -83, 139, -52, 50)
-
-[node name="asteroid3" type="StaticBody2D" parent="static_field" unique_id=894377573]
-position = Vector2(762.50476, 427.54578)
-rotation = -1.9338248
-script = ExtResource("1_y83ev")
-metadata/_edit_group_ = true
-
-[node name="Polygon2D" type="Polygon2D" parent="static_field/asteroid3" unique_id=1036834701]
-rotation = -1.2793263
-color = Color(0.46666667, 0.46666667, 0.46666667, 1)
-polygon = PackedVector2Array(100.7428, -12.525589, 149.79028, 50.95935, 139.14099, 127.45505, -26.913086, 166.27594, -78.01648, 70.607544, -8.092957, -44.97226)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="static_field/asteroid3" unique_id=696923958]
-visible = false
-rotation = -1.2793263
-polygon = PackedVector2Array(100.7428, -12.525589, 149.79028, 50.95935, 139.14099, 127.45505, -26.913086, 166.27594, -78.01648, 70.607544, -8.092957, -44.97226)
-
-[node name="asteroid4" type="StaticBody2D" parent="static_field" unique_id=2092050807]
-position = Vector2(-219.19897, 584.9109)
-rotation = 2.3945918
-scale = Vector2(0.83, 0.83)
-skew = -0.19024089
-script = ExtResource("1_y83ev")
-metadata/_edit_group_ = true
-
-[node name="Polygon2D" type="Polygon2D" parent="static_field/asteroid4" unique_id=1836482543]
-rotation = -1.2793263
-color = Color(0.46666667, 0.46666667, 0.46666667, 1)
-polygon = PackedVector2Array(51.880646, -3.0655518, 117.62515, 49.40979, 96.26111, 160.52045, 21.748291, 196.47653, -41.703003, 129.31308, -59.522064, 33.258484)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="static_field/asteroid4" unique_id=341212648]
-visible = false
-rotation = -1.2793263
-polygon = PackedVector2Array(51.880646, -3.0655518, 117.62515, 49.40979, 96.26111, 160.52045, 21.748291, 196.47653, -41.703003, 129.31308, -59.522064, 33.258484)
-
-[node name="asteroid5" type="StaticBody2D" parent="static_field" unique_id=168712194]
-position = Vector2(91.99997, 215.99998)
-rotation = -0.36826447
-scale = Vector2(0.99999994, 0.99999994)
-skew = 0.53407073
-script = ExtResource("1_y83ev")
-metadata/_edit_group_ = true
-
-[node name="Polygon2D" type="Polygon2D" parent="static_field/asteroid5" unique_id=1913165509]
-rotation = -1.2793263
-color = Color(0.46666667, 0.46666667, 0.46666667, 1)
-polygon = PackedVector2Array(68.15494, -40.14856, 113.542206, 34.134644, 63.782806, 111.264404, -30.951782, 87.48709, -20.30243, 10.991394, -1.0567627, -65.183426)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="static_field/asteroid5" unique_id=303002911]
-visible = false
-rotation = -1.2793263
-polygon = PackedVector2Array(68.15494, -40.14856, 113.542206, 34.134644, 63.782806, 111.264404, -30.951782, 87.48709, -20.30243, 10.991394, -1.0567627, -65.183426)
-
-[node name="asteroid6" type="StaticBody2D" parent="static_field" unique_id=2064172103]
-position = Vector2(-442.417, -102.470856)
-rotation = 3.015929
-script = ExtResource("1_y83ev")
-metadata/_edit_group_ = true
-
-[node name="Polygon2D" type="Polygon2D" parent="static_field/asteroid6" unique_id=1755473035]
-color = Color(0.46666667, 0.46666667, 0.46666667, 1)
-polygon = PackedVector2Array(68, -20, 118, 58, 90, 170, -67, 228, -132, 70, -45, -49)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="static_field/asteroid6" unique_id=1492379376]
-visible = false
-position = Vector2(-6.021919, 85.9575)
-polygon = PackedVector2Array(74.02192, -105.9575, 124.02192, -27.957497, 96.02192, 84.0425, -60.97808, 142.04251, -125.97808, -15.957497, -38.97808, -134.95749)
-
-[node name="asteroid7" type="StaticBody2D" parent="static_field" unique_id=1927958976]
-position = Vector2(-267.5923, 1005.51886)
-rotation = 1.8413223
-scale = Vector2(0.99999994, 0.99999994)
-script = ExtResource("1_y83ev")
-metadata/_edit_group_ = true
-
-[node name="Polygon2D" type="Polygon2D" parent="static_field/asteroid7" unique_id=1390627321]
-color = Color(0.46666667, 0.46666667, 0.46666667, 1)
-polygon = PackedVector2Array(36, -13, 38, 78, 18, 143, -49, 182, -83, 139, -52, 50)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="static_field/asteroid7" unique_id=2027637055]
-visible = false
-polygon = PackedVector2Array(36, -13, 38, 78, 18, 143, -49, 182, -83, 139, -52, 50)
-
-[node name="asteroid8" type="StaticBody2D" parent="static_field" unique_id=398088859]
-position = Vector2(-771.3229, 618.9589)
-rotation = 1.2199851
-script = ExtResource("1_y83ev")
-metadata/_edit_group_ = true
-
-[node name="Polygon2D" type="Polygon2D" parent="static_field/asteroid8" unique_id=1537104577]
-rotation = -1.2793263
-color = Color(0.46666667, 0.46666667, 0.46666667, 1)
-polygon = PackedVector2Array(100.7428, -12.525589, 149.79028, 50.95935, 139.14099, 127.45505, -26.913086, 166.27594, -78.01648, 70.607544, -8.092957, -44.97226)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="static_field/asteroid8" unique_id=1227519799]
-visible = false
-rotation = -1.2793263
-polygon = PackedVector2Array(100.7428, -12.525589, 149.79028, 50.95935, 139.14099, 127.45505, -26.913086, 166.27594, -78.01648, 70.607544, -8.092957, -44.97226)
-
-[node name="asteroid9" type="StaticBody2D" parent="static_field" unique_id=1325045028]
-position = Vector2(727.04584, -217.94841)
-rotation = -1.3334316
-script = ExtResource("1_y83ev")
-metadata/_edit_group_ = true
-
-[node name="Polygon2D" type="Polygon2D" parent="static_field/asteroid9" unique_id=1808391783]
-rotation = -1.2793263
-color = Color(0.46666667, 0.46666667, 0.46666667, 1)
-polygon = PackedVector2Array(68.15494, -40.14856, 113.542206, 34.134644, 63.782806, 111.264404, -30.951782, 87.48709, -20.30243, 10.991394, -1.0567627, -65.183426)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="static_field/asteroid9" unique_id=1263127952]
-visible = false
-rotation = -1.2793263
-polygon = PackedVector2Array(68.15494, -40.14856, 113.542206, 34.134644, 63.782806, 111.264404, -30.951782, 87.48709, -20.30243, 10.991394, -1.0567627, -65.183426)
-
-[node name="asteroid10" type="StaticBody2D" parent="static_field" unique_id=1622118744]
-position = Vector2(310.81122, -1150.5437)
-rotation = 1.0140363
-scale = Vector2(0.77, 0.77)
-skew = -0.17453292
-script = ExtResource("1_y83ev")
-metadata/_edit_group_ = true
-
-[node name="Polygon2D" type="Polygon2D" parent="static_field/asteroid10" unique_id=401520653]
-color = Color(0.46666667, 0.46666667, 0.46666667, 1)
-polygon = PackedVector2Array(68, -20, 118, 58, 90, 170, -67, 228, -132, 70, -45, -49)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="static_field/asteroid10" unique_id=1014977140]
-visible = false
-position = Vector2(-6.021919, 85.9575)
-polygon = PackedVector2Array(74.02192, -105.9575, 124.02192, -27.957497, 96.02192, 84.0425, -60.97808, 142.04251, -125.97808, -15.957497, -38.97808, -134.95749)
-
-[node name="asteroid11" type="StaticBody2D" parent="static_field" unique_id=925981710]
-position = Vector2(-1244.5295, 653.3567)
-rotation = -0.7819075
-scale = Vector2(1.855, 1.855)
-skew = -0.3926991
-script = ExtResource("1_y83ev")
-metadata/_edit_group_ = true
-
-[node name="Polygon2D" type="Polygon2D" parent="static_field/asteroid11" unique_id=1001362727]
-color = Color(0.46666667, 0.46666667, 0.46666667, 1)
-polygon = PackedVector2Array(36, -13, 38, 78, 18, 143, -49, 182, -83, 139, -52, 50)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="static_field/asteroid11" unique_id=2142870593]
-visible = false
-polygon = PackedVector2Array(36, -13, 38, 78, 18, 143, -49, 182, -83, 139, -52, 50)
-
-[node name="asteroid12" type="StaticBody2D" parent="static_field" unique_id=1493950556]
-position = Vector2(2692.876, -925.1313)
-rotation = 4.6041784
-script = ExtResource("1_y83ev")
-metadata/_edit_group_ = true
-
-[node name="Polygon2D" type="Polygon2D" parent="static_field/asteroid12" unique_id=1935522243]
-rotation = -1.2793263
-color = Color(0.46666667, 0.46666667, 0.46666667, 1)
-polygon = PackedVector2Array(100.7428, -12.525589, 149.79028, 50.95935, 139.14099, 127.45505, -26.913086, 166.27594, -78.01648, 70.607544, -8.092957, -44.97226)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="static_field/asteroid12" unique_id=1605530849]
-visible = false
-rotation = -1.2793263
-polygon = PackedVector2Array(100.7428, -12.525589, 149.79028, 50.95935, 139.14099, 127.45505, -26.913086, 166.27594, -78.01648, 70.607544, -8.092957, -44.97226)
-
-[node name="asteroid13" type="StaticBody2D" parent="static_field" unique_id=2070163528]
-position = Vector2(1213.3323, 553.6229)
-rotation = 3.223623
-skew = -0.53407073
-script = ExtResource("1_y83ev")
-metadata/_edit_group_ = true
-
-[node name="Polygon2D" type="Polygon2D" parent="static_field/asteroid13" unique_id=729722729]
-rotation = -1.2793263
-color = Color(0.46666667, 0.46666667, 0.46666667, 1)
-polygon = PackedVector2Array(51.880646, -3.0655518, 117.62515, 49.40979, 96.26111, 160.52045, 21.748291, 196.47653, -41.703003, 129.31308, -59.522064, 33.258484)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="static_field/asteroid13" unique_id=1455637220]
-visible = false
-rotation = -1.2793263
-polygon = PackedVector2Array(51.880646, -3.0655518, 117.62515, 49.40979, 96.26111, 160.52045, 21.748291, 196.47653, -41.703003, 129.31308, -59.522064, 33.258484)
-
-[node name="asteroid14" type="StaticBody2D" parent="static_field" unique_id=1403736823]
-position = Vector2(-207.98169, 283.96045)
-rotation = -0.91978854
-scale = Vector2(0.9999999, 0.9999999)
-skew = -0.13962634
-script = ExtResource("1_y83ev")
-metadata/_edit_group_ = true
-
-[node name="Polygon2D" type="Polygon2D" parent="static_field/asteroid14" unique_id=405583451]
-rotation = -1.2793263
-color = Color(0.46666667, 0.46666667, 0.46666667, 1)
-polygon = PackedVector2Array(68.15494, -40.14856, 113.542206, 34.134644, 63.782806, 111.264404, -30.951782, 87.48709, -20.30243, 10.991394, -1.0567627, -65.183426)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="static_field/asteroid14" unique_id=1838650699]
-visible = false
-rotation = -1.2793263
-polygon = PackedVector2Array(68.15494, -40.14856, 113.542206, 34.134644, 63.782806, 111.264404, -30.951782, 87.48709, -20.30243, 10.991394, -1.0567627, -65.183426)
-
-[node name="asteroid15" type="StaticBody2D" parent="static_field" unique_id=298600384]
-position = Vector2(1154.6222, -935.8998)
-rotation = -1.8168877
-script = ExtResource("1_y83ev")
-metadata/_edit_group_ = true
-
-[node name="Polygon2D" type="Polygon2D" parent="static_field/asteroid15" unique_id=1517483637]
-color = Color(0.46666667, 0.46666667, 0.46666667, 1)
-polygon = PackedVector2Array(68, -20, 118, 58, 90, 170, -67, 228, -132, 70, -45, -49)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="static_field/asteroid15" unique_id=750926296]
-visible = false
-position = Vector2(-6.021919, 85.9575)
-polygon = PackedVector2Array(74.02192, -105.9575, 124.02192, -27.957497, 96.02192, 84.0425, -60.97808, 142.04251, -125.97808, -15.957497, -38.97808, -134.95749)
-
-[node name="asteroid16" type="StaticBody2D" parent="static_field" unique_id=760890003]
-position = Vector2(2186.9219, -1444.6764)
-rotation = 2.6703537
-scale = Vector2(0.9999999, 0.9999999)
-script = ExtResource("1_y83ev")
-metadata/_edit_group_ = true
-
-[node name="Polygon2D" type="Polygon2D" parent="static_field/asteroid16" unique_id=2110659103]
-color = Color(0.46666667, 0.46666667, 0.46666667, 1)
-polygon = PackedVector2Array(36, -13, 38, 78, 18, 143, -49, 182, -83, 139, -52, 50)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="static_field/asteroid16" unique_id=48325013]
-visible = false
-polygon = PackedVector2Array(36, -13, 38, 78, 18, 143, -49, 182, -83, 139, -52, 50)
-
-[node name="asteroid17" type="StaticBody2D" parent="static_field" unique_id=2112387554]
-position = Vector2(-1150.6997, 16.190277)
-rotation = -0.2984513
-script = ExtResource("1_y83ev")
-metadata/_edit_group_ = true
-
-[node name="Polygon2D" type="Polygon2D" parent="static_field/asteroid17" unique_id=25452287]
-rotation = -1.2793263
-color = Color(0.46666667, 0.46666667, 0.46666667, 1)
-polygon = PackedVector2Array(100.7428, -12.525589, 149.79028, 50.95935, 139.14099, 127.45505, -26.913086, 166.27594, -78.01648, 70.607544, -8.092957, -44.97226)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="static_field/asteroid17" unique_id=1237299033]
-visible = false
-rotation = -1.2793263
-polygon = PackedVector2Array(100.7428, -12.525589, 149.79028, 50.95935, 139.14099, 127.45505, -26.913086, 166.27594, -78.01648, 70.607544, -8.092957, -44.97226)
-
-[node name="asteroid18" type="StaticBody2D" parent="static_field" unique_id=800254651]
-position = Vector2(1486.2069, -82.52197)
-rotation = -1.8867009
-script = ExtResource("1_y83ev")
-metadata/_edit_group_ = true
-
-[node name="Polygon2D" type="Polygon2D" parent="static_field/asteroid18" unique_id=146795227]
-rotation = -1.2793263
-color = Color(0.46666667, 0.46666667, 0.46666667, 1)
-polygon = PackedVector2Array(68.15494, -40.14856, 113.542206, 34.134644, 63.782806, 111.264404, -30.951782, 87.48709, -20.30243, 10.991394, -1.0567627, -65.183426)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="static_field/asteroid18" unique_id=1838244754]
-visible = false
-rotation = -1.2793263
-polygon = PackedVector2Array(68.15494, -40.14856, 113.542206, 34.134644, 63.782806, 111.264404, -30.951782, 87.48709, -20.30243, 10.991394, -1.0567627, -65.183426)
-
-[node name="asteroid19" type="StaticBody2D" parent="static_field" unique_id=1170750990]
-position = Vector2(1858.3931, -859.8697)
-rotation = 3.223623
-script = ExtResource("1_y83ev")
-metadata/_edit_group_ = true
-
-[node name="Polygon2D" type="Polygon2D" parent="static_field/asteroid19" unique_id=83757241]
-color = Color(0.46666667, 0.46666667, 0.46666667, 1)
-polygon = PackedVector2Array(68, -20, 118, 58, 90, 170, -67, 228, -132, 70, -45, -49)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="static_field/asteroid19" unique_id=494250714]
-visible = false
-position = Vector2(-6.021919, 85.9575)
-polygon = PackedVector2Array(74.02192, -105.9575, 124.02192, -27.957497, 96.02192, 84.0425, -60.97808, 142.04251, -125.97808, -15.957497, -38.97808, -134.95749)
-
-[node name="asteroid20" type="StaticBody2D" parent="static_field" unique_id=535306266]
-position = Vector2(3107.4011, -1202.7026)
-rotation = 3.361504
-script = ExtResource("1_y83ev")
-metadata/_edit_group_ = true
-
-[node name="Polygon2D" type="Polygon2D" parent="static_field/asteroid20" unique_id=322816698]
-color = Color(0.46666667, 0.46666667, 0.46666667, 1)
-polygon = PackedVector2Array(36, -13, 38, 78, 18, 143, -49, 182, -83, 139, -52, 50)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="static_field/asteroid20" unique_id=43328418]
-visible = false
-polygon = PackedVector2Array(36, -13, 38, 78, 18, 143, -49, 182, -83, 139, -52, 50)
-
-[node name="asteroid21" type="StaticBody2D" parent="static_field" unique_id=138442255]
-position = Vector2(2809.288, -1493.9233)
-rotation = 4.872959
-script = ExtResource("1_y83ev")
-metadata/_edit_group_ = true
-
-[node name="Polygon2D" type="Polygon2D" parent="static_field/asteroid21" unique_id=737174128]
-rotation = -1.2793263
-color = Color(0.46666667, 0.46666667, 0.46666667, 1)
-polygon = PackedVector2Array(100.7428, -12.525589, 149.79028, 50.95935, 139.14099, 127.45505, -26.913086, 166.27594, -78.01648, 70.607544, -8.092957, -44.97226)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="static_field/asteroid21" unique_id=354128541]
-visible = false
-rotation = -1.2793263
-polygon = PackedVector2Array(100.7428, -12.525589, 149.79028, 50.95935, 139.14099, 127.45505, -26.913086, 166.27594, -78.01648, 70.607544, -8.092957, -44.97226)
-
-[node name="asteroid22" type="StaticBody2D" parent="static_field" unique_id=1531465095]
-position = Vector2(2590.9607, -230.52252)
-rotation = 3.0839968
-script = ExtResource("1_y83ev")
-metadata/_edit_group_ = true
-
-[node name="Polygon2D" type="Polygon2D" parent="static_field/asteroid22" unique_id=10039624]
-rotation = -1.2793263
-color = Color(0.46666667, 0.46666667, 0.46666667, 1)
-polygon = PackedVector2Array(51.880646, -3.0655518, 117.62515, 49.40979, 96.26111, 160.52045, 21.748291, 196.47653, -41.703003, 129.31308, -59.522064, 33.258484)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="static_field/asteroid22" unique_id=1604811800]
-visible = false
-rotation = -1.2793263
-polygon = PackedVector2Array(51.880646, -3.0655518, 117.62515, 49.40979, 96.26111, 160.52045, 21.748291, 196.47653, -41.703003, 129.31308, -59.522064, 33.258484)
-
-[node name="asteroid23" type="StaticBody2D" parent="static_field" unique_id=950236149]
-position = Vector2(3145.4297, -1583.441)
-rotation = 3.223623
-scale = Vector2(0.9999999, 0.9999999)
-script = ExtResource("1_y83ev")
-metadata/_edit_group_ = true
-
-[node name="Polygon2D" type="Polygon2D" parent="static_field/asteroid23" unique_id=126767361]
-rotation = -1.2793263
-color = Color(0.46666667, 0.46666667, 0.46666667, 1)
-polygon = PackedVector2Array(68.15494, -40.14856, 113.542206, 34.134644, 63.782806, 111.264404, -30.951782, 87.48709, -20.30243, 10.991394, -1.0567627, -65.183426)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="static_field/asteroid23" unique_id=2050529458]
-visible = false
-rotation = -1.2793263
-polygon = PackedVector2Array(68.15494, -40.14856, 113.542206, 34.134644, 63.782806, 111.264404, -30.951782, 87.48709, -20.30243, 10.991394, -1.0567627, -65.183426)
-
-[node name="asteroid24" type="StaticBody2D" parent="static_field" unique_id=1712287666]
-position = Vector2(1314.309, -461.07343)
-rotation = 2.6022859
-scale = Vector2(0.89, 0.89)
-script = ExtResource("1_y83ev")
-metadata/_edit_group_ = true
-
-[node name="Polygon2D" type="Polygon2D" parent="static_field/asteroid24" unique_id=1422596615]
-color = Color(0.46666667, 0.46666667, 0.46666667, 1)
-polygon = PackedVector2Array(68, -20, 118, 58, 90, 170, -67, 228, -132, 70, -45, -49)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="static_field/asteroid24" unique_id=872095949]
-visible = false
-position = Vector2(-6.021919, 85.9575)
-polygon = PackedVector2Array(74.02192, -105.9575, 124.02192, -27.957497, 96.02192, 84.0425, -60.97808, 142.04251, -125.97808, -15.957497, -38.97808, -134.95749)
-
-[node name="asteroid25" type="StaticBody2D" parent="static_field" unique_id=777310682]
-position = Vector2(2299.2002, -325.3313)
-rotation = 2.3945918
-scale = Vector2(0.99999994, 0.99999994)
-script = ExtResource("1_y83ev")
-metadata/_edit_group_ = true
-
-[node name="Polygon2D" type="Polygon2D" parent="static_field/asteroid25" unique_id=1562022961]
-color = Color(0.46666667, 0.46666667, 0.46666667, 1)
-polygon = PackedVector2Array(36, -13, 38, 78, 18, 143, -49, 182, -83, 139, -52, 50)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="static_field/asteroid25" unique_id=768369589]
-visible = false
-polygon = PackedVector2Array(36, -13, 38, 78, 18, 143, -49, 182, -83, 139, -52, 50)
-
-[node name="asteroid26" type="StaticBody2D" parent="static_field" unique_id=863139126]
-position = Vector2(2973, -1982)
-rotation = 2.9461157
-script = ExtResource("1_y83ev")
-metadata/_edit_group_ = true
-
-[node name="Polygon2D" type="Polygon2D" parent="static_field/asteroid26" unique_id=242582640]
-rotation = -1.2793263
-color = Color(0.46666667, 0.46666667, 0.46666667, 1)
-polygon = PackedVector2Array(100.7428, -12.525589, 149.79028, 50.95935, 139.14099, 127.45505, -26.913086, 166.27594, -78.01648, 70.607544, -8.092957, -44.97226)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="static_field/asteroid26" unique_id=640673238]
-visible = false
-rotation = -1.2793263
-polygon = PackedVector2Array(100.7428, -12.525589, 149.79028, 50.95935, 139.14099, 127.45505, -26.913086, 166.27594, -78.01648, 70.607544, -8.092957, -44.97226)
-
-[node name="asteroid27" type="StaticBody2D" parent="static_field" unique_id=1327502512]
-position = Vector2(3068.2256, -923.39246)
-rotation = -1.6109389
-script = ExtResource("1_y83ev")
-metadata/_edit_group_ = true
-
-[node name="Polygon2D" type="Polygon2D" parent="static_field/asteroid27" unique_id=498420562]
-rotation = -1.2793263
-color = Color(0.46666667, 0.46666667, 0.46666667, 1)
-polygon = PackedVector2Array(68.15494, -40.14856, 113.542206, 34.134644, 63.782806, 111.264404, -30.951782, 87.48709, -20.30243, 10.991394, -1.0567627, -65.183426)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="static_field/asteroid27" unique_id=848457243]
 visible = false
 rotation = -1.2793263
 polygon = PackedVector2Array(68.15494, -40.14856, 113.542206, 34.134644, 63.782806, 111.264404, -30.951782, 87.48709, -20.30243, 10.991394, -1.0567627, -65.183426)

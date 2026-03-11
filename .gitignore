@@ -1,3 +1,7 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+/[Bb]uild/
+.env
+/addons/godotsteam/win64
+addons/godotsteam/win64/~libgodotsteam.windows.template_debug.x86_64.dll

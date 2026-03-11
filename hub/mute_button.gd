@@ -6,6 +6,7 @@ const MUTE = preload("res://hub/menu_icons/icons8-mute-64.png")
 func _ready() -> void:
 	pressed.connect(on_pressed)
 	MusicManager.on_mute_state_change.connect(refresh)
+	refresh(MusicManager.muted)
 
 func on_pressed():
 	MusicManager.muted = !MusicManager.muted

@@ -11,3 +11,11 @@ script = ExtResource("2_d3ixh")
 
 [node name="Marker2D" type="Marker2D" parent="." unique_id=596309340]
 position = Vector2(430, -40)
+
+[node name="ShieldCheck" type="Area2D" parent="." unique_id=1701121538]
+visible = false
+collision_layer = 34
+collision_mask = 8192
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="ShieldCheck" unique_id=1381613988]
+polygon = PackedVector2Array(429.99997, -69.99999, 109.99999, -39.999996, 419.99997, 0)

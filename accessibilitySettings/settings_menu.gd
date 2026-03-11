@@ -2,32 +2,66 @@ class_name SettingsMenu
 extends MarginContainer
 
 const UNSTYLED = preload("res://hub/ui-themes/unstyled.tres")
+@onready var resolution_options: OptionButton = $SettingsTabs/Video/VBoxContainer/Resolution/ResolutionOptions
 @onready var key_mouse_binds: VBoxContainer = $"SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer"
+@onready var game_layer: CanvasLayer = $"../../Game"
+@onready var world_environment: WorldEnvironment = $"../../../WorldEnvironment"
 
 func _ready() -> void:
+	set_dev_settings()
 	generate_remap_settings()
+	generate_resolution_options()
+
+func set_dev_settings():
+	if "dev" in OS.get_cmdline_args():
+		_on_fullscreen_toggled(false)
+		get_window().set_size(Vector2(1152,648))
+		center_screen()
+	
 
 #region Video
-func _on_resoluton_option_selected(index: int) -> void:
-	match index:
-		0:
-			DisplayServer.window_set_size(Vector2i(3840, 2160))
-		1:
-			DisplayServer.window_set_size(Vector2i(2560, 1440))
-		2:
-			DisplayServer.window_set_size(Vector2i(1920, 1080))
-		3:
-			DisplayServer.window_set_size(Vector2i(1280, 720))
-		4:
-			DisplayServer.window_set_size(Vector2i(640, 480))
+var resolutions = {
+	"3840x2160": Vector2i(3840,2160),
+	"2560x1440": Vector2i(2560,1440),
+	"1920x1080": Vector2i(1920,1080),
+	"1600x900": Vector2i(1600,900),
+	"1440x900": Vector2i(1440,900),
+	"1366x768": Vector2i(1366,768),
+	"1280x720": Vector2i(1280,720),
+	"1024x600": Vector2i(1024,600),
+	"800x600": Vector2i(800,600)
+}
+
+func generate_resolution_options():
+	for res in resolutions:
+		if resolutions[res][1] <= DisplayServer.screen_get_size()[1]:
+			resolution_options.add_item(res)
+
+func _on_resolution_option_selected(index: int) -> void:
+	get_window().set_size(resolutions[resolution_options.get_item_text(index)])
+	center_screen()
 
 func _on_fullscreen_toggled(toggled_on: bool) -> void:
 	if toggled_on:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+		get_window().set_mode(Window.MODE_FULLSCREEN)
 	else:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-		
+		get_window().set_mode(Window.MODE_WINDOWED)
+		center_screen()
+
+func center_screen():
+	@warning_ignore("integer_division")
+	var screen_center = DisplayServer.screen_get_position() + DisplayServer.screen_get_size() / 2
+	var window_scale = Vector2i(get_window().get_size_with_decorations() / 2.0)
+	get_window().set_position(screen_center - window_scale)
+	
 #region Accessibility
+func _on_filter_option_selected(index: int) -> void:
+	game_layer.set_color_mode(index)
+
+#endregion
+#endregion
+
+#region Controls
 func generate_remap_settings() -> void:
 	var input_map = InputMap.get_actions()
 	for action in input_map:
@@ -47,11 +81,6 @@ func generate_remap_settings() -> void:
 		horiz_box.add_child(lbl)
 		horiz_box.add_child(btn)
 		key_mouse_binds.add_child(horiz_box)
-#endregion
-#endregion
-
-#region Controls
-#REMAPABLE CONTROLS GO HERE......
 #endregion
 
 #region Audio

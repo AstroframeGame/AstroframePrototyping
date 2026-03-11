@@ -1,19 +1,36 @@
 extends Node
 class_name MultiplayerManager
 
+#region GlobalVariables
+
+#region PlayerVariables
 var my_player : PlayerCharacter # KEEP THIS
 var my_player_system : Node2D
-var players : Array[PlayerCharacter]
+var players : Array[PlayerCharacter]:
+	get:
+		var player_nodes = $Players.get_children()
+		var no_nodes: Array[PlayerCharacter] = []
+		for player in player_nodes:
+			if player is PlayerCharacter:
+				no_nodes.append(player)
+		return no_nodes
+#endregion
+
+#region MultiplayerVariables	
+var is_multiplayer: bool:
+	get:
+		return multiplayer.multiplayer_peer is not OfflineMultiplayerPeer
 
 var peer: SteamMultiplayerPeer
 var lobby_id: int = 0
 var host_steam_id: int = 0
 var is_host: bool = false
 var is_joining: bool = false
-var user_name: String
+var user_name: String = "Local"
 var buff_user: String
 var curr_scene_path: String
 var is_in_scene: bool = false
+#endregion
 
 @onready var game_manager: GameManager = $"../GameManager"
 @onready var host: Button = $"../UI/Main/VBoxContainer/Multiplayer/Host"
@@ -23,32 +40,84 @@ var is_in_scene: bool = false
 const PLAYER_SYSTEM_PREFAB = preload("res://playerMovement/player_system.tscn")
 const PLAYER_CHARACTER_PREFAB = preload("res://playerMovement/player_character.tscn")
 
-signal player_join(p : PlayerCharacter)
-signal player_disconnect() # player character might be null? what info is helpful after a player leaves
-signal player_died()
+# Avoid warnings for now
+#signal player_join(p : PlayerCharacter)
+#signal player_disconnect() # player character might be null? what info is helpful after a player leaves
+#signal player_died()
+#endregion
 
-func _ready():
-	print("Steam init: ", Steam.steamInit(480, true))
+func _ready(): 
+	#region SteamGameCodes
+	#          Astroframe: 4420390
+	# Astroframe Playtest: 4424670
+	#            Spacewar: 480
+	#endregion
+	var is_init = Steam.steamInit(480, true) 
+	print("Steam init: ", is_init)
 	Steam.initRelayNetworkAccess()
-	user_name = Steam.getPersonaName()
-	if user_name:
+	if is_init:
+		user_name = Steam.getPersonaName()
 		print("   Account actualized: ", user_name)
 	else:
-		push_warning("   Steam failed to Initialize")
+		print("   Steam failed to Initialize")
 	Steam.lobby_created.connect(_on_lobby_created)
 	Steam.lobby_joined.connect(_on_lobby_joined)
 	
+	multiplayer.server_disconnected.connect(_on_server_disconnected)
+	
+	game_manager.game_start.connect(_on_game_start)
+
+#region Host & Join
 func host_lobby():
 	Steam.createLobby(Steam.LobbyType.LOBBY_TYPE_PUBLIC, 16)
 	is_host = true
 	
-func join_lobby(lobby_id: int):
+func join_lobby(lob_id: int):
 	is_joining = true
-	Steam.joinLobby(lobby_id)
+	Steam.joinLobby(lob_id)
+#endregion
 
-func _on_lobby_created(result: int, lobby_id: int):
+#region Single Player Handling
+func _on_game_start(game_scene: Node2D):
+	print("\n=== ENTERING GAME ===")
+	if not is_multiplayer:
+		print("Starting on singleplayer...")
+		_add_solo_player()
+
+func _add_solo_player():
+	if $Players.has_node("1"):
+		print("Already a player, not adding player.")
+		return
+	
+	var player_char = PLAYER_CHARACTER_PREFAB.instantiate()
+
+	player_char.name = "1"
+	player_char.set_multiplayer_authority(1)
+	
+	my_player = player_char
+	
+	$Players.add_child(player_char, true)
+	
+	if user_name == "Local":
+		player_char.get_node("NamerTag").text = ""
+	else:
+		player_char.get_node("NamerTag").text = user_name
+		
+	var player_system = PLAYER_SYSTEM_PREFAB.instantiate()
+	
+	my_player_system = player_system
+	
+	player_system.name = user_name + "_SYS"
+	
+	add_child(player_system, true)
+	
+	print("✓ Spawned player locally")
+#endregion
+
+#region Trigger On Lobby Joined/Created
+func _on_lobby_created(result: int, lob_id: int):
 	if result == Steam.Result.RESULT_OK:
-		self.lobby_id = lobby_id
+		self.lobby_id = lob_id
 		
 		peer = SteamMultiplayerPeer.new()
 		peer.server_relay = true
@@ -58,25 +127,27 @@ func _on_lobby_created(result: int, lobby_id: int):
 		multiplayer.peer_connected.connect(_on_peer_connected)
 		multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 		
+		game_manager.game_quit.connect(_on_game_quit)
+		
 		await get_tree().process_frame
 		
 		host_steam_id = multiplayer.get_unique_id()
 		
 		print("\n=== HOST SETUP ===")
-		print("   Lobby created, lobby id copied to clipboard: ", lobby_id)
+		print("   Lobby created, lobby id copied to clipboard: ", lob_id)
 		print("   Steam.getSteamID(): ", Steam.getSteamID())
 		print("   multiplayer.get_unique_id(): ", multiplayer.get_unique_id())
 		print("   Using host_steam_id: ", host_steam_id)
-		DisplayServer.clipboard_set(str(lobby_id))
+		DisplayServer.clipboard_set(str(lob_id))
 	
 		_add_player_local(host_steam_id)
 
-func _on_lobby_joined(lobby_id: int, perms: int, locked: bool, response: int):
+func _on_lobby_joined(lob_id: int, _perms: int, _locked: bool, _response: int):
 	if !is_joining:
 		return
 	
-	self.lobby_id = lobby_id
-	host_steam_id = Steam.getLobbyOwner(lobby_id)
+	self.lobby_id = lob_id
+	host_steam_id = Steam.getLobbyOwner(lob_id)
 	
 	peer = SteamMultiplayerPeer.new()
 	peer.server_relay = true
@@ -94,7 +165,9 @@ func _on_lobby_joined(lobby_id: int, perms: int, locked: bool, response: int):
 	print("   My peer ID (multiplayer.get_unique_id()): ", multiplayer.get_unique_id())
 		
 	is_joining = false
+#endregion
 
+#region Server Debugger Functions
 func _on_connected_to_server():
 	print("\n=== CLIENT CONNECTED ===")
 	print("   Successfully connected!")
@@ -102,7 +175,9 @@ func _on_connected_to_server():
 
 func _on_connection_failed():
 	print("   Connection failed!")
+#endregion
 
+#region On Peer Join/Leave
 func _on_peer_connected(id):
 	print("\n=== PEER_CONNECTED ===")
 	print("   My multiplayer ID: ", multiplayer.get_unique_id())
@@ -130,7 +205,21 @@ func _on_peer_disconnected(id):
 	_remove_player(id)
 	
 	if is_host:
+		_remove_player(id)
 		remove_player.rpc(id)
+	else:
+		if id == multiplayer.get_unique_id():
+			_remove_player(id)
+
+func _on_server_disconnected():
+	game_manager.quit_to_list()
+	for player in players:
+		_remove_player(player.owner_id)
+
+@rpc("authority", "call_local", "reliable")
+func remove_all_players():
+	for p in players:
+		_remove_player(p.owner_id)
 
 @rpc("any_peer", "call_local", "reliable")
 func spawn_player(id: int):
@@ -142,6 +231,16 @@ func remove_player(id: int):
 	if not is_host:
 		_remove_player(id)
 
+func _on_game_quit():
+	if is_host:
+		remove_all_players.rpc()
+		multiplayer.multiplayer_peer.close()
+	else:
+		remove_all_players()
+		multiplayer.multiplayer_peer.close()
+#endregion
+
+#region Adding & Removing Player Local
 func _add_player_local(id: int):
 	if $Players.has_node(str(id)):
 		return
@@ -157,7 +256,7 @@ func _add_player_local(id: int):
 	if is_owner:
 		player_char.get_node("NamerTag").text = user_name
 		var player_system = PLAYER_SYSTEM_PREFAB.instantiate()
-		
+		player_system.name = user_name + "_SYS"
 		my_player = player_char
 		my_player_system = player_system
 		
@@ -177,6 +276,9 @@ func _add_player_local(id: int):
 	
 	if !is_owner:
 		request_user.rpc_id(id)
+	
+	if !is_host:
+		await get_tree().process_frame
 	
 	player_char.process_mode = Node.PROCESS_MODE_ALWAYS
 
@@ -204,9 +306,20 @@ func reply_w_user(user: String):
 func _remove_player(id: int):
 	if !$Players.has_node(str(id)):
 		return
-	$Players.get_node(str(id)).queue_free()
-	print("Removed player ", id)
 	
+	var player = $Players.get_node(str(id))
+	
+	var is_local_player = id == multiplayer.get_unique_id()
+	if is_local_player:
+		if is_instance_valid(my_player_system):
+			my_player_system.queue_free()
+			my_player_system = null
+	
+	player.queue_free()
+	print("Removed player ", id)
+#endregion
+
+#region Button Trigger Signal Functions
 func _on_host_pressed() -> void:
 	host_lobby()
 	
@@ -217,6 +330,7 @@ func _on_join_pressed() -> void:
 
 func _on_id_prompt_text_changed(new_text: String) -> void:
 	join.disabled = (new_text.length() == 0)
+#endregion
 
 func all_players_dead() -> bool:
 	return false

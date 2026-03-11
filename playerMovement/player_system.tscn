@@ -3,6 +3,8 @@
 [ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/ui_textures/RoundedSquare.png" id="1_0p3lp"]
 [ext_resource type="Script" uid="uid://b8g4jci7uq4ut" path="res://playerMovement/player_camera.gd" id="2_camera"]
 [ext_resource type="Script" uid="uid://bmy54l1lxqu10" path="res://shipAI/Scripts/scanner_panel.gd" id="4_scanner"]
+[ext_resource type="Script" uid="uid://mdo58mjw2g5o" path="res://playerMovement/hint.gd" id="5_57v7p"]
+[ext_resource type="Script" uid="uid://ddiasbjo2ka40" path="res://playerMovement/music_tensity.gd" id="7_8bfpj"]
 [ext_resource type="Theme" uid="uid://dj12nct3i1b1i" path="res://hub/ui-themes/header.tres" id="7_header_theme"]
 [ext_resource type="Theme" uid="uid://f1k0rdfg3btk" path="res://hub/ui-themes/default.tres" id="8_default_theme"]
 
@@ -66,7 +68,25 @@ offset_bottom = 60.0
 theme = ExtResource("8_default_theme")
 text = "Defeat bandits"
 
+[node name="Hint" type="Label" parent="PlayerUI" unique_id=488996104]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -146.5
+offset_top = -22.0
+offset_right = 146.5
+grow_horizontal = 2
+grow_vertical = 0
+text = "Press [F] to enter, Press [R] to detach"
+script = ExtResource("5_57v7p")
+
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1873286781]
 ignore_rotation = false
 editor_draw_limits = true
 script = ExtResource("2_camera")
+
+[node name="AudioListener2D" type="AudioListener2D" parent="Camera2D" unique_id=1642056824]
+current = true
+script = ExtResource("7_8bfpj")
