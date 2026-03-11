@@ -138,8 +138,12 @@ func _on_lobby_created(result: int, lob_id: int):
 		print("   Steam.getSteamID(): ", Steam.getSteamID())
 		print("   multiplayer.get_unique_id(): ", multiplayer.get_unique_id())
 		print("   Using host_steam_id: ", host_steam_id)
-		DisplayServer.clipboard_set(str(lob_id))
 	
+		DisplayServer.clipboard_set(str(lob_id))
+		host.disabled = true
+		join.disabled = true
+		id_prompt.text = str(lob_id)
+		id_prompt.editable = false
 		_add_player_local(host_steam_id)
 
 func _on_lobby_joined(lob_id: int, _perms: int, _locked: bool, _response: int):
@@ -238,6 +242,10 @@ func _on_game_quit():
 	else:
 		remove_all_players()
 		multiplayer.multiplayer_peer.close()
+	host.disabled = false
+	join.disabled = true
+	id_prompt.text = ""
+	id_prompt.editable = true
 #endregion
 
 #region Adding & Removing Player Local
