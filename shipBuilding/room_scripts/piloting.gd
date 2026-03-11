@@ -73,11 +73,16 @@ func _process(_delta: float) -> void:
 		return
 	if not ship or not ship.players:
 		return
-	
+		
 	var is_local_player = seat.controlled_by.is_local_player
 	if is_local_player:
 		var dir = Input.get_vector("left", "right", "up", "down")
 		var braking = Input.is_action_pressed("brake")
+		
+		var engines = ship.get_engines()
+		if dir.length() > 0.1 and engines.power_level==0:	
+			engines.blink_red()
+			return
 		
 		if is_multiplayer_authority():
 			input_dir = dir
@@ -109,9 +114,13 @@ func is_idling() -> bool:
 func get_goal_angular_velocity() -> float:
 	if is_multiplayer_authority():
 		var engines = ship.get_engines()
-		if not engines:
+		
+		if not engines or engines.power_level == 0:
+			var is_local_player = seat.controlled_by.is_local_player
+			if is_local_player:
+				engines.blink_red()
 			return 0.0
-			
+		
 		var rot_input = InputHelper.controller_look.x
 		if InputHelper.using_mouse:
 			rot_input = InputHelper.mouse_center_offset_deadzone(ship.driver, ship.FLIGHT_DEADZONE).x * 0.01

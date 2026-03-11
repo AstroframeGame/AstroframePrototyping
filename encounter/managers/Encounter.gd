@@ -74,6 +74,9 @@ func _process(_delta):
 		player = get_parent().multiplayer_manager.my_player
 		#player.global_position = $Ship.global_position
 		
+	if not get_parent().multiplayer_manager.my_player_system:
+		return
+		
 	if not obj_panel:
 		obj_panel = get_parent().multiplayer_manager.my_player_system.find_child("PlayerUI").find_child("ScannerPanel").find_child("Content")
 		var title = get_parent().multiplayer_manager.my_player_system.find_child("PlayerUI").find_child("ScannerPanel").find_child("Title")

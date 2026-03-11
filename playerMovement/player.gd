@@ -27,6 +27,7 @@ the player is over ground, hence whether to use air movement or ground movement
 var pushing :bool #set in physics process
 var push_dir
 var push_brake
+var input_enabled
 
 var _seat : SeatInteractable = null
 var seat : SeatInteractable :
@@ -94,25 +95,30 @@ func _ready() -> void:
 	ground_check.area_exited.connect(on_unground)
 	
 	## ====== Multiplayer START ======
+	
+	is_multiplayer = multiplayer_manager.is_multiplayer
+	input_enabled = true
+	target_pos = global_position
+	
+	await get_tree().process_frame
 
-	if multiplayer.has_multiplayer_peer():
-		is_multiplayer = true
+	if has_node("MultiplayerSynchronizer"):
+		$MultiplayerSynchronizer.set_multiplayer_authority(1)
+
+	if has_node("Grapple"):
+		$Grapple.set_multiplayer_authority(1)
+	
+	if is_multiplayer:
 		owner_id = name.to_int()
-		target_pos = global_position
-
-		await get_tree().process_frame
-
-		if has_node("MultiplayerSynchronizer"):
-			$MultiplayerSynchronizer.set_multiplayer_authority(1)
-
-		if has_node("Grapple"):
-			$Grapple.set_multiplayer_authority(1)
 
 		print("Initializing player ", name, " in Multiplayer...")
 		print("   Player ", owner_id, 
 		" | Local ID: ", multiplayer.get_unique_id(), 
 		" | Authority: ", get_multiplayer_authority())
 	else:
+		owner_id = 1
+		is_local_player = false
+		
 		$NamerTag.text = ""
 		print("Initializing player in Singleplayer")
 
@@ -165,6 +171,7 @@ func _physics_process(delta):
 			was_holstering = false
 			
 		if is_interacting and not was_interacting:
+			print("Multiplayer Approved Interacting")
 			sync_interacting.rpc()
 			was_interacting = true
 		elif not is_interacting and was_interacting:
@@ -181,8 +188,16 @@ func _physics_process(delta):
 				var force_dir = -collision.get_normal()
 				var impulse = force_dir * 200 * delta
 				collider.apply_central_impulse(impulse)
-		
-		sync_state.rpc(global_position, velocity, mouse_pos, screen_mouse_pos, input_dir, pushing)
+		var sync_dict = {
+			"global_position"       : global_position,
+			"velocity"              : velocity,
+			"global_mouse_position" : mouse_pos,
+			"screen_mouse_position" : screen_mouse_pos,
+			"input_directory"       : input_dir,
+			"pushing_check"         : pushing,
+			"client_push_check"     : pushed,
+		}
+		sync_state.rpc(sync_dict)
 		move_and_slide()
 	else:
 		global_position = global_position.lerp(target_pos, 0.25)
@@ -224,7 +239,6 @@ func send_input(dir: Vector2, m_pos: Vector2, scrn_m_pos: Vector2, is_braking: b
 		return
 
 	input_dir        = dir
-	push_dir         = dir
 	
 	push_brake       = is_braking
 	ship_pushed      = push
@@ -232,14 +246,16 @@ func send_input(dir: Vector2, m_pos: Vector2, scrn_m_pos: Vector2, is_braking: b
 	screen_mouse_pos = scrn_m_pos
 
 @rpc("authority", "call_remote", "unreliable")
-func sync_state(pos: Vector2, vel: Vector2, m_pos: Vector2, scrn_m_pos: Vector2, dir: Vector2, push: bool):
+func sync_state(sync_dict: Dictionary):
 	if not is_multiplayer_authority():
-		target_pos       = pos
-		target_vel       = vel
-		mouse_pos        = m_pos
-		screen_mouse_pos = scrn_m_pos
-		input_dir        = dir
-		pushing          = push
+		target_pos       = sync_dict.global_position
+		target_vel       = sync_dict.velocity
+		mouse_pos        = sync_dict.global_mouse_position
+		screen_mouse_pos = sync_dict.screen_mouse_position
+		input_dir        = sync_dict.input_directory
+		push_dir         = sync_dict.input_directory
+		pushing          = sync_dict.pushing_check
+		pushed           = sync_dict.client_push_check
 		
 #endregion
 #region SyncingActions
@@ -266,7 +282,11 @@ func sync_room_inputs(room_event: StringName):
 #region InteractionManager
 # currently interacts with the first overlapping interactable area, but this can be changed to nearest, last, all, ect.
 func interact():
+	print("\n=== REACHED INTERACT() ===\n")
+	if not input_enabled:
+		return
 	var interactable = get_interactable()
+	print("   Interactable: ", interactable)
 	if interactable:
 		interactable.interact(self)
 		print_debug("[", multiplayer.get_unique_id(), "]: ", name, " interacted with ", interactable)
@@ -297,6 +317,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		var interacting = false
 		var room_input = ""
 		var holstered = false
+		
 		if event.is_action_pressed("player_shoot"):
 			shooting = true
 		if event.is_action_released("player_shoot"):
@@ -309,6 +330,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 		if event.is_action_pressed("interact"):
 			interacting = true
+			print("Pushed interact")
 			
 		if seat and seat.room.has_method("handle_input"):
 			for a in InputMap.get_actions():
@@ -368,12 +390,15 @@ func fix_unsure_grounding():
 
 # called when enter airlock
 func on_ship_enter(new_ship : Ship):
+	print("\n=== REACHED SHIP_ENTER ===\n")
 	var prev_ship = get_tree().get_first_node_in_group("player_ship")
 	if prev_ship:
+		print("Previous ship exists, removing from group")
 		prev_ship.remove_from_group("player_ship")
 	on_ground(new_ship)
 	ship = new_ship
 	if self not in new_ship.players:
+		print("   Appended self into ship.players")
 		new_ship.players.append(self)
 	else:
 		push_warning("[Player.gd]: {Warning}, player requested to enter ship when in ship")
@@ -386,7 +411,7 @@ func on_ship_enter(new_ship : Ship):
 		for body in pirate_pilot.detection_area.get_overlapping_bodies():
 			if body.is_in_group("pirate_ship") and body != ship:
 				body.get_auto_piloting().target_candidate = ship
-				body.get_auto_piloting().on_player_detected()
+				body.get_auto_piloting().on_player_ship_detected()
 				print("warned " + str(body))
 	update_layers(true)
 	
@@ -422,6 +447,18 @@ func update_layers(inside : bool):
 
 
 func take_damage(damage : int, _vfx_pos:Vector2):
+	if health <= 0:
+		return
+	if health - damage <= 0:
+		# TODO: switch game over to original plan
+		input_enabled = false
+		var gm : GameManager = get_tree().root.get_node("Hub").get_node("GameManager")
+		gm.dialogue_runner.start([["You", "*ack"], ["You","*bleh"]])
+		await gm.dialogue_runner.on_dialogue_end
+		gm.quit_to_list()
+		gm.menus.open_menu("GameOver")
+		
 	health -= damage
-	print("Damage Taken! Player now at %s health" % health)
-	
+
+func seppuku():
+	take_damage(999, global_position)

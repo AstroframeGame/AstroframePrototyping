@@ -18,6 +18,9 @@ func initialize() -> void:
 		ship.on_airlock_interaction.connect(toggle_hud, ConnectFlags.CONNECT_DEFERRED)
 
 func toggle_hud(_interactor, is_inside : bool):
+	if not _interactor.is_local_player:
+		return
+		
 	visible = is_inside
 		
 func update_hp_bar():

@@ -20,6 +20,8 @@ const SPARKS_SPEED_THRESH = 10
 const EXPLOSION_PREFAB = preload("res://art/vfx/explosion.tscn")
 const HIT_SHIP_VFX_PREFAB = preload("res://art/vfx/hit_ship_vfx.tscn")
 const EXPLOSION_SFX_PREFAB = preload("res://audio/sfx_prefabs/explosion_sfx.tscn")
+const SFX_EXPLOSION = preload("res://audio/sfx/explosion.wav")
+const SFX_HULL_DESTROY = preload("res://audio/sfx/hull_destroy.wav")
 
 ## Multiplayer Start
 
@@ -42,18 +44,32 @@ var merge_target_ship: Ship = null
 var ghost_preview: Node2D = null
 var occupied_cells: Dictionary[Vector2i, Room] = {} # only calculated in ship_building
 @export var power_links : Dictionary[PowerOutHex, PowerInHex]
-
 @export var drag_multiplier = 0.01
+
+#region Hit Points Sync
 @export var max_hit_points : int = 0
 @export var _hit_points : int = 0
 var hit_points : int:
 	get:
 		return _hit_points
 	set(value):
-		if value < _hit_points:
+		if not is_multiplayer_authority():
+			_hit_points = value
 			on_hit.emit()
-		_hit_points = value
+			return
+		
+		if value < _hit_points:
+			_hit_points = value
+			on_hit.emit()
+			sync_health.rpc(_hit_points)
+		else:
+			_hit_points = value
 
+@rpc("authority", "call_remote", "reliable")
+func sync_health(hp: int):
+	_hit_points = hp
+	on_hit.emit()
+#endregion
 
 func _ready() -> void:
 	initialize_ship()
@@ -115,6 +131,8 @@ func initialize_ship():
 	calc_center_of_mass()
 	check_hud()
 	
+	if multiplayer.is_server():
+		set_multiplayer_authority(1)
 
 func get_engines() -> Engines:
 	for r in get_children():
@@ -141,7 +159,6 @@ func get_rotational_thrust() -> float:
 		if r is Engines:
 			o += r.get_rotational_thrust()
 	return o
-
 func get_piloting() -> Piloting:
 	for r in get_children():
 		if r is Piloting:
@@ -619,7 +636,8 @@ func sync_p_state(s_map: Dictionary[NodePath, NodePath]):
 func power_links_to_path() -> Dictionary[NodePath, NodePath]:  
 	var s_map: Dictionary[NodePath, NodePath] = {}
 	for out_h in power_links:
-		s_map[out_h.get_path()] = power_links[out_h].get_path()
+		if out_h:
+			s_map[out_h.get_path()] = power_links[out_h].get_path()
 	return s_map
 
 func set_available_power_out(power_in : PowerInHex) -> bool:
@@ -663,6 +681,7 @@ func remove_power_link_out(power_out : PowerOutHex):
 	
 func pair_all_links():
 	power_links.clear()
+	
 	var power_in = get_available_power_in()
 	for h : PowerInHex in power_in:
 		set_available_power_out(h)
@@ -684,19 +703,31 @@ func check_hud():
 
 func take_damage(amount:int, pos_ws : Vector2):
 	hit_points -= amount # property has callback that sets the hud to update
+	if get_active_shields().is_empty():
+		for shield in get_shields():
+			shield.blink_red()
 	hit_vfx(pos_ws)
 
 func death_check():
-	if hit_points > 0 or _is_dead:
-		return 
-		
-	for pc in get_tree().get_nodes_in_group("player_controller"):
-		if pc.ship == self:
-			pc.update_layers(false)
-	_is_dead = true
-	call_deferred("death_explosion")
-	
+	if is_multiplayer_authority():
+		if hit_points > 0 or _is_dead:
+			return 
+			
+		_is_dead = true
+		sync_death_vfx.rpc(get_total_room_count()) 
+		call_deferred("death_explosion")
+
+@rpc("authority", "call_local", "reliable")
+func sync_death_vfx(quantity: int):
+	var explosion_sfx : AudioStreamPlayer2D = EXPLOSION_SFX_PREFAB.instantiate()
+	explosion_sfx.play_quantity(SFX_EXPLOSION, quantity)
+	explosion_sfx.global_position = global_position
+	ProjectileManager.add_child(explosion_sfx)
+
 func death_explosion():
+	if not is_multiplayer_authority():
+		return
+		
 	var rooms: Array[Room] = []
 	for child in get_children():
 		if child is Room:
@@ -704,33 +735,46 @@ func death_explosion():
 	
 	for room in rooms:
 		var push_dir = (room.global_position - to_global(center_of_mass)).normalized()
-		
-		var debris_ship: Ship = SHIP_PREFAB.instantiate()
-		get_parent().add_child(debris_ship)
-		
-		# Match current state
-		debris_ship.global_transform = global_transform
-		debris_ship.linear_velocity = linear_velocity
-		debris_ship.angular_velocity = angular_velocity + randf_range(-2.0, 2.0)
-		
-		var grid_pos = room.grid_pos
-		var rot_index = room.rot_index
-		var pos = room.global_position
-		remove_room(room)
-		debris_ship.add_room(room, grid_pos, rot_index)
-		
-		var explosion_impulse = randf_range(20.0, 100.0)
-		debris_ship.apply_central_impulse(push_dir * explosion_impulse)
-		
-		debris_ship.initialize_ship()
-		explosion(pos)
+		var ang_vel = randf_range(-2.0, 2.0)
+		var impulse = randf_range(20.0, 100.0)
+		sync_explosion_impulse.rpc(room.get_path(), push_dir, ang_vel, impulse)
 	
-	var explosion_sfx : AudioStreamPlayer2D = EXPLOSION_SFX_PREFAB.instantiate()
-	explosion_sfx.play_quantity(len(rooms))
-	ProjectileManager.add_child(explosion_sfx)
+	sync_death_vfx.rpc(len(rooms))
+	sync_death.rpc()
+
+@rpc("authority", "call_local", "reliable")
+func sync_explosion_impulse(room_path: NodePath, dir: Vector2, r_av: float, r_imp: float):
+	var room = get_node_or_null(room_path) as Room
+	if not is_instance_valid(room):
+		return
+		
+	var debris_ship: Ship = SHIP_PREFAB.instantiate()
+	get_parent().add_child(debris_ship)
 	
+	debris_ship.global_transform = global_transform
+	debris_ship.linear_velocity = linear_velocity
+	debris_ship.angular_velocity = angular_velocity
+	
+	var grid_pos = room.grid_pos
+	var rot_index = room.rot_index
+	remove_room(room)
+	debris_ship.add_room(room, grid_pos, rot_index)
+	
+	if is_multiplayer_authority():
+		debris_ship.angular_velocity += r_av
+		debris_ship.apply_central_impulse(dir * r_imp)
+	else:
+		debris_ship.target_transform = debris_ship.global_transform
+		debris_ship.target_linear_velocity = debris_ship.linear_velocity
+		debris_ship.target_angular_velocity = debris_ship.angular_velocity
+
+	debris_ship.initialize_ship()
+	explosion(room.global_position)
+	
+@rpc("authority", "call_local", "reliable")
+func sync_death():
 	ship_destroyed.emit()
-	queue_free()
+	queue_free.call_deferred()
 #endregion
 
 #region InteriorExterior
@@ -762,12 +806,10 @@ func get_players_pushing() -> Array[PlayerCharacter]:
 
 func apply_push_velocity(state : PhysicsDirectBodyState2D) -> void:
 	if is_multiplayer_authority():
-		# no better name
-		@warning_ignore("shadowed_variable")
-		var players = get_players_pushing()
-		if players.is_empty():
+		var pushers = get_players_pushing()
+		if pushers.is_empty():
 			return
-		for p in players:
+		for p in pushers:
 			if p.push_brake:
 				state.linear_velocity = lerp(state.linear_velocity, Vector2.ZERO, p.thrust_accel * state.inverse_mass * 0.2 * state.step)
 			else:
@@ -777,12 +819,11 @@ func apply_push_rotation(state : PhysicsDirectBodyState2D) -> void:
 	if is_multiplayer_authority():
 		var delta = state.step
 		var push_rot = 0.0
-		@warning_ignore("shadowed_variable")
-		var players = get_players_pushing()
-		if players.is_empty():
+		var pushers = get_players_pushing()
+		if pushers.is_empty():
 			return
 		var total_rot_input = 0.0
-		for p in players:
+		for p in pushers:
 			var look_dir = InputHelper.mouse_center_offset_deadzone(p, FLIGHT_DEADZONE)
 			var rot_amount = look_dir.x * 0.01
 			if not InputHelper.using_mouse:
@@ -945,26 +986,44 @@ func apply_merged_rooms(pushed_ship: Ship, snap_data: Dictionary) -> void:
 	
 	for room_node in pushed_ship.get_children():
 		if room_node is Room:
-			var room_name = room_node.name
-			var merged_cell = world_to_grid(snap_data.optimal_transform * room_node.global_position)
-			var merged_rot = posmod(room_node.rot_index + snap_data.rotation_index_offset, 6)
+			sync_rooms.rpc(room_node.get_path(), snap_data)
+	
+	sync_init_and_free.rpc(pushed_ship.get_path())
 
-			sync_merge_action.rpc(room_name, merged_cell, merged_rot, snap_data.optimal_transform)
-
-	pushed_ship.queue_free.call_deferred()
-
-@rpc("authority", "call_local", "reliable") @warning_ignore("unused_parameter")
-func sync_merge_action(r_name: String, cell: Vector2i, rot: int, transform_offset: Transform2D):
-	# TODO: need way to find room node globally if still on old ship
-	# or wait for Spawner to handle new node creation.
+@rpc("authority", "call_local", "reliable")
+func sync_rooms(room_path: NodePath, snap_data: Dictionary):
+	var room_node = get_node_or_null(room_path)
+	if not is_instance_valid(room_node):
+		push_warning("[ship.gd/sync_rooms()]: The Room path provided was incorrect")
+		return
+	var duplicate_room = room_node.duplicate()
+	add_child(duplicate_room)
+	
+	duplicate_room.global_transform = snap_data.optimal_transform * room_node.global_transform
+	
+	var merged_cell = world_to_grid(duplicate_room.global_position)
+	var merged_rotation_index = posmod(room_node.rot_index + snap_data.rotation_index_offset, 6)
+	
+	add_room(duplicate_room, merged_cell, merged_rotation_index)
+	
+@rpc("authority", "call_local", "reliable")
+func sync_init_and_free(ship_path: NodePath):
+	var ship = get_node_or_null(ship_path)
+	if not is_instance_valid(ship): 
+		push_warning("[ship.gd/sync_init_and_free()]: The Ship path provided was incorrect")
+		return
 	initialize_ship()
+	
+	await get_tree().process_frame
+	if is_instance_valid(ship):
+		ship.queue_free()
 
-@rpc("any_peer", "call_remote", "reliable")	
+@rpc("any_peer", "call_remote", "reliable")
 func send_detach(p_path: NodePath, dir: Vector2):
 	if not is_multiplayer_authority():
 		return
 	var player = get_node_or_null(p_path)
-	if not player:
+	if not is_instance_valid(player):
 		push_warning("[ship.gd/send_detach()]: Player path is incorrect")
 		return
 	
@@ -982,10 +1041,10 @@ func send_merge(p: NodePath, ship: NodePath):
 		return
 	var target_ship = get_node_or_null(ship) as Ship
 	var player = get_node(p) as PlayerCharacter
-	if not player:
+	if not is_instance_valid(player):
 		push_warning("[ship.gd/send_merge()]: Player path is incorrect")
 		return
-	if not target_ship:
+	if not is_instance_valid(target_ship):
 		push_warning("[ship.gd/send_merge()]: %d sent the wrong path for the target ship %d" % [player.owner_id, str(ship)])
 		return
 	
@@ -1128,4 +1187,9 @@ func hit_vfx(pos : Vector2):
 		if c is GPUParticles2D:
 			c.restart()
 	ProjectileManager.add_child(g)
+	
+	var hit_sfx : AudioStreamPlayer2D = EXPLOSION_SFX_PREFAB.instantiate()
+	hit_sfx.play_quantity(SFX_HULL_DESTROY, 1)
+	hit_sfx.global_position = pos
+	ProjectileManager.add_child(hit_sfx)
 #endregion

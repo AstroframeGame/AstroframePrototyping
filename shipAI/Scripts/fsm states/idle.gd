@@ -3,7 +3,7 @@ extends State
 func enter_state():
 	super()
 	auto_pilot.movement_goal_direction = Vector2(0,0)
-	auto_pilot.rotation_goal_direction = 0
+	auto_pilot.rotation_goal = 0.0
 	
 	# search area for target
 	if not auto_pilot.is_active():

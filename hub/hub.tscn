@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://cbty45dswb5nj" path="res://hub/game_manager.gd" id="1_n4d7h"]
 [ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/ui_textures/RoundedSquare.png" id="2_1wrr7"]
 [ext_resource type="Script" uid="uid://c74xdls6fgqs3" path="res://hub/multiplayer_manager.gd" id="2_2qbsn"]
-[ext_resource type="Script" uid="uid://db01ydb8ojwqw" path="res://multiplayer/multiplayer_spawner.gd" id="2_bg8wc"]
 [ext_resource type="Script" uid="uid://io2qs57g5xic" path="res://hub/menu_manager.gd" id="2_nm8ur"]
 [ext_resource type="Script" uid="uid://y07ne4p2xbui" path="res://hub/scene_list.gd" id="3_1x5tx"]
 [ext_resource type="Script" uid="uid://cti2v7b51m68r" path="res://hub/fps_label.gd" id="3_6ebxt"]
@@ -13,13 +12,15 @@
 [ext_resource type="Texture2D" uid="uid://coig43j1t7xss" path="res://hub/menu_icons/icons8-discord-64.png" id="7_2a2hx"]
 [ext_resource type="Texture2D" uid="uid://bg7uxubeu3w86" path="res://hub/menu_icons/icons8-github-64.png" id="8_1v0ca"]
 [ext_resource type="Script" uid="uid://lijk0e4kv030" path="res://hub/web_link.gd" id="8_awsf7"]
+[ext_resource type="Texture2D" uid="uid://b23gbp5po1yfg" path="res://hub/menu_icons/icons8-instagram-64.png" id="10_cwmjq"]
 [ext_resource type="Texture2D" uid="uid://glx4q4luv7hn" path="res://hub/menu_icons/icons8-folder-64.png" id="10_h3v4x"]
 [ext_resource type="Texture2D" uid="uid://c856slvu6oqjm" path="res://hub/menu_icons/icons8-mute-64.png" id="11_wm4ra"]
-[ext_resource type="Script" path="res://hub/mute_button.gd" id="12_6jnk7"]
+[ext_resource type="Script" uid="uid://cwdlnpq52j4tm" path="res://hub/mute_button.gd" id="12_6jnk7"]
 [ext_resource type="Theme" uid="uid://d0o0krm245a4q" path="res://hub/ui-themes/unstyled.tres" id="13_h8dj6"]
 [ext_resource type="Script" uid="uid://dkw41dpjcbrwa" path="res://accessibilitySettings/colorblind_shader.gd" id="14_gjoju"]
 [ext_resource type="Shader" uid="uid://dv6l2vd0xplhh" path="res://hub/colorblind.gdshader" id="15_mmyqo"]
 [ext_resource type="PackedScene" uid="uid://c4c4q35vwjc06" path="res://accessibilitySettings/settings_menu.tscn" id="15_qui64"]
+[ext_resource type="Script" uid="uid://cw7don71np0bg" path="res://hub/credits.gd" id="17_bg8wc"]
 [ext_resource type="Texture2D" uid="uid://cjtj7xo6f6waa" path="res://shipBuilding/icons/torus.png" id="17_qui64"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gjoju"]
@@ -38,11 +39,6 @@ adjustment_enabled = true
 
 [node name="GameManager" type="Node" parent="." unique_id=1643740730]
 script = ExtResource("1_n4d7h")
-
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="GameManager" unique_id=1782494171]
-_spawnable_scenes = PackedStringArray("uid://b4ety2cv40p6l")
-spawn_path = NodePath("..")
-script = ExtResource("2_bg8wc")
 
 [node name="MultiplayerManager" type="Node" parent="." unique_id=506980756]
 script = ExtResource("2_2qbsn")
@@ -127,6 +123,10 @@ texture_normal = ExtResource("10_h3v4x")
 layout_mode = 2
 texture_normal = ExtResource("8_1v0ca")
 
+[node name="Insta" type="TextureButton" parent="UI/Main/Socials" unique_id=1149981919]
+layout_mode = 2
+texture_normal = ExtResource("10_cwmjq")
+
 [node name="Discord" type="TextureButton" parent="UI/Main/Socials" unique_id=762169865]
 layout_mode = 2
 texture_normal = ExtResource("7_2a2hx")
@@ -157,6 +157,7 @@ text = "Host"
 
 [node name="Join" type="Button" parent="UI/Main/VBoxContainer/Multiplayer" unique_id=1183886268]
 layout_mode = 2
+disabled = true
 text = "Join"
 
 [node name="IDPrompt" type="LineEdit" parent="UI/Main/VBoxContainer/Multiplayer" unique_id=2096278151]
@@ -245,6 +246,7 @@ text = "Back to Menu"
 [node name="DialogueRunner" parent="UI/Game" unique_id=314417777 instance=ExtResource("5_g3elb")]
 
 [node name="Paused" type="CanvasLayer" parent="UI" unique_id=731175255]
+visible = false
 
 [node name="ColorRect" type="ColorRect" parent="UI/Paused" unique_id=337209217]
 anchors_preset = -1
@@ -279,7 +281,36 @@ layout_mode = 2
 text = "Back to Menu"
 
 [node name="GameOver" type="CanvasLayer" parent="UI" unique_id=1769148514]
-visible = false
+
+[node name="ColorRect" type="ColorRect" parent="UI/GameOver" unique_id=2142903202]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.14333999, 0.14333999, 0.14333999, 1)
+
+[node name="Back" type="Button" parent="UI/GameOver" unique_id=981177889]
+offset_right = 48.0
+offset_bottom = 30.0
+text = "Back"
+
+[node name="Label" type="Label" parent="UI/GameOver" unique_id=1485857924]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -188.5
+offset_top = -69.5
+offset_right = 188.5
+offset_bottom = 69.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("5_h3v4x")
+text = "Game
+Over"
+horizontal_alignment = 1
 
 [node name="Credits" type="CanvasLayer" parent="UI" unique_id=2010810909]
 visible = false
@@ -288,6 +319,27 @@ visible = false
 offset_right = 8.0
 offset_bottom = 8.0
 text = "Back"
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/Credits" unique_id=1116174233]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 100
+
+[node name="ScrollContainer" type="ScrollContainer" parent="UI/Credits/MarginContainer" unique_id=486330206]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Credits/MarginContainer/ScrollContainer" unique_id=1400553798]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+script = ExtResource("17_bg8wc")
 
 [node name="Settings" type="CanvasLayer" parent="UI" unique_id=1322932418]
 visible = false
@@ -335,6 +387,7 @@ environment = SubResource("Environment_21dlm")
 
 [connection signal="pressed" from="UI/Main/Socials/Ships" to="UI/Main/Socials" method="ships_folder"]
 [connection signal="pressed" from="UI/Main/Socials/Github" to="UI/Main/Socials" method="github"]
+[connection signal="pressed" from="UI/Main/Socials/Insta" to="UI/Main/Socials" method="instagram"]
 [connection signal="pressed" from="UI/Main/Socials/Discord" to="UI/Main/Socials" method="discord"]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Play" to="GameManager" method="open_singleplayer"]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Multiplayer/Host" to="MultiplayerManager" method="_on_host_pressed"]
@@ -348,5 +401,6 @@ environment = SubResource("Environment_21dlm")
 [connection signal="pressed" from="UI/Paused/VBoxContainer/ResumeGame" to="GameManager" method="resume_game"]
 [connection signal="pressed" from="UI/Paused/VBoxContainer/Settings" to="GameManager" method="_on_settings_pressed"]
 [connection signal="pressed" from="UI/Paused/VBoxContainer/Exit" to="GameManager" method="quit_to_list"]
+[connection signal="pressed" from="UI/GameOver/Back" to="UI" method="menu_back"]
 [connection signal="pressed" from="UI/Credits/Back" to="UI" method="menu_back"]
 [connection signal="pressed" from="UI/Settings/Back" to="GameManager" method="menu_back"]

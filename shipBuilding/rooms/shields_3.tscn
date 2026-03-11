@@ -10,6 +10,9 @@
 [ext_resource type="Texture2D" uid="uid://bc6ma885tnamk" path="res://art/rooms/shield/shield_interior.svg" id="8_lak0g"]
 [ext_resource type="Texture2D" uid="uid://bhtyuaahqd2jt" path="res://art/rooms/shield/shield_sidecore.svg" id="9_wxemh"]
 
+[sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_5285w"]
+polyphony = 4
+
 [node name="Shields_3" type="Node2D" unique_id=1633765650]
 script = ExtResource("1_43tt2")
 
@@ -90,5 +93,8 @@ position = Vector2(0, -45)
 
 [node name="CollisionShape2D" parent="Shield" index="0" unique_id=1049669852]
 disabled = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1789382192]
+stream = SubResource("AudioStreamPolyphonic_5285w")
 
 [editable path="Shield"]

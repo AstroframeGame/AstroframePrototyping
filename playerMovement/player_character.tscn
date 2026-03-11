@@ -9,6 +9,8 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_qi68c"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3pww0"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_3pww0"]
+radius = 599.09
 
 [node name="PlayerCharacter" type="CharacterBody2D" unique_id=1589297424 groups=["player_controller"]]
 z_index = 1
@@ -74,3 +76,9 @@ script = ExtResource("5_me87i")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=538172019]
 replication_config = SubResource("SceneReplicationConfig_3pww0")
+[node name="EnemyCheck" type="Area2D" parent="." unique_id=815311903]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyCheck" unique_id=1850763324]
+shape = SubResource("CircleShape2D_3pww0")
+debug_color = Color(0.99794203, 0, 0.06582811, 0)
