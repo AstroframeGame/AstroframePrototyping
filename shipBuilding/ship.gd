@@ -44,18 +44,32 @@ var merge_target_ship: Ship = null
 var ghost_preview: Node2D = null
 var occupied_cells: Dictionary[Vector2i, Room] = {} # only calculated in ship_building
 @export var power_links : Dictionary[PowerOutHex, PowerInHex]
-
 @export var drag_multiplier = 0.01
+
+#region Hit Points Sync
 @export var max_hit_points : int = 0
 @export var _hit_points : int = 0
 var hit_points : int:
 	get:
 		return _hit_points
 	set(value):
-		if value < _hit_points:
+		if not is_multiplayer_authority():
+			_hit_points = value
 			on_hit.emit()
-		_hit_points = value
+			return
+		
+		if value < _hit_points:
+			_hit_points = value
+			on_hit.emit()
+			sync_health.rpc(_hit_points)
+		else:
+			_hit_points = value
 
+@rpc("authority", "call_remote", "reliable")
+func sync_health(hp: int):
+	_hit_points = hp
+	on_hit.emit()
+#endregion
 
 func _ready() -> void:
 	initialize_ship()
@@ -667,13 +681,21 @@ func death_check():
 		if hit_points > 0 or _is_dead:
 			return 
 			
-		for pc in get_tree().get_nodes_in_group("player_controller"):
-			if pc.ship == self:
-				pc.update_layers(false)
 		_is_dead = true
+		sync_death_vfx.rpc(get_total_room_count()) 
 		call_deferred("death_explosion")
-	
+
+@rpc("authority", "call_local", "reliable")
+func sync_death_vfx(quantity: int):
+	var explosion_sfx : AudioStreamPlayer2D = EXPLOSION_SFX_PREFAB.instantiate()
+	explosion_sfx.play_quantity(SFX_EXPLOSION, quantity)
+	explosion_sfx.global_position = global_position
+	ProjectileManager.add_child(explosion_sfx)
+
 func death_explosion():
+	if not is_multiplayer_authority():
+		return
+		
 	var rooms: Array[Room] = []
 	for child in get_children():
 		if child is Room:
@@ -681,34 +703,42 @@ func death_explosion():
 	
 	for room in rooms:
 		var push_dir = (room.global_position - to_global(center_of_mass)).normalized()
-		
-		var debris_ship: Ship = SHIP_PREFAB.instantiate()
-		get_parent().add_child(debris_ship)
-		
-		# Match current state
-		debris_ship.global_transform = global_transform
-		debris_ship.linear_velocity = linear_velocity
-		debris_ship.angular_velocity = angular_velocity + randf_range(-2.0, 2.0)
-		
-		var grid_pos = room.grid_pos
-		var rot_index = room.rot_index
-		var pos = room.global_position
-		remove_room(room)
-		debris_ship.add_room(room, grid_pos, rot_index)
-		
-		var explosion_impulse = randf_range(20.0, 100.0)
-		debris_ship.apply_central_impulse(push_dir * explosion_impulse)
-		
-		debris_ship.initialize_ship()
-		explosion(pos)
+		var anglular_velocity = randf_range(-2.0, 2.0)
+		var impulse = randf_range(20.0, 100.0)
+		sync_explosion_impulse.rpc(room.get_path(), push_dir, angular_velocity, impulse)
 	
-	var explosion_sfx : AudioStreamPlayer2D = EXPLOSION_SFX_PREFAB.instantiate()
-	explosion_sfx.play_quantity(SFX_EXPLOSION, len(rooms))
-	explosion_sfx.global_position = global_position
-	ProjectileManager.add_child(explosion_sfx)
+	sync_death_vfx.rpc(len(rooms))
+	sync_death.rpc()
+
+@rpc("authority", "call_local", "reliable")
+func sync_explosion_impulse(room_path: NodePath, dir: Vector2, r_av: float, r_imp: float):
+	var room = get_node_or_null(room_path) as Room
+	if not is_instance_valid(room):
+		push_warning("[ship.gd/sync_explosion_impulse()]: Room path was not valid")
+		return
+		
+	var debris_ship: Ship = SHIP_PREFAB.instantiate()
+	get_parent().add_child(debris_ship)
+	debris_ship.global_transform = global_transform
+	debris_ship.linear_velocity = linear_velocity
+	debris_ship.angular_velocity = angular_velocity + r_av
 	
+	var grid_pos = room.grid_pos
+	var rot_index = room.rot_index
+	var pos = room.global_position
+	remove_room(room)
+	debris_ship.add_room(room, grid_pos, rot_index)
+	
+	var explosion_impulse = r_imp
+	debris_ship.apply_central_impulse(dir * explosion_impulse)
+	
+	debris_ship.initialize_ship()
+	explosion(pos)
+	
+@rpc("authority", "call_local", "reliable")
+func sync_death():
 	ship_destroyed.emit()
-	queue_free()
+	queue_free.call_deferred()
 #endregion
 
 #region InteriorExterior
