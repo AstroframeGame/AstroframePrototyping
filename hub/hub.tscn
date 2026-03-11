@@ -95,6 +95,7 @@ offset_right = 189.0
 offset_bottom = 231.0
 grow_horizontal = 2
 theme = ExtResource("5_h3v4x")
+theme_override_font_sizes/font_size = 90
 text = "Astro
 Frame"
 horizontal_alignment = 1
@@ -146,6 +147,7 @@ grow_vertical = 2
 
 [node name="Play" type="Button" parent="UI/Main/VBoxContainer" unique_id=1258526734]
 layout_mode = 2
+theme_override_font_sizes/font_size = 50
 text = "Play"
 
 [node name="Multiplayer" type="VBoxContainer" parent="UI/Main/VBoxContainer" unique_id=1771371660]
@@ -162,21 +164,27 @@ text = "Join"
 
 [node name="IDPrompt" type="LineEdit" parent="UI/Main/VBoxContainer/Multiplayer" unique_id=2096278151]
 layout_mode = 2
+placeholder_text = "Lobby ID"
+alignment = 1
 
 [node name="Editor" type="Button" parent="UI/Main/VBoxContainer" unique_id=1870370267]
 layout_mode = 2
+theme_override_font_sizes/font_size = 50
 text = "Ship Editor"
 
 [node name="Settings" type="Button" parent="UI/Main/VBoxContainer" unique_id=884632170]
 layout_mode = 2
+theme_override_font_sizes/font_size = 50
 text = "Settings"
 
 [node name="Credits" type="Button" parent="UI/Main/VBoxContainer" unique_id=1767168070]
 layout_mode = 2
+theme_override_font_sizes/font_size = 50
 text = "Credits"
 
 [node name="Quit" type="Button" parent="UI/Main/VBoxContainer" unique_id=1337628528]
 layout_mode = 2
+theme_override_font_sizes/font_size = 50
 text = "Quit"
 
 [node name="Mute" type="TextureButton" parent="UI/Main" unique_id=1165849993]
@@ -225,6 +233,7 @@ stretch_margin_bottom = 20
 texture_progress = ExtResource("2_1wrr7")
 
 [node name="Game" type="CanvasLayer" parent="UI" unique_id=1739083757]
+visible = false
 script = ExtResource("14_gjoju")
 
 [node name="AccessibilityShaderColorRect" type="ColorRect" parent="UI/Game" unique_id=1371836710]
@@ -281,6 +290,7 @@ layout_mode = 2
 text = "Back to Menu"
 
 [node name="GameOver" type="CanvasLayer" parent="UI" unique_id=1769148514]
+visible = false
 
 [node name="ColorRect" type="ColorRect" parent="UI/GameOver" unique_id=2142903202]
 anchors_preset = 15
