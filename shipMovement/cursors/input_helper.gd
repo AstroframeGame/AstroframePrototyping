@@ -79,8 +79,9 @@ func get_key_mapping(input_name : StringName) -> String:
 	
 func get_clean_name(event: InputEvent) -> String:
 	var text = event.as_text().replace(" (Physical)", "").replace(" - Physical", "")
-	if "xbox" in text.to_lower():
+	var platform = "nintendo"
+	if platform in text.to_lower():
 		for part in text.split(","):
-			if "xbox" in part.to_lower():
-				return part.replacen("xbox", "").replace(")", "").strip_edges()
+			if platform in part.to_lower():
+				return part.replacen(platform, "").replace(")", "").strip_edges()
 	return text
