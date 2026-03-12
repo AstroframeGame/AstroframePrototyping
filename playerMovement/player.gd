@@ -84,6 +84,7 @@ var is_interacting: bool = false
 var was_interacting: bool = false
 var screen_mouse_pos := Vector2.ZERO
 var event_in_room: StringName
+var username: String
 ## ======  Multiplayer END  ======
 #endregion
 

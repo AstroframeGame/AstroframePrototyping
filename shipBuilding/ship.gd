@@ -722,7 +722,7 @@ func sync_explosion_impulse(room_path: NodePath, dir: Vector2, r_av: float, r_im
 	get_parent().add_child(debris_ship)
 	
 	debris_ship.global_transform = global_transform
-	debris_ship.linear_velocity = linear_velocity
+	debris_ship.linear_velocity  = linear_velocity
 	debris_ship.angular_velocity = angular_velocity
 	
 	var grid_pos = room.grid_pos
@@ -734,8 +734,8 @@ func sync_explosion_impulse(room_path: NodePath, dir: Vector2, r_av: float, r_im
 		debris_ship.angular_velocity += r_av
 		debris_ship.apply_central_impulse(dir * r_imp)
 	else:
-		debris_ship.target_transform = debris_ship.global_transform
-		debris_ship.target_linear_velocity = debris_ship.linear_velocity
+		debris_ship.target_transform        = debris_ship.global_transform
+		debris_ship.target_linear_velocity  = debris_ship.linear_velocity
 		debris_ship.target_angular_velocity = debris_ship.angular_velocity
 
 	debris_ship.initialize_ship()

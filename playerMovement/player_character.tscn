@@ -9,6 +9,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_qi68c"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3pww0"]
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_3pww0"]
 radius = 599.09
 
@@ -76,6 +77,7 @@ script = ExtResource("5_me87i")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=538172019]
 replication_config = SubResource("SceneReplicationConfig_3pww0")
+
 [node name="EnemyCheck" type="Area2D" parent="." unique_id=815311903]
 collision_layer = 0
 

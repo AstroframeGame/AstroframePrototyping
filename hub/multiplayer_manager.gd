@@ -33,9 +33,10 @@ var is_in_scene: bool = false
 #endregion
 
 @onready var game_manager: GameManager = $"../GameManager"
-@onready var host: Button = $"../UI/Main/VBoxContainer/Multiplayer/Host"
-@onready var join: Button = $"../UI/Main/VBoxContainer/Multiplayer/Join"
-@onready var id_prompt: LineEdit = $"../UI/Main/VBoxContainer/Multiplayer/IDPrompt"
+@onready var host: Button              = $"../UI/Main/VBoxContainer/Multiplayer/Host"
+@onready var join: Button              = $"../UI/Main/VBoxContainer/Multiplayer/Join"
+@onready var id_prompt: LineEdit       = $"../UI/Main/VBoxContainer/Multiplayer/IDPrompt"
+@onready var multiplayer_info: Label   = $"../UI/Main/HBoxContainer/MultiplayerInfo"
 
 const PLAYER_SYSTEM_PREFAB = preload("res://playerMovement/player_system.tscn")
 const PLAYER_CHARACTER_PREFAB = preload("res://playerMovement/player_character.tscn")
@@ -58,8 +59,11 @@ func _ready():
 	if is_init:
 		user_name = Steam.getPersonaName()
 		print("   Account actualized: ", user_name)
+		multiplayer_info.write("STEAMINIT", [user_name])
 	else:
 		print("   Steam failed to Initialize")
+		multiplayer_info.write("FAILINIT")
+	
 	Steam.lobby_created.connect(_on_lobby_created)
 	Steam.lobby_joined.connect(_on_lobby_joined)
 	
@@ -69,10 +73,12 @@ func _ready():
 
 #region Host & Join
 func host_lobby():
+	multiplayer_info.write("HOSTLOBBY")
 	Steam.createLobby(Steam.LobbyType.LOBBY_TYPE_PUBLIC, 16)
 	is_host = true
 	
 func join_lobby(lob_id: int):
+	multiplayer_info.write("JOINLOBBY", [lobby_id])
 	is_joining = true
 	Steam.joinLobby(lob_id)
 #endregion
@@ -138,6 +144,7 @@ func _on_lobby_created(result: int, lob_id: int):
 		print("   Steam.getSteamID(): ", Steam.getSteamID())
 		print("   multiplayer.get_unique_id(): ", multiplayer.get_unique_id())
 		print("   Using host_steam_id: ", host_steam_id)
+		multiplayer_info.write("LOBBYCREATED", [lob_id])
 	
 		DisplayServer.clipboard_set(str(lob_id))
 		host.disabled = true
@@ -147,6 +154,7 @@ func _on_lobby_created(result: int, lob_id: int):
 		_add_player_local(host_steam_id)
 
 func _on_lobby_joined(lob_id: int, _perms: int, _locked: bool, _response: int):
+	multiplayer_info.write("JOINLOBBY", [lob_id])
 	if !is_joining:
 		return
 	
@@ -167,7 +175,6 @@ func _on_lobby_joined(lob_id: int, _perms: int, _locked: bool, _response: int):
 	print("   Connecting to host Steam ID: ", host_steam_id)
 	print("   My Steam ID (Steam.getSteamID()): ", Steam.getSteamID())
 	print("   My peer ID (multiplayer.get_unique_id()): ", multiplayer.get_unique_id())
-		
 	is_joining = false
 #endregion
 
@@ -183,6 +190,7 @@ func _on_connection_failed():
 
 #region On Peer Join/Leave
 func _on_peer_connected(id):
+	multiplayer_info.write("PEERJOIN", [id])
 	print("\n=== PEER_CONNECTED ===")
 	print("   My multiplayer ID: ", multiplayer.get_unique_id())
 	print("   Peer ID: ", id)
@@ -205,6 +213,7 @@ func _on_peer_connected(id):
 		print("Client: Not spawning (Server owns authority)")
 
 func _on_peer_disconnected(id):
+	multiplayer_info.write("PEERLEFT", )
 	print("Peer disconnected: ", id)
 	_remove_player(id)
 	
@@ -263,6 +272,7 @@ func _add_player_local(id: int):
 	var is_owner = id == multiplayer.get_unique_id()
 	if is_owner:
 		player_char.get_node("NamerTag").text = user_name
+		player_char.username = user_name
 		var player_system = PLAYER_SYSTEM_PREFAB.instantiate()
 		player_system.name = user_name + "_SYS"
 		my_player = player_char
@@ -270,7 +280,8 @@ func _add_player_local(id: int):
 		
 		add_child(player_system, true)
 	
-	
+	if len(players) > 1:
+		multiplayer_info.write("USER", [user_name, print_players()])
 	print("✓ Spawned player ", id, " authority: ", player_char.get_multiplayer_authority())
 	print("Waiting for Host to Enter Game...")
 
@@ -289,6 +300,21 @@ func _add_player_local(id: int):
 		await get_tree().process_frame
 	
 	player_char.process_mode = Node.PROCESS_MODE_ALWAYS
+
+func print_players():
+	var player_list = ""
+	for player in players:
+		var user = player.username
+		var p_id = player.owner_id
+		
+		if p_id == 1:
+			user = '*' + user + '*'
+		if player_list == "":
+			player_list = user
+		else:
+			player_list += ", " + user
+	
+	return player_list
 
 @rpc("any_peer", "call_remote", "reliable")
 func request_scene():

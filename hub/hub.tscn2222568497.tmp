@@ -115,7 +115,6 @@ alignment = 1
 
 [node name="MultiplayerInfo" type="Label" parent="UI/Main/HBoxContainer" unique_id=547187872]
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
 text = "Multiplayer Off"
 horizontal_alignment = 1
 script = ExtResource("7_dy4r6")
