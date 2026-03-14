@@ -75,7 +75,7 @@
 		]
 	  },
 	  "PIRATE_KILLED": {
-		"max": 4,
+		"max": "INF",
 		"neutral": [
 		  "Got ya!",
 		  "Ker-blam!",
