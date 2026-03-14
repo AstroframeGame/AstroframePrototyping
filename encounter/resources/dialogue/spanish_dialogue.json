@@ -1,0 +1,98 @@
+{
+  "0_1_DEMO": {
+	"0_1_FACTION_PATROL": {
+	  "name": "Facción",
+	  "greeting": {
+		"neutral": [
+		  "¡Atención! Hay piratas en la zona. ¡Proceda con precaución!",
+          "Hola, ciudadano. \\ Se han recibido informes de piratas en las cercanías... \\ ¡Manténgase alerta!"
+		]
+	  },
+	  "aggro": {
+		"neutral": [
+          "La agresión no se tolera."
+		]
+	  },
+	  "win": {
+		"neutral": [
+          "Vaya. Nuestros sensores ya no detectan piratas en la zona... \\ Todo en un día de trabajo. \\ ¡Gloria a Aurala!"
+		]
+	  }
+	},
+	"0_1_PIRATE_DESTROYER": {
+	  "name": "Pirata",
+	  "greeting": {
+		"neutral": [
+		  "Hola... ¡Qué barco tan bonito tienes!",
+          "¡Tú! \\ ¡Sí, tú! Acércate un poco más..."
+		]
+	  }
+	},
+	"0_1_RESEARCHERS": {
+	  "name": "Investigadores",
+	  "greeting": {
+		"neutral": [
+          "¡Ayuda! ¡Ayuda! ¡Ayudaa"
+		]
+	  },
+	  "win": {
+		"neutral": [
+          "¡Nos has salvado! \\ ¡Muchísimas gracias! \\ ¿Sabes qué? Si necesitas escudos, toma algunos de los nuestros. De todas formas, estamos fabricando más constantemente. \\ ¡Adiós, viajero!"
+		]
+	  },
+	  "aggro": {
+		"max": "INF",
+		"neutral": [
+		  "¡No! ¡Por favor!",
+		  "¡Estamos desarmados!",
+          "¿¿POR QUÉ??"
+		]
+	  }
+	},
+	"UI": {
+	  "name": "Objetivo",
+	  "UI_OBJECTIVE": {
+		"neutral": [
+		  "Habla con los investigadores",
+          "¡Derrota a todos los piratas de la zona!"
+		]
+	  }
+	},
+	"YOU": {
+	  "name": "Tú",
+	  "win": {
+		"neutral": [
+		  "¡Los tengo todos! \\ Ahora, ¿a dónde vamos ahora...?",
+		  "Sayonara, escoria pirata. \\ ¿Y ahora adónde vamos...?",
+          "¡Mejor suerte la próxima vez, piratas! \\ ¿Y ahora adónde vamos...?"
+		]
+	  },
+	  "lose": {
+		"neutral": [
+		  "¡ACK! \\ Me atraparon. \\ ¿Intentarlo de nuevo...?",
+		  "¡NOOO! \\ Mi nave... \\ ¿Intentarlo de nuevo...?",
+          "¡Ay! \\ Podría haber salido mejor... \\ ¿Intentarlo de nuevo...?"
+		]
+	  },
+	  "PIRATE_KILLED": {
+		"max": "INF",
+		"neutral": [
+		  "¡Te tengo!",
+		  "¡Bum!",
+		  "¡Buena suerte!",
+          "¡Ja!"
+		]
+	  },
+	  "RESEARCHERS_KILLED": {
+		"neutral": [
+          "Y por eso no se viaja desarmado."
+		]
+	  },
+	  "FACTION_KILLED": {
+		"neutral": [
+          "Bueno. A los Aurala no les va a gustar eso."
+		]
+	  }
+	}
+  }
+}

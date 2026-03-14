@@ -7,30 +7,45 @@
 [ext_resource type="Script" path="res://shipAI/Scripts/ship_hud.gd" id="4_7tvqk"]
 [ext_resource type="PackedScene" path="res://shipBuilding/rooms/engines_2.tscn" id="5_0goar"]
 [ext_resource type="Script" path="res://shipBuilding/room_scripts/engines.gd" id="6_2bncx"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/turret_3.tscn" id="7_2bncx"]
 [ext_resource type="Script" path="res://shipBuilding/room.gd" id="8_xnr2h"]
 [ext_resource type="PackedScene" path="res://shipBuilding/rooms/piloting_1.tscn" id="9_uu40t"]
-[ext_resource type="Script" path="res://shipBuilding/room_scripts/turret.gd" id="10_uu40t"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/reactor_4.tscn" id="11_2bncx"]
 [ext_resource type="PackedScene" path="res://shipBuilding/rooms/airlock_1.tscn" id="11_4w8cr"]
 [ext_resource type="PackedScene" path="res://shipBuilding/rooms/cannon.tscn" id="11_rfjbt"]
 [ext_resource type="Script" path="res://shipBuilding/room_scripts/piloting.gd" id="12_8ui05"]
 [ext_resource type="Script" path="res://shipBuilding/room_scripts/cannon.gd" id="14_4w8cr"]
 [ext_resource type="Script" path="res://shipBuilding/room_scripts/airlock.gd" id="16_l23my"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/autopilot_1.tscn" id="16_xnr2h"]
+[ext_resource type="Script" path="res://shipBuilding/room_scripts/autopilot.gd" id="17_uu40t"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/hull_1.tscn" id="18_8ui05"]
 
 [sub_resource type="TileSet" id="TileSet_xsh4c"]
 tile_shape = 3
 tile_size = Vector2i(78, 90)
 
-[node name="PIRATE_FRIGATE" type="RigidBody2D" unique_id=1442409601 node_paths=PackedStringArray("hud")]
+[node name="PIRATE_FRIGATE" type="RigidBody2D" unique_id=1442409601 node_paths=PackedStringArray("hud", "power_links")]
 z_index = 1
 collision_mask = 257
 input_pickable = true
+mass = 22.0
 gravity_scale = 0.0
+center_of_mass_mode = 1
+center_of_mass = Vector2(155.99213, -34.772728)
 continuous_cd = 1
 contact_monitor = true
 max_contacts_reported = 5
 script = ExtResource("1_vpm82")
-hud = NodePath("ShipHUD")
+hud = NodePath("@CanvasLayer@371")
+power_links = {
+NodePath("Reactor_4/OutputHex"): NodePath("Engines_2/InputHex"),
+NodePath("Reactor_4/OutputHex2"): NodePath("Engines_2/InputHex2"),
+NodePath("Reactor_4/OutputHex3"): NodePath("Cannon/InputHex"),
+NodePath("Reactor_4/OutputHex4"): NodePath("@Node2D@374/InputHex"),
+NodePath("Reactor_2/OutputHex"): NodePath("Autopilot_1/InputHex"),
+NodePath("Reactor_2/OutputHex3"): NodePath("Autopilot_1/InputHex2")
+}
+max_hit_points = 60
+_hit_points = 60
 
 [node name="HexGrid" type="TileMapLayer" parent="." unique_id=1277847278 instance=ExtResource("2_wh0fw")]
 enabled = false
@@ -38,7 +53,8 @@ tile_set = SubResource("TileSet_xsh4c")
 collision_enabled = false
 navigation_enabled = false
 
-[node name="Solid" type="CollisionPolygon2D" parent="." unique_id=1774484283]
+[node name="Solid" type="CollisionPolygon2D" parent="." unique_id=2009756548]
+polygon = PackedVector2Array(77.97893, -112.59552, 117, -135.1, 156, -112.60767, 195, -135.1, 234, -112.60767, 273, -135.1, 312.1, -112.549995, 312.1, -67.54232, 351.1, -45.049995, 351.1, 0.05000305, 312, 22.599998, 273, 0.107666016, 234.1, 22.542313, 234.1, 67.55, 195, 90.1, 156, 67.60767, 117, 90.1, 77.9, 67.55, 77.9, 22.616592, 38.998917, 0.1327591, 0.021125793, 22.636597, -39.057747, 0.049995422, -39.078873, -45.0866, -0.10108185, -67.59043, -0.122154236, -112.61159, 38.9356, -135.16159)
 
 [node name="ShipHUD" type="CanvasLayer" parent="." unique_id=532014552 instance=ExtResource("3_0goar")]
 visible = false
@@ -47,30 +63,60 @@ script = ExtResource("4_7tvqk")
 [node name="Engines_2" type="Node2D" parent="." unique_id=1685651061 instance=ExtResource("5_0goar")]
 position = Vector2(117, 45)
 script = ExtResource("6_2bncx")
+original_color = Color(1, 1, 1, 1)
 
-[node name="Reactor_2" type="Node2D" parent="." unique_id=542255097 instance=ExtResource("3_rfjbt")]
-position = Vector2(117, -90)
-script = ExtResource("8_xnr2h")
+[node name="@CanvasLayer@371" type="CanvasLayer" parent="." unique_id=624003680 instance=ExtResource("3_0goar")]
+visible = false
+script = ExtResource("4_7tvqk")
 
-[node name="Turret_3" type="Node2D" parent="." unique_id=1336280051 instance=ExtResource("7_2bncx")]
-position = Vector2(0, -22.5)
-rotation = 1.0471976
-script = ExtResource("10_uu40t")
+[node name="Walls" type="StaticBody2D" parent="." unique_id=1379948409]
+collision_layer = 16
+collision_mask = 0
+
+[node name="Cannon" type="Node2D" parent="." unique_id=195129740 instance=ExtResource("11_rfjbt")]
+position = Vector2(78, -22.5)
+rotation = 3.1415927
+script = ExtResource("14_4w8cr")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@374" type="Node2D" parent="." unique_id=876023998 instance=ExtResource("11_rfjbt")]
+position = Vector2(312, -22.5)
+rotation = 3.1415927
+script = ExtResource("14_4w8cr")
+original_color = Color(1, 1, 1, 1)
 
 [node name="Piloting_1" type="Node2D" parent="." unique_id=150588005 instance=ExtResource("9_uu40t")]
 position = Vector2(156, -22.5)
 script = ExtResource("12_8ui05")
+original_color = Color(1, 1, 1, 1)
 
-[node name="Cannon" type="Node2D" parent="." unique_id=195129740 instance=ExtResource("11_rfjbt")]
-position = Vector2(312, -22.5)
-rotation = 3.1415927
-script = ExtResource("14_4w8cr")
+[node name="Reactor_4" type="Node2D" parent="." unique_id=542255097 instance=ExtResource("11_2bncx")]
+position = Vector2(156, -157.5)
+rotation = 4.1887903
+script = ExtResource("8_xnr2h")
+original_color = Color(1, 1, 1, 1)
 
-[node name="Airlock_1" type="Node2D" parent="." unique_id=2084884563 instance=ExtResource("11_4w8cr")]
+[node name="Reactor_2" type="Node2D" parent="." unique_id=196487159 instance=ExtResource("3_rfjbt")]
 position = Vector2(273, -90)
 rotation = 3.1415927
-script = ExtResource("16_l23my")
+script = ExtResource("8_xnr2h")
+original_color = Color(1, 1, 1, 1)
 
-[node name="Walls" type="StaticBody2D" parent="." unique_id=1816130236]
-collision_layer = 16
-collision_mask = 0
+[node name="Airlock_1" type="Node2D" parent="." unique_id=2084884563 instance=ExtResource("11_4w8cr")]
+position = Vector2(234, -157.5)
+rotation = 3.1415927
+script = ExtResource("16_l23my")
+original_color = Color(1, 1, 1, 1)
+
+[node name="Autopilot_1" type="Node2D" parent="." unique_id=2111833445 instance=ExtResource("16_xnr2h")]
+self_modulate = Color(1, 1, 1, 0)
+position = Vector2(195, -225)
+rotation = 3.1415927
+script = ExtResource("17_uu40t")
+original_color = Color(1, 1, 1, 1)
+
+[node name="Hull_1" type="Node2D" parent="." unique_id=284853880 instance=ExtResource("18_8ui05")]
+position = Vector2(156, -292.5)
+rotation = 3.1415927
+script = ExtResource("8_xnr2h")
+original_color = Color(1, 1, 1, 1)

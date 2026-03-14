@@ -1,0 +1,98 @@
+{
+  "0_1_DEMO": {
+	"0_1_FACTION_PATROL": {
+	  "name": "Faction",
+	  "greeting": {
+		"neutral": [
+		  "Warning! \\ There are pirates in the area. \\ Proceed with caution!",
+          "Hello, citizen. \\ There have been reports of pirates nearby... \\ Stay vigilent!"
+		]
+	  },
+	  "aggro": {
+		"neutral": [
+          "Aggression is not tolerated."
+		]
+	  },
+	  "win": {
+		"neutral": [
+          "Huh. Our sensors are no longer picking up pirates in the area ... \\ All in a day's work. \\ Glory to Aurala!"
+		]
+	  }
+	},
+	"0_1_PIRATE_DESTROYER": {
+	  "name": "Pirate",
+	  "greeting": {
+		"neutral": [
+		  "Hello, there... \\ What a lovely ship you have.",
+          "You! \\ Yeah, you! Come a little closer..."
+		]
+	  }
+	},
+	"0_1_RESEARCHERS": {
+	  "name": "Researchers",
+	  "greeting": {
+		"neutral": [
+          "Help! \\ Help! Heeeeeeelllllp! \\ There are pirates! Pirates close by! \\ We're just here to survey the asteroid belt, we don't have any weapons! And that Aurala patrol won't do anything... \\ Please! Help us!"
+		]
+	  },
+	  "win": {
+		"neutral": [
+          "You've saved us! \\ Thank you so much! \\ You know what? If you need shields, take some of ours. We're constantly making more of this stuff, anyways. \\ Farewell, traveler!"
+		]
+	  },
+	  "aggro": {
+		"max": "INF",
+		"neutral": [
+		  "No! Please! ",
+		  "We're unarmed!",
+          "WHY??"
+		]
+	  }
+	},
+	"UI": {
+	  "name": "Objective",
+	  "UI_OBJECTIVE": {
+		"neutral": [
+		  "Talk to the researchers",
+          "Defeat all pirates in the area!"
+		]
+	  }
+	},
+	"YOU": {
+	  "name": "You",
+	  "win": {
+		"neutral": [
+		  "Got 'em all! \\ Now, where to next...?",
+		  "Sayonara, pirate scum. \\ Now, where to next...?",
+          "Better luck next time, pirates. \\ Now, where to next...?"
+		]
+	  },
+	  "lose": {
+		"neutral": [
+		  "ACK! \\ They got me. \\ Try again...?",
+		  "NOOO! \\ My ship... \\ Try again...?",
+          "Ouch! \\ That could have gone better... \\ Try again...?"
+		]
+	  },
+	  "PIRATE_KILLED": {
+		"max": "INF",
+		"neutral": [
+		  "Got ya!",
+		  "Ker-blam!",
+		  "Good riddance!",
+          "Hah! "
+		]
+	  },
+	  "RESEARCHERS_KILLED": {
+		"neutral": [
+          "And that's why you don't travel unarmed."
+		]
+	  },
+	  "FACTION_KILLED": {
+		"neutral": [
+          "Welp. \\ The Aurala aren't gonna be pleased with that."
+		]
+	  }
+	}
+  }
+}

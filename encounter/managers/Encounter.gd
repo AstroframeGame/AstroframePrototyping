@@ -1,11 +1,20 @@
 class_name Encounter
 extends Node
 
-var enc_base_dir: String
+var player_ship: Node
 
+var enc_base_dir: String
 var location: String			# location key
 var settings: Dictionary		# encounter settings (prereqs, rewards, etc)
 var reward_zone: Vector2		# where in the scene to put reward (using instead of player position)
+var won: bool
+
+var queued_dialogue: Dictionary
+signal trigger_dialogue(npc: String, cat: String) 
+signal got_objective()
+
+const GET_QUEUED_DIALOGUE = "$GET_QUEUED$"
+const NULL_DIALOGUE = "$NULL$"
 
 # reference to player (used for polling distance to npc ships, TEMP)
 var player_spawn: Vector2:
@@ -21,19 +30,18 @@ var player: Node:
 			player.global_position = player_spawn
 
 # objectives
+var obj_number = -1
 var obj_panel: Label:
 	set(value):
 		obj_panel = value
 		if obj_panel and objective != "":
 			obj_panel.text = objective
-			print("text set to: ", obj_panel.text)
 
 var objective: String:
 	set(value):
 		objective = value
 		if obj_panel:
 			obj_panel.text = value
-			print("text set to: ", obj_panel.text)
 
 var npcs_with_dialogue: Array	# defined in child, npcs with dialogue
 var dialogue: Dictionary		# hold dictionary for quick lookup 
@@ -72,7 +80,6 @@ func _process(_delta):
 	# may be best to replace with signals, see notes in 0_1_DEMO.gd
 	if not player:
 		player = get_parent().multiplayer_manager.my_player
-		#player.global_position = $Ship.global_position
 		
 	if not obj_panel:
 		obj_panel = get_parent().multiplayer_manager.my_player_system.find_child("PlayerUI").find_child("ScannerPanel").find_child("Content")
@@ -86,15 +93,34 @@ func preload_scene_dialogue():
 	dialouge_runner = gm.dialogue_runner
 
 	for npc in npcs_with_dialogue:
-		dialogue[npc.name] = LevelStateManager.load_dictionary("%s/dialogue/%s.json" % [enc_base_dir, npc.name])
+		dialogue[npc.name] = LevelStateManager.dialogue_dictionary[name][npc.name]
 		
-	# dialogue at win
-	dialogue["win"] = LevelStateManager.load_dictionary("%s/dialogue/%s.json" % [enc_base_dir, "win_blurb"])
-	dialogue["lose"] = LevelStateManager.load_dictionary("%s/dialogue/%s.json" % [enc_base_dir, "lose_blurb"])
+	dialogue["YOU"] = LevelStateManager.dialogue_dictionary[name]["YOU"]
+
+	# objective text
+	dialogue["objective"] = LevelStateManager.dialogue_dictionary[name]["UI"]["UI_OBJECTIVE"]
 
 func start_dialogue(npc: String, cat: String)->void:
-	if dialogue[npc][cat].seen >= dialogue[npc][cat].limit:
-		return
+	if not dialogue.has(npc): return
+	if not dialogue[npc].has(cat): return
+	if dialogue[npc][cat].has("seen"):
+		# check against max if max exists
+		if dialogue[npc][cat].has("max"):
+			if typeof(dialogue[npc][cat].max) == TYPE_STRING:
+				# handle infinity
+				if dialogue[npc][cat].max == "INF":
+					dialogue[npc][cat].max = INF
+				# if it's an unrecognized string, default to 1
+				# TODO: log a warning here
+				else:
+					dialogue[npc][cat].max = 1
+			
+			if dialogue[npc][cat].seen >= dialogue[npc][cat].max:
+				return
+			
+			dialogue[npc][cat].seen += 1
+		else:	# if max DNE, assume max is one
+			return
 	
 	# TODO: in the future, tune this with faction relatioship stats
 	var temp = "neutral" 
@@ -103,7 +129,8 @@ func start_dialogue(npc: String, cat: String)->void:
 	var npc_dlg = parse_dialogue_to_array(dialogue[npc].name, random_pick)
 	if npc_dlg:
 		dialouge_runner.start(npc_dlg)
-	dialogue[npc][cat].seen += 1
+
+	dialogue[npc][cat].seen = 1
 
 func parse_dialogue_to_array(npc: String, dlg: String):
 	var split = dlg.split("\\ ")
@@ -120,6 +147,7 @@ func preload_rewards():
 
 func _on_encounter_completed(enc_name: String):
 	objective = "Complete!"
+	won = true
 	
 	# update LSM
 	LevelStateManager.completed_encounters.push_front(enc_name)
@@ -132,7 +160,41 @@ func _on_encounter_completed(enc_name: String):
 		r.set_deferred("global_position", reward_zone)
 	
 	# dialogue
-	start_dialogue("win", "win")
+	start_dialogue("YOU", "win")
+
+func set_ship_aggro(ship: Node, val: bool):
+	trigger_dialogue.emit(ship.name, "aggro")
+	ship.set_aggro.emit(val, player_ship)
 
 func encounter_failed():
-	start_dialogue("lose", "lose")
+	start_dialogue("YOU", "lose")
+
+func start_next_objective():
+	obj_number += 1
+	if(obj_number < dialogue["objective"]["neutral"].size()):
+		objective = dialogue["objective"]["neutral"][obj_number]
+
+func dialogue_setup(npc_ships: Array[Dictionary]):
+	for npc in npc_ships:
+		npcs_with_dialogue.push_back(npc.ship)
+		
+		# start dialogue queue for this ship
+		if npc.init_dialogue != NULL_DIALOGUE:
+			queued_dialogue[npc.ship.name] = npc.init_dialogue
+		
+		# connect signal to trigger dialogue
+		var ap = npc.ship.get_any_auto_piloting();
+		if ap:
+			ap.detection_area.body_entered.connect(
+				func(body): 
+					if body and body is Ship and body.is_in_group("player_ship"):
+						if is_instance_valid(npc.ship):
+							trigger_dialogue.emit(npc.ship.name, GET_QUEUED_DIALOGUE)
+			)
+
+func _on_trigger_dialogue(npc: String, cat: String = GET_QUEUED_DIALOGUE) -> void:
+	if cat == GET_QUEUED_DIALOGUE:		# default to queued dialog
+		if not queued_dialogue.has(npc): return		# TODO: put a warning here
+		cat = queued_dialogue[npc]
+
+	start_dialogue(npc, cat)

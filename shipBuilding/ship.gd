@@ -5,6 +5,8 @@ signal room_clicked(room: Room, button_index: int)
 signal on_airlock_interaction(interactor : PlayerCharacter, is_inside : bool) # called from airlock
 signal ship_destroyed
 signal on_hit()
+signal set_beacon(value: bool)
+signal set_aggro(val: bool)
 
 const FLIGHT_DEADZONE = 0.05 #screen %
 const HEX_WIDTH = 78
@@ -112,6 +114,11 @@ func get_auto_piloting()->Autopilot:
 	for r in get_children():
 		if r is Autopilot:
 			if r.is_active():
+				return r
+	return null
+func get_any_auto_piloting()->Autopilot:	# gets inactive, too
+	for r in get_children():
+		if r is Autopilot:
 				return r
 	return null
 func get_cannons() -> Array[Cannon]:

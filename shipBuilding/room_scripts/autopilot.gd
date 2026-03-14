@@ -9,6 +9,7 @@ extends Room
 @onready var nav_obstacle : NavigationObstacle2D = $NavigationObstacle2D
 
 var target_ship : Ship
+var aggro: bool
 
 var movement_goal_direction : Vector2
 ## goal rotation in radians
@@ -30,11 +31,14 @@ func _ready() -> void:
 	_detection_shape.shape.radius = 1500
 	
 	if ship:
+		aggro = true # override in scene using ship's set_aggro signal
+		
 		if ship.has_engines():
 			nav_agent.max_speed = ship.get_engines().max_speed
 		if ship.hit_points > 0:
 			ship.pair_all_links()
-			
+		
+		ship.set_aggro.connect(_on_set_aggro)
 		detection_area.global_position = ship.get_center()
 		nav_obstacle.global_position = ship.get_center()
 	#draw_rays(8,1500,180)
@@ -58,9 +62,13 @@ func shoot_all_cannons():
 	for cannon in ship.get_cannons():
 		cannon.shoot()
 
+func _on_set_aggro(val: bool, body = null):
+	aggro = val
+	if body: on_body_entered(body)	# hacky workaround
+
 #region Getters
 func is_active() -> bool:
-	return ship and not ship.get_piloting() and power_level == 2
+	return ship and aggro and not ship.get_piloting() and power_level == 2
 
 func is_idling() -> bool:
 	return state_machine.current_state == state_machine.idle_state
@@ -104,7 +112,7 @@ var target_candidate : Ship
 func on_body_entered(body):
 	if not is_active():
 		return
-	if body is Ship and body.is_in_group("player_ship"):
+	if body and body is Ship and body.is_in_group("player_ship"):
 		target_candidate = body
 		detection_timer.start()
 		
@@ -126,7 +134,7 @@ func on_player_ship_detected():
 		return
 	target_ship = target_candidate
 	target_candidate = null
-	if ship.has_engines():
+	if is_instance_valid(target_ship) and ship.has_engines():
 		state_machine.change_state(state_machine.approach_state)
 
 func on_power_change(_room):

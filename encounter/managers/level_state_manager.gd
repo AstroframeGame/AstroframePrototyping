@@ -3,6 +3,10 @@ class_name LevelState
 
 @onready var base_dir = get_script().get_path().get_base_dir()
 @onready var encounter_dictionary = load_dictionary("%s/JSON/encounter_dictionary.json" % base_dir)
+@onready var all_dialogue_dir = "res://encounter/resources/dialogue"
+
+var language: String
+var dialogue_dictionary: Dictionary
 
 var current_location: String
 # can grab these arrays from Scripted Encounters > JSON Exports
@@ -54,3 +58,9 @@ func load_dictionary(path):
 		return json.data
 	else:
 		print("JSON Prase Error: ", json.get_error_message(), " in ", json_text)
+
+func _ready() -> void:
+	language = "japanese"
+	# TODO: let player choose language. also let player change during game?
+	# also, maybe move all of this to a setter	
+	dialogue_dictionary = load_dictionary("%s/%s_dialogue.json" % [all_dialogue_dir, language])
