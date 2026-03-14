@@ -11,6 +11,8 @@ var using_mouse: bool :
 			_update_cursor_visibility()
 			switch_input_device.emit()
 
+var controller_platform = "xbox"
+
 var move: Vector2:
 	get:
 		return Input.get_vector("left", "right", "up", "down")
@@ -79,9 +81,8 @@ func get_key_mapping(input_name : StringName) -> String:
 	
 func get_clean_name(event: InputEvent) -> String:
 	var text = event.as_text().replace(" (Physical)", "").replace(" - Physical", "")
-	var platform = "nintendo"
-	if platform in text.to_lower():
+	if controller_platform in text.to_lower():
 		for part in text.split(","):
-			if platform in part.to_lower():
-				return part.replacen(platform, "").replace(")", "").strip_edges()
+			if controller_platform in part.to_lower():
+				return part.replacen(controller_platform, "").replace(")", "").strip_edges()
 	return text
