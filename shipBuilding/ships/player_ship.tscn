@@ -17,27 +17,28 @@
 [ext_resource type="Script" path="res://shipBuilding/room_scripts/cannon.gd" id="15_hj7kj"]
 [ext_resource type="PackedScene" path="res://shipBuilding/rooms/shields_3.tscn" id="16_5puna"]
 [ext_resource type="Script" path="res://shipBuilding/room_scripts/shields.gd" id="17_3yiq2"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/turret_3.tscn" id="18_7bs0d"]
+[ext_resource type="Script" path="res://shipBuilding/room_scripts/turret.gd" id="19_uxhwo"]
 
 [sub_resource type="TileSet" id="TileSet_xsh4c"]
 tile_shape = 3
 tile_size = Vector2i(78, 90)
 
-[node name="debug_player_ship" type="RigidBody2D" unique_id=1784127879 node_paths=PackedStringArray("hud")]
+[node name="player_ship" type="RigidBody2D" unique_id=1784127879 node_paths=PackedStringArray("hud")]
 z_index = 1
 collision_mask = 257
 input_pickable = true
-mass = 46.0
+mass = 50.0
 gravity_scale = 0.0
 center_of_mass_mode = 1
-center_of_mass = Vector2(-39, -178.04347)
-sleeping = true
+center_of_mass = Vector2(-39, -165.6)
 continuous_cd = 1
 contact_monitor = true
 max_contacts_reported = 5
 script = ExtResource("1_5c823")
-hud = NodePath("@CanvasLayer@351")
-max_hit_points = 110
-_hit_points = 110
+hud = NodePath("@CanvasLayer@415")
+max_hit_points = 120
+_hit_points = 120
 
 [node name="HexGrid" type="TileMapLayer" parent="." unique_id=1277847278 instance=ExtResource("2_bnc2g")]
 enabled = false
@@ -46,7 +47,7 @@ collision_enabled = false
 navigation_enabled = false
 
 [node name="Solid" type="CollisionPolygon2D" parent="." unique_id=1500520315]
-polygon = PackedVector2Array(39.1, -450.05, 39.1, -404.95, 0.099998474, -382.45767, 0.099998474, -337.54233, 39.1, -315.05, 39.1, -270.04233, 78, -247.60767, 117, -270.1, 156.1, -247.55, 156.1, -202.45, 117.1, -179.95767, 117.1, -135.04233, 156.1, -112.55, 156.1, -67.45, 117.1, -44.957672, 117.1, 0.05000305, 78, 22.599998, 39, 0.107673645, 0, 22.599998, -39, 0.107673645, -78, 22.599998, -117, 0.107673645, -156, 22.599998, -195.1, 0.05000305, -195.1, -44.957672, -234.1, -67.45, -234.1, -112.55, -195.1, -135.04233, -195.1, -179.95767, -234.1, -202.45, -234.1, -247.55, -195, -270.1, -156, -247.60767, -117.1, -270.04233, -117.1, -315.05, -78.1, -337.54233, -78.1, -382.45767, -117.1, -404.95, -117.1, -450.05, -78, -472.6, -39, -450.10767, 0, -472.6)
+polygon = PackedVector2Array(39.1, -450.05, 39.1, -404.95, 0.099998474, -382.45767, 0.099998474, -337.54233, 39.1, -315.05, 39.1, -270.04233, 78, -247.60767, 117, -270.1, 156.1, -247.55, 156.1, -202.45, 117.1, -179.95767, 117.1, -135.04233, 156.1, -112.55, 156.1, -67.54232, 195.1, -45.050003, 195.1, 0.05000305, 156, 22.599998, 117, 0.107673645, 78, 22.599998, 39, 0.107673645, 0, 22.599998, -39, 0.107673645, -78, 22.599998, -117, 0.107673645, -156, 22.599998, -195, 0.107673645, -234, 22.599998, -273.1, 0.05000305, -273.1, -45.050003, -234.1, -67.54232, -234.1, -112.55, -195.1, -135.04233, -195.1, -179.95767, -234.1, -202.45, -234.1, -247.55, -195, -270.1, -156, -247.60767, -117.1, -270.04233, -117.1, -315.05, -78.1, -337.54233, -78.1, -382.45767, -117.1, -404.95, -117.1, -450.05, -78, -472.6, -39, -450.10767, 0, -472.6)
 
 [node name="ShipHUD" type="CanvasLayer" parent="." unique_id=532014552 instance=ExtResource("3_k0myf")]
 visible = false
@@ -101,10 +102,6 @@ original_color = Color(1, 1, 1, 1)
 visible = false
 script = ExtResource("4_rpua8")
 
-[node name="Walls" type="StaticBody2D" parent="." unique_id=232098965]
-collision_layer = 16
-collision_mask = 0
-
 [node name="Engines_2" type="Node2D" parent="." unique_id=1685651061 instance=ExtResource("5_mmylw")]
 position = Vector2(-234, -22.5)
 script = ExtResource("6_gcm1b")
@@ -118,4 +115,17 @@ original_color = Color(1, 1, 1, 1)
 [node name="@Node2D@357" type="Node2D" parent="." unique_id=1960056696 instance=ExtResource("7_558vq")]
 position = Vector2(-78, -22.5)
 script = ExtResource("8_6ouew")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@CanvasLayer@415" type="CanvasLayer" parent="." unique_id=565647117 instance=ExtResource("3_k0myf")]
+visible = false
+script = ExtResource("4_rpua8")
+
+[node name="Walls" type="StaticBody2D" parent="." unique_id=232098965]
+collision_layer = 16
+collision_mask = 0
+
+[node name="Turret_3" type="Node2D" parent="." unique_id=1336280051 instance=ExtResource("18_7bs0d")]
+position = Vector2(78, -292.5)
+script = ExtResource("19_uxhwo")
 original_color = Color(1, 1, 1, 1)

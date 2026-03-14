@@ -1,11 +1,13 @@
-extends Node
+extends Encounter
 
+func _ready() -> void:	
+	LevelStateManager.current_scene_path = "res://encounter/encounters/0_INIT_HOME/0_INTRO/0_INTRO.tscn"
+	
+	# hardcode warp destination to start
+	if not LevelStateManager.warp_scene_path:
+		LevelStateManager.warp_scene_path = "res://encounter/encounters/__DEMO_LOCATION/0_1_DEMO/0_1_DEMO.tscn"
+	
+	player_ship = $PlayerShip
+	player_ship.set_meta("type", "PlayerShip")
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+	player_spawn = $PlayerSpawn.global_position

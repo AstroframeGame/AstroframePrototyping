@@ -14,6 +14,7 @@ var spoke_to_researchers = false
 var dead_pirates = 0
 
 func _ready() -> void:	
+	LevelStateManager.current_scene_path = "res://encounter/encounters/__DEMO_LOCATION/0_1_DEMO/0_1_DEMO.tscn"
 	player_ship = $PlayerShip
 	
 	# scene info
@@ -82,3 +83,23 @@ func _on_trigger_dialogue(npc: String, cat: String = GET_QUEUED_DIALOGUE) -> voi
 		if research_ship and npc == research_ship.name:
 			spoke_to_researchers = true
 			dialouge_runner.on_dialogue_end.connect(start_next_objective, CONNECT_ONE_SHOT)
+
+func _exit_tree() -> void:
+	got_objective.disconnect(start_next_objective)
+	if is_instance_valid(player_ship):
+		player_ship.disconnect("ship_destroyed", encounter_failed)
+	
+	for ship in to_kill:
+		if is_instance_valid(ship):
+			ship.disconnect("ship_destroyed", win_check)
+			ship.disconnect("ship_destroyed", _on_trigger_dialogue)
+	
+	if is_instance_valid(faction_ship):
+		faction_ship.disconnect("on_hit", set_ship_aggro)
+	
+	if is_instance_valid(research_ship):
+		research_ship.disconnect("set_beacon", $markers/research_ship_marker2.set_beacon)
+		research_ship.disconnect("on_hit", _on_trigger_dialogue)
+		research_ship.disconnect("ship_destroyed", _on_trigger_dialogue)
+	
+	super()

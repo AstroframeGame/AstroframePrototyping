@@ -1,17 +1,52 @@
 [gd_scene format=3 uid="uid://dxrvojignopxd"]
 
-[ext_resource type="PackedScene" uid="uid://t48ysm6u8q54" path="res://art/background/grid_background.tscn" id="1_fiqt5"]
+[ext_resource type="Script" uid="uid://dolrm6coh5cd2" path="res://encounter/encounters/0_INIT_HOME/0_INTRO/0_INTRO.gd" id="1_6sjwn"]
+[ext_resource type="PackedScene" uid="uid://c7h5fcycvrbqe" path="res://art/background/space_background.tscn" id="1_fiqt5"]
+[ext_resource type="PackedScene" path="res://shipBuilding/ships/player_ship.tscn" id="2_8lqhf"]
+[ext_resource type="Script" uid="uid://coswak26beue6" path="res://encounter/encounters/__DEMO_LOCATION/0_1_DEMO/marker.gd" id="3_4ucm3"]
+[ext_resource type="FontFile" uid="uid://c0d43w7ej3xae" path="res://hub/fonts/Anta-Regular - MSDF.ttf" id="4_6sjwn"]
 
 [node name="0Intro" type="Node2D" unique_id=1760780257]
-
-[node name="Background" type="CanvasLayer" parent="." unique_id=1361030003]
-layer = -2
-
-[node name="GridBackground" parent="Background" unique_id=1650344788 instance=ExtResource("1_fiqt5")]
+script = ExtResource("1_6sjwn")
 
 [node name="Label" type="Label" parent="." unique_id=699669272]
+visible = false
 offset_left = 164.0
 offset_top = 105.0
 offset_right = 234.0
 offset_bottom = 127.0
 text = "0_INTRO"
+
+[node name="Background" type="CanvasLayer" parent="." unique_id=1771579003]
+layer = -2
+
+[node name="SpaceBackground" parent="Background" unique_id=1650344788 instance=ExtResource("1_fiqt5")]
+
+[node name="PlayerShip" parent="." unique_id=1784127879 instance=ExtResource("2_8lqhf")]
+position = Vector2(-522, 1561)
+
+[node name="PlayerSpawn" type="Marker2D" parent="." unique_id=138595884]
+position = Vector2(-229, 1941)
+
+[node name="markers" type="CanvasLayer" parent="." unique_id=611920159]
+
+[node name="player_ship_marker" type="Node2D" parent="markers" unique_id=281210972 node_paths=PackedStringArray("target")]
+script = ExtResource("3_4ucm3")
+target = NodePath("../../PlayerShip")
+metadata/_edit_group_ = true
+
+[node name="Fill" type="Polygon2D" parent="markers/player_ship_marker" unique_id=291783300]
+scale = Vector2(3, 3)
+polygon = PackedVector2Array(0, 3, 3, 0, 0, -3, -3, 0)
+
+[node name="Label" type="Label" parent="markers/player_ship_marker" unique_id=907573302]
+offset_right = 1.0
+offset_bottom = 8.0
+theme_override_fonts/font = ExtResource("4_6sjwn")
+theme_override_font_sizes/font_size = 14
+
+[node name="Line2D" type="Line2D" parent="markers/player_ship_marker" unique_id=2005415425]
+scale = Vector2(3, 3)
+points = PackedVector2Array(0, 3, 3, 0, 0, -3, -3, 0)
+closed = true
+width = 0.5

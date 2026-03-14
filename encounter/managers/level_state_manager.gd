@@ -4,11 +4,11 @@ class_name LevelState
 @onready var base_dir = get_script().get_path().get_base_dir()
 @onready var encounter_dictionary = load_dictionary("%s/JSON/encounter_dictionary.json" % base_dir)
 @onready var all_dialogue_dir = "res://encounter/resources/dialogue"
+@onready var gm = get_tree().root.get_node("Hub").get_node("GameManager")
 
 var language: String
 var dialogue_dictionary: Dictionary
 
-var current_location: String
 # can grab these arrays from Scripted Encounters > JSON Exports
 # https://docs.google.com/spreadsheets/d/1s3iz44CgmWNPqo6dqfTeVFWs66qc85rx3uyXpwCjm_w/edit?gid=1533284224#gid=1533284224
 var keys = [
@@ -42,8 +42,15 @@ var items = [
 ]
 
 # state tracking
+var warp_scene_path: String
 var visited = []
 var completed_encounters = []
+
+var current_scene_path: String:
+	set(value):
+		if current_scene_path:
+			warp_scene_path = current_scene_path
+		current_scene_path = value
 
 # load data from a lookup json
 # https://forum.godotengine.org/t/how-do-i-read-json-files/38063

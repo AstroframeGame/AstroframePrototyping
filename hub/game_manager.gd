@@ -5,6 +5,8 @@ class_name GameManager
 
 @onready var load_progress: TextureProgressBar = $"../UI/Loading/LoadProgress"
 
+@onready var SINGLEPLAYER_SCENE: String = "res://encounter/encounters/0_INIT_HOME/0_INTRO/0_INTRO.tscn"
+
 var current_scene : Node2D
 @onready var menus : MenuManager = $"../UI"
 var in_game : bool = false
@@ -21,6 +23,11 @@ func _ready() -> void:
 	MusicManager.play_menu()
 	
 func load_scene(path : String)->void:
+	if current_scene:
+		game_quit.emit()
+		current_scene.queue_free()
+		current_scene = null
+		
 	var packed_scene = await menus.load_scene(path)
 	menus.open_menu("Game")
 	in_game = true
@@ -42,7 +49,7 @@ func load_game():
 
 func open_singleplayer():
 	# demo scene
-	load_scene("res://encounter/encounters/__DEMO_LOCATION/0_1_DEMO/0_1_DEMO.tscn")
+	load_scene(SINGLEPLAYER_SCENE)
 
 func open_ship_editor():
 	load_scene("res://shipBuilding/ship_building.tscn")

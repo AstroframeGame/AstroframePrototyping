@@ -89,7 +89,7 @@ func _process(_delta):
 
 func preload_scene_dialogue():
 	# get dialogue system
-	gm = get_tree().root.get_node("Hub").get_node("GameManager")
+	gm = LevelStateManager.gm
 	dialouge_runner = gm.dialogue_runner
 
 	for npc in npcs_with_dialogue:
@@ -198,3 +198,13 @@ func _on_trigger_dialogue(npc: String, cat: String = GET_QUEUED_DIALOGUE) -> voi
 		cat = queued_dialogue[npc]
 
 	start_dialogue(npc, cat)
+
+
+func _exit_tree() -> void:
+	LevelStateManager.current_scene_path = ""
+	
+	if obj_panel:
+		obj_panel.text = ""
+	
+	player = null
+	player_ship = null

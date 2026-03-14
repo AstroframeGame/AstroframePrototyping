@@ -8,6 +8,9 @@ func handle_input(event:InputEvent):
 	if event.is_action_pressed("ship_fire"): #See turret.gd for ACTUAL firing
 		shoot_all_cannons()
 		return
+	if event.is_action_pressed("warp"):
+		LevelStateManager.gm.load_scene(LevelStateManager.warp_scene_path)
+		return
 	
 
 func shoot_all_cannons():
