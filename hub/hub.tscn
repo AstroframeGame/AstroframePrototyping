@@ -20,7 +20,7 @@
 [ext_resource type="Script" uid="uid://dkw41dpjcbrwa" path="res://accessibilitySettings/colorblind_shader.gd" id="14_gjoju"]
 [ext_resource type="Shader" uid="uid://dv6l2vd0xplhh" path="res://hub/colorblind.gdshader" id="15_mmyqo"]
 [ext_resource type="PackedScene" uid="uid://c4c4q35vwjc06" path="res://accessibilitySettings/settings_menu.tscn" id="15_qui64"]
-[ext_resource type="Script" uid="uid://cw7don71np0bg" path="res://hub/credits.gd" id="17_bg8wc"]
+[ext_resource type="Script" path="res://hub/credits.gd" id="17_bg8wc"]
 [ext_resource type="Texture2D" uid="uid://cjtj7xo6f6waa" path="res://shipBuilding/icons/torus.png" id="17_qui64"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gjoju"]
@@ -57,13 +57,51 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.14333999, 0.14333999, 0.14333999, 1)
 
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Main" unique_id=569964284]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -123.5
+offset_top = -178.0
+offset_right = 123.5
+offset_bottom = 178.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Play" type="Button" parent="UI/Main/VBoxContainer" unique_id=1258526734]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Play"
+
+[node name="Editor" type="Button" parent="UI/Main/VBoxContainer" unique_id=1870370267]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Ship Editor"
+
+[node name="Settings" type="Button" parent="UI/Main/VBoxContainer" unique_id=884632170]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Settings"
+
+[node name="Credits" type="Button" parent="UI/Main/VBoxContainer" unique_id=1767168070]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Credits"
+
+[node name="Quit" type="Button" parent="UI/Main/VBoxContainer" unique_id=1337628528]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Quit"
+
 [node name="ScrollContainer" type="ScrollContainer" parent="UI/Main" unique_id=1549920906]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 43.0
 offset_top = 92.0
-offset_right = -842.0
+offset_right = -1325.0
 offset_bottom = -103.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -127,44 +165,6 @@ texture_normal = ExtResource("10_cwmjq")
 layout_mode = 2
 texture_normal = ExtResource("7_2a2hx")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/Main" unique_id=569964284]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -22.5
-offset_top = -20.0
-offset_right = 22.5
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Play" type="Button" parent="UI/Main/VBoxContainer" unique_id=1258526734]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "Play"
-
-[node name="Editor" type="Button" parent="UI/Main/VBoxContainer" unique_id=1870370267]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "Ship Editor"
-
-[node name="Settings" type="Button" parent="UI/Main/VBoxContainer" unique_id=884632170]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "Settings"
-
-[node name="Credits" type="Button" parent="UI/Main/VBoxContainer" unique_id=1767168070]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "Credits"
-
-[node name="Quit" type="Button" parent="UI/Main/VBoxContainer" unique_id=1337628528]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "Quit"
-
 [node name="Mute" type="TextureButton" parent="UI/Main" unique_id=1165849993]
 anchors_preset = 1
 anchor_left = 1.0
@@ -224,11 +224,6 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0)
-
-[node name="Exit" type="Button" parent="UI/Game" unique_id=1653782239]
-offset_right = 8.0
-offset_bottom = 8.0
-text = "Back to Menu"
 
 [node name="DialogueRunner" parent="UI/Game" unique_id=314417777 instance=ExtResource("5_g3elb")]
 
@@ -373,16 +368,15 @@ texture_progress = ExtResource("17_qui64")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1798994774]
 environment = SubResource("Environment_21dlm")
 
-[connection signal="pressed" from="UI/Main/Socials/Ships" to="UI/Main/Socials" method="ships_folder"]
-[connection signal="pressed" from="UI/Main/Socials/Github" to="UI/Main/Socials" method="github"]
-[connection signal="pressed" from="UI/Main/Socials/Insta" to="UI/Main/Socials" method="instagram"]
-[connection signal="pressed" from="UI/Main/Socials/Discord" to="UI/Main/Socials" method="discord"]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Play" to="GameManager" method="open_singleplayer"]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Editor" to="GameManager" method="open_ship_editor"]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Settings" to="GameManager" method="_on_settings_pressed"]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Credits" to="UI" method="open_menu" binds= [&"Credits"]]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Quit" to="GameManager" method="quit_application"]
-[connection signal="pressed" from="UI/Game/Exit" to="GameManager" method="quit_to_list"]
+[connection signal="pressed" from="UI/Main/Socials/Ships" to="UI/Main/Socials" method="ships_folder"]
+[connection signal="pressed" from="UI/Main/Socials/Github" to="UI/Main/Socials" method="github"]
+[connection signal="pressed" from="UI/Main/Socials/Insta" to="UI/Main/Socials" method="instagram"]
+[connection signal="pressed" from="UI/Main/Socials/Discord" to="UI/Main/Socials" method="discord"]
 [connection signal="pressed" from="UI/Paused/VBoxContainer/ResumeGame" to="GameManager" method="resume_game"]
 [connection signal="pressed" from="UI/Paused/VBoxContainer/Settings" to="GameManager" method="_on_settings_pressed"]
 [connection signal="pressed" from="UI/Paused/VBoxContainer/Exit" to="GameManager" method="quit_to_list"]

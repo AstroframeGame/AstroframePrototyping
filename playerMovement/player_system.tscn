@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dcpfkpex6ovaa"]
 
 [ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/ui_textures/RoundedSquare.png" id="1_0p3lp"]
+[ext_resource type="Texture2D" uid="uid://bfknaix65fust" path="res://hub/ui_textures/sci_fi_frame.svg" id="2_21lvw"]
 [ext_resource type="Script" uid="uid://b8g4jci7uq4ut" path="res://playerMovement/player_camera.gd" id="2_camera"]
 [ext_resource type="Script" uid="uid://bmy54l1lxqu10" path="res://shipAI/Scripts/scanner_panel.gd" id="4_scanner"]
 [ext_resource type="Script" path="res://playerMovement/hint.gd" id="5_57v7p"]
@@ -40,14 +41,17 @@ self_modulate = Color(0, 0, 0, 0.23137255)
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -194.0
-offset_bottom = 152.0
+offset_left = -438.0
+offset_top = 27.0
+offset_right = -244.0
+offset_bottom = 179.0
 grow_horizontal = 0
-texture = ExtResource("1_0p3lp")
-patch_margin_left = 20
-patch_margin_top = 20
-patch_margin_right = 20
-patch_margin_bottom = 20
+scale = Vector2(2, 2)
+texture = ExtResource("2_21lvw")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
 script = ExtResource("4_scanner")
 
 [node name="Title" type="Label" parent="PlayerUI/ScannerPanel" unique_id=51751683]
@@ -79,6 +83,7 @@ offset_top = -22.0
 offset_right = 146.5
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_font_sizes/font_size = 36
 text = "Press [F] to enter, Press [R] to detach"
 script = ExtResource("5_57v7p")
 
