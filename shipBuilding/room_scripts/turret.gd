@@ -22,8 +22,8 @@ func handle_input(event:InputEvent):
 		gun.gunSprite.look_at(get_global_mouse_position())
 	else:
 		var d = InputHelper.controller_look
-		d = d.rotated(global_rotation)
-		gun.gunSprite.rotation = atan2(d.y, d.x)
+		if d.length() > 0.5:
+			gun.gunSprite.rotation = atan2(-d.y, -d.x) + deg_to_rad(30) + global_rotation
 		
 func _on_detection_range_body_entered(body: Node2D) -> void:
 	if body is Ship and body.get_total_room_count() == 1:
