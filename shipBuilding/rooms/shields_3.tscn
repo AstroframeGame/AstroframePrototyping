@@ -3,10 +3,31 @@
 [ext_resource type="Script" uid="uid://fr42tlimyfad" path="res://shipBuilding/room_scripts/shields.gd" id="1_43tt2"]
 [ext_resource type="PackedScene" uid="uid://ddufh33lvtb2a" path="res://shipBuilding/fx/shield/shield.tscn" id="3_43tt2"]
 [ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="4_ixx2e"]
+[ext_resource type="Texture2D" uid="uid://sp1tvcg6h25i" path="res://art/rooms/shield/shield_core.svg" id="5_5285w"]
 [ext_resource type="PackedScene" uid="uid://dmgvcp6y668bi" path="res://shipBuilding/hexes/input_hex.tscn" id="5_mqtj2"]
+[ext_resource type="Texture2D" uid="uid://h7mby1d6spum" path="res://art/rooms/shield/shield_exterior.svg" id="6_phr5p"]
+[ext_resource type="Texture2D" uid="uid://couhct0knqcok" path="res://art/rooms/shield/shield_exteriorteampatch.svg" id="7_1pnt6"]
+[ext_resource type="Texture2D" uid="uid://bc6ma885tnamk" path="res://art/rooms/shield/shield_interior.svg" id="8_lak0g"]
+[ext_resource type="Texture2D" uid="uid://bhtyuaahqd2jt" path="res://art/rooms/shield/shield_sidecore.svg" id="9_wxemh"]
+
+[sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_5285w"]
+polyphony = 4
 
 [node name="Shields_3" type="Node2D" unique_id=1633765650]
 script = ExtResource("1_43tt2")
+
+[node name="Label" type="Label" parent="." unique_id=705777749]
+offset_left = -26.0
+offset_top = -55.0
+offset_right = 29.0
+offset_bottom = -32.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Shields"
+
+[node name="ShieldInterior" type="Sprite2D" parent="." unique_id=295797955]
+position = Vector2(0, -33.74)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("8_lak0g")
 
 [node name="InputHex" parent="." unique_id=56559507 instance=ExtResource("5_mqtj2")]
 self_modulate = Color(0.70980394, 0.7882353, 1, 1)
@@ -19,33 +40,61 @@ position = Vector2(-39, -67.5)
 [node name="InputHex3" parent="." unique_id=1828517898 instance=ExtResource("5_mqtj2")]
 self_modulate = Color(0.70980394, 0.7882353, 1, 1)
 
-[node name="Label" type="Label" parent="." unique_id=705777749]
-offset_left = -26.0
-offset_top = -55.0
-offset_right = 29.0
-offset_bottom = -32.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Shields"
-
-[node name="Shield" parent="." unique_id=386750233 instance=ExtResource("3_43tt2")]
-position = Vector2(0, -45)
-
 [node name="Roof" type="Node2D" parent="." unique_id=1583828134]
 visible = false
 
 [node name="Hex3" type="Sprite2D" parent="Roof" unique_id=644852332]
+visible = false
 modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
 position = Vector2(39, -67.5)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_ixx2e")
 
 [node name="Hex5" type="Sprite2D" parent="Roof" unique_id=774467404]
+visible = false
 modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
 position = Vector2(-39, -67.5)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_ixx2e")
 
 [node name="Hex4" type="Sprite2D" parent="Roof" unique_id=636165179]
+visible = false
 modulate = Color(0.47866166, 0.47866172, 0.47866166, 1)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_ixx2e")
+
+[node name="ShieldExterior" type="Sprite2D" parent="Roof" unique_id=923680147]
+position = Vector2(0, -33.74)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("6_phr5p")
+
+[node name="ShieldExteriorteampatch" type="Sprite2D" parent="Roof" unique_id=2041556039]
+position = Vector2(0, -33.74)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("7_1pnt6")
+
+[node name="RechargeTimer" type="Timer" parent="." unique_id=676478285]
+wait_time = 2.5
+one_shot = true
+
+[node name="ShieldCore" type="Sprite2D" parent="." unique_id=1813201882]
+position = Vector2(0, -45)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("5_5285w")
+
+[node name="ShieldSidecore" type="Sprite2D" parent="." unique_id=624308403]
+position = Vector2(0, -33.74)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("9_wxemh")
+
+[node name="Shield" parent="." unique_id=386750233 instance=ExtResource("3_43tt2")]
+visible = false
+position = Vector2(0, -45)
+
+[node name="CollisionShape2D" parent="Shield" index="0" unique_id=1049669852]
+disabled = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1789382192]
+stream = SubResource("AudioStreamPolyphonic_5285w")
+
+[editable path="Shield"]

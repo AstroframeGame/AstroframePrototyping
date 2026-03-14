@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78.22 70.18">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #bbb3d9;
+      }
+
+      .cls-2 {
+        fill: #808285;
+      }
+    </style>
+  </defs>
+  <g id="Tes">
+    <g id="shield_sidecore">
+      <g>
+        <circle class="cls-2" cx="8.37" cy="8.37" r="8.37"/>
+        <circle class="cls-1" cx="8.37" cy="8.37" r="6.57"/>
+      </g>
+      <g>
+        <circle class="cls-2" cx="69.85" cy="8.37" r="8.37"/>
+        <circle class="cls-1" cx="69.85" cy="8.37" r="6.57"/>
+      </g>
+      <g>
+        <circle class="cls-2" cx="39.11" cy="61.81" r="8.37"/>
+        <circle class="cls-1" cx="39.11" cy="61.81" r="6.57"/>
+      </g>
+    </g>
+  </g>
+</svg>

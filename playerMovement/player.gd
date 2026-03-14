@@ -24,9 +24,10 @@ the player is over ground, hence whether to use air movement or ground movement
 @export_flags_2d_physics var exterior_ground_mask
 
 # sync these
-var pushing #set in physics process
+var pushing :bool #set in physics process
 var push_dir
 var push_brake
+var input_enabled
 
 var _seat : SeatInteractable = null
 var seat : SeatInteractable :
@@ -68,15 +69,19 @@ func _ready() -> void:
 	ground_check.area_entered.connect(on_ground)
 	ground_check.area_exited.connect(on_unground)
 	
-	
 	if ship:
 		on_ship_enter(ship)
 	else:
 		on_ship_exit()
+		
+	input_enabled = true
 
 
 func _physics_process(delta):
 	apply_ground_body_transform()
+	
+	if not input_enabled:
+		return
 	
 	var direction = Input.get_vector("left", "right", "up", "down")
 	direction = direction.normalized().rotated(global_rotation)
@@ -111,6 +116,8 @@ func _physics_process(delta):
 
 # currently interacts with the first overlapping interactable area, but this can be changed to nearest, last, all, ect.
 func interact():
+	if not input_enabled:
+		return
 	var interactable = get_interactable()
 	if interactable:
 		interactable.interact(self)
@@ -118,6 +125,9 @@ func interact():
 			
 func get_interactable() -> Node2D:
 	for area in interact_check.get_overlapping_areas():
+		if area.has_method("can_interact"):
+			if not area.can_interact():
+				continue
 		if area.has_method("interact"):
 			return area
 	return null
@@ -127,10 +137,12 @@ func get_interactable_hint() -> String:
 	if interactable:
 		if interactable.has_method("interact_hint"):
 			return interactable.interact_hint()
-		return "Press [E] to interact with " + interactable.name
+		return "interact with " + interactable.name
 	return ""
 
 func _unhandled_input(event: InputEvent) -> void:
+	if not input_enabled:
+		return
 	if event.is_action_pressed("player_shoot"):
 		handgun.shoot_bullet()
 	if event.is_action_pressed("holster_handgun"):
@@ -142,6 +154,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if seat and seat.room.has_method("handle_input"):
 		seat.room.handle_input(event)
+	# debugging
+	if event.is_action_pressed("seppuku"):
+		seppuku()
 #region grounding
 # called when ground check intersects with rb
 func on_ground(_body : Node2D):
@@ -173,9 +188,20 @@ func fix_unsure_grounding():
 
 # called when enter airlock
 func on_ship_enter(new_ship : Ship):
+	var prev_ship = get_tree().get_first_node_in_group("player_ship")
+	if prev_ship:
+		prev_ship.remove_from_group("player_ship")
 	on_ground(new_ship)
 	ship = new_ship
-	#print(name + " parent to ship")
+	ship.add_to_group("player_ship")
+	# if ship is also pirate ship warn nearby pirates
+	var pirate_pilot = ship.get_auto_piloting()
+	if ship.is_in_group("pirate_ship") and pirate_pilot != null:
+		for body in pirate_pilot.detection_area.get_overlapping_bodies():
+			if body.is_in_group("pirate_ship") and body != ship:
+				body.get_auto_piloting().target_candidate = ship
+				body.get_auto_piloting().on_player_ship_detected()
+				print("warned " + str(body))
 	update_layers(true)
 
 func on_ship_exit():
@@ -205,7 +231,19 @@ func update_layers(inside : bool):
 #endregion
 
 
-func take_damage(damage : int):
+func take_damage(damage : int, _vfx_pos:Vector2):
+	if health <= 0:
+		return
+	if health - damage <= 0:
+		# TODO: switch game over to original plan
+		input_enabled = false
+		var gm : GameManager = get_tree().root.get_node("Hub").get_node("GameManager")
+		gm.dialogue_runner.start([["You", "*ack"], ["You","*bleh"]])
+		await gm.dialogue_runner.on_dialogue_end
+		gm.quit_to_list()
+		gm.menus.open_menu("GameOver")
+		
 	health -= damage
-	print("Damage Taken! Player now at %s health" % health)
-	
+
+func seppuku():
+	take_damage(999, global_position)

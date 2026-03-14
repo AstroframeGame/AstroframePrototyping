@@ -1,11 +1,13 @@
 class_name GunHex
-extends Sprite2D
+extends Hex
 
 const PROJECTILE = preload("uid://devin6bdbcbay") # funny uid lol
+const SFX_LASER_MEDIUM = preload("res://audio/sfx/laser_medium.wav")
 
-@onready var room : Room = $".."
-@onready var gunSprite : Sprite2D = $Sprite
-@onready var marker_2d: Marker2D = $Sprite/Marker2D
+
+@export var gunSprite : Node2D
+@onready var shield_check : Area2D = $ShieldCheck
+@export var barrel: Marker2D
 @onready var timer : Timer = $Timer
 @export var cooldown : float = 0.2
 
@@ -14,6 +16,7 @@ const PROJECTILE = preload("uid://devin6bdbcbay") # funny uid lol
 
 func _ready():
 	timer.wait_time = cooldown
+	sfx.play() # start the sfx
 
 func shoot(damage : int):
 	if timer.time_left > 0:
@@ -22,10 +25,26 @@ func shoot(damage : int):
 	
 	var proj : Projectile = PROJECTILE.instantiate()
 	# removed parent velocity room.ship.linear_velocity
-	proj.initialize(gunSprite, Vector2.ZERO, projectileSpeed, Vector2.from_angle(gunSprite.global_rotation), marker_2d.global_position, damage)
+	proj.initialize(gunSprite, Vector2.ZERO, projectileSpeed, Vector2.from_angle(gunSprite.global_rotation), barrel.global_position, damage)
 	proj.add_collision_exception_with(room.ship)
 	proj.add_collision_exception_with(room.ship.get_node("Walls"))
 	proj.owner_ship = room.ship
 	
+	for shield in room.ship.get_active_shields():
+		if shield.visible:
+			proj.add_collision_exception_with(shield)
+	
+	for body in shield_check.get_overlapping_bodies():
+		if body is Shield:
+			proj.add_collision_exception_with(body)
 	# get multiplayer manager instead
 	ProjectileManager.add_child(proj)
+	play_sfx()
+
+@onready var sfx: AudioStreamPlayer2D = $ShootSFX
+
+func play_sfx():
+	var polyphonic : AudioStreamPlaybackPolyphonic = sfx.get_stream_playback() as AudioStreamPlaybackPolyphonic
+	var pitch_mod = randf_range(-0.2,0.2)
+	var volume_mod = randf_range(-2,2)
+	polyphonic.play_stream(SFX_LASER_MEDIUM, 0,volume_mod,1.2 + pitch_mod, AudioServer.PLAYBACK_TYPE_DEFAULT, "SFX")

@@ -1,0 +1,68 @@
+{
+	"name": "wasp",
+	"rooms": [
+		{
+			"grid_pos": [
+				-1,
+				1
+			],
+			"id": "engines_2",
+			"name": "Engines_2",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				1,
+				0
+			],
+			"id": "reactor_4",
+			"name": "Reactor_4",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				-1,
+				0
+			],
+			"id": "reactor_2",
+			"name": "Reactor_2",
+			"rot_index": 4
+		},
+		{
+			"grid_pos": [
+				0,
+				0
+			],
+			"id": "autopilot_1",
+			"name": "Autopilot_1",
+			"rot_index": 4
+		},
+		{
+			"grid_pos": [
+				0,
+				-2
+			],
+			"id": "cannon",
+			"name": "Cannon",
+			"rot_index": 3
+		},
+		{
+			"grid_pos": [
+				-1,
+				-3
+			],
+			"id": "airlock_1",
+			"name": "Airlock_1",
+			"rot_index": 0
+		},
+		{
+			"grid_pos": [
+				0,
+				-3
+			],
+			"id": "hull_1",
+			"name": "Hull_1",
+			"rot_index": 0
+		}
+	]
+}

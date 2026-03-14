@@ -1,6 +1,17 @@
 extends Node
 
-var using_mouse: bool = true
+signal switch_input_device()
+var _using_mouse : bool = true
+var using_mouse: bool :
+	get:
+		return _using_mouse
+	set(value):
+		if _using_mouse != value:
+			_using_mouse = value
+			_update_cursor_visibility()
+			switch_input_device.emit()
+
+var controller_platform = "xbox"
 
 var move: Vector2:
 	get:
@@ -37,7 +48,6 @@ func _ready() -> void:
 	_update_cursor_visibility()
 
 func _input(event: InputEvent) -> void:
-	var prev_mode = using_mouse
 	
 	if event is InputEventMouseMotion:
 		using_mouse = true
@@ -48,9 +58,6 @@ func _input(event: InputEvent) -> void:
 		if event is InputEventJoypadMotion and abs(event.axis_value) < 0.2:
 			return
 		using_mouse = false
-		
-	if prev_mode != using_mouse:
-		_update_cursor_visibility()
 
 func _process(_delta: float) -> void:
 	if not using_mouse:
@@ -63,3 +70,19 @@ func _update_cursor_visibility() -> void:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	else:
 		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+
+func get_key_mapping(input_name : StringName) -> String:
+	var event_index = 0 if using_mouse else 1
+	var events : Array[InputEvent] = InputMap.action_get_events(input_name)
+	if events.size() > 0:
+		var event_text = get_clean_name(events[event_index])
+		return event_text
+	return "UNBOUND"
+	
+func get_clean_name(event: InputEvent) -> String:
+	var text = event.as_text().replace(" (Physical)", "").replace(" - Physical", "")
+	if controller_platform in text.to_lower():
+		for part in text.split(","):
+			if controller_platform in part.to_lower():
+				return part.replacen(controller_platform, "").replace(")", "").strip_edges()
+	return text

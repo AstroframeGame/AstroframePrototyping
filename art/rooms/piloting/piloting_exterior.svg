@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78 90">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #414141;
+      }
+    </style>
+  </defs>
+  <g id="piloting_exterior">
+    <path id="piloting_exterior-2" data-name="piloting_exterior" class="cls-1" d="M39,0L0,22.5v45l39,22.5,39-22.5V22.5L39,0ZM66.03,60.59l-27.03,15.59-27.03-15.59v-31.18l27.03-15.59,27.03,15.59v31.18Z"/>
+  </g>
+</svg>

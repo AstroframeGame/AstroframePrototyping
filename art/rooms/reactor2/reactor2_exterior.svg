@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 156 90">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #58595b;
+      }
+
+      .cls-2 {
+        fill: #414141;
+      }
+    </style>
+  </defs>
+  <g id="Exterior">
+    <g id="reactor2_exterior">
+      <g>
+        <polygon class="cls-2" points="78 67.5 78 22.5 39 0 0 22.5 0 67.5 39 90 78 67.5"/>
+        <polygon class="cls-2" points="156 67.5 156 22.5 117 0 78 22.5 78 67.5 117 90 156 67.5"/>
+      </g>
+      <circle class="cls-1" cx="78" cy="45" r="21.98"/>
+      <circle class="cls-2" cx="78" cy="45" r="18.31"/>
+    </g>
+  </g>
+</svg>

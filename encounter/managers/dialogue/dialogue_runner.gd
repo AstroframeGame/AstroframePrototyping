@@ -3,6 +3,7 @@ class_name DialougeRunner
 
 const DIALOUGE_END = -1
 
+signal on_dialogue_end()
 
 @export var dialouge = [
 	["Maera","test text"],
@@ -69,6 +70,7 @@ func start(new_dialouge):
 	eval_next()
 	
 func end():
+	on_dialogue_end.emit()
 	visible = false
 
 func _input(_event: InputEvent) -> void:

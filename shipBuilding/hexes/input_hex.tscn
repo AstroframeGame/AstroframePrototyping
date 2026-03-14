@@ -5,23 +5,30 @@
 [ext_resource type="Script" uid="uid://vkswrxkw7tel" path="res://shipBuilding/hex_scripts/input_hex.gd" id="3_hajiv"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3btjd"]
-radius = 50.0
+radius = 27.018513
 
-[node name="InputHex" type="Sprite2D" unique_id=56559507]
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("1_3btjd")
+[sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_hajiv"]
+polyphony = 2
 
-[node name="Torus" type="Sprite2D" parent="." unique_id=1576327734]
-self_modulate = Color(0.5322763, 0.5322763, 0.5322763, 1)
-scale = Vector2(0.065, 0.065)
-texture = ExtResource("2_hajiv")
-
-[node name="InClickArea" type="Area2D" parent="." unique_id=1345779495]
-z_index = 100
-collision_layer = 8
+[node name="InClickArea" type="Area2D" unique_id=1345779495]
+z_index = 3
+collision_layer = 12
 collision_mask = 0
 script = ExtResource("3_hajiv")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="InClickArea" unique_id=1907011775]
+[node name="InputHex" type="Sprite2D" parent="." unique_id=56559507]
+visible = false
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_3btjd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1907011775]
 shape = SubResource("CircleShape2D_3btjd")
 debug_color = Color(0.80322397, 0.007534195, 0.99999994, 0.41960785)
+
+[node name="Torus" type="Sprite2D" parent="." unique_id=1576327734]
+self_modulate = Color(0.5322763, 0.5322763, 0.5322763, 1)
+scale = Vector2(0.0325, 0.0325)
+texture = ExtResource("2_hajiv")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1452920084]
+stream = SubResource("AudioStreamPolyphonic_hajiv")

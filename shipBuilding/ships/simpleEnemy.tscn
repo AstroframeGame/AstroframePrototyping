@@ -26,10 +26,10 @@ collision_mask = 257
 input_pickable = true
 gravity_scale = 0.0
 continuous_cd = 1
+contact_monitor = true
+max_contacts_reported = 5
 script = ExtResource("1_0fyav")
 hud = NodePath("ShipHUD")
-max_hit_points = 1
-_hit_points = 1
 
 [node name="HexGrid" type="TileMapLayer" parent="." unique_id=1277847278 instance=ExtResource("2_g6pe3")]
 enabled = false
@@ -37,7 +37,7 @@ tile_set = SubResource("TileSet_xsh4c")
 collision_enabled = false
 navigation_enabled = false
 
-[node name="Solid" type="CollisionPolygon2D" parent="." unique_id=622289065]
+[node name="Solid" type="CollisionPolygon2D" parent="." unique_id=1238782836]
 
 [node name="ShipHUD" type="CanvasLayer" parent="." unique_id=532014552 instance=ExtResource("3_ullhp")]
 visible = false
@@ -55,7 +55,7 @@ script = ExtResource("8_5jsne")
 position = Vector2(273, 45)
 script = ExtResource("7_38arh")
 
-[node name="_CollisionPolygon2D_135" type="Node2D" parent="." unique_id=1521222669 instance=ExtResource("6_ullhp")]
+[node name="_CollisionPolygon2D_135" type="Node2D" parent="." unique_id=1756353966 instance=ExtResource("6_ullhp")]
 position = Vector2(39, 45)
 rotation = 1.0471976
 script = ExtResource("7_38arh")
@@ -70,17 +70,17 @@ position = Vector2(0, 112.5)
 rotation = 4.1887903
 script = ExtResource("4_ha8g0")
 
-[node name="_CollisionPolygon2D_136" type="Node2D" parent="." unique_id=1245804201 instance=ExtResource("9_5jsne")]
+[node name="_CollisionPolygon2D_136" type="Node2D" parent="." unique_id=1921424846 instance=ExtResource("9_5jsne")]
 position = Vector2(39, 180)
 rotation = 4.1887903
 script = ExtResource("4_ha8g0")
 
-[node name="_CollisionPolygon2D_137" type="Node2D" parent="." unique_id=641882382 instance=ExtResource("9_5jsne")]
+[node name="_CollisionPolygon2D_137" type="Node2D" parent="." unique_id=117240670 instance=ExtResource("9_5jsne")]
 position = Vector2(117, -90)
 rotation = 4.1887903
 script = ExtResource("4_ha8g0")
 
-[node name="_CollisionPolygon2D_138" type="Node2D" parent="." unique_id=396098167 instance=ExtResource("9_5jsne")]
+[node name="_CollisionPolygon2D_138" type="Node2D" parent="." unique_id=1780977452 instance=ExtResource("9_5jsne")]
 position = Vector2(195, -90)
 rotation = 4.1887903
 script = ExtResource("4_ha8g0")
@@ -89,6 +89,6 @@ script = ExtResource("4_ha8g0")
 position = Vector2(156, -22.5)
 script = ExtResource("15_8bh23")
 
-[node name="Walls" type="StaticBody2D" parent="." unique_id=1106142830]
+[node name="Walls" type="StaticBody2D" parent="." unique_id=2130016951]
 collision_layer = 16
 collision_mask = 0
