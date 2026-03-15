@@ -3,23 +3,36 @@ extends Button
 
 @export var action_name: String
 @export var event_index: int = 0
-@export var is_keyboard_bind: bool = true
+
+var menu_manager : MenuManager:
+	get:
+		return get_node("/root/Hub/UI")
 
 const CONTROLLER_LABELS: Dictionary = {
 	JoyButton.JOY_BUTTON_A: "A",
 	JoyButton.JOY_BUTTON_B: "B",
 	JoyButton.JOY_BUTTON_X: "X",
 	JoyButton.JOY_BUTTON_Y: "Y",
+	JoyButton.JOY_BUTTON_BACK: "Back",
+	JoyButton.JOY_BUTTON_GUIDE: "Select",
+	JoyButton.JOY_BUTTON_START: "Start",
+	JoyButton.JOY_BUTTON_LEFT_STICK: "L-Stick Press",
+	JoyButton.JOY_BUTTON_RIGHT_STICK: "R-Stick Press",
 	JoyButton.JOY_BUTTON_LEFT_SHOULDER: "LB",
 	JoyButton.JOY_BUTTON_RIGHT_SHOULDER: "RB",
-	JoyButton.JOY_BUTTON_LEFT_STICK: "L3",
-	JoyButton.JOY_BUTTON_RIGHT_STICK: "R3",
-	JoyButton.JOY_BUTTON_DPAD_UP: "↑",
-	JoyButton.JOY_BUTTON_DPAD_DOWN: "↓",
-	JoyButton.JOY_BUTTON_DPAD_LEFT: "←",
-	JoyButton.JOY_BUTTON_DPAD_RIGHT: "→",
-	JoyButton.JOY_BUTTON_START: "Start",
-	JoyButton.JOY_BUTTON_GUIDE: "Select"
+	JoyButton.JOY_BUTTON_DPAD_UP: "D-Pad ↑",
+	JoyButton.JOY_BUTTON_DPAD_DOWN: "D-Pad ↓",
+	JoyButton.JOY_BUTTON_DPAD_LEFT: "D-Pad ←",
+	JoyButton.JOY_BUTTON_DPAD_RIGHT: "D-Pad →",
+}
+
+const MOTION_LABELS: Dictionary = {
+	JoyAxis.JOY_AXIS_LEFT_X: "L-Stick ←→",
+	JoyAxis.JOY_AXIS_LEFT_Y: "L-Stick ↑↓",
+	JoyAxis.JOY_AXIS_RIGHT_X: "R-Stick ←→",
+	JoyAxis.JOY_AXIS_RIGHT_Y: "R-Stick ↑↓",
+	JoyAxis.JOY_AXIS_TRIGGER_LEFT: "LT",
+	JoyAxis.JOY_AXIS_TRIGGER_RIGHT: "RT"
 }
 
 func _ready() -> void:
@@ -40,13 +53,19 @@ func _toggled(toggled_on: bool) -> void:
 		return
 		
 	var input = InputMap.action_get_events(action_name)[event_index]
-	if input is InputEventJoypadButton and !is_keyboard_bind:
+	if input is InputEventJoypadButton:
 		if CONTROLLER_LABELS.has(input.button_index):
 			text = CONTROLLER_LABELS.get(input.button_index)
 		else:
 			text = "New Button " + str(input.button_index)
 	
-	elif input is InputEventKey and is_keyboard_bind:
+	elif input is InputEventJoypadMotion:
+		if MOTION_LABELS.has(input.axis):
+			text = MOTION_LABELS.get(input.axis)
+		else:
+			text = "New Button " + str(input.axis)
+	
+	elif input is InputEventKey:
 		if input.physical_keycode != 0:
 			text = OS.get_keycode_string(input.physical_keycode)
 		else:
@@ -57,6 +76,15 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 		
 	if event.is_pressed() and (event is InputEventKey or event is InputEventJoypadButton):
+		if event.is_action("pause"):
+			button_pressed = false
+			release_focus()
+			# baaad solution
+			# "pause" here clashes with "pause" when trying to exit settings
+			await get_tree().process_frame 
+			menu_manager.open_menu("Settings")
+			return
+		
 		var events_list = InputMap.action_get_events(action_name)
 		if event_index < events_list.size():
 			InputMap.action_erase_event(action_name, events_list[event_index])

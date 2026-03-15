@@ -1,0 +1,949 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://shipBuilding/ship.gd" id="1_w44jn"]
+[ext_resource type="PackedScene" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_sj5ot"]
+[ext_resource type="PackedScene" path="res://shipAI/prefabs/hud.tscn" id="3_7v0d5"]
+[ext_resource type="Script" path="res://shipAI/Scripts/ship_hud.gd" id="4_glqym"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/cannon.tscn" id="5_dmck8"]
+[ext_resource type="Script" path="res://shipBuilding/room_scripts/cannon.gd" id="6_scxpq"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/hull_1.tscn" id="7_6s26r"]
+[ext_resource type="Script" path="res://shipBuilding/room.gd" id="8_rdf36"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/airlock_1.tscn" id="9_2gnff"]
+[ext_resource type="Script" path="res://shipBuilding/room_scripts/airlock.gd" id="10_hoxp2"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/reactor_4.tscn" id="11_jgx0e"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/aim_augment_2.tscn" id="12_jhu6j"]
+[ext_resource type="Script" path="res://shipBuilding/room_scripts/aim_augment.gd" id="13_oaeux"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/reactor_2.tscn" id="14_ya6hc"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/piloting_1.tscn" id="15_h6lh6"]
+[ext_resource type="Script" path="res://shipBuilding/room_scripts/piloting.gd" id="16_8s1pq"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/shields_3.tscn" id="17_388mf"]
+[ext_resource type="Script" path="res://shipBuilding/room_scripts/shields.gd" id="18_410kc"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/turret_3.tscn" id="19_xif4g"]
+[ext_resource type="Script" path="res://shipBuilding/room_scripts/turret.gd" id="20_abtdo"]
+
+[sub_resource type="TileSet" id="TileSet_xsh4c"]
+tile_shape = 3
+tile_size = Vector2i(78, 90)
+
+[node name="kevins linkedin background" type="RigidBody2D" unique_id=1784127879 node_paths=PackedStringArray("hud")]
+z_index = 1
+collision_mask = 257
+input_pickable = true
+gravity_scale = 0.0
+sleeping = true
+continuous_cd = 1
+contact_monitor = true
+max_contacts_reported = 5
+script = ExtResource("1_w44jn")
+hud = NodePath("ShipHUD")
+
+[node name="HexGrid" type="TileMapLayer" parent="." unique_id=1277847278 instance=ExtResource("2_sj5ot")]
+enabled = false
+tile_set = SubResource("TileSet_xsh4c")
+collision_enabled = false
+navigation_enabled = false
+
+[node name="Solid" type="CollisionPolygon2D" parent="." unique_id=138595352]
+
+[node name="ShipHUD" type="CanvasLayer" parent="." unique_id=532014552 instance=ExtResource("3_7v0d5")]
+visible = false
+script = ExtResource("4_glqym")
+
+[node name="Walls" type="StaticBody2D" parent="." unique_id=710497638]
+collision_layer = 16
+collision_mask = 0
+
+[node name="Cannon" type="Node2D" parent="." unique_id=195129740 instance=ExtResource("5_dmck8")]
+position = Vector2(-78, -22.5)
+rotation = 3.1415927
+script = ExtResource("6_scxpq")
+original_color = Color(1, 1, 1, 1)
+
+[node name="Hull_1" type="Node2D" parent="." unique_id=284853880 instance=ExtResource("7_6s26r")]
+position = Vector2(-39, -90)
+rotation = 3.1415927
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@990" type="Node2D" parent="." unique_id=600189856 instance=ExtResource("7_6s26r")]
+position = Vector2(0, -22.5)
+rotation = 3.1415927
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="Airlock_1" type="Node2D" parent="." unique_id=2084884563 instance=ExtResource("9_2gnff")]
+position = Vector2(39, -90)
+rotation = 3.1415927
+script = ExtResource("10_hoxp2")
+original_color = Color(1, 1, 1, 1)
+
+[node name="Reactor_4" type="Node2D" parent="." unique_id=542255097 instance=ExtResource("11_jgx0e")]
+position = Vector2(195, 45)
+rotation = 5.2359877
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@997" type="Node2D" parent="." unique_id=1945280518 instance=ExtResource("7_6s26r")]
+position = Vector2(39, 45)
+rotation = 5.2359877
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@999" type="Node2D" parent="." unique_id=683304303 instance=ExtResource("7_6s26r")]
+position = Vector2(78, 112.5)
+rotation = 5.2359877
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1001" type="Node2D" parent="." unique_id=2131027300 instance=ExtResource("7_6s26r")]
+position = Vector2(234, -22.5)
+rotation = 5.2359877
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1003" type="Node2D" parent="." unique_id=1632903116 instance=ExtResource("7_6s26r")]
+position = Vector2(195, -90)
+rotation = 5.2359877
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1006" type="Node2D" parent="." unique_id=1688013298 instance=ExtResource("5_dmck8")]
+position = Vector2(156, 112.5)
+rotation = 2.0943952
+script = ExtResource("6_scxpq")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1010" type="Node2D" parent="." unique_id=717598600 instance=ExtResource("9_2gnff")]
+position = Vector2(39, 180)
+rotation = 3.1415927
+script = ExtResource("10_hoxp2")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1013" type="Node2D" parent="." unique_id=1499789149 instance=ExtResource("7_6s26r")]
+position = Vector2(0, 112.5)
+rotation = 3.1415927
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1015" type="Node2D" parent="." unique_id=219640522 instance=ExtResource("7_6s26r")]
+position = Vector2(0, 247.5)
+rotation = 3.1415927
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="Aim_Augment_2" type="Node2D" parent="." unique_id=1056768738 instance=ExtResource("12_jhu6j")]
+position = Vector2(-117, 45)
+script = ExtResource("13_oaeux")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1019" type="Node2D" parent="." unique_id=550387031 instance=ExtResource("12_jhu6j")]
+position = Vector2(78, -157.5)
+script = ExtResource("13_oaeux")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1021" type="Node2D" parent="." unique_id=1825044517 instance=ExtResource("12_jhu6j")]
+position = Vector2(78, 247.5)
+script = ExtResource("13_oaeux")
+original_color = Color(1, 1, 1, 1)
+
+[node name="Reactor_2" type="Node2D" parent="." unique_id=368948470 instance=ExtResource("14_ya6hc")]
+position = Vector2(-234, 112.5)
+rotation = 5.2359877
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1027" type="Node2D" parent="." unique_id=684427964 instance=ExtResource("7_6s26r")]
+position = Vector2(-156, 112.5)
+rotation = 4.1887903
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1029" type="Node2D" parent="." unique_id=522901841 instance=ExtResource("7_6s26r")]
+position = Vector2(-78, 112.5)
+rotation = 4.1887903
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1031" type="Node2D" parent="." unique_id=786165488 instance=ExtResource("7_6s26r")]
+position = Vector2(-39, 180)
+rotation = 4.1887903
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1036" type="Node2D" parent="." unique_id=447156383 instance=ExtResource("5_dmck8")]
+position = Vector2(-78, 247.5)
+rotation = 4.1887903
+script = ExtResource("6_scxpq")
+original_color = Color(1, 1, 1, 1)
+
+[node name="Piloting_1" type="Node2D" parent="." unique_id=150588005 instance=ExtResource("15_h6lh6")]
+position = Vector2(-195, 180)
+script = ExtResource("16_8s1pq")
+original_color = Color(1, 1, 1, 1)
+
+[node name="Shields_3" type="Node2D" parent="." unique_id=1633765650 instance=ExtResource("17_388mf")]
+position = Vector2(-312, 247.5)
+rotation = 1.0471976
+script = ExtResource("18_410kc")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1042" type="Node2D" parent="." unique_id=2112064847 instance=ExtResource("17_388mf")]
+position = Vector2(273, -90)
+script = ExtResource("18_410kc")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1044" type="Node2D" parent="." unique_id=203969908 instance=ExtResource("17_388mf")]
+position = Vector2(234, 247.5)
+script = ExtResource("18_410kc")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1047" type="Node2D" parent="." unique_id=869485935 instance=ExtResource("7_6s26r")]
+position = Vector2(-156, 247.5)
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1049" type="Node2D" parent="." unique_id=1101331568 instance=ExtResource("7_6s26r")]
+position = Vector2(234, 112.5)
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1051" type="Node2D" parent="." unique_id=1450171973 instance=ExtResource("7_6s26r")]
+position = Vector2(117, -90)
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1054" type="Node2D" parent="." unique_id=1611741207 instance=ExtResource("15_h6lh6")]
+position = Vector2(-117, -90)
+script = ExtResource("16_8s1pq")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1057" type="Node2D" parent="." unique_id=755536108 instance=ExtResource("7_6s26r")]
+position = Vector2(-351, 180)
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1059" type="Node2D" parent="." unique_id=1614379470 instance=ExtResource("7_6s26r")]
+position = Vector2(-234, -22.5)
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1061" type="Node2D" parent="." unique_id=1717645003 instance=ExtResource("7_6s26r")]
+position = Vector2(-273, 45)
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1063" type="Node2D" parent="." unique_id=1242255434 instance=ExtResource("7_6s26r")]
+position = Vector2(0, -157.5)
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1066" type="Node2D" parent="." unique_id=1644279919 instance=ExtResource("14_ya6hc")]
+position = Vector2(-78, -157.5)
+rotation = 3.1415927
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1069" type="Node2D" parent="." unique_id=898209878 instance=ExtResource("9_2gnff")]
+position = Vector2(-312, 112.5)
+script = ExtResource("10_hoxp2")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1072" type="Node2D" parent="." unique_id=1761203281 instance=ExtResource("5_dmck8")]
+position = Vector2(-429, 45)
+rotation = 1.0471976
+script = ExtResource("6_scxpq")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1074" type="Node2D" parent="." unique_id=10241649 instance=ExtResource("5_dmck8")]
+position = Vector2(-273, -90)
+script = ExtResource("6_scxpq")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1078" type="Node2D" parent="." unique_id=927543101 instance=ExtResource("11_jgx0e")]
+position = Vector2(-546, 247.5)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1081" type="Node2D" parent="." unique_id=961815170 instance=ExtResource("7_6s26r")]
+position = Vector2(-390, 247.5)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1083" type="Node2D" parent="." unique_id=1900010969 instance=ExtResource("7_6s26r")]
+position = Vector2(-585, 180)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1085" type="Node2D" parent="." unique_id=1341497799 instance=ExtResource("7_6s26r")]
+position = Vector2(-624, 247.5)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1087" type="Node2D" parent="." unique_id=339247932 instance=ExtResource("7_6s26r")]
+position = Vector2(-624, 112.5)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1089" type="Node2D" parent="." unique_id=1437776065 instance=ExtResource("7_6s26r")]
+position = Vector2(-585, 45)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1091" type="Node2D" parent="." unique_id=487978437 instance=ExtResource("7_6s26r")]
+position = Vector2(-624, -22.5)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1093" type="Node2D" parent="." unique_id=191672049 instance=ExtResource("7_6s26r")]
+position = Vector2(-585, -90)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1095" type="Node2D" parent="." unique_id=1466787044 instance=ExtResource("7_6s26r")]
+position = Vector2(-624, -157.5)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1097" type="Node2D" parent="." unique_id=160822898 instance=ExtResource("7_6s26r")]
+position = Vector2(-585, -225)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1099" type="Node2D" parent="." unique_id=1724972158 instance=ExtResource("7_6s26r")]
+position = Vector2(-585, 315)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1101" type="Node2D" parent="." unique_id=827552635 instance=ExtResource("7_6s26r")]
+position = Vector2(-507, 315)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1103" type="Node2D" parent="." unique_id=517022605 instance=ExtResource("7_6s26r")]
+position = Vector2(-429, 315)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1105" type="Node2D" parent="." unique_id=2012183888 instance=ExtResource("7_6s26r")]
+position = Vector2(-351, 315)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1107" type="Node2D" parent="." unique_id=696983399 instance=ExtResource("7_6s26r")]
+position = Vector2(-273, 315)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1109" type="Node2D" parent="." unique_id=918918509 instance=ExtResource("7_6s26r")]
+position = Vector2(-195, 315)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1111" type="Node2D" parent="." unique_id=1951219932 instance=ExtResource("7_6s26r")]
+position = Vector2(-117, 315)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1113" type="Node2D" parent="." unique_id=118680018 instance=ExtResource("7_6s26r")]
+position = Vector2(-39, 315)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1115" type="Node2D" parent="." unique_id=1338743722 instance=ExtResource("7_6s26r")]
+position = Vector2(39, 315)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1117" type="Node2D" parent="." unique_id=1996177221 instance=ExtResource("7_6s26r")]
+position = Vector2(117, 315)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1119" type="Node2D" parent="." unique_id=556219503 instance=ExtResource("7_6s26r")]
+position = Vector2(195, 315)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1121" type="Node2D" parent="." unique_id=1219460384 instance=ExtResource("7_6s26r")]
+position = Vector2(273, 315)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1123" type="Node2D" parent="." unique_id=264630696 instance=ExtResource("7_6s26r")]
+position = Vector2(351, 315)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1125" type="Node2D" parent="." unique_id=1348151135 instance=ExtResource("7_6s26r")]
+position = Vector2(429, 315)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1127" type="Node2D" parent="." unique_id=1096805388 instance=ExtResource("7_6s26r")]
+position = Vector2(507, 315)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1129" type="Node2D" parent="." unique_id=896398979 instance=ExtResource("7_6s26r")]
+position = Vector2(585, 315)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1131" type="Node2D" parent="." unique_id=1040325446 instance=ExtResource("7_6s26r")]
+position = Vector2(663, 315)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1133" type="Node2D" parent="." unique_id=1144741094 instance=ExtResource("7_6s26r")]
+position = Vector2(741, 315)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1135" type="Node2D" parent="." unique_id=827250426 instance=ExtResource("7_6s26r")]
+position = Vector2(819, 315)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1137" type="Node2D" parent="." unique_id=1162894411 instance=ExtResource("7_6s26r")]
+position = Vector2(897, 315)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1139" type="Node2D" parent="." unique_id=1970045784 instance=ExtResource("7_6s26r")]
+position = Vector2(936, 247.5)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1141" type="Node2D" parent="." unique_id=1099894718 instance=ExtResource("7_6s26r")]
+position = Vector2(897, 180)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1143" type="Node2D" parent="." unique_id=247592892 instance=ExtResource("7_6s26r")]
+position = Vector2(936, 112.5)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1145" type="Node2D" parent="." unique_id=612080076 instance=ExtResource("7_6s26r")]
+position = Vector2(897, 45)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1147" type="Node2D" parent="." unique_id=625585790 instance=ExtResource("7_6s26r")]
+position = Vector2(936, -22.5)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1149" type="Node2D" parent="." unique_id=1385027343 instance=ExtResource("7_6s26r")]
+position = Vector2(897, -90)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1151" type="Node2D" parent="." unique_id=602423707 instance=ExtResource("7_6s26r")]
+position = Vector2(936, -157.5)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1153" type="Node2D" parent="." unique_id=2027543647 instance=ExtResource("7_6s26r")]
+position = Vector2(897, -225)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1155" type="Node2D" parent="." unique_id=453749274 instance=ExtResource("7_6s26r")]
+position = Vector2(858, -292.5)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1157" type="Node2D" parent="." unique_id=996220771 instance=ExtResource("7_6s26r")]
+position = Vector2(780, -292.5)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1159" type="Node2D" parent="." unique_id=1117723287 instance=ExtResource("7_6s26r")]
+position = Vector2(702, -292.5)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1161" type="Node2D" parent="." unique_id=283363976 instance=ExtResource("7_6s26r")]
+position = Vector2(624, -292.5)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1163" type="Node2D" parent="." unique_id=1044013554 instance=ExtResource("7_6s26r")]
+position = Vector2(546, -292.5)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1165" type="Node2D" parent="." unique_id=664603430 instance=ExtResource("7_6s26r")]
+position = Vector2(936, -292.5)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1167" type="Node2D" parent="." unique_id=973264183 instance=ExtResource("7_6s26r")]
+position = Vector2(468, -292.5)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1169" type="Node2D" parent="." unique_id=1750974663 instance=ExtResource("7_6s26r")]
+position = Vector2(390, -292.5)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1171" type="Node2D" parent="." unique_id=42378880 instance=ExtResource("7_6s26r")]
+position = Vector2(312, -292.5)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1173" type="Node2D" parent="." unique_id=538358126 instance=ExtResource("7_6s26r")]
+position = Vector2(234, -292.5)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1175" type="Node2D" parent="." unique_id=148295677 instance=ExtResource("7_6s26r")]
+position = Vector2(156, -292.5)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1177" type="Node2D" parent="." unique_id=128262356 instance=ExtResource("7_6s26r")]
+position = Vector2(78, -292.5)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1179" type="Node2D" parent="." unique_id=1639992791 instance=ExtResource("7_6s26r")]
+position = Vector2(0, -292.5)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1181" type="Node2D" parent="." unique_id=687442197 instance=ExtResource("7_6s26r")]
+position = Vector2(-78, -292.5)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1183" type="Node2D" parent="." unique_id=686345587 instance=ExtResource("7_6s26r")]
+position = Vector2(-156, -292.5)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1185" type="Node2D" parent="." unique_id=1733758539 instance=ExtResource("7_6s26r")]
+position = Vector2(-234, -292.5)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1187" type="Node2D" parent="." unique_id=1402300362 instance=ExtResource("7_6s26r")]
+position = Vector2(-312, -292.5)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1189" type="Node2D" parent="." unique_id=1066081135 instance=ExtResource("7_6s26r")]
+position = Vector2(-390, -292.5)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1191" type="Node2D" parent="." unique_id=1677367078 instance=ExtResource("7_6s26r")]
+position = Vector2(-468, -292.5)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1193" type="Node2D" parent="." unique_id=1790140619 instance=ExtResource("7_6s26r")]
+position = Vector2(-546, -292.5)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1195" type="Node2D" parent="." unique_id=956505557 instance=ExtResource("7_6s26r")]
+position = Vector2(-624, -292.5)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1198" type="Node2D" parent="." unique_id=627544591 instance=ExtResource("5_dmck8")]
+position = Vector2(702, 247.5)
+rotation = 5.2359877
+script = ExtResource("6_scxpq")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1200" type="Node2D" parent="." unique_id=1474730673 instance=ExtResource("5_dmck8")]
+position = Vector2(429, -225)
+script = ExtResource("6_scxpq")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1202" type="Node2D" parent="." unique_id=567321410 instance=ExtResource("5_dmck8")]
+position = Vector2(858, -22.5)
+rotation = 3.1415927
+script = ExtResource("6_scxpq")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1206" type="Node2D" parent="." unique_id=1006468649 instance=ExtResource("7_6s26r")]
+position = Vector2(351, -225)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1208" type="Node2D" parent="." unique_id=90620862 instance=ExtResource("7_6s26r")]
+position = Vector2(819, 45)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1210" type="Node2D" parent="." unique_id=727382023 instance=ExtResource("7_6s26r")]
+position = Vector2(663, 180)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1213" type="Node2D" parent="." unique_id=1393778797 instance=ExtResource("15_h6lh6")]
+position = Vector2(546, 247.5)
+script = ExtResource("16_8s1pq")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1215" type="Node2D" parent="." unique_id=1551649093 instance=ExtResource("15_h6lh6")]
+position = Vector2(663, -225)
+script = ExtResource("16_8s1pq")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1217" type="Node2D" parent="." unique_id=1360751665 instance=ExtResource("15_h6lh6")]
+position = Vector2(273, 45)
+script = ExtResource("16_8s1pq")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1220" type="Node2D" parent="." unique_id=640447187 instance=ExtResource("17_388mf")]
+position = Vector2(624, -22.5)
+rotation = 2.0943952
+script = ExtResource("18_410kc")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1222" type="Node2D" parent="." unique_id=588014997 instance=ExtResource("17_388mf")]
+position = Vector2(468, 112.5)
+rotation = 2.0943952
+script = ExtResource("18_410kc")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1225" type="Node2D" parent="." unique_id=1201344903 instance=ExtResource("5_dmck8")]
+position = Vector2(468, -22.5)
+rotation = 2.0943952
+script = ExtResource("6_scxpq")
+original_color = Color(1, 1, 1, 1)
+
+[node name="Turret_3" type="Node2D" parent="." unique_id=1336280051 instance=ExtResource("19_xif4g")]
+position = Vector2(351, 180)
+script = ExtResource("20_abtdo")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1233" type="Node2D" parent="." unique_id=1460464495 instance=ExtResource("9_2gnff")]
+position = Vector2(507, 45)
+script = ExtResource("10_hoxp2")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1235" type="Node2D" parent="." unique_id=1247345378 instance=ExtResource("9_2gnff")]
+position = Vector2(780, 247.5)
+script = ExtResource("10_hoxp2")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1237" type="Node2D" parent="." unique_id=2022801269 instance=ExtResource("9_2gnff")]
+position = Vector2(273, -225)
+script = ExtResource("10_hoxp2")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1239" type="Node2D" parent="." unique_id=2119536988 instance=ExtResource("9_2gnff")]
+position = Vector2(312, -22.5)
+script = ExtResource("10_hoxp2")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1242" type="Node2D" parent="." unique_id=803072383 instance=ExtResource("7_6s26r")]
+position = Vector2(351, 45)
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1244" type="Node2D" parent="." unique_id=86213313 instance=ExtResource("7_6s26r")]
+position = Vector2(390, -22.5)
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1246" type="Node2D" parent="." unique_id=1391787350 instance=ExtResource("7_6s26r")]
+position = Vector2(429, 180)
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1248" type="Node2D" parent="." unique_id=501063467 instance=ExtResource("7_6s26r")]
+position = Vector2(468, 247.5)
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1250" type="Node2D" parent="." unique_id=689656637 instance=ExtResource("7_6s26r")]
+position = Vector2(390, 247.5)
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1252" type="Node2D" parent="." unique_id=934539654 instance=ExtResource("7_6s26r")]
+position = Vector2(312, 247.5)
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1254" type="Node2D" parent="." unique_id=1946890368 instance=ExtResource("7_6s26r")]
+position = Vector2(624, 247.5)
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1256" type="Node2D" parent="." unique_id=2091724289 instance=ExtResource("7_6s26r")]
+position = Vector2(585, 180)
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1258" type="Node2D" parent="." unique_id=835319717 instance=ExtResource("7_6s26r")]
+position = Vector2(585, 45)
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1260" type="Node2D" parent="." unique_id=2070997967 instance=ExtResource("7_6s26r")]
+position = Vector2(624, 112.5)
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1262" type="Node2D" parent="." unique_id=778451730 instance=ExtResource("7_6s26r")]
+position = Vector2(546, -22.5)
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1264" type="Node2D" parent="." unique_id=1604888520 instance=ExtResource("7_6s26r")]
+position = Vector2(741, 45)
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1266" type="Node2D" parent="." unique_id=559675162 instance=ExtResource("7_6s26r")]
+position = Vector2(741, -90)
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1268" type="Node2D" parent="." unique_id=549869664 instance=ExtResource("7_6s26r")]
+position = Vector2(858, 247.5)
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1270" type="Node2D" parent="." unique_id=1857214458 instance=ExtResource("7_6s26r")]
+position = Vector2(819, 180)
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1272" type="Node2D" parent="." unique_id=482907653 instance=ExtResource("7_6s26r")]
+position = Vector2(702, 112.5)
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1275" type="Node2D" parent="." unique_id=1412944739 instance=ExtResource("14_ya6hc")]
+position = Vector2(858, 112.5)
+rotation = 3.1415927
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1278" type="Node2D" parent="." unique_id=242748233 instance=ExtResource("11_jgx0e")]
+position = Vector2(585, -225)
+rotation = 3.1415927
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1280" type="Node2D" parent="." unique_id=384549992 instance=ExtResource("11_jgx0e")]
+position = Vector2(-546, -157.5)
+rotation = 1.0471976
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1283" type="Node2D" parent="." unique_id=720466119 instance=ExtResource("14_ya6hc")]
+position = Vector2(351, -90)
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1285" type="Node2D" parent="." unique_id=1622098749 instance=ExtResource("14_ya6hc")]
+position = Vector2(858, -157.5)
+rotation = 4.1887903
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1288" type="Node2D" parent="." unique_id=2067391069 instance=ExtResource("7_6s26r")]
+position = Vector2(468, -157.5)
+rotation = 4.1887903
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1290" type="Node2D" parent="." unique_id=694386761 instance=ExtResource("7_6s26r")]
+position = Vector2(390, -157.5)
+rotation = 4.1887903
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1292" type="Node2D" parent="." unique_id=398543474 instance=ExtResource("7_6s26r")]
+position = Vector2(507, -90)
+rotation = 4.1887903
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1294" type="Node2D" parent="." unique_id=2026446300 instance=ExtResource("7_6s26r")]
+position = Vector2(663, -90)
+rotation = 4.1887903
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1296" type="Node2D" parent="." unique_id=1281949845 instance=ExtResource("7_6s26r")]
+position = Vector2(702, -157.5)
+rotation = 4.1887903
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1298" type="Node2D" parent="." unique_id=1423472493 instance=ExtResource("7_6s26r")]
+position = Vector2(741, -225)
+rotation = 4.1887903
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1301" type="Node2D" parent="." unique_id=83706867 instance=ExtResource("15_h6lh6")]
+position = Vector2(819, -90)
+script = ExtResource("16_8s1pq")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1304" type="Node2D" parent="." unique_id=1693035525 instance=ExtResource("9_2gnff")]
+position = Vector2(780, -157.5)
+rotation = 3.1415927
+script = ExtResource("10_hoxp2")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1307" type="Node2D" parent="." unique_id=924510460 instance=ExtResource("17_388mf")]
+position = Vector2(-468, 112.5)
+rotation = 5.2359877
+script = ExtResource("18_410kc")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1309" type="Node2D" parent="." unique_id=494210183 instance=ExtResource("17_388mf")]
+position = Vector2(-273, -225)
+rotation = 4.1887903
+script = ExtResource("18_410kc")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1312" type="Node2D" parent="." unique_id=1133319391 instance=ExtResource("7_6s26r")]
+position = Vector2(-390, -157.5)
+rotation = 2.0943952
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1314" type="Node2D" parent="." unique_id=1579867922 instance=ExtResource("7_6s26r")]
+position = Vector2(-234, -157.5)
+rotation = 2.0943952
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1316" type="Node2D" parent="." unique_id=826082987 instance=ExtResource("7_6s26r")]
+position = Vector2(-195, -225)
+rotation = 2.0943952
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1318" type="Node2D" parent="." unique_id=942096485 instance=ExtResource("7_6s26r")]
+position = Vector2(-351, -90)
+rotation = 2.0943952
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1320" type="Node2D" parent="." unique_id=1369641485 instance=ExtResource("7_6s26r")]
+position = Vector2(-546, -22.5)
+rotation = 2.0943952
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1322" type="Node2D" parent="." unique_id=251485391 instance=ExtResource("7_6s26r")]
+position = Vector2(-468, -22.5)
+rotation = 2.0943952
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1324" type="Node2D" parent="." unique_id=801438711 instance=ExtResource("7_6s26r")]
+position = Vector2(-351, 45)
+rotation = 2.0943952
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1343" type="Node2D" parent="." unique_id=1389089150 instance=ExtResource("12_jhu6j")]
+position = Vector2(-429, -90)
+rotation = 3.1415927
+script = ExtResource("13_oaeux")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1346" type="Node2D" parent="." unique_id=1301841230 instance=ExtResource("7_6s26r")]
+position = Vector2(-312, -22.5)
+rotation = 3.1415927
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1349" type="Node2D" parent="." unique_id=1025248332 instance=ExtResource("15_h6lh6")]
+position = Vector2(-390, -22.5)
+script = ExtResource("16_8s1pq")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1352" type="Node2D" parent="." unique_id=331079582 instance=ExtResource("14_ya6hc")]
+position = Vector2(117, -225)
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1355" type="Node2D" parent="." unique_id=457228213 instance=ExtResource("5_dmck8")]
+position = Vector2(-117, -225)
+script = ExtResource("6_scxpq")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@1358" type="Node2D" parent="." unique_id=598726821 instance=ExtResource("7_6s26r")]
+position = Vector2(39, -225)
+script = ExtResource("8_rdf36")
+original_color = Color(1, 1, 1, 1)

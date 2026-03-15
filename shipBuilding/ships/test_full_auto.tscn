@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://b50c1gq8xsg28"]
+[gd_scene format=3 uid="uid://82tb5tkmlcm1"]
 
 [ext_resource type="Script" uid="uid://bsurseo1hgudf" path="res://shipBuilding/ship.gd" id="1_mo3i5"]
 [ext_resource type="PackedScene" uid="uid://c2n7netp00xn6" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_3w621"]

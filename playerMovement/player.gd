@@ -55,14 +55,16 @@ var ship: Ship
 @onready var grapple: Grapple = $Grapple
 
 var health = 100
+var is_dead : bool = false
 
 var grounded : bool:
 	get:
 		ground_check = $GroundCheck
 		return ground_check.has_overlapping_bodies() or ground_check.has_overlapping_areas()
 
-
 @onready var handgun: PlayerGun = $handgun
+
+@onready var menu_manager : MenuManager = $"../../UI"
 
 #region MultiplayerGlobals
 ## ====== Multiplayer START ======
@@ -132,155 +134,42 @@ func _ready() -> void:
 #endregion
 
 func _physics_process(delta):
-	if is_multiplayer_authority():
-		apply_ground_body_transform()
-		input_dir = input_dir.normalized().rotated(global_rotation)
-		if ship_pushed: ## Action for movement
-			pushed = false
-			print("\nR Pressed:\n ground_body: ", ground_body, "\n ship: ", ship, "\n")
-			if pushing:
-				pushing = false
-			else:
-				pushing = ground_body != null and ground_body is Ship and ship == null
-		push_dir = input_dir
-		
-		if seat or pushing:
-			velocity = Vector2.ZERO # ship vel added later
-			handgun.holster()
-		elif grapple.wants_grapple():
-			velocity = grapple.velocity(delta)
-		elif grounded:
-			# remove rotation?
-			#rotate(Input.get_axis("rotate_left","rotate_right") * rotate_speed * delta)
-			velocity = input_dir * walk_speed
-		else:
-			ground_body = null
-			var goal_vel = Vector2.ZERO
-			if push_brake:
-				velocity = velocity.move_toward(Vector2.ZERO, thrust_accel * delta)
-			else:
-				goal_vel = velocity + input_dir * thrust_move
-				velocity = velocity.move_toward(goal_vel, thrust_accel * delta)
-		
-		if is_shooting:
-			sync_shooting.rpc()
-		
-		if is_holstering and not seat and not was_holstering:
-			sync_holstering.rpc()
-			was_holstering = true
-		elif not is_holstering and was_holstering:
-			was_holstering = false
-			
-		if is_interacting and not was_interacting:
-			print("Multiplayer Approved Interacting")
-			sync_interacting.rpc()
-			was_interacting = true
-		elif not is_interacting and was_interacting:
-			was_interacting = false
-			
-		if event_in_room != "" and not is_interacting:
-			sync_room_inputs.rpc(event_in_room)
-		
-		for i in range(get_slide_collision_count()):
-			var collision = get_slide_collision(i)
-			var collider = collision.get_collider()
-
-			if collider is RigidBody2D:
-				var force_dir = -collision.get_normal()
-				var impulse = force_dir * 200 * delta
-				collider.apply_central_impulse(impulse)
-		var sync_dict = {
-			"global_position"       : global_position,
-			"velocity"              : velocity,
-			"global_mouse_position" : mouse_pos,
-			"screen_mouse_position" : screen_mouse_pos,
-			"input_directory"       : input_dir,
-			"pushing_check"         : pushing,
-			"client_push_check"     : pushed,
-		}
-		sync_state.rpc(sync_dict)
-		move_and_slide()
-	else:
-		global_position = global_position.lerp(target_pos, 0.25)
-		velocity = target_vel
-
-## ====== Multiplayer START ======	
-
-func _process(_delta: float) -> void:
-	is_local_player = multiplayer.get_unique_id() == owner_id or not is_multiplayer
+	apply_ground_body_transform()
 	
-	visible = ship == multiplayer_manager.my_player.ship or multiplayer_manager.my_player.seat != null
-	if ship:
-		rotation = ship.rotation
-	
-	if is_local_player:
-		var dir = Input.get_vector("left", "right", "up", "down")
-		var is_braking = Input.is_action_pressed("brake")
-		var m_pos = get_global_mouse_position()
-		var center = get_viewport().get_visible_rect().get_center()
-		var scrn_m_pos = get_viewport().get_mouse_position() - center
-		
-		pushed = pushed or Input.is_action_just_pressed("ship_push")
-
-		if is_multiplayer_authority():
-			input_dir        = dir
-			push_brake       = is_braking
-			ship_pushed      = pushed
-			mouse_pos        = m_pos
-			screen_mouse_pos = scrn_m_pos
-		else:
-			send_input.rpc_id(1, dir, m_pos, scrn_m_pos, is_braking, pushed)
-
-#region SyncingMovement
-@rpc("any_peer", "call_remote", "reliable")
-func send_input(dir: Vector2, m_pos: Vector2, scrn_m_pos: Vector2, is_braking: bool, push: bool):
-	var sender_id = multiplayer.get_remote_sender_id()
-	if sender_id != owner_id:
-		push_warning("[player.gd]: Player %d tried to control player %d" % [sender_id, owner_id])
+	if not input_enabled:
 		return
-
-	input_dir        = dir
 	
-	push_brake       = is_braking
-	ship_pushed      = push
-	mouse_pos        = m_pos
-	screen_mouse_pos = scrn_m_pos
+	var direction = Input.get_vector("left", "right", "up", "down")
+	direction = direction.normalized().rotated(global_rotation)
+	if Input.is_action_just_pressed("ship_push"):
+		if pushing:
+			pushing = false
+		else:
+			pushing = ground_body != null and ground_body is Ship and ship == null
+	push_dir = direction
+	push_brake = Input.is_action_pressed("brake")
+	#print(ground_body != null , ground_body is Ship , ship == null , Input.is_action_pressed("ship_push"))
+	
+	if seat or pushing:
+		velocity = Vector2.ZERO # ship vel added later
+		handgun.holster()
+	elif grapple.wants_grapple():
+		velocity = grapple.velocity(delta)
+	elif grounded:
+		# remove rotation?
+		#rotate(Input.get_axis("rotate_left","rotate_right") * rotate_speed * delta)
+		velocity = direction * walk_speed
+	else:
+		ground_body = null
+		var goal_vel = Vector2.ZERO
+		if Input.is_action_pressed("brake"):
+			velocity = velocity.move_toward(Vector2.ZERO, thrust_accel * delta)
+		else:
+			goal_vel = velocity + direction * thrust_move
+			velocity = velocity.move_toward(goal_vel, thrust_accel * delta)
+	
+	move_and_slide()
 
-@rpc("authority", "call_remote", "unreliable")
-func sync_state(sync_dict: Dictionary):
-	if not is_multiplayer_authority():
-		target_pos       = sync_dict.global_position
-		target_vel       = sync_dict.velocity
-		mouse_pos        = sync_dict.global_mouse_position
-		screen_mouse_pos = sync_dict.screen_mouse_position
-		input_dir        = sync_dict.input_directory
-		push_dir         = sync_dict.input_directory
-		pushing          = sync_dict.pushing_check
-		pushed           = sync_dict.client_push_check
-		
-#endregion
-#region SyncingActions
-@rpc("authority", "call_local", "unreliable")
-func sync_shooting():
-	handgun.shoot_bullet()
-
-@rpc("authority", "call_local", "unreliable")
-func sync_holstering():
-	handgun.toggle_holster()
-
-@rpc("authority", "call_local", "unreliable")
-func sync_interacting():
-	interact()
-
-@rpc("authority", "call_local", "unreliable")
-func sync_room_inputs(room_event: StringName):
-	if seat and seat.room:
-		seat.room.handle_input(room_event)
-#endregion
-
-## ======  Multiplayer END  ======
-
-#region InteractionManager
 # currently interacts with the first overlapping interactable area, but this can be changed to nearest, last, all, ect.
 func interact():
 	print("\n=== REACHED INTERACT() ===\n")
@@ -391,12 +280,10 @@ func fix_unsure_grounding():
 
 # called when enter airlock
 func on_ship_enter(new_ship : Ship):
-	print("\n=== REACHED SHIP_ENTER ===\n")
 	var prev_ship = get_tree().get_first_node_in_group("player_ship")
 	if prev_ship:
 		print("Previous ship exists, removing from group")
 		prev_ship.remove_from_group("player_ship")
-	on_ground(new_ship)
 	ship = new_ship
 	if self not in new_ship.players:
 		print("   Appended self into ship.players")
@@ -406,6 +293,9 @@ func on_ship_enter(new_ship : Ship):
 	rotation = ship.rotation
 	#print(name + " parent to ship")
 	ship.add_to_group("player_ship")
+	# always do this
+	update_layers(true)
+	on_ground(ship)
 	# if ship is also pirate ship warn nearby pirates
 	var pirate_pilot = ship.get_auto_piloting()
 	if ship.is_in_group("pirate_ship") and pirate_pilot != null:
@@ -415,7 +305,6 @@ func on_ship_enter(new_ship : Ship):
 				body.get_auto_piloting().on_player_ship_detected()
 				print("warned " + str(body))
 	update_layers(true)
-	
 
 func on_ship_exit():
 	# unground will be called when stops intersecting
@@ -448,18 +337,17 @@ func update_layers(inside : bool):
 
 
 func take_damage(damage : int, _vfx_pos:Vector2):
-	if health <= 0:
+	if health > 0 and health - damage > 0:
+		health -= damage
 		return
-	if health - damage <= 0:
-		# TODO: switch game over to original plan
+	else:
 		input_enabled = false
 		var gm : GameManager = get_tree().root.get_node("Hub").get_node("GameManager")
+		
 		gm.dialogue_runner.start([["You", "*ack"], ["You","*bleh"]])
 		await gm.dialogue_runner.on_dialogue_end
 		gm.quit_to_list()
 		gm.menus.open_menu("GameOver")
-		
-	health -= damage
 
 func seppuku():
 	take_damage(999, global_position)

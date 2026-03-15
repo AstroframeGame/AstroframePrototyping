@@ -43,6 +43,10 @@ func sync_power_change(sh: NodePath):
 			push_warning("[shields.gd/power_change()]: Shield path is incorrect.")
 			return
 		shield = shield_node
+	if recharge_timer.time_left <= 0:
+		shield.set_active(power_level > 0)
+	
+	shield.durability = max_shield_durability[power_level]
 
 func recharge_shield():
 	recharge_timer.start(recharge_speeds[power_level])

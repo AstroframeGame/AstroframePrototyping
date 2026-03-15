@@ -44,8 +44,7 @@ func _physics_process(_delta: float) -> void:
 	if is_multiplayer_authority():
 		if will_grapple:
 			fire_grapple(mouse_pos)
-			will_grapple = false
-		
+			will_grapple = false		
 		if not wants_grapple():
 			visible = false
 			attached_body = null

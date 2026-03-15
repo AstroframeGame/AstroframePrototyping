@@ -104,7 +104,7 @@ var target_candidate : Ship
 func on_body_entered(body):
 	if not is_active():
 		return
-	if body is Ship and body.is_in_group("player_ship"):
+	if body is Ship and body.is_in_group("player_ship") and body != self:
 		target_candidate = body
 		detection_timer.start()
 		

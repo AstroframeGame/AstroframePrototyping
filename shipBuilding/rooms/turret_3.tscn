@@ -37,6 +37,7 @@ position = Vector2(39, -67.5)
 scale = Vector2(0.5, 0.5)
 
 [node name="Label" type="Label" parent="." unique_id=2139900868]
+visible = false
 offset_left = -26.0
 offset_top = -55.0
 offset_right = 29.0
