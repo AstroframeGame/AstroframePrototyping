@@ -388,6 +388,8 @@ func fix_unsure_grounding():
 		on_ground(b)
 	for a in ground_check.get_overlapping_areas():
 		on_ground(a)
+	if is_instance_valid(ground_body):
+		prev_ground_body_transform = ground_body.global_transform
 
 # called when enter airlock
 func on_ship_enter(new_ship : Ship):

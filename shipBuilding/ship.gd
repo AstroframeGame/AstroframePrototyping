@@ -1095,11 +1095,13 @@ func sync_detach_room(room_path: NodePath, push_direction: Vector2) -> void:
 	
 	var original_grid_pos = target_room.grid_pos
 	var original_rot_index = target_room.rot_index
+	var players_to_update = get_players_pushing() 
 	remove_room(target_room)
 	detached_ship_instance.add_room(target_room, original_grid_pos, original_rot_index)
 	
+	for p in players_to_update:
+		p.fix_unsure_grounding() # This forces the player to re-scan for the ship beneath them
 	separate_islands()
-	
 	initialize_ship()
 	detached_ship_instance.initialize_ship()
 #endregion
