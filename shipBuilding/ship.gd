@@ -197,7 +197,8 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 #region ClientInterpolation/AuthSyncing
 func _physics_process(delta: float) -> void:
 	if is_multiplayer_authority():
-		sync_m_state.rpc(global_transform, linear_velocity, angular_velocity)
+		if multiplayer.has_multiplayer_peer() and multiplayer.multiplayer_peer.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED:
+			sync_m_state.rpc(global_transform, linear_velocity, angular_velocity)
 	else:
 		global_transform = global_transform.interpolate_with(target_transform, 10.0 * delta)
 		linear_velocity = linear_velocity.lerp(target_linear_velocity, 10.0 * delta)
@@ -1082,8 +1083,7 @@ func sync_detach_room(room_path: NodePath, push_direction: Vector2) -> void:
 	var target_room = get_node_or_null(room_path) as Room
 	if not is_instance_valid(target_room): return
 	
-	var detached_ship_instance : Ship = SHIP_PREFAB.instantiate()
-	get_parent().add_child(detached_ship_instance, true)
+	var detached_ship_instance: Ship = SHIP_PREFAB.instantiate()
 	
 	var separation_offset = push_direction * 25.0
 	var separation_velocity = push_direction * 350.0
@@ -1092,18 +1092,26 @@ func sync_detach_room(room_path: NodePath, push_direction: Vector2) -> void:
 	detached_ship_instance.global_position += separation_offset
 	detached_ship_instance.linear_velocity = linear_velocity + separation_velocity
 	detached_ship_instance.angular_velocity = angular_velocity
+	get_parent().add_child(detached_ship_instance, true)
 	
 	var original_grid_pos = target_room.grid_pos
 	var original_rot_index = target_room.rot_index
 	var players_to_update = get_players_pushing() 
+	
 	remove_room(target_room)
 	detached_ship_instance.add_room(target_room, original_grid_pos, original_rot_index)
 	
-	for p in players_to_update:
-		p.fix_unsure_grounding() # This forces the player to re-scan for the ship beneath them
+	if not is_multiplayer_authority():
+		detached_ship_instance.target_transform = detached_ship_instance.global_transform
+		detached_ship_instance.target_linear_velocity = detached_ship_instance.linear_velocity
+		detached_ship_instance.target_angular_velocity = detached_ship_instance.angular_velocity
+	
 	separate_islands()
 	initialize_ship()
 	detached_ship_instance.initialize_ship()
+	
+	for p in players_to_update:
+		p.fix_unsure_grounding()
 #endregion
 
 #region islands
