@@ -87,16 +87,15 @@ func generate_remap_settings() -> void:
 				var name_dict = null
 				if ev is InputEventJoypadButton:
 					name_dict = contr_btn.CONTROLLER_LABELS
-					#print(ev.as_text())
-					#print(ev.button_index)
-					#print()
-					contr_btn.text = name_dict[name_dict.keys()[ev.button_index]]
+					#contr_btn.text = name_dict[name_dict.keys()[ev.button_index]]
+					contr_btn.action_type = "contr"
 				elif ev is InputEventJoypadMotion:
 					name_dict = contr_btn.MOTION_LABELS
 					#print(ev.as_text())
 					#print(ev.axis)
 					#print()
 					#contr_btn.text = name_dict[ev.as_text()]
+					contr_btn.action_type = "contr"
 				
 				contr_btn.action_name = action
 				contr_btn.event_index = i
@@ -106,9 +105,10 @@ func generate_remap_settings() -> void:
 				var km_btn = RemappableButton.new()
 				km_btn.add_theme_font_size_override("font_size", 30)
 				km_btn.action_name = action
-				km_btn.text = ev.as_text().get_slice(" - ", 0)
+				#km_btn.text = ev.as_text().get_slice(" - ", 0)
 				km_btn.event_index = i
 				km_horiz_box.add_child(km_btn)
+				km_btn.action_type = "keyBrd"
 			
 			else:
 				var bad_btn = RemappableButton.new()

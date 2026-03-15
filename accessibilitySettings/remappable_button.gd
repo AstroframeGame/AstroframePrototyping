@@ -3,6 +3,7 @@ extends Button
 
 @export var action_name: String
 @export var event_index: int = 0
+@export var action_type: String
 
 var menu_manager : MenuManager:
 	get:
@@ -53,29 +54,33 @@ func _toggled(toggled_on: bool) -> void:
 		return
 		
 	var input = InputMap.action_get_events(action_name)[event_index]
-	if input is InputEventJoypadButton:
+	if input is InputEventJoypadButton && action_type == "contr":
 		if CONTROLLER_LABELS.has(input.button_index):
 			text = CONTROLLER_LABELS.get(input.button_index)
 		else:
 			text = "New Button " + str(input.button_index)
+		action_type = "contr"
 	
-	elif input is InputEventJoypadMotion:
+	elif input is InputEventJoypadMotion && action_type == "contr":
 		if MOTION_LABELS.has(input.axis):
 			text = MOTION_LABELS.get(input.axis)
 		else:
 			text = "New Button " + str(input.axis)
+		action_type = "contr"
 	
-	elif input is InputEventKey:
+	elif input is InputEventKey && action_type == "keyBrd":
 		if input.physical_keycode != 0:
 			text = OS.get_keycode_string(input.physical_keycode)
 		else:
 			text = OS.get_keycode_string(input.keycode)
+		action_type = "keyBrd"
+
 
 func _unhandled_input(event: InputEvent) -> void:
 	if !InputMap.has_action(action_name) or !is_pressed():
 		return
 		
-	if event.is_pressed() and (event is InputEventKey or event is InputEventJoypadButton):
+	if event.is_pressed() and (event is InputEventKey or event is InputEventJoypadButton or event is InputEventJoypadMotion) and (((event is InputEventJoypadButton or event is InputEventJoypadMotion) and action_type == "contr") or (event is InputEventKey and action_type == "keyBrd")):
 		if event.is_action("pause"):
 			button_pressed = false
 			release_focus()
@@ -92,4 +97,4 @@ func _unhandled_input(event: InputEvent) -> void:
 		InputMap.action_add_event(action_name, event)
 		event_index = InputMap.action_get_events(action_name).size()-1
 		button_pressed = false
-		release_focus()
+		grab_focus()
