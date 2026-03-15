@@ -24,6 +24,7 @@
 [ext_resource type="PackedScene" uid="uid://c4c4q35vwjc06" path="res://accessibilitySettings/settings_menu.tscn" id="15_qui64"]
 [ext_resource type="Script" path="res://hub/credits.gd" id="17_bg8wc"]
 [ext_resource type="Texture2D" uid="uid://cjtj7xo6f6waa" path="res://shipBuilding/icons/torus.png" id="17_qui64"]
+[ext_resource type="Shortcut" uid="uid://bkp45j5ajvonv" path="res://hub/back_shortcut.tres" id="20_1uc81"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gjoju"]
 shader = ExtResource("15_mmyqo")
@@ -261,11 +262,6 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0)
 
-[node name="Exit" type="Button" parent="UI/Game" unique_id=1653782239]
-offset_right = 8.0
-offset_bottom = 8.0
-text = "Back to Menu"
-
 [node name="DialogueRunner" parent="UI/Game" unique_id=314417777 instance=ExtResource("5_g3elb")]
 
 [node name="Paused" type="CanvasLayer" parent="UI" unique_id=731175255]
@@ -293,6 +289,7 @@ alignment = 1
 
 [node name="ResumeGame" type="Button" parent="UI/Paused/VBoxContainer" unique_id=133924513]
 layout_mode = 2
+shortcut = ExtResource("20_1uc81")
 text = "Resume Game"
 
 [node name="Settings" type="Button" parent="UI/Paused/VBoxContainer" unique_id=751332293]
@@ -342,6 +339,7 @@ visible = false
 [node name="Back" type="Button" parent="UI/Credits" unique_id=1238051811]
 offset_right = 8.0
 offset_bottom = 8.0
+shortcut = ExtResource("20_1uc81")
 text = "Back"
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/Credits" unique_id=1116174233]
@@ -375,6 +373,7 @@ offset_right = 48.0
 offset_bottom = 30.0
 size_flags_horizontal = 10
 size_flags_vertical = 10
+shortcut = ExtResource("20_1uc81")
 text = "Back"
 
 [node name="Profiling" type="CanvasLayer" parent="." unique_id=1820677988]
@@ -421,10 +420,9 @@ environment = SubResource("Environment_21dlm")
 [connection signal="pressed" from="UI/Main/VBoxContainer/Settings" to="GameManager" method="_on_settings_pressed"]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Credits" to="UI" method="open_menu" binds= [&"Credits"]]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Quit" to="GameManager" method="quit_application"]
-[connection signal="pressed" from="UI/Game/Exit" to="GameManager" method="quit_to_list"]
 [connection signal="pressed" from="UI/Paused/VBoxContainer/ResumeGame" to="GameManager" method="resume_game"]
 [connection signal="pressed" from="UI/Paused/VBoxContainer/Settings" to="GameManager" method="_on_settings_pressed"]
 [connection signal="pressed" from="UI/Paused/VBoxContainer/Exit" to="GameManager" method="quit_to_list"]
-[connection signal="pressed" from="UI/GameOver/Back" to="UI" method="menu_back"]
-[connection signal="pressed" from="UI/Credits/Back" to="UI" method="menu_back"]
+[connection signal="pressed" from="UI/GameOver/Back" to="GameManager" method="menu_back"]
+[connection signal="pressed" from="UI/Credits/Back" to="GameManager" method="menu_back"]
 [connection signal="pressed" from="UI/Settings/Back" to="GameManager" method="menu_back"]
