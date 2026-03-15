@@ -5,6 +5,7 @@ extends Node2D
 @onready var multiplayer_manager: MultiplayerManager = get_tree().root.get_node("Hub/MultiplayerManager")
 var my_player: PlayerCharacter
 
+var controller_platform = "xbox"
 signal switch_input_device()
 var _using_mouse : bool = true
 var using_mouse: bool :
@@ -106,8 +107,8 @@ func get_key_mapping(input_name : StringName) -> String:
 	
 func get_clean_name(event: InputEvent) -> String:
 	var text = event.as_text().replace(" (Physical)", "").replace(" - Physical", "")
-	if "xbox" in text.to_lower():
+	if controller_platform in text.to_lower():
 		for part in text.split(","):
-			if "xbox" in part.to_lower():
-				return part.replacen("xbox", "").replace(")", "").strip_edges()
+			if controller_platform in part.to_lower():
+				return part.replacen(controller_platform, "").replace(")", "").strip_edges()
 	return text
