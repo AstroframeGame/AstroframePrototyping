@@ -62,5 +62,5 @@ void fragment() {
 	float star2 = step(star_density + 0.005, hash(floor(star_world_pos * star_scale * 2.0)));
 	float stars = clamp(star1 + star2, 0.0, 1.0);
 	
-	COLOR = gradient_color + vec4(vec3(stars), 0.0);
+	COLOR *= gradient_color + vec4(vec3(stars), 0.0);
 }

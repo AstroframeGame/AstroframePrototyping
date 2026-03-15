@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://c57plc2whtank"]
 
 [ext_resource type="Script" uid="uid://cbty45dswb5nj" path="res://hub/game_manager.gd" id="1_n4d7h"]
-[ext_resource type="Texture2D" uid="uid://bqk32mlg665ud" path="res://hub/ui_textures/RoundedSquare.png" id="2_1wrr7"]
 [ext_resource type="Script" uid="uid://c74xdls6fgqs3" path="res://hub/multiplayer_manager.gd" id="2_2qbsn"]
 [ext_resource type="Script" uid="uid://io2qs57g5xic" path="res://hub/menu_manager.gd" id="2_nm8ur"]
 [ext_resource type="Script" uid="uid://y07ne4p2xbui" path="res://hub/scene_list.gd" id="3_1x5tx"]
 [ext_resource type="Script" uid="uid://cti2v7b51m68r" path="res://hub/fps_label.gd" id="3_6ebxt"]
+[ext_resource type="PackedScene" uid="uid://c7h5fcycvrbqe" path="res://art/background/space_background.tscn" id="4_dy4r6"]
 [ext_resource type="PackedScene" uid="uid://df01kfwope6hn" path="res://encounter/managers/dialogue/dialogue_runner.tscn" id="5_g3elb"]
 [ext_resource type="Theme" uid="uid://2b3w3cdm6v0b" path="res://hub/ui-themes/title.tres" id="5_h3v4x"]
 [ext_resource type="Theme" uid="uid://dj12nct3i1b1i" path="res://hub/ui-themes/header.tres" id="5_h8dj6"]
@@ -18,6 +18,7 @@
 [ext_resource type="Script" uid="uid://cwdlnpq52j4tm" path="res://hub/mute_button.gd" id="12_6jnk7"]
 [ext_resource type="Theme" uid="uid://d0o0krm245a4q" path="res://hub/ui-themes/unstyled.tres" id="13_h8dj6"]
 [ext_resource type="Script" uid="uid://dkw41dpjcbrwa" path="res://accessibilitySettings/colorblind_shader.gd" id="14_gjoju"]
+[ext_resource type="Texture2D" uid="uid://bfknaix65fust" path="res://hub/ui_textures/sci_fi_frame.svg" id="15_dy4r6"]
 [ext_resource type="Shader" uid="uid://dv6l2vd0xplhh" path="res://hub/colorblind.gdshader" id="15_mmyqo"]
 [ext_resource type="PackedScene" uid="uid://c4c4q35vwjc06" path="res://accessibilitySettings/settings_menu.tscn" id="15_qui64"]
 [ext_resource type="Script" path="res://hub/credits.gd" id="17_bg8wc"]
@@ -49,7 +50,11 @@ open = NodePath("Main")
 
 [node name="Main" type="CanvasLayer" parent="UI" unique_id=1954068811]
 
+[node name="SpaceBackground" parent="UI/Main" unique_id=1650344788 instance=ExtResource("4_dy4r6")]
+modulate = Color(0.18359044, 0.18359044, 0.18359044, 1)
+
 [node name="ColorRect" type="ColorRect" parent="UI/Main" unique_id=324439580]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -190,25 +195,64 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="LoadProgress" type="TextureProgressBar" parent="UI/Loading" unique_id=1104289562]
+[node name="SpaceBackground" parent="UI/Loading" unique_id=1224087747 instance=ExtResource("4_dy4r6")]
+modulate = Color(0.18431373, 0.18431373, 0.18431373, 1)
+
+[node name="Label2" type="Label" parent="UI/Loading" unique_id=1852369538]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -150.0
-offset_top = -20.0
-offset_right = 150.0
-offset_bottom = 20.0
+offset_left = -177.5
+offset_top = -30.0
+offset_right = 177.5
+offset_bottom = 30.0
 grow_horizontal = 2
 grow_vertical = 2
-value = 100.0
+theme = ExtResource("5_h8dj6")
+theme_override_font_sizes/font_size = 48
+text = "Loading - 100%"
+
+[node name="LoadProgress" type="TextureProgressBar" parent="UI/Loading" unique_id=1104289562]
+clip_children = 2
+clip_contents = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -64.0
+offset_right = 400.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+value = 46.0
 nine_patch_stretch = true
-stretch_margin_left = 20
-stretch_margin_top = 20
-stretch_margin_right = 20
-stretch_margin_bottom = 20
-texture_progress = ExtResource("2_1wrr7")
+stretch_margin_left = 64
+stretch_margin_top = 64
+stretch_margin_right = 64
+stretch_margin_bottom = 64
+texture_progress = ExtResource("15_dy4r6")
+
+[node name="Label" type="Label" parent="UI/Loading/LoadProgress" unique_id=1272478492]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.0
+offset_right = 20.0
+offset_bottom = 11.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("5_h8dj6")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 48
+text = "Loading - 100%"
 
 [node name="Game" type="CanvasLayer" parent="UI" unique_id=1739083757]
 visible = false
@@ -231,14 +275,12 @@ color = Color(0, 0, 0, 0)
 visible = false
 
 [node name="ColorRect" type="ColorRect" parent="UI/Paused" unique_id=337209217]
-anchors_preset = -1
-anchor_left = 0.423
-anchor_top = 0.338
-anchor_right = 0.574
-anchor_bottom = 0.681
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.14333999, 0.14333999, 0.14333999, 1)
+color = Color(0.15, 0.15, 0.15, 0.5019608)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/Paused" unique_id=930718572]
 anchors_preset = -1
@@ -250,16 +292,26 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
+[node name="Label" type="Label" parent="UI/Paused/VBoxContainer" unique_id=1073575481]
+layout_mode = 2
+theme = ExtResource("5_h8dj6")
+theme_override_font_sizes/font_size = 72
+text = "Paused"
+horizontal_alignment = 1
+
 [node name="ResumeGame" type="Button" parent="UI/Paused/VBoxContainer" unique_id=133924513]
 layout_mode = 2
+theme_override_font_sizes/font_size = 50
 text = "Resume Game"
 
 [node name="Settings" type="Button" parent="UI/Paused/VBoxContainer" unique_id=751332293]
 layout_mode = 2
+theme_override_font_sizes/font_size = 50
 text = "Settings"
 
 [node name="Exit" type="Button" parent="UI/Paused/VBoxContainer" unique_id=581449401]
 layout_mode = 2
+theme_override_font_sizes/font_size = 50
 text = "Back to Menu"
 
 [node name="GameOver" type="CanvasLayer" parent="UI" unique_id=1769148514]
@@ -276,6 +328,7 @@ color = Color(0.14333999, 0.14333999, 0.14333999, 1)
 [node name="Back" type="Button" parent="UI/GameOver" unique_id=981177889]
 offset_right = 48.0
 offset_bottom = 30.0
+theme_override_font_sizes/font_size = 50
 text = "Back"
 
 [node name="Label" type="Label" parent="UI/GameOver" unique_id=1485857924]
@@ -298,9 +351,18 @@ horizontal_alignment = 1
 [node name="Credits" type="CanvasLayer" parent="UI" unique_id=2010810909]
 visible = false
 
+[node name="ColorRect" type="ColorRect" parent="UI/Credits" unique_id=189746024]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.14333999, 0.14333999, 0.14333999, 1)
+
 [node name="Back" type="Button" parent="UI/Credits" unique_id=1238051811]
 offset_right = 8.0
 offset_bottom = 8.0
+theme_override_font_sizes/font_size = 50
 text = "Back"
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/Credits" unique_id=1116174233]
@@ -327,6 +389,14 @@ script = ExtResource("17_bg8wc")
 [node name="Settings" type="CanvasLayer" parent="UI" unique_id=1322932418]
 visible = false
 
+[node name="ColorRect" type="ColorRect" parent="UI/Settings" unique_id=375412223]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.14333999, 0.14333999, 0.14333999, 1)
+
 [node name="SettingsMenu" parent="UI/Settings" unique_id=1472990964 instance=ExtResource("15_qui64")]
 
 [node name="Back" type="Button" parent="UI/Settings" unique_id=1581757141]
@@ -334,6 +404,7 @@ offset_right = 48.0
 offset_bottom = 30.0
 size_flags_horizontal = 10
 size_flags_vertical = 10
+theme_override_font_sizes/font_size = 50
 text = "Back"
 
 [node name="Profiling" type="CanvasLayer" parent="." unique_id=1820677988]
