@@ -84,7 +84,7 @@ func join_lobby(lob_id: int):
 #endregion
 
 #region Single Player Handling
-func _on_game_start(game_scene: Node2D):
+func _on_game_start(_game_scene: Node2D):
 	print("\n=== ENTERING GAME ===")
 	if not is_multiplayer:
 		print("Starting on singleplayer...")
