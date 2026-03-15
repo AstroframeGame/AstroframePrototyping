@@ -44,17 +44,6 @@ func sync_shot(dmg: int):
 	if not is_multiplayer_authority():
 		gun.shoot(dmg)
 
-	# mouse guided system
-	if event.is_action_pressed("ship_fire"):
-		gun.shoot(10)
-		
-	if InputHelper.using_mouse:
-		gun.gunSprite.look_at(get_global_mouse_position())
-	else:
-		var d = InputHelper.controller_look
-		if d.length() > 0.5:
-			gun.gunSprite.rotation = atan2(-d.y, -d.x) + deg_to_rad(30) + global_rotation
-		
 func _on_detection_range_body_entered(body: Node2D) -> void:
 	if body is Ship and body.get_total_room_count() == 1:
 		return
@@ -109,7 +98,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		var d = InputHelper.controller_look
 		d = d.rotated(global_rotation)
-		gun.gunSprite.rotation = atan2(d.y, d.x)
+		gun.gunSprite.rotation = atan2(d.y, d.x) + global_rotation
 
 func _process(_delta: float) -> void:
 	if not controlled_by:
