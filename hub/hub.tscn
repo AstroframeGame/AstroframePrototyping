@@ -455,6 +455,6 @@ environment = SubResource("Environment_21dlm")
 [connection signal="pressed" from="UI/Paused/VBoxContainer/ResumeGame" to="GameManager" method="resume_game"]
 [connection signal="pressed" from="UI/Paused/VBoxContainer/Settings" to="GameManager" method="_on_settings_pressed"]
 [connection signal="pressed" from="UI/Paused/VBoxContainer/Exit" to="GameManager" method="quit_to_list"]
-[connection signal="pressed" from="UI/GameOver/Back" to="UI" method="menu_back"]
-[connection signal="pressed" from="UI/Credits/Back" to="UI" method="menu_back"]
+[connection signal="pressed" from="UI/GameOver/Back" to="GameManager" method="menu_back"]
+[connection signal="pressed" from="UI/Credits/Back" to="GameManager" method="menu_back"]
 [connection signal="pressed" from="UI/Settings/Back" to="GameManager" method="menu_back"]
