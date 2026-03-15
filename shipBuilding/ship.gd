@@ -703,21 +703,42 @@ func _process(_delta: float) -> void:
 		clear_ghost_preview()
 
 func find_nearest_ship() -> Ship:
-	var out: Ship = null
-	var min_dist = MAX_MERGE_DISTANCE
-	
+	var candidates: Array[Dictionary] = []
+	var absolute_min_dist = MAX_MERGE_DISTANCE
 	for s in get_parent().get_children():
 		if s is Ship and s != self:
+			var ship_min_dist = MAX_MERGE_DISTANCE
 			for my_room in get_children():
 				if my_room is Room:
 					for other_room in s.get_children():
 						if other_room is Room:
 							var d = my_room.global_position.distance_to(other_room.global_position)
-							if d < min_dist:
-								min_dist = d
-								out = s
-								
-	return out
+							if d < ship_min_dist:
+								ship_min_dist = d
+			if ship_min_dist < MAX_MERGE_DISTANCE:
+				candidates.append({"ship": s, "dist": ship_min_dist, "rooms": s.get_total_room_count()})
+				if ship_min_dist < absolute_min_dist:
+					absolute_min_dist = ship_min_dist
+					
+	if candidates.is_empty():
+		return null
+		
+	var best_ship: Ship = null
+	var best_rooms = -1
+	var best_dist = INF
+	var threshold = 50.0
+	
+	for c in candidates:
+		if c.dist <= absolute_min_dist + threshold:
+			if c.rooms > best_rooms:
+				best_rooms = c.rooms
+				best_dist = c.dist
+				best_ship = c.ship
+			elif c.rooms == best_rooms and c.dist < best_dist:
+				best_dist = c.dist
+				best_ship = c.ship
+				
+	return best_ship
 
 func generate_ghost_preview() -> void:
 	ghost_preview = Node2D.new()
