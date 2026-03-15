@@ -25,6 +25,7 @@ scale = Vector2(0.425, 0.425)
 texture = ExtResource("5_gv7tu")
 
 [node name="Roof" type="Node2D" parent="." unique_id=1494223740]
+visible = false
 
 [node name="AirlockExterior" type="Sprite2D" parent="Roof" unique_id=1388869186]
 scale = Vector2(0.425, 0.425)
