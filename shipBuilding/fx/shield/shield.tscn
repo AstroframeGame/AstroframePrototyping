@@ -14,6 +14,8 @@ shader_parameter/intensity = 10.0
 shader_parameter/amount = 1.0
 
 [node name="Shield" type="StaticBody2D" unique_id=782683530]
+z_index = 999
+z_as_relative = false
 collision_layer = 8192
 collision_mask = 64
 script = ExtResource("3_fybr4")

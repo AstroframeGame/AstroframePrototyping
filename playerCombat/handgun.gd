@@ -42,8 +42,14 @@ func shoot_bullet() -> void:
 	new_bullet.initialize(gunSprite, player.velocity, bullet_speed, Vector2.from_angle(gunSprite.global_rotation + randf_range(-bullet_spread, bullet_spread)), marker_2d.global_position, damage)
 	new_bullet.collision_mask = player.collision_mask
 	for body in shield_check.get_overlapping_bodies():
-		if body is Shield:
-			new_bullet.add_collision_exception_with(body)
+		if body is not Shield:
+			continue
+		new_bullet.add_collision_exception_with(body)
+		if not body.get_parent().ship.is_in_group("player_ship"):
+			continue
+		for shield : Shield in body.get_parent().ship.get_active_shields():
+			if shield.visible:
+				new_bullet.add_collision_exception_with(shield)
 	
 	time_since_shot = 0
 	accuracy = min(accuracy + (0.05), accur_high)
