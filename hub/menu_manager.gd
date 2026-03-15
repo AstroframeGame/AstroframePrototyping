@@ -3,6 +3,7 @@ extends Node
 
 # the current open menu
 @export var open : NodePath
+@onready var game_manager: GameManager = $"../GameManager"
 
 func _ready() -> void:
 	for n in get_children():
@@ -54,7 +55,9 @@ func load_scene(scene_path):
 		status = ResourceLoader.load_threaded_get_status(scene_path, progress)
 		#$"Loading/VBoxContainer/Progress".text = str(round(progress[0] * 100)) + "%"
 		$Loading/LoadProgress.value = progress[0] * 100
-	
+		$Loading/LoadProgress/Label.text = "Progress - " + str(round(progress[0] * 100)) + "%"
+		$Loading/Label2.text = $Loading/LoadProgress/Label.text
+		
 	var packed_scene = ResourceLoader.load_threaded_get(scene_path)
 	return packed_scene
 
@@ -74,25 +77,19 @@ func load_asset(scene_path):
 	return packed_scene
 
 
-
-# TODO
-# if playing, return to gameplay
-# if in main menu, back to main
-func menu_back():
-	open_menu("Main")
-
-
 func pause_game():
 	open_menu("Paused")
-	focus_first_button()
+	focus_first_button()	
 func unpause_game():
 	open_menu("Game")
 	#focus_first_button()
 func _unhandled_input(_event: InputEvent) -> void:
-	if not (is_open("Paused") or is_open("Game")):
+	if not (is_open("Paused") or is_open("Game") or is_open("Settings")):
 		return
 	if Input.is_action_just_pressed("pause"):
 		if is_open("Paused"):
 			unpause_game()
+		elif is_open("Settings"):
+			game_manager.menu_back()
 		else:
 			pause_game()
