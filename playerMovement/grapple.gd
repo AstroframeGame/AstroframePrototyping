@@ -39,6 +39,9 @@ var at_destination:
 		return global_position.distance_to(grapple_position) < min_grapple_dist
 
 func _process(_delta: float) -> void:
+	if not player.input_enabled:
+		return
+	
 	if Input.is_action_just_pressed("grapple"):
 		fire_grapple()
 		

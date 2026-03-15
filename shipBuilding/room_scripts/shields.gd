@@ -29,6 +29,7 @@ func  _ready() -> void:
 func on_power_change(_room):
 	if recharge_timer.time_left <= 0:
 		shield.set_active(power_level > 0)
+	
 	shield.durability = max_shield_durability[power_level]
 
 func recharge_shield():
