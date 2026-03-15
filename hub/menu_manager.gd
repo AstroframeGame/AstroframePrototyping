@@ -82,7 +82,7 @@ func menu_back():
 
 func pause_game():
 	open_menu("Paused")
-	focus_first_button()
+	focus_first_button()	
 func unpause_game():
 	open_menu("Game")
 	#focus_first_button()

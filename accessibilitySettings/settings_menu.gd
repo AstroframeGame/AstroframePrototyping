@@ -15,7 +15,8 @@ func _ready() -> void:
 func set_dev_settings():
 	if "dev" in OS.get_cmdline_args():
 		_on_fullscreen_toggled(false)
-		get_window().set_size(Vector2(1152,648))
+		#get_window().set_size(Vector2(1152,648))
+		get_window().set_size(Vector2(1920,1080))
 		center_screen()
 	
 

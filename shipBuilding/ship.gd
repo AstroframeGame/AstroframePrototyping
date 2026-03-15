@@ -65,7 +65,7 @@ func ground_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> 
 		var cell = world_to_grid(get_global_mouse_position())
 		if occupied_cells.has(cell):
 			var room = occupied_cells[cell]
-			#print("Room ", room, " was clicked")
+			print("Room ", room, " was clicked")
 			room_clicked.emit(room, event.button_index)
 
 #region Piloting

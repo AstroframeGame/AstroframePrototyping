@@ -119,7 +119,7 @@ func _on_room_prefab_selected(index: int) -> void:
 
 func _on_ship_room_clicked(room: Node, button_index: int) -> void:
 	if button_index != MOUSE_BUTTON_LEFT: return
-	
+
 	if current_mode == Mode.DESTROY:
 		_attempt_destroy(room)
 	elif current_mode == Mode.MOVE:
