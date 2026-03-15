@@ -743,7 +743,7 @@ func find_nearest_ship() -> Ship:
 func generate_ghost_preview() -> void:
 	ghost_preview = Node2D.new()
 	ghost_preview.name = "GhostPreview"
-	ghost_preview.z_index = 2
+	ghost_preview.z_index = 100
 	get_parent().add_child(ghost_preview)
 	
 	for child_node in get_children():
