@@ -31,12 +31,6 @@ func load_scene(path : String)->void:
 	game_start.emit(current_scene)
 	MusicManager.play_gameplay()
 
-@rpc("authority", "call_local", "reliable")
-func load_scenes_across_peers(path):
-	multiplayer_manager.curr_scene_path = path
-	multiplayer_manager.is_in_scene = true
-	load_scene(path)	
-
 func start_game():
 	pass
 
@@ -48,12 +42,7 @@ func load_game():
 
 func open_singleplayer():
 	# demo scene
-	var is_multiplayer = multiplayer_manager.is_multiplayer
-	var path = "res://encounter/encounters/__DEMO_LOCATION/0_1_DEMO/0_1_DEMO.tscn"
-	if not is_multiplayer:
-		load_scene(path)
-	else:
-		load_scenes_across_peers.rpc(path)
+	load_scene("res://encounter/encounters/__DEMO_LOCATION/0_1_DEMO/0_1_DEMO.tscn")
 
 func open_ship_editor():
 	load_scene("res://shipBuilding/ship_building.tscn")
@@ -75,9 +64,6 @@ func quit_application():
 func _on_settings_pressed() -> void:
 	menus.open_menu("Settings")
 
-# TODO
-# if playing, return to gameplay
-# if in main menu, back to main
 func menu_back():
 	if in_game:
 		menus.open_menu("Paused")
