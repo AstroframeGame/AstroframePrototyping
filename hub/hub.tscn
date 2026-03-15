@@ -23,6 +23,7 @@
 [ext_resource type="PackedScene" uid="uid://c4c4q35vwjc06" path="res://accessibilitySettings/settings_menu.tscn" id="15_qui64"]
 [ext_resource type="Script" path="res://hub/credits.gd" id="17_bg8wc"]
 [ext_resource type="Texture2D" uid="uid://cjtj7xo6f6waa" path="res://shipBuilding/icons/torus.png" id="17_qui64"]
+[ext_resource type="Shortcut" uid="uid://cxr4abnflfkf5" path="res://hub/back_shortcut.tres" id="21_mjlfl"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gjoju"]
 shader = ExtResource("15_mmyqo")
@@ -302,6 +303,7 @@ horizontal_alignment = 1
 [node name="ResumeGame" type="Button" parent="UI/Paused/VBoxContainer" unique_id=133924513]
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
+shortcut = ExtResource("21_mjlfl")
 text = "Resume Game"
 
 [node name="Settings" type="Button" parent="UI/Paused/VBoxContainer" unique_id=751332293]
@@ -329,6 +331,7 @@ color = Color(0.14333999, 0.14333999, 0.14333999, 1)
 offset_right = 48.0
 offset_bottom = 30.0
 theme_override_font_sizes/font_size = 50
+shortcut = ExtResource("21_mjlfl")
 text = "Back"
 
 [node name="Label" type="Label" parent="UI/GameOver" unique_id=1485857924]
@@ -363,6 +366,7 @@ color = Color(0.14333999, 0.14333999, 0.14333999, 1)
 offset_right = 8.0
 offset_bottom = 8.0
 theme_override_font_sizes/font_size = 50
+shortcut = ExtResource("21_mjlfl")
 text = "Back"
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/Credits" unique_id=1116174233]
@@ -387,7 +391,6 @@ alignment = 1
 script = ExtResource("17_bg8wc")
 
 [node name="Settings" type="CanvasLayer" parent="UI" unique_id=1322932418]
-visible = false
 
 [node name="ColorRect" type="ColorRect" parent="UI/Settings" unique_id=375412223]
 anchors_preset = 15
@@ -405,6 +408,7 @@ offset_bottom = 30.0
 size_flags_horizontal = 10
 size_flags_vertical = 10
 theme_override_font_sizes/font_size = 50
+shortcut = ExtResource("21_mjlfl")
 text = "Back"
 
 [node name="Profiling" type="CanvasLayer" parent="." unique_id=1820677988]
