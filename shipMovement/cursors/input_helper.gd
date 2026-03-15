@@ -68,10 +68,28 @@ func mouse_center_offset_deadzone(player: PlayerCharacter, percent : float = 0.0
 var _look_delta: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
+	Input.joy_connection_changed.connect(_on_joy_connection_changed)
+	for device_id in Input.get_connected_joypads():
+		_identify_controller(device_id)
+
 	_update_cursor_visibility()
 	await get_tree().process_frame
 	if multiplayer_manager:
 		my_player = multiplayer_manager.my_player
+
+func _on_joy_connection_changed(device_id: int, connected: bool) -> void:
+	if connected:
+		_identify_controller(device_id)
+
+func _identify_controller(device_id: int) -> void:
+	var joy_name = Input.get_joy_name(device_id)
+	print("new input device: ", joy_name)
+	if "PS4" in joy_name or "PS5" in joy_name or "Sony" in joy_name or "DualShock" in joy_name:
+		controller_platform = "sony"
+	elif "Nintendo" in joy_name or "Pro Controller" in joy_name or "Joy-Con" in joy_name:
+		controller_platform = "nintendo"
+	else:
+		controller_platform = "xbox"
 
 func _input(event: InputEvent) -> void:
 	
