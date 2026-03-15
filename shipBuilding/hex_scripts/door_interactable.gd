@@ -7,7 +7,7 @@ If the player interacts with this door, the room decides what happens.
 
 
 func can_interact() -> bool:
-	return room is Room and room.ship and room.ship.get_players_pushing().is_empty()
+	return room is Room and room.ship
 	
 func interact_hint() -> String:
 	var inside = false

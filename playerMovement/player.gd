@@ -134,6 +134,10 @@ func _ready() -> void:
 func _physics_process(delta):
 	apply_ground_body_transform()
 	
+	var gm : GameManager = get_tree().root.get_node("Hub").get_node("GameManager")
+	var menu_manager = gm.menus
+	input_enabled = menu_manager and not (menu_manager.is_open("Paused") or menu_manager.is_open("Settings"))
+		
 	if not input_enabled:
 		return
 	

@@ -70,7 +70,8 @@ func _process(_delta: float) -> void:
 		
 		if Input.is_action_just_released("grapple"):
 			will_cancel = true
-		
+		if grapple:
+			print(grapple, will_cancel)
 		if is_multiplayer_authority():
 			will_grapple = grapple
 			mouse_pos = mouse
@@ -82,6 +83,7 @@ func _process(_delta: float) -> void:
 
 @rpc("any_peer", "call_remote", "reliable")
 func send_grapple(call_grapple: bool, is_cancelling: bool, m_position: Vector2):
+	print("send grapple")
 	var sender_id = multiplayer.get_remote_sender_id()
 	if sender_id != player.owner_id:
 		push_warning("Player %d tried to control player %d" % [sender_id, player.owner_id])
