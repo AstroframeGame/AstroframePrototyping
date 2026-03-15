@@ -15,7 +15,8 @@ func _ready() -> void:
 func set_dev_settings():
 	if "dev" in OS.get_cmdline_args():
 		_on_fullscreen_toggled(false)
-		get_window().set_size(Vector2(1152,648))
+		#get_window().set_size(Vector2(1152,648))
+		get_window().set_size(Vector2(1920,1080))
 		center_screen()
 	
 
@@ -83,15 +84,15 @@ func generate_remap_settings() -> void:
 				var name_dict = null
 				if ev is InputEventJoypadButton:
 					name_dict = contr_btn.CONTROLLER_LABELS
-					print(ev.as_text())
-					print(ev.button_index)
-					print()
+					#print(ev.as_text())
+					#print(ev.button_index)
+					#print()
 					contr_btn.text = name_dict[name_dict.keys()[ev.button_index]]
 				elif ev is InputEventJoypadMotion:
 					name_dict = contr_btn.MOTION_LABELS
-					print(ev.as_text())
-					print(ev.axis)
-					print()
+					#print(ev.as_text())
+					#print(ev.axis)
+					#print()
 					#contr_btn.text = name_dict[ev.as_text()]
 				
 				contr_btn.action_name = action

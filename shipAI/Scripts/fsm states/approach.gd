@@ -2,9 +2,12 @@ extends State
 
 func enter_state():
 	super()
-	nav_agent.target_position = target_ship.get_center()
+	if target_ship:
+		nav_agent.target_position = target_ship.get_center()
 
 func process_state_physics(_delta:float):
+	if target_ship == null:
+		return
 	if not nav_agent.is_navigation_finished():
 		nav_agent.target_position = target_ship.get_center()
 		var path_point = nav_agent.get_next_path_position()
@@ -13,4 +16,5 @@ func process_state_physics(_delta:float):
 		auto_pilot.rotation_goal = (ship.get_center() - target_ship.get_center()).angle() - PI/2
 
 func exit_state():
-	auto_pilot.latching_position = target_ship.to_local(ship.get_center())
+	if target_ship:
+		auto_pilot.latching_position = target_ship.to_local(ship.get_center())
