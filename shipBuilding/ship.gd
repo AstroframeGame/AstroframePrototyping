@@ -841,22 +841,47 @@ func _process(_delta: float) -> void:
 		clear_ghost_preview()
 
 func find_nearest_ship() -> Ship:
-	var out: Ship = null
-	var min_dist = MAX_MERGE_DISTANCE
-	
+	var candidates: Array[Dictionary] = []
+	var absolute_min_dist = MAX_MERGE_DISTANCE
 	for s in get_parent().get_children():
 		if s is Ship and s != self:
-			var d = to_global(center_of_mass).distance_to(s.to_global(s.center_of_mass))
-			if d < min_dist:
-				min_dist = d
-				out = s
+			var ship_min_dist = MAX_MERGE_DISTANCE
+			for my_room in get_children():
+				if my_room is Room:
+					for other_room in s.get_children():
+						if other_room is Room:
+							var d = my_room.global_position.distance_to(other_room.global_position)
+							if d < ship_min_dist:
+								ship_min_dist = d
+			if ship_min_dist < MAX_MERGE_DISTANCE:
+				candidates.append({"ship": s, "dist": ship_min_dist, "rooms": s.get_total_room_count()})
+				if ship_min_dist < absolute_min_dist:
+					absolute_min_dist = ship_min_dist
+					
+	if candidates.is_empty():
+		return null
+		
+	var best_ship: Ship = null
+	var best_rooms = -1
+	var best_dist = INF
+	var threshold = 50.0
+	
+	for c in candidates:
+		if c.dist <= absolute_min_dist + threshold:
+			if c.rooms > best_rooms:
+				best_rooms = c.rooms
+				best_dist = c.dist
+				best_ship = c.ship
+			elif c.rooms == best_rooms and c.dist < best_dist:
+				best_dist = c.dist
+				best_ship = c.ship
 				
-	return out
+	return best_ship
 
 func generate_ghost_preview() -> void:
 	ghost_preview = Node2D.new()
 	ghost_preview.name = "GhostPreview"
-	ghost_preview.z_index = 2
+	ghost_preview.z_index = 100
 	get_parent().add_child(ghost_preview)
 	
 	for child_node in get_children():
@@ -878,14 +903,16 @@ func clear_ghost_preview() -> void:
 func calculate_offset_transform(pushed_ship: Ship, target_grid_cell: Vector2i, rotation_index_offset: int) -> Transform2D:
 	var target_global_position = grid_to_world(target_grid_cell)
 	var target_rotation = (rotation_index_offset * (PI / 3.0)) + global_rotation
-	
 	var pushed_grid = pushed_ship.get_node_or_null("HexGrid")
-	var pushed_origin_local = pushed_grid.map_to_local(Vector2i.ZERO) if pushed_grid else Vector2.ZERO
+	var pivot_cell = Vector2i.ZERO
+	for child in pushed_ship.get_children():
+		if child is Room:
+			pivot_cell = child.grid_pos
+			break
+	var pushed_origin_local = pushed_grid.map_to_local(pivot_cell) if pushed_grid else Vector2.ZERO
 	var pushed_origin_global = pushed_ship.to_global(pushed_origin_local)
-	
 	var origin_transform = Transform2D(pushed_ship.global_rotation, pushed_origin_global)
 	var destination_transform = Transform2D(target_rotation, target_global_position)
-	
 	return destination_transform * origin_transform.inverse()
 
 func calculate_snap_data(pushed_ship: Ship) -> Dictionary:
@@ -1029,7 +1056,7 @@ func send_merge(p: NodePath, ship: NodePath):
 func process_room_detachment(active_pushers: Array) -> bool:
 	for pusher in active_pushers:
 		if pusher.pushing:
-			var projection_distance = 45.0
+			var projection_distance = 80.0
 			var contact_global_position = pusher.global_position + (pusher.push_dir * projection_distance)
 			var targeted_grid_cell = world_to_grid(contact_global_position)
 			var targeted_room_node = occupied_cells.get(targeted_grid_cell)
