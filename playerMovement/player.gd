@@ -64,8 +64,6 @@ var grounded : bool:
 
 @onready var handgun: PlayerGun = $handgun
 
-@onready var menu_manager : MenuManager = $"../../UI"
-
 #region MultiplayerGlobals
 ## ====== Multiplayer START ======
 var is_multiplayer: bool = false
