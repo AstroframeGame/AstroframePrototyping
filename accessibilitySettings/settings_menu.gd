@@ -72,15 +72,18 @@ func generate_remap_settings() -> void:
 		var contr_horiz_box = HBoxContainer.new()
 		var km_lbl = Label.new()
 		km_lbl.text = action
+		km_lbl.add_theme_font_size_override("font_size", 30)
 		km_horiz_box.add_child(km_lbl)
 		var contr_lbl = Label.new()
 		contr_lbl.text = action
+		contr_lbl.add_theme_font_size_override("font_size", 30)
 		contr_horiz_box.add_child(contr_lbl)
 		var events = InputMap.action_get_events(action)
 		for i in range(events.size()):
 			var ev = events[i]
 			if ev is InputEventJoypadButton or ev is InputEventJoypadMotion:
 				var contr_btn = RemappableButton.new()
+				contr_btn.add_theme_font_size_override("font_size", 30)
 				var name_dict = null
 				if ev is InputEventJoypadButton:
 					name_dict = contr_btn.CONTROLLER_LABELS
@@ -101,6 +104,7 @@ func generate_remap_settings() -> void:
 			
 			elif ev is InputEventKey or ev is InputEventMouseButton:
 				var km_btn = RemappableButton.new()
+				km_btn.add_theme_font_size_override("font_size", 30)
 				km_btn.action_name = action
 				km_btn.text = ev.as_text().get_slice(" - ", 0)
 				km_btn.event_index = i
