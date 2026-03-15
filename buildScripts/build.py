@@ -31,8 +31,8 @@ def build_and_zip(godot_bin, target_key):
         shutil.make_archive(zip_path, 'zip', build_dir)
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-t", "--target", type=str, default="w")
+    parser = argparse.ArgumentParser(description="Build and zip AstroFrame project for specified platforms.")
+    parser.add_argument("-t", "--target", type=str, default="w", help="Specify target platform: w/windows, m/mac, l/linux, a/android, or all")
     args = parser.parse_args()
     
     load_dotenv()
@@ -43,7 +43,7 @@ if __name__ == "__main__":
 
     target_input = args.target.lower()
     if target_input == "all":
-        platforms = ["windows", "mac", "linux", "android"]
+        platforms = ["windows", "mac", "linux"]
     else:
         resolved_target = SHORTCUTS.get(target_input, target_input)
         if resolved_target not in TARGETS:
