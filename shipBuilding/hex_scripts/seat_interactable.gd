@@ -16,6 +16,8 @@ func can_interact() -> bool:
 				return true
 	return false
 func interact_hint() -> String:
+	if controlled_by:
+		return "Stand Up"
 	return "Sit Down"
 
 func interact(player : PlayerCharacter) -> void:

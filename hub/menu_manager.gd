@@ -55,8 +55,8 @@ func load_scene(scene_path):
 		status = ResourceLoader.load_threaded_get_status(scene_path, progress)
 		#$"Loading/VBoxContainer/Progress".text = str(round(progress[0] * 100)) + "%"
 		$Loading/LoadProgress.value = progress[0] * 100
-		$Loading/LoadProgress/Label.text = "Progress - " + str(round(progress[0] * 100)) + "%"
-		$Loading/Label2.text = $Loading/LoadProgress/Label.text
+		#$Loading/LoadProgress/Label.text = "Progress - " + str(round(progress[0] * 100)) + "%"
+		#$Loading/Label2.text = $Loading/LoadProgress/Label.text
 		
 	var packed_scene = ResourceLoader.load_threaded_get(scene_path)
 	return packed_scene
