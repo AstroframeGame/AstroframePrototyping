@@ -26,12 +26,13 @@ var ship : Ship:
 var rot_index : int:
 	get:
 		return int(round(rotation / (PI / 3.0)))
-var grid_pos : Vector2:
+
+var grid_pos : Vector2i:
 	get:
 		if ship:
 			return ship.world_to_grid(global_position)
 		print_debug(name, " has no ship")
-		return global_position
+		return Vector2i(global_position)
 #endregion
 
 #region Power

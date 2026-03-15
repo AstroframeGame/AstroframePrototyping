@@ -807,14 +807,19 @@ func apply_push_rotation(state : PhysicsDirectBodyState2D) -> void:
 #region merging
 
 func _process(_delta: float) -> void:
-	# if not multiplayer auth: @Tapesh
-	#   clear_ghost_preview()
-	#   return
 	var pushers = get_players_pushing()
 	
 	if multiplayer_manager.my_player not in get_players_pushing() or pushers.is_empty():
 		clear_ghost_preview()
 		return
+
+	for p in pushers:
+		if p.is_local_player:
+			if Input.is_action_just_pressed("ship_push"):
+				if is_multiplayer_authority():
+					send_detach(p.get_path(), p.push_dir)
+				else:
+					send_detach.rpc_id(1, p.get_path(), p.push_dir)
 
 	merge_target_ship = find_nearest_ship()
 	
@@ -827,11 +832,6 @@ func _process(_delta: float) -> void:
 		
 		for p in pushers:
 			if p.is_local_player:
-				if Input.is_action_just_pressed("ship_push"):
-					if is_multiplayer_authority():
-						send_detach(p.get_path(), p.push_dir)
-					else:
-						send_detach.rpc_id(1, p.get_path(), p.push_dir)
 				if Input.is_action_just_pressed("interact") and snap_data.is_valid:
 					if is_multiplayer_authority():
 						send_merge(p.get_path(), merge_target_ship.get_path())
@@ -1022,7 +1022,7 @@ func send_detach(p_path: NodePath, dir: Vector2):
 		push_warning("[ship.gd/send_detach()]: Player path is incorrect")
 		return
 	
-	var proj_dist = 45.0
+	var proj_dist = 80.0
 	var placeable_g_pos = player.global_position + (dir * proj_dist)
 	var targ_grid_cell = world_to_grid(placeable_g_pos)
 	var targ_room = occupied_cells.get(targ_grid_cell)
@@ -1074,6 +1074,14 @@ func get_total_room_count() -> int:
 	return total_rooms
 
 func detach_room_to_new_ship(target_room: Room, push_direction: Vector2) -> void:
+	if is_multiplayer_authority():
+		sync_detach_room.rpc(target_room.get_path(), push_direction)
+
+@rpc("authority", "call_local", "reliable")
+func sync_detach_room(room_path: NodePath, push_direction: Vector2) -> void:
+	var target_room = get_node_or_null(room_path) as Room
+	if not is_instance_valid(target_room): return
+	
 	var detached_ship_instance : Ship = SHIP_PREFAB.instantiate()
 	get_parent().add_child(detached_ship_instance, true)
 	
