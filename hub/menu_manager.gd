@@ -87,10 +87,12 @@ func unpause_game():
 	open_menu("Game")
 	#focus_first_button()
 func _unhandled_input(_event: InputEvent) -> void:
-	if not (is_open("Paused") or is_open("Game")):
+	if not (is_open("Paused") or is_open("Game") or is_open("Settings")):
 		return
 	if Input.is_action_just_pressed("pause"):
 		if is_open("Paused"):
 			unpause_game()
+		elif is_open("Settings"):
+			open_menu("Paused")
 		else:
 			pause_game()

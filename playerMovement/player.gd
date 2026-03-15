@@ -82,7 +82,7 @@ func _ready() -> void:
 func _physics_process(delta):
 	apply_ground_body_transform()
 	
-	input_enabled = not menu_manager.is_open("Paused")
+	input_enabled = not (menu_manager.is_open("Paused") or menu_manager.is_open("Settings"))
 	
 	if not input_enabled:
 		return

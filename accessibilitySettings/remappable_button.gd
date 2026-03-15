@@ -4,6 +4,10 @@ extends Button
 @export var action_name: String
 @export var event_index: int = 0
 
+var menu_manager : MenuManager:
+	get:
+		return get_node("/root/Hub/UI")
+
 const CONTROLLER_LABELS: Dictionary = {
 	JoyButton.JOY_BUTTON_A: "A",
 	JoyButton.JOY_BUTTON_B: "B",
@@ -72,6 +76,15 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 		
 	if event.is_pressed() and (event is InputEventKey or event is InputEventJoypadButton):
+		if event.is_action("pause"):
+			button_pressed = false
+			release_focus()
+			# baaad solution
+			# "pause" here clashes with "pause" when trying to exit settings
+			await get_tree().process_frame 
+			menu_manager.open_menu("Settings")
+			return
+		
 		var events_list = InputMap.action_get_events(action_name)
 		if event_index < events_list.size():
 			InputMap.action_erase_event(action_name, events_list[event_index])

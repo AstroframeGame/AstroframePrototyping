@@ -84,15 +84,15 @@ func generate_remap_settings() -> void:
 				var name_dict = null
 				if ev is InputEventJoypadButton:
 					name_dict = contr_btn.CONTROLLER_LABELS
-					print(ev.as_text())
-					print(ev.button_index)
-					print()
+					#print(ev.as_text())
+					#print(ev.button_index)
+					#print()
 					contr_btn.text = name_dict[name_dict.keys()[ev.button_index]]
 				elif ev is InputEventJoypadMotion:
 					name_dict = contr_btn.MOTION_LABELS
-					print(ev.as_text())
-					print(ev.axis)
-					print()
+					#print(ev.as_text())
+					#print(ev.axis)
+					#print()
 					#contr_btn.text = name_dict[ev.as_text()]
 				
 				contr_btn.action_name = action
