@@ -154,17 +154,10 @@ null: null
 position = Vector2(251, -1354)
 power_links = {
 NodePath("Reactor_4/OutputHex"): NodePath("Cannon/InputHex"),
-NodePath("Reactor_4/OutputHex2"): NodePath("@Node2D@311/InputHex"),
-NodePath("Reactor_4/OutputHex3"): NodePath("@Node2D@312/InputHex"),
-NodePath("Reactor_4/OutputHex4"): NodePath("@Node2D@313/InputHex"),
-NodePath("@Node2D@308/OutputHex"): NodePath("Engines_2/InputHex"),
-NodePath("@Node2D@308/OutputHex2"): NodePath("Engines_2/InputHex2"),
-NodePath("@Node2D@308/OutputHex3"): NodePath("@Node2D@314/InputHex"),
-NodePath("@Node2D@308/OutputHex4"): NodePath("@Node2D@314/InputHex2"),
-NodePath("@Node2D@309/OutputHex"): NodePath("@Node2D@315/InputHex"),
-NodePath("@Node2D@309/OutputHex2"): NodePath("@Node2D@316/InputHex"),
-NodePath("@Node2D@309/OutputHex3"): NodePath("Autopilot_1/InputHex"),
-NodePath("@Node2D@309/OutputHex4"): NodePath("Autopilot_1/InputHex2")
+NodePath("Reactor_4/OutputHex2"): null,
+NodePath("Reactor_4/OutputHex3"): null,
+NodePath("Reactor_4/OutputHex4"): null,
+null: null
 }
 
 [node name="Ship" parent="." unique_id=1431510437 node_paths=PackedStringArray("power_links") instance=ExtResource("6_h1xkd")]

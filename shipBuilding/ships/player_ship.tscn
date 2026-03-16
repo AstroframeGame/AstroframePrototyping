@@ -1,121 +1,86 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://shipBuilding/ship.gd" id="1_5c823"]
-[ext_resource type="PackedScene" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_bnc2g"]
-[ext_resource type="PackedScene" path="res://shipAI/prefabs/hud.tscn" id="3_k0myf"]
-[ext_resource type="Script" path="res://shipAI/Scripts/ship_hud.gd" id="4_rpua8"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/engines_2.tscn" id="5_mmylw"]
-[ext_resource type="Script" path="res://shipBuilding/room_scripts/engines.gd" id="6_gcm1b"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/reactor_2.tscn" id="7_558vq"]
-[ext_resource type="Script" path="res://shipBuilding/room.gd" id="8_6ouew"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/reactor_4.tscn" id="9_ndywe"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/piloting_1.tscn" id="10_0soqi"]
-[ext_resource type="Script" path="res://shipBuilding/room_scripts/piloting.gd" id="11_yhwjq"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/airlock_1.tscn" id="12_kxuh7"]
-[ext_resource type="Script" path="res://shipBuilding/room_scripts/airlock.gd" id="13_6ueky"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/cannon.tscn" id="14_v8wyx"]
-[ext_resource type="Script" path="res://shipBuilding/room_scripts/cannon.gd" id="15_hj7kj"]
-[ext_resource type="PackedScene" path="res://shipBuilding/rooms/shields_3.tscn" id="16_5puna"]
-[ext_resource type="Script" path="res://shipBuilding/room_scripts/shields.gd" id="17_3yiq2"]
+[ext_resource type="Script" uid="uid://bsurseo1hgudf" path="res://shipBuilding/ship.gd" id="1_p0yqi"]
+[ext_resource type="PackedScene" uid="uid://c2n7netp00xn6" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_6phvi"]
+[ext_resource type="PackedScene" uid="uid://cebf4gqkt7jib" path="res://shipBuilding/rooms/engines_2.tscn" id="3_7bs0d"]
+[ext_resource type="Script" uid="uid://bwvp5wfog61cs" path="res://shipAI/Scripts/ship_hud.gd" id="4_7bs0d"]
+[ext_resource type="PackedScene" uid="uid://cplmkay6ecshy" path="res://shipBuilding/rooms/reactor_4.tscn" id="5_gug6e"]
+[ext_resource type="Script" uid="uid://byqsdjgqvjiln" path="res://shipBuilding/room_scripts/engines.gd" id="6_uxhwo"]
+[ext_resource type="PackedScene" uid="uid://qteo7ksf47a4" path="res://shipBuilding/rooms/piloting_1.tscn" id="7_alusj"]
+[ext_resource type="Script" uid="uid://vo6mtf68wgee" path="res://shipBuilding/room.gd" id="8_gug6e"]
+[ext_resource type="PackedScene" uid="uid://dir8uoqft75m0" path="res://shipBuilding/rooms/airlock_1.tscn" id="9_pe0wh"]
+[ext_resource type="Script" uid="uid://d2cv6pxd82txj" path="res://shipBuilding/room_scripts/piloting.gd" id="10_jphhu"]
+[ext_resource type="PackedScene" uid="uid://dffynorp3oc0l" path="res://shipBuilding/rooms/shields_3.tscn" id="11_sts7a"]
+[ext_resource type="Script" uid="uid://c173g2mdo5jh1" path="res://shipBuilding/room_scripts/airlock.gd" id="12_alusj"]
+[ext_resource type="PackedScene" uid="uid://daycij2kxk7dj" path="res://shipBuilding/rooms/turret_3.tscn" id="13_x5mbe"]
+[ext_resource type="Script" uid="uid://fr42tlimyfad" path="res://shipBuilding/room_scripts/shields.gd" id="14_ymy6w"]
+[ext_resource type="PackedScene" uid="uid://bmfrsjjfduwqn" path="res://shipBuilding/rooms/cannon.tscn" id="15_hpc5b"]
+[ext_resource type="PackedScene" uid="uid://daae3tloj435m" path="res://shipAI/prefabs/hud.tscn" id="15_pe0wh"]
+[ext_resource type="Script" uid="uid://dl084kee34c5w" path="res://shipBuilding/room_scripts/turret.gd" id="16_pe0wh"]
+[ext_resource type="PackedScene" uid="uid://8plbkd62xtgy" path="res://shipBuilding/rooms/hull_1.tscn" id="17_b8dep"]
+[ext_resource type="Script" uid="uid://cwoq3gu0md6vm" path="res://shipBuilding/room_scripts/cannon.gd" id="18_q3waf"]
 
 [sub_resource type="TileSet" id="TileSet_xsh4c"]
 tile_shape = 3
 tile_size = Vector2i(78, 90)
 
-[node name="debug_player_ship" type="RigidBody2D" unique_id=1784127879 node_paths=PackedStringArray("hud")]
+[node name="player_ship" type="RigidBody2D" unique_id=1442409601 node_paths=PackedStringArray("hud")]
 z_index = 1
 collision_mask = 257
 input_pickable = true
-mass = 46.0
 gravity_scale = 0.0
-center_of_mass_mode = 1
-center_of_mass = Vector2(-39, -178.04347)
-sleeping = true
 continuous_cd = 1
 contact_monitor = true
 max_contacts_reported = 5
-script = ExtResource("1_5c823")
-hud = NodePath("@CanvasLayer@351")
-max_hit_points = 110
-_hit_points = 110
+script = ExtResource("1_p0yqi")
+hud = NodePath("ShipHUD")
 
-[node name="HexGrid" type="TileMapLayer" parent="." unique_id=1277847278 instance=ExtResource("2_bnc2g")]
+[node name="HexGrid" type="TileMapLayer" parent="." unique_id=1277847278 instance=ExtResource("2_6phvi")]
 enabled = false
 tile_set = SubResource("TileSet_xsh4c")
 collision_enabled = false
 navigation_enabled = false
 
-[node name="Solid" type="CollisionPolygon2D" parent="." unique_id=1500520315]
-polygon = PackedVector2Array(39.1, -450.05, 39.1, -404.95, 0.099998474, -382.45767, 0.099998474, -337.54233, 39.1, -315.05, 39.1, -270.04233, 78, -247.60767, 117, -270.1, 156.1, -247.55, 156.1, -202.45, 117.1, -179.95767, 117.1, -135.04233, 156.1, -112.55, 156.1, -67.45, 117.1, -44.957672, 117.1, 0.05000305, 78, 22.599998, 39, 0.107673645, 0, 22.599998, -39, 0.107673645, -78, 22.599998, -117, 0.107673645, -156, 22.599998, -195.1, 0.05000305, -195.1, -44.957672, -234.1, -67.45, -234.1, -112.55, -195.1, -135.04233, -195.1, -179.95767, -234.1, -202.45, -234.1, -247.55, -195, -270.1, -156, -247.60767, -117.1, -270.04233, -117.1, -315.05, -78.1, -337.54233, -78.1, -382.45767, -117.1, -404.95, -117.1, -450.05, -78, -472.6, -39, -450.10767, 0, -472.6)
+[node name="Solid" type="CollisionPolygon2D" parent="." unique_id=2026200449]
 
-[node name="ShipHUD" type="CanvasLayer" parent="." unique_id=532014552 instance=ExtResource("3_k0myf")]
+[node name="ShipHUD" type="CanvasLayer" parent="." unique_id=532014552 instance=ExtResource("15_pe0wh")]
 visible = false
-script = ExtResource("4_rpua8")
+script = ExtResource("4_7bs0d")
 
-[node name="Reactor_2" type="Node2D" parent="." unique_id=542255097 instance=ExtResource("7_558vq")]
-position = Vector2(-195, -90)
-script = ExtResource("8_6ouew")
-original_color = Color(1, 1, 1, 1)
+[node name="Engines_2" type="Node2D" parent="." unique_id=1685651061 instance=ExtResource("3_7bs0d")]
+position = Vector2(117, 45)
+script = ExtResource("6_uxhwo")
 
-[node name="@Node2D@332" type="Node2D" parent="." unique_id=48312538 instance=ExtResource("7_558vq")]
-position = Vector2(39, -90)
-script = ExtResource("8_6ouew")
-original_color = Color(1, 1, 1, 1)
+[node name="Reactor_4" type="Node2D" parent="." unique_id=542255097 instance=ExtResource("5_gug6e")]
+position = Vector2(156, -22.5)
+script = ExtResource("8_gug6e")
 
-[node name="Reactor_4" type="Node2D" parent="." unique_id=1330044341 instance=ExtResource("9_ndywe")]
-position = Vector2(-39, -90)
-script = ExtResource("8_6ouew")
-original_color = Color(1, 1, 1, 1)
-
-[node name="Piloting_1" type="Node2D" parent="." unique_id=150588005 instance=ExtResource("10_0soqi")]
-position = Vector2(-156, -157.5)
-script = ExtResource("11_yhwjq")
-original_color = Color(1, 1, 1, 1)
-
-[node name="Airlock_1" type="Node2D" parent="." unique_id=2084884563 instance=ExtResource("12_kxuh7")]
+[node name="Piloting_1" type="Node2D" parent="." unique_id=150588005 instance=ExtResource("7_alusj")]
 position = Vector2(78, -157.5)
-script = ExtResource("13_6ueky")
-original_color = Color(1, 1, 1, 1)
+script = ExtResource("10_jphhu")
 
-[node name="Cannon" type="Node2D" parent="." unique_id=195129740 instance=ExtResource("14_v8wyx")]
-position = Vector2(39, -225)
-script = ExtResource("15_hj7kj")
-original_color = Color(1, 1, 1, 1)
+[node name="Airlock_1" type="Node2D" parent="." unique_id=2084884563 instance=ExtResource("9_pe0wh")]
+position = Vector2(234, -157.5)
+script = ExtResource("12_alusj")
 
-[node name="@Node2D@342" type="Node2D" parent="." unique_id=671497212 instance=ExtResource("14_v8wyx")]
-position = Vector2(-78, -292.5)
-script = ExtResource("15_hj7kj")
-original_color = Color(1, 1, 1, 1)
+[node name="Shields_3" type="Node2D" parent="." unique_id=1633765650 instance=ExtResource("11_sts7a")]
+position = Vector2(78, -22.5)
+rotation = 5.2359877
+script = ExtResource("14_ymy6w")
 
-[node name="@Node2D@344" type="Node2D" parent="." unique_id=1984099060 instance=ExtResource("14_v8wyx")]
-position = Vector2(-195, -225)
-script = ExtResource("15_hj7kj")
-original_color = Color(1, 1, 1, 1)
+[node name="Turret_3" type="Node2D" parent="." unique_id=1336280051 instance=ExtResource("13_x5mbe")]
+position = Vector2(312, -22.5)
+rotation = 5.2359877
+script = ExtResource("16_pe0wh")
 
-[node name="Shields_3" type="Node2D" parent="." unique_id=1633765650 instance=ExtResource("16_5puna")]
-position = Vector2(-39, -360)
-script = ExtResource("17_3yiq2")
-original_color = Color(1, 1, 1, 1)
+[node name="Cannon" type="Node2D" parent="." unique_id=195129740 instance=ExtResource("15_hpc5b")]
+position = Vector2(117, -225)
+script = ExtResource("18_q3waf")
 
-[node name="@CanvasLayer@351" type="CanvasLayer" parent="." unique_id=1146859954 instance=ExtResource("3_k0myf")]
-visible = false
-script = ExtResource("4_rpua8")
+[node name="Hull_1" type="Node2D" parent="." unique_id=284853880 instance=ExtResource("17_b8dep")]
+position = Vector2(156, -292.5)
+script = ExtResource("8_gug6e")
 
-[node name="Walls" type="StaticBody2D" parent="." unique_id=232098965]
+[node name="Walls" type="StaticBody2D" parent="." unique_id=1779955254]
 collision_layer = 16
 collision_mask = 0
-
-[node name="Engines_2" type="Node2D" parent="." unique_id=1685651061 instance=ExtResource("5_mmylw")]
-position = Vector2(-234, -22.5)
-script = ExtResource("6_gcm1b")
-original_color = Color(1, 1, 1, 1)
-
-[node name="@Node2D@354" type="Node2D" parent="." unique_id=1591127117 instance=ExtResource("5_mmylw")]
-position = Vector2(78, -22.5)
-script = ExtResource("6_gcm1b")
-original_color = Color(1, 1, 1, 1)
-
-[node name="@Node2D@357" type="Node2D" parent="." unique_id=1960056696 instance=ExtResource("7_558vq")]
-position = Vector2(-78, -22.5)
-script = ExtResource("8_6ouew")
-original_color = Color(1, 1, 1, 1)
