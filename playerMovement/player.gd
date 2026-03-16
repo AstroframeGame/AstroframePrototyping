@@ -202,8 +202,8 @@ func _physics_process(delta):
 			sync_state.rpc(sync_dict)
 		move_and_slide()
 	else:
-		global_position = global_position.lerp(target_pos, 0.25)
-		velocity = target_vel
+		global_position = global_position.lerp(target_pos, 15.0 * delta)
+		velocity = velocity.lerp(target_vel, 15.0 * delta)
 
 ## ====== Multiplayer START ======	
 
@@ -233,7 +233,7 @@ func _process(_delta: float) -> void:
 			send_input.rpc_id(1, dir, m_pos, scrn_m_pos, is_braking, pushed)
 
 #region SyncingMovement
-@rpc("any_peer", "call_remote", "reliable")
+@rpc("any_peer", "call_remote", "unreliable_ordered")
 func send_input(dir: Vector2, m_pos: Vector2, scrn_m_pos: Vector2, is_braking: bool, push: bool):
 	var sender_id = multiplayer.get_remote_sender_id()
 	if sender_id != owner_id:
