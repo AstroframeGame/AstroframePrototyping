@@ -30,8 +30,9 @@ func  _ready() -> void:
 func on_power_change(_room):
 	if is_multiplayer_authority():
 		if recharge_timer.time_left <= 0:
-			shield.set_active(power_level > 0)
-		shield.durability = max_shield_durability[power_level]
+			shield.set_active(power_level > 0)	
+		var durability_ratio = shield.durability / max_shield_durability[power_level]
+		shield.durability = durability_ratio * max_shield_durability[power_level]
 		
 		sync_power_change.rpc(shield.get_path())
 
