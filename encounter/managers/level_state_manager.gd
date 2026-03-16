@@ -72,4 +72,5 @@ func _ready() -> void:
 func update_language(index: int):
 	language = languages[index][0]
 	dialogue_dictionary = load_dictionary("%s/%s_dialogue.json" % [all_dialogue_dir, language])
-	current_encounter._on_language_changed()
+	if current_encounter:
+		current_encounter._on_language_changed()

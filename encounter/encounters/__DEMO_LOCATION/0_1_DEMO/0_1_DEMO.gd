@@ -22,11 +22,13 @@ func _ready() -> void:
 	enc_base_dir = get_script().get_path().get_base_dir()
 	reward_zone = $RewardZone.global_position
 	player_spawn = $PlayerSpawn.global_position
+	markers = $markers.get_children()
 	
 	got_objective.connect(start_next_objective)
 	trigger_dialogue.connect(_on_trigger_dialogue)
 	
 	player_ship.set_meta("type", "PlayerShip")
+	player_ship.set_meta("label_key", "PLAYER_SHIP_MARKER_LABEL")
 	player_ship.connect("ship_destroyed", encounter_failed)
 
 	#region NPC SETUP 
@@ -36,16 +38,20 @@ func _ready() -> void:
 		ship.connect( "ship_destroyed", win_check.bind() )	# when target destroyed, check for win
 		ship.connect( "ship_destroyed", _on_trigger_dialogue.bind("YOU", "PIRATE_KILLED") )
 		ship.set_meta("type", "Pirate")
+		ship.set_meta("label_key", "PIRATE_SHIP_MARKER_LABEL")
+		
 		ship.set_aggro.emit(true)	# pirate ships start aggro
 	
 	# faction ship setup
 	faction_ship.name = "0_1_FACTION_PATROL"
 	faction_ship.set_meta("type", "Faction")
+	faction_ship.set_meta("label_key", "FACTION_SHIP_MARKER_LABEL")
 	faction_ship.set_aggro.emit(false)	# faction ship starts friendly
 	faction_ship.connect("on_hit", set_ship_aggro.bind(faction_ship, true)) # faction ship will aggro if you fire on them	
 	
 	# research ship setup
 	research_ship.name = "0_1_RESEARCHERS"
+	research_ship.set_meta("label_key", "RESEARCH_SHIP_MARKER_LABEL")
 	research_ship.connect("set_beacon", $markers/research_ship_marker2.set_beacon)
 	research_ship.set_beacon.emit(true)
 	research_ship.set_aggro.emit(false)

@@ -61,7 +61,6 @@ offset_right = 1.0
 offset_bottom = 8.0
 theme_override_fonts/font = ExtResource("3_7ytpk")
 theme_override_font_sizes/font_size = 14
-text = "Researchers"
 
 [node name="Line2D" type="Line2D" parent="markers/research_ship_marker2" unique_id=1599261625]
 scale = Vector2(3, 3)

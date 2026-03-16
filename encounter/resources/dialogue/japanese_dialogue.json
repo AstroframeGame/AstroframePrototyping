@@ -1,4 +1,13 @@
 {
+  "UI": {
+	"TEST": "こんにちは",
+	"OBJECTIVES_LABEL": "目的",
+	"OBJECTIVE_COMPLETE": "完了！",
+	"PLAYER_SHIP_MARKER_LABEL": "プレーヤー",
+	"FACTION_SHIP_MARKER_LABEL": "派",
+	"PIRATE_SHIP_MARKER_LABEL": "海賊",
+	"RESEARCH_SHIP_MARKER_LABEL": "研究者"
+  },
   "0_1_DEMO": {
 	"0_1_FACTION_PATROL": {
 	  "name": "派",
@@ -94,5 +103,16 @@
 		]
 	  }
 	}
-  }
+  },
+  "0_INTRO": {
+	"UI": {
+	  "name": "客観的",
+	  "UI_OBJECTIVE": {
+		"neutral": [
+          "ワープ！"
+		]
+	  }
+	}
+  },
+  "1_SENSOR": {}
 }

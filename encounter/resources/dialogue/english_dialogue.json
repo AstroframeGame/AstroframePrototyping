@@ -1,4 +1,13 @@
 {
+  "UI": {
+	"TEST": "hi",
+	"OBJECTIVES_LABEL": "Objectives",
+	"OBJECTIVE_COMPLETE": "Complete!",
+	"PLAYER_SHIP_MARKER_LABEL": "Player",
+	"FACTION_SHIP_MARKER_LABEL": "Faction",
+	"PIRATE_SHIP_MARKER_LABEL": "Pirate",
+	"RESEARCH_SHIP_MARKER_LABEL": "Researcher"
+  },
   "0_1_DEMO": {
 	"0_1_FACTION_PATROL": {
 	  "name": "Faction",
@@ -94,5 +103,16 @@
 		]
 	  }
 	}
-  }
+  },
+  "0_INTRO": {
+	"UI": {
+	  "name": "Objective",
+	  "UI_OBJECTIVE": {
+		"neutral": [
+          "Warp!"
+		]
+	  }
+	}
+  },
+  "1_SENSOR": {}
 }

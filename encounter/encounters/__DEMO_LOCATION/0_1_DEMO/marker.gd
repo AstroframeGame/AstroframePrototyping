@@ -59,8 +59,9 @@ func _process(_delta: float) -> void:
 	fill.modulate.a = dist_mod
 
 	# add text
-	if label.text == "" and target.get_meta("type"):
-		label.text = target.get_meta("type")
+	if label.text == "" and target.get_meta("label_key"):
+		var key = target.get_meta("label_key")
+		label.text = LevelStateManager.dialogue_dictionary.UI[key]
 	
 	# keep label centered
 	label.pivot_offset = label.size / 2
@@ -86,3 +87,7 @@ func set_beacon(val: bool):
 	if not beacon_on:	# reset size
 		line.scale = Vector2(3, 3);
 		fill.scale = Vector2(3, 3);
+
+func update_label_text():
+	var key = target.get_meta("label_key")
+	label.text = LevelStateManager.dialogue_dictionary.UI[key]

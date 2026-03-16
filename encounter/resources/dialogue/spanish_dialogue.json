@@ -1,4 +1,13 @@
 {
+  "UI": {
+	"TEST": "Hola",
+	"OBJECTIVES_LABEL": "Objetivos",
+	"OBJECTIVE_COMPLETE": "¡Completo!",
+	"PLAYER_SHIP_MARKER_LABEL": "Jugador",
+	"FACTION_SHIP_MARKER_LABEL": "Facción",
+	"PIRATE_SHIP_MARKER_LABEL": "Pirata",
+	"RESEARCH_SHIP_MARKER_LABEL": "Investigador"
+  },
   "0_1_DEMO": {
 	"0_1_FACTION_PATROL": {
 	  "name": "Facción",
@@ -77,9 +86,9 @@
 	  "PIRATE_KILLED": {
 		"max": "INF",
 		"neutral": [
-		  "¡Te tengo!",
+		  "¡Te pillé!",
 		  "¡Bum!",
-		  "¡Buena suerte!",
+		  "¡Qué alivio!",
           "¡Ja!"
 		]
 	  },
@@ -94,5 +103,16 @@
 		]
 	  }
 	}
-  }
+  },
+  "0_INTRO": {
+	"UI": {
+	  "name": "Objetivo",
+	  "UI_OBJECTIVE": {
+		"neutral": [
+          "¡Urdimbre!"
+		]
+	  }
+	}
+  },
+  "1_SENSOR": {}
 }
