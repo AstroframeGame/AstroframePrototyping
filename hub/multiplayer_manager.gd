@@ -93,8 +93,9 @@ func _on_game_start(_game_scene: Node2D):
 		_add_solo_player()
 
 func _add_solo_player():
-	if $Players.has_node("1"):
-		$Players.get_node("1").queue_free()
+	if $Players.get_child_count() > 0:
+		for player in $Players.get_children():
+			player.queue_free()
 	
 	var player_char = PLAYER_CHARACTER_PREFAB.instantiate()
 
@@ -110,8 +111,9 @@ func _add_solo_player():
 	else:
 		player_char.get_node("NamerTag").text = user_name
 	
-	if has_node(user_name + "_SYS"):
-		get_node(user_name + "_SYS").queue_free()
+	for node in get_children():
+		if "_SYS" in node.name:
+			node.queue_free()
 		
 	var player_system = PLAYER_SYSTEM_PREFAB.instantiate()
 	
