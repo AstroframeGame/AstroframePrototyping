@@ -1,16 +1,6 @@
 class_name PlayerCharacter
 extends CharacterBody2D
 
-'''
-This controls player movement. Configure the controls in Project Settings > Input
-
-WASD to walk around on ground
-WASD to thrust when off ground, SPACE to brake
-
-The way that the player checks if it is grounded is with an area, this checks if
-the player is over ground, hence whether to use air movement or ground movement
-'''
-
 @export var walk_speed = 200
 @export var thrust_move = 6
 @export var thrust_accel = 800
@@ -23,8 +13,7 @@ the player is over ground, hence whether to use air movement or ground movement
 @export_flags_2d_physics var interior_ground_mask
 @export_flags_2d_physics var exterior_ground_mask
 
-# sync these
-var pushing :bool #set in physics process
+var pushing :bool
 var push_dir
 var push_brake
 var input_enabled
@@ -36,22 +25,18 @@ var seat : SeatInteractable :
 	set(value):
 		_seat = value
 		if value:
-			CursorManager.set_cursor_aim()# this should be tied to its own event? maybe this is fine
+			CursorManager.set_cursor_aim()
 		else:
 			CursorManager.reset_cursor()
 
-# for fake parenting
-# separated from ship
 var ground_body : PhysicsBody2D
 var prev_ground_body_transform : Transform2D
 
 var ship: Ship
 
-
 @onready var ground_check: Area2D = $GroundCheck
 @onready var interact_check: Area2D = $InteractCheck
 @onready var multiplayer_manager : MultiplayerManager = $"../.."
-
 @onready var grapple: Grapple = $Grapple
 
 var health = 100
@@ -61,14 +46,10 @@ var grounded : bool:
 		ground_check = $GroundCheck
 		return ground_check.has_overlapping_bodies() or ground_check.has_overlapping_areas()
 
-
 @onready var handgun: PlayerGun = $handgun
 
-#region MultiplayerGlobals
-## ====== Multiplayer START ======
 var is_multiplayer: bool = false
 var is_local_player: bool = false
-
 var owner_id: int
 var target_vel := Vector2.ZERO
 var target_pos := Vector2.ZERO
@@ -80,22 +61,15 @@ var ship_pushed: bool = false
 var is_shooting: bool = false
 var is_holstering: bool = false
 var was_holstering: bool = false
-var is_interacting: bool = false
-var was_interacting: bool = false
 var screen_mouse_pos := Vector2.ZERO
 var event_in_room: StringName
 var username: String
-## ======  Multiplayer END  ======
-#endregion
 
-#region ReadyFunction
 func _ready() -> void:
 	ground_check.body_entered.connect(on_ground)
 	ground_check.body_exited.connect(on_unground)
 	ground_check.area_entered.connect(on_ground)
 	ground_check.area_exited.connect(on_unground)
-	
-	## ====== Multiplayer START ======
 	
 	is_multiplayer = multiplayer_manager.is_multiplayer
 	input_enabled = true
@@ -111,33 +85,22 @@ func _ready() -> void:
 	
 	if is_multiplayer:
 		owner_id = name.to_int()
-
-		print("Initializing player ", name, " in Multiplayer...")
-		print("   Player ", owner_id, 
-		" | Local ID: ", multiplayer.get_unique_id(), 
-		" | Authority: ", get_multiplayer_authority())
 	else:
 		owner_id = 1
 		is_local_player = false
-		
 		$NamerTag.text = ""
-		print("Initializing player in Singleplayer")
 
-	## ======  Multiplayer END  ======
-	
 	if ship:
 		on_ship_enter(ship)
 	else:
 		on_ship_exit()
-#endregion
 
 func _physics_process(delta):
 	if is_multiplayer_authority():
 		apply_ground_body_transform()
 		input_dir = input_dir.normalized().rotated(global_rotation)
-		if ship_pushed: ## Action for movement
+		if ship_pushed:
 			pushed = false
-			print("\nR Pressed:\n ground_body: ", ground_body, "\n ship: ", ship, "\n")
 			if pushing:
 				pushing = false
 			else:
@@ -145,13 +108,11 @@ func _physics_process(delta):
 		push_dir = input_dir
 		
 		if seat or pushing:
-			velocity = Vector2.ZERO # ship vel added later
+			velocity = Vector2.ZERO
 			handgun.holster()
 		elif grapple.wants_grapple():
 			velocity = grapple.velocity(delta)
 		elif grounded:
-			# remove rotation?
-			#rotate(Input.get_axis("rotate_left","rotate_right") * rotate_speed * delta)
 			velocity = input_dir * walk_speed
 		else:
 			ground_body = null
@@ -171,14 +132,7 @@ func _physics_process(delta):
 		elif not is_holstering and was_holstering:
 			was_holstering = false
 			
-		if is_interacting and not was_interacting:
-			print("Multiplayer Approved Interacting")
-			sync_interacting.rpc()
-			was_interacting = true
-		elif not is_interacting and was_interacting:
-			was_interacting = false
-			
-		if event_in_room != "" and not is_interacting:
+		if event_in_room != "":
 			sync_room_inputs.rpc(event_in_room)
 		
 		for i in range(get_slide_collision_count()):
@@ -205,8 +159,6 @@ func _physics_process(delta):
 		global_position = global_position.lerp(target_pos, 15.0 * delta)
 		velocity = velocity.lerp(target_vel, 15.0 * delta)
 
-## ====== Multiplayer START ======	
-
 func _process(_delta: float) -> void:
 	is_local_player = multiplayer.get_unique_id() == owner_id or not is_multiplayer
 	
@@ -232,16 +184,13 @@ func _process(_delta: float) -> void:
 		else:
 			send_input.rpc_id(1, dir, m_pos, scrn_m_pos, is_braking, pushed)
 
-#region SyncingMovement
 @rpc("any_peer", "call_remote", "unreliable_ordered")
 func send_input(dir: Vector2, m_pos: Vector2, scrn_m_pos: Vector2, is_braking: bool, push: bool):
 	var sender_id = multiplayer.get_remote_sender_id()
 	if sender_id != owner_id:
-		push_warning("[player.gd]: Player %d tried to control player %d" % [sender_id, owner_id])
 		return
 
 	input_dir        = dir
-	
 	push_brake       = is_braking
 	ship_pushed      = push
 	mouse_pos        = m_pos
@@ -259,8 +208,6 @@ func sync_state(sync_dict: Dictionary):
 		pushing          = sync_dict.pushing_check
 		pushed           = sync_dict.client_push_check
 		
-#endregion
-#region SyncingActions
 @rpc("authority", "call_local", "unreliable")
 func sync_shooting():
 	handgun.shoot_bullet()
@@ -277,21 +224,13 @@ func sync_interacting():
 func sync_room_inputs(room_event: StringName):
 	if seat and seat.room:
 		seat.room.handle_input(room_event)
-#endregion
 
-## ======  Multiplayer END  ======
-
-#region InteractionManager
-# currently interacts with the first overlapping interactable area, but this can be changed to nearest, last, all, ect.
 func interact():
-	print("\n=== REACHED INTERACT() ===\n")
 	if not input_enabled:
 		return
 	var interactable = get_interactable()
-	print("   Interactable: ", interactable)
 	if interactable:
 		interactable.interact(self)
-		print_debug("[", multiplayer.get_unique_id(), "]: ", name, " interacted with ", interactable)
 			
 func get_interactable() -> Node2D:
 	for area in interact_check.get_overlapping_areas():
@@ -309,14 +248,11 @@ func get_interactable_hint() -> String:
 			return interactable.interact_hint()
 		return "interact with " + interactable.name
 	return ""
-#endregion
 
-#region UnhandledInputs
 var shooting = false
 
 func _unhandled_input(event: InputEvent) -> void:
 	if is_local_player:
-		var interacting = false
 		var room_input = ""
 		var holstered = false
 		
@@ -331,8 +267,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			holstered = true
 	
 		if event.is_action_pressed("interact"):
-			interacting = true
-			print("Pushed interact")
+			if is_multiplayer_authority():
+				sync_interacting.rpc()
+			else:
+				request_interact.rpc_id(1)
 			
 		if seat and seat.room.has_method("handle_input"):
 			for a in InputMap.get_actions():
@@ -344,44 +282,39 @@ func _unhandled_input(event: InputEvent) -> void:
 			is_shooting    = shooting
 			is_holstering  = holstered
 			event_in_room  = room_input
-			is_interacting = interacting
 		else:
-			send_unhandled_inputs.rpc_id(1, shooting, holstered, interacting, room_input)
+			send_unhandled_inputs.rpc_id(1, shooting, holstered, room_input)
 	
 @rpc("any_peer", "call_remote", "reliable")
-func send_unhandled_inputs(shoot: bool, holstered: bool, interacting: bool, room_input: StringName):
+func send_unhandled_inputs(shoot: bool, holstered: bool, room_input: StringName):
 	var sender_id = multiplayer.get_remote_sender_id()
 	if sender_id != owner_id:
-		push_warning("Player %d tried to control player %d" % [sender_id, owner_id])
 		return
 	
 	is_shooting    = shoot
-	is_holstering   = holstered
-	is_interacting = interacting
+	is_holstering  = holstered
 	event_in_room  = room_input
-#endregion	
+
+@rpc("any_peer", "call_local", "reliable")
+func request_interact():
+	var sender_id = multiplayer.get_remote_sender_id()
+	if sender_id != owner_id:
+		return
+	sync_interacting.rpc()
 	
-#region grounding
-# called when ground check intersects with rb
 func on_ground(_body : Node2D):
-	# maybe chekc if there is more priority for the new ground. ships should be easier to ground than envs
-	#print("on_ground ", _body)
 	if _body is Area2D:
-		#print("parent is ship ", _body.get_parent() is Ship)
 		if _body.get_parent() is Ship:
 			ground_body = _body.get_parent()
 			prev_ground_body_transform = ground_body.global_transform
 	elif _body is PhysicsBody2D:
 		ground_body = _body
 		prev_ground_body_transform = ground_body.global_transform
-	#print("gb ",ground_body)
 
 func on_unground(_body : Node2D):
-	#print("on_unground ", _body)
 	if _body == ground_body:
 		ground_body = null
 
-# if you do not know if grounded (like after placing room)
 func fix_unsure_grounding():
 	ground_body = null
 	on_ship_exit()
@@ -392,37 +325,25 @@ func fix_unsure_grounding():
 	if is_instance_valid(ground_body):
 		prev_ground_body_transform = ground_body.global_transform
 
-# called when enter airlock
 func on_ship_enter(new_ship : Ship):
-	print("\n=== REACHED SHIP_ENTER ===\n")
 	var prev_ship = get_tree().get_first_node_in_group("player_ship")
 	if prev_ship:
-		print("Previous ship exists, removing from group")
 		prev_ship.remove_from_group("player_ship")
 	on_ground(new_ship)
 	ship = new_ship
 	if self not in new_ship.players:
-		print("   Appended self into ship.players")
 		new_ship.players.append(self)
-	else:
-		push_warning("[Player.gd]: {Warning}, player requested to enter ship when in ship")
 	rotation = ship.rotation
-	#print(name + " parent to ship")
 	ship.add_to_group("player_ship")
-	# if ship is also pirate ship warn nearby pirates
 	var pirate_pilot = ship.get_auto_piloting()
 	if ship.is_in_group("pirate_ship") and pirate_pilot != null:
 		for body in pirate_pilot.detection_area.get_overlapping_bodies():
 			if body.is_in_group("pirate_ship") and body != ship:
 				body.get_auto_piloting().target_candidate = ship
 				body.get_auto_piloting().on_player_ship_detected()
-				print("warned " + str(body))
 	update_layers(true)
 	
-
 func on_ship_exit():
-	# unground will be called when stops intersecting
-	#print(name + " parent to wordl")
 	if ship and self in ship.players:
 		ship.players.remove_at(ship.players.find(self))
 	ship = null
@@ -447,8 +368,6 @@ func update_layers(inside : bool):
 		collision_mask = exterior_mask
 		ground_check.collision_mask = exterior_ground_mask
 		z_index = 12
-#endregion
-
 
 func take_damage(damage : int, _vfx_pos:Vector2):
 	if health > 0 and health - damage > 0:
