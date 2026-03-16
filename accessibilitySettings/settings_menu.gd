@@ -3,6 +3,7 @@ extends MarginContainer
 
 const UNSTYLED = preload("res://hub/ui-themes/unstyled.tres")
 @onready var resolution_options: OptionButton = $SettingsTabs/Video/VBoxContainer/HBoxContainer/Resolution/ResolutionOptions
+@onready var language_options: OptionButton = $SettingsTabs/Language/VBoxContainer/HBoxContainer/Language/LanguageOptions
 @onready var key_mouse_binds: VBoxContainer = $"SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer"
 @onready var controller_binds: VBoxContainer = $SettingsTabs/Controls/ControlInterface/Controller/VBoxContainer
 @onready var game_layer: CanvasLayer = $"../../Game"
@@ -11,6 +12,7 @@ func _ready() -> void:
 	set_dev_settings()
 	generate_remap_settings()
 	generate_resolution_options()
+	generate_language_options()
 
 func set_dev_settings():
 	if "dev" in OS.get_cmdline_args():
@@ -41,6 +43,13 @@ func generate_resolution_options():
 func _on_resolution_option_selected(index: int) -> void:
 	get_window().set_size(resolutions[resolution_options.get_item_text(index)])
 	center_screen()
+	
+func generate_language_options():
+	for lang in LevelStateManager.languages:
+		language_options.add_item(lang[1])
+
+func _on_language_option_selected(index: int) -> void:
+	LevelStateManager.update_language(index)
 
 func _on_fullscreen_toggled(toggled_on: bool) -> void:
 	if toggled_on:

@@ -14,6 +14,7 @@ var spoke_to_researchers = false
 var dead_pirates = 0
 
 func _ready() -> void:	
+	LevelStateManager.current_encounter = self
 	player_ship = $PlayerShip
 	
 	# scene info

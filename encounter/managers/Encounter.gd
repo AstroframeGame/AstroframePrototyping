@@ -202,3 +202,13 @@ func _on_trigger_dialogue(npc: String, cat: String = GET_QUEUED_DIALOGUE) -> voi
 		cat = queued_dialogue[npc]
 
 	start_dialogue(npc, cat)
+
+func _on_language_changed():
+	preload_scene_dialogue()
+	
+	if obj_number >= 0 and dialogue.has("objective"):
+		var new_objectives = dialogue["objective"]["neutral"]
+		if obj_number < new_objectives.size():
+			objective = new_objectives[obj_number]
+	elif won:
+		objective = "Complete!" #TODO
