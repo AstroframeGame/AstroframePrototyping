@@ -11,6 +11,11 @@ func _ready() -> void:
 			n.visible = false
 	get_node(open).visible = true
 	InputHelper.switch_input_device.connect(focus_first_button)
+	
+	var settings_menu = $Settings/SettingsMenu
+	if settings_menu:
+		settings_menu.language_changed.connect(update_ui_labels)
+	update_ui_labels(0)
 
 func is_open(menu_name : String):
 	return open == NodePath(menu_name)
@@ -93,3 +98,33 @@ func _unhandled_input(_event: InputEvent) -> void:
 			game_manager.menu_back()
 		else:
 			pause_game()
+			
+#region localization
+@onready var play 		= $Main/VBoxContainer/Play
+@onready var join 		= $Main/VBoxContainer/Multiplayer/Join
+@onready var host 		= $Main/VBoxContainer/Multiplayer/Host
+@onready var prompt 	= $Main/VBoxContainer/Multiplayer/IDPrompt
+@onready var editor 	= $Main/VBoxContainer/Editor
+@onready var settings 	= $Main/VBoxContainer/Settings
+@onready var credits 	= $Main/VBoxContainer/Credits
+@onready var quit 		= $Main/VBoxContainer/Quit
+@onready var pause		= $Paused/VBoxContainer/PauseLabel
+@onready var resume		= $Paused/VBoxContainer/ResumeGame
+@onready var p_settings	= $Paused/VBoxContainer/PauseSettings
+@onready var p_exit		= $Paused/VBoxContainer/Exit
+@onready var game_over	= $GameOver/GameOverLabel
+@onready var go_back	= $GameOver/GameOverBack
+@onready var creds_back	= $Credits/Back
+@onready var setts_back	= $Settings/Back
+
+@onready var all_buttons = [
+	play, join, host, prompt, editor, settings, credits, quit,
+	pause, resume, p_settings, p_exit, game_over, go_back,
+	]
+const languages = ["en", "ja", "es"]
+func update_ui_labels(index):
+	TranslationServer.set_locale(languages[index])
+	
+	for button in all_buttons:
+		button.text = tr(button.name)
+#endregion

@@ -8,6 +8,8 @@ const UNSTYLED = preload("res://hub/ui-themes/unstyled.tres")
 @onready var controller_binds: VBoxContainer = $SettingsTabs/Controls/ControlInterface/Controller/VBoxContainer
 @onready var game_layer: CanvasLayer = $"../../Game"
 
+signal language_changed(index: int)
+
 func _ready() -> void:
 	set_dev_settings()
 	generate_remap_settings()
@@ -50,6 +52,7 @@ func generate_language_options():
 
 func _on_language_option_selected(index: int) -> void:
 	LevelStateManager.update_language(index)
+	language_changed.emit(index)
 
 func _on_fullscreen_toggled(toggled_on: bool) -> void:
 	if toggled_on:
