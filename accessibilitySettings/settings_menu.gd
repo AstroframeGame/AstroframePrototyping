@@ -4,6 +4,7 @@ extends MarginContainer
 const UNSTYLED = preload("res://hub/ui-themes/unstyled.tres")
 @onready var resolution_options: OptionButton = $SettingsTabs/Video/VBoxContainer/HBoxContainer/Resolution/ResolutionOptions
 @onready var key_mouse_binds: VBoxContainer = $"SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer"
+@onready var controller_binds: VBoxContainer = $SettingsTabs/Controls/ControlInterface/Controller/VBoxContainer
 @onready var game_layer: CanvasLayer = $"../../Game"
 
 func _ready() -> void:
@@ -14,7 +15,8 @@ func _ready() -> void:
 func set_dev_settings():
 	if "dev" in OS.get_cmdline_args():
 		_on_fullscreen_toggled(false)
-		get_window().set_size(Vector2(1152,648))
+		#get_window().set_size(Vector2(1152,648))
+		get_window().set_size(Vector2(1920,1080))
 		center_screen()
 	
 
@@ -66,20 +68,56 @@ func generate_remap_settings() -> void:
 	for action in input_map:
 		if action.get_slice("_", 0) == "ui":
 			continue
-		var horiz_box = HBoxContainer.new()
-		var lbl = Label.new()
-		lbl.text = action
-		var btn = RemappableButton.new()
-		btn.action_name = action
-		btn.theme = UNSTYLED
+		var km_horiz_box = HBoxContainer.new()
+		var contr_horiz_box = HBoxContainer.new()
+		var km_lbl = Label.new()
+		km_lbl.text = action
+		km_lbl.add_theme_font_size_override("font_size", 30)
+		km_horiz_box.add_child(km_lbl)
+		var contr_lbl = Label.new()
+		contr_lbl.text = action
+		contr_lbl.add_theme_font_size_override("font_size", 30)
+		contr_horiz_box.add_child(contr_lbl)
 		var events = InputMap.action_get_events(action)
-		if events.size() > 0:
-			btn.text = events[0].as_text().get_slice(" - ", 0)
-		else:
-			btn.text = "No Binding"
-		horiz_box.add_child(lbl)
-		horiz_box.add_child(btn)
-		key_mouse_binds.add_child(horiz_box)
+		for i in range(events.size()):
+			var ev = events[i]
+			if ev is InputEventJoypadButton or ev is InputEventJoypadMotion:
+				var contr_btn = RemappableButton.new()
+				contr_btn.add_theme_font_size_override("font_size", 30)
+				var name_dict = null
+				if ev is InputEventJoypadButton:
+					name_dict = contr_btn.CONTROLLER_LABELS
+					#contr_btn.text = name_dict[name_dict.keys()[ev.button_index]]
+					contr_btn.action_type = "contr"
+				elif ev is InputEventJoypadMotion:
+					name_dict = contr_btn.MOTION_LABELS
+					#print(ev.as_text())
+					#print(ev.axis)
+					#print()
+					#contr_btn.text = name_dict[ev.as_text()]
+					contr_btn.action_type = "contr"
+				
+				contr_btn.action_name = action
+				contr_btn.event_index = i
+				contr_horiz_box.add_child(contr_btn)
+			
+			elif ev is InputEventKey or ev is InputEventMouseButton:
+				var km_btn = RemappableButton.new()
+				km_btn.add_theme_font_size_override("font_size", 30)
+				km_btn.action_name = action
+				#km_btn.text = ev.as_text().get_slice(" - ", 0)
+				km_btn.event_index = i
+				km_horiz_box.add_child(km_btn)
+				km_btn.action_type = "keyBrd"
+			
+			else:
+				var bad_btn = RemappableButton.new()
+				bad_btn.text = "Invalid Binding"
+				km_horiz_box.add_child(bad_btn)
+				contr_horiz_box.add_child(bad_btn)
+		
+		key_mouse_binds.add_child(km_horiz_box)
+		controller_binds.add_child(contr_horiz_box)
 #endregion
 
 #region Audio

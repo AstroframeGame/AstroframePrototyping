@@ -93,7 +93,7 @@ func ground_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> 
 		var cell = world_to_grid(get_global_mouse_position())
 		if occupied_cells.has(cell):
 			var room = occupied_cells[cell]
-			#print("Room ", room, " was clicked")
+			print("Room ", room, " was clicked")
 			room_clicked.emit(room, event.button_index)
 
 #region Piloting
@@ -841,22 +841,47 @@ func _process(_delta: float) -> void:
 		clear_ghost_preview()
 
 func find_nearest_ship() -> Ship:
-	var out: Ship = null
-	var min_dist = MAX_MERGE_DISTANCE
-	
+	var candidates: Array[Dictionary] = []
+	var absolute_min_dist = MAX_MERGE_DISTANCE
 	for s in get_parent().get_children():
 		if s is Ship and s != self:
-			var d = to_global(center_of_mass).distance_to(s.to_global(s.center_of_mass))
-			if d < min_dist:
-				min_dist = d
-				out = s
+			var ship_min_dist = MAX_MERGE_DISTANCE
+			for my_room in get_children():
+				if my_room is Room:
+					for other_room in s.get_children():
+						if other_room is Room:
+							var d = my_room.global_position.distance_to(other_room.global_position)
+							if d < ship_min_dist:
+								ship_min_dist = d
+			if ship_min_dist < MAX_MERGE_DISTANCE:
+				candidates.append({"ship": s, "dist": ship_min_dist, "rooms": s.get_total_room_count()})
+				if ship_min_dist < absolute_min_dist:
+					absolute_min_dist = ship_min_dist
+					
+	if candidates.is_empty():
+		return null
+		
+	var best_ship: Ship = null
+	var best_rooms = -1
+	var best_dist = INF
+	var threshold = 50.0
+	
+	for c in candidates:
+		if c.dist <= absolute_min_dist + threshold:
+			if c.rooms > best_rooms:
+				best_rooms = c.rooms
+				best_dist = c.dist
+				best_ship = c.ship
+			elif c.rooms == best_rooms and c.dist < best_dist:
+				best_dist = c.dist
+				best_ship = c.ship
 				
-	return out
+	return best_ship
 
 func generate_ghost_preview() -> void:
 	ghost_preview = Node2D.new()
 	ghost_preview.name = "GhostPreview"
-	ghost_preview.z_index = 2
+	ghost_preview.z_index = 100
 	get_parent().add_child(ghost_preview)
 	
 	for child_node in get_children():
@@ -878,54 +903,53 @@ func clear_ghost_preview() -> void:
 func calculate_offset_transform(pushed_ship: Ship, target_grid_cell: Vector2i, rotation_index_offset: int) -> Transform2D:
 	var target_global_position = grid_to_world(target_grid_cell)
 	var target_rotation = (rotation_index_offset * (PI / 3.0)) + global_rotation
-	
 	var pushed_grid = pushed_ship.get_node_or_null("HexGrid")
-	var pushed_origin_local = pushed_grid.map_to_local(Vector2i.ZERO) if pushed_grid else Vector2.ZERO
+	var pivot_cell = Vector2i.ZERO
+	for child in pushed_ship.get_children():
+		if child is Room:
+			pivot_cell = child.grid_pos
+			break
+	var pushed_origin_local = pushed_grid.map_to_local(pivot_cell) if pushed_grid else Vector2.ZERO
 	var pushed_origin_global = pushed_ship.to_global(pushed_origin_local)
-	
 	var origin_transform = Transform2D(pushed_ship.global_rotation, pushed_origin_global)
 	var destination_transform = Transform2D(target_rotation, target_global_position)
-	
 	return destination_transform * origin_transform.inverse()
 
 func calculate_snap_data(pushed_ship: Ship) -> Dictionary:
 	var relative_angle = pushed_ship.global_rotation - global_rotation
 	var rotation_index_offset = int(round(relative_angle / (PI / 3.0)))
-	
 	var pushed_grid = pushed_ship.get_node_or_null("HexGrid")
-	var pushed_origin_local = pushed_grid.map_to_local(Vector2i.ZERO) if pushed_grid else Vector2.ZERO
+	var pivot_cell = Vector2i.ZERO
+	for child in pushed_ship.get_children():
+		if child is Room:
+			pivot_cell = child.grid_pos
+			break
+	var pushed_origin_local = pushed_grid.map_to_local(pivot_cell) if pushed_grid else Vector2.ZERO
 	var pushed_origin_global = pushed_ship.to_global(pushed_origin_local)
-	
 	var starting_cell = world_to_grid(pushed_origin_global)
 	var _closest_valid_cell = starting_cell
 	var is_placement_valid = false
 	var minimum_distance = INF
-	
 	var cells_to_visit = [starting_cell]
 	var cell_distances = {starting_cell: 0}
 	var optimal_transform = calculate_offset_transform(pushed_ship, starting_cell, rotation_index_offset)
-	
 	while cells_to_visit.size() > 0:
 		var current_cell = cells_to_visit.pop_front()
 		var current_distance_steps = cell_distances[current_cell]
 		var current_transform = calculate_offset_transform(pushed_ship, current_cell, rotation_index_offset)
-		
 		if is_transform_valid_for_merge(pushed_ship, current_transform, rotation_index_offset):
 			var cell_global_position = grid_to_world(current_cell)
 			var spatial_distance = cell_global_position.distance_squared_to(pushed_origin_global)
-			
 			if spatial_distance < minimum_distance:
 				minimum_distance = spatial_distance
 				_closest_valid_cell = current_cell
 				optimal_transform = current_transform
 				is_placement_valid = true
-		
 		if current_distance_steps < 6:
 			for neighbor_cell in neighborhood_coords(current_cell):
 				if not cell_distances.has(neighbor_cell):
 					cell_distances[neighbor_cell] = current_distance_steps + 1
 					cells_to_visit.append(neighbor_cell)
-	
 	return {
 		"is_valid": is_placement_valid,
 		"optimal_transform": optimal_transform,

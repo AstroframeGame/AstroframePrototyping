@@ -3,6 +3,10 @@ class_name GameManager
 
 @onready var multiplayer_manager: MultiplayerManager = $"../MultiplayerManager"
 
+var player : PlayerCharacter:
+	get:
+		return $"../MultiplayerManager/PlayerCharacter"
+
 @onready var load_progress: TextureProgressBar = $"../UI/Loading/LoadProgress"
 
 var current_scene : Node2D
@@ -75,9 +79,6 @@ func quit_application():
 func _on_settings_pressed() -> void:
 	menus.open_menu("Settings")
 
-# TODO
-# if playing, return to gameplay
-# if in main menu, back to main
 func menu_back():
 	if in_game:
 		menus.open_menu("Paused")

@@ -21,3 +21,16 @@ The prototyping for Astroframe in godot
 - <a target="_blank" href="https://icons8.com/icon/35066/wrench">Wrench</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
 - <a target="_blank" href="https://icons8.com/icon/10767/triangle-arrow">Triangle Arrow</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
 - <a target="_blank" href="https://icons8.com/icon/ms3ftPftW1cW/instagram">Instagram</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+
+## Build and Run Instructions
+Build the project with `python .\buildScripts\build.py -target=windows` where target can be `windows`, `mac`, `linux`, or `android`.
+This will create a zip in `.\build`.
+
+Unzip the build and launch the executable.
+
+- Windows: Double click the exe
+- Mac: Right click and run app. Allow the unsigned app to run (We promise we are not malware!).
+- Linux: `chmod +x AstroFramePrototyping.x86_64` then `./AstroFramePrototyping.x86_64`
+- Android: Download through Itch.io or other download portal, then Install the downloaded APK. Launch the app from the home screen. Controller Required.
+
+For Steam, add the game to the library via store page (not live) or Steam key, then *Install* the game and *Play* the game in your Steam library.

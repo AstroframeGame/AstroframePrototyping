@@ -55,12 +55,12 @@ var ship: Ship
 @onready var grapple: Grapple = $Grapple
 
 var health = 100
+var is_dead : bool = false
 
 var grounded : bool:
 	get:
 		ground_check = $GroundCheck
 		return ground_check.has_overlapping_bodies() or ground_check.has_overlapping_areas()
-
 
 @onready var handgun: PlayerGun = $handgun
 
@@ -89,6 +89,8 @@ var username: String
 #endregion
 
 #region ReadyFunction
+@onready var menu_manager : MenuManager = $"../../UI"
+
 func _ready() -> void:
 	ground_check.body_entered.connect(on_ground)
 	ground_check.body_exited.connect(on_unground)
@@ -134,6 +136,9 @@ func _ready() -> void:
 func _physics_process(delta):
 	if is_multiplayer_authority():
 		apply_ground_body_transform()
+		input_enabled = not (menu_manager.is_open("Paused") or menu_manager.is_open("Settings"))
+		if not input_enabled:
+			return
 		input_dir = input_dir.normalized().rotated(global_rotation)
 		if ship_pushed: ## Action for movement
 			pushed = false
@@ -392,11 +397,11 @@ func fix_unsure_grounding():
 # called when enter airlock
 func on_ship_enter(new_ship : Ship):
 	print("\n=== REACHED SHIP_ENTER ===\n")
+	# every ship the player enters gets claimed as theirs
 	var prev_ship = get_tree().get_first_node_in_group("player_ship")
 	if prev_ship:
 		print("Previous ship exists, removing from group")
 		prev_ship.remove_from_group("player_ship")
-	on_ground(new_ship)
 	ship = new_ship
 	if self not in new_ship.players:
 		print("   Appended self into ship.players")
@@ -406,16 +411,22 @@ func on_ship_enter(new_ship : Ship):
 	rotation = ship.rotation
 	#print(name + " parent to ship")
 	ship.add_to_group("player_ship")
-	# if ship is also pirate ship warn nearby pirates
-	var pirate_pilot = ship.get_auto_piloting()
-	if ship.is_in_group("pirate_ship") and pirate_pilot != null:
-		for body in pirate_pilot.detection_area.get_overlapping_bodies():
-			if body.is_in_group("pirate_ship") and body != ship:
-				body.get_auto_piloting().target_candidate = ship
-				body.get_auto_piloting().on_player_ship_detected()
-				print("warned " + str(body))
+	# always do this
 	update_layers(true)
-	
+	on_ground(ship)
+	# if ship is also pirate ship warn nearby pirates
+	var auto_pilot = ship.get_auto_piloting()
+	if auto_pilot == null:
+		return
+	for body in auto_pilot.detection_area.get_overlapping_bodies():
+		if body == ship or not body is Ship or not body.is_in_group("pirate_ship"):
+			continue
+		var alerted_pirate = body.get_auto_piloting()
+		if alerted_pirate == null:
+			continue
+		# this is the process for delayed targetting 
+		alerted_pirate.target_candidate = ship
+		alerted_pirate.on_player_ship_detected()
 
 func on_ship_exit():
 	# unground will be called when stops intersecting
@@ -448,18 +459,17 @@ func update_layers(inside : bool):
 
 
 func take_damage(damage : int, _vfx_pos:Vector2):
-	if health <= 0:
+	if health > 0 and health - damage > 0:
+		health -= damage
 		return
-	if health - damage <= 0:
-		# TODO: switch game over to original plan
+	else:
 		input_enabled = false
 		var gm : GameManager = get_tree().root.get_node("Hub").get_node("GameManager")
+		
 		gm.dialogue_runner.start([["You", "*ack"], ["You","*bleh"]])
 		await gm.dialogue_runner.on_dialogue_end
 		gm.quit_to_list()
 		gm.menus.open_menu("GameOver")
-		
-	health -= damage
 
 func seppuku():
 	take_damage(999, global_position)
