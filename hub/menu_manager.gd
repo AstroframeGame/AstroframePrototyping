@@ -5,6 +5,8 @@ extends Node
 @export var open : NodePath
 @onready var game_manager: GameManager = $"../GameManager"
 
+var tab_keys: Array = []
+
 func _ready() -> void:
 	for n in get_children():
 		if n is CanvasLayer:
@@ -16,6 +18,9 @@ func _ready() -> void:
 	if settings_menu:
 		settings_menu.language_changed.connect(update_ui_labels)
 	update_ui_labels(0)
+	
+	for i in $Settings/SettingsMenu/SettingsTabs.get_tab_count():
+		tab_keys.append($Settings/SettingsMenu/SettingsTabs.get_tab_title(i))
 
 func is_open(menu_name : String):
 	return open == NodePath(menu_name)
@@ -100,31 +105,42 @@ func _unhandled_input(_event: InputEvent) -> void:
 			pause_game()
 			
 #region localization
-@onready var play 		= $Main/VBoxContainer/Play
-@onready var join 		= $Main/VBoxContainer/Multiplayer/Join
-@onready var host 		= $Main/VBoxContainer/Multiplayer/Host
-@onready var prompt 	= $Main/VBoxContainer/Multiplayer/IDPrompt
-@onready var editor 	= $Main/VBoxContainer/Editor
-@onready var settings 	= $Main/VBoxContainer/Settings
-@onready var credits 	= $Main/VBoxContainer/Credits
-@onready var quit 		= $Main/VBoxContainer/Quit
-@onready var pause		= $Paused/VBoxContainer/PauseLabel
-@onready var resume		= $Paused/VBoxContainer/ResumeGame
-@onready var p_settings	= $Paused/VBoxContainer/PauseSettings
-@onready var p_exit		= $Paused/VBoxContainer/Exit
-@onready var game_over	= $GameOver/GameOverLabel
-@onready var go_back	= $GameOver/GameOverBack
-@onready var creds_back	= $Credits/Back
-@onready var setts_back	= $Settings/Back
+@onready var main_menu_text = [
+	$Main/VBoxContainer/Play,
+	$Main/VBoxContainer/Multiplayer/Join,
+	$Main/VBoxContainer/Multiplayer/Host,
+	$Main/VBoxContainer/Multiplayer/IDPrompt,
+	$Main/VBoxContainer/Editor,
+	$Main/VBoxContainer/Settings,
+	$Main/VBoxContainer/Credits,
+	$Main/VBoxContainer/Quit,
+	$Paused/VBoxContainer/PauseLabel,
+	$Paused/VBoxContainer/ResumeGame,
+	$Paused/VBoxContainer/PauseSettings,
+	$Paused/VBoxContainer/Exit,
+	$GameOver/GameOverLabel,
+	$GameOver/GameOverBack,
+	$Credits/CreditsBack,
+	$Settings/SettingsBack,
+	$Settings/SettingsMenu/SettingsTabs/Video/VBoxContainer/VideoSettings,
+	$Settings/SettingsMenu/SettingsTabs/Video/VBoxContainer/HBoxContainer/Resolution,
+	$Settings/SettingsMenu/SettingsTabs/Video/VBoxContainer/HBoxContainer2/Fullscreen,
+	$Settings/SettingsMenu/SettingsTabs/Video/VBoxContainer/Accessibility,
+	$Settings/SettingsMenu/SettingsTabs/Video/VBoxContainer/HBoxContainer3/ColorblindFilter,
+	$Settings/SettingsMenu/SettingsTabs/Audio/VBoxContainer/MasterVolume,
+	$Settings/SettingsMenu/SettingsTabs/Audio/VBoxContainer/MusicVolume,
+	$Settings/SettingsMenu/SettingsTabs/Audio/VBoxContainer/SfxVolume,
+]
 
-@onready var all_buttons = [
-	play, join, host, prompt, editor, settings, credits, quit,
-	pause, resume, p_settings, p_exit, game_over, go_back,
-	]
 const languages = ["en", "ja", "es"]
 func update_ui_labels(index):
 	TranslationServer.set_locale(languages[index])
-	
-	for button in all_buttons:
-		button.text = tr(button.name)
+	for t in main_menu_text:
+		if t.name == "IDPrompt":
+			t.placeholder_text = tr(t.name)
+		else:
+			t.text = tr(t.name)
+			
+	for i in tab_keys.size():
+		$Settings/SettingsMenu/SettingsTabs.set_tab_title(i, tr(tab_keys[i]))
 #endregion
