@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://d3hfs7fdltayd"]
+
+[node name="Boundary" type="Node2D" unique_id=1160689408]
+
+[node name="old" type="StaticBody2D" parent="." unique_id=907584105]
+position = Vector2(59, -359)
+metadata/_edit_group_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="old" unique_id=1405654373]
+visible = false
+position = Vector2(-6.021919, 85.9575)
+polygon = PackedVector2Array(-16908, -19155, 16156, -19155, 19946, -13965, 20910, 15062, 15150, 20950, -19794, 20566, -23762, 16214, -24658, -15530, -18642, -18986, -18386, -15146, -22226, -12202, -20178, 14678, -17106, 17494, 12206, 18134, 18990, 13142, 16814, -12970, 12206, -17194, -18052, -15301, -18528, -16791, -18221, -19340, -17024, -19201)
+
+[node name="temp border" type="Polygon2D" parent="old" unique_id=1442069665]
+position = Vector2(-59, 359)
+color = Color(0.14509805, 0.14509805, 0.14509805, 0.69411767)
+polygon = PackedVector2Array(-16908, -19155, 16156, -19155, 19946, -13965, 20910, 15062, 15150, 20950, -19794, 20566, -23762, 16214, -24658, -15530, -18642, -18986, -18386, -15146, -22226, -12202, -20178, 14678, -17106, 17494, 12206, 18134, 18990, 13142, 16814, -12970, 12206, -17194, -18052, -15301, -18528, -16791, -18221, -19340, -17024, -19201)
