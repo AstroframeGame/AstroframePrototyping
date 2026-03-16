@@ -212,12 +212,16 @@ func _on_peer_connected(id):
 				print("Adding ", id, " to ", existing_id)
 				spawn_player.rpc_id(id, existing_id)
 				
-		if is_in_scene:
-			game_manager.load_scenes_across_peers.rpc_id(id, curr_scene_path)
+		if is_in_scene and game_manager.current_scene:
+			force_load_scene.rpc_id(id, game_manager.current_scene.scene_file_path)
 	else:
 		$"../UI/Main/ScrollContainer".visible = false
 		print("Client: Not spawning (Server owns authority)")
 
+@rpc("authority", "call_remote", "reliable")
+func force_load_scene(path: String):
+	game_manager.load_scene(path)
+	
 func _on_peer_disconnected(id):
 	multiplayer_info.write("PEERLEFT", )
 	print("Peer disconnected: ", id)
@@ -289,22 +293,14 @@ func _add_player_local(id: int):
 	
 	if len(players) > 1:
 		multiplayer_info.write("USER", [user_name, print_players()])
-	print("✓ Spawned player ", id, " authority: ", player_char.get_multiplayer_authority())
-	print("Waiting for Host to Enter Game...")
-
-	if multiplayer.get_unique_id() != 1:
-		request_scene.rpc_id(1)
-	if !is_in_scene:
-		var scene = await game_manager.game_start
-		print("\nHost Started Game, Loading ", scene.name)
-	else:
-		print("\nHost is already in the game, loading in...")
 	
+	if not is_host:
+		if not game_manager.in_game:
+			await game_manager.game_start
+		await get_tree().process_frame
+
 	if !is_owner:
 		request_user.rpc_id(id)
-	
-	if !is_host:
-		await get_tree().process_frame
 	
 	player_char.process_mode = Node.PROCESS_MODE_ALWAYS
 

@@ -1085,14 +1085,16 @@ func get_total_room_count() -> int:
 
 func detach_room_to_new_ship(target_room: Room, push_direction: Vector2) -> void:
 	if is_multiplayer_authority():
-		sync_detach_room.rpc(target_room.get_path(), push_direction)
+		var new_name = "Debris_" + str(Time.get_ticks_msec()) + "_" + str(target_room.get_instance_id())
+		sync_detach_room.rpc(target_room.get_path(), push_direction, new_name)
 
 @rpc("authority", "call_local", "reliable")
-func sync_detach_room(room_path: NodePath, push_direction: Vector2) -> void:
+func sync_detach_room(room_path: NodePath, push_direction: Vector2, new_ship_name: String) -> void:
 	var target_room = get_node_or_null(room_path) as Room
 	if not is_instance_valid(target_room): return
 	
 	var detached_ship_instance: Ship = SHIP_PREFAB.instantiate()
+	detached_ship_instance.name = new_ship_name 
 	
 	var separation_offset = push_direction * 25.0
 	var separation_velocity = push_direction * 350.0
