@@ -3,6 +3,7 @@ class_name PowerInHex
 
 @onready var icon: Sprite2D = $"Torus"
 
+@warning_ignore("unused_signal") # deprecated
 signal on_clicked(player: PlayerCharacter, power_hex: PowerInHex)
 
 var is_powered : bool:
