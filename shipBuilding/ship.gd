@@ -76,13 +76,28 @@ func sync_health(hp: int):
 #endregion
 
 func _ready() -> void:
+	power_links = power_links.duplicate()
+	
+	var keys_to_remove = []
+	for out_hex in power_links:
+		var in_hex = power_links[out_hex]
+		if not is_instance_valid(out_hex) or not is_instance_valid(in_hex):
+			keys_to_remove.append(out_hex)
+		else:
+			out_hex.update_state()
+			in_hex.update_state()
+			if in_hex.room:
+				in_hex.room.on_power_level_change.emit(in_hex)
+				
+	for k in keys_to_remove:
+		power_links.erase(k)
+
 	initialize_ship()
 	
 	on_airlock_interaction.connect(set_exterior_visible)
 	on_hit.connect(hud.update_hp_bar)
 	on_hit.connect(death_check)
 	
-	# for sparks
 	contact_monitor = true
 	max_contacts_reported = 5
 	
@@ -616,7 +631,7 @@ func sync_p_state(s_map: Dictionary[NodePath, NodePath]):
 func power_links_to_path() -> Dictionary[NodePath, NodePath]:  
 	var s_map: Dictionary[NodePath, NodePath] = {}
 	for out_h in power_links:
-		if out_h:
+		if out_h and power_links[out_h]:
 			s_map[out_h.get_path()] = power_links[out_h].get_path()
 	return s_map
 
