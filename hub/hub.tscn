@@ -5,8 +5,8 @@
 [ext_resource type="Script" uid="uid://io2qs57g5xic" path="res://hub/menu_manager.gd" id="2_nm8ur"]
 [ext_resource type="Script" uid="uid://y07ne4p2xbui" path="res://hub/scene_list.gd" id="3_1x5tx"]
 [ext_resource type="Script" uid="uid://cti2v7b51m68r" path="res://hub/fps_label.gd" id="3_6ebxt"]
-[ext_resource type="Texture2D" uid="uid://bulaivauevhq4" path="res://multiplayer/highlight.png" id="4_mjlfl"]
 [ext_resource type="PackedScene" uid="uid://c7h5fcycvrbqe" path="res://art/background/space_background.tscn" id="4_dy4r6"]
+[ext_resource type="Texture2D" uid="uid://bulaivauevhq4" path="res://multiplayer/highlight.png" id="4_mjlfl"]
 [ext_resource type="PackedScene" uid="uid://df01kfwope6hn" path="res://encounter/managers/dialogue/dialogue_runner.tscn" id="5_g3elb"]
 [ext_resource type="Theme" uid="uid://2b3w3cdm6v0b" path="res://hub/ui-themes/title.tres" id="5_h3v4x"]
 [ext_resource type="Theme" uid="uid://dj12nct3i1b1i" path="res://hub/ui-themes/header.tres" id="5_h8dj6"]
@@ -25,7 +25,7 @@
 [ext_resource type="PackedScene" uid="uid://c4c4q35vwjc06" path="res://accessibilitySettings/settings_menu.tscn" id="15_qui64"]
 [ext_resource type="Script" path="res://hub/credits.gd" id="17_bg8wc"]
 [ext_resource type="Texture2D" uid="uid://cjtj7xo6f6waa" path="res://shipBuilding/icons/torus.png" id="17_qui64"]
-[ext_resource type="Shortcut" uid="uid://cxr4abnflfkf5" path="res://hub/back_shortcut.tres" id="21_mjlfl"]
+[ext_resource type="Shortcut" uid="uid://bkp45j5ajvonv" path="res://hub/back_shortcut.tres" id="21_mjlfl"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gjoju"]
 shader = ExtResource("15_mmyqo")
@@ -74,6 +74,7 @@ color = Color(0.14333999, 0.14333999, 0.14333999, 1)
 offset_right = 1920.0
 offset_bottom = 1080.0
 texture = ExtResource("4_mjlfl")
+
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/Main" unique_id=569964284]
 anchors_preset = 8
 anchor_left = 0.5
@@ -91,6 +92,23 @@ grow_vertical = 2
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Play"
+
+[node name="Multiplayer" type="VBoxContainer" parent="UI/Main/VBoxContainer" unique_id=1771371660]
+layout_mode = 2
+
+[node name="Host" type="Button" parent="UI/Main/VBoxContainer/Multiplayer" unique_id=1550926236]
+layout_mode = 2
+text = "Host"
+
+[node name="Join" type="Button" parent="UI/Main/VBoxContainer/Multiplayer" unique_id=1183886268]
+layout_mode = 2
+disabled = true
+text = "Join"
+
+[node name="IDPrompt" type="LineEdit" parent="UI/Main/VBoxContainer/Multiplayer" unique_id=2096278151]
+layout_mode = 2
+placeholder_text = "Lobby ID"
+alignment = 1
 
 [node name="Editor" type="Button" parent="UI/Main/VBoxContainer" unique_id=1870370267]
 layout_mode = 2
@@ -189,7 +207,7 @@ texture_normal = ExtResource("10_cwmjq")
 layout_mode = 2
 texture_normal = ExtResource("7_2a2hx")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/Main" unique_id=569964284]
+[node name="VBoxContainer2" type="VBoxContainer" parent="UI/Main" unique_id=383894381]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -201,48 +219,6 @@ offset_right = 53.0
 offset_bottom = 170.8453
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="Play" type="Button" parent="UI/Main/VBoxContainer" unique_id=1258526734]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "Play"
-
-[node name="Multiplayer" type="VBoxContainer" parent="UI/Main/VBoxContainer" unique_id=1771371660]
-layout_mode = 2
-
-[node name="Host" type="Button" parent="UI/Main/VBoxContainer/Multiplayer" unique_id=1550926236]
-layout_mode = 2
-text = "Host"
-
-[node name="Join" type="Button" parent="UI/Main/VBoxContainer/Multiplayer" unique_id=1183886268]
-layout_mode = 2
-disabled = true
-text = "Join"
-
-[node name="IDPrompt" type="LineEdit" parent="UI/Main/VBoxContainer/Multiplayer" unique_id=2096278151]
-layout_mode = 2
-placeholder_text = "Lobby ID"
-alignment = 1
-
-[node name="Editor" type="Button" parent="UI/Main/VBoxContainer" unique_id=1870370267]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "Ship Editor"
-
-[node name="Settings" type="Button" parent="UI/Main/VBoxContainer" unique_id=884632170]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "Settings"
-
-[node name="Credits" type="Button" parent="UI/Main/VBoxContainer" unique_id=1767168070]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "Credits"
-
-[node name="Quit" type="Button" parent="UI/Main/VBoxContainer" unique_id=1337628528]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "Quit"
 
 [node name="Mute" type="TextureButton" parent="UI/Main" unique_id=1165849993]
 anchors_preset = 1

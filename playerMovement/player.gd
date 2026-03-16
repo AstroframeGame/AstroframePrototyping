@@ -51,7 +51,7 @@ var ship: Ship
 @onready var ground_check: Area2D = $GroundCheck
 @onready var interact_check: Area2D = $InteractCheck
 @onready var multiplayer_manager : MultiplayerManager = $"../.."
-
+@onready var menu_manager : MenuManager = $"../../../UI"
 @onready var grapple: Grapple = $Grapple
 
 var health = 100
@@ -89,7 +89,6 @@ var username: String
 #endregion
 
 #region ReadyFunction
-@onready var menu_manager : MenuManager = $"../../UI"
 
 func _ready() -> void:
 	ground_check.body_entered.connect(on_ground)
