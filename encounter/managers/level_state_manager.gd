@@ -6,9 +6,15 @@ class_name LevelState
 @onready var all_dialogue_dir = "res://encounter/resources/dialogue"
 
 var language: String
+var languages = [
+	["english", "English"], 
+	["japanese", "日本語"],
+	["spanish", "Español"]
+]
 var dialogue_dictionary: Dictionary
 
 var current_location: String
+var current_encounter
 # can grab these arrays from Scripted Encounters > JSON Exports
 # https://docs.google.com/spreadsheets/d/1s3iz44CgmWNPqo6dqfTeVFWs66qc85rx3uyXpwCjm_w/edit?gid=1533284224#gid=1533284224
 var keys = [
@@ -60,7 +66,11 @@ func load_dictionary(path):
 		print("JSON Prase Error: ", json.get_error_message(), " in ", json_text)
 
 func _ready() -> void:
-	language = "japanese"
-	# TODO: let player choose language. also let player change during game?
-	# also, maybe move all of this to a setter	
+	language = "english"
 	dialogue_dictionary = load_dictionary("%s/%s_dialogue.json" % [all_dialogue_dir, language])
+
+func update_language(index: int):
+	language = languages[index][0]
+	dialogue_dictionary = load_dictionary("%s/%s_dialogue.json" % [all_dialogue_dir, language])
+	if current_encounter:
+		current_encounter._on_language_changed()

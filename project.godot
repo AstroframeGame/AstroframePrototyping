@@ -235,6 +235,10 @@ seppuku={
 ]
 }
 
+[internationalization]
+
+locale/translations=PackedStringArray("res://hub/translations/UI Localization - UI.en.translation", "res://hub/translations/UI Localization - UI.es.translation", "res://hub/translations/UI Localization - UI.ja.translation")
+
 [layer_names]
 
 2d_physics/layer_1="ShipInterior"

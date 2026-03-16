@@ -8,6 +8,7 @@ var location: String			# location key
 var settings: Dictionary		# encounter settings (prereqs, rewards, etc)
 var reward_zone: Vector2		# where in the scene to put reward (using instead of player position)
 var won: bool
+var markers: Array
 
 var queued_dialogue: Dictionary
 signal trigger_dialogue(npc: String, cat: String) 
@@ -88,7 +89,9 @@ func _process(_delta):
 	if not obj_panel:
 		obj_panel = get_parent().multiplayer_manager.my_player_system.find_child("PlayerUI").find_child("ScannerPanel").find_child("Content")
 		var title = get_parent().multiplayer_manager.my_player_system.find_child("PlayerUI").find_child("ScannerPanel").find_child("Title")
-		title.text = "Objectives"
+		
+		title.text = LevelStateManager.dialogue_dictionary.UI.OBJECTIVES_LABEL
+		#title.text = dialogue["UI"]["OBJECTIVES_LABEL"]
 		obj_panel.get_parent().scanner_active = false
 
 func preload_scene_dialogue():
@@ -97,7 +100,8 @@ func preload_scene_dialogue():
 	dialouge_runner = gm.dialogue_runner
 
 	for npc in npcs_with_dialogue:
-		dialogue[npc.name] = LevelStateManager.dialogue_dictionary[name][npc.name]
+		if is_instance_valid(npc):
+			dialogue[npc.name] = LevelStateManager.dialogue_dictionary[name][npc.name]
 		
 	dialogue["YOU"] = LevelStateManager.dialogue_dictionary[name]["YOU"]
 
@@ -150,7 +154,7 @@ func preload_rewards():
 		prepacked_rewards.append(load(reward.path))
 
 func _on_encounter_completed(enc_name: String):
-	objective = "Complete!"
+	objective = LevelStateManager.dialogue_dictionary.UI.OBJECTIVE_COMPLETE
 	won = true
 	
 	# update LSM
@@ -202,3 +206,21 @@ func _on_trigger_dialogue(npc: String, cat: String = GET_QUEUED_DIALOGUE) -> voi
 		cat = queued_dialogue[npc]
 
 	start_dialogue(npc, cat)
+
+func _on_language_changed():
+	preload_scene_dialogue()
+	
+	# update markers
+	for marker in markers:
+		marker.update_label_text()
+
+	# update objectives	panel
+	var title = get_parent().multiplayer_manager.my_player_system.find_child("PlayerUI").find_child("ScannerPanel").find_child("Title")
+	title.text = LevelStateManager.dialogue_dictionary.UI.OBJECTIVES_LABEL
+	
+	if obj_number >= 0 and dialogue.has("objective"):
+		var new_objectives = dialogue["objective"]["neutral"]
+		if obj_number < new_objectives.size():
+			objective = new_objectives[obj_number]
+	elif won:
+		objective = LevelStateManager.dialogue_dictionary.UI.OBJECTIVE_COMPLETE

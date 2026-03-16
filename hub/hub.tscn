@@ -23,7 +23,7 @@
 [ext_resource type="Script" uid="uid://dkw41dpjcbrwa" path="res://accessibilitySettings/colorblind_shader.gd" id="14_gjoju"]
 [ext_resource type="Shader" uid="uid://dv6l2vd0xplhh" path="res://hub/colorblind.gdshader" id="15_mmyqo"]
 [ext_resource type="PackedScene" uid="uid://c4c4q35vwjc06" path="res://accessibilitySettings/settings_menu.tscn" id="15_qui64"]
-[ext_resource type="Script" path="res://hub/credits.gd" id="17_bg8wc"]
+[ext_resource type="Script" uid="uid://cw7don71np0bg" path="res://hub/credits.gd" id="17_bg8wc"]
 [ext_resource type="Texture2D" uid="uid://cjtj7xo6f6waa" path="res://shipBuilding/icons/torus.png" id="17_qui64"]
 [ext_resource type="Shortcut" uid="uid://bkp45j5ajvonv" path="res://hub/back_shortcut.tres" id="20_1uc81"]
 
@@ -318,7 +318,7 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="UI/Paused/VBoxContainer" unique_id=60601589]
+[node name="PauseLabel" type="Label" parent="UI/Paused/VBoxContainer" unique_id=60601589]
 layout_mode = 2
 theme = ExtResource("5_h8dj6")
 theme_override_font_sizes/font_size = 64
@@ -331,7 +331,7 @@ theme_override_font_sizes/font_size = 50
 shortcut = ExtResource("20_1uc81")
 text = "Resume Game"
 
-[node name="Settings" type="Button" parent="UI/Paused/VBoxContainer" unique_id=751332293]
+[node name="PauseSettings" type="Button" parent="UI/Paused/VBoxContainer" unique_id=751332293]
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Settings"
@@ -353,12 +353,12 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.14333999, 0.14333999, 0.14333999, 1)
 
-[node name="Back" type="Button" parent="UI/GameOver" unique_id=981177889]
+[node name="GameOverBack" type="Button" parent="UI/GameOver" unique_id=981177889]
 offset_right = 48.0
 offset_bottom = 30.0
 text = "Back"
 
-[node name="Label" type="Label" parent="UI/GameOver" unique_id=1485857924]
+[node name="GameOverLabel" type="Label" parent="UI/GameOver" unique_id=1485857924]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -477,8 +477,8 @@ environment = SubResource("Environment_21dlm")
 [connection signal="pressed" from="UI/Main/Socials/Insta" to="UI/Main/Socials" method="instagram"]
 [connection signal="pressed" from="UI/Main/Socials/Discord" to="UI/Main/Socials" method="discord"]
 [connection signal="pressed" from="UI/Paused/VBoxContainer/ResumeGame" to="GameManager" method="resume_game"]
-[connection signal="pressed" from="UI/Paused/VBoxContainer/Settings" to="GameManager" method="_on_settings_pressed"]
+[connection signal="pressed" from="UI/Paused/VBoxContainer/PauseSettings" to="GameManager" method="_on_settings_pressed"]
 [connection signal="pressed" from="UI/Paused/VBoxContainer/Exit" to="GameManager" method="quit_to_list"]
-[connection signal="pressed" from="UI/GameOver/Back" to="GameManager" method="menu_back"]
+[connection signal="pressed" from="UI/GameOver/GameOverBack" to="GameManager" method="menu_back"]
 [connection signal="pressed" from="UI/Credits/Back" to="GameManager" method="menu_back"]
 [connection signal="pressed" from="UI/Settings/Back" to="GameManager" method="menu_back"]
