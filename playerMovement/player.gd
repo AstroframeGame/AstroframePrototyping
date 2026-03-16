@@ -198,7 +198,8 @@ func _physics_process(delta):
 			"pushing_check"         : pushing,
 			"client_push_check"     : pushed,
 		}
-		sync_state.rpc(sync_dict)
+		if multiplayer.has_multiplayer_peer() and multiplayer.multiplayer_peer.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED:
+			sync_state.rpc(sync_dict)
 		move_and_slide()
 	else:
 		global_position = global_position.lerp(target_pos, 0.25)
