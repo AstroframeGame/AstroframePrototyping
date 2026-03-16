@@ -59,10 +59,8 @@ func _process(_delta: float) -> void:
 	fill.modulate.a = dist_mod
 
 	# add text
-	#if label.text == "" and target.get_meta("type"):
-		#label.text = target.get_meta("type")
-	if label.text == "":
-		label.text = target.name.replacen("_"," ").to_pascal_case()
+	if label.text == "" and target.get_meta("type"):
+		label.text = target.get_meta("type")
 	
 	# keep label centered
 	label.pivot_offset = label.size / 2
