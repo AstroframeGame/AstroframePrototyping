@@ -1,13 +1,10 @@
 extends Encounter
 
 @onready var research_ship: Node = $ships/RESEARCH_SATELLITE
-@onready var faction_ship: Node = $ships/FACTION_PATROL
 @onready var pirate_destroyer: Node = $ships/pirates/PIRATE_DESTROYER
 @onready var to_kill: Array[Node] = [
 	pirate_destroyer,
 	$ships/pirates/PIRATE_FRIGATE,
-	$ships/pirates/PIRATE_FRIGATE2,
-	$ships/pirates/PIRATE_FRIGATE3,
 ]
 
 var spoke_to_researchers = false
@@ -38,10 +35,10 @@ func _ready() -> void:
 		ship.set_aggro.emit(true)	# pirate ships start aggro
 	
 	# faction ship setup
-	faction_ship.name = "0_1_FACTION_PATROL"
-	faction_ship.set_meta("type", "Faction")
-	faction_ship.set_aggro.emit(false)	# faction ship starts friendly
-	faction_ship.connect("on_hit", set_ship_aggro.bind(faction_ship, true)) # faction ship will aggro if you fire on them	
+	#faction_ship.name = "0_1_FACTION_PATROL"
+	#faction_ship.set_meta("type", "Faction")
+	#faction_ship.set_aggro.emit(false)	# faction ship starts friendly
+	#faction_ship.connect("on_hit", set_ship_aggro.bind(faction_ship, true)) # faction ship will aggro if you fire on them	
 	
 	# research ship setup
 	research_ship.name = "0_1_RESEARCHERS"
@@ -54,7 +51,7 @@ func _ready() -> void:
 	# dialogue setup for all speaking npcs
 	dialogue_setup([
 		{ "ship": pirate_destroyer	, "init_dialogue": "greeting"},
-		{ "ship": faction_ship		, "init_dialogue": "greeting"},
+		#{ "ship": faction_ship		, "init_dialogue": "greeting"},
 		{ "ship": research_ship		, "init_dialogue": "greeting"},
 	])
 	#endregion
@@ -72,7 +69,6 @@ func win_check() -> void:
 func _on_encounter_completed(_name):
 	super._on_encounter_completed(name)
 	
-	if is_instance_valid(faction_ship): queued_dialogue[faction_ship.name] = "win"
 	if is_instance_valid(research_ship): queued_dialogue[research_ship.name] = "win"
 
 func _on_trigger_dialogue(npc: String, cat: String = GET_QUEUED_DIALOGUE) -> void:
