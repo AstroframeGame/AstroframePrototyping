@@ -130,6 +130,7 @@ func _unhandled_input(_event: InputEvent) -> void:
 	$Settings/SettingsMenu/SettingsTabs/Audio/VBoxContainer/MasterVolume,
 	$Settings/SettingsMenu/SettingsTabs/Audio/VBoxContainer/MusicVolume,
 	$Settings/SettingsMenu/SettingsTabs/Audio/VBoxContainer/SfxVolume,
+	$Settings/SettingsMenu/SettingsTabs/Language/VBoxContainer/HBoxContainer/LanguageLabel
 ]
 
 const languages = ["en", "ja", "es"]
