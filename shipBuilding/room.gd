@@ -99,7 +99,8 @@ func pair_augments(augment_type:Variant)->void:
 func _physics_process(_delta: float) -> void:
 	if is_multiplayer_authority():
 		m_power_level = power_level
-		sync_power.rpc(m_power_level)
+		if multiplayer.has_multiplayer_peer() and multiplayer.multiplayer_peer.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED:
+			sync_power.rpc(m_power_level)
 		
 func _process(_delta: float) -> void:
 	if not ship or not ship.driver:
