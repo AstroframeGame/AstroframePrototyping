@@ -5,8 +5,10 @@ signal room_clicked(room: Room, button_index: int)
 signal on_airlock_interaction(interactor : PlayerCharacter, is_inside : bool) # called from airlock
 signal ship_destroyed
 signal on_hit()
-signal set_beacon(value: bool)
-signal set_aggro(val: bool)
+@warning_ignore("unused_signal")
+signal set_beacon(value: bool) # used by research ship
+@warning_ignore("unused_signal")
+signal set_aggro(val: bool) # used by pirates 
 
 const FLIGHT_DEADZONE = 0.05 #screen %
 const HEX_WIDTH = 78

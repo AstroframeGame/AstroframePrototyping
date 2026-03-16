@@ -53,7 +53,9 @@ func _ready():
 	# Astroframe Playtest: 4424670
 	#            Spacewar: 480
 	#endregion
-	var is_init = Steam.steamInit(480, true) 
+	var dev = "dev" in OS.get_cmdline_args()
+	var steam_id = 480 if dev else 4424670
+	var is_init = Steam.steamInit(steam_id, true) 
 	print("Steam init: ", is_init)
 	Steam.initRelayNetworkAccess()
 	if is_init:

@@ -60,7 +60,7 @@ func load_dictionary(path):
 		print("JSON Prase Error: ", json.get_error_message(), " in ", json_text)
 
 func _ready() -> void:
-	language = "english"
+	language = "japanese"
 	# TODO: let player choose language. also let player change during game?
 	# also, maybe move all of this to a setter	
 	dialogue_dictionary = load_dictionary("%s/%s_dialogue.json" % [all_dialogue_dir, language])
