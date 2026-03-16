@@ -2,18 +2,16 @@ extends Node2D
 
 @export var nav_region: NavigationRegion2D
 
-@onready var spiral = $spiral
+@onready var field = $moving_field
 @onready var screen_size = get_viewport_rect().size
 @onready var center = screen_size / 2
 
-@onready var asteroids = []
-
 func _ready() -> void:
-	for field in spiral.get_children():
-		asteroids += field.get_children()
-		
-	# set up movement direction and limits for asteroids
-	for asteroid in asteroids:
+	if nav_region:
+		print(nav_region.get_bounds())
+
+	# set up movement direction, limits
+	for asteroid in field.get_children():
 		asteroid.start_pos = asteroid.global_position
 		asteroid.velocity = Vector2(
 			randf_range(0.008, 0.025),
@@ -28,11 +26,10 @@ func _ready() -> void:
 		asteroid.rotation_limit = randf_range(0.1, 1)
 
 func _process(_delta: float) -> void:
-	if asteroids.size() == 0: return
+	if not field: return
 	
 	# idle movement
-	for asteroid in asteroids:
-		if not is_instance_valid(asteroid): continue
+	for asteroid in field.get_children():
 		var screen_pos = get_viewport().get_canvas_transform() * asteroid.global_position
 		
 		# do not move if not on sceen

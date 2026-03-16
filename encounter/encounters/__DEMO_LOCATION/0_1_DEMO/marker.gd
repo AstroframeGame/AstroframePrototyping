@@ -1,17 +1,12 @@
-extends Node2D
+extends Polygon2D
 
 @export var target: Node2D  # assign point of interest
 
-# children
-@onready var fill = $Fill
 @onready var label = $Label
-@onready var line = $Line2D
-
-# camera
 @onready var screen_size = get_viewport_rect().size
 @onready var center = screen_size / 2
 @onready var padding = 75
-@onready var y_offset = 14
+@onready var y_offset = 4
 
 const FADE_MIN_DIST = 500
 const FADE_MAX_DIST = 3000
@@ -21,7 +16,7 @@ var cam: Camera2D
 func _ready() -> void:
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.position = Vector2(-label.size.x / 2, y_offset)  
-	label.add_theme_color_override("font_color", fill.color)
+	label.add_theme_color_override("font_color", color)
 	
 	if target:
 		target.tree_exited.connect(queue_free)
@@ -56,35 +51,15 @@ func _process(_delta: float) -> void:
 	# adjust alpha with distance
 	var t = remap(dist, FADE_MIN_DIST, FADE_MAX_DIST, 1, 0)
 	var dist_mod = smoothstep(0, 1, clamp(t, 0, 1))
-	fill.modulate.a = dist_mod
+	self_modulate.a = dist_mod
+	#label.modulate.a = dist_mod
 
 	# add text
-	#if label.text == "" and target.get_meta("type"):
-		#label.text = target.get_meta("type")
+	if label.text == "" and target.has_meta("type"):
+		label.text = target.get_meta("type")
 	if label.text == "":
-		label.text = target.name.replacen("_"," ").to_pascal_case()
+		label.text = target.name.to_pascal_case()
 	
 	# keep label centered
 	label.pivot_offset = label.size / 2
 	label.position = Vector2(-label.size.x / 2, y_offset).round()
-	
-	if beacon_on: beacon_indication()
-
-# modulates scale of marker fill and line
-@onready var beacon_on = false
-@onready var max_scale = line.scale.x + 0.5
-@onready var min_scale = line.scale.x - 0.5
-@onready var scale_mod = Vector2(0.05, 0.05)
-func beacon_indication():
-	line.scale += scale_mod;
-	fill.scale += scale_mod;
-
-	if (line.scale.x < min_scale) or (line.scale.x > max_scale):
-		scale_mod = -scale_mod
-
-func set_beacon(val: bool):
-	beacon_on = val
-	
-	if not beacon_on:	# reset size
-		line.scale = Vector2(3, 3);
-		fill.scale = Vector2(3, 3);
