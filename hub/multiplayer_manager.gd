@@ -252,7 +252,8 @@ func remove_player(id: int):
 
 func _on_game_quit():
 	if is_host:
-		remove_all_players.rpc()
+		if multiplayer.has_multiplayer_peer() and multiplayer.multiplayer_peer.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED:
+			remove_all_players.rpc()
 		multiplayer.multiplayer_peer.close()
 	else:
 		remove_all_players()
