@@ -58,7 +58,7 @@ func get_goal_velocity(current_velocity: Vector2) -> Vector2:
 		
 		if !is_braking:
 			if direction.length() > 0.1:
-				if direction.y > 0:
+				if direction.y < 0:
 					direction.y *= engines.forward_multiplier
 				goal_vel = current_velocity + direction.rotated(ship.global_rotation)
 				goal_vel = goal_vel.normalized() * min(goal_vel.length(), engines.get_max_speed())
