@@ -84,7 +84,8 @@ func generate_remap_settings() -> void:
 			if ev is InputEventJoypadButton or ev is InputEventJoypadMotion:
 				var contr_btn = RemappableButton.new()
 				contr_btn.add_theme_font_size_override("font_size", 30)
-				var name_dict = null
+				@warning_ignore("unused_variable")
+				var name_dict = null # future feature
 				if ev is InputEventJoypadButton:
 					name_dict = contr_btn.CONTROLLER_LABELS
 					#contr_btn.text = name_dict[name_dict.keys()[ev.button_index]]

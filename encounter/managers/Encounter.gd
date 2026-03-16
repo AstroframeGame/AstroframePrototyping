@@ -11,7 +11,8 @@ var won: bool
 
 var queued_dialogue: Dictionary
 signal trigger_dialogue(npc: String, cat: String) 
-signal got_objective()
+@warning_ignore("unused_signal")
+signal got_objective() # used in demo scene
 
 const GET_QUEUED_DIALOGUE = "$GET_QUEUED$"
 const NULL_DIALOGUE = "$NULL$"

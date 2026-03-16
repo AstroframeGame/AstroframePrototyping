@@ -56,6 +56,7 @@ script = ExtResource("2_nm8ur")
 open = NodePath("Main")
 
 [node name="Main" type="CanvasLayer" parent="UI" unique_id=1954068811]
+layer = 5
 
 [node name="ColorRect" type="ColorRect" parent="UI/Main" unique_id=324439580]
 anchors_preset = 15
@@ -70,13 +71,71 @@ offset_right = 1920.0
 offset_bottom = 1080.0
 texture = ExtResource("4_mjlfl")
 
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Main" unique_id=569964284]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -123.5
+offset_top = -214.15485
+offset_right = 123.5
+offset_bottom = 321.84515
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Play" type="Button" parent="UI/Main/VBoxContainer" unique_id=1258526734]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Play"
+
+[node name="Multiplayer" type="VBoxContainer" parent="UI/Main/VBoxContainer" unique_id=1771371660]
+layout_mode = 2
+
+[node name="Host" type="Button" parent="UI/Main/VBoxContainer/Multiplayer" unique_id=1550926236]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Host"
+
+[node name="Join" type="Button" parent="UI/Main/VBoxContainer/Multiplayer" unique_id=1183886268]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+disabled = true
+text = "Join"
+
+[node name="IDPrompt" type="LineEdit" parent="UI/Main/VBoxContainer/Multiplayer" unique_id=2096278151]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+placeholder_text = "Lobby ID"
+alignment = 1
+
+[node name="Editor" type="Button" parent="UI/Main/VBoxContainer" unique_id=1870370267]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Ship Editor"
+
+[node name="Settings" type="Button" parent="UI/Main/VBoxContainer" unique_id=884632170]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Settings"
+
+[node name="Credits" type="Button" parent="UI/Main/VBoxContainer" unique_id=1767168070]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Credits"
+
+[node name="Quit" type="Button" parent="UI/Main/VBoxContainer" unique_id=1337628528]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Quit"
+
 [node name="ScrollContainer" type="ScrollContainer" parent="UI/Main" unique_id=1549920906]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 43.0
 offset_top = 92.0
-offset_right = -842.0
+offset_right = -1358.0
 offset_bottom = -103.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -109,9 +168,17 @@ Frame"
 horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/Main" unique_id=532799832]
-offset_top = 981.0
-offset_right = 1920.0
-offset_bottom = 1070.0
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -960.0
+offset_top = -106.0
+offset_right = 960.0
+offset_bottom = -17.0
+grow_horizontal = 2
+grow_vertical = 0
 alignment = 1
 
 [node name="MultiplayerInfo" type="Label" parent="UI/Main/HBoxContainer" unique_id=547187872]
@@ -122,10 +189,15 @@ horizontal_alignment = 1
 script = ExtResource("7_dy4r6")
 
 [node name="Socials" type="HBoxContainer" parent="UI/Main" unique_id=177424652]
-offset_left = 1627.0
-offset_top = 991.0
-offset_right = 1895.0
-offset_bottom = 1055.0
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -293.0
+offset_top = -87.0
+offset_right = -25.0
+offset_bottom = -23.0
 grow_horizontal = 0
 grow_vertical = 0
 alignment = 2
@@ -147,61 +219,6 @@ texture_normal = ExtResource("10_cwmjq")
 layout_mode = 2
 texture_normal = ExtResource("7_2a2hx")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/Main" unique_id=569964284]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -53.0
-offset_top = -63.155
-offset_right = 53.0
-offset_bottom = 170.8453
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Play" type="Button" parent="UI/Main/VBoxContainer" unique_id=1258526734]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "Play"
-
-[node name="Multiplayer" type="VBoxContainer" parent="UI/Main/VBoxContainer" unique_id=1771371660]
-layout_mode = 2
-
-[node name="Host" type="Button" parent="UI/Main/VBoxContainer/Multiplayer" unique_id=1550926236]
-layout_mode = 2
-text = "Host"
-
-[node name="Join" type="Button" parent="UI/Main/VBoxContainer/Multiplayer" unique_id=1183886268]
-layout_mode = 2
-disabled = true
-text = "Join"
-
-[node name="IDPrompt" type="LineEdit" parent="UI/Main/VBoxContainer/Multiplayer" unique_id=2096278151]
-layout_mode = 2
-placeholder_text = "Lobby ID"
-alignment = 1
-
-[node name="Editor" type="Button" parent="UI/Main/VBoxContainer" unique_id=1870370267]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "Ship Editor"
-
-[node name="Settings" type="Button" parent="UI/Main/VBoxContainer" unique_id=884632170]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "Settings"
-
-[node name="Credits" type="Button" parent="UI/Main/VBoxContainer" unique_id=1767168070]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "Credits"
-
-[node name="Quit" type="Button" parent="UI/Main/VBoxContainer" unique_id=1337628528]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "Quit"
-
 [node name="Mute" type="TextureButton" parent="UI/Main" unique_id=1165849993]
 anchors_preset = 1
 anchor_left = 1.0
@@ -216,6 +233,7 @@ texture_normal = ExtResource("11_wm4ra")
 script = ExtResource("12_6jnk7")
 
 [node name="Loading" type="CanvasLayer" parent="UI" unique_id=1754381519]
+layer = 6
 visible = false
 
 [node name="ColorRect" type="ColorRect" parent="UI/Loading" unique_id=1638234797]
@@ -248,6 +266,7 @@ stretch_margin_bottom = 20
 texture_progress = ExtResource("2_1wrr7")
 
 [node name="Game" type="CanvasLayer" parent="UI" unique_id=1739083757]
+layer = 7
 visible = false
 script = ExtResource("14_gjoju")
 
@@ -265,6 +284,7 @@ color = Color(0, 0, 0, 0)
 [node name="DialogueRunner" parent="UI/Game" unique_id=314417777 instance=ExtResource("5_g3elb")]
 
 [node name="Paused" type="CanvasLayer" parent="UI" unique_id=731175255]
+layer = 8
 visible = false
 
 [node name="ColorRect" type="ColorRect" parent="UI/Paused" unique_id=337209217]
@@ -287,20 +307,31 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
+[node name="Label" type="Label" parent="UI/Paused/VBoxContainer" unique_id=60601589]
+layout_mode = 2
+theme = ExtResource("5_h8dj6")
+theme_override_font_sizes/font_size = 64
+text = "Paused"
+horizontal_alignment = 1
+
 [node name="ResumeGame" type="Button" parent="UI/Paused/VBoxContainer" unique_id=133924513]
 layout_mode = 2
+theme_override_font_sizes/font_size = 50
 shortcut = ExtResource("20_1uc81")
 text = "Resume Game"
 
 [node name="Settings" type="Button" parent="UI/Paused/VBoxContainer" unique_id=751332293]
 layout_mode = 2
+theme_override_font_sizes/font_size = 50
 text = "Settings"
 
 [node name="Exit" type="Button" parent="UI/Paused/VBoxContainer" unique_id=581449401]
 layout_mode = 2
+theme_override_font_sizes/font_size = 50
 text = "Back to Menu"
 
 [node name="GameOver" type="CanvasLayer" parent="UI" unique_id=1769148514]
+layer = 9
 visible = false
 
 [node name="ColorRect" type="ColorRect" parent="UI/GameOver" unique_id=2142903202]
@@ -334,6 +365,7 @@ Over"
 horizontal_alignment = 1
 
 [node name="Credits" type="CanvasLayer" parent="UI" unique_id=2010810909]
+layer = 10
 visible = false
 
 [node name="Back" type="Button" parent="UI/Credits" unique_id=1238051811]
@@ -364,6 +396,7 @@ alignment = 1
 script = ExtResource("17_bg8wc")
 
 [node name="Settings" type="CanvasLayer" parent="UI" unique_id=1322932418]
+layer = 11
 visible = false
 
 [node name="SettingsMenu" parent="UI/Settings" unique_id=1472990964 instance=ExtResource("15_qui64")]
@@ -377,6 +410,7 @@ shortcut = ExtResource("20_1uc81")
 text = "Back"
 
 [node name="Profiling" type="CanvasLayer" parent="." unique_id=1820677988]
+layer = 50
 
 [node name="fps" type="Label" parent="Profiling" unique_id=1807193106]
 visible = false
@@ -408,10 +442,6 @@ texture_progress = ExtResource("17_qui64")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1798994774]
 environment = SubResource("Environment_21dlm")
 
-[connection signal="pressed" from="UI/Main/Socials/Ships" to="UI/Main/Socials" method="ships_folder"]
-[connection signal="pressed" from="UI/Main/Socials/Github" to="UI/Main/Socials" method="github"]
-[connection signal="pressed" from="UI/Main/Socials/Insta" to="UI/Main/Socials" method="instagram"]
-[connection signal="pressed" from="UI/Main/Socials/Discord" to="UI/Main/Socials" method="discord"]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Play" to="GameManager" method="open_singleplayer"]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Multiplayer/Host" to="MultiplayerManager" method="_on_host_pressed"]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Multiplayer/Join" to="MultiplayerManager" method="_on_join_pressed"]
@@ -420,6 +450,10 @@ environment = SubResource("Environment_21dlm")
 [connection signal="pressed" from="UI/Main/VBoxContainer/Settings" to="GameManager" method="_on_settings_pressed"]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Credits" to="UI" method="open_menu" binds= [&"Credits"]]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Quit" to="GameManager" method="quit_application"]
+[connection signal="pressed" from="UI/Main/Socials/Ships" to="UI/Main/Socials" method="ships_folder"]
+[connection signal="pressed" from="UI/Main/Socials/Github" to="UI/Main/Socials" method="github"]
+[connection signal="pressed" from="UI/Main/Socials/Insta" to="UI/Main/Socials" method="instagram"]
+[connection signal="pressed" from="UI/Main/Socials/Discord" to="UI/Main/Socials" method="discord"]
 [connection signal="pressed" from="UI/Paused/VBoxContainer/ResumeGame" to="GameManager" method="resume_game"]
 [connection signal="pressed" from="UI/Paused/VBoxContainer/Settings" to="GameManager" method="_on_settings_pressed"]
 [connection signal="pressed" from="UI/Paused/VBoxContainer/Exit" to="GameManager" method="quit_to_list"]
