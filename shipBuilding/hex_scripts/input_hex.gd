@@ -35,8 +35,6 @@ func _input_event(_viewport: Viewport, _event: InputEvent, _shape_idx: int) -> v
 	
 	if not room.ship.my_character_inside():
 		return
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
-		on_clicked.emit(self)
 
 
 func can_interact() -> bool:
