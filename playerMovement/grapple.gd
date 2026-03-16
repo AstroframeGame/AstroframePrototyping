@@ -50,7 +50,8 @@ func _physics_process(_delta: float) -> void:
 			visible = false
 			attached_body = null
 			is_grappling = false
-			sync_grapple.rpc(visible, grapple_position)
+			if multiplayer.has_multiplayer_peer() and multiplayer.multiplayer_peer.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED:
+				sync_grapple.rpc(visible, grapple_position)
 			return
 			
 		visible = true

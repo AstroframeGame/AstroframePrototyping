@@ -82,4 +82,4 @@ func _on_trigger_dialogue(npc: String, cat: String = GET_QUEUED_DIALOGUE) -> voi
 	if not won and not spoke_to_researchers:
 		if research_ship and npc == research_ship.name:
 			spoke_to_researchers = true
-			dialouge_runner.on_dialogue_end.connect(start_next_objective, CONNECT_ONE_SHOT)
+			dialouge_runner.dialogue_completed.connect(start_next_objective, CONNECT_ONE_SHOT)

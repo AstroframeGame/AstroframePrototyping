@@ -94,8 +94,7 @@ func _on_game_start(_game_scene: Node2D):
 
 func _add_solo_player():
 	if $Players.has_node("1"):
-		print("Already a player, not adding player.")
-		return
+		$Players.get_node("1").queue_free()
 	
 	var player_char = PLAYER_CHARACTER_PREFAB.instantiate()
 
@@ -110,6 +109,9 @@ func _add_solo_player():
 		player_char.get_node("NamerTag").text = ""
 	else:
 		player_char.get_node("NamerTag").text = user_name
+	
+	if has_node(user_name + "_SYS"):
+		get_node(user_name + "_SYS").queue_free()
 		
 	var player_system = PLAYER_SYSTEM_PREFAB.instantiate()
 	
@@ -248,7 +250,8 @@ func remove_player(id: int):
 
 func _on_game_quit():
 	if is_host:
-		remove_all_players.rpc()
+		if multiplayer.has_multiplayer_peer() and multiplayer.multiplayer_peer.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED:
+			remove_all_players.rpc()
 		multiplayer.multiplayer_peer.close()
 	else:
 		remove_all_players()

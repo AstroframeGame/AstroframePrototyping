@@ -198,7 +198,8 @@ func _physics_process(delta):
 			"pushing_check"         : pushing,
 			"client_push_check"     : pushed,
 		}
-		sync_state.rpc(sync_dict)
+		if multiplayer.has_multiplayer_peer() and multiplayer.multiplayer_peer.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED:
+			sync_state.rpc(sync_dict)
 		move_and_slide()
 	else:
 		global_position = global_position.lerp(target_pos, 0.25)
@@ -457,7 +458,7 @@ func take_damage(damage : int, _vfx_pos:Vector2):
 		input_enabled = false
 		var gm : GameManager = get_tree().root.get_node("Hub").get_node("GameManager")
 		gm.dialogue_runner.start([["You", "*ack"], ["You","*bleh"]])
-		await gm.dialogue_runner.on_dialogue_end
+		await gm.dialogue_runner.dialogue_completed
 		gm.quit_to_list()
 		gm.menus.open_menu("GameOver")
 
