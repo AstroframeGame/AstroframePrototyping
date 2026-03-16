@@ -28,5 +28,5 @@ func get_max_speed() -> float:
 	return max_speed
 
 func on_power_changed(_room):
-	$Trail2D.visible = power_level > 0
-	$Trail2D2.visible = power_level > 0
+	$t1/Trail2D.visible = power_level > 0
+	$t2/Trail2D2.visible = power_level > 0
