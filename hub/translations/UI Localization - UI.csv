@@ -11,3 +11,21 @@ PauseLabel,Paused,一時停止,Pausa
 ResumeGame,Resume Game,履歴書ゲーム,Reanudar el juego
 PauseSettings,Settings,設定,Ajustes
 Exit,Back to Menu,メニューに戻る,Volver al menú
+GameOverBack,Back,戻る,Atrás
+GameOverLabel,"Game
+Over",ゲームオーバー,Juego terminado
+CreditsBack,Back,戻る,Atrás
+SettingsBack,Back,戻る,Atrás
+VideoSettings,Video Settings,ビデオ設定,Configuración de vídeo
+Resolution,Resolution :,解決 ：,Resolución :
+Fullscreen,Fullscreen:,全画面表示：,Pantalla completa:
+Accessibility,Accessibility,アクセシビリティ,Accesibilidad
+ColorblindFilter,Colorblind Filter:,色覚異常フィルター：,Filtro para daltónicos:
+MasterVolume,Master Volume :,マスターボリューム：,Volumen maestro:
+MusicVolume,Music Volume :,音楽の音量：,Volumen de la música:
+SfxVolume,SFX Volume :,効果音の音量：,Volumen de efectos de sonido:
+LanguageLabel,Language :,言語 ：,Idioma :
+Video,Video,ビデオ,Video
+Controls,Controls,コントロール,Controles
+Audio,Audio,オーディオ,Audio
+Language,Language,言語,Idioma

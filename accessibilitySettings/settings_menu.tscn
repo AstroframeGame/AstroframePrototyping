@@ -223,12 +223,12 @@ size_flags_vertical = 2
 [node name="HBoxContainer" type="HBoxContainer" parent="SettingsTabs/Language/VBoxContainer" unique_id=2101521628]
 layout_mode = 2
 
-[node name="Language" type="Label" parent="SettingsTabs/Language/VBoxContainer/HBoxContainer" unique_id=889851886]
+[node name="LanguageLabel" type="Label" parent="SettingsTabs/Language/VBoxContainer/HBoxContainer" unique_id=889851886]
 layout_mode = 2
 text = "Language :"
 label_settings = SubResource("LabelSettings_8fw5y")
 
-[node name="LanguageOptions" type="OptionButton" parent="SettingsTabs/Language/VBoxContainer/HBoxContainer/Language" unique_id=657219727]
+[node name="LanguageOptions" type="OptionButton" parent="SettingsTabs/Language/VBoxContainer/HBoxContainer/LanguageLabel" unique_id=657219727]
 layout_mode = 0
 offset_left = 186.0
 offset_right = 283.0
@@ -241,4 +241,4 @@ allow_reselect = true
 [connection signal="value_changed" from="SettingsTabs/Audio/VBoxContainer/MasterVolume/MasterVolumeSlider" to="." method="_on_master_volume_changed"]
 [connection signal="value_changed" from="SettingsTabs/Audio/VBoxContainer/MusicVolume/MusicVolumeSlider" to="." method="_on_music_volume_changed"]
 [connection signal="value_changed" from="SettingsTabs/Audio/VBoxContainer/SfxVolume/SfxVolumeSlider" to="." method="_on_sfx_volume_changed"]
-[connection signal="item_selected" from="SettingsTabs/Language/VBoxContainer/HBoxContainer/Language/LanguageOptions" to="." method="_on_language_option_selected"]
+[connection signal="item_selected" from="SettingsTabs/Language/VBoxContainer/HBoxContainer/LanguageLabel/LanguageOptions" to="." method="_on_language_option_selected"]

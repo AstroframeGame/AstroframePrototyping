@@ -3,7 +3,7 @@ extends MarginContainer
 
 const UNSTYLED = preload("res://hub/ui-themes/unstyled.tres")
 @onready var resolution_options: OptionButton = $SettingsTabs/Video/VBoxContainer/HBoxContainer/Resolution/ResolutionOptions
-@onready var language_options: OptionButton = $SettingsTabs/Language/VBoxContainer/HBoxContainer/Language/LanguageOptions
+@onready var language_options: OptionButton = $SettingsTabs/Language/VBoxContainer/HBoxContainer/LanguageLabel/LanguageOptions
 @onready var key_mouse_binds: VBoxContainer = $"SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer"
 @onready var controller_binds: VBoxContainer = $SettingsTabs/Controls/ControlInterface/Controller/VBoxContainer
 @onready var game_layer: CanvasLayer = $"../../Game"

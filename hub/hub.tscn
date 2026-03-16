@@ -382,7 +382,7 @@ visible = false
 [node name="SpaceBackground" parent="UI/Credits" unique_id=1357687734 instance=ExtResource("4_eexr5")]
 modulate = Color(0.2966023, 0.2966023, 0.2966023, 1)
 
-[node name="Back" type="Button" parent="UI/Credits" unique_id=1238051811]
+[node name="CreditsBack" type="Button" parent="UI/Credits" unique_id=1238051811]
 offset_right = 8.0
 offset_bottom = 8.0
 shortcut = ExtResource("20_1uc81")
@@ -423,7 +423,7 @@ color = Color(0.14333999, 0.14333999, 0.14333999, 1)
 
 [node name="SettingsMenu" parent="UI/Settings" unique_id=1472990964 instance=ExtResource("15_qui64")]
 
-[node name="Back" type="Button" parent="UI/Settings" unique_id=1581757141]
+[node name="SettingsBack" type="Button" parent="UI/Settings" unique_id=1581757141]
 offset_right = 48.0
 offset_bottom = 30.0
 size_flags_horizontal = 10
@@ -480,5 +480,5 @@ environment = SubResource("Environment_21dlm")
 [connection signal="pressed" from="UI/Paused/VBoxContainer/PauseSettings" to="GameManager" method="_on_settings_pressed"]
 [connection signal="pressed" from="UI/Paused/VBoxContainer/Exit" to="GameManager" method="quit_to_list"]
 [connection signal="pressed" from="UI/GameOver/GameOverBack" to="GameManager" method="menu_back"]
-[connection signal="pressed" from="UI/Credits/Back" to="GameManager" method="menu_back"]
-[connection signal="pressed" from="UI/Settings/Back" to="GameManager" method="menu_back"]
+[connection signal="pressed" from="UI/Credits/CreditsBack" to="GameManager" method="menu_back"]
+[connection signal="pressed" from="UI/Settings/SettingsBack" to="GameManager" method="menu_back"]
