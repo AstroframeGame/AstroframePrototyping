@@ -65,7 +65,7 @@ func ground_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> 
 		var cell = world_to_grid(get_global_mouse_position())
 		if occupied_cells.has(cell):
 			var room = occupied_cells[cell]
-			print("Room ", room, " was clicked")
+			#print("Room ", room, " was clicked")
 			room_clicked.emit(room, event.button_index)
 
 #region Piloting
@@ -132,6 +132,12 @@ func get_active_shields()->Array[Shield]:
 		if s.shield != null and s.shield.visible:
 			shields.append(s.shield)
 	return shields
+func get_swivel_guns()->Array[SwivelCannon]:
+	var swivels : Array[SwivelCannon]
+	for s in get_children():
+		if s is SwivelCannon:
+			swivels.append(s)
+	return swivels
 func get_players_from_manager() -> Array[PlayerCharacter]:
 	var multiplayer_manager :MultiplayerManager= get_tree().root.get_node("Hub/MultiplayerManager")
 	if multiplayer_manager:
@@ -426,7 +432,7 @@ func update_colliders() -> void:
 		solid.build_mode = CollisionPolygon2D.BUILD_SOLIDS
 		add_child(solid)
 		solid.owner = self
-		print("Fallback: ", name, " creating solid")
+		#print("Fallback: ", name, " creating solid")
 	
 	walls.collision_layer = 16 # Ship exterior layer
 	walls.collision_mask = 0#16 #ship exterior layer

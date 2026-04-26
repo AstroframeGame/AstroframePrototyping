@@ -28,13 +28,16 @@ func set_ship_name(text : String):
 	ship.name = text
 	
 func set_custom_color_toggle(toggled : bool):
-	print("Color toggled ", toggled)
+	#print("Color toggled ", toggled)
+	pass
 	
 func set_custom_color(color : Color):
-	print("Color set ", color)
+	#print("Color set ", color)
+	pass
 	
 func set_team(team : int):
-	print("Team set ", team)
+	#print("Team set ", team)
+	pass
 	
 func show_exterior(hide : bool):
 	if ship != null:

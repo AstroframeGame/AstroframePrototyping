@@ -52,5 +52,5 @@ func load_dictionary(path):
 	var error = json.parse(json_text)
 	if error == OK:
 		return json.data
-	else:
-		print("JSON Prase Error: ", json.get_error_message(), " in ", json_text)
+	#else:
+		#print("JSON Prase Error: ", json.get_error_message(), " in ", json_text)

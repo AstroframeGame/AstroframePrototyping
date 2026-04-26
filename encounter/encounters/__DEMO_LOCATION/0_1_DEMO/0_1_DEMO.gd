@@ -55,7 +55,7 @@ func _process(delta: float) -> void:
 		trigger_dialogue.emit(pirate_destroyer.name, "greeting")
 
 func win_check() -> void:
-	print("pirate ship died")
+	#print("pirate ship died")
 	dead_pirates += 1
 	if dead_pirates >= to_kill.size():
 		encounter_completed.emit(name)

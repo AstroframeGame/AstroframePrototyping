@@ -5,10 +5,14 @@ extends Room
 
 # this method is searched by name from the player
 func handle_input(event:InputEvent):
-	if event.is_action_pressed("ship_fire"): #See turret.gd for ACTUAL firing
+	# swivel cannons
+	for swivel : SwivelCannon in ship.get_swivel_guns():
+		swivel.handle_input(event)
+		if swivel.firing:
+			swivel.shoot()
+	# regular cannons
+	if event.is_action_pressed("ship_fire"):
 		shoot_all_cannons()
-		return
-	
 
 func shoot_all_cannons():
 	for child in ship.get_children():

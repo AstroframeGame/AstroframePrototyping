@@ -26,14 +26,14 @@ var obj_panel: Label:
 		obj_panel = value
 		if obj_panel and objective != "":
 			obj_panel.text = objective
-			print("text set to: ", obj_panel.text)
+			#print("text set to: ", obj_panel.text)
 
 var objective: String:
 	set(value):
 		objective = value
 		if obj_panel:
 			obj_panel.text = value
-			print("text set to: ", obj_panel.text)
+			#print("text set to: ", obj_panel.text)
 
 var npcs_with_dialogue: Array	# defined in child, npcs with dialogue
 var dialogue: Dictionary		# hold dictionary for quick lookup 

@@ -8,7 +8,7 @@ extends Node2D
 
 func _ready() -> void:
 	if nav_region:
-		print(nav_region.get_bounds())
+		#print(nav_region.get_bounds())
 
 	# set up movement direction, limits
 	for asteroid in field.get_children():

@@ -34,7 +34,7 @@ func eval_next(option=0):
 		# choices
 		next_index = dialouge[index][option+2][1]
 	
-	print(dialouge[index], dialouge.size(), " ",next_index)
+	#print(dialouge[index], dialouge.size(), " ",next_index)
 	index = next_index
 	if index == DIALOUGE_END:
 		end()
@@ -54,7 +54,7 @@ func _on_timer_timeout() -> void:
 		$Timer.stop()
 
 func proceed():
-	print("Dialouge : Proceed")
+	#print("Dialouge : Proceed")
 	if done:
 		eval_next()
 	else:

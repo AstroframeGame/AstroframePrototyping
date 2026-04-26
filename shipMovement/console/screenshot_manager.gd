@@ -21,5 +21,5 @@ func capture_screenshot():
 		var real_path = ProjectSettings.globalize_path(path)
 		DirAccess.make_dir_recursive_absolute(real_path)
 		image.save_png(path + file_name)
-		print("Image saved to " + real_path + file_name)
+		#print("Image saved to " + real_path + file_name)
 		InGameConsole.log_message("Image saved to " + real_path + file_name)
