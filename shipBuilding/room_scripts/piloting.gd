@@ -2,6 +2,11 @@ class_name Piloting
 extends Room
 
 @onready var seat: SeatInteractable = $SeatHex
+var AccelCurve : Curve = load("res://shipBuilding/rooms/accelcurve.tres");
+var brakingCurve : Curve = load("res://shipBuilding/rooms/brakingcurve.tres")
+@export var timeToAccelerate : float = 2;
+@export var timeToBrake : float = 2;
+@export var turnSpeed : float = 2;
 
 # this method is searched by name from the player
 func handle_input(event:InputEvent):
@@ -18,24 +23,56 @@ func shoot_all_cannons():
 func is_active() -> bool:
 	return seat.controlled_by != null
 
-func get_goal_velocity(current_velocity: Vector2) -> Vector2:
+var timeAccelerateHeld = 0;
+var timeLetGo = 0;
+
+var timePressed = 0;
+var timeReleased = 0;
+var goalState = 0;
+func get_velocity(state : PhysicsDirectBodyState2D) -> Vector2:
+	
 	var engines = ship.get_engines()
-		
-	var direction = Input.get_vector("left", "right", "up", "down")
-	if direction.length() > 0.1 and engines.power_level==0:
+	
+	if engines.power_level==0:
 		engines.blink_red()
 		return Vector2.ZERO
 	
-	if Input.is_action_pressed("brake"):
-		return Vector2.ZERO
-		
-	var goal_vel = Vector2.ZERO
-	if direction.length() > 0.1:
-		if direction.y > 0:
-			direction.y *= engines.forward_multiplier
-		goal_vel = current_velocity + direction.rotated(ship.global_rotation)
-		goal_vel = goal_vel.normalized() * min(goal_vel.length(), engines.get_max_speed())
-	return goal_vel
+	var velocity = Vector2.ZERO
+	
+	
+	var direction = Input.get_axis("down","up");
+	var turn = Input.get_axis("left","right");
+	#if we're going from 0 -> direction, we want to use the acceleration
+	var speed = 0;
+	
+	if goalState == 0 && direction:
+		goalState = direction;
+	if goalState:
+		#print(direction);
+		if direction == goalState:
+			timeReleased = 0;
+			timePressed += state.step;
+			timePressed = min(timePressed,timeToAccelerate);
+			speed = AccelCurve.sample(timePressed/timeToAccelerate) * engines.get_max_speed()/20;
+			ship.rotate(turn * 0.01 * timePressed/timeToAccelerate)
+		else:
+			if direction:
+				timePressed -= state.step * 2;
+				timeReleased += state.step * 2
+			else:
+				timePressed -= state.step;
+				timeReleased += state.step
+			ship.rotate(turn * 0.01 * (1 - timeReleased/timeToBrake)); #need to center ship to make this correct;
+			timePressed = max(timePressed,0);
+			timeReleased = min(timeReleased,timeToBrake);
+			speed = brakingCurve.sample(timeReleased/timeToBrake) * engines.get_max_speed() / 20;
+			print(timeReleased)
+			if speed == 0:
+				goalState = 0;
+	velocity = goalState * speed * Vector2(0,-1).rotated(ship.global_rotation);
+	# flipping direc tions skips from braking to accleeration
+	
+	return velocity
 
 func is_idling() -> bool:
 	var direction = Input.get_vector("left", "right", "up", "down")

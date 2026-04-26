@@ -18,6 +18,7 @@ point_count = 2
 script = ExtResource("1_w1q65")
 
 [node name="Trail2D" type="Line2D" parent="." unique_id=900554177]
+visible = false
 position = Vector2(1, 48)
 points = PackedVector2Array(0, 0, 0, 64.045)
 width_curve = SubResource("Curve_w1q65")
@@ -27,6 +28,7 @@ length = 20.0
 metadata/_custom_type_script = "uid://cxaq4li7q471e"
 
 [node name="Trail2D2" type="Line2D" parent="." unique_id=748199960]
+visible = false
 position = Vector2(78, 44)
 points = PackedVector2Array(0, 0, 0, 64.045)
 width_curve = SubResource("Curve_w1q65")

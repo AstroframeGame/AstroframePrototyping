@@ -48,6 +48,7 @@ var hit_points : int:
 
 
 func _ready() -> void:
+	center_rooms();
 	initialize_ship()
 	
 	on_airlock_interaction.connect(set_exterior_visible)
@@ -59,7 +60,20 @@ func _ready() -> void:
 	max_contacts_reported = 5
 	
 	z_index = 1
+	
+	
 
+func center_rooms():
+	var middlevec = Vector2(0,0);
+	var num = 0;
+	for n in get_children():
+		if n is Room:
+			middlevec += n.position;
+			num += 1;
+	middlevec /= num;
+	for n in get_children():
+		if n is Room:
+			n.position -= middlevec;
 func ground_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
 		var cell = world_to_grid(get_global_mouse_position())
@@ -145,15 +159,15 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	var delta = state.step
 	
 	if has_engines() and piloting:
-		state.angular_velocity = piloting.get_goal_angular_velocity()
-		var goal_vel :Vector2 = piloting.get_goal_velocity(state.linear_velocity)
-		if not piloting.is_idling():
-			state.linear_velocity = lerp(state.linear_velocity, goal_vel, get_thrust() * state.inverse_mass * delta)
+		#state.angular_velocity = piloting.get_goal_angular_velocity()
+		var goal_vel :Vector2 = piloting.get_velocity(state)
+		
+		state.linear_velocity = goal_vel#lerp(state.linear_velocity, goal_vel, get_thrust() * state.inverse_mass * delta)
 	elif has_engines() and autopilot:
 		state.angular_velocity = autopilot.get_goal_angular_velocity()
 		var goal_vel :Vector2 = autopilot.get_goal_velocity(state.linear_velocity)
 		if not autopilot.is_idling():
-			state.linear_velocity = lerp(state.linear_velocity, goal_vel, get_thrust() * state.inverse_mass * delta)
+			state.linear_velocity = goal_vel#lerp(state.linear_velocity, goal_vel, get_thrust() * state.inverse_mass * delta)
 	elif pushing:
 		apply_push_rotation(state)
 		apply_push_velocity(state)
@@ -395,11 +409,18 @@ func update_colliders() -> void:
 	
 	var wall_thickness = 8.0
 	
+	var points = [];
+	var indices = [];
+	var num = 0;
 	for island in islands:
 		for i in range(island.size()):
 			var p1 = island[i]
 			var p2 = island[(i + 1) % island.size()]
 			
+			points.append(p2);
+			
+			indices.append(num);
+			num += 1;
 			var segment = CollisionShape2D.new()
 			segment.name = "Edge_" + str(i)
 			
@@ -413,11 +434,17 @@ func update_colliders() -> void:
 			segment.rotation = (p2 - p1).angle()
 			
 			walls.add_child.call_deferred(segment)
-
+	var new_navigation_mesh = NavigationPolygon.new()
+	new_navigation_mesh.add_outline(points)
+	NavigationServer2D.bake_from_source_geometry_data(new_navigation_mesh, NavigationMeshSourceGeometryData2D.new());
+	
+	if get_node("NavigationRegion2D"):
+		$NavigationRegion2D.navigation_polygon = new_navigation_mesh
+	
 	var area : Area2D = get_node_or_null("Ground")
 	if area:
 		area.queue_free()
-		
+	
 	
 	var solid = get_node_or_null("Solid")
 	if not solid:
