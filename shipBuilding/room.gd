@@ -6,12 +6,14 @@ signal on_power_level_change(room : Room)
 
 @export var durability = 10
 @export var original_color : Color
-@onready var roof: Node2D = $Roof
+
+@onready var interior: Node2D = $Interior
+@onready var exterior: Node2D = $Exterior
 
 var blink_sfx_timer : Timer
 
 func _ready() -> void:
-	roof.z_index = 10
+	exterior.z_index = 10
 	original_color = modulate
 	blink_sfx_timer = Timer.new()
 	blink_sfx_timer.wait_time = 0.4
@@ -99,4 +101,13 @@ func blink_red():
 	await blink_sfx_timer.timeout
 	modulate = original_color
 	blink_sfx_timer.start()
+#endregion
+
+#region Walls
+func get_walls() -> Array[Wall]:
+	var walls: Array[Wall] = []
+	for child in get_children():
+		if child is Wall:
+			walls.append(child)
+	return walls
 #endregion

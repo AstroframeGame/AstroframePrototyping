@@ -1,0 +1,106 @@
+[gd_scene format=3 uid="uid://b3flxgwm5igob"]
+
+[ext_resource type="Script" uid="uid://vo6mtf68wgee" path="res://shipBuilding/room.gd" id="1_yvw8k"]
+[ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="2_rq351"]
+[ext_resource type="Script" uid="uid://1cm75aqsmkgn" path="res://shipBuilding/hex_scripts/hex.gd" id="3_111ia"]
+[ext_resource type="PackedScene" uid="uid://dtb7wj0p30h8s" path="res://shipBuilding/walls/wall.tscn" id="4_bmmbb"]
+
+[node name="Room1" type="StaticBody2D" unique_id=2067890386]
+script = ExtResource("1_yvw8k")
+
+[node name="Interior" type="Node2D" parent="." unique_id=730704319]
+
+[node name="Hex" type="Sprite2D" parent="Interior" unique_id=1307965960]
+self_modulate = Color(0.573792, 0.5737919, 0.5737919, 1)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_rq351")
+
+[node name="Hex2" type="Sprite2D" parent="Interior" unique_id=396866949]
+self_modulate = Color(0.573792, 0.5737919, 0.5737919, 1)
+position = Vector2(78, 0)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_rq351")
+
+[node name="Hex3" type="Sprite2D" parent="Interior" unique_id=2026366310]
+self_modulate = Color(0.573792, 0.5737919, 0.5737919, 1)
+position = Vector2(39, -68)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_rq351")
+
+[node name="Hex" type="Node2D" parent="." unique_id=1492644676]
+script = ExtResource("3_111ia")
+
+[node name="Hex2" type="Node2D" parent="." unique_id=357074297]
+position = Vector2(78, 0)
+script = ExtResource("3_111ia")
+
+[node name="Hex3" type="Node2D" parent="." unique_id=1164222949]
+position = Vector2(39, -68)
+script = ExtResource("3_111ia")
+
+[node name="Wall" parent="." unique_id=1174148747 instance=ExtResource("4_bmmbb")]
+position = Vector2(-39, 0)
+
+[node name="Wall2" parent="." unique_id=861123035 instance=ExtResource("4_bmmbb")]
+position = Vector2(-19.499998, -33.774994)
+rotation = 1.0471976
+
+[node name="Wall5" parent="." unique_id=1272843583 instance=ExtResource("4_bmmbb")]
+position = Vector2(19.499996, 33.774994)
+rotation = -2.094395
+
+[node name="Wall6" parent="." unique_id=2031231774 instance=ExtResource("4_bmmbb")]
+position = Vector2(-19.499996, 33.774994)
+rotation = -1.0471977
+
+[node name="Wall9" parent="." unique_id=610228826 instance=ExtResource("4_bmmbb")]
+position = Vector2(97.5, -33.77499)
+rotation = 2.0943952
+
+[node name="Wall10" parent="." unique_id=655454377 instance=ExtResource("4_bmmbb")]
+position = Vector2(117, 3.4094883e-06)
+rotation = -3.1415925
+
+[node name="Wall11" parent="." unique_id=900065341 instance=ExtResource("4_bmmbb")]
+position = Vector2(97.5, 33.774994)
+rotation = -2.094395
+
+[node name="Wall12" parent="." unique_id=449056663 instance=ExtResource("4_bmmbb")]
+position = Vector2(58.500004, 33.774994)
+rotation = -1.0471977
+
+[node name="Wall13" parent="." unique_id=903813869 instance=ExtResource("4_bmmbb")]
+position = Vector2(0, -68)
+
+[node name="Wall14" parent="." unique_id=279637573 instance=ExtResource("4_bmmbb")]
+position = Vector2(19.500002, -101.774994)
+rotation = 1.0471976
+
+[node name="Wall15" parent="." unique_id=937784588 instance=ExtResource("4_bmmbb")]
+position = Vector2(58.5, -101.774994)
+rotation = 2.0943952
+
+[node name="Wall16" parent="." unique_id=1744612498 instance=ExtResource("4_bmmbb")]
+position = Vector2(78, -68)
+rotation = -3.1415925
+
+[node name="Exterior" type="Node2D" parent="." unique_id=909226562]
+visible = false
+z_index = 10
+
+[node name="Hex" type="Sprite2D" parent="Exterior" unique_id=1140505081]
+self_modulate = Color(0.31431597, 0.31431618, 0.31431603, 1)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_rq351")
+
+[node name="Hex2" type="Sprite2D" parent="Exterior" unique_id=2049829096]
+self_modulate = Color(0.31431597, 0.31431618, 0.31431603, 1)
+position = Vector2(78, 0)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_rq351")
+
+[node name="Hex3" type="Sprite2D" parent="Exterior" unique_id=1885761343]
+self_modulate = Color(0.31431597, 0.31431618, 0.31431603, 1)
+position = Vector2(39, -68)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_rq351")

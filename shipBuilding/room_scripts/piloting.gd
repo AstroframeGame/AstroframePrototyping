@@ -2,8 +2,8 @@ class_name Piloting
 extends Room
 
 @onready var seat: SeatInteractable = $SeatHex
-var AccelCurve : Curve = load("res://shipBuilding/rooms/accelcurve.tres");
-var brakingCurve : Curve = load("res://shipBuilding/rooms/brakingcurve.tres")
+var AccelCurve : Curve = load("res://shipBuilding/prefabs/accelcurve.tres");
+var brakingCurve : Curve = load("res://shipBuilding/prefabs/brakingcurve.tres")
 @export var timeToAccelerate : float = 2;
 @export var timeToBrake : float = 2;
 @export var turnSpeed : float = 2;

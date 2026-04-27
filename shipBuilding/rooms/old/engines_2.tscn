@@ -1,0 +1,98 @@
+[gd_scene format=3 uid="uid://cebf4gqkt7jib"]
+
+[ext_resource type="Script" uid="uid://byqsdjgqvjiln" path="res://shipBuilding/room_scripts/engines.gd" id="1_w1q65"]
+[ext_resource type="PackedScene" uid="uid://dmgvcp6y668bi" path="res://shipBuilding/hexes/input_hex.tscn" id="2_rosf4"]
+[ext_resource type="Script" uid="uid://cxaq4li7q471e" path="res://addons/trail_2d/trail_2d.gd" id="2_w1q65"]
+[ext_resource type="Texture2D" uid="uid://dbomea17derc" path="res://art/rooms/engines/engines_interior.svg" id="5_4plni"]
+[ext_resource type="Texture2D" uid="uid://c16a6cmg5qigw" path="res://art/rooms/engines/engines_thruster.svg" id="5_slpba"]
+[ext_resource type="Texture2D" uid="uid://csqgj4m4lr8eb" path="res://art/rooms/engines/engines_exteriorteampatch.svg" id="7_hdduf"]
+[ext_resource type="Texture2D" uid="uid://dbdkx7lm0qdgp" path="res://art/rooms/engines/engines_exterior.svg" id="8_83tvh"]
+[ext_resource type="Texture2D" uid="uid://bw41wbvdj8jdo" path="res://art/rooms/engines/engines_corecolor.svg" id="9_b2dx6"]
+[ext_resource type="Texture2D" uid="uid://d2t0l7oalxaih" path="res://art/rooms/engines/engines_bearing.svg" id="10_6jnrw"]
+
+[sub_resource type="Curve" id="Curve_w1q65"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="Engines_2" type="Node2D" unique_id=1685651061]
+script = ExtResource("1_w1q65")
+
+[node name="Trail2D" type="Line2D" parent="." unique_id=900554177]
+visible = false
+position = Vector2(1, 48)
+points = PackedVector2Array(0, 0, 0, 64.045)
+width_curve = SubResource("Curve_w1q65")
+default_color = Color(0, 0.9598983, 1.5662694, 1)
+script = ExtResource("2_w1q65")
+length = 20.0
+metadata/_custom_type_script = "uid://cxaq4li7q471e"
+
+[node name="Trail2D2" type="Line2D" parent="." unique_id=748199960]
+visible = false
+position = Vector2(78, 44)
+points = PackedVector2Array(0, 0, 0, 64.045)
+width_curve = SubResource("Curve_w1q65")
+default_color = Color(0, 0.96, 1.566, 1)
+script = ExtResource("2_w1q65")
+length = 20.0
+metadata/_custom_type_script = "uid://cxaq4li7q471e"
+
+[node name="InputHex" parent="." unique_id=56559507 instance=ExtResource("2_rosf4")]
+self_modulate = Color(0.7490196, 0.7254902, 0.5764706, 1)
+
+[node name="InputHex2" parent="." unique_id=1301971830 instance=ExtResource("2_rosf4")]
+self_modulate = Color(0.7490196, 0.7254902, 0.5764706, 1)
+position = Vector2(78, 0)
+
+[node name="Label" type="Label" parent="." unique_id=712744194]
+offset_left = 11.0
+offset_top = -28.0
+offset_right = 71.0
+offset_bottom = -5.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Engines"
+
+[node name="EnginesThruster" type="Sprite2D" parent="." unique_id=274291523]
+self_modulate = Color(0.18, 0.18, 0.18, 1)
+position = Vector2(39, 30)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5_slpba")
+
+[node name="EnginesInterior" type="Sprite2D" parent="." unique_id=618519769]
+position = Vector2(39, 0)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5_4plni")
+
+[node name="Roof" type="Node2D" parent="." unique_id=1066018324]
+visible = false
+
+[node name="EnginesExterior" type="Sprite2D" parent="Roof" unique_id=2097795069]
+position = Vector2(39, 0)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("8_83tvh")
+
+[node name="EnginesExteriorteampatch" type="Sprite2D" parent="Roof" unique_id=1038159804]
+position = Vector2(39, 0)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("7_hdduf")
+
+[node name="EnginesCorecolor" type="Sprite2D" parent="Roof" unique_id=543880030]
+self_modulate = Color(1, 0.90283334, 0.47000003, 1)
+position = Vector2(39, 0)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("9_b2dx6")
+
+[node name="EnginesCorecolor" type="Sprite2D" parent="." unique_id=861601441]
+self_modulate = Color(1, 0.90283334, 0.47000003, 1)
+position = Vector2(39, 0)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("9_b2dx6")
+
+[node name="EnginesBearing" type="Sprite2D" parent="." unique_id=692621394]
+position = Vector2(78, 0)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("10_6jnrw")
+
+[node name="EnginesBearing2" type="Sprite2D" parent="." unique_id=347483010]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("10_6jnrw")

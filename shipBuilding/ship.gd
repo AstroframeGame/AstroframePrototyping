@@ -87,9 +87,9 @@ func initialize_ship():
 	update_occupied_cells()
 	update_colliders()
 	separate_islands()
+	refresh_all_walls()
 	calc_center_of_mass()
 	check_hud()
-	
 
 func get_engines() -> Engines:
 	for r in get_children():
@@ -330,7 +330,8 @@ func add_room(room: Room, cell: Vector2i, rot_index: int) -> void:
 	for hex in room.get_out_hexes():
 		hex.update_state()
 	
-	room.get_node("Roof").visible = not my_character_inside()
+	room.get_node("Exterior").visible = not my_character_inside()
+	refresh_all_walls()
 
 func remove_room(room: Room) -> void:
 	# remove power links
@@ -352,6 +353,7 @@ func remove_room(room: Room) -> void:
 		occupied_cells.erase(k)
 	
 	remove_child(room)
+	refresh_all_walls()
 
 #endregion
 
@@ -438,8 +440,9 @@ func update_colliders() -> void:
 	new_navigation_mesh.add_outline(points)
 	NavigationServer2D.bake_from_source_geometry_data(new_navigation_mesh, NavigationMeshSourceGeometryData2D.new());
 	
-	if get_node("NavigationRegion2D"):
-		$NavigationRegion2D.navigation_polygon = new_navigation_mesh
+	var nav = get_node_or_null("NavigationRegion2D")
+	if nav:
+		nav.navigation_polygon = new_navigation_mesh
 	
 	var area : Area2D = get_node_or_null("Ground")
 	if area:
@@ -654,7 +657,7 @@ func set_exterior_visible(_interactor : CharacterBody2D, entered : bool):
 		entered = false
 	for r in get_children():
 		if r is Room:
-			r.roof.visible = not entered
+			r.exterior.visible = not entered
 #endregion
 
 #region Pushing
@@ -1016,4 +1019,55 @@ func hit_vfx(pos : Vector2):
 	hit_sfx.play_quantity(SFX_HULL_DESTROY, 1)
 	hit_sfx.global_position = pos
 	ProjectileManager.add_child(hit_sfx)
+#endregion
+
+#region Walls
+
+func refresh_all_walls() -> void:
+	var rooms: Array[Room] = []
+	for child in get_children():
+		if child is Room:
+			rooms.append(child)
+	for room in rooms:
+		for wall in room.get_walls():
+			wall.disabled = false
+			wall.show()
+	for i in range(rooms.size()):
+		for j in range(i + 1, rooms.size()):
+			_merge_room_walls(rooms[i], rooms[j])
+	for room in rooms:
+		for wall in room.get_walls():
+			wall.on_wall_refresh()
+
+func _merge_room_walls(a: Room, b: Room) -> void:
+	const MERGE_DISTANCE: float= 1.0
+	for wall_a in a.get_walls():
+		for wall_b in b.get_walls():
+			var dist: float = wall_a.global_position.distance_to(wall_b.global_position)
+			if dist < MERGE_DISTANCE:
+				var done = _apply_merge(wall_a, wall_b)
+				if done.wall_type == Wall.WallType.DOOR:
+					done.disabled = true
+					done.hide()
+				break
+
+func _apply_merge(a: Wall, b: Wall) -> Wall:
+	if a.is_ext() and b.is_ext():
+		a.hide()
+		a.disabled = true
+		b.hide()
+		b.disabled = true
+		return a
+	if a.wall_type > b.wall_type:
+		b.hide()
+		b.disabled = true
+		return a
+	elif b.wall_type > a.wall_type:
+		a.hide()
+		a.disabled = true
+		return b
+	else:
+		b.hide()
+		b.disabled = true
+		return b
 #endregion
