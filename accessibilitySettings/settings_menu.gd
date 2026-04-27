@@ -2,10 +2,10 @@ class_name SettingsMenu
 extends MarginContainer
 
 const UNSTYLED = preload("res://hub/ui-themes/unstyled.tres")
-@onready var resolution_options: OptionButton = $SettingsTabs/Video/VBoxContainer/HBoxContainer/Resolution/ResolutionOptions
-@onready var key_mouse_binds: VBoxContainer = $"SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer"
-@onready var controller_binds: VBoxContainer = $SettingsTabs/Controls/ControlInterface/Controller/VBoxContainer
-@onready var game_layer: CanvasLayer = $"../../Game"
+@onready var resolution_options: OptionButton = $SettingsTabs/Video/MarginContainer/VBoxContainer/ResolutionHBox/ResolutionOptions
+@onready var key_mouse_binds: VBoxContainer = $"SettingsTabs/Controls/MarginContainer/ControlInterface/Keyboard&Mouse/VBoxContainer"
+@onready var controller_binds: VBoxContainer = $SettingsTabs/Controls/MarginContainer/ControlInterface/Controller/VBoxContainer
+@onready var game_layer: CanvasLayer = $"../../../../Game"
 
 func _ready() -> void:
 	set_dev_settings()
@@ -121,9 +121,9 @@ func generate_remap_settings() -> void:
 #endregion
 
 #region Audio
-@onready var master_volume_percent: Label = $SettingsTabs/Audio/VBoxContainer/MasterVolume/MasterVolumePercent
-@onready var music_volume_percent: Label = $SettingsTabs/Audio/VBoxContainer/MusicVolume/MusicVolumePercent
-@onready var sfx_volume_percent: Label = $SettingsTabs/Audio/VBoxContainer/SfxVolume/SfxVolumePercent
+@onready var master_volume_percent: Label = $SettingsTabs/Audio/MarginContainer/VBoxContainer/HBoxContainer/MasterVolumePercent
+@onready var music_volume_percent: Label = $SettingsTabs/Audio/MarginContainer/VBoxContainer/HBoxContainer2/MusicVolumePercent
+@onready var sfx_volume_percent: Label = $SettingsTabs/Audio/MarginContainer/VBoxContainer/HBoxContainer3/SfxVolumePercent
 
 func _on_master_volume_changed(value: float) -> void:
 	var bus_index = AudioServer.get_bus_index("Master")
