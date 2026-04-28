@@ -330,7 +330,8 @@ func add_room(room: Room, cell: Vector2i, rot_index: int) -> void:
 	for hex in room.get_out_hexes():
 		hex.update_state()
 	
-	room.get_node("Exterior").visible = not my_character_inside()
+	if room.exterior:
+		room.exterior.visible = not my_character_inside()
 	refresh_all_walls()
 
 func remove_room(room: Room) -> void:

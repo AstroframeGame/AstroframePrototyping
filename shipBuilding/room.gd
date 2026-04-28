@@ -13,7 +13,8 @@ signal on_power_level_change(room : Room)
 var blink_sfx_timer : Timer
 
 func _ready() -> void:
-	exterior.z_index = 10
+	if exterior:
+		exterior.z_index = 10
 	original_color = modulate
 	blink_sfx_timer = Timer.new()
 	blink_sfx_timer.wait_time = 0.4
