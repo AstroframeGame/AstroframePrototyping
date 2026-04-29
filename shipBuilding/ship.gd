@@ -159,15 +159,9 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	var delta = state.step
 	
 	if has_engines() and piloting:
-		#state.angular_velocity = piloting.get_goal_angular_velocity()
-		var goal_vel :Vector2 = piloting.get_velocity(state)
-		
-		state.linear_velocity = goal_vel#lerp(state.linear_velocity, goal_vel, get_thrust() * state.inverse_mass * delta)
+		state.linear_velocity = piloting.get_velocity(state)
 	elif has_engines() and autopilot:
-		state.angular_velocity = autopilot.get_goal_angular_velocity()
-		var goal_vel :Vector2 = autopilot.get_goal_velocity(state.linear_velocity)
-		if not autopilot.is_idling():
-			state.linear_velocity = goal_vel#lerp(state.linear_velocity, goal_vel, get_thrust() * state.inverse_mass * delta)
+		autopilot.fly(state);
 	elif pushing:
 		apply_push_rotation(state)
 		apply_push_velocity(state)
@@ -441,9 +435,8 @@ func update_colliders() -> void:
 	new_navigation_mesh.add_outline(points)
 	NavigationServer2D.bake_from_source_geometry_data(new_navigation_mesh, NavigationMeshSourceGeometryData2D.new());
 	
-	var nav = get_node_or_null("NavigationRegion2D")
-	if nav:
-		nav.navigation_polygon = new_navigation_mesh
+	if has_node("NavigationRegion2D"):
+		$NavigationRegion2D.navigation_polygon = new_navigation_mesh
 	
 	var area : Area2D = get_node_or_null("Ground")
 	if area:

@@ -6,6 +6,7 @@ var AccelCurve : Curve = load("res://shipBuilding/prefabs/accelcurve.tres");
 var brakingCurve : Curve = load("res://shipBuilding/prefabs/brakingcurve.tres")
 @export var timeToAccelerate : float = 2;
 @export var timeToBrake : float = 2;
+var newTimeToBrake : float = 0;
 @export var turnSpeed : float = 2;
 
 # this method is searched by name from the player
@@ -29,6 +30,7 @@ var timeLetGo = 0;
 var timePressed = 0;
 var timeReleased = 0;
 var goalState = 0;
+var currentSpeed = 0;
 func get_velocity(state : PhysicsDirectBodyState2D) -> Vector2:
 	
 	var engines = ship.get_engines()
@@ -55,22 +57,25 @@ func get_velocity(state : PhysicsDirectBodyState2D) -> Vector2:
 			timePressed = min(timePressed,timeToAccelerate);
 			speed = AccelCurve.sample(timePressed/timeToAccelerate) * engines.get_max_speed()/20;
 			ship.rotate(turn * 0.01 * timePressed/timeToAccelerate)
+			currentSpeed = speed;
+			print(currentSpeed)
+			newTimeToBrake = currentSpeed * 20/engines.get_max_speed() * timeToBrake
 		else:
 			if direction:
-				timePressed -= state.step * 2;
+				timePressed = 0;
 				timeReleased += state.step * 2
 			else:
 				timePressed -= state.step;
 				timeReleased += state.step
-			ship.rotate(turn * 0.01 * (1 - timeReleased/timeToBrake)); #need to center ship to make this correct;
+			ship.rotate(turn * 0.01 * (1 - timeReleased/newTimeToBrake)); #need to center ship to make this correct;
 			timePressed = max(timePressed,0);
-			timeReleased = min(timeReleased,timeToBrake);
-			speed = brakingCurve.sample(timeReleased/timeToBrake) * engines.get_max_speed() / 20;
-			print(timeReleased)
+			timeReleased = min(timeReleased,newTimeToBrake);
+			speed = brakingCurve.sample(timeReleased/newTimeToBrake) * currentSpeed;
+			print(speed)
 			if speed == 0:
 				goalState = 0;
+	
 	velocity = goalState * speed * Vector2(0,-1).rotated(ship.global_rotation);
-	# flipping direc tions skips from braking to accleeration
 	
 	return velocity
 
