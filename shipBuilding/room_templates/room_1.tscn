@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://bjajfu23watcr"]
+
+[ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="1_lfv5w"]
+[ext_resource type="Script" uid="uid://vo6mtf68wgee" path="res://shipBuilding/room.gd" id="1_qokmm"]
+
+[node name="Room1" type="StaticBody2D" unique_id=2067890386]
+script = ExtResource("1_qokmm")
+
+[node name="Interior" type="Node2D" parent="." unique_id=730704319]
+
+[node name="Hex" type="Sprite2D" parent="Interior" unique_id=1307965960]
+self_modulate = Color(0.573792, 0.5737919, 0.5737919, 1)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_lfv5w")
+
+[node name="Exterior" type="Node2D" parent="." unique_id=909226562]
+visible = false
+z_index = 10
+
+[node name="Hex" type="Sprite2D" parent="Exterior" unique_id=1140505081]
+self_modulate = Color(0.31431597, 0.31431618, 0.31431603, 1)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_lfv5w")

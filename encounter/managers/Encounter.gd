@@ -64,8 +64,6 @@ func _ready():
 	# update LSM
 	LevelStateManager.visited.push_front(location)
 	
-	# preload rewards
-	preload_rewards()
 
 func _process(_delta):
 	# set player (used for polling distance to other entities in encounter)
@@ -114,22 +112,13 @@ func parse_dialogue_to_array(npc: String, dlg: String):
 	
 	return result
 
-func preload_rewards():
-	for reward in settings.rewards:
-		prepacked_rewards.append(load(reward.path))
+
 
 func _on_encounter_completed(enc_name: String):
 	objective = "Complete!"
 	
 	# update LSM
 	LevelStateManager.completed_encounters.push_front(enc_name)
-	
-	# grant rewards
-	if rewards_granted: return
-	for reward in prepacked_rewards:
-		var r = reward.instantiate()
-		gm.current_scene.call_deferred("add_child", r)
-		r.set_deferred("global_position", reward_zone)
 	
 	# dialogue
 	start_dialogue("win", "win")

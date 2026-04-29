@@ -7,6 +7,10 @@ var targets_in_range : Array[Ship] = []
 
 func _process(_delta: float) -> void:
 	if enemy_target == null:
+
+func handle_input(event:InputEvent):
+	if not power_level > 0:
+		blink_red()
 		return
 	gun.gunSprite.look_at(enemy_target.global_position)
 	gun.shoot(10)
@@ -24,6 +28,7 @@ func _on_detection_range_body_exited(body: Node2D) -> void:
 	if body is Ship:
 		targets_in_range.erase(body as Ship)
 		enemy_target = closest_target()
+
 
 func closest_target()->Ship:
 	if targets_in_range.size() == 0:

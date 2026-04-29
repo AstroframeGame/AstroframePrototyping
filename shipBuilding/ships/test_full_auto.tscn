@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://qteo7ksf47a4" path="res://shipBuilding/rooms/piloting_1.tscn" id="18_ebrth"]
 [ext_resource type="PackedScene" uid="uid://ctd5xkqu85i7h" path="res://shipBuilding/rooms/swivel_cannon.tscn" id="20_qbci4"]
 
+
 [sub_resource type="TileSet" id="TileSet_xsh4c"]
 tile_shape = 3
 tile_size = Vector2i(78, 90)
