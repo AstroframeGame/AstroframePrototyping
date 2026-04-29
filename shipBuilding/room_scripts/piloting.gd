@@ -31,6 +31,7 @@ var timePressed = 0;
 var timeReleased = 0;
 var goalState = 0;
 var currentSpeed = 0;
+
 func get_velocity(state : PhysicsDirectBodyState2D) -> Vector2:
 	
 	var engines = ship.get_engines()
@@ -78,18 +79,3 @@ func get_velocity(state : PhysicsDirectBodyState2D) -> Vector2:
 	velocity = goalState * speed * Vector2(0,-1).rotated(ship.global_rotation);
 	
 	return velocity
-
-func is_idling() -> bool:
-	var direction = Input.get_vector("left", "right", "up", "down")
-	return direction.length() <= 0.1 and not Input.is_action_pressed("brake")
-
-func get_goal_angular_velocity() -> float:
-	var engines = ship.get_engines()
-	if engines.power_level == 0:
-		engines.blink_red()
-		return 0.0
-		
-	var rot_input = InputHelper.controller_look.x
-	if InputHelper.using_mouse:
-		rot_input = InputHelper.mouse_center_offset_deadzone(ship.FLIGHT_DEADZONE).x * 0.01  
-	return rot_input * engines.get_rotational_thrust()

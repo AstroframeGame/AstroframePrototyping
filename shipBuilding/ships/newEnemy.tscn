@@ -40,7 +40,6 @@ NodePath("@Node2D@414/OutputHex3"): NodePath("Autopilot_1/InputHex"),
 NodePath("@Node2D@414/OutputHex4"): NodePath("Autopilot_1/InputHex2"),
 null: NodePath("@Node2D@421/InputHex2")
 }
-drag_multiplier = null
 max_hit_points = 140
 _hit_points = 140
 
