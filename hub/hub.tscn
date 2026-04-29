@@ -24,6 +24,7 @@
 [ext_resource type="Script" uid="uid://cw7don71np0bg" path="res://hub/credits.gd" id="17_bg8wc"]
 [ext_resource type="Texture2D" uid="uid://cjtj7xo6f6waa" path="res://shipBuilding/icons/torus.png" id="17_qui64"]
 [ext_resource type="Shortcut" uid="uid://cxr4abnflfkf5" path="res://hub/back_shortcut.tres" id="21_mjlfl"]
+[ext_resource type="PackedScene" uid="uid://fdqa02uc4vk1" path="res://shipBuilding/prefabs/room_button.tscn" id="22_1uc81"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gjoju"]
 shader = ExtResource("15_mmyqo")
@@ -50,6 +51,7 @@ script = ExtResource("2_nm8ur")
 open = NodePath("Main")
 
 [node name="Main" type="CanvasLayer" parent="UI" unique_id=1954068811]
+visible = false
 
 [node name="SpaceBackground" parent="UI/Main" unique_id=1650344788 instance=ExtResource("4_dy4r6")]
 modulate = Color(0.18359044, 0.18359044, 0.18359044, 1)
@@ -391,6 +393,7 @@ alignment = 1
 script = ExtResource("17_bg8wc")
 
 [node name="Settings" type="CanvasLayer" parent="UI" unique_id=1322932418]
+visible = false
 
 [node name="ColorRect" type="ColorRect" parent="UI/Settings" unique_id=375412223]
 anchors_preset = 15
@@ -410,6 +413,71 @@ size_flags_vertical = 10
 theme_override_font_sizes/font_size = 50
 shortcut = ExtResource("21_mjlfl")
 text = "Back"
+
+[node name="Map" type="CanvasLayer" parent="UI" unique_id=242203958]
+visible = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Map" unique_id=1171980726]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -68.0
+offset_top = -83.0
+offset_right = 68.0
+offset_bottom = 83.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="UI/Map/VBoxContainer" unique_id=408458640]
+layout_mode = 2
+text = "Choose Room"
+
+[node name="Button" type="Button" parent="UI/Map/VBoxContainer" unique_id=1941605181]
+layout_mode = 2
+text = "Fight enemies"
+
+[node name="Button2" type="Button" parent="UI/Map/VBoxContainer" unique_id=1641742180]
+layout_mode = 2
+text = "Fight pirates"
+
+[node name="Button3" type="Button" parent="UI/Map/VBoxContainer" unique_id=1484408849]
+layout_mode = 2
+text = "Find Scrap"
+
+[node name="Button4" type="Button" parent="UI/Map/VBoxContainer" unique_id=1617437266]
+layout_mode = 2
+text = "Destroy outpost"
+
+[node name="Button5" type="Button" parent="UI/Map/VBoxContainer" unique_id=380975144]
+layout_mode = 2
+text = "Shop"
+
+[node name="Shop" type="CanvasLayer" parent="UI" unique_id=915073947]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Shop" unique_id=1714922560]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/Shop/VBoxContainer" unique_id=1696285813]
+layout_mode = 2
+
+[node name="Cost" type="Label" parent="UI/Shop/VBoxContainer/HBoxContainer" unique_id=1775022247]
+layout_mode = 2
+text = "22 Scrap"
+
+[node name="BgButton" parent="UI/Shop/VBoxContainer/HBoxContainer" unique_id=580394529 instance=ExtResource("22_1uc81")]
+layout_mode = 2
 
 [node name="Profiling" type="CanvasLayer" parent="." unique_id=1820677988]
 

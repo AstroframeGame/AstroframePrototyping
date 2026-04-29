@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://63n1buhqf21h"]
+
+[ext_resource type="Script" uid="uid://byrnl5yi3u8kj" path="res://encounter/prefabs/scrap_pickup.gd" id="1_sderv"]
+[ext_resource type="Texture2D" uid="uid://bva3dm7d0f0lm" path="res://shipBuilding/icons/circle_big.png" id="2_fermu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ggw25"]
+
+[node name="ScrapPickup" type="StaticBody2D" unique_id=2125453144]
+script = ExtResource("1_sderv")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=771938562]
+self_modulate = Color(1, 1, 0, 1)
+position = Vector2(0, -1.1920929e-06)
+scale = Vector2(0.022, 0.020000001)
+texture = ExtResource("2_fermu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=756673865]
+shape = SubResource("CircleShape2D_ggw25")
+
+[node name="Label" type="Label" parent="." unique_id=1493064591]
+offset_left = -26.0
+offset_top = -10.0
+offset_right = 386.84402
+offset_bottom = 12.0
+text = "SCRAP"
