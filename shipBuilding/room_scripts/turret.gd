@@ -1,56 +1,33 @@
 class_name Turret
 extends Room
-	
+
 @onready var gun : GunHex = $Gun
+@onready var enemy_target : Ship = null
 var targets_in_range : Array[Ship] = []
 
-func _ready() -> void:
-	super._ready()
-	# pair to a nearby aim augment if available
-	if ship:
-		pair_augments(Aim_Augment)
-
-func handle_input(event:InputEvent):
-	if not power_level > 0:
-		blink_red()
+func _process(_delta: float) -> void:
+	if enemy_target == null:
 		return
-	# mouse guided system
-	if event.is_action_pressed("ship_fire"):
-		gun.shoot(10)
-		
-	if InputHelper.using_mouse:
-		gun.gunSprite.look_at(get_global_mouse_position())
-	else:
-		var d = InputHelper.controller_look
-		if d.length() > 0.5:
-			gun.gunSprite.rotation = atan2(-d.y, -d.x) + deg_to_rad(30) + global_rotation
-		
+	gun.gunSprite.look_at(enemy_target.global_position)
+	gun.shoot(10)
+
 func _on_detection_range_body_entered(body: Node2D) -> void:
+	# remove soon? we are no longer using exploded ship bits
 	if body is Ship and body.get_total_room_count() == 1:
 		return
 	if not body is Ship or body == ship:
 		return
-	var aim_aug = augment_in_list(Aim_Augment)
-	if aim_aug == -1 or augments[aim_aug].enemy_target:
-		return
-	augments[aim_aug].enemy_target = body
 	targets_in_range.append(body as Ship)
+	enemy_target = closest_target()
 
 func _on_detection_range_body_exited(body: Node2D) -> void:
 	if body is Ship:
 		targets_in_range.erase(body as Ship)
-		
-	var aim_aug = augment_in_list(Aim_Augment)
-	if aim_aug == -1:
-		return
-	
-	if body == augments[aim_aug].enemy_target:
-		if targets_in_range.size() > 0:
-			augments[aim_aug].enemy_target = closest_target()
-		else:
-			augments[aim_aug].enemy_target = null
+		enemy_target = closest_target()
 
 func closest_target()->Ship:
+	if targets_in_range.size() == 0:
+		return null
 	var closest = targets_in_range[0]
 	for target in targets_in_range:
 		var distance = target.global_position.distance_to(global_position)
