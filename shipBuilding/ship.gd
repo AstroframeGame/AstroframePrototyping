@@ -46,6 +46,8 @@ var hit_points : int:
 			on_hit.emit()
 		_hit_points = value
 
+enum SHIP_MODE {EDITING, COMBAT}
+@onready var ship_mode : SHIP_MODE = SHIP_MODE.COMBAT
 
 func _ready() -> void:
 	initialize_ship()
