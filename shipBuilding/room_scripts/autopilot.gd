@@ -74,22 +74,11 @@ func get_goal_velocity(current_velocity: Vector2) -> Vector2:
 	var engines = ship.get_engines()
 	if not engines:
 		return Vector2.ZERO
-
+	
 	var goal_vel = Vector2.ZERO
 	goal_vel = current_velocity + movement_goal_direction
 	goal_vel = goal_vel.normalized() * min(goal_vel.length(), engines.get_max_speed())
 	return goal_vel
-
-func get_goal_angular_velocity() -> float:
-	if not ship.has_engines():
-		return 0.0
-	if not target_ship:
-		return 0.0
-		
-	var delta_rotation = rotation_goal - ship.global_rotation
-	var rot_input = sign(delta_rotation) / 2
-	
-	return rot_input * ship.get_rotational_thrust()
 
 func on_navigation_finished():
 	if not is_active():

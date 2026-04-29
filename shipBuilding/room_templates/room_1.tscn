@@ -2,7 +2,6 @@
 
 [ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="1_lfv5w"]
 [ext_resource type="Script" uid="uid://vo6mtf68wgee" path="res://shipBuilding/room.gd" id="1_qokmm"]
-[ext_resource type="PackedScene" uid="uid://dtb7wj0p30h8s" path="res://shipBuilding/walls/wall.tscn" id="4_x80jp"]
 
 [node name="Room1" type="StaticBody2D" unique_id=2067890386]
 script = ExtResource("1_qokmm")
@@ -13,29 +12,6 @@ script = ExtResource("1_qokmm")
 self_modulate = Color(0.573792, 0.5737919, 0.5737919, 1)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_lfv5w")
-
-[node name="Wall" parent="." unique_id=1409306158 instance=ExtResource("4_x80jp")]
-position = Vector2(-39, 0)
-
-[node name="Wall2" parent="." unique_id=1174148747 instance=ExtResource("4_x80jp")]
-position = Vector2(-19.499998, -33.774994)
-rotation = 1.0471976
-
-[node name="Wall3" parent="." unique_id=996477817 instance=ExtResource("4_x80jp")]
-position = Vector2(19.500002, -33.77499)
-rotation = 2.0943952
-
-[node name="Wall4" parent="." unique_id=1587594069 instance=ExtResource("4_x80jp")]
-position = Vector2(39, 3.4094883e-06)
-rotation = -3.1415925
-
-[node name="Wall5" parent="." unique_id=12519228 instance=ExtResource("4_x80jp")]
-position = Vector2(19.499996, 33.774994)
-rotation = -2.094395
-
-[node name="Wall6" parent="." unique_id=1024168990 instance=ExtResource("4_x80jp")]
-position = Vector2(-19.499996, 33.774994)
-rotation = -1.0471977
 
 [node name="Exterior" type="Node2D" parent="." unique_id=909226562]
 visible = false

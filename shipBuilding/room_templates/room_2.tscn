@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://vo6mtf68wgee" path="res://shipBuilding/room.gd" id="1_4mom7"]
 [ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="2_kt37k"]
 [ext_resource type="Script" uid="uid://1cm75aqsmkgn" path="res://shipBuilding/hex_scripts/hex.gd" id="3_0v4m0"]
-[ext_resource type="PackedScene" uid="uid://dtb7wj0p30h8s" path="res://shipBuilding/walls/wall.tscn" id="4_shh4x"]
 
 [node name="Room2" type="StaticBody2D" unique_id=2067890386]
 script = ExtResource("1_4mom7")
@@ -27,45 +26,6 @@ script = ExtResource("3_0v4m0")
 [node name="Hex2" type="Node2D" parent="." unique_id=1718850998]
 position = Vector2(78, 0)
 script = ExtResource("3_0v4m0")
-
-[node name="Wall" parent="." unique_id=1174148747 instance=ExtResource("4_shh4x")]
-position = Vector2(-39, 0)
-
-[node name="Wall2" parent="." unique_id=556062494 instance=ExtResource("4_shh4x")]
-position = Vector2(-19.499998, -33.774994)
-rotation = 1.0471976
-
-[node name="Wall3" parent="." unique_id=1719278867 instance=ExtResource("4_shh4x")]
-position = Vector2(19.500002, -33.77499)
-rotation = 2.0943952
-
-[node name="Wall4" parent="." unique_id=1818585790 instance=ExtResource("4_shh4x")]
-position = Vector2(117, 0)
-rotation = -3.1415925
-
-[node name="Wall5" parent="." unique_id=730426353 instance=ExtResource("4_shh4x")]
-position = Vector2(19.499996, 33.774994)
-rotation = -2.094395
-
-[node name="Wall6" parent="." unique_id=1190744668 instance=ExtResource("4_shh4x")]
-position = Vector2(-19.499996, 33.774994)
-rotation = -1.0471977
-
-[node name="Wall7" parent="." unique_id=477057249 instance=ExtResource("4_shh4x")]
-position = Vector2(58.5, -33.774994)
-rotation = 1.0471976
-
-[node name="Wall8" parent="." unique_id=2140381025 instance=ExtResource("4_shh4x")]
-position = Vector2(97.5, -33.77499)
-rotation = 2.0943952
-
-[node name="Wall9" parent="." unique_id=1367313256 instance=ExtResource("4_shh4x")]
-position = Vector2(97.5, 33.774994)
-rotation = -2.094395
-
-[node name="Wall10" parent="." unique_id=2082427818 instance=ExtResource("4_shh4x")]
-position = Vector2(58.5, 33.774994)
-rotation = -1.0471977
 
 [node name="Exterior" type="Node2D" parent="." unique_id=909226562]
 visible = false

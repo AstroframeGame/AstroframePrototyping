@@ -4,10 +4,10 @@
 [ext_resource type="PackedScene" uid="uid://c2n7netp00xn6" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_wvf37"]
 [ext_resource type="PackedScene" uid="uid://daae3tloj435m" path="res://shipAI/prefabs/hud.tscn" id="3_dbklw"]
 [ext_resource type="PackedScene" uid="uid://y34yncsvsaqf" path="res://shipBuilding/rooms/engines_2.tscn" id="4_4y8ih"]
-[ext_resource type="PackedScene" uid="uid://cplmkay6ecshy" path="res://shipBuilding/rooms/reactor_4.tscn" id="5_0fl3g"]
+[ext_resource type="PackedScene" uid="uid://cplmkay6ecshy" path="res://shipBuilding/rooms/old/reactor_4.tscn" id="5_0fl3g"]
 [ext_resource type="PackedScene" uid="uid://dyfmk7kautkrw" path="res://shipBuilding/rooms/reactor_2.tscn" id="6_tenle"]
-[ext_resource type="PackedScene" uid="uid://bmfrsjjfduwqn" path="res://shipBuilding/rooms/cannon.tscn" id="8_sl2h4"]
-[ext_resource type="PackedScene" uid="uid://opemmrmus70s" path="res://shipBuilding/rooms/autopilot_1.tscn" id="11_jjypd"]
+[ext_resource type="PackedScene" uid="uid://bmfrsjjfduwqn" path="res://shipBuilding/rooms/old/cannon.tscn" id="8_sl2h4"]
+[ext_resource type="PackedScene" uid="uid://opemmrmus70s" path="res://shipBuilding/rooms/old/autopilot_1.tscn" id="11_jjypd"]
 [ext_resource type="PackedScene" uid="uid://b1ddac78188t" path="res://shipBuilding/rooms/hull_1.tscn" id="12_dbklw"]
 
 [sub_resource type="TileSet" id="TileSet_xsh4c"]
@@ -34,12 +34,13 @@ NodePath("Reactor_4/OutputHex2"): NodePath("@Node2D@418/InputHex"),
 NodePath("Reactor_4/OutputHex3"): NodePath("Engines_2/InputHex"),
 NodePath("Reactor_4/OutputHex4"): NodePath("Engines_2/InputHex2"),
 NodePath("Reactor_2/OutputHex"): NodePath("@Node2D@421/InputHex"),
-NodePath("Reactor_2/OutputHex3"): NodePath("@Node2D@421/InputHex2"),
 NodePath("@Node2D@414/OutputHex"): NodePath("Cannon/InputHex"),
 NodePath("@Node2D@414/OutputHex2"): NodePath("@Node2D@427/InputHex"),
 NodePath("@Node2D@414/OutputHex3"): NodePath("Autopilot_1/InputHex"),
-NodePath("@Node2D@414/OutputHex4"): NodePath("Autopilot_1/InputHex2")
+NodePath("@Node2D@414/OutputHex4"): NodePath("Autopilot_1/InputHex2"),
+null: NodePath("@Node2D@421/InputHex2")
 }
+drag_multiplier = null
 max_hit_points = 140
 _hit_points = 140
 
