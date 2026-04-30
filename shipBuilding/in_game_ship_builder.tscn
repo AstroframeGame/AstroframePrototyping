@@ -27,3 +27,5 @@ offset_top = 325.0
 offset_right = 790.0
 offset_bottom = 347.0
 text = "Ship building time :)"
+
+[connection signal="pressed" from="CanvasLayer/Button" to="." method="_on_warp_pressed"]

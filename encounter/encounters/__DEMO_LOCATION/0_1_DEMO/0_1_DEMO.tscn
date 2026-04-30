@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://b6vnbwkbboq7g"]
 
 [ext_resource type="Script" uid="uid://ci51s5x2ase5i" path="res://encounter/encounters/__DEMO_LOCATION/0_1_DEMO/0_1_DEMO.gd" id="1_3qilk"]
-[ext_resource type="PackedScene" path="res://shipBuilding/ships/FACTION_PATROL.tscn" id="2_7k785"]
+[ext_resource type="PackedScene" uid="uid://wv88dd5di8gl" path="res://shipBuilding/ships/FACTION_PATROL.tscn" id="2_7k785"]
 [ext_resource type="PackedScene" uid="uid://c7h5fcycvrbqe" path="res://art/background/space_background.tscn" id="2_onbk5"]
 [ext_resource type="FontFile" uid="uid://c0d43w7ej3xae" path="res://hub/fonts/Anta-Regular - MSDF.ttf" id="3_7ytpk"]
-[ext_resource type="PackedScene" uid="uid://dbgkm073louoa" path="res://shipBuilding/ships/wasp.tscn" id="5_76my7"]
+[ext_resource type="PackedScene" uid="uid://incqv8bu0v2n" path="res://shipBuilding/ships/wasp.tscn" id="5_76my7"]
 [ext_resource type="PackedScene" uid="uid://choyif0n5w2jj" path="res://encounter/encounters/__DEMO_LOCATION/debris_field.tscn" id="5_smosv"]
-[ext_resource type="PackedScene" uid="uid://bo138uijiwdph" path="res://shipBuilding/ships/player_ship.tscn" id="6_h1xkd"]
+[ext_resource type="PackedScene" uid="uid://ctai0xa1d84w" path="res://shipBuilding/ships/player_ship.tscn" id="6_h1xkd"]
 [ext_resource type="Script" uid="uid://b0hi7cnj2u5p6" path="res://encounter/encounters/__DEMO_LOCATION/debris_field.gd" id="8_akvn3"]
 [ext_resource type="Script" uid="uid://coswak26beue6" path="res://encounter/encounters/__DEMO_LOCATION/0_1_DEMO/marker.gd" id="9_76my7"]
 
