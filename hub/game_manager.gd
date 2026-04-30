@@ -34,7 +34,7 @@ func load_scene(path : String)->void:
 	in_game = true
 	current_scene = packed_scene.instantiate()
 	add_child(current_scene)
-	if current_scene.name == "ShipBuilding" or current_scene.name == "EncounterSelection":
+	if current_scene.name == "ShipBuilding" or current_scene.name == "EncounterSelection" or current_scene.name == "InGameBuilder":
 		return # skip the player on building scene and on encounter selector scene
 	game_start.emit(current_scene)
 	MusicManager.play_gameplay()
@@ -94,4 +94,5 @@ func _on_queue_scene(scene_path: String) -> void:
 	queued_scene = scene_path
 	
 func load_queued() -> void:
+	current_scene.queue_free()
 	load_scene(queued_scene)

@@ -21,7 +21,7 @@
 [ext_resource type="Texture2D" uid="uid://bfknaix65fust" path="res://hub/ui_textures/sci_fi_frame.svg" id="15_dy4r6"]
 [ext_resource type="Shader" uid="uid://dv6l2vd0xplhh" path="res://hub/colorblind.gdshader" id="15_mmyqo"]
 [ext_resource type="PackedScene" uid="uid://c4c4q35vwjc06" path="res://accessibilitySettings/settings_menu.tscn" id="15_qui64"]
-[ext_resource type="Script" uid="uid://cw7don71np0bg" path="res://hub/credits.gd" id="17_bg8wc"]
+[ext_resource type="Script" path="res://hub/credits.gd" id="17_bg8wc"]
 [ext_resource type="Texture2D" uid="uid://cjtj7xo6f6waa" path="res://shipBuilding/icons/torus.png" id="17_qui64"]
 [ext_resource type="Shortcut" uid="uid://cxr4abnflfkf5" path="res://hub/back_shortcut.tres" id="21_mjlfl"]
 [ext_resource type="PackedScene" uid="uid://fdqa02uc4vk1" path="res://shipBuilding/prefabs/room_button.tscn" id="22_1uc81"]
@@ -422,7 +422,7 @@ text = "Back"
 
 [node name="Map" type="CanvasLayer" parent="UI" unique_id=242203958]
 script = ExtResource("22_eexr5")
-scene_paths = Array[String](["res://encounter/encounters/__DEMO_LOCATION/0_1_DEMO/0_1_DEMO.tscn"])
+scene_paths = Array[String](["res://encounter/encounters/__DEMO_LOCATION/0_1_DEMO/0_1_DEMO.tscn", "res://encounter/encounters/FightEnemy/FightEnemy.tscn"])
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/Map" unique_id=1171980726]
 anchors_preset = 8
