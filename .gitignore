@@ -3,3 +3,4 @@
 /android/
 /[Bb]uild/
 .env
+/shipMovement/console/scene_render/output

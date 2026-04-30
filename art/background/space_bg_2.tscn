@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://dfy5icnvg7ysi"]
+
+[ext_resource type="Shader" uid="uid://dxvjw6105r8dl" path="res://art/background/space_bg_2.gdshader" id="1_5big5"]
+[ext_resource type="Script" uid="uid://ckvkvmc3ju7xr" path="res://shipMovement/scrolling_bg.gd" id="2_mfms1"]
+
+[sub_resource type="Gradient" id="Gradient_lh252"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.7470238, 1)
+colors = PackedColorArray(0.058949098, 0.028505377, 0.14334852, 1, 0.09229449, 0.060880266, 0.1978313, 1, 0.15799984, 0.08679881, 0.29673854, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_rkfo6"]
+gradient = SubResource("Gradient_lh252")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rj20w"]
+shader = ExtResource("1_5big5")
+shader_parameter/camera_offset = Vector2(0, 0)
+shader_parameter/camera_zoom = 1.0
+shader_parameter/camera_rotation = 0.0
+shader_parameter/noise_frequency = 0.015
+shader_parameter/noise_parallax = 0.800000038
+shader_parameter/star_parallax = 0.2
+shader_parameter/dust_brightness = 1.8
+shader_parameter/OCTAVES = 2
+shader_parameter/color_gradient = SubResource("GradientTexture1D_rkfo6")
+shader_parameter/seed = 0.0
+
+[node name="SpaceBackground" type="ColorRect" unique_id=1650344788]
+z_index = -10
+material = SubResource("ShaderMaterial_rj20w")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_mfms1")
