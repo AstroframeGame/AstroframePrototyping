@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://dfoy2igmq7gj"]
+
+[ext_resource type="Script" uid="uid://vk5n34wmyjfg" path="res://shipMovement/console/scene_render/scene_render.gd" id="1_8fd0f"]
+[ext_resource type="PackedScene" uid="uid://bhvn77ddmgc8p" path="res://hub/icon/logo.tscn" id="2_ns6ic"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_nhg5c"]
+viewport_path = NodePath("SubViewport")
+
+[node name="SceneRender" type="Node2D" unique_id=808048521]
+script = ExtResource("1_8fd0f")
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=889943854]
+transparent_bg = true
+size = Vector2i(1024, 1024)
+
+[node name="Logo" parent="SubViewport" unique_id=1940968398 instance=ExtResource("2_ns6ic")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Camera2D" type="Camera2D" parent="SubViewport" unique_id=675121687]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewport" unique_id=695391309]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1028243039]
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer" unique_id=491654305]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -256.0
+offset_right = 256.0
+offset_bottom = 256.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("ViewportTexture_nhg5c")
