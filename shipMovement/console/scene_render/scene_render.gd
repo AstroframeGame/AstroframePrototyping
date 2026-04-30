@@ -1,8 +1,17 @@
+@tool
 extends Node2D
 
 @onready var sub_viewport: SubViewport = $SubViewport
 
+@export var capture: bool = false:
+	set(value):
+		if value and Engine.is_editor_hint():
+			capture = false
+			capture_img()
+
 func _ready() -> void:
+	if Engine.is_editor_hint():
+		return
 	await get_tree().process_frame
 	capture_img()
 
