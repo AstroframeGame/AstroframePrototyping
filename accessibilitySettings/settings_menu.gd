@@ -2,10 +2,10 @@ class_name SettingsMenu
 extends MarginContainer
 
 const UNSTYLED = preload("res://hub/ui-themes/unstyled.tres")
-@onready var resolution_options: OptionButton = $SettingsTabs/Video/VBoxContainer/HBoxContainer/Resolution/ResolutionOptions
-@onready var key_mouse_binds: VBoxContainer = $"SettingsTabs/Controls/ControlInterface/Keyboard&Mouse/VBoxContainer"
-@onready var controller_binds: VBoxContainer = $SettingsTabs/Controls/ControlInterface/Controller/VBoxContainer
-@onready var game_layer: CanvasLayer = $"../../Game"
+@onready var resolution_options: OptionButton = $SettingsTabs/Video/MarginContainer/VBoxContainer/ResolutionHBox/ResolutionOptions
+@onready var key_mouse_binds: VBoxContainer = $"SettingsTabs/Controls/MarginContainer/ControlInterface/Keyboard&Mouse/VBoxContainer"
+@onready var controller_binds: VBoxContainer = $SettingsTabs/Controls/MarginContainer/ControlInterface/Controller/VBoxContainer
+@onready var game_layer: CanvasLayer = $"../../../../Game"
 
 func _ready() -> void:
 	set_dev_settings()
@@ -72,28 +72,30 @@ func generate_remap_settings() -> void:
 		var contr_horiz_box = HBoxContainer.new()
 		var km_lbl = Label.new()
 		km_lbl.text = action
+		km_lbl.add_theme_font_size_override("font_size", 30)
 		km_horiz_box.add_child(km_lbl)
 		var contr_lbl = Label.new()
 		contr_lbl.text = action
+		contr_lbl.add_theme_font_size_override("font_size", 30)
 		contr_horiz_box.add_child(contr_lbl)
 		var events = InputMap.action_get_events(action)
 		for i in range(events.size()):
 			var ev = events[i]
 			if ev is InputEventJoypadButton or ev is InputEventJoypadMotion:
 				var contr_btn = RemappableButton.new()
+				contr_btn.add_theme_font_size_override("font_size", 30)
 				var name_dict = null
 				if ev is InputEventJoypadButton:
 					name_dict = contr_btn.CONTROLLER_LABELS
-					#print(ev.as_text())
-					#print(ev.button_index)
-					#print()
-					contr_btn.text = name_dict[name_dict.keys()[ev.button_index]]
+					#contr_btn.text = name_dict[name_dict.keys()[ev.button_index]]
+					contr_btn.action_type = "contr"
 				elif ev is InputEventJoypadMotion:
 					name_dict = contr_btn.MOTION_LABELS
 					#print(ev.as_text())
 					#print(ev.axis)
 					#print()
 					#contr_btn.text = name_dict[ev.as_text()]
+					contr_btn.action_type = "contr"
 				
 				contr_btn.action_name = action
 				contr_btn.event_index = i
@@ -101,10 +103,12 @@ func generate_remap_settings() -> void:
 			
 			elif ev is InputEventKey or ev is InputEventMouseButton:
 				var km_btn = RemappableButton.new()
+				km_btn.add_theme_font_size_override("font_size", 30)
 				km_btn.action_name = action
-				km_btn.text = ev.as_text().get_slice(" - ", 0)
+				#km_btn.text = ev.as_text().get_slice(" - ", 0)
 				km_btn.event_index = i
 				km_horiz_box.add_child(km_btn)
+				km_btn.action_type = "keyBrd"
 			
 			else:
 				var bad_btn = RemappableButton.new()
@@ -117,9 +121,9 @@ func generate_remap_settings() -> void:
 #endregion
 
 #region Audio
-@onready var master_volume_percent: Label = $SettingsTabs/Audio/VBoxContainer/MasterVolume/MasterVolumePercent
-@onready var music_volume_percent: Label = $SettingsTabs/Audio/VBoxContainer/MusicVolume/MusicVolumePercent
-@onready var sfx_volume_percent: Label = $SettingsTabs/Audio/VBoxContainer/SfxVolume/SfxVolumePercent
+@onready var master_volume_percent: Label = $SettingsTabs/Audio/MarginContainer/VBoxContainer/HBoxContainer/MasterVolumePercent
+@onready var music_volume_percent: Label = $SettingsTabs/Audio/MarginContainer/VBoxContainer/HBoxContainer2/MusicVolumePercent
+@onready var sfx_volume_percent: Label = $SettingsTabs/Audio/MarginContainer/VBoxContainer/HBoxContainer3/SfxVolumePercent
 
 func _on_master_volume_changed(value: float) -> void:
 	var bus_index = AudioServer.get_bus_index("Master")
