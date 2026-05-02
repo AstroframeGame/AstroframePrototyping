@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://bo4emw5pxms3d"]
+
+[ext_resource type="FontFile" uid="uid://bvhs72w1tp2uu" path="res://hub/fonts/Ethnocentric-Regular.otf" id="1_axahq"]
+[ext_resource type="PackedScene" uid="uid://ctai0xa1d84w" path="res://shipBuilding/ships/player_ship.tscn" id="2_lgh33"]
+
+[sub_resource type="Theme" id="Theme_r1vad"]
+default_font = ExtResource("1_axahq")
+default_font_size = 302
+
+[node name="Logo" type="Control" unique_id=808739609]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=1024090440]
+visible = false
+antialiased = true
+polygon = PackedVector2Array(0, -504, 436.8, -252, 436.8, 252, 0, 504, -436.8, 252, -436.8, -252)
+
+[node name="Polygon2D2" type="Polygon2D" parent="." unique_id=1936584292]
+visible = false
+scale = Vector2(0.83, 0.83)
+color = Color(0, 0, 0, 1)
+antialiased = true
+polygon = PackedVector2Array(0, -504, 436.8, -252, 436.8, 252, 0, 504, -436.8, 252, -436.8, -252)
+
+[node name="Label" type="Label" parent="." unique_id=1998132440]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -52.5
+offset_top = -25.5
+offset_right = 52.5
+offset_bottom = 25.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_r1vad")
+text = "AF"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=888444856]
+visible = false
+
+[node name="player_ship" parent="." unique_id=1442409601 instance=ExtResource("2_lgh33")]
+position = Vector2(-152, 95)
