@@ -1,0 +1,92 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://shipBuilding/ship.gd" id="1_0lgwd"]
+[ext_resource type="PackedScene" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_1rvkw"]
+[ext_resource type="PackedScene" path="res://shipAI/prefabs/hud.tscn" id="3_76h8b"]
+[ext_resource type="Script" path="res://shipAI/Scripts/ship_hud.gd" id="4_f5qmx"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/piloting_1.tscn" id="5_42o74"]
+[ext_resource type="Script" path="res://shipBuilding/room_scripts/piloting.gd" id="6_0cy3d"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/reactor_2.tscn" id="7_2ltmm"]
+[ext_resource type="Script" path="res://shipBuilding/room.gd" id="8_up3o3"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/swivel_cannon.tscn" id="9_ymbw8"]
+[ext_resource type="Script" path="res://shipBuilding/room_scripts/swivel_cannon.gd" id="10_adani"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/engines_2.tscn" id="11_7o4r5"]
+[ext_resource type="PackedScene" path="res://shipBuilding/rooms/hull_1.tscn" id="12_6pt31"]
+
+[sub_resource type="TileSet" id="TileSet_xsh4c"]
+tile_shape = 3
+tile_size = Vector2i(78, 90)
+
+[node name="swivel testing" type="RigidBody2D" unique_id=1784127879 node_paths=PackedStringArray("hud")]
+z_index = 1
+collision_mask = 257
+input_pickable = true
+gravity_scale = 0.0
+sleeping = true
+continuous_cd = 1
+contact_monitor = true
+max_contacts_reported = 5
+script = ExtResource("1_0lgwd")
+hud = NodePath("ShipHUD")
+
+[node name="HexGrid" type="TileMapLayer" parent="." unique_id=1277847278 instance=ExtResource("2_1rvkw")]
+enabled = false
+tile_set = SubResource("TileSet_xsh4c")
+collision_enabled = false
+navigation_enabled = false
+
+[node name="Solid" type="CollisionPolygon2D" parent="." unique_id=2008029638]
+
+[node name="ShipHUD" type="CanvasLayer" parent="." unique_id=532014552 instance=ExtResource("3_76h8b")]
+visible = false
+script = ExtResource("4_f5qmx")
+
+[node name="Walls" type="StaticBody2D" parent="." unique_id=2088063785]
+collision_layer = 16
+collision_mask = 0
+
+[node name="PilotingRoom1" type="StaticBody2D" parent="." unique_id=2067890386 instance=ExtResource("5_42o74")]
+position = Vector2(0, -22.5)
+script = ExtResource("6_0cy3d")
+original_color = Color(1, 1, 1, 1)
+
+[node name="Reactor2" type="StaticBody2D" parent="." unique_id=1108984812 instance=ExtResource("7_2ltmm")]
+position = Vector2(-117, 45)
+script = ExtResource("8_up3o3")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@StaticBody2D@383" type="StaticBody2D" parent="." unique_id=1765960794 instance=ExtResource("7_2ltmm")]
+position = Vector2(39, 45)
+script = ExtResource("8_up3o3")
+original_color = Color(1, 1, 1, 1)
+
+[node name="SwivelCannon" type="Node2D" parent="." unique_id=1030810863 instance=ExtResource("9_ymbw8")]
+position = Vector2(-156, -22.5)
+script = ExtResource("10_adani")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@Node2D@387" type="Node2D" parent="." unique_id=727491794 instance=ExtResource("9_ymbw8")]
+position = Vector2(78, -22.5)
+script = ExtResource("10_adani")
+original_color = Color(1, 1, 1, 1)
+
+[node name="EnginesRoom2" type="StaticBody2D" parent="." unique_id=1439991152 instance=ExtResource("11_7o4r5")]
+position = Vector2(-156, 112.5)
+script = ExtResource("8_up3o3")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@StaticBody2D@391" type="StaticBody2D" parent="." unique_id=1992893266 instance=ExtResource("11_7o4r5")]
+position = Vector2(78, 112.5)
+script = ExtResource("8_up3o3")
+original_color = Color(1, 1, 1, 1)
+
+[node name="@StaticBody2D@397" type="StaticBody2D" parent="." unique_id=1961461502 instance=ExtResource("7_2ltmm")]
+position = Vector2(39, -90)
+rotation = 3.1415927
+script = ExtResource("8_up3o3")
+original_color = Color(1, 1, 1, 1)
+
+[node name="Hull1" type="StaticBody2D" parent="." unique_id=2025236070 instance=ExtResource("12_6pt31")]
+position = Vector2(0, -157.5)
+script = ExtResource("8_up3o3")
+original_color = Color(1, 1, 1, 1)

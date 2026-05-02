@@ -71,7 +71,7 @@ func get_velocity(state : PhysicsDirectBodyState2D) -> Vector2:
 			speed = AccelCurve.sample(timePressed/timeToAccelerate) * engines.get_max_speed()/20;
 			ship.rotate(turn * 0.01 * timePressed/timeToAccelerate)
 			currentSpeed = speed;
-			print(currentSpeed)
+			#print(currentSpeed)
 			newTimeToBrake = currentSpeed * 20/engines.get_max_speed() * timeToBrake
 		else:
 			if direction:
@@ -84,7 +84,7 @@ func get_velocity(state : PhysicsDirectBodyState2D) -> Vector2:
 			timePressed = max(timePressed,0);
 			timeReleased = min(timeReleased,newTimeToBrake);
 			speed = brakingCurve.sample(timeReleased/newTimeToBrake) * currentSpeed;
-			print(speed)
+			#print(speed)
 			if speed == 0:
 				goalState = 0;
 	

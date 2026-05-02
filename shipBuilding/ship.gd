@@ -161,8 +161,8 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	
 	if has_engines() and piloting:
 		state.linear_velocity = piloting.get_velocity(state)
-	elif has_engines() and autopilot:
-		print(state.angular_velocity)
+	#elif has_engines() and autopilot:
+		#print(state.angular_velocity)
 	elif has_engines(): # autodrag
 		state.angular_velocity = lerp(state.angular_velocity, 0.0, state.inverse_mass * drag_multiplier * delta)
 		state.linear_velocity = lerp(state.linear_velocity, Vector2.ZERO, get_thrust() * state.inverse_mass * drag_multiplier * delta)
@@ -747,3 +747,13 @@ func hit_vfx(pos : Vector2):
 	hit_sfx.global_position = pos
 	ProjectileManager.add_child(hit_sfx)
 #endregion
+
+'''
+doesnt work...
+* why not use TAB mode?
+* are we truly cutting turrets n cannons? 
+'''
+func _on_mouse_entered() -> void:
+	ship_mode = SHIP_MODE.EDITING
+func _on_mouse_exited() -> void:
+	ship_mode = SHIP_MODE.COMBAT

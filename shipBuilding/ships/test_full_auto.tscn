@@ -3,16 +3,15 @@
 [ext_resource type="Script" uid="uid://bsurseo1hgudf" path="res://shipBuilding/ship.gd" id="1_mo3i5"]
 [ext_resource type="PackedScene" uid="uid://c2n7netp00xn6" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_3w621"]
 [ext_resource type="PackedScene" uid="uid://daae3tloj435m" path="res://shipAI/prefabs/hud.tscn" id="3_ka8xb"]
-[ext_resource type="PackedScene" uid="uid://q2xbgli7wqkw" path="res://shipBuilding/rooms/aim_augment_2.tscn" id="5_ijgo5"]
-[ext_resource type="PackedScene" uid="uid://opemmrmus70s" path="res://shipBuilding/rooms/autopilot_1.tscn" id="7_rkicl"]
-[ext_resource type="PackedScene" uid="uid://c80teck1ccmdv" path="res://shipBuilding/rooms/reactor_2.tscn" id="9_ayd7h"]
-[ext_resource type="PackedScene" uid="uid://cebf4gqkt7jib" path="res://shipBuilding/rooms/engines_2.tscn" id="11_ysmbk"]
-[ext_resource type="PackedScene" uid="uid://daycij2kxk7dj" path="res://shipBuilding/rooms/turret_3.tscn" id="13_ka8xb"]
-[ext_resource type="PackedScene" uid="uid://dir8uoqft75m0" path="res://shipBuilding/rooms/airlock_1.tscn" id="15_ijgo5"]
-[ext_resource type="PackedScene" uid="uid://8plbkd62xtgy" path="res://shipBuilding/rooms/hull_1.tscn" id="17_336h6"]
-[ext_resource type="PackedScene" uid="uid://qteo7ksf47a4" path="res://shipBuilding/rooms/piloting_1.tscn" id="18_ebrth"]
+[ext_resource type="PackedScene" uid="uid://q2xbgli7wqkw" path="res://shipBuilding/rooms/old/aim_augment_2.tscn" id="5_ijgo5"]
+[ext_resource type="PackedScene" uid="uid://opemmrmus70s" path="res://shipBuilding/rooms/old/autopilot_1.tscn" id="7_rkicl"]
+[ext_resource type="PackedScene" uid="uid://c80teck1ccmdv" path="res://shipBuilding/rooms/old/reactor_2.tscn" id="9_ayd7h"]
+[ext_resource type="PackedScene" uid="uid://cebf4gqkt7jib" path="res://shipBuilding/rooms/old/engines_2.tscn" id="11_ysmbk"]
+[ext_resource type="PackedScene" uid="uid://daycij2kxk7dj" path="res://shipBuilding/rooms/old/turret_3.tscn" id="13_ka8xb"]
+[ext_resource type="PackedScene" uid="uid://dir8uoqft75m0" path="res://shipBuilding/rooms/old/airlock_1.tscn" id="15_ijgo5"]
+[ext_resource type="PackedScene" uid="uid://8plbkd62xtgy" path="res://shipBuilding/rooms/old/hull_1.tscn" id="17_336h6"]
+[ext_resource type="PackedScene" uid="uid://qteo7ksf47a4" path="res://shipBuilding/rooms/old/piloting_1.tscn" id="18_ebrth"]
 [ext_resource type="PackedScene" uid="uid://ctd5xkqu85i7h" path="res://shipBuilding/rooms/swivel_cannon.tscn" id="20_qbci4"]
-
 
 [sub_resource type="TileSet" id="TileSet_xsh4c"]
 tile_shape = 3
@@ -51,9 +50,8 @@ polygon = PackedVector2Array(78.014465, -247.57498, 78.03553, -202.55383, 117.01
 
 [node name="ShipHUD" parent="." unique_id=532014552 instance=ExtResource("3_ka8xb")]
 
-[node name="Aim_Augment_2" parent="." unique_id=1056768738 node_paths=PackedStringArray("target_rooms") instance=ExtResource("5_ijgo5")]
+[node name="Aim_Augment_2" parent="." unique_id=1056768738 instance=ExtResource("5_ijgo5")]
 position = Vector2(-39, -90)
-target_rooms = [NodePath("../Engines_2"), NodePath("../Turret_3"), NodePath("../Turret_3"), NodePath("../Turret_3"), NodePath("../Turret_3"), NodePath("../Turret_3")]
 original_color = Color(1, 1, 1, 1)
 
 [node name="Autopilot_1" parent="." unique_id=1685651061 instance=ExtResource("7_rkicl")]
@@ -80,11 +78,10 @@ position = Vector2(195, 45)
 rotation = 3.1415927
 original_color = Color(1, 1, 1, 1)
 
-[node name="Turret_3" parent="." unique_id=1336280051 node_paths=PackedStringArray("augments") instance=ExtResource("13_ka8xb")]
+[node name="Turret_3" parent="." unique_id=1336280051 instance=ExtResource("13_ka8xb")]
 position = Vector2(0, -157.5)
 rotation = 1.0471976
 original_color = Color(1, 1, 1, 1)
-augments = [NodePath("../Aim_Augment_2"), NodePath("../Aim_Augment_2"), NodePath("../Aim_Augment_2"), NodePath("../Aim_Augment_2"), NodePath("../Aim_Augment_2")]
 
 [node name="Engines_2" parent="." unique_id=146497801 instance=ExtResource("11_ysmbk")]
 position = Vector2(0, 112.5)
@@ -115,3 +112,6 @@ collision_mask = 0
 [node name="SwivelCannon" parent="." unique_id=1030810863 instance=ExtResource("20_qbci4")]
 position = Vector2(-156, -157.5)
 original_color = Color(1, 1, 1, 1)
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
