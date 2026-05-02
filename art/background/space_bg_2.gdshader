@@ -6,14 +6,24 @@ uniform float camera_zoom = 1.0;
 uniform float camera_rotation = 0.0;
 
 uniform float noise_frequency = 0.002;
-uniform float noise_parallax : hint_range(0.0, 2.0) = 1.0;
+uniform float noise_parallax : hint_range(0.0, 2.0) = 0.5;
+uniform float neb_parallax : hint_range(0.0, 2.0) = 1.0;
+uniform float star_parallax_step : hint_range(0.0, 1.0) = 0.05;
 uniform float star_parallax : hint_range(0.0, 2.0) = 0.2;
 uniform float dust_brightness = 1.8;
 
 uniform int OCTAVES : hint_range(0, 20, 1);
 
 uniform sampler2D color_gradient : repeat_disable, filter_linear;
+uniform sampler2D nebula_gradient : repeat_disable, filter_linear;
 uniform float seed: hint_range(1, 10);
+
+uniform float star_size = 1.5;
+uniform float star_max_dist = 5.0;
+uniform float star_cell_size = 50.0;
+
+uniform float nebula_sub = 0.1;
+uniform vec4 bg_color : source_color = vec4(0.1,0,0.2,1);
 
 void vertex() {
 	// Called for every vertex the material is visible on.
@@ -59,8 +69,6 @@ float circleNoise(vec2 uv) {
 }
 float cloud_alpha(vec2 uv) {
 	float c_noise = 0.0;
-	
-	// more iterations for more turbulence
 	int iters = 2;
 	for (int i = 0; i < iters; i++) {
 		c_noise += circleNoise(uv * 0.5 + (float(i+1)) + vec2(-0.3, 0.0));
@@ -68,6 +76,31 @@ float cloud_alpha(vec2 uv) {
 	float fbm = fbm(uv+c_noise);
 	
 	return fbm;
+}
+
+float stars(vec2 world_pos, float i) {
+    
+    vec2 cell = floor(world_pos / star_cell_size);
+    vec2 cell_uv = fract(world_pos / star_cell_size);
+    
+    float r = rand(cell+ i) * star_max_dist;
+    float theta = rand(cell + 1.0 + i) * 6.28318;
+    
+    vec2 star_pos = vec2(0.5) + vec2(cos(theta), sin(theta)) * r;
+    
+    float dist = length((cell_uv - star_pos) * 25.0);
+    
+    float brightness = rand(cell + 2.0+ i);
+    return smoothstep(star_size, 0.0, dist) * brightness;
+}
+
+float nebula(vec2 world_pos, float s) {
+	float n = cloud_alpha(world_pos);
+	float n2 = fbm(world_pos*s + vec2(1, 1));
+	float n_lerp = n2 * n;
+	float n_dust = cloud_alpha(world_pos*s);
+	float n_dust_lerp = n_dust * n_lerp;
+	return n_dust_lerp - nebula_sub;
 }
 
 vec2 get_position(vec2 uv, vec2 pixel_size) {
@@ -89,14 +122,28 @@ void fragment() {
 	vec2 noise_world_pos = base_screen_pos + (camera_offset * noise_parallax);
 	
 	float s=0.5;
-	float n_alpha = fbm(base_screen_pos*s +vec2(2,2));
-	float n_dust = cloud_alpha(base_screen_pos*s);
-	float n_dust2 = fbm(base_screen_pos*s  -vec2(2,2));
+	float n_alpha = fbm(noise_world_pos*s +vec2(2,2));
+	float n_dust = cloud_alpha(noise_world_pos*s);
+	float n_dust2 = fbm(noise_world_pos*s  -vec2(2,2));
 	float n_dust_lerp = n_dust2 * n_dust;
 	
 	float noise_val = noise(noise_world_pos);
 	float dust = fbm(noise_world_pos);
 	
-	vec4 gradient_color = texture(color_gradient, vec2(n_dust_lerp, 0));
-	COLOR = gradient_color;//vec4(dust, 0,0,1);
+	vec4 color = bg_color;
+	vec4 dust_color = texture(color_gradient, vec2(n_dust_lerp, 0));
+	color *= (1.0-dust_color.a);
+	color += dust_color * dust_color.a;
+	
+	for(int i=0; i<4; i++){
+		vec2 star_world_pos = base_screen_pos + (camera_offset * (star_parallax + star_parallax_step * float(i)));
+		color += stars(star_world_pos, float(i));
+	}
+	
+	vec2 neb_world_pos = base_screen_pos + (camera_offset * neb_parallax);
+	vec4 neb = texture(nebula_gradient, vec2(nebula(neb_world_pos, 0.5), 0));
+	
+	color *= (1.0-neb.a);
+	color += neb * neb.a;
+	COLOR = color;
 }
