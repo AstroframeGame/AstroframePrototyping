@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://dfy5icnvg7ysi" path="res://art/background/space_bg_2.tscn" id="1_6mgqa"]
 [ext_resource type="PackedScene" uid="uid://cftem25vj36a6" path="res://playerMovement/asteroids.tscn" id="2_xrm1b"]
+[ext_resource type="PackedScene" uid="uid://incqv8bu0v2n" path="res://shipBuilding/ships/wasp.tscn" id="3_pk2xb"]
 
 [sub_resource type="GDScript" id="GDScript_43neb"]
 script/source = "extends Node2D
@@ -64,5 +65,12 @@ position = Vector2(100, -689)
 
 [node name="Asteroids2" parent="." unique_id=996845886 instance=ExtResource("2_xrm1b")]
 position = Vector2(2503, -59)
+
+[node name="PIRATE_DESTROYER" parent="." unique_id=1442409601 node_paths=PackedStringArray("power_links") instance=ExtResource("3_pk2xb")]
+position = Vector2(1706, -530)
+power_links = {
+NodePath(""): NodePath(""),
+null: null
+}
 
 [connection signal="pressed" from="CanvasLayer/Button" to="." method="_on_warp_pressed"]

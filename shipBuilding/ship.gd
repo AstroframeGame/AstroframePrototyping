@@ -151,10 +151,8 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	var _autopilot : Autopilot = get_auto_piloting()
 
 	var delta = state.step
-	print(has_engines(), piloting)
 	if has_engines() and piloting:
 		state.linear_velocity = piloting.get_velocity(state)
-		print(state.linear_velocity)
 	#elif has_engines() and autopilot:
 		#print(state.angular_velocity)
 	elif has_engines(): # autodrag

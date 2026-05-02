@@ -430,7 +430,7 @@ layout_mode = 2
 [node name="Map" type="CanvasLayer" parent="UI" unique_id=242203958]
 visible = false
 script = ExtResource("22_eexr5")
-scene_paths = Array[String](["res://encounter/encounters/__DEMO_LOCATION/0_1_DEMO/0_1_DEMO.tscn", "res://encounter/encounters/FightEnemy/FightEnemy.tscn"])
+scene_paths = Array[String](["res://encounter/encounters/FightEnemy/FightEnemy.tscn"])
 
 [node name="SpaceBackground" parent="UI/Map" unique_id=1172663023 instance=ExtResource("4_joyjw")]
 color = Color(0.22959325, 0.22959325, 0.22959322, 1)
