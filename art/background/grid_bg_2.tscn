@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://cqcu7fgj8svpp"]
+
+[ext_resource type="Shader" uid="uid://c0t86hqsjhlu0" path="res://art/background/grid_bg_2.gdshader" id="1_h6wc6"]
+[ext_resource type="Script" uid="uid://ckvkvmc3ju7xr" path="res://shipMovement/scrolling_bg.gd" id="3_fnfxb"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rj20w"]
+shader = ExtResource("1_h6wc6")
+shader_parameter/camera_offset = Vector2(0, 0)
+shader_parameter/camera_zoom = 1.0
+shader_parameter/camera_rotation = 0.0
+
+[node name="GridBackground" type="ColorRect" unique_id=1650344788]
+z_index = -10
+material = SubResource("ShaderMaterial_rj20w")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_fnfxb")

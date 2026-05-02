@@ -1,11 +1,13 @@
 class_name HexEditor
 extends Node
 
-enum Mode { VIEW, ADD, MOVE, DESTROY }
+enum Mode { VIEW, EDIT }
 
 @onready var ship: Ship = $"../Ship"
 @onready var mode_dropdown: OptionButton = $"../UI/ModeDropdown"
-@onready var room_picker: Node = $"../UI/TabContainer/RoomPicker"
+@onready var room_picker: Node = $"../UI/TabContainer/Rooms"
+@onready var tab_container: TabContainer = $"../UI/TabContainer"
+
 
 var preview_instance: Room
 var current_rotation: int = 0
@@ -18,13 +20,13 @@ signal on_room_destroy()
 
 func _ready() -> void:
 	room_picker.on_clicked.connect(_on_room_prefab_selected)
-	mode_dropdown.item_selected.connect(_on_mode_selected)
+	tab_container.tab_changed.connect(_on_tab_changed)
 	ship.room_clicked.connect(_on_ship_room_clicked)
 	undo.max_steps = 10
 	on_room_add.emit()
 
 func _process(_delta: float) -> void:
-	if current_mode == Mode.ADD and preview_instance:
+	if current_mode == Mode.EDIT and preview_instance:
 		preview_instance.visible = true
 		_update_preview()
 	elif preview_instance:
@@ -38,13 +40,16 @@ func _unhandled_input(event: InputEvent) -> void:
 		undo.undo()
 		return
 		
-	if current_mode == Mode.ADD and event is InputEventMouseButton and event.pressed:
+	if current_mode == Mode.EDIT and event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			var cell = ship.world_to_grid(ship.get_global_mouse_position())
 			_attempt_place(cell)
 			return
 		elif event.button_index == MOUSE_BUTTON_RIGHT:
-			return
+			var cell = ship.world_to_grid(ship.get_global_mouse_position())
+			if ship.occupied_cells.has(cell):
+				var room = ship.occupied_cells[cell]
+				_attempt_destroy(room)
 		elif event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			_rotate_preview(-1)
 			return
@@ -104,9 +109,6 @@ func _attempt_destroy(room: Room) -> void:
 
 func _on_room_prefab_selected(index: int) -> void:
 	_prefab_index = index
-	current_mode = Mode.ADD
-	mode_dropdown.selected = Mode.ADD
-	
 	if preview_instance:
 		preview_instance.queue_free()
 	
@@ -117,15 +119,11 @@ func _on_room_prefab_selected(index: int) -> void:
 		add_child(preview_instance)
 		_rotate_preview(0)
 
-func _on_ship_room_clicked(room: Node, button_index: int) -> void:
-	if button_index != MOUSE_BUTTON_LEFT: return
+func _on_ship_room_clicked(_room: Node, _button_index: int) -> void:
+	pass
 
-	if current_mode == Mode.DESTROY:
-		_attempt_destroy(room)
-	elif current_mode == Mode.MOVE:
-		_prefab_index = room_picker.get_room_index(room)
-		_on_room_prefab_selected(_prefab_index)
-		_attempt_destroy(room)
-
-func _on_mode_selected(index: int) -> void:
-	current_mode = index as Mode
+func _on_tab_changed(tab: int)->void:
+	if tab == 1: 
+		current_mode = Mode.EDIT
+	else:
+		current_mode = Mode.VIEW
