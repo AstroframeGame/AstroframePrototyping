@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://baf57umu45g42"]
+
+[ext_resource type="Script" uid="uid://dhembev4wx65i" path="res://encounter/prefabs/warp_point.gd" id="1_gtdd5"]
+[ext_resource type="Texture2D" uid="uid://bva3dm7d0f0lm" path="res://shipBuilding/icons/circle_big.png" id="1_o4heu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gtdd5"]
+radius = 98.045906
+
+[node name="WarpPoint" type="Area2D" unique_id=1539470218]
+collision_layer = 128
+collision_mask = 16
+script = ExtResource("1_gtdd5")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1476606248]
+scale = Vector2(0.194, 0.199)
+texture = ExtResource("1_o4heu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=730269528]
+shape = SubResource("CircleShape2D_gtdd5")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
