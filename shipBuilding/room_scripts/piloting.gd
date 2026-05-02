@@ -2,6 +2,7 @@ class_name Piloting
 extends Room
 
 @onready var seat: SeatInteractable = $SeatHex
+@onready var firing := false
 var AccelCurve : Curve = load("res://shipBuilding/prefabs/accelcurve.tres");
 var brakingCurve : Curve = load("res://shipBuilding/prefabs/brakingcurve.tres")
 @export var timeToAccelerate : float = 2;
@@ -11,11 +12,22 @@ var newTimeToBrake : float = 0;
 
 # this method is searched by name from the player
 func handle_input(event:InputEvent):
-	if event.is_action_pressed("ship_fire"): #See turret.gd for ACTUAL firing
-		shoot_all_cannons()
-		return
-	
-
+	if ship.ship_mode == ship.SHIP_MODE.COMBAT:
+		# autofire
+		if event.is_action_pressed("ship_fire"):
+			firing = true
+			# cannons wont autofire
+			shoot_all_cannons()
+		if event.is_action_released("ship_fire"):
+			firing = false
+		# swivel cannons autofire
+		for swivel : SwivelCannon in ship.get_swivel_guns():
+			swivel.handle_input(event)
+			swivel.firing = firing
+			
+	elif ship.ship_mode == ship.SHIP_MODE.EDITING:
+		firing = false
+		
 func shoot_all_cannons():
 	for child in ship.get_children():
 		if child is Cannon:

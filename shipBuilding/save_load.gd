@@ -15,10 +15,10 @@ func save_tscn(ship : Node, save_path : String, save_name : String) -> void:
 	if result == OK:
 		var path = save_path + save_name + ".tscn"
 		var error = ResourceSaver.save(packed_scene, path)
-		if error == OK:
-			print("Scene saved successfully!")
-		else:
-			print("Error saving scene: ", error)
+		#if error == OK:
+			#print("Scene saved successfully!")
+		#else:
+			#print("Error saving scene: ", error)
 
 func load_tscn(save_path : String, save_name : String) -> Node:
 	var path = save_path + save_name + ".tscn"
@@ -62,7 +62,7 @@ func save_json(ship : Node, save_path : String, save_name : String) -> void:
 	if file:
 		file.store_string(json_string)
 		file.close()
-		print("Saved JSON to: " + path)
+		#print("Saved JSON to: " + path)
 		InGameConsole.log_message("Saved JSON to: " + path)
 	else:
 		push_error("Failed to save file: " + path)
@@ -110,6 +110,6 @@ func load_json(save_path : String, save_name : String, ship : Ship) -> Node:
 				push_warning("Could not find room prefab: " + prefab_path)
 				InGameConsole.log_message("Could not find room prefab: " + prefab_path)
 				
-	print("Loaded ship from: " + path)
+	#print("Loaded ship from: " + path)
 	InGameConsole.log_message("Loaded ship from: " + path)
 	return ship

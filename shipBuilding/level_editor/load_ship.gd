@@ -19,7 +19,7 @@ func load_json() -> void:
 func load_tscn() -> void:
 	var new_ship = save_load.load_tscn(save_path, save_name.text)
 	if not new_ship:
-		print("Load failed.")
+		#print("Load failed.")
 		return
 	_add_ship(new_ship)
 	

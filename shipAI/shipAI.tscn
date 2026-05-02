@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://c7h5fcycvrbqe" path="res://art/background/space_background.tscn" id="1_jrc0m"]
 [ext_resource type="PackedScene" path="res://shipBuilding/ships/player_ship.tscn" id="5_nhcgg"]
+[ext_resource type="PackedScene" uid="uid://b50c1gq8xsg28" path="res://shipBuilding/ships/test_full_auto.tscn" id="6_ypqrf"]
 [ext_resource type="PackedScene" uid="uid://incqv8bu0v2n" path="res://shipBuilding/ships/wasp.tscn" id="7_jrc0m"]
 [ext_resource type="PackedScene" uid="uid://bfcvwgyqwu34t" path="res://shipAI/prefabs/asteroid.tscn" id="7_vrncs"]
 [ext_resource type="FontFile" uid="uid://bvhs72w1tp2uu" path="res://hub/fonts/Ethnocentric-Regular.otf" id="8_8rdp5"]
@@ -78,14 +79,26 @@ radius = 232.85
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -603.0
-offset_top = 649.0
-offset_right = -226.0
-offset_bottom = 717.0
+offset_left = -952.0
+offset_top = 1029.0
+offset_right = -575.0
+offset_bottom = 1097.0
 grow_horizontal = 2
 scale = Vector2(0.60738903, 0.632619)
 theme = SubResource("Theme_vo3si")
 text = "Ship AI"
 horizontal_alignment = 1
+
+[node name="test_full_auto" parent="." unique_id=1726753416 node_paths=PackedStringArray("power_links") instance=ExtResource("6_ypqrf")]
+position = Vector2(-212, 4)
+power_links = {
+NodePath("Reactor_2/OutputHex"): NodePath("Aim_Augment_2/InputHex"),
+NodePath("Reactor_2/OutputHex3"): NodePath("Aim_Augment_2/InputHex2"),
+NodePath("@Node2D@197/OutputHex"): NodePath("Autopilot_1/InputHex"),
+NodePath("@Node2D@197/OutputHex3"): NodePath("Autopilot_1/InputHex2"),
+NodePath("@Node2D@198/OutputHex"): NodePath("Turret_3/InputHex"),
+NodePath("@Node2D@198/OutputHex3"): NodePath("Engines_2/InputHex"),
+NodePath("@Node2D@199/OutputHex"): NodePath("Engines_2/InputHex2")
+}
 
 [editable path="Asteroid"]
