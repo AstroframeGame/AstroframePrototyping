@@ -17,9 +17,11 @@ func _process(delta: float) -> void:
 	pass
 
 func _on_warp_pressed() -> void:
-	game_manager.current_scene.queue_free();
+	game_manager.game_quit.emit()
+	if game_manager.current_scene:
+		game_manager.current_scene.queue_free()
 	game_manager._on_map_pressed();
-	pass
+	game_manager.in_game = false
 "
 
 [node name="FightEnemy" type="Node2D" unique_id=572962363]

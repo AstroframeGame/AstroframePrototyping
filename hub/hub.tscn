@@ -281,7 +281,6 @@ color = Color(0, 0, 0, 0)
 [node name="DialogueRunner" parent="UI/Game" unique_id=314417777 instance=ExtResource("5_g3elb")]
 
 [node name="Paused" type="CanvasLayer" parent="UI" unique_id=731175255]
-visible = false
 
 [node name="ColorRect" type="ColorRect" parent="UI/Paused" unique_id=337209217]
 anchors_preset = 15
