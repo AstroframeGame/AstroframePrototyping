@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://b6ypdvcr8nnd6"]
+
+[ext_resource type="Script" uid="uid://dhw5xsdq08qst" path="res://shipBuilding/in_game_ship_builder.gd" id="1_4wkqy"]
+
+[node name="InGameShipBuilder" type="Node2D" unique_id=1997361015]
+script = ExtResource("1_4wkqy")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=936189538]
+
+[node name="Button" type="Button" parent="CanvasLayer" unique_id=473508112]
+offset_left = 1270.0
+offset_top = 57.0
+offset_right = 1350.0
+offset_bottom = 87.0
+text = "Continue To Warp"
+
+[node name="Button2" type="Button" parent="CanvasLayer" unique_id=1580229028]
+offset_left = 84.0
+offset_top = 40.0
+offset_right = 132.0
+offset_bottom = 70.0
+text = "Back To Map"
+
+[node name="Label" type="Label" parent="CanvasLayer" unique_id=1585380801]
+offset_left = 631.0
+offset_top = 325.0
+offset_right = 790.0
+offset_bottom = 347.0
+text = "Ship building time :)"
+
+[connection signal="pressed" from="CanvasLayer/Button" to="." method="_on_warp_pressed"]
