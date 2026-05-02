@@ -1,12 +1,6 @@
 extends Node
 class_name GameManager
 
-@onready var multiplayer_manager: MultiplayerManager = $"../MultiplayerManager"
-
-var player : PlayerCharacter:
-	get:
-		return $"../MultiplayerManager/PlayerCharacter"
-
 @onready var load_progress: TextureProgressBar = $"../UI/Loading/LoadProgress"
 
 var current_scene : Node2D

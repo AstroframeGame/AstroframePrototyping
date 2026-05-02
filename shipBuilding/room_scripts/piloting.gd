@@ -33,7 +33,7 @@ func shoot_all_cannons():
 		if child is Cannon:
 			child.shoot()
 
-func is_active() -> bool:
+func is_active() -> bool: # unused
 	return seat.controlled_by != null
 
 var timeAccelerateHeld = 0;
@@ -45,9 +45,9 @@ var goalState = 0;
 var currentSpeed = 0;
 
 func get_velocity(state : PhysicsDirectBodyState2D) -> Vector2:
-	
 	var engines = ship.get_engines()
 	
+	print(engines.power_level)
 	if engines.power_level==0:
 		engines.blink_red()
 		return Vector2.ZERO
@@ -63,7 +63,7 @@ func get_velocity(state : PhysicsDirectBodyState2D) -> Vector2:
 	if goalState == 0 && direction:
 		goalState = direction;
 	if goalState:
-		#print(direction);
+		print(direction);
 		if direction == goalState:
 			timeReleased = 0;
 			timePressed += state.step;

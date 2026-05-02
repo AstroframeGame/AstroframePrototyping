@@ -24,11 +24,12 @@ const SFX_HULL_DESTROY = preload("res://audio/sfx/hull_destroy.wav")
 
 var _is_dead: bool = false
 
+var controlled_by_player = false
+
 var grid: TileMapLayer:
 	get:
 		return get_node("HexGrid")
 @export var hud : ShipHud = null
-
 
 var occupied_cells: Dictionary[Vector2i, Room] = {} # only calculated in ship_building
 @export var power_links : Dictionary[PowerOutHex, PowerInHex]
@@ -60,8 +61,6 @@ func _ready() -> void:
 	max_contacts_reported = 5
 	
 	z_index = 1
-	
-	
 
 func center_rooms():
 	var middlevec = Vector2(0,0);
@@ -114,8 +113,7 @@ func get_thrust() -> float:
 func get_piloting() -> Piloting:
 	for r in get_children():
 		if r is Piloting:
-			if r.is_active():
-				return r
+			return r
 	return null
 func get_auto_piloting()->Autopilot:
 	for r in get_children():
@@ -147,20 +145,16 @@ func get_swivel_guns()->Array[SwivelCannon]:
 		if s is SwivelCannon:
 			swivels.append(s)
 	return swivels
-func get_players_from_manager() -> Array[PlayerCharacter]:
-	var multiplayer_manager :MultiplayerManager= get_tree().root.get_node("Hub/MultiplayerManager")
-	if multiplayer_manager:
-		return multiplayer_manager.players
-	return []
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	var piloting : Piloting = get_piloting()
 	var _autopilot : Autopilot = get_auto_piloting()
 
 	var delta = state.step
-	
+	print(has_engines(), piloting)
 	if has_engines() and piloting:
 		state.linear_velocity = piloting.get_velocity(state)
+		print(state.linear_velocity)
 	#elif has_engines() and autopilot:
 		#print(state.angular_velocity)
 	elif has_engines(): # autodrag
@@ -500,8 +494,6 @@ func get_available_power_in() -> Array[PowerInHex]:
 	return _in
 
 func toggle_power(power_hex):
-	if not my_character_inside():
-		return
 	#if power_hex is PowerOutHex && power_hex.is_powering:
 		## turn off power
 		#remove_power_link_out(power_hex)
@@ -584,10 +576,6 @@ func take_damage(amount:int, pos_ws : Vector2):
 func death_check():
 	if hit_points > 0 or _is_dead:
 		return 
-		
-	for pc in get_tree().get_nodes_in_group("player_controller"):
-		if pc.ship == self:
-			pc.update_layers(false)
 	_is_dead = true
 	call_deferred("death_explosion")
 	
@@ -632,9 +620,6 @@ func death_explosion():
 #region InteriorExterior
 
 func my_character_inside() -> bool:
-	var multiplayer_manager = get_tree().root.find_child("MultiplayerManager", true, false)
-	if multiplayer_manager and multiplayer_manager.my_player:
-		return multiplayer_manager.my_player.ship == self
 	return false
 
 # interactor will be null if the editor calls this 

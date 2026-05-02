@@ -145,5 +145,5 @@ void fragment() {
 	
 	color *= (1.0-neb.a);
 	color += neb * neb.a;
-	COLOR = color;
+	COLOR *= color;
 }

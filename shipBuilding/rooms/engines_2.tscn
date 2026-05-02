@@ -2,18 +2,51 @@
 
 [ext_resource type="PackedScene" uid="uid://d0fkffqhvaw4p" path="res://shipBuilding/room_templates/room_2.tscn" id="1_5xwdr"]
 [ext_resource type="PackedScene" uid="uid://dmgvcp6y668bi" path="res://shipBuilding/hexes/input_hex.tscn" id="2_08cv7"]
+[ext_resource type="Script" uid="uid://byqsdjgqvjiln" path="res://shipBuilding/room_scripts/engines.gd" id="2_w1q65"]
+[ext_resource type="Script" uid="uid://cxaq4li7q471e" path="res://addons/trail_2d/trail_2d.gd" id="3_rosf4"]
+
+[sub_resource type="Curve" id="Curve_4plni"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
 
 [node name="EnginesRoom2" unique_id=2067890386 instance=ExtResource("1_5xwdr")]
+script = ExtResource("2_w1q65")
+boost_thrust = 12
+forward_multiplier = 2
+standard_thrust = 1200
+rotational_thrust = 0.2
+max_speed = 10000
 
-[node name="Polygon2D" type="Polygon2D" parent="." index="0" unique_id=413193425]
+[node name="Trail2D" type="Line2D" parent="." index="0" unique_id=1687287971]
+position = Vector2(1, 48)
+points = PackedVector2Array(0, 0, 0, 64.045)
+width_curve = SubResource("Curve_4plni")
+default_color = Color(0, 0.9598983, 1.5662694, 1)
+script = ExtResource("3_rosf4")
+length = 20.0
+metadata/_custom_type_script = "uid://cxaq4li7q471e"
+
+[node name="Trail2D2" type="Line2D" parent="." index="1" unique_id=1638383314]
+position = Vector2(78, 44)
+points = PackedVector2Array(0, 0, 0, 64.045)
+width_curve = SubResource("Curve_4plni")
+default_color = Color(0, 0.96, 1.566, 1)
+script = ExtResource("3_rosf4")
+length = 20.0
+metadata/_custom_type_script = "uid://cxaq4li7q471e"
+
+[node name="Polygon2D" type="Polygon2D" parent="." index="2" unique_id=413193425]
 self_modulate = Color(0.21230483, 0.21230483, 0.21230483, 1)
-z_index = -1
+z_index = 1
 position = Vector2(95, 33)
 scale = Vector2(0.56, 0.56)
 polygon = PackedVector2Array(-201.60004, 8.400002, -220.79999, 51.6, -127.20001, 53.999992, -153.60004, 6.800003, -48, 10, -74.400024, 53.200005, 16.799988, 56.4, -10.400024, 10, -11.200012, -24.399994, -203.20001, -24.399994)
 uv = PackedVector2Array(-201.60004, 8.400002, -220.79999, 51.6, -127.20001, 53.999992, -153.60004, 6.800003, -48, 10, -74.400024, 53.200005, 16.799988, 56.4, -10.400024, 10, -11.200012, -24.399994, -203.20001, -24.399994)
 
-[node name="InputHex" parent="." index="3" unique_id=1345779495 instance=ExtResource("2_08cv7")]
+[node name="Interior" parent="." index="3" unique_id=730704319]
+z_index = 2
 
-[node name="InputHex2" parent="." index="4" unique_id=452991472 instance=ExtResource("2_08cv7")]
+[node name="InputHex" parent="." index="5" unique_id=1345779495 instance=ExtResource("2_08cv7")]
+
+[node name="InputHex2" parent="." index="6" unique_id=452991472 instance=ExtResource("2_08cv7")]
 position = Vector2(78, 0)

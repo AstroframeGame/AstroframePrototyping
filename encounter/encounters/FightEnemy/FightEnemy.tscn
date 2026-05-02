@@ -1,15 +1,20 @@
 [gd_scene format=3 uid="uid://dlg3u5geggrnk"]
 
+[ext_resource type="PackedScene" uid="uid://dfy5icnvg7ysi" path="res://art/background/space_bg_2.tscn" id="1_6mgqa"]
+[ext_resource type="PackedScene" uid="uid://cftem25vj36a6" path="res://playerMovement/asteroids.tscn" id="2_xrm1b"]
+
 [sub_resource type="GDScript" id="GDScript_43neb"]
 script/source = "extends Node2D
 class_name FightEnemyEncounter
+@onready var spawn: Marker2D = $Spawn
 
 @onready var game_manager : GameManager = get_tree().root.get_node(\"Hub\").get_node(\"GameManager\")
+
+const PLAYER_SYSTEM = preload(\"res://playerMovement/player_system.tscn\")
 
 func _ready() -> void:
 	name = \"FightEnemy\"
 	load_player_ship()
-
 
 func _on_warp_pressed() -> void:
 	game_manager.game_quit.emit()
@@ -18,11 +23,14 @@ func _on_warp_pressed() -> void:
 	game_manager._on_map_pressed();
 	game_manager.in_game = false
 
-var player_ship = null
+var player_ship : Ship = null
 func load_player_ship() -> void:
 	var new_ship = SaveLoad.SHIP_PREFAB.instantiate()
 	add_child(new_ship)
 	player_ship = new_ship
+	var player_system = PLAYER_SYSTEM.instantiate()
+	player_ship.add_child(player_system)
+	player_ship.global_position = spawn.global_position
 	
 	var real_path = ProjectSettings.globalize_path(game_manager.current_ship_folder)
 	DirAccess.make_dir_recursive_absolute(real_path)
@@ -33,6 +41,11 @@ func load_player_ship() -> void:
 [node name="FightEnemy" type="Node2D" unique_id=572962363]
 script = SubResource("GDScript_43neb")
 
+[node name="CanvasLayer2" type="CanvasLayer" parent="." unique_id=1641511357]
+layer = -1
+
+[node name="SpaceBackground" parent="CanvasLayer2" unique_id=1650344788 instance=ExtResource("1_6mgqa")]
+
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1955658790]
 
 [node name="Button" type="Button" parent="CanvasLayer" unique_id=1307252014]
@@ -42,5 +55,14 @@ offset_right = 959.0
 offset_bottom = 83.0
 text = "Warp Away
 (Back to Map)"
+
+[node name="Spawn" type="Marker2D" parent="." unique_id=655416207]
+position = Vector2(619, 529)
+
+[node name="Asteroids" parent="." unique_id=464769745 instance=ExtResource("2_xrm1b")]
+position = Vector2(100, -689)
+
+[node name="Asteroids2" parent="." unique_id=996845886 instance=ExtResource("2_xrm1b")]
+position = Vector2(2503, -59)
 
 [connection signal="pressed" from="CanvasLayer/Button" to="." method="_on_warp_pressed"]

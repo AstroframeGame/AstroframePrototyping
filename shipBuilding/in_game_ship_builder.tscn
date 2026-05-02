@@ -31,6 +31,9 @@ text = "Build the ship in preparation for the next level"
 
 [node name="ShipBuilding" parent="." unique_id=1332591370 instance=ExtResource("2_bxbt5")]
 
+[node name="Options" parent="ShipBuilding/UI" parent_id_path=PackedInt32Array(1332591370, 1182429860) index="0" unique_id=551900175]
+visible = false
+
 [connection signal="pressed" from="CanvasLayer/Button" to="." method="_on_warp_pressed"]
 
 [editable path="ShipBuilding"]
