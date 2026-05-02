@@ -4,8 +4,6 @@ extends Node2D
 @onready var back_btn = $CanvasLayer/Options/BackButton
 @onready var encounter_list = $CanvasLayer/Options/EncounterList
 
-@onready var game_manager : GameManager = get_tree().root.get_node("Hub").get_node("GameManager")
-
 @export_file("*.tscn") var encounter_paths: Array[String]
 
 func _ready():
@@ -25,7 +23,7 @@ func _ready():
 		btn.pressed.connect(_on_btn_pressed.bind(path))
 		encounter_list.add_child(btn)
 		
-	game_manager.game_quit.connect(_on_back_pressed)
+	GameManager.game_quit.connect(_on_back_pressed)
 
 func _exit_tree() -> void:
 	for child in encounter_list.get_children():
@@ -34,10 +32,10 @@ func _exit_tree() -> void:
 func _on_back_pressed() -> void:
 	back_btn.visible = false
 	encounter_list.visible = true
-	if game_manager.current_scene and game_manager.current_scene != self:
-		game_manager.current_scene.queue_free()
-		game_manager.current_scene = self
-		game_manager.game_quit.emit()
+	if GameManager.current_scene and GameManager.current_scene != self:
+		GameManager.current_scene.queue_free()
+		GameManager.current_scene = self
+		GameManager.game_quit.emit()
 
 
 signal queued_scene(scene_path: String)
@@ -46,4 +44,4 @@ func _on_btn_pressed(path: String) -> void:
 	encounter_list.visible = false
 	
 	queued_scene.emit(path)
-	game_manager.load_scene(path)
+	GameManager.load_scene(path)

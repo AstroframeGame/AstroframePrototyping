@@ -248,12 +248,11 @@ func take_damage(damage : int, _vfx_pos:Vector2):
 		return
 	else:
 		input_enabled = false
-		var gm : GameManager = get_tree().root.get_node("Hub").get_node("GameManager")
 		
-		gm.dialogue_runner.start([["You", "*ack"], ["You","*bleh"]])
-		await gm.dialogue_runner.on_dialogue_end
-		gm.quit_to_list()
-		gm.menus.open_menu("GameOver")
+		GameManager.dialogue_runner.start([["You", "*ack"], ["You","*bleh"]])
+		await GameManager.dialogue_runner.on_dialogue_end
+		GameManager.quit_to_list()
+		GameManager.menus.open_menu("GameOver")
 
 func seppuku():
 	take_damage(999, global_position)

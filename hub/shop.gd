@@ -1,10 +1,9 @@
-extends CanvasLayer
+extends Node2D
 class_name Shop
 
 
-
 func _ready() -> void:
-	pass # Replace with function body.
+	MenuManager.open_menu($Shop.get_path())
 
 func generate():
 	pass

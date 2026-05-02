@@ -38,7 +38,7 @@ layout_mode = 0
 offset_left = 50.0
 offset_top = 19.0
 offset_right = 355.0
-offset_bottom = 53.0
+offset_bottom = 67.0
 theme = ExtResource("3_ghpxn")
 text = "Name"
 scroll_active = false
@@ -70,3 +70,34 @@ offset_top = -24.40001
 offset_right = 61.441994
 offset_bottom = -2.4000092
 text = "[G] To continue"
+
+[node name="Background" type="NinePatchRect" parent="Background" unique_id=1108455119]
+self_modulate = Color(0.2382622, 0.2382622, 0.23826218, 1)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 585.0
+offset_top = -73.0
+offset_right = 653.0
+offset_bottom = -10.0
+grow_vertical = 0
+texture = ExtResource("2_munst")
+
+[node name="Label" type="Label" parent="Background/Background" unique_id=8106258]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -35.5
+offset_top = -36.0
+offset_right = 35.5
+offset_bottom = 36.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 40
+text = "G"
+horizontal_alignment = 1
+vertical_alignment = 1

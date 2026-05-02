@@ -39,7 +39,6 @@ var npcs_with_dialogue: Array	# defined in child, npcs with dialogue
 var dialogue: Dictionary		# hold dictionary for quick lookup 
 
 # globals
-var gm : GameManager
 var dialouge_runner : DialougeRunner
 
 # completion
@@ -80,8 +79,7 @@ func _process(_delta):
 
 func preload_scene_dialogue():
 	# get dialogue system
-	gm = get_tree().root.get_node("Hub").get_node("GameManager")
-	dialouge_runner = gm.dialogue_runner
+	dialouge_runner = GameManager.dialogue_runner
 
 	for npc in npcs_with_dialogue:
 		dialogue[npc.name] = LevelStateManager.load_dictionary("%s/dialogue/%s.json" % [enc_base_dir, npc.name])

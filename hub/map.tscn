@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://cv6uw64m0yb8v"]
+
+[ext_resource type="Script" uid="uid://dhue4foeh8o0i" path="res://hub/map.gd" id="1_x8lq2"]
+[ext_resource type="PackedScene" uid="uid://dfy5icnvg7ysi" path="res://art/background/space_bg_2.tscn" id="2_bwp50"]
+
+[node name="Map" type="Node2D" unique_id=108760989]
+script = ExtResource("1_x8lq2")
+scene_paths = Array[String](["res://encounter/encounters/FightEnemy/FightEnemy.tscn"])
+
+[node name="Map" type="CanvasLayer" parent="." unique_id=1053790305]
+visible = false
+
+[node name="SpaceBackground" parent="Map" unique_id=1650344788 instance=ExtResource("2_bwp50")]
+color = Color(0.22959325, 0.22959325, 0.22959322, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Map" unique_id=1913925793]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -68.0
+offset_top = -83.0
+offset_right = 68.0
+offset_bottom = 83.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Map/VBoxContainer" unique_id=1867789480]
+layout_mode = 2
+text = "Choose Room"
+
+[node name="Label" type="Label" parent="Map" unique_id=638402991]
+offset_left = 247.0
+offset_top = 453.0
+offset_right = 627.0
+offset_bottom = 489.0
+text = "We have a map in the works.
+This will have progression"

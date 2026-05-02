@@ -1,7 +1,5 @@
 extends VBoxContainer
 
-
-@onready var game_manager: GameManager = $"../../../../GameManager"
 const UNSTYLED = preload("res://hub/ui-themes/unstyled.tres")
 
 
@@ -22,4 +20,4 @@ func _ready() -> void:
 
 func _on_btn_pressed(path: String) -> void:
 	#load_scene(path)
-	game_manager.load_scene(path)
+	GameManager.load_scene(path)

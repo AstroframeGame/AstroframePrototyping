@@ -1,0 +1,227 @@
+[gd_scene format=3 uid="uid://i7567qj6f8e2"]
+
+[ext_resource type="Script" uid="uid://io2qs57g5xic" path="res://hub/menu_manager.gd" id="1_ex5hk"]
+[ext_resource type="Theme" uid="uid://dj12nct3i1b1i" path="res://hub/ui-themes/header.tres" id="4_o5ar3"]
+[ext_resource type="Theme" uid="uid://2b3w3cdm6v0b" path="res://hub/ui-themes/title.tres" id="5_yp7aw"]
+[ext_resource type="PackedScene" uid="uid://c7h5fcycvrbqe" path="res://art/background/space_background.tscn" id="14_l1r5v"]
+[ext_resource type="Texture2D" uid="uid://bfknaix65fust" path="res://hub/ui_textures/sci_fi_frame.svg" id="15_fmr3c"]
+[ext_resource type="Script" uid="uid://dkw41dpjcbrwa" path="res://accessibilitySettings/colorblind_shader.gd" id="16_c0jhi"]
+[ext_resource type="Shader" uid="uid://dv6l2vd0xplhh" path="res://hub/colorblind.gdshader" id="17_vvaa4"]
+[ext_resource type="PackedScene" uid="uid://df01kfwope6hn" path="res://encounter/managers/dialogue/dialogue_runner.tscn" id="18_g05kk"]
+[ext_resource type="Shortcut" uid="uid://cxr4abnflfkf5" path="res://hub/back_shortcut.tres" id="19_q6jyl"]
+[ext_resource type="PackedScene" uid="uid://c4c4q35vwjc06" path="res://accessibilitySettings/settings_menu.tscn" id="21_7bhh2"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gjoju"]
+shader = ExtResource("17_vvaa4")
+shader_parameter/mode = 0
+shader_parameter/intensity = 1.0
+
+[node name="MenuManager" type="Node" unique_id=837794187]
+script = ExtResource("1_ex5hk")
+
+[node name="Loading" type="CanvasLayer" parent="." unique_id=1185773089]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="Loading" unique_id=185744733]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="SpaceBackground" parent="Loading" unique_id=2012702778 instance=ExtResource("14_l1r5v")]
+modulate = Color(0.18431373, 0.18431373, 0.18431373, 1)
+
+[node name="Label2" type="Label" parent="Loading" unique_id=1979968948]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -177.5
+offset_top = -30.0
+offset_right = 177.5
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_o5ar3")
+theme_override_font_sizes/font_size = 48
+text = "Loading - 100%"
+
+[node name="LoadProgress" type="TextureProgressBar" parent="Loading" unique_id=1000233688]
+clip_children = 2
+clip_contents = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -64.0
+offset_right = 400.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+value = 46.0
+nine_patch_stretch = true
+stretch_margin_left = 64
+stretch_margin_top = 64
+stretch_margin_right = 64
+stretch_margin_bottom = 64
+texture_progress = ExtResource("15_fmr3c")
+
+[node name="Label" type="Label" parent="Loading/LoadProgress" unique_id=1219470625]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.0
+offset_right = 20.0
+offset_bottom = 11.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_o5ar3")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 48
+text = "Loading - 100%"
+
+[node name="Game" type="CanvasLayer" parent="." unique_id=1950618883]
+visible = false
+script = ExtResource("16_c0jhi")
+
+[node name="AccessibilityShaderColorRect" type="ColorRect" parent="Game" unique_id=807400442]
+texture_filter = 4
+material = SubResource("ShaderMaterial_gjoju")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="DialogueRunner" parent="Game" unique_id=314417777 instance=ExtResource("18_g05kk")]
+
+[node name="Paused" type="CanvasLayer" parent="." unique_id=1752794489]
+
+[node name="ColorRect" type="ColorRect" parent="Paused" unique_id=241172348]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.15, 0.15, 0.15, 0.5019608)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Paused" unique_id=188287614]
+anchors_preset = -1
+anchor_left = 0.423
+anchor_top = 0.33800003
+anchor_right = 0.574
+anchor_bottom = 0.68100005
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Paused/VBoxContainer" unique_id=1408403251]
+layout_mode = 2
+theme = ExtResource("4_o5ar3")
+theme_override_font_sizes/font_size = 72
+text = "Paused"
+horizontal_alignment = 1
+
+[node name="ResumeGame" type="Button" parent="Paused/VBoxContainer" unique_id=489130052]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+shortcut = ExtResource("19_q6jyl")
+text = "Resume Game"
+
+[node name="Settings" type="Button" parent="Paused/VBoxContainer" unique_id=2082498154]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Settings"
+
+[node name="Exit" type="Button" parent="Paused/VBoxContainer" unique_id=71829403]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Back to Menu"
+
+[node name="GameOver" type="CanvasLayer" parent="." unique_id=265938659]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="GameOver" unique_id=1773949573]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.14333999, 0.14333999, 0.14333999, 1)
+
+[node name="Back" type="Button" parent="GameOver" unique_id=107411140]
+offset_right = 48.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 50
+shortcut = ExtResource("19_q6jyl")
+text = "Back"
+
+[node name="Label" type="Label" parent="GameOver" unique_id=1019586674]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -188.5
+offset_top = -69.5
+offset_right = 188.5
+offset_bottom = 69.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("5_yp7aw")
+text = "Game
+Over"
+horizontal_alignment = 1
+
+[node name="Settings" type="CanvasLayer" parent="." unique_id=912366989]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="Settings" unique_id=1506273427]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.14333999, 0.14333999, 0.14333999, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="Settings" unique_id=527097853]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Settings/MarginContainer" unique_id=1276129923]
+layout_mode = 2
+
+[node name="Back" type="Button" parent="Settings/MarginContainer/VBoxContainer" unique_id=1191616146]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 45
+shortcut = ExtResource("19_q6jyl")
+text = "Back"
+
+[node name="SettingsMenu" parent="Settings/MarginContainer/VBoxContainer" unique_id=896450783 instance=ExtResource("21_7bhh2")]
+layout_mode = 2
+
+[connection signal="pressed" from="Paused/VBoxContainer/ResumeGame" to="." method="unpause_game"]
+[connection signal="pressed" from="Paused/VBoxContainer/Settings" to="." method="open_settings"]
+[connection signal="pressed" from="Paused/VBoxContainer/Exit" to="." method="quit_to_main_menu"]
+[connection signal="pressed" from="Settings/MarginContainer/VBoxContainer/Back" to="." method="back"]

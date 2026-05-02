@@ -1,0 +1,210 @@
+[gd_scene format=3 uid="uid://bnyv4aemjnw83"]
+
+[ext_resource type="PackedScene" uid="uid://dfy5icnvg7ysi" path="res://art/background/space_bg_2.tscn" id="1_mqc10"]
+[ext_resource type="Script" uid="uid://8b8cetlb1rso" path="res://hub/main_menu.gd" id="1_t1tj4"]
+[ext_resource type="Script" uid="uid://y07ne4p2xbui" path="res://hub/scene_list.gd" id="2_rfino"]
+[ext_resource type="Theme" uid="uid://dj12nct3i1b1i" path="res://hub/ui-themes/header.tres" id="3_0rmb7"]
+[ext_resource type="Theme" uid="uid://2b3w3cdm6v0b" path="res://hub/ui-themes/title.tres" id="4_t1tj4"]
+[ext_resource type="Script" uid="uid://lijk0e4kv030" path="res://hub/web_link.gd" id="5_2xbqv"]
+[ext_resource type="Texture2D" uid="uid://glx4q4luv7hn" path="res://hub/menu_icons/icons8-folder-64.png" id="6_ob1x1"]
+[ext_resource type="Texture2D" uid="uid://bg7uxubeu3w86" path="res://hub/menu_icons/icons8-github-64.png" id="7_1jfwu"]
+[ext_resource type="Texture2D" uid="uid://b23gbp5po1yfg" path="res://hub/menu_icons/icons8-instagram-64.png" id="8_nfcq4"]
+[ext_resource type="Texture2D" uid="uid://coig43j1t7xss" path="res://hub/menu_icons/icons8-discord-64.png" id="9_k6xpt"]
+[ext_resource type="Texture2D" uid="uid://c856slvu6oqjm" path="res://hub/menu_icons/icons8-mute-64.png" id="10_ppsly"]
+[ext_resource type="Script" uid="uid://cwdlnpq52j4tm" path="res://hub/mute_button.gd" id="11_8nwx8"]
+[ext_resource type="Script" uid="uid://bv7o3v11xjcyp" path="res://hub/preview_continue.gd" id="12_cbmfl"]
+[ext_resource type="Shortcut" uid="uid://cxr4abnflfkf5" path="res://hub/back_shortcut.tres" id="13_0rmb7"]
+[ext_resource type="Script" uid="uid://cw7don71np0bg" path="res://hub/credits.gd" id="14_t1tj4"]
+
+[node name="MainMenu" type="Node2D" unique_id=557516546]
+script = ExtResource("1_t1tj4")
+
+[node name="Main" type="CanvasLayer" parent="." unique_id=1492954691]
+
+[node name="SpaceBackground" parent="Main" unique_id=1650344788 instance=ExtResource("1_mqc10")]
+color = Color(0.22959325, 0.22959325, 0.22959322, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main" unique_id=807595123]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -123.5
+offset_top = -178.0
+offset_right = 123.5
+offset_bottom = 178.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Continue" type="Button" parent="Main/VBoxContainer" unique_id=2080724727]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Continue"
+
+[node name="New" type="Button" parent="Main/VBoxContainer" unique_id=1622676919]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "New Game"
+
+[node name="Editor" type="Button" parent="Main/VBoxContainer" unique_id=95044027]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Ship Editor"
+
+[node name="Settings" type="Button" parent="Main/VBoxContainer" unique_id=1478409105]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Settings"
+
+[node name="Credits" type="Button" parent="Main/VBoxContainer" unique_id=1779004099]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Credits"
+
+[node name="Quit" type="Button" parent="Main/VBoxContainer" unique_id=589951402]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Quit"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Main" unique_id=1104667411]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 43.0
+offset_top = 92.0
+offset_right = -1325.0
+offset_bottom = -103.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SceneList" type="VBoxContainer" parent="Main/ScrollContainer" unique_id=882700656]
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("2_rfino")
+scene_paths = Array[String](["uid://c7ti17oj2ofyn", "uid://bkibqvfep8px0", "uid://c752nipt4tmop", "uid://bi6bllil67sau", "uid://dthcyp01ao5y8", "uid://ci700nfmrtxsd", "uid://cawa4uqnnlqd", "uid://drujdcxau6xfy", "uid://chtt78xbee5cw"])
+
+[node name="Header" type="Label" parent="Main/ScrollContainer/SceneList" unique_id=149995587]
+layout_mode = 2
+theme = ExtResource("3_0rmb7")
+text = "Test Scenes"
+horizontal_alignment = 1
+
+[node name="Titile" type="Label" parent="Main" unique_id=2002967055]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -188.0
+offset_top = 92.0
+offset_right = 189.0
+offset_bottom = 231.0
+grow_horizontal = 2
+theme = ExtResource("4_t1tj4")
+theme_override_font_sizes/font_size = 90
+text = "Astro
+Frame"
+horizontal_alignment = 1
+
+[node name="Socials" type="HBoxContainer" parent="Main" unique_id=1110668072]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -304.0
+offset_top = -99.0
+offset_right = -36.0
+offset_bottom = -35.0
+grow_horizontal = 0
+grow_vertical = 0
+alignment = 2
+script = ExtResource("5_2xbqv")
+
+[node name="Ships" type="TextureButton" parent="Main/Socials" unique_id=527733622]
+layout_mode = 2
+texture_normal = ExtResource("6_ob1x1")
+
+[node name="Github" type="TextureButton" parent="Main/Socials" unique_id=1235668438]
+layout_mode = 2
+texture_normal = ExtResource("7_1jfwu")
+
+[node name="Insta" type="TextureButton" parent="Main/Socials" unique_id=1996109383]
+layout_mode = 2
+texture_normal = ExtResource("8_nfcq4")
+
+[node name="Discord" type="TextureButton" parent="Main/Socials" unique_id=2056057967]
+layout_mode = 2
+texture_normal = ExtResource("9_k6xpt")
+
+[node name="Mute" type="TextureButton" parent="Main" unique_id=2124237505]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -79.0
+offset_top = 33.0
+offset_right = -15.0
+offset_bottom = 97.0
+grow_horizontal = 0
+scale = Vector2(0.5, 0.5)
+texture_normal = ExtResource("10_ppsly")
+script = ExtResource("11_8nwx8")
+
+[node name="PreviewShip" type="Control" parent="Main" unique_id=1035382159]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 364.0
+offset_top = 509.0
+offset_right = 404.0
+offset_bottom = 549.0
+script = ExtResource("12_cbmfl")
+
+[node name="Credits" type="CanvasLayer" parent="." unique_id=285168126]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="Credits" unique_id=2062766908]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.14333999, 0.14333999, 0.14333999, 1)
+
+[node name="Back" type="Button" parent="Credits" unique_id=1414868785]
+offset_right = 8.0
+offset_bottom = 8.0
+theme_override_font_sizes/font_size = 50
+shortcut = ExtResource("13_0rmb7")
+text = "Back"
+
+[node name="MarginContainer" type="MarginContainer" parent="Credits" unique_id=1066945669]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 100
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Credits/MarginContainer" unique_id=1926059335]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Credits/MarginContainer/ScrollContainer" unique_id=1989826413]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+script = ExtResource("14_t1tj4")
+
+[connection signal="pressed" from="Main/VBoxContainer/Continue" to="." method="continue_game"]
+[connection signal="pressed" from="Main/VBoxContainer/New" to="." method="new_game"]
+[connection signal="pressed" from="Main/VBoxContainer/Editor" to="." method="open_ship_editor"]
+[connection signal="pressed" from="Main/VBoxContainer/Settings" to="." method="open_settings"]
+[connection signal="pressed" from="Main/VBoxContainer/Credits" to="." method="open_credits"]
+[connection signal="pressed" from="Main/VBoxContainer/Quit" to="." method="quit_application"]
+[connection signal="pressed" from="Main/Socials/Ships" to="Main/Socials" method="ships_folder"]
+[connection signal="pressed" from="Main/Socials/Github" to="Main/Socials" method="github"]
+[connection signal="pressed" from="Main/Socials/Insta" to="Main/Socials" method="instagram"]
+[connection signal="pressed" from="Main/Socials/Discord" to="Main/Socials" method="discord"]

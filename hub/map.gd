@@ -1,14 +1,14 @@
-extends CanvasLayer
+extends Node2D
 class_name Map
 
 const UNSTYLED = preload("res://hub/ui-themes/unstyled.tres")
 
-@onready var game_manager : GameManager = $"../../GameManager"
-@onready var button_container = $VBoxContainer
+@onready var button_container = $Map/VBoxContainer
 
-@export var scene_paths: Array[String]
+@export_file_path(".tscn") var scene_paths: Array[String]
 
 func _ready() -> void:
+	MenuManager.open_menu($Map.get_path())
 	
 	for path in scene_paths:
 		var btn = Button.new()
@@ -25,7 +25,5 @@ func generate_map():
 	pass
 	
 func start_level(level_path : String):
-	game_manager.queued_scene = level_path
-	game_manager.load_scene("res://shipBuilding/in_game_ship_builder.tscn")
-	
-	
+	GameManager.queued_scene = level_path
+	GameManager.load_scene("res://shipBuilding/in_game_ship_builder.tscn")
