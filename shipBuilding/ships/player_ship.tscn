@@ -2,15 +2,15 @@
 
 [ext_resource type="Script" uid="uid://bsurseo1hgudf" path="res://shipBuilding/ship.gd" id="1_p0yqi"]
 [ext_resource type="PackedScene" uid="uid://c2n7netp00xn6" path="res://shipBuilding/prefabs/hex_grid.tscn" id="2_6phvi"]
-[ext_resource type="PackedScene" uid="uid://cebf4gqkt7jib" path="res://shipBuilding/rooms/engines_2.tscn" id="3_7bs0d"]
-[ext_resource type="PackedScene" uid="uid://cplmkay6ecshy" path="res://shipBuilding/rooms/reactor_4.tscn" id="5_gug6e"]
-[ext_resource type="PackedScene" uid="uid://qteo7ksf47a4" path="res://shipBuilding/rooms/piloting_1.tscn" id="7_alusj"]
-[ext_resource type="PackedScene" uid="uid://dir8uoqft75m0" path="res://shipBuilding/rooms/airlock_1.tscn" id="9_pe0wh"]
-[ext_resource type="PackedScene" uid="uid://dffynorp3oc0l" path="res://shipBuilding/rooms/shields_3.tscn" id="11_sts7a"]
-[ext_resource type="PackedScene" uid="uid://daycij2kxk7dj" path="res://shipBuilding/rooms/turret_3.tscn" id="13_x5mbe"]
-[ext_resource type="PackedScene" uid="uid://bmfrsjjfduwqn" path="res://shipBuilding/rooms/cannon.tscn" id="15_hpc5b"]
+[ext_resource type="PackedScene" uid="uid://cebf4gqkt7jib" path="res://shipBuilding/rooms/old/engines_2.tscn" id="3_7bs0d"]
+[ext_resource type="PackedScene" uid="uid://cplmkay6ecshy" path="res://shipBuilding/rooms/old/reactor_4.tscn" id="5_gug6e"]
+[ext_resource type="PackedScene" uid="uid://qteo7ksf47a4" path="res://shipBuilding/rooms/old/piloting_1.tscn" id="7_alusj"]
+[ext_resource type="PackedScene" uid="uid://dir8uoqft75m0" path="res://shipBuilding/rooms/old/airlock_1.tscn" id="9_pe0wh"]
+[ext_resource type="PackedScene" uid="uid://dffynorp3oc0l" path="res://shipBuilding/rooms/old/shields_3.tscn" id="11_sts7a"]
+[ext_resource type="PackedScene" uid="uid://daycij2kxk7dj" path="res://shipBuilding/rooms/old/turret_3.tscn" id="13_x5mbe"]
+[ext_resource type="PackedScene" uid="uid://bmfrsjjfduwqn" path="res://shipBuilding/rooms/old/cannon.tscn" id="15_hpc5b"]
 [ext_resource type="PackedScene" uid="uid://daae3tloj435m" path="res://shipAI/prefabs/hud.tscn" id="15_pe0wh"]
-[ext_resource type="PackedScene" uid="uid://8plbkd62xtgy" path="res://shipBuilding/rooms/hull_1.tscn" id="17_b8dep"]
+[ext_resource type="PackedScene" uid="uid://8plbkd62xtgy" path="res://shipBuilding/rooms/old/hull_1.tscn" id="17_b8dep"]
 
 [sub_resource type="TileSet" id="TileSet_xsh4c"]
 tile_shape = 3

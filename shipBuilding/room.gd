@@ -6,12 +6,12 @@ signal on_power_level_change(room : Room)
 
 @export var durability = 10
 @export var original_color : Color
-@onready var roof: Node2D = $Roof
+
 
 var blink_sfx_timer : Timer
 
 func _ready() -> void:
-	roof.z_index = 10
+
 	original_color = modulate
 	blink_sfx_timer = Timer.new()
 	blink_sfx_timer.wait_time = 0.4
@@ -58,38 +58,6 @@ func get_out_hexes() -> Array[PowerOutHex]:
 	return hexes
 #endregion
 
-#region Upgrading / Augmentation
-@export var augments : Array[Augment]
-## return index of augment in Augments Array
-func augment_in_list(type:Variant)->int:
-	for augment in augments:
-		# needs better solution but how many times is someone
-		# going to keep the base but repeatedly redo/undo
-		# an augment ¯\_(ツ)_/¯
-		if augment == null:
-			continue
-		if is_instance_of(augment, type):
-			return augments.find(augment)
-	return -1
-
-func at_augment_limit(type:Variant, limit:int)->bool:
-	var count = 0
-	for augment in augments:
-		if augment == null:
-			continue
-		if is_instance_of(augment, type):
-			count += 1
-	return count == limit
-
-func pair_augments(augment_type:Variant)->void:
-	ship.update_occupied_cells()
-	for neighbor in ship.find_neighbors(self):
-		if is_instance_of(neighbor, augment_type):
-			if not neighbor.at_augment_limit(augment_type, 1): # temp
-				neighbor.target_rooms.append(self)
-				augments.append(neighbor)
-#endregion
-
 #region VFX
 func blink_red():
 	if blink_sfx_timer.time_left>0:
@@ -99,4 +67,13 @@ func blink_red():
 	await blink_sfx_timer.timeout
 	modulate = original_color
 	blink_sfx_timer.start()
+#endregion
+
+#region Walls
+func get_walls() -> Array[Wall]:
+	var walls: Array[Wall] = []
+	for child in get_children():
+		if child is Wall:
+			walls.append(child)
+	return walls
 #endregion

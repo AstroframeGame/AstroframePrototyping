@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://dtb7wj0p30h8s"]
+
+[ext_resource type="Script" uid="uid://dkhvkq4ulm3fg" path="res://shipBuilding/walls/wall.gd" id="1_5pqkn"]
+[ext_resource type="Texture2D" uid="uid://qpea6dcya76s" path="res://icon.svg" id="1_eht1q"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5pqkn"]
+size = Vector2(8, 51)
+
+[node name="Wall" type="CollisionShape2D" unique_id=1174148747]
+shape = SubResource("RectangleShape2D_5pqkn")
+script = ExtResource("1_5pqkn")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1138030345]
+position = Vector2(-2.3841858e-07, -1.9073486e-06)
+scale = Vector2(0.062499996, 0.40625)
+texture = ExtResource("1_eht1q")
