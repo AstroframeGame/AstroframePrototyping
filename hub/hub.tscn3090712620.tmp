@@ -21,7 +21,7 @@
 [ext_resource type="Texture2D" uid="uid://bfknaix65fust" path="res://hub/ui_textures/sci_fi_frame.svg" id="15_dy4r6"]
 [ext_resource type="Shader" uid="uid://dv6l2vd0xplhh" path="res://hub/colorblind.gdshader" id="15_mmyqo"]
 [ext_resource type="PackedScene" uid="uid://c4c4q35vwjc06" path="res://accessibilitySettings/settings_menu.tscn" id="15_qui64"]
-[ext_resource type="Script" path="res://hub/credits.gd" id="17_bg8wc"]
+[ext_resource type="Script" uid="uid://cw7don71np0bg" path="res://hub/credits.gd" id="17_bg8wc"]
 [ext_resource type="Texture2D" uid="uid://cjtj7xo6f6waa" path="res://shipBuilding/icons/torus.png" id="17_qui64"]
 [ext_resource type="Shortcut" uid="uid://cxr4abnflfkf5" path="res://hub/back_shortcut.tres" id="21_mjlfl"]
 [ext_resource type="PackedScene" uid="uid://fdqa02uc4vk1" path="res://shipBuilding/prefabs/room_button.tscn" id="22_1uc81"]
@@ -104,10 +104,8 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Quit"
 
-[node name="Map" type="Button" parent="UI/Main/VBoxContainer" unique_id=1231070630]
+[node name="Map" type="Button" parent="UI/Main/VBoxContainer" unique_id=1293637618]
 layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "Map"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="UI/Main" unique_id=1549920906]
 anchors_preset = 15
@@ -409,32 +407,20 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.14333999, 0.14333999, 0.14333999, 1)
 
-[node name="MarginContainer" type="MarginContainer" parent="UI/Settings" unique_id=1773679342]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 50
-theme_override_constants/margin_top = 50
-theme_override_constants/margin_right = 50
-theme_override_constants/margin_bottom = 50
+[node name="SettingsMenu" parent="UI/Settings" unique_id=1472990964 instance=ExtResource("15_qui64")]
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/Settings/MarginContainer" unique_id=342795834]
-layout_mode = 2
-
-[node name="Back" type="Button" parent="UI/Settings/MarginContainer/VBoxContainer" unique_id=1581757141]
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-theme_override_font_sizes/font_size = 45
+[node name="Back" type="Button" parent="UI/Settings" unique_id=1581757141]
+offset_right = 48.0
+offset_bottom = 30.0
+size_flags_horizontal = 10
+size_flags_vertical = 10
+theme_override_font_sizes/font_size = 50
 shortcut = ExtResource("21_mjlfl")
 text = "Back"
 
-[node name="SettingsMenu" parent="UI/Settings/MarginContainer/VBoxContainer" unique_id=1472990964 instance=ExtResource("15_qui64")]
 [node name="Map" type="CanvasLayer" parent="UI" unique_id=242203958]
 script = ExtResource("22_eexr5")
-scene_paths = Array[String](["res://encounter/encounters/__DEMO_LOCATION/0_1_DEMO/0_1_DEMO.tscn", "res://encounter/encounters/FightEnemy/FightEnemy.tscn"])
+scene_path = null
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/Map" unique_id=1171980726]
 anchors_preset = 8
@@ -452,6 +438,26 @@ grow_vertical = 2
 [node name="Label" type="Label" parent="UI/Map/VBoxContainer" unique_id=408458640]
 layout_mode = 2
 text = "Choose Room"
+
+[node name="Button" type="Button" parent="UI/Map/VBoxContainer" unique_id=1941605181]
+layout_mode = 2
+text = "Fight enemies"
+
+[node name="Button2" type="Button" parent="UI/Map/VBoxContainer" unique_id=1641742180]
+layout_mode = 2
+text = "Fight pirates"
+
+[node name="Button3" type="Button" parent="UI/Map/VBoxContainer" unique_id=1484408849]
+layout_mode = 2
+text = "Find Scrap"
+
+[node name="Button4" type="Button" parent="UI/Map/VBoxContainer" unique_id=1617437266]
+layout_mode = 2
+text = "Destroy outpost"
+
+[node name="Button5" type="Button" parent="UI/Map/VBoxContainer" unique_id=380975144]
+layout_mode = 2
+text = "Shop"
 
 [node name="Shop" type="CanvasLayer" parent="UI" unique_id=915073947]
 visible = false
@@ -517,7 +523,6 @@ environment = SubResource("Environment_21dlm")
 [connection signal="pressed" from="UI/Main/VBoxContainer/Settings" to="GameManager" method="_on_settings_pressed"]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Credits" to="UI" method="open_menu" binds= [&"Credits"]]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Quit" to="GameManager" method="quit_application"]
-[connection signal="pressed" from="UI/Main/VBoxContainer/Map" to="GameManager" method="_on_map_pressed"]
 [connection signal="pressed" from="UI/Main/Socials/Ships" to="UI/Main/Socials" method="ships_folder"]
 [connection signal="pressed" from="UI/Main/Socials/Github" to="UI/Main/Socials" method="github"]
 [connection signal="pressed" from="UI/Main/Socials/Insta" to="UI/Main/Socials" method="instagram"]
@@ -527,4 +532,9 @@ environment = SubResource("Environment_21dlm")
 [connection signal="pressed" from="UI/Paused/VBoxContainer/Exit" to="GameManager" method="quit_to_list"]
 [connection signal="pressed" from="UI/GameOver/Back" to="GameManager" method="menu_back"]
 [connection signal="pressed" from="UI/Credits/Back" to="GameManager" method="menu_back"]
-[connection signal="pressed" from="UI/Settings/MarginContainer/VBoxContainer/Back" to="GameManager" method="menu_back"]
+[connection signal="pressed" from="UI/Settings/Back" to="GameManager" method="menu_back"]
+[connection signal="pressed" from="UI/Map/VBoxContainer/Button" to="UI/Map" method="_on_btn_pressed"]
+[connection signal="pressed" from="UI/Map/VBoxContainer/Button2" to="UI/Map" method="_on_btn_pressed"]
+[connection signal="pressed" from="UI/Map/VBoxContainer/Button3" to="UI/Map" method="_on_btn_pressed"]
+[connection signal="pressed" from="UI/Map/VBoxContainer/Button4" to="UI/Map" method="_on_btn_pressed"]
+[connection signal="pressed" from="UI/Map/VBoxContainer/Button5" to="UI/Map" method="_on_btn_pressed"]

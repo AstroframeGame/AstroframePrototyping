@@ -39,7 +39,11 @@ func _on_back_pressed() -> void:
 		game_manager.current_scene = self
 		game_manager.game_quit.emit()
 
+
+signal queued_scene(scene_path: String)
 func _on_btn_pressed(path: String) -> void:
 	back_btn.visible = true
 	encounter_list.visible = false
+	
+	queued_scene.emit(path)
 	game_manager.load_scene(path)
