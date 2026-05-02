@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://q2xbgli7wqkw"]
+[gd_scene format=3 uid="uid://bspmr0r5lnkvp"]
 
-[ext_resource type="Script" uid="uid://crgm77ga0tu4f" path="res://shipBuilding/room_scripts/aim_augment.gd" id="1_jqip6"]
+[ext_resource type="Script" uid="uid://vo6mtf68wgee" path="res://shipBuilding/room.gd" id="1_qaepd"]
 [ext_resource type="PackedScene" uid="uid://dmgvcp6y668bi" path="res://shipBuilding/hexes/input_hex.tscn" id="2_xlycq"]
 [ext_resource type="Texture2D" uid="uid://cy1qddyuc5fyp" path="res://shipBuilding/icons/tile_horizontal.png" id="3_jqip6"]
 [ext_resource type="Texture2D" uid="uid://ca8nd1hwh6s4o" path="res://art/rooms/aim/aim_corecolor.svg" id="4_s1ihw"]
@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://c6hr28f15ovd8" path="res://art/rooms/aim/aim_interior.svg" id="7_2aqm0"]
 
 [node name="Aim_Augment_2" type="Node2D" unique_id=1056768738]
-script = ExtResource("1_jqip6")
+script = ExtResource("1_qaepd")
 
 [node name="Label" type="Label" parent="." unique_id=1474880523]
 offset_left = 3.0

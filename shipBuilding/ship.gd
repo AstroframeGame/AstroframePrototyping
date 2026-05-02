@@ -638,9 +638,9 @@ func my_character_inside() -> bool:
 	return false
 
 # interactor will be null if the editor calls this 
-func set_exterior_visible(_interactor : CharacterBody2D, entered : bool):
+func set_exterior_visible(_interactor : CharacterBody2D, _entered : bool):
 	if not my_character_inside() and _interactor != null:
-		entered = false
+		_entered = false
 	for r in get_children():
 		if r is Room:
 			pass

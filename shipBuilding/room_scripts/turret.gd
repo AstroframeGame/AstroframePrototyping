@@ -7,10 +7,6 @@ var targets_in_range : Array[Ship] = []
 
 func _process(_delta: float) -> void:
 	if enemy_target == null:
-
-func handle_input(event:InputEvent):
-	if not power_level > 0:
-		blink_red()
 		return
 	gun.gunSprite.look_at(enemy_target.global_position)
 	gun.shoot(10)
