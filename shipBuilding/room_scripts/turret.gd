@@ -7,8 +7,6 @@ var targets_in_range : Array[Ship] = []
 func _ready() -> void:
 	super._ready()
 	# pair to a nearby aim augment if available
-	if ship:
-		pair_augments(Aim_Augment)
 
 func handle_input(event:InputEvent):
 	if not power_level > 0:
@@ -30,25 +28,13 @@ func _on_detection_range_body_entered(body: Node2D) -> void:
 		return
 	if not body is Ship or body == ship:
 		return
-	var aim_aug = augment_in_list(Aim_Augment)
-	if aim_aug == -1 or augments[aim_aug].enemy_target:
-		return
-	augments[aim_aug].enemy_target = body
+	
 	targets_in_range.append(body as Ship)
 
 func _on_detection_range_body_exited(body: Node2D) -> void:
 	if body is Ship:
 		targets_in_range.erase(body as Ship)
 		
-	var aim_aug = augment_in_list(Aim_Augment)
-	if aim_aug == -1:
-		return
-	
-	if body == augments[aim_aug].enemy_target:
-		if targets_in_range.size() > 0:
-			augments[aim_aug].enemy_target = closest_target()
-		else:
-			augments[aim_aug].enemy_target = null
 
 func closest_target()->Ship:
 	var closest = targets_in_range[0]

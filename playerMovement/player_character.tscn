@@ -1,9 +1,12 @@
 [gd_scene format=3 uid="uid://chnvndt3w3heq"]
 
 [ext_resource type="Script" uid="uid://bvtrly1u1q4h7" path="res://playerMovement/player.gd" id="1_r0exs"]
-[ext_resource type="Texture2D" uid="uid://idculymd1355" path="res://playerMovement/person.png" id="2_3pww0"]
 [ext_resource type="Script" uid="uid://bh8epk5lqpukf" path="res://playerMovement/grapple.gd" id="2_me87i"]
 [ext_resource type="PackedScene" uid="uid://oar1of8mix7f" path="res://playerCombat/Handgun.tscn" id="3_me87i"]
+[ext_resource type="PackedScene" uid="uid://ctgprf5ma8tr0" path="res://art/characters/player_visual.tscn" id="5_me87i"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_3pww0"]
+viewport_path = NodePath("SubViewport")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qi68c"]
 
@@ -29,7 +32,7 @@ script = ExtResource("2_me87i")
 
 [node name="Person" type="Sprite2D" parent="." unique_id=386810011]
 scale = Vector2(0.1, 0.1)
-texture = ExtResource("2_3pww0")
+texture = SubResource("ViewportTexture_3pww0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1298068473]
 position = Vector2(0, 16)
@@ -59,3 +62,8 @@ collision_layer = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyCheck" unique_id=1850763324]
 shape = SubResource("CircleShape2D_3pww0")
 debug_color = Color(0.99794203, 0, 0.06582811, 0)
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=669203051]
+transparent_bg = true
+
+[node name="Node3D" parent="SubViewport" unique_id=1354843945 instance=ExtResource("5_me87i")]

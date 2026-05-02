@@ -4,9 +4,10 @@
 [ext_resource type="PackedScene" path="res://shipBuilding/ships/FACTION_PATROL.tscn" id="2_7k785"]
 [ext_resource type="PackedScene" uid="uid://c7h5fcycvrbqe" path="res://art/background/space_background.tscn" id="2_onbk5"]
 [ext_resource type="FontFile" uid="uid://c0d43w7ej3xae" path="res://hub/fonts/Anta-Regular - MSDF.ttf" id="3_7ytpk"]
-[ext_resource type="PackedScene" uid="uid://dbgkm073louoa" path="res://shipBuilding/ships/wasp.tscn" id="5_76my7"]
+[ext_resource type="PackedScene" uid="uid://incqv8bu0v2n" path="res://shipBuilding/ships/wasp.tscn" id="5_76my7"]
 [ext_resource type="PackedScene" uid="uid://choyif0n5w2jj" path="res://encounter/encounters/__DEMO_LOCATION/debris_field.tscn" id="5_smosv"]
-[ext_resource type="PackedScene" uid="uid://bo138uijiwdph" path="res://shipBuilding/ships/player_ship.tscn" id="6_h1xkd"]
+[ext_resource type="PackedScene" uid="uid://ctai0xa1d84w" path="res://shipBuilding/ships/player_ship.tscn" id="6_h1xkd"]
+[ext_resource type="PackedScene" uid="uid://bgt0wbq1qnow" path="res://shipBuilding/ships/newEnemy.tscn" id="6_hrifk"]
 [ext_resource type="Script" uid="uid://b0hi7cnj2u5p6" path="res://encounter/encounters/__DEMO_LOCATION/debris_field.gd" id="8_akvn3"]
 [ext_resource type="Script" uid="uid://coswak26beue6" path="res://encounter/encounters/__DEMO_LOCATION/0_1_DEMO/marker.gd" id="9_76my7"]
 
@@ -148,6 +149,21 @@ NodePath("Reactor_4/OutputHex4"): NodePath("Autopilot_1/InputHex2"),
 NodePath("Reactor_2/OutputHex3"): null,
 NodePath("Reactor_2/OutputHex"): NodePath("Cannon/InputHex"),
 null: null
+}
+
+[node name="newEnemy" parent="ships/pirates" unique_id=1442409601 node_paths=PackedStringArray("power_links") instance=ExtResource("6_hrifk")]
+position = Vector2(-1277, -827)
+power_links = {
+NodePath("Reactor_4/OutputHex"): NodePath("@Node2D@428/InputHex"),
+NodePath("Reactor_4/OutputHex2"): NodePath("@Node2D@418/InputHex"),
+NodePath("Reactor_4/OutputHex3"): NodePath("Engines_2/InputHex"),
+NodePath("Reactor_4/OutputHex4"): NodePath("Engines_2/InputHex2"),
+NodePath("Reactor_2/OutputHex"): NodePath("@Node2D@421/InputHex"),
+NodePath("@Node2D@414/OutputHex"): NodePath("Cannon/InputHex"),
+NodePath("@Node2D@414/OutputHex2"): NodePath("@Node2D@427/InputHex"),
+NodePath("@Node2D@414/OutputHex3"): NodePath("Autopilot_1/InputHex"),
+NodePath("@Node2D@414/OutputHex4"): NodePath("Autopilot_1/InputHex2"),
+null: NodePath("@Node2D@421/InputHex2")
 }
 
 [node name="FACTION_PATROL" parent="ships" unique_id=54830236 instance=ExtResource("2_7k785")]

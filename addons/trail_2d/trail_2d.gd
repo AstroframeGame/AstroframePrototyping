@@ -11,15 +11,16 @@ var offset : Vector2 = Vector2.ZERO
 
 func _ready() -> void:
 	offset = position
-	points = []
+	#points = []
 	#top_level = true
 
 func _physics_process(_delta: float) -> void:
-	global_position = Vector2.ZERO
+	pass
+	#global_position = Vector2.ZERO
 
-	var point : Vector2 = parent.to_global(offset)
+	#var point : Vector2 = parent.to_global(offset)
 	
-	add_point(to_local(point), 0)
+	#add_point(to_local(point), 0)
 	
-	if get_point_count() > length:
-		remove_point(get_point_count() - 1)
+	#if get_point_count() > length:
+		#remove_point(get_point_count() - 1)

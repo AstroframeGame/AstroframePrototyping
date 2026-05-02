@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cdcmsogtsal6o" path="res://shipBuilding/icons/circle.png" id="2_ps41y"]
 [ext_resource type="Script" uid="uid://b8gx8dl8myt6v" path="res://shipBuilding/hex_scripts/output_hex.gd" id="3_ps41y"]
 
-[node name="OutClickArea" type="Node2D" unique_id=513890866]
+[node name="OutputHex" type="Node2D" unique_id=513890866]
 z_index = 3
 script = ExtResource("3_ps41y")
 

@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://ctgprf5ma8tr0"]
+
+[ext_resource type="PackedScene" uid="uid://c4rqdfi3ldd44" path="res://art/models/xbot.glb" id="1_1vnph"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ba2fy"]
+shading_mode = 0
+specular_mode = 2
+albedo_color = Color(0.24115598, 0.2411561, 0.24115595, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1vnph"]
+shading_mode = 0
+specular_mode = 2
+albedo_color = Color(0.6028429, 0.6028429, 0.602843, 1)
+
+[node name="Node3D" type="Node3D" unique_id=1354843945]
+
+[node name="xbot" parent="." unique_id=564015061 instance=ExtResource("1_1vnph")]
+
+[node name="Beta_Joints" parent="xbot/Armature/GeneralSkeleton" parent_id_path=PackedInt32Array(564015061, 1947635520) index="0" unique_id=534780657]
+surface_material_override/0 = SubResource("StandardMaterial3D_ba2fy")
+
+[node name="Beta_Surface" parent="xbot/Armature/GeneralSkeleton" parent_id_path=PackedInt32Array(564015061, 1947635520) index="1" unique_id=522500686]
+surface_material_override/0 = SubResource("StandardMaterial3D_1vnph")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=36704595]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.92596537, 0.8464148)
+projection = 1
+size = 2.0
+
+[editable path="xbot"]
