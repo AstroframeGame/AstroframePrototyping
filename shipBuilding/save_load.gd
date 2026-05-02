@@ -1,9 +1,12 @@
 class_name SaveLoad
 extends Node
 
+const SHIP_PREFAB = preload("res://shipBuilding/prefabs/ship.tscn")
+const ROOMS_FOLDER = "res://shipBuilding/rooms/"
+
 # use this node as a library to save or load a ship
 
-func save_tscn(ship : Node, save_path : String, save_name : String) -> void:
+static func save_tscn(ship : Node, save_path : String, save_name : String) -> void:
 	ship.name = save_name
 	# this is important for prefabing.
 	for child in ship.get_children(true):
@@ -15,12 +18,12 @@ func save_tscn(ship : Node, save_path : String, save_name : String) -> void:
 	if result == OK:
 		var path = save_path + save_name + ".tscn"
 		var error = ResourceSaver.save(packed_scene, path)
-		#if error == OK:
-			#print("Scene saved successfully!")
-		#else:
-			#print("Error saving scene: ", error)
+		if error == OK:
+			print("Scene saved successfully!")
+		else:
+			print("Error saving scene: ", error)
 
-func load_tscn(save_path : String, save_name : String) -> Node:
+static func load_tscn(save_path : String, save_name : String) -> Node:
 	var path = save_path + save_name + ".tscn"
 	if not ResourceLoader.exists(path):
 		print_debug("Failed to open tscn at "+ path)
@@ -29,7 +32,7 @@ func load_tscn(save_path : String, save_name : String) -> Node:
 	var ship = load(path).instantiate()
 	return ship
 
-func save_json(ship : Node, save_path : String, save_name : String) -> void:
+static func save_json(ship : Node, save_path : String, save_name : String) -> void:
 	var data = {
 		"name": ship.name,
 		"rooms": []
@@ -69,7 +72,7 @@ func save_json(ship : Node, save_path : String, save_name : String) -> void:
 		InGameConsole.log_message("Failed to save file: " + path)
 
 # ship must be pre initialized. ship should be empty.
-func load_json(save_path : String, save_name : String, ship : Ship) -> Node:
+static func load_json(save_path : String, save_name : String, ship : Ship) -> Node:
 	var path = save_path + save_name + ".json"
 	
 	if not FileAccess.file_exists(path):
@@ -92,7 +95,7 @@ func load_json(save_path : String, save_name : String, ship : Ship) -> Node:
 	if data.has("rooms"):
 		for room_data in data["rooms"]:
 			var id = room_data["id"]
-			var prefab_path = "res://shipBuilding/rooms/" + id + ".tscn"
+			var prefab_path = ROOMS_FOLDER + id + ".tscn"
 			
 			if ResourceLoader.exists(prefab_path):
 				var prefab = load(prefab_path)

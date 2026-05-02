@@ -27,6 +27,5 @@ func generate_map():
 func start_level(level_path : String):
 	game_manager.queued_scene = level_path
 	game_manager.load_scene("res://shipBuilding/in_game_ship_builder.tscn")
-	pass	
-
+	
 	

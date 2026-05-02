@@ -4,10 +4,8 @@ extends Node
 enum Mode { VIEW, EDIT }
 
 @onready var ship: Ship = $"../Ship"
-@onready var mode_dropdown: OptionButton = $"../UI/ModeDropdown"
 @onready var room_picker: Node = $"../UI/TabContainer/Rooms"
 @onready var tab_container: TabContainer = $"../UI/TabContainer"
-
 
 var preview_instance: Room
 var current_rotation: int = 0

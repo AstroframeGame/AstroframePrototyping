@@ -18,6 +18,9 @@ signal game_quit()
 signal queue_scene(scene_path: String)
 var queued_scene: String 
 
+var current_ship_name : String = "continue"
+var current_ship_folder : String = "user://"
+
 func _ready() -> void:
 	menus.open_menu("Main")
 	# load settings

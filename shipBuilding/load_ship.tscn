@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://d37m1h0nl2dsh"]
 
 [ext_resource type="Script" uid="uid://bqilmv7d358ci" path="res://shipBuilding/level_editor/load_ship.gd" id="1_e8svg"]
-[ext_resource type="Script" uid="uid://qknmsuin5gwv" path="res://shipBuilding/save_load.gd" id="2_e0hwh"]
 [ext_resource type="Texture2D" uid="uid://e756ov0aksfa" path="res://hub/menu_icons/icons8-wrench-64.png" id="2_sk4yu"]
 
 [node name="LoadShip" type="CanvasLayer" unique_id=798571736]
@@ -39,6 +38,3 @@ text = "Load Json"
 [node name="LoadTscn" type="Button" parent="LoadShip/HBoxContainer" unique_id=464816149]
 layout_mode = 2
 text = "Load Tscn"
-
-[node name="SaveLoad" type="Node" parent="LoadShip" unique_id=27274874]
-script = ExtResource("2_e0hwh")

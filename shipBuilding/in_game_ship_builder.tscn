@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b6ypdvcr8nnd6"]
 
 [ext_resource type="Script" uid="uid://dhw5xsdq08qst" path="res://shipBuilding/in_game_ship_builder.gd" id="1_4wkqy"]
+[ext_resource type="PackedScene" uid="uid://bkibqvfep8px0" path="res://shipBuilding/ship_building.tscn" id="2_bxbt5"]
 
 [node name="InGameShipBuilder" type="Node2D" unique_id=1997361015]
 script = ExtResource("1_4wkqy")
@@ -22,10 +23,14 @@ offset_bottom = 70.0
 text = "Back To Map"
 
 [node name="Label" type="Label" parent="CanvasLayer" unique_id=1585380801]
-offset_left = 631.0
-offset_top = 325.0
-offset_right = 790.0
-offset_bottom = 347.0
-text = "Ship building time :)"
+offset_left = 584.0
+offset_top = 46.0
+offset_right = 1184.0
+offset_bottom = 82.0
+text = "Build the ship in preparation for the next level"
+
+[node name="ShipBuilding" parent="." unique_id=1332591370 instance=ExtResource("2_bxbt5")]
 
 [connection signal="pressed" from="CanvasLayer/Button" to="." method="_on_warp_pressed"]
+
+[editable path="ShipBuilding"]

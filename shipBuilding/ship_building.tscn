@@ -8,7 +8,6 @@
 [ext_resource type="Script" uid="uid://c27ia4wg58upb" path="res://shipBuilding/ship_meta_data_editor.gd" id="4_q8ivf"]
 [ext_resource type="PackedScene" uid="uid://b4ety2cv40p6l" path="res://shipBuilding/prefabs/ship.tscn" id="4_qoir8"]
 [ext_resource type="Script" uid="uid://dh4g6jyrhqp2w" path="res://shipBuilding/level_editor/editor_cam.gd" id="5_ujx4f"]
-[ext_resource type="Script" uid="uid://qknmsuin5gwv" path="res://shipBuilding/save_load.gd" id="7_q4pwh"]
 [ext_resource type="Script" uid="uid://su5njmd4c8e2" path="res://shipBuilding/level_editor/editor_save_manager.gd" id="8_gbgp8"]
 [ext_resource type="Theme" uid="uid://d0o0krm245a4q" path="res://hub/ui-themes/unstyled.tres" id="11_idfod"]
 
@@ -221,6 +220,3 @@ script = ExtResource("5_ujx4f")
 
 [node name="SaveManager" type="Node" parent="." unique_id=73548537]
 script = ExtResource("8_gbgp8")
-
-[node name="SaveLoad" type="Node" parent="." unique_id=424133726]
-script = ExtResource("7_q4pwh")

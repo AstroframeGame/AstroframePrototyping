@@ -9,7 +9,7 @@ func _ready() -> void:
 func generate():
 	pass
 
-func add_room_type(room_id : String):
+func add_room_type(_room_id : String):
 	pass
 	# instantiate a "res://shipBuilding/prefabs/room_button.tscn"
 	# instantiate the correct room like how res://shipBuilding/level_editor/room_picker.gd does it

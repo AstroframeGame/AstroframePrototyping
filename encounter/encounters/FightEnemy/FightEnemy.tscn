@@ -6,15 +6,10 @@ class_name FightEnemyEncounter
 
 @onready var game_manager : GameManager = get_tree().root.get_node(\"Hub\").get_node(\"GameManager\")
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	name = \"FightEnemy\"
-	pass # Replace with function body.
+	load_player_ship()
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
 
 func _on_warp_pressed() -> void:
 	game_manager.game_quit.emit()
@@ -22,6 +17,17 @@ func _on_warp_pressed() -> void:
 		game_manager.current_scene.queue_free()
 	game_manager._on_map_pressed();
 	game_manager.in_game = false
+
+var player_ship = null
+func load_player_ship() -> void:
+	var new_ship = SaveLoad.SHIP_PREFAB.instantiate()
+	add_child(new_ship)
+	player_ship = new_ship
+	
+	var real_path = ProjectSettings.globalize_path(game_manager.current_ship_folder)
+	DirAccess.make_dir_recursive_absolute(real_path)
+	
+	SaveLoad.load_json(real_path, game_manager.current_ship_name, new_ship)
 "
 
 [node name="FightEnemy" type="Node2D" unique_id=572962363]

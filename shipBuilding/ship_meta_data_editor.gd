@@ -27,15 +27,15 @@ func on_load():
 func set_ship_name(text : String):
 	ship.name = text
 	
-func set_custom_color_toggle(toggled : bool):
+func set_custom_color_toggle(_toggled : bool):
 	#print("Color toggled ", toggled)
 	pass
 	
-func set_custom_color(color : Color):
+func set_custom_color(_color : Color):
 	#print("Color set ", color)
 	pass
 	
-func set_team(team : int):
+func set_team(_team : int):
 	#print("Team set ", team)
 	pass
 	

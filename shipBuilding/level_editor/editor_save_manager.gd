@@ -3,7 +3,6 @@ extends Node
 
 @onready var save_name: LineEdit = $"../UI/Options/SaveName"
 @onready var ship: Ship = $"../Ship"
-@onready var save_load: SaveLoad = $"../SaveLoad"
 @onready var hex_editor: HexEditor = $"../HexEditor"
 
 var save_path = "res://shipBuilding/ships/"
@@ -27,10 +26,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		load_tscn()
 
 func save_tscn() -> void:
-	save_load.save_tscn(ship, save_path, save_name.text)
+	SaveLoad.save_tscn(ship, save_path, save_name.text)
 
 func load_tscn() -> void:
-	var new_ship = save_load.load_tscn(save_path, save_name.text)
+	var new_ship = SaveLoad.load_tscn(save_path, save_name.text)
 	if not new_ship:
 		#print("Load failed.")
 		return
@@ -40,7 +39,12 @@ func load_tscn() -> void:
 func save_json() -> void:
 	var real_path = ProjectSettings.globalize_path(in_game_path)
 	DirAccess.make_dir_recursive_absolute(real_path)
-	save_load.save_json(ship, real_path, save_name.text)
+	SaveLoad.save_json(ship, real_path, save_name.text)
+
+func save_json_path(path : String, ship_name:String) -> void:
+	var real_path = ProjectSettings.globalize_path(path)
+	DirAccess.make_dir_recursive_absolute(real_path)
+	SaveLoad.save_json(ship, real_path, ship_name)
 
 func load_json() -> void:
 	var new_ship = ship_prefab.instantiate()
@@ -49,7 +53,7 @@ func load_json() -> void:
 	var real_path = ProjectSettings.globalize_path(in_game_path)
 	DirAccess.make_dir_recursive_absolute(real_path)
 	
-	save_load.load_json(real_path, save_name.text, new_ship)
+	SaveLoad.load_json(real_path, save_name.text, new_ship)
 	on_post_load.emit()
 
 func _replace_ship(new_ship: Node) -> void:
