@@ -21,12 +21,12 @@
 [ext_resource type="Texture2D" uid="uid://bfknaix65fust" path="res://hub/ui_textures/sci_fi_frame.svg" id="15_dy4r6"]
 [ext_resource type="Shader" uid="uid://dv6l2vd0xplhh" path="res://hub/colorblind.gdshader" id="15_mmyqo"]
 [ext_resource type="PackedScene" uid="uid://c4c4q35vwjc06" path="res://accessibilitySettings/settings_menu.tscn" id="15_qui64"]
-[ext_resource type="Script" path="res://hub/credits.gd" id="17_bg8wc"]
+[ext_resource type="Script" uid="uid://cw7don71np0bg" path="res://hub/credits.gd" id="17_bg8wc"]
 [ext_resource type="Texture2D" uid="uid://cjtj7xo6f6waa" path="res://shipBuilding/icons/torus.png" id="17_qui64"]
 [ext_resource type="Shortcut" uid="uid://cxr4abnflfkf5" path="res://hub/back_shortcut.tres" id="21_mjlfl"]
 [ext_resource type="PackedScene" uid="uid://fdqa02uc4vk1" path="res://shipBuilding/prefabs/room_button.tscn" id="22_1uc81"]
-[ext_resource type="Script" uid="uid://dhue4foeh8o0i" path="res://hub/map.gd" id="22_eexr5"]
-[ext_resource type="Script" uid="uid://dpsbi4hh4xhlj" path="res://hub/shop.gd" id="23_e4gd0"]
+[ext_resource type="Script" path="res://hub/map.gd" id="22_eexr5"]
+[ext_resource type="Script" path="res://hub/shop.gd" id="23_e4gd0"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gjoju"]
 shader = ExtResource("15_mmyqo")
@@ -80,9 +80,15 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Play" type="Button" parent="UI/Main/VBoxContainer" unique_id=1258526734]
+visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Play"
+
+[node name="Map" type="Button" parent="UI/Main/VBoxContainer" unique_id=1231070630]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Start"
 
 [node name="Editor" type="Button" parent="UI/Main/VBoxContainer" unique_id=1870370267]
 layout_mode = 2
@@ -103,11 +109,6 @@ text = "Credits"
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Quit"
-
-[node name="Map" type="Button" parent="UI/Main/VBoxContainer" unique_id=1231070630]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "Map"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="UI/Main" unique_id=1549920906]
 anchors_preset = 15
@@ -430,6 +431,9 @@ theme_override_font_sizes/font_size = 45
 shortcut = ExtResource("21_mjlfl")
 text = "Back"
 
+[node name="SettingsMenu" parent="UI/Settings/MarginContainer/VBoxContainer" unique_id=1472990964 instance=ExtResource("15_qui64")]
+layout_mode = 2
+
 [node name="Map" type="CanvasLayer" parent="UI" unique_id=242203958]
 script = ExtResource("22_eexr5")
 scene_paths = Array[String](["res://encounter/encounters/__DEMO_LOCATION/0_1_DEMO/0_1_DEMO.tscn", "res://encounter/encounters/FightEnemy/FightEnemy.tscn"])
@@ -476,7 +480,6 @@ layout_mode = 2
 text = "22 Scrap"
 
 [node name="BgButton" parent="UI/Shop/VBoxContainer/Item" unique_id=580394529 instance=ExtResource("22_1uc81")]
-[node name="SettingsMenu" parent="UI/Settings/MarginContainer/VBoxContainer" unique_id=1472990964 instance=ExtResource("15_qui64")]
 layout_mode = 2
 
 [node name="Profiling" type="CanvasLayer" parent="." unique_id=1820677988]
@@ -512,11 +515,11 @@ texture_progress = ExtResource("17_qui64")
 environment = SubResource("Environment_21dlm")
 
 [connection signal="pressed" from="UI/Main/VBoxContainer/Play" to="GameManager" method="open_singleplayer"]
+[connection signal="pressed" from="UI/Main/VBoxContainer/Map" to="GameManager" method="_on_map_pressed"]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Editor" to="GameManager" method="open_ship_editor"]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Settings" to="GameManager" method="_on_settings_pressed"]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Credits" to="UI" method="open_menu" binds= [&"Credits"]]
 [connection signal="pressed" from="UI/Main/VBoxContainer/Quit" to="GameManager" method="quit_application"]
-[connection signal="pressed" from="UI/Main/VBoxContainer/Map" to="GameManager" method="_on_map_pressed"]
 [connection signal="pressed" from="UI/Main/Socials/Ships" to="UI/Main/Socials" method="ships_folder"]
 [connection signal="pressed" from="UI/Main/Socials/Github" to="UI/Main/Socials" method="github"]
 [connection signal="pressed" from="UI/Main/Socials/Insta" to="UI/Main/Socials" method="instagram"]
