@@ -25,8 +25,8 @@
 [ext_resource type="Texture2D" uid="uid://cjtj7xo6f6waa" path="res://shipBuilding/icons/torus.png" id="17_qui64"]
 [ext_resource type="Shortcut" uid="uid://cxr4abnflfkf5" path="res://hub/back_shortcut.tres" id="21_mjlfl"]
 [ext_resource type="PackedScene" uid="uid://fdqa02uc4vk1" path="res://shipBuilding/prefabs/room_button.tscn" id="22_1uc81"]
-[ext_resource type="Script" path="res://hub/map.gd" id="22_eexr5"]
-[ext_resource type="Script" path="res://hub/shop.gd" id="23_e4gd0"]
+[ext_resource type="Script" uid="uid://dhue4foeh8o0i" path="res://hub/map.gd" id="22_eexr5"]
+[ext_resource type="Script" uid="uid://dpsbi4hh4xhlj" path="res://hub/shop.gd" id="23_e4gd0"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gjoju"]
 shader = ExtResource("15_mmyqo")

@@ -8,6 +8,7 @@ extends Node2D
 
 func _ready() -> void:
 	if nav_region:
+		pass
 		#print(nav_region.get_bounds())
 
 	# set up movement direction, limits
